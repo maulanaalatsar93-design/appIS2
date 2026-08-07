@@ -243,7 +243,7 @@ export default function Login() {
               <div className="flex justify-end pt-1">
                 <button 
                   type="button" 
-                  onClick={() => alert('Untuk mereset password Anda, silakan hubungi Administrator (Maulana Cipta P).')}
+                  onClick={() => alert('Untuk mereset password Anda, silakan hubungi Vice President (Febryan Bagus P).')}
                   className="text-xs text-blue-600 font-semibold hover:text-blue-800 transition-colors"
                 >
                   Lupa Password?
