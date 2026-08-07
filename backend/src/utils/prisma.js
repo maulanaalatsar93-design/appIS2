@@ -13,12 +13,16 @@ if (!formattedUrl.includes('pgbouncer')) {
   formattedUrl += '&pgbouncer=true';
 }
 
-const prisma = new PrismaClient({
+const globalForPrisma = globalThis;
+
+const prisma = globalForPrisma.prisma || new PrismaClient({
   datasources: {
     db: {
       url: formattedUrl,
     },
   },
 });
+
+if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
 
 export default prisma;
