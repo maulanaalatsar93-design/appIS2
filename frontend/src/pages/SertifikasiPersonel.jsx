@@ -33,8 +33,8 @@ export default function SertifikasiPersonel() {
       const headers = { 'Authorization': `Bearer ${token}` };
 
       const [sertRes, mpRes] = await Promise.all([
-        fetch('import.meta.env.VITE_API_URL/api/sertifikasi', { headers }),
-        fetch('import.meta.env.VITE_API_URL/api/dashboard/manpower', { headers })
+        fetch(import.meta.env.VITE_API_URL + '/api/sertifikasi', { headers }),
+        fetch(import.meta.env.VITE_API_URL + '/api/dashboard/manpower', { headers })
       ]);
 
       if (!sertRes.ok) throw new Error('Failed to fetch sertifikasi data');
@@ -95,8 +95,8 @@ export default function SertifikasiPersonel() {
     try {
       const token = localStorage.getItem('token');
       const url = editingId
-        ? `import.meta.env.VITE_API_URL/api/sertifikasi/${editingId}`
-        : 'import.meta.env.VITE_API_URL/api/sertifikasi';
+        ? `${import.meta.env.VITE_API_URL}/api/sertifikasi/${editingId}`
+        : import.meta.env.VITE_API_URL + '/api/sertifikasi';
 
       const method = editingId ? 'PUT' : 'POST';
 
@@ -126,7 +126,7 @@ export default function SertifikasiPersonel() {
 
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`import.meta.env.VITE_API_URL/api/sertifikasi/${id}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/sertifikasi/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });

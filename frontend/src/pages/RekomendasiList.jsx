@@ -21,7 +21,7 @@ export default function RekomendasiList({ isEmbedded = false }) {
         search
       }).toString();
 
-      const response = await fetch(`import.meta.env.VITE_API_URL/api/recommendations?${queryParams}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/recommendations?${queryParams}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -51,7 +51,7 @@ export default function RekomendasiList({ isEmbedded = false }) {
   const handleViewDetail = async (id) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`import.meta.env.VITE_API_URL/api/recommendations/${id}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/recommendations/${id}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

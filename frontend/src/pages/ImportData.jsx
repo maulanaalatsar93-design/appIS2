@@ -343,7 +343,7 @@ export default function ImportData() {
       setIsLoadingDates(true);
       try {
         const token = localStorage.getItem('token');
-        const res = await fetch(`import.meta.env.VITE_API_URL/api/upload/history?type=${activeTab}`, {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/upload/history?type=${activeTab}`, {
           headers: { ...(token ? { 'Authorization': `Bearer ${token}` } : {}) }
         });
         if (res.ok) {
@@ -364,7 +364,7 @@ export default function ImportData() {
     setIsClearing(true);
     setClearMessage(null);
     try {
-      const endpoint = activeTab === 'workorders' ? 'import.meta.env.VITE_API_URL/api/upload/workorders' : 'import.meta.env.VITE_API_URL/api/upload/recommendations';
+      const endpoint = activeTab === 'workorders' ? import.meta.env.VITE_API_URL + '/api/upload/workorders' : import.meta.env.VITE_API_URL + '/api/upload/recommendations';
       const token = localStorage.getItem('token');
       const res = await fetch(endpoint, {
         method: 'DELETE',

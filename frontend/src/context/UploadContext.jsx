@@ -27,8 +27,8 @@ export function UploadProvider({ children }) {
 
     const targetTab = tabType || activeTab || 'workorders';
     const endpoint = targetTab === 'workorders'
-      ? 'import.meta.env.VITE_API_URL/api/upload/workorders'
-      : 'import.meta.env.VITE_API_URL/api/upload/recommendations';
+      ? import.meta.env.VITE_API_URL + '/api/upload/workorders'
+      : import.meta.env.VITE_API_URL + '/api/upload/recommendations';
 
     const token = localStorage.getItem('token');
     const xhr = new XMLHttpRequest();
