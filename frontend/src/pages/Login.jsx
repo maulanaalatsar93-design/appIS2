@@ -241,9 +241,9 @@ export default function Login() {
                 </button>
               </div>
               <div className="flex justify-end pt-1">
-                <button 
-                  type="button" 
-                  onClick={() => alert('Untuk mereset password Anda, silakan hubungi Vice President (Febryan Bagus P).')}
+                <button
+                  type="button"
+                  onClick={() => alert('Untuk mereset password Anda, silakan hubungi Administrator (Maulana Cipta P).')}
                   className="text-xs text-blue-600 font-semibold hover:text-blue-800 transition-colors"
                 >
                   Lupa Password?
@@ -277,7 +277,7 @@ export default function Login() {
           {/* Footer note */}
           <p className="mt-8 text-center text-[10px] text-slate-400">
             Hanya untuk pengguna yang berwenang di departemen ISTEK 2.<br />
-            <span className="text-slate-500 font-medium">PT Pupuk Kujang Cikampek</span>
+            <span className="text-slate-500 font-medium">PT. Pupuk Kalimantan Timur</span>
           </p>
 
           {/* Guest access */}
