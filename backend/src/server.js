@@ -39,6 +39,10 @@ app.get('/api/health', async (req, res) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`[ISTEK 2] Backend server running on http://localhost:${PORT}`);
-});
+export default app;
+
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`[ISTEK 2] Backend server running on http://localhost:${PORT}`);
+  });
+}
