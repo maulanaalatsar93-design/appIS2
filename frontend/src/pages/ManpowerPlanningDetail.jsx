@@ -15,7 +15,7 @@ export default function ManpowerPlanningDetail({ planId, onBack, onUpdated }) {
   const fetchPlan = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`/api/manpower-plans/${planId}`, {
+      const res = await fetch(`${(import.meta.env.VITE_API_URL || '').replace(/\/$/, '')}/api/manpower-plans/${planId}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (res.ok) {
@@ -42,7 +42,7 @@ export default function ManpowerPlanningDetail({ planId, onBack, onUpdated }) {
     setError('');
     
     try {
-      const res = await fetch(`/api/manpower-plans/${planId}/approval`, {
+      const res = await fetch(`${(import.meta.env.VITE_API_URL || '').replace(/\/$/, '')}/api/manpower-plans/${planId}/approval`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

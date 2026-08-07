@@ -23,7 +23,7 @@ export default function Header({ isCollapsed, setIsCollapsed }) {
     setPasswordSuccess('');
     setPasswordLoading(true);
     try {
-      const res = await fetch('/api/auth/change-password', {
+      const res = await fetch((import.meta.env.VITE_API_URL || '').replace(/\/$/, '') + '/api/auth/change-password', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -55,7 +55,7 @@ export default function Header({ isCollapsed, setIsCollapsed }) {
   const [unreadCount, setUnreadCount] = useState(0);
 
   useEffect(() => {
-    fetch('/api/health')
+    fetch((import.meta.env.VITE_API_URL || '').replace(/\/$/, '') + '/api/health')
       .then((res) => res.json())
       .then((data) => {
         if (data.status === 'ok') setApiStatus('online');
@@ -66,7 +66,7 @@ export default function Header({ isCollapsed, setIsCollapsed }) {
 
   useEffect(() => {
     if (user && token) {
-      fetch('/api/dashboard/notifications', {
+      fetch((import.meta.env.VITE_API_URL || '').replace(/\/$/, '') + '/api/dashboard/notifications', {
         headers: { 'Authorization': `Bearer ${token}` }
       })
       .then(res => res.json())

@@ -32,7 +32,7 @@ export default function WorkProgramDetail({ programId, onBack, onUpdated }) {
 
   const fetchProgram = async () => {
     setLoading(true);
-    const res = await fetch(`/api/wpem/programs/${programId}`, { headers: { 'Authorization': `Bearer ${token}` } });
+    const res = await fetch(`${(import.meta.env.VITE_API_URL || '').replace(/\/$/, '')}/api/wpem/programs/${programId}`, { headers: { 'Authorization': `Bearer ${token}` } });
     if (res.ok) setProgram(await res.json());
     setLoading(false);
   };
@@ -41,7 +41,7 @@ export default function WorkProgramDetail({ programId, onBack, onUpdated }) {
 
   const handleSubmit = async () => {
     setProcessing(true);
-    const res = await fetch(`/api/wpem/programs/${programId}/submit`, {
+    const res = await fetch(`${(import.meta.env.VITE_API_URL || '').replace(/\/$/, '')}/api/wpem/programs/${programId}/submit`, {
       method: 'POST', headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' }
     });
     if (res.ok) { await fetchProgram(); }
@@ -53,7 +53,7 @@ export default function WorkProgramDetail({ programId, onBack, onUpdated }) {
     if (decision !== 'Approved' && !approvalNotes) return setError('Catatan wajib diisi untuk Revision/Reject.');
     setProcessing(true);
     setError('');
-    const res = await fetch(`/api/wpem/programs/${programId}/approval`, {
+    const res = await fetch(`${(import.meta.env.VITE_API_URL || '').replace(/\/$/, '')}/api/wpem/programs/${programId}/approval`, {
       method: 'POST',
       headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ approver_mp_id: selectedApproverId, decision, notes: approvalNotes })
@@ -67,7 +67,7 @@ export default function WorkProgramDetail({ programId, onBack, onUpdated }) {
     if (decision !== 'Approved' && !approvalNotes) return setError('Catatan wajib diisi untuk Revision/Reject.');
     setProcessing(true);
     setError('');
-    const res = await fetch(`/api/wpem/programs/${programId}/vp-approval`, {
+    const res = await fetch(`${(import.meta.env.VITE_API_URL || '').replace(/\/$/, '')}/api/wpem/programs/${programId}/vp-approval`, {
       method: 'POST',
       headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ decision, notes: approvalNotes })
@@ -84,7 +84,7 @@ export default function WorkProgramDetail({ programId, onBack, onUpdated }) {
   const handleAddFeedback = async () => {
     if (!feedbackNotes.trim()) return;
     setHandlingFeedback(true);
-    const res = await fetch(`/api/wpem/programs/${programId}/feedback`, {
+    const res = await fetch(`${(import.meta.env.VITE_API_URL || '').replace(/\/$/, '')}/api/wpem/programs/${programId}/feedback`, {
       method: 'POST',
       headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ feedback: feedbackNotes })
@@ -95,7 +95,7 @@ export default function WorkProgramDetail({ programId, onBack, onUpdated }) {
   };
 
   const handlePriorityChange = async (priority) => {
-    const res = await fetch(`/api/wpem/programs/${programId}/priority`, {
+    const res = await fetch(`${(import.meta.env.VITE_API_URL || '').replace(/\/$/, '')}/api/wpem/programs/${programId}/priority`, {
       method: 'PUT',
       headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ priority })

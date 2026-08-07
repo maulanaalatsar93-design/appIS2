@@ -52,7 +52,7 @@ export default function ManpowerAvailabilityBoard() {
       }
       if (filters.status !== 'All') params.append('status', filters.status);
 
-      const res = await fetch(`/api/wpem/availability?${params}`, {
+      const res = await fetch(`${(import.meta.env.VITE_API_URL || '').replace(/\/$/, '')}/api/wpem/availability?${params}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (res.ok) {

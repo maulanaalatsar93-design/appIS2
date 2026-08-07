@@ -30,7 +30,7 @@ export default function WorkProgramForm({ onBack, onSaved }) {
   // Fetch Approvers (AVP + VP from ManPower)
   useEffect(() => {
     const fetchApprovers = async () => {
-      const res = await fetch('/api/wpem/approvers', { headers: { 'Authorization': `Bearer ${token}` } });
+      const res = await fetch((import.meta.env.VITE_API_URL || '').replace(/\/$/, '') + '/api/wpem/approvers', { headers: { 'Authorization': `Bearer ${token}` } });
       if (res.ok) setApproversList(await res.json());
     };
     fetchApprovers();
@@ -42,7 +42,7 @@ export default function WorkProgramForm({ onBack, onSaved }) {
     const fetchMp = async () => {
       setLoadingMp(true);
       const params = new URLSearchParams({ startDate: form.start_date, endDate: form.end_date });
-      const res = await fetch(`/api/wpem/availability?${params}`, { headers: { 'Authorization': `Bearer ${token}` } });
+      const res = await fetch(`${(import.meta.env.VITE_API_URL || '').replace(/\/$/, '')}/api/wpem/availability?${params}`, { headers: { 'Authorization': `Bearer ${token}` } });
       if (res.ok) setAvailableManpower(await res.json());
       setLoadingMp(false);
     };
@@ -115,7 +115,7 @@ export default function WorkProgramForm({ onBack, onSaved }) {
 
     setSaving(true);
     try {
-      const res = await fetch('/api/wpem/programs', {
+      const res = await fetch((import.meta.env.VITE_API_URL || '').replace(/\/$/, '') + '/api/wpem/programs', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify({

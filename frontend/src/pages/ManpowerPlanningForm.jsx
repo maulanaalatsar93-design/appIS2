@@ -36,7 +36,7 @@ export default function ManpowerPlanningForm({ onBack, onSaved }) {
       const fetchAvailability = async () => {
         setLoadingManpower(true);
         try {
-          const res = await fetch(`/api/manpower-plans/availability?startDate=${formData.startDate}&endDate=${formData.endDate}`, {
+          const res = await fetch(`${(import.meta.env.VITE_API_URL || '').replace(/\/$/, '')}/api/manpower-plans/availability?startDate=${formData.startDate}&endDate=${formData.endDate}`, {
             headers: { 'Authorization': `Bearer ${token}` }
           });
           if (res.ok) {
@@ -57,7 +57,7 @@ export default function ManpowerPlanningForm({ onBack, onSaved }) {
   useEffect(() => {
     const fetchApprovers = async () => {
       try {
-        const res = await fetch('/api/manpower-plans/approvers', {
+        const res = await fetch((import.meta.env.VITE_API_URL || '').replace(/\/$/, '') + '/api/manpower-plans/approvers', {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (res.ok) {
@@ -136,7 +136,7 @@ export default function ManpowerPlanningForm({ onBack, onSaved }) {
         approvers: approvers.filter(a => a.userId !== '')
       };
 
-      const res = await fetch('/api/manpower-plans', {
+      const res = await fetch((import.meta.env.VITE_API_URL || '').replace(/\/$/, '') + '/api/manpower-plans', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

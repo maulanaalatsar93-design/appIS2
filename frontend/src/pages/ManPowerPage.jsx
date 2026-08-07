@@ -55,7 +55,7 @@ export default function ManPowerPage({ initialView = 'availability' }) {
 
   React.useEffect(() => {
     // Fetch Employees
-    fetch('/api/dashboard/manpower')
+    fetch((import.meta.env.VITE_API_URL || '').replace(/\/$/, '') + '/api/dashboard/manpower')
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data) && data.length > 0) {
@@ -74,7 +74,7 @@ export default function ManPowerPage({ initialView = 'availability' }) {
       .catch(console.error);
 
     // Fetch Kehadiran (Attendance)
-    fetch('/api/kehadiran')
+    fetch((import.meta.env.VITE_API_URL || '').replace(/\/$/, '') + '/api/kehadiran')
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {
@@ -222,7 +222,7 @@ export default function ManPowerPage({ initialView = 'availability' }) {
     };
 
     try {
-      const res = await fetch('/api/kehadiran', {
+      const res = await fetch((import.meta.env.VITE_API_URL || '').replace(/\/$/, '') + '/api/kehadiran', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -254,7 +254,7 @@ export default function ManPowerPage({ initialView = 'availability' }) {
   const handleDeleteAttendance = async (id) => {
     if (window.confirm('Hapus histori kehadiran ini?')) {
       try {
-        const res = await fetch(`/api/kehadiran/${id}`, { method: 'DELETE' });
+        const res = await fetch(`${(import.meta.env.VITE_API_URL || '').replace(/\/$/, '')}/api/kehadiran/${id}`, { method: 'DELETE' });
         if (res.ok) {
           setAttendanceChanges(attendanceChanges.filter((a) => a.id !== id));
         } else {

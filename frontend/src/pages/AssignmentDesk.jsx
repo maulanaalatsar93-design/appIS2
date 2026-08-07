@@ -33,7 +33,7 @@ export default function AssignmentDesk({ program, onBack }) {
   const handleEditEstimasi = async (item) => {
     if (editingItemId === item.id) {
       playSubmitSound();
-      const res = await fetch(`/api/wpem/items/${item.id}`, {
+      const res = await fetch(`${(import.meta.env.VITE_API_URL || '').replace(/\/$/, '')}/api/wpem/items/${item.id}`, {
         method: 'PUT',
         headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...item, estimated_duration: editEstimasi ? parseInt(editEstimasi) : null, priority: editPriority })
@@ -54,7 +54,7 @@ export default function AssignmentDesk({ program, onBack }) {
 
   const fetchItems = async () => {
     setLoading(true);
-    const res = await fetch(`/api/wpem/programs/${program.id}/items`, {
+    const res = await fetch(`${(import.meta.env.VITE_API_URL || '').replace(/\/$/, '')}/api/wpem/programs/${program.id}/items`, {
       headers: { 'Authorization': `Bearer ${token}` }
     });
     if (res.ok) setItems(await res.json());
@@ -71,7 +71,7 @@ export default function AssignmentDesk({ program, onBack }) {
     setSaving(true);
     setError('');
     playSubmitSound();
-    const res = await fetch(`/api/wpem/programs/${program.id}/items`, {
+    const res = await fetch(`${(import.meta.env.VITE_API_URL || '').replace(/\/$/, '')}/api/wpem/programs/${program.id}/items`, {
       method: 'POST',
       headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ ...newItem, pic_id: newItem.pic_id || null })
@@ -89,7 +89,7 @@ export default function AssignmentDesk({ program, onBack }) {
   };
 
   const handleStatusChange = async (itemId, status) => {
-    const res = await fetch(`/api/wpem/items/${itemId}/status`, {
+    const res = await fetch(`${(import.meta.env.VITE_API_URL || '').replace(/\/$/, '')}/api/wpem/items/${itemId}/status`, {
       method: 'PUT',
       headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ status })

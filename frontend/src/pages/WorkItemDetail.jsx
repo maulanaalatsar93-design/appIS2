@@ -28,7 +28,7 @@ export default function WorkItemDetail({ itemId, onBack }) {
 
   const fetchItem = async () => {
     setLoading(true);
-    const res = await fetch(`/api/wpem/items/${itemId}`, { headers: { 'Authorization': `Bearer ${token}` } });
+    const res = await fetch(`${(import.meta.env.VITE_API_URL || '').replace(/\/$/, '')}/api/wpem/items/${itemId}`, { headers: { 'Authorization': `Bearer ${token}` } });
     if (res.ok) setItem(await res.json());
     setLoading(false);
   };
@@ -38,7 +38,7 @@ export default function WorkItemDetail({ itemId, onBack }) {
   const addActivity = async () => {
     if (!activityText.trim()) return;
     setAddingActivity(true);
-    const res = await fetch(`/api/wpem/items/${itemId}/activity`, {
+    const res = await fetch(`${(import.meta.env.VITE_API_URL || '').replace(/\/$/, '')}/api/wpem/items/${itemId}/activity`, {
       method: 'POST',
       headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ description: activityText })
@@ -49,7 +49,7 @@ export default function WorkItemDetail({ itemId, onBack }) {
 
   const addChecklist = async () => {
     if (!newChecklist.trim()) return;
-    const res = await fetch(`/api/wpem/items/${itemId}/checklists`, {
+    const res = await fetch(`${(import.meta.env.VITE_API_URL || '').replace(/\/$/, '')}/api/wpem/items/${itemId}/checklists`, {
       method: 'POST',
       headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ title: newChecklist })
@@ -60,7 +60,7 @@ export default function WorkItemDetail({ itemId, onBack }) {
   const cycleChecklist = async (cl) => {
     const nextIdx = (CHECKLIST_STATUS_CYCLE.indexOf(cl.status) + 1) % CHECKLIST_STATUS_CYCLE.length;
     const nextStatus = CHECKLIST_STATUS_CYCLE[nextIdx];
-    const res = await fetch(`/api/wpem/checklists/${cl.id}`, {
+    const res = await fetch(`${(import.meta.env.VITE_API_URL || '').replace(/\/$/, '')}/api/wpem/checklists/${cl.id}`, {
       method: 'PUT',
       headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ status: nextStatus })
@@ -71,7 +71,7 @@ export default function WorkItemDetail({ itemId, onBack }) {
   const submitReview = async (decision) => {
     if (decision !== 'Approved' && !reviewNotes) return setError('Catatan wajib untuk Revision.');
     setReviewing(true);
-    const res = await fetch(`/api/wpem/items/${itemId}/review`, {
+    const res = await fetch(`${(import.meta.env.VITE_API_URL || '').replace(/\/$/, '')}/api/wpem/items/${itemId}/review`, {
       method: 'POST',
       headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ decision, notes: reviewNotes })

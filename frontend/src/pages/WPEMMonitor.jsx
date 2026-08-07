@@ -16,7 +16,7 @@ export default function WPEMMonitor() {
   const fetchKPI = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/wpem/kpi', { headers: { 'Authorization': `Bearer ${token}` } });
+      const res = await fetch((import.meta.env.VITE_API_URL || '').replace(/\/$/, '') + '/api/wpem/kpi', { headers: { 'Authorization': `Bearer ${token}` } });
       if (res.ok) { setKpi(await res.json()); setLastUpdated(new Date()); }
     } catch (e) { console.error(e); }
     setLoading(false);

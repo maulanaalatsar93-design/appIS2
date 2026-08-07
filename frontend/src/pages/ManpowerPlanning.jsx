@@ -15,7 +15,7 @@ export default function ManpowerPlanning() {
   const fetchPlans = async () => {
     setLoading(true);
     try {
-      const response = await fetch('/api/manpower-plans', {
+      const response = await fetch((import.meta.env.VITE_API_URL || '').replace(/\/$/, '') + '/api/manpower-plans', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (response.ok) {

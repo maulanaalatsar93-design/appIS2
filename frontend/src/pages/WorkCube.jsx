@@ -23,7 +23,7 @@ export default function WorkCube() {
   const fetchMyCube = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/wpem/my-cube', { headers: { 'Authorization': `Bearer ${token}` } });
+      const res = await fetch((import.meta.env.VITE_API_URL || '').replace(/\/$/, '') + '/api/wpem/my-cube', { headers: { 'Authorization': `Bearer ${token}` } });
       if (res.ok) setItems(await res.json());
     } catch (e) { console.error(e); }
     setLoading(false);
@@ -32,7 +32,7 @@ export default function WorkCube() {
   useEffect(() => { fetchMyCube(); }, []);
 
   const handleStatusChange = async (itemId, status) => {
-    const res = await fetch(`/api/wpem/items/${itemId}/status`, {
+    const res = await fetch(`${(import.meta.env.VITE_API_URL || '').replace(/\/$/, '')}/api/wpem/items/${itemId}/status`, {
       method: 'PUT',
       headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ status })

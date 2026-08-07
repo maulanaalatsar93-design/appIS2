@@ -23,7 +23,7 @@ export default function Login() {
     setError('');
     setLoading(true);
     try {
-      const response = await fetch('/api/auth/login', {
+      const response = await fetch((import.meta.env.VITE_API_URL || '').replace(/\/$/, '') + '/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ npk, password }),

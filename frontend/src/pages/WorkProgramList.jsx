@@ -27,7 +27,7 @@ export default function WorkProgramList() {
   const fetchPrograms = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/wpem/programs', {
+      const res = await fetch((import.meta.env.VITE_API_URL || '').replace(/\/$/, '') + '/api/wpem/programs', {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (res.ok) setPrograms(await res.json());
