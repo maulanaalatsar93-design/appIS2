@@ -20,8 +20,8 @@ export default function RekomendasiList({ isEmbedded = false }) {
         limit: 10,
         search
       }).toString();
-      
-      const response = await fetch(`http://localhost:5000/api/recommendations?${queryParams}`, {
+
+      const response = await fetch(`import.meta.env.VITE_API_URL/api/recommendations?${queryParams}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -51,7 +51,7 @@ export default function RekomendasiList({ isEmbedded = false }) {
   const handleViewDetail = async (id) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/recommendations/${id}`, {
+      const response = await fetch(`import.meta.env.VITE_API_URL/api/recommendations/${id}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -99,8 +99,8 @@ export default function RekomendasiList({ isEmbedded = false }) {
         <div className="p-4 border-b border-industrial-border flex flex-col sm:flex-row justify-between gap-4">
           <form onSubmit={handleSearchSubmit} className="relative flex-1 max-w-md">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-industrial-muted" />
-            <input 
-              type="text" 
+            <input
+              type="text"
               placeholder="Cari Nomor Notifikasi atau Deskripsi..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
@@ -150,7 +150,7 @@ export default function RekomendasiList({ isEmbedded = false }) {
                       </span>
                     </td>
                     <td className="px-4 py-3 text-center">
-                      <button 
+                      <button
                         onClick={() => handleViewDetail(rek.id)}
                         className="p-1.5 text-industrial-blue hover:bg-industrial-blue/10 rounded-md transition-colors"
                         title="Lihat Detail"
@@ -172,14 +172,14 @@ export default function RekomendasiList({ isEmbedded = false }) {
               Halaman <span className="font-bold text-industrial-text">{meta.page}</span> dari <span className="font-bold text-industrial-text">{meta.totalPages}</span>
             </div>
             <div className="flex items-center gap-2">
-              <button 
+              <button
                 onClick={() => setPage(p => Math.max(1, p - 1))}
                 disabled={page === 1}
                 className="p-2 border border-industrial-border rounded-lg text-industrial-text hover:bg-industrial-background disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
-              <button 
+              <button
                 onClick={() => setPage(p => Math.min(meta.totalPages, p + 1))}
                 disabled={page === meta.totalPages}
                 className="p-2 border border-industrial-border rounded-lg text-industrial-text hover:bg-industrial-background disabled:opacity-50 disabled:cursor-not-allowed"
@@ -200,7 +200,7 @@ export default function RekomendasiList({ isEmbedded = false }) {
                 <h3 className="text-lg font-bold text-industrial-text">Detail Rekomendasi</h3>
                 <p className="text-xs text-industrial-muted">{selectedRek.notification}</p>
               </div>
-              <button 
+              <button
                 onClick={() => setShowDetailModal(false)}
                 className="p-2 text-industrial-muted hover:bg-industrial-background rounded-full transition-colors"
               >
@@ -249,7 +249,7 @@ export default function RekomendasiList({ isEmbedded = false }) {
                     </p>
                   </div>
                 </div>
-                
+
                 {selectedRek.order && (
                   <div className="col-span-1 md:col-span-2">
                     <p className="text-xs text-industrial-muted font-bold uppercase tracking-wider mb-1">Work Order Terkait</p>
@@ -258,7 +258,7 @@ export default function RekomendasiList({ isEmbedded = false }) {
                     </p>
                   </div>
                 )}
-                
+
                 <div className="col-span-1 md:col-span-2">
                   <p className="text-xs text-industrial-muted font-bold uppercase tracking-wider mb-1">Deskripsi Masalah</p>
                   <p className="text-sm text-industrial-text p-3 bg-industrial-background rounded-lg border border-industrial-border">
@@ -268,7 +268,7 @@ export default function RekomendasiList({ isEmbedded = false }) {
               </div>
             </div>
             <div className="p-4 border-t border-industrial-border flex justify-end bg-industrial-background/30 rounded-b-[15px]">
-              <button 
+              <button
                 onClick={() => setShowDetailModal(false)}
                 className="px-5 py-2 bg-white border border-industrial-border text-industrial-text text-xs font-bold rounded-lg hover:bg-industrial-background transition-colors"
               >

@@ -8,7 +8,7 @@ export default function SertifikasiPersonel() {
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [activeTab, setActiveTab] = useState('sertifikasi'); // 'sertifikasi' | 'rencana'
-  
+
   // Modal states
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
@@ -33,12 +33,12 @@ export default function SertifikasiPersonel() {
       const headers = { 'Authorization': `Bearer ${token}` };
 
       const [sertRes, mpRes] = await Promise.all([
-        fetch('http://localhost:5000/api/sertifikasi', { headers }),
-        fetch('http://localhost:5000/api/dashboard/manpower', { headers })
+        fetch('import.meta.env.VITE_API_URL/api/sertifikasi', { headers }),
+        fetch('import.meta.env.VITE_API_URL/api/dashboard/manpower', { headers })
       ]);
 
       if (!sertRes.ok) throw new Error('Failed to fetch sertifikasi data');
-      
+
       const sertData = await sertRes.json();
       setSertifikasi(sertData);
 
@@ -94,10 +94,10 @@ export default function SertifikasiPersonel() {
     e.preventDefault();
     try {
       const token = localStorage.getItem('token');
-      const url = editingId 
-        ? `http://localhost:5000/api/sertifikasi/${editingId}`
-        : 'http://localhost:5000/api/sertifikasi';
-      
+      const url = editingId
+        ? `import.meta.env.VITE_API_URL/api/sertifikasi/${editingId}`
+        : 'import.meta.env.VITE_API_URL/api/sertifikasi';
+
       const method = editingId ? 'PUT' : 'POST';
 
       const res = await fetch(url, {
@@ -123,16 +123,16 @@ export default function SertifikasiPersonel() {
 
   const handleDelete = async (id) => {
     if (!window.confirm('Yakin ingin menghapus data ini?')) return;
-    
+
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`http://localhost:5000/api/sertifikasi/${id}`, {
+      const res = await fetch(`import.meta.env.VITE_API_URL/api/sertifikasi/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });
 
       if (!res.ok) throw new Error('Failed to delete data');
-      
+
       await fetchData();
     } catch (err) {
       alert(err.message);
@@ -142,7 +142,7 @@ export default function SertifikasiPersonel() {
   const getStatusInfo = (endDate, isRencana) => {
     if (isRencana) return { label: 'Rencana Pelatihan', color: 'bg-blue-50 text-blue-700 border-blue-200', dot: 'bg-blue-500' };
     if (!endDate) return { label: 'Active', color: 'bg-emerald-50 text-emerald-700 border-emerald-200', dot: 'bg-emerald-500' };
-    
+
     const today = new Date();
     // Reset time part for accurate date comparison
     today.setHours(0, 0, 0, 0);
@@ -152,7 +152,7 @@ export default function SertifikasiPersonel() {
     if (expiry < today) {
       return { label: 'Expired', color: 'bg-red-50 text-red-700 border-red-200', dot: 'bg-red-500' };
     }
-    
+
     return { label: 'Active', color: 'bg-emerald-50 text-emerald-700 border-emerald-200', dot: 'bg-emerald-500' };
   };
 
@@ -167,9 +167,9 @@ export default function SertifikasiPersonel() {
 
   const filteredData = sertifikasi.filter(item => {
     const matchSearch = item.man_power?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                        item.man_power?.npk?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                        item.nama_sertifikat?.toLowerCase().includes(searchTerm.toLowerCase());
-    
+      item.man_power?.npk?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.nama_sertifikat?.toLowerCase().includes(searchTerm.toLowerCase());
+
     let matchTab = false;
     if (activeTab === 'sertifikasi') {
       matchTab = item.is_rencana !== true && item.tanggal_berakhir !== null;
@@ -295,14 +295,14 @@ export default function SertifikasiPersonel() {
                       </td>
                       <td className="px-4 py-3">
                         <div className="flex items-center justify-center gap-2">
-                          <button 
+                          <button
                             onClick={() => openModal(item)}
                             className="p-1.5 text-slate-400 hover:text-industrial-blue hover:bg-blue-50 rounded-lg transition-colors"
                             title="Edit"
                           >
                             <Edit2 size={16} />
                           </button>
-                          <button 
+                          <button
                             onClick={() => handleDelete(item.id)}
                             className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                             title="Hapus"
@@ -332,10 +332,10 @@ export default function SertifikasiPersonel() {
                 <X size={20} />
               </button>
             </div>
-            
+
             <form onSubmit={handleSubmit} className="flex flex-col flex-1 overflow-hidden">
               <div className="px-6 py-4 overflow-y-auto space-y-4">
-                
+
                 <div className="space-y-1">
                   <label className="text-sm font-medium text-slate-700">Personel <span className="text-red-500">*</span></label>
                   <select

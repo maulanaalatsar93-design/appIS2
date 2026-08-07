@@ -26,10 +26,10 @@ export function UploadProvider({ children }) {
     formData.append('file', fileToUpload);
 
     const targetTab = tabType || activeTab || 'workorders';
-    const endpoint = targetTab === 'workorders' 
-      ? 'http://localhost:5000/api/upload/workorders' 
-      : 'http://localhost:5000/api/upload/recommendations';
-      
+    const endpoint = targetTab === 'workorders'
+      ? 'import.meta.env.VITE_API_URL/api/upload/workorders'
+      : 'import.meta.env.VITE_API_URL/api/upload/recommendations';
+
     const token = localStorage.getItem('token');
     const xhr = new XMLHttpRequest();
     xhrRef.current = xhr;
@@ -145,11 +145,10 @@ export function UploadProvider({ children }) {
       {/* GLOBAL TOAST NOTIFICATION BANNER */}
       {toastNotification && (
         <div className="fixed top-5 right-5 z-[9999] animate-in slide-in-from-top-5 duration-300">
-          <div className={`p-4 rounded-xl shadow-2xl border flex items-start gap-3 max-w-md ${
-            toastNotification.type === 'success' 
-              ? 'bg-slate-900 text-white border-emerald-500/50 shadow-emerald-950/20' 
+          <div className={`p-4 rounded-xl shadow-2xl border flex items-start gap-3 max-w-md ${toastNotification.type === 'success'
+              ? 'bg-slate-900 text-white border-emerald-500/50 shadow-emerald-950/20'
               : 'bg-slate-900 text-white border-red-500/50 shadow-red-950/20'
-          }`}>
+            }`}>
             {toastNotification.type === 'success' ? (
               <div className="w-8 h-8 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center shrink-0">
                 <CheckCircle2 className="w-5 h-5 text-emerald-400" />
@@ -159,7 +158,7 @@ export function UploadProvider({ children }) {
                 <AlertCircle className="w-5 h-5 text-red-400" />
               </div>
             )}
-            
+
             <div className="flex-1 space-y-1 pr-2">
               <div className="font-bold text-sm text-slate-100 flex items-center justify-between">
                 <span>{toastNotification.title}</span>
@@ -170,7 +169,7 @@ export function UploadProvider({ children }) {
               <div className="text-xs text-slate-300 leading-relaxed">{toastNotification.message}</div>
             </div>
 
-            <button 
+            <button
               onClick={dismissToast}
               className="text-slate-400 hover:text-white bg-slate-800 hover:bg-slate-700 p-1 rounded-md transition-colors cursor-pointer"
               title="Tutup Notifikasi"

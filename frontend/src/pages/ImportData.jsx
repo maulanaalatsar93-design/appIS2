@@ -343,7 +343,7 @@ export default function ImportData() {
       setIsLoadingDates(true);
       try {
         const token = localStorage.getItem('token');
-        const res = await fetch(`http://localhost:5000/api/upload/history?type=${activeTab}`, {
+        const res = await fetch(`import.meta.env.VITE_API_URL/api/upload/history?type=${activeTab}`, {
           headers: { ...(token ? { 'Authorization': `Bearer ${token}` } : {}) }
         });
         if (res.ok) {
@@ -364,7 +364,7 @@ export default function ImportData() {
     setIsClearing(true);
     setClearMessage(null);
     try {
-      const endpoint = activeTab === 'workorders' ? 'http://localhost:5000/api/upload/workorders' : 'http://localhost:5000/api/upload/recommendations';
+      const endpoint = activeTab === 'workorders' ? 'import.meta.env.VITE_API_URL/api/upload/workorders' : 'import.meta.env.VITE_API_URL/api/upload/recommendations';
       const token = localStorage.getItem('token');
       const res = await fetch(endpoint, {
         method: 'DELETE',
@@ -404,9 +404,8 @@ export default function ImportData() {
           { key: 'recommendations', icon: <FileSpreadsheet className="w-4 h-4" />, label: 'Display Data Rekomendasi (M4/M7)' },
         ].map(tab => (
           <button key={tab.key} onClick={() => setViewMode(tab.key)}
-            className={`flex-1 py-3.5 px-4 text-xs md:text-sm font-bold flex items-center justify-center gap-2 border-b-2 transition-all cursor-pointer ${
-              viewMode === tab.key ? 'text-industrial-blue border-industrial-blue bg-industrial-background/40' : 'text-industrial-muted border-transparent hover:bg-industrial-background/20'
-            }`}>
+            className={`flex-1 py-3.5 px-4 text-xs md:text-sm font-bold flex items-center justify-center gap-2 border-b-2 transition-all cursor-pointer ${viewMode === tab.key ? 'text-industrial-blue border-industrial-blue bg-industrial-background/40' : 'text-industrial-muted border-transparent hover:bg-industrial-background/20'
+              }`}>
             {tab.icon}<span>{tab.label}</span>
           </button>
         ))}
