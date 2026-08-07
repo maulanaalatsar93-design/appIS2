@@ -36,7 +36,7 @@ const generateWAMessage = (wc) => {
   let text = `*Data Work Order PM 02+*\nBagian: *${wc.name}*\nTotal: *${wc.totalWO} WO*\n\n`;
   if (wc.list && wc.list.length > 0) {
     wc.list.forEach((wo, i) => {
-      text += `${i+1}. ${wo.nomor_wo} - ${wo.status}\n`;
+      text += `${i + 1}. ${wo.nomor_wo} - ${wo.status}\n`;
       text += `   Desc: ${wo.description || '-'}\n`;
       text += `   Equip: ${wo.equipment || '-'}\n\n`;
     });
@@ -635,7 +635,7 @@ export default function InternalDashboard() {
                 <div className="shrink-0 text-right">
                   <div className="inline-flex flex-col items-center bg-white/10 backdrop-blur-sm rounded-2xl px-4 py-3 border border-white/20">
                     <div className="text-[10px] font-bold text-blue-200 uppercase tracking-wider">Tingkat Hadir</div>
-                    <div className={`text-3xl font-extrabold ${ summary?.manPower?.total > 0 && (summary.manPower.hadir / summary.manPower.total) >= 0.85 ? 'text-emerald-300' : 'text-amber-300'}`}>
+                    <div className={`text-3xl font-extrabold ${summary?.manPower?.total > 0 && (summary.manPower.hadir / summary.manPower.total) >= 0.85 ? 'text-emerald-300' : 'text-amber-300'}`}>
                       {summary?.manPower?.total > 0 ? Math.round(summary.manPower.hadir / summary.manPower.total * 100) : 0}%
                     </div>
                     <div className="text-[10px] text-blue-300">{summary?.manPower?.hadir || 0} / {summary?.manPower?.total || 0} org</div>
@@ -815,7 +815,7 @@ export default function InternalDashboard() {
               </h4>
               <span className="text-[10px] bg-white/20 text-white font-semibold px-2.5 py-0.5 rounded-full">Corrective &amp; Other</span>
             </div>
-            
+
             <div className="p-4 space-y-6 max-h-[600px] overflow-y-auto">
               {(summary?.jobLoadDetails?.pm02PlusProgress || []).map((wc, idx) => (
                 <div key={idx} className="border border-slate-200 rounded-lg overflow-hidden shadow-sm">
@@ -876,7 +876,7 @@ export default function InternalDashboard() {
                   </div>
                 </div>
               ))}
-              
+
               {(!summary?.jobLoadDetails?.pm02PlusProgress || summary.jobLoadDetails.pm02PlusProgress.length === 0) && (
                 <div className="text-center text-slate-500 py-6 italic text-sm border-2 border-dashed border-slate-200 rounded-xl">Belum ada data PM 02+ untuk bulan berjalan.</div>
               )}
@@ -983,7 +983,7 @@ export default function InternalDashboard() {
               <div className="px-5 py-4">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-xs font-bold text-white/70">Progress CNF Semua WO</span>
-                  <span className={`text-xl font-extrabold ${ (summary?.jobLoadDetails?.gauges?.allWOCnfRate || 0) >= CNF_TARGET ? 'text-emerald-300' : 'text-amber-300'}`}>
+                  <span className={`text-xl font-extrabold ${(summary?.jobLoadDetails?.gauges?.allWOCnfRate || 0) >= CNF_TARGET ? 'text-emerald-300' : 'text-amber-300'}`}>
                     {summary?.jobLoadDetails?.gauges?.allWOCnfRate || 0}%
                   </span>
                 </div>
@@ -1037,7 +1037,7 @@ export default function InternalDashboard() {
               <div className="px-5 py-4">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-xs font-bold text-white/70">Progress CNF PM04</span>
-                  <span className={`text-xl font-extrabold ${ (summary?.jobLoadDetails?.gauges?.pm04CnfRate || 0) >= CNF_TARGET ? 'text-emerald-300' : 'text-amber-300'}`}>
+                  <span className={`text-xl font-extrabold ${(summary?.jobLoadDetails?.gauges?.pm04CnfRate || 0) >= CNF_TARGET ? 'text-emerald-300' : 'text-amber-300'}`}>
                     {summary?.jobLoadDetails?.gauges?.pm04CnfRate || 0}%
                   </span>
                 </div>
@@ -1096,7 +1096,7 @@ export default function InternalDashboard() {
               <div className="px-5 py-4">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-xs font-bold text-white/70">Progress CNF PM02+</span>
-                  <span className={`text-xl font-extrabold ${ (summary?.jobLoadDetails?.gauges?.pm02PlusCnfRate || 0) >= CNF_TARGET ? 'text-emerald-300' : 'text-amber-300'}`}>
+                  <span className={`text-xl font-extrabold ${(summary?.jobLoadDetails?.gauges?.pm02PlusCnfRate || 0) >= CNF_TARGET ? 'text-emerald-300' : 'text-amber-300'}`}>
                     {summary?.jobLoadDetails?.gauges?.pm02PlusCnfRate || 0}%
                   </span>
                 </div>
@@ -1700,9 +1700,8 @@ export default function InternalDashboard() {
                           <div className="font-bold text-slate-900 text-sm truncate">{p.name || 'N/A'}</div>
                           <div className="text-[10px] text-slate-500">{p.npk || ''} {p.position ? `• ${p.position}` : ''}</div>
                         </div>
-                        <span className={`shrink-0 text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                          (p.employee_type || '').toLowerCase().includes('non') ? 'bg-orange-100 text-orange-700' : 'bg-blue-100 text-blue-700'
-                        }`}>
+                        <span className={`shrink-0 text-[10px] font-bold px-2 py-0.5 rounded-full ${(p.employee_type || '').toLowerCase().includes('non') ? 'bg-orange-100 text-orange-700' : 'bg-blue-100 text-blue-700'
+                          }`}>
                           {(p.employee_type || '').toLowerCase().includes('non') ? 'Non-Org' : 'Organik'}
                         </span>
                       </div>
@@ -1746,7 +1745,7 @@ export default function InternalDashboard() {
                 <X size={16} />
               </button>
             </div>
-            
+
             <div className="p-0 max-h-[60vh] overflow-y-auto">
               {summary?.expiredCertifications && summary.expiredCertifications.length > 0 ? (
                 <table className="w-full text-left text-xs text-slate-600">
@@ -1783,7 +1782,7 @@ export default function InternalDashboard() {
                 </div>
               )}
             </div>
-            
+
             <div className="p-4 border-t border-slate-200 bg-slate-50 flex justify-end">
               <button
                 onClick={() => setShowExpiredCertsModal(false)}
