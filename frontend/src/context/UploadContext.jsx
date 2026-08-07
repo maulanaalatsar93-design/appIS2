@@ -1,5 +1,6 @@
 import React, { createContext, useState, useRef } from 'react';
 import { CheckCircle2, AlertCircle, X, Loader2 } from 'lucide-react';
+import { playSuccessSound, playErrorSound, playSubmitSound } from '../utils/soundUtils';
 
 export const UploadContext = createContext(null);
 
@@ -21,6 +22,8 @@ export function UploadProvider({ children }) {
     setStatus('uploading');
     setUploadProgress(0);
     setResult(null);
+
+    playSubmitSound();
 
     const formData = new FormData();
     formData.append('file', fileToUpload);
@@ -47,6 +50,8 @@ export function UploadProvider({ children }) {
           const data = JSON.parse(xhr.responseText);
           setStatus('success');
           setResult(data);
+          
+          playSuccessSound();
 
           const label = targetTab === 'workorders' ? 'Work Order' : 'Rekomendasi';
           const inserted = data.inserted || 0;
@@ -63,6 +68,7 @@ export function UploadProvider({ children }) {
         } catch (e) {
           setStatus('error');
           setResult({ error: 'Gagal memproses respon server.' });
+          playErrorSound();
           setToastNotification({
             type: 'error',
             title: 'Import SAP Gagal',
@@ -75,6 +81,7 @@ export function UploadProvider({ children }) {
           const data = JSON.parse(xhr.responseText);
           setStatus('error');
           setResult({ error: data.error || 'Terjadi kesalahan saat mengunggah.' });
+          playErrorSound();
           setToastNotification({
             type: 'error',
             title: 'Import SAP Gagal',
@@ -84,6 +91,7 @@ export function UploadProvider({ children }) {
         } catch (e) {
           setStatus('error');
           setResult({ error: `Upload gagal (Status ${xhr.status})` });
+          playErrorSound();
           setToastNotification({
             type: 'error',
             title: 'Import SAP Gagal',
@@ -97,6 +105,7 @@ export function UploadProvider({ children }) {
     xhr.onerror = () => {
       setStatus('error');
       setResult({ error: 'Gagal terhubung ke server.' });
+      playErrorSound();
       setToastNotification({
         type: 'error',
         title: 'Koneksi Terputus',
