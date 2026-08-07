@@ -13,7 +13,6 @@ export default function Sidebar({ activeTab, setActiveTab, isCollapsed, setIsCol
       label: 'Menu Utama',
       items: [
         { id: 'dashboard', label: 'Executive Dashboard', icon: LayoutDashboard },
-        { id: 'import', label: 'Kelola & Import Data SAP', icon: UploadCloud },
         { id: 'manpower', label: 'Man Power & Kalender', icon: Users },
         { id: 'sertifikasi', label: 'Sertifikasi Personel', icon: Shield },
       ]
@@ -21,10 +20,15 @@ export default function Sidebar({ activeTab, setActiveTab, isCollapsed, setIsCol
     {
       label: 'Workforce Management',
       items: [
-        { id: 'wp-availability', label: 'Availability Board', icon: MapPin },
         { id: 'wp-programs', label: 'Work Programs', icon: Briefcase },
         { id: 'wp-my-cube', label: 'Work Cube — My Tasks', icon: ClipboardList },
         { id: 'wp-monitor', label: 'KPI Monitor', icon: BarChart3 },
+      ]
+    },
+    {
+      label: 'Import data',
+      items: [
+        { id: 'import', label: 'Kelola & Import Data SAP', icon: UploadCloud },
       ]
     }
   ];
@@ -98,16 +102,16 @@ export default function Sidebar({ activeTab, setActiveTab, isCollapsed, setIsCol
                         onClick={() => setActiveTab(item.id)}
                         title={isCollapsed ? item.label : undefined}
                         className={`w-full flex items-center ${isCollapsed ? 'justify-center py-2' : 'space-x-3 px-3 py-2.5'
-                          } rounded-xl text-xs font-bold transition-all duration-200 ${isActive
-                            ? 'bg-[#1A4BC4] text-white shadow-lg shadow-blue-900/40 border border-blue-400/30'
-                            : 'text-white/60 hover:text-white hover:bg-white/10'
+                          } rounded-xl text-xs font-bold transition-all duration-300 ease-out border ${isActive
+                            ? 'bg-[#1A4BC4] text-white shadow-lg shadow-blue-900/40 border-blue-400/30'
+                            : 'border-transparent text-white/60 hover:text-white hover:bg-white/10'
                           }`}
                       >
                         <div
-                          className={`shrink-0 flex items-center justify-center ${isCollapsed ? 'w-9 h-9 rounded-full bg-white/5 border border-white/10' : ''
+                          className={`shrink-0 flex items-center justify-center transition-all duration-300 ease-out ${isCollapsed ? 'w-9 h-9 rounded-full bg-white/5 border border-white/10' : ''
                             } ${isActive ? '!bg-white/15 !border-blue-300/30 text-white' : ''}`}
                         >
-                          <Icon className={`w-4 h-4 ${isActive ? 'text-[#FF7B4F]' : 'text-white/60'}`} />
+                          <Icon className={`w-4 h-4 transition-colors duration-300 ease-out ${isActive ? 'text-[#FF7B4F]' : 'text-white/60'}`} />
                         </div>
                         {!isCollapsed && <span className="truncate">{item.label}</span>}
                       </button>

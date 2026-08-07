@@ -1,10 +1,11 @@
 import React, { useState, useMemo, useContext } from 'react';
 import {
   Activity, Download, FileText, Printer, PlusCircle, Search, Trash2, Calendar, UserPlus,
-  X, Users, Filter, Edit
+  X, Users, Filter, Edit, MapPin
 } from 'lucide-react';
 import AbsensiCalendar from '../components/attendance/AbsensiCalendar';
 import RekapIzinView from '../components/attendance/RekapIzinView';
+import ManpowerAvailabilityBoard from './ManpowerAvailabilityBoard';
 import { MOCK_STATUSES } from '../constants/holidays';
 import { AuthContext } from '../context/AuthContext';
 
@@ -28,7 +29,7 @@ const INITIAL_EMPLOYEES = [
   { id: 16, npk: 'K225716', name: 'Siti Rahmawati', employee_type: 'Non Organik', division: 'Sekretaris', position: 'Sekretaris', is_active: 1 },
 ];
 
-export default function ManPowerPage({ initialView = 'table' }) {
+export default function ManPowerPage({ initialView = 'availability' }) {
   const { user } = useContext(AuthContext);
   const [employees, setEmployees] = useState(INITIAL_EMPLOYEES);
   const [attendanceChanges, setAttendanceChanges] = useState([]);
@@ -46,10 +47,10 @@ export default function ManPowerPage({ initialView = 'table' }) {
   const [filterYear, setFilterYear] = useState(defaultFilterYear);
   const [isFilterCollapsed, setIsFilterCollapsed] = useState(true);
   const [showExportMenu, setShowExportMenu] = useState(false);
-  const [viewMode, setViewMode] = useState(initialView === 'attendance' ? 'calendar' : 'table');
+  const [viewMode, setViewMode] = useState(initialView === 'attendance' ? 'calendar' : initialView);
 
   React.useEffect(() => {
-    setViewMode(initialView === 'attendance' ? 'calendar' : 'table');
+    setViewMode(initialView === 'attendance' ? 'calendar' : initialView);
   }, [initialView]);
 
   React.useEffect(() => {
@@ -364,6 +365,13 @@ export default function ManPowerPage({ initialView = 'table' }) {
           <div className="flex items-center gap-2">
             <div className="flex items-center bg-slate-100 p-0.5 rounded-lg">
               <button
+                onClick={() => setViewMode('availability')}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${viewMode === 'availability' ? 'bg-industrial-navy text-white shadow-sm' : 'text-slate-500'
+                  }`}
+              >
+                <MapPin size={13} /> Availability Board
+              </button>
+              <button
                 onClick={() => setViewMode('table')}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${viewMode === 'table' ? 'bg-white text-industrial-navy shadow-sm' : 'text-slate-500'
                   }`}
@@ -443,6 +451,10 @@ export default function ManPowerPage({ initialView = 'table' }) {
             </div>
           ) : viewMode === 'calendar' ? (
             <AbsensiCalendar employees={employees} attendanceChanges={attendanceChanges} />
+          ) : viewMode === 'availability' ? (
+            <div className="-m-4">
+              <ManpowerAvailabilityBoard />
+            </div>
           ) : (
             <RekapIzinView
               employees={employees}

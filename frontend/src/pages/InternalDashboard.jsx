@@ -58,8 +58,8 @@ export default function InternalDashboard() {
 
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [workCenter, setWorkCenter] = useState('Semua Bagian');
-  const [month, setMonth] = useState('Semua');
-  const [year, setYear] = useState('Semua');
+  const [month, setMonth] = useState(currentMonth);
+  const [year, setYear] = useState(currentYear);
 
 
   // Manpower Modal States
@@ -569,8 +569,15 @@ export default function InternalDashboard() {
       {/* OVERVIEW TAB CONTENT */}
       {activeTab === 'overview' && (
         <div className="space-y-6">
+          {/* Pemisah Monitor Availability & Sertification */}
+          <div className="flex items-center justify-center gap-4 mb-4">
+            <div className="h-px bg-slate-300 flex-1"></div>
+            <span className="text-xs font-bold text-slate-500 uppercase tracking-widest px-2 bg-industrial-background">Monitor Availability & Sertification</span>
+            <div className="h-px bg-slate-300 flex-1"></div>
+          </div>
+
           {/* Main KPI Scorecards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div onClick={() => handleOpenManpowerModal('ALL')} className="cursor-pointer transition-transform hover:scale-[1.02]">
               <KPICard
                 icon={Users}
@@ -583,26 +590,6 @@ export default function InternalDashboard() {
                 variant="navy"
               />
             </div>
-            <KPICard
-              icon={FileText}
-              label="Work Order"
-              value={summary?.kpi?.totalWO ? summary.kpi.totalWO.toLocaleString('id-ID') : '0'}
-              unit="WO"
-              trendValue="Real Time"
-              trendDir="neutral"
-              trendLabel="SAP Database"
-              variant="blue"
-            />
-            <KPICard
-              icon={CheckCircle2}
-              label="Rekomendasi"
-              value={summary?.kpi?.totalRek ? summary.kpi.totalRek.toLocaleString('id-ID') : '0'}
-              unit="Notif"
-              trendValue="Real Time"
-              trendDir="neutral"
-              trendLabel="SAP Database"
-              variant="teal"
-            />
             <div onClick={() => setShowExpiredCertsModal(true)} className="cursor-pointer transition-transform hover:scale-[1.02]">
               <KPICard
                 icon={AlertTriangle}
@@ -733,6 +720,37 @@ export default function InternalDashboard() {
             </div>
           </div>
 
+          {/* Pemisah Monitoring Data SAP */}
+          <div className="flex items-center justify-center gap-4 mt-8 mb-4">
+            <div className="h-px bg-slate-300 flex-1"></div>
+            <span className="text-xs font-bold text-slate-500 uppercase tracking-widest px-2 bg-industrial-background">Monitoring Data SAP</span>
+            <div className="h-px bg-slate-300 flex-1"></div>
+          </div>
+
+          {/* Work Order & Rekomendasi Scorecards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+            <KPICard
+              icon={FileText}
+              label="Work Order"
+              value={summary?.kpi?.totalWO ? summary.kpi.totalWO.toLocaleString('id-ID') : '0'}
+              unit="WO"
+              trendValue="Real Time"
+              trendDir="neutral"
+              trendLabel="SAP Database"
+              variant="blue"
+            />
+            <KPICard
+              icon={CheckCircle2}
+              label="Rekomendasi"
+              value={summary?.kpi?.totalRek ? summary.kpi.totalRek.toLocaleString('id-ID') : '0'}
+              unit="Notif"
+              trendValue="Real Time"
+              trendDir="neutral"
+              trendLabel="SAP Database"
+              variant="teal"
+            />
+          </div>
+
           {/* Visualisasi & Perbandingan per Pabrik (7 Pabrik) */}
           <div className="bg-white border border-industrial-border rounded-card shadow-sm-subtle overflow-hidden">
             <div className="px-5 py-3.5 bg-[#13254F] text-white">
@@ -851,7 +869,7 @@ export default function InternalDashboard() {
                       </thead>
                       <tbody className="divide-y divide-slate-100">
                         {(wc.list || []).map((wo, woIdx) => (
-                          <tr key={woIdx} className="hover:bg-orange-50/40 transition-colors text-[11px] text-slate-700">
+                          <tr key={woIdx} className={`transition-colors text-[11px] text-slate-700 ${(wo.status || '').toUpperCase().includes('CNF') ? 'bg-green-100 hover:bg-green-200' : 'hover:bg-orange-50/40'}`}>
                             <td className="py-2 px-4 font-mono font-bold text-industrial-navy">{wo.nomor_wo}</td>
                             <td className="py-2 px-4 leading-relaxed">{wo.description || '-'}</td>
                             <td className="py-2 px-4 leading-relaxed">{wo.operation_activity || '-'}</td>

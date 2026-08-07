@@ -53,8 +53,8 @@ export default function PublicDashboard() {
 
   // Filter States
   const [workCenter, setWorkCenter] = useState('Semua Bagian');
-  const [month, setMonth] = useState('Semua');
-  const [year, setYear] = useState('Semua');
+  const [month, setMonth] = useState(currentMonth);
+  const [year, setYear] = useState(currentYear);
 
   // Summary Data State
   const [summary, setSummary] = useState({
