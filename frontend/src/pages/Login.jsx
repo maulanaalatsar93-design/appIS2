@@ -272,32 +272,7 @@ export default function Login() {
             </button>
           </form>
 
-          {/* Divider */}
-          <div className="flex items-center gap-3 my-6">
-            <div className="flex-1 h-px bg-slate-100" />
-            <span className="text-slate-400 text-[10px] font-semibold uppercase tracking-wider">Quick Access</span>
-            <div className="flex-1 h-px bg-slate-100" />
-          </div>
 
-          {/* Quick login cards */}
-          <div className="grid grid-cols-2 gap-3">
-            {[
-              { role: 'Administrator', npk: 'admin1', pass: 'password123', color: 'from-[#0F2052] to-[#1A3580]', textColor: 'text-white', badgeColor: 'bg-white/20 text-white' },
-              { role: 'Vice President', npk: 'vp1', pass: 'password123', color: 'from-[#D9650F] to-[#E07820]', textColor: 'text-white', badgeColor: 'bg-white/20 text-white' },
-            ].map(({ role, npk: e, pass, color, textColor, badgeColor }) => (
-              <button
-                key={role}
-                type="button"
-                onClick={() => fillAccount(e, pass)}
-                className={`group relative bg-gradient-to-br ${color} rounded-xl p-3.5 text-left hover:-translate-y-0.5 hover:shadow-lg transition-all duration-200 overflow-hidden`}
-              >
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity bg-white/10" />
-                <div className={`text-[10px] font-bold uppercase tracking-wider mb-1 ${badgeColor} inline-flex rounded-full px-1.5 py-0.5`}>{role}</div>
-                <p className={`text-[10px] ${textColor} opacity-70 truncate mt-1`}>NPK: {e}</p>
-                <p className={`text-[10px] ${textColor} opacity-50`}>Pass: {pass}</p>
-              </button>
-            ))}
-          </div>
 
           {/* Footer note */}
           <p className="mt-8 text-center text-[10px] text-slate-400">

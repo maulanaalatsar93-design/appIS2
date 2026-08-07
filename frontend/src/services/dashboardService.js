@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:5000/api/dashboard';
+const API_URL = import.meta.env.VITE_API_URL + '/api/dashboard';
 
 export const getDashboardSummary = async (params = {}) => {
   const query = new URLSearchParams(params).toString();

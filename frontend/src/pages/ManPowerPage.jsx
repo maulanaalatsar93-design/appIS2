@@ -321,7 +321,7 @@ export default function ManPowerPage({ initialView = 'availability' }) {
           </div>
           <div>
             <h1 className="text-xl font-bold text-industrial-text tracking-tight">Man Power Control</h1>
-            <p className="text-xs text-industrial-muted">Kelola personil dan status presensi keandalan industri.</p>
+            <p className="text-xs text-industrial-muted">Kelola personil dan status presensi.</p>
           </div>
         </div>
         <div className="flex items-center gap-2">

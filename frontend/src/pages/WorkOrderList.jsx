@@ -20,8 +20,8 @@ export default function WorkOrderList({ isEmbedded = false }) {
         limit: 10,
         search
       }).toString();
-      
-      const response = await fetch(`http://localhost:5000/api/workorders?${queryParams}`, {
+
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/workorders?${queryParams}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -51,7 +51,7 @@ export default function WorkOrderList({ isEmbedded = false }) {
   const handleViewDetail = async (id) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/workorders/${id}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/workorders/${id}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -101,8 +101,8 @@ export default function WorkOrderList({ isEmbedded = false }) {
         <div className="p-4 border-b border-industrial-border flex flex-col sm:flex-row justify-between gap-4">
           <form onSubmit={handleSearchSubmit} className="relative flex-1 max-w-md">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-industrial-muted" />
-            <input 
-              type="text" 
+            <input
+              type="text"
               placeholder="Cari Nomor WO atau Deskripsi..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
@@ -154,7 +154,7 @@ export default function WorkOrderList({ isEmbedded = false }) {
                       </span>
                     </td>
                     <td className="px-4 py-3 text-center">
-                      <button 
+                      <button
                         onClick={() => handleViewDetail(wo.id)}
                         className="p-1.5 text-industrial-blue hover:bg-industrial-blue/10 rounded-md transition-colors"
                         title="Lihat Detail"
@@ -176,14 +176,14 @@ export default function WorkOrderList({ isEmbedded = false }) {
               Halaman <span className="font-bold text-industrial-text">{meta.page}</span> dari <span className="font-bold text-industrial-text">{meta.totalPages}</span>
             </div>
             <div className="flex items-center gap-2">
-              <button 
+              <button
                 onClick={() => setPage(p => Math.max(1, p - 1))}
                 disabled={page === 1}
                 className="p-2 border border-industrial-border rounded-lg text-industrial-text hover:bg-industrial-background disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
-              <button 
+              <button
                 onClick={() => setPage(p => Math.min(meta.totalPages, p + 1))}
                 disabled={page === meta.totalPages}
                 className="p-2 border border-industrial-border rounded-lg text-industrial-text hover:bg-industrial-background disabled:opacity-50 disabled:cursor-not-allowed"
@@ -204,7 +204,7 @@ export default function WorkOrderList({ isEmbedded = false }) {
                 <h3 className="text-lg font-bold text-industrial-text">Detail Work Order</h3>
                 <p className="text-xs text-industrial-muted">{selectedWO.nomor_wo}</p>
               </div>
-              <button 
+              <button
                 onClick={() => setShowDetailModal(false)}
                 className="p-2 text-industrial-muted hover:bg-industrial-background rounded-full transition-colors"
               >
@@ -262,7 +262,7 @@ export default function WorkOrderList({ isEmbedded = false }) {
               </div>
             </div>
             <div className="p-4 border-t border-industrial-border flex justify-end bg-industrial-background/30 rounded-b-[15px]">
-              <button 
+              <button
                 onClick={() => setShowDetailModal(false)}
                 className="px-5 py-2 bg-white border border-industrial-border text-industrial-text text-xs font-bold rounded-lg hover:bg-industrial-background transition-colors"
               >
