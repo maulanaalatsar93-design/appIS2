@@ -41,7 +41,7 @@ app.get('/api/health', async (req, res) => {
 
 export default app;
 
-if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+if (!process.env.VERCEL) {
   app.listen(PORT, () => {
     console.log(`[ISTEK 2] Backend server running on http://localhost:${PORT}`);
   });
