@@ -1,16 +1,11 @@
 import express from 'express';
 import multer from 'multer';
+import os from 'os';
 import { uploadWorkOrders, uploadRecommendations, clearWorkOrders, clearRecommendations, getUploadHistory } from '../controllers/uploadController.js';
 import { authenticateToken } from '../middleware/authMiddleware.js';
-import fs from 'fs';
-
-// Ensure uploads directory exists
-if (!fs.existsSync('uploads')) {
-  fs.mkdirSync('uploads');
-}
 
 const router = express.Router();
-const upload = multer({ dest: 'uploads/' });
+const upload = multer({ dest: os.tmpdir() });
 
 // Role can be checked here, but let's just authenticate for now
 router.post('/workorders', authenticateToken, upload.single('file'), uploadWorkOrders);
