@@ -1,6 +1,6 @@
 # DASHBOARD SPECIFICATION
 
-> **Spesifikasi Dashboard Operasional & Keandalan Industri (Industrial Operations & Reliability Dashboard)**
+> **Spesifikasi Dashboard Operasional (Industrial Operations Dashboard)**
 > Berkas ini merupakan spesifikasi teknis resmi untuk tampilan, pengukuran KPI, visualisasi grafik, dan mekanisme filter pada modul Dashboard & Monitoring.
 
 ---
