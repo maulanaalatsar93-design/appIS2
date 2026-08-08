@@ -560,7 +560,14 @@ export const getDashboardSummary = async (req, res) => {
         status: w.status,
         equipment: w.equipment,
         pabrik_name: pabriks.find(p => p.id === w.pabrik_id)?.nama_pabrik || '-'
-      }));
+      })).sort((a, b) => {
+        const idxA = PABRIK_ORDER.indexOf(a.pabrik_name);
+        const idxB = PABRIK_ORDER.indexOf(b.pabrik_name);
+        const orderA = idxA === -1 ? 999 : idxA;
+        const orderB = idxB === -1 ? 999 : idxB;
+        if (orderA !== orderB) return orderA - orderB;
+        return a.pabrik_name.localeCompare(b.pabrik_name);
+      });
 
       return {
         code: wc.code,
