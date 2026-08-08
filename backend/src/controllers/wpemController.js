@@ -148,6 +148,7 @@ export const getAvailability = async (req, res) => {
       } else if (isOffday) {
         kehadiranStatus = isBusy ? 'Hadir' : 'Libur / Tidak Hadir';
       }
+      const activeProgram = isBusy ? mp.wp_memberships[0] : null;
 
       return {
         id: mp.id,
@@ -159,7 +160,7 @@ export const getAvailability = async (req, res) => {
         is_active: mp.is_active,
         availability_status: statusColor,
         attendance_status: kehadiranStatus,
-        current_program: isBusy ? activeProgram.program.nama_program : '-',
+        current_program: isBusy ? activeProgram.program.title : '-',
         current_program_date: isBusy ? 
           `${new Date(activeProgram.program.start_date).toLocaleDateString('id-ID')} - ${new Date(activeProgram.program.end_date).toLocaleDateString('id-ID')}` 
           : '-',
