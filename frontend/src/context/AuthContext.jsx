@@ -3,7 +3,14 @@ import React, { createContext, useState, useEffect } from 'react';
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    try {
+      const stored = localStorage.getItem('user');
+      return stored ? JSON.parse(stored) : null;
+    } catch {
+      return null;
+    }
+  });
   const [token, setToken] = useState(localStorage.getItem('token') || null);
   const [loading, setLoading] = useState(true);
 
@@ -29,14 +36,23 @@ export const AuthProvider = ({ children }) => {
         },
       })
         .then((res) => {
-          if (!res.ok) throw new Error('Invalid token');
+          if (!res.ok) {
+            if (res.status === 401 || res.status === 403) {
+              logout();
+            }
+            throw new Error('Invalid token or network error');
+          }
           return res.json();
         })
         .then((data) => {
           setUser(data.user);
+          localStorage.setItem('user', JSON.stringify(data.user));
         })
-        .catch(() => {
-          logout();
+        .catch((err) => {
+          console.error('Auth fetch error:', err);
+          if (!localStorage.getItem('user')) {
+            logout();
+          }
         })
         .finally(() => setLoading(false));
 
@@ -49,6 +65,7 @@ export const AuthProvider = ({ children }) => {
   const login = (newToken, userData) => {
     localStorage.setItem('token', newToken);
     localStorage.setItem('loginTime', Date.now().toString());
+    localStorage.setItem('user', JSON.stringify(userData));
     setToken(newToken);
     setUser(userData);
   };
@@ -56,6 +73,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('loginTime');
+    localStorage.removeItem('user');
     setToken(null);
     setUser(null);
   };
