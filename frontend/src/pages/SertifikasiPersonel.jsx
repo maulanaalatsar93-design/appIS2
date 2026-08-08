@@ -253,8 +253,14 @@ export default function SertifikasiPersonel() {
                 <th className="px-4 py-3">Bagian</th>
                 <th className="px-4 py-3">Certificate</th>
                 <th className="px-4 py-3">Certification No</th>
-                <th className="px-4 py-3">Date of Cert</th>
-                <th className="px-4 py-3">Cert Expires</th>
+                {activeTab === 'rencana' ? (
+                  <th className="px-4 py-3">Estimasi Tanggal</th>
+                ) : (
+                  <>
+                    <th className="px-4 py-3">Date of Cert</th>
+                    <th className="px-4 py-3">Cert Expires</th>
+                  </>
+                )}
                 <th className="px-4 py-3">Keterangan</th>
                 <th className="px-4 py-3">Status</th>
                 <th className="px-4 py-3 text-center">Aksi</th>
@@ -284,8 +290,17 @@ export default function SertifikasiPersonel() {
                       <td className="px-4 py-3 text-slate-600">{item.man_power?.divisi?.nama_divisi || '-'}</td>
                       <td className="px-4 py-3 text-slate-800 font-medium">{item.nama_sertifikat}</td>
                       <td className="px-4 py-3 text-slate-600 font-mono text-xs">{item.no_sertifikat || '-'}</td>
-                      <td className="px-4 py-3 text-slate-600">{formatDate(item.tanggal_sertifikasi)}</td>
-                      <td className="px-4 py-3 text-slate-600">{formatDate(item.tanggal_berakhir)}</td>
+                      {activeTab === 'rencana' ? (
+                        <td className="px-4 py-3 text-slate-600">
+                          {formatDate(item.tanggal_sertifikasi)}
+                          {item.tanggal_berakhir ? ` - ${formatDate(item.tanggal_berakhir)}` : ''}
+                        </td>
+                      ) : (
+                        <>
+                          <td className="px-4 py-3 text-slate-600">{formatDate(item.tanggal_sertifikasi)}</td>
+                          <td className="px-4 py-3 text-slate-600">{formatDate(item.tanggal_berakhir)}</td>
+                        </>
+                      )}
                       <td className="px-4 py-3 text-slate-600 max-w-[150px] truncate" title={item.remarks}>{item.remarks || '-'}</td>
                       <td className="px-4 py-3">
                         <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${statusInfo.color}`}>
