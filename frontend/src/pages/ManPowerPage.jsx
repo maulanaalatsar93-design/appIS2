@@ -91,7 +91,7 @@ export default function ManPowerPage({ initialView = 'availability' }) {
               end_date: record.tanggal_selesai.split('T')[0],
               status_id: statusMatch ? statusMatch.id : 1, // Fallback to 1
               note: record.keterangan || '',
-              duration: calculateWorkingDays(record.tanggal_mulai, record.tanggal_selesai)
+              duration: calculateWorkingDays(record.tanggal_mulai, record.tanggal_selesai, statusMatch ? statusMatch.id : 1)
             };
           });
           setAttendanceChanges(formatted);
@@ -116,7 +116,7 @@ export default function ManPowerPage({ initialView = 'availability' }) {
     position: 'Staff Rotating 1',
   });
 
-  const calculateWorkingDays = (start, end) => {
+  const calculateWorkingDays = (start, end, statusId) => {
     if (!start || !end) return 1;
     const s = new Date(start);
     const e = new Date(end);
@@ -124,7 +124,18 @@ export default function ManPowerPage({ initialView = 'availability' }) {
     const cur = new Date(s);
     while (cur <= e) {
       const day = cur.getDay();
-      if (day !== 0 && day !== 6) count++;
+      const dateStr = cur.toISOString().split('T')[0];
+      const isWeekend = (day === 0 || day === 6);
+      const isHoliday = !!INDONESIA_HOLIDAYS[dateStr];
+      const isOffday = isWeekend || isHoliday;
+      
+      // Jika status adalah Cuti (id = 3), maka tidak terakumulasi di weekend/libur nasional
+      if (statusId === 3) {
+        if (!isOffday) count++;
+      } else {
+        // Status lain terhitung semua (termasuk weekend/libur nasional)
+        count++;
+      }
       cur.setDate(cur.getDate() + 1);
     }
     return count || 1;

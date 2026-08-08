@@ -7,14 +7,17 @@ import {
 } from 'lucide-react';
 
 const STATUS_CONFIG = {
-  'Available':   { label: 'Tersedia',      color: 'bg-emerald-100 text-emerald-700 border-emerald-200', dot: 'bg-emerald-500', icon: CheckCircle2 },
-  'Bertugas':    { label: 'Sedang Bertugas', color: 'bg-blue-100 text-blue-700 border-blue-200',       dot: 'bg-blue-500',    icon: Activity },
-  'Training':    { label: 'Training',      color: 'bg-yellow-100 text-yellow-700 border-yellow-200',   dot: 'bg-yellow-400',  icon: BookOpen },
-  'Dinas':       { label: 'Dinas',         color: 'bg-orange-100 text-orange-700 border-orange-200',   dot: 'bg-orange-500',  icon: Plane },
-  'Cuti':        { label: 'Cuti',          color: 'bg-amber-100 text-amber-700 border-amber-200',     dot: 'bg-amber-500',   icon: Calendar },
-  'Sakit':       { label: 'Sakit',         color: 'bg-red-100 text-red-700 border-red-200',           dot: 'bg-red-500',     icon: Stethoscope },
-  'Alpha':       { label: 'Alpha',         color: 'bg-slate-100 text-slate-700 border-slate-300',     dot: 'bg-slate-500',   icon: XCircle },
-  'Inactive':    { label: 'Tidak Aktif',   color: 'bg-gray-100 text-gray-500 border-gray-200',         dot: 'bg-gray-400',    icon: XCircle },
+  'Tersedia':            { label: 'Tersedia',               color: 'bg-emerald-100 text-emerald-700 border-emerald-200', dot: 'bg-emerald-500', icon: CheckCircle2, gradient: 'bg-gradient-to-br from-emerald-50 to-emerald-100/50' },
+  'Bertugas':            { label: 'Sedang Bertugas',        color: 'bg-blue-100 text-blue-700 border-blue-200',          dot: 'bg-blue-500',    icon: Activity,     gradient: 'bg-gradient-to-br from-blue-50 to-blue-100/50' },
+  'Training':            { label: 'Training',               color: 'bg-purple-100 text-purple-700 border-purple-200',    dot: 'bg-purple-500',  icon: BookOpen,     gradient: 'bg-gradient-to-br from-purple-50 to-purple-100/50' },
+  'Dinas':               { label: 'Dinas',                  color: 'bg-sky-100 text-sky-700 border-sky-200',             dot: 'bg-sky-500',     icon: Plane,        gradient: 'bg-gradient-to-br from-sky-50 to-sky-100/50' },
+  'Cuti':                { label: 'Cuti',                   color: 'bg-amber-100 text-amber-700 border-amber-200',       dot: 'bg-amber-500',   icon: Calendar,     gradient: 'bg-gradient-to-br from-amber-50 to-amber-100/50' },
+  'Sakit':               { label: 'Sakit',                  color: 'bg-rose-100 text-rose-700 border-rose-200',          dot: 'bg-rose-500',    icon: Stethoscope,  gradient: 'bg-gradient-to-br from-rose-50 to-rose-100/50' },
+  'Izin':                { label: 'Izin',                   color: 'bg-orange-100 text-orange-700 border-orange-200',    dot: 'bg-orange-500',  icon: Clock,        gradient: 'bg-gradient-to-br from-orange-50 to-orange-100/50' },
+  'Referral':            { label: 'Referral',               color: 'bg-fuchsia-100 text-fuchsia-700 border-fuchsia-200', dot: 'bg-fuchsia-500', icon: Stethoscope,  gradient: 'bg-gradient-to-br from-fuchsia-50 to-fuchsia-100/50' },
+  'Alpha':               { label: 'Alpha',                  color: 'bg-slate-200 text-slate-700 border-slate-300',       dot: 'bg-slate-600',   icon: XCircle,      gradient: 'bg-gradient-to-br from-slate-100 to-slate-200/50' },
+  'Libur':               { label: 'Libur / Off',            color: 'bg-slate-100 text-slate-600 border-slate-200',       dot: 'bg-slate-400',   icon: Clock,        gradient: 'bg-gradient-to-br from-slate-50 to-slate-100/50' },
+  'Inactive':            { label: 'Tidak Aktif',            color: 'bg-gray-100 text-gray-500 border-gray-200',          dot: 'bg-gray-400',    icon: AlertCircle,  gradient: 'bg-gradient-to-br from-gray-50 to-gray-100/50' },
 };
 
 const DIVISI_LIST = [
@@ -116,11 +119,13 @@ export default function ManpowerAvailabilityBoard() {
   });
 
   // Summary stats
-  const stats = Object.keys(STATUS_CONFIG).map(key => ({
-    key,
-    ...STATUS_CONFIG[key],
-    count: data.filter(mp => mp.availability_status === key).length
-  }));
+  const stats = Object.keys(STATUS_CONFIG)
+    .filter(key => key !== 'Inactive' && key !== 'Libur')
+    .map(key => ({
+      key,
+      ...STATUS_CONFIG[key],
+      count: data.filter(mp => mp.availability_status === key).length
+    }));
 
   const handleFilterChange = (key, value) => {
     setFilters(prev => ({ ...prev, [key]: value }));
@@ -158,19 +163,28 @@ export default function ManpowerAvailabilityBoard() {
       </div>
 
       {/* Summary Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-8 gap-3">
-        {stats.map(s => (
-          <div key={s.key}
-            onClick={() => handleFilterChange('status', filters.status === s.key ? 'All' : s.key)}
-            className={`bg-white border rounded-xl p-3 cursor-pointer hover:shadow-md transition-all ${filters.status === s.key ? 'ring-2 ring-industrial-blue shadow-md' : 'border-industrial-border shadow-sm-subtle'}`}
-          >
-            <div className="flex items-center justify-between mb-2">
-              <div className={`w-2 h-2 rounded-full ${s.dot}`} />
-              <span className="text-2xl font-bold text-industrial-text">{s.count}</span>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+        {stats.map(s => {
+          const StatusIcon = STATUS_CONFIG[s.key]?.icon || AlertCircle;
+          const gradient = STATUS_CONFIG[s.key]?.gradient || 'bg-white';
+          return (
+            <div key={s.key}
+              onClick={() => handleFilterChange('status', filters.status === s.key ? 'All' : s.key)}
+              className={`${gradient} border rounded-xl p-3.5 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ${filters.status === s.key ? 'ring-2 ring-industrial-blue shadow-md border-transparent' : 'border-industrial-border/60 shadow-sm-subtle'}`}
+            >
+              <div className="flex items-center justify-between mb-3">
+                <div className={`p-1.5 rounded-lg ${STATUS_CONFIG[s.key]?.color.split(' ')[0] || 'bg-slate-100'}`}>
+                  <StatusIcon className={`w-4 h-4 ${STATUS_CONFIG[s.key]?.color.split(' ')[1] || 'text-slate-500'}`} />
+                </div>
+                <span className="text-2xl font-black text-industrial-text tracking-tight">{s.count}</span>
+              </div>
+              <div className="flex items-center space-x-1.5">
+                <div className={`w-2 h-2 rounded-full ${s.dot} shadow-sm`} />
+                <p className="text-[11px] font-bold text-industrial-muted uppercase tracking-wider">{s.label}</p>
+              </div>
             </div>
-            <p className="text-[10px] font-semibold text-industrial-muted leading-tight">{s.label}</p>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* Filters Row */}
@@ -326,7 +340,7 @@ export default function ManpowerAvailabilityBoard() {
               </thead>
               <tbody className="divide-y divide-industrial-border">
                 {filtered.map(mp => {
-                  const statusCfg = STATUS_CONFIG[mp.availability_status] || STATUS_CONFIG['Available'];
+                  const statusCfg = STATUS_CONFIG[mp.availability_status] || STATUS_CONFIG['Tersedia'];
                   const StatusIcon = statusCfg.icon;
                   const rank = getRoleRank(mp);
                   
@@ -356,9 +370,9 @@ export default function ManpowerAvailabilityBoard() {
                         </span>
                       </td>
                       <td className="px-4 py-3">
-                        <span className={`inline-flex items-center space-x-1.5 text-xs font-semibold px-2.5 py-1 rounded-full border ${statusCfg.color}`}>
-                          <div className={`w-1.5 h-1.5 rounded-full ${statusCfg.dot}`} />
-                          <span>{statusCfg.label}</span>
+                        <span className={`inline-flex items-center space-x-1.5 text-xs font-semibold px-2.5 py-1 rounded-full border ${['Tersedia', 'Bertugas', 'Inactive'].includes(mp.availability_status) ? statusCfg.color : 'bg-rose-100 text-rose-700 border-rose-200'}`}>
+                          <div className={`w-1.5 h-1.5 rounded-full ${['Tersedia', 'Bertugas', 'Inactive'].includes(mp.availability_status) ? statusCfg.dot : 'bg-rose-500'}`} />
+                          <span>{['Tersedia', 'Bertugas', 'Inactive'].includes(mp.availability_status) ? statusCfg.label : 'Tidak Tersedia'}</span>
                         </span>
                       </td>
                       <td className="px-4 py-3">

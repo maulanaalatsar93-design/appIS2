@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Search, Edit, Trash2 } from 'lucide-react';
+import { INDONESIA_HOLIDAYS } from '../../constants/holidays';
 
 const getRoleRank = (emp) => {
   const pos = (emp?.position || emp?.role || '').toUpperCase();
@@ -34,7 +35,7 @@ export default function RekapIzinView({
 }) {
   const [searchEmp, setSearchEmp] = useState('');
 
-  const calculateWorkingDays = (start, end) => {
+  const calculateWorkingDays = (start, end, statusId) => {
     if (!start || !end) return 1;
     const s = new Date(start);
     const e = new Date(end);
@@ -42,7 +43,16 @@ export default function RekapIzinView({
     const cur = new Date(s);
     while (cur <= e) {
       const day = cur.getDay();
-      if (day !== 0 && day !== 6) count++;
+      const dateStr = cur.toISOString().split('T')[0];
+      const isWeekend = (day === 0 || day === 6);
+      const isHoliday = !!INDONESIA_HOLIDAYS[dateStr];
+      const isOffday = isWeekend || isHoliday;
+      
+      if (statusId === 3) {
+        if (!isOffday) count++;
+      } else {
+        count++;
+      }
       cur.setDate(cur.getDate() + 1);
     }
     return count || 1;
@@ -59,10 +69,11 @@ export default function RekapIzinView({
       let totalDinasLuarNegeri = 0;
       let totalTraining = 0;
       let totalAlpha = 0;
+      let totalReferral = 0;
       let totalOther = 0;
 
       empChanges.forEach((rec) => {
-        const days = rec.duration || calculateWorkingDays(rec.start_date, rec.end_date) || 1;
+        const days = rec.duration || calculateWorkingDays(rec.start_date, rec.end_date, rec.status_id) || 1;
         if (rec.status_id === 3) totalCuti += days;
         else if (rec.status_id === 7) totalSakit += days;
         else if (rec.status_id === 8) totalIzin += days;
@@ -70,11 +81,12 @@ export default function RekapIzinView({
         else if (rec.status_id === 4) totalDinasLuarNegeri += days;
         else if (rec.status_id === 6) totalTraining += days;
         else if (rec.status_id === 10) totalAlpha += days;
+        else if (rec.status_id === 9) totalReferral += days;
         else if (rec.status_id !== 1 && rec.status_id !== 2) totalOther += days;
       });
 
       const totalIzinAll =
-        totalCuti + totalSakit + totalIzin + totalDinasDalamNegeri + totalDinasLuarNegeri + totalTraining + totalAlpha + totalOther;
+        totalCuti + totalSakit + totalIzin + totalDinasDalamNegeri + totalDinasLuarNegeri + totalTraining + totalAlpha + totalReferral + totalOther;
 
       return {
         emp,
@@ -85,6 +97,7 @@ export default function RekapIzinView({
         totalDinasLuarNegeri,
         totalTraining,
         totalAlpha,
+        totalReferral,
         totalIzinAll,
       };
     });
@@ -137,6 +150,7 @@ export default function RekapIzinView({
                 <th className="py-3 px-3 text-center">Dinas Dalam Negeri</th>
                 <th className="py-3 px-3 text-center">Dinas Luar Negeri</th>
                 <th className="py-3 px-3 text-center">Training</th>
+                <th className="py-3 px-3 text-center">Referral</th>
                 <th className="py-3 px-3 text-center font-bold text-rose-600">Total Izin/Absen</th>
                 <th className="py-3 px-3 text-right w-20">Aksi</th>
               </tr>
@@ -166,6 +180,7 @@ export default function RekapIzinView({
                     <td className="py-3 px-3 text-center font-bold text-sky-600">{row.totalDinasDalamNegeri > 0 ? `${row.totalDinasDalamNegeri} Hari` : '-'}</td>
                     <td className="py-3 px-3 text-center font-bold text-indigo-600">{row.totalDinasLuarNegeri > 0 ? `${row.totalDinasLuarNegeri} Hari` : '-'}</td>
                     <td className="py-3 px-3 text-center font-bold text-teal-600">{row.totalTraining > 0 ? `${row.totalTraining} Hari` : '-'}</td>
+                    <td className="py-3 px-3 text-center font-bold text-fuchsia-600">{row.totalReferral > 0 ? `${row.totalReferral} Hari` : '-'}</td>
                     <td className="py-3 px-3 text-center font-bold text-rose-700 bg-rose-50/60">
                       {row.totalIzinAll > 0 ? `${row.totalIzinAll} Hari` : '-'}
                     </td>
