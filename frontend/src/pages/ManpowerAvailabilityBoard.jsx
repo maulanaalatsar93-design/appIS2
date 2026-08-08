@@ -482,7 +482,7 @@ export default function ManpowerAvailabilityBoard() {
                             {new Date(mp.next_available).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' })}
                           </span>
                         ) : (
-                          <span className="text-xs text-emerald-600 font-semibold">Sekarang</span>
+                          <span className="text-[10px] text-slate-400">—</span>
                         )}
                       </td>
                     </tr>
