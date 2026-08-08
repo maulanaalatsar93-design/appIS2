@@ -401,7 +401,7 @@ export default function ManpowerAvailabilityBoard() {
                       <td className="px-4 py-3">
                         <span className={`inline-flex items-center space-x-1.5 text-xs font-semibold px-2.5 py-1 rounded-full border ${['Tersedia', 'Bertugas', 'Inactive'].includes(mp.availability_status) ? statusCfg.color : 'bg-rose-100 text-rose-700 border-rose-200'}`}>
                           <div className={`w-1.5 h-1.5 rounded-full ${['Tersedia', 'Bertugas', 'Inactive'].includes(mp.availability_status) ? statusCfg.dot : 'bg-rose-500'}`} />
-                          <span>{['Tersedia', 'Bertugas', 'Inactive'].includes(mp.availability_status) ? statusCfg.label : `${statusCfg.label}/Tidak Tersedia`}</span>
+                          <span>{['Tersedia', 'Bertugas', 'Inactive'].includes(mp.availability_status) ? statusCfg.label : 'Tidak Tersedia'}</span>
                         </span>
                       </td>
                       <td className="px-4 py-3">
