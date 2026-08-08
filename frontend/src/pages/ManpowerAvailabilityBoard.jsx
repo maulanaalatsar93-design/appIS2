@@ -74,13 +74,18 @@ export default function ManpowerAvailabilityBoard() {
     const pos = (emp?.position || emp?.role || '').toUpperCase();
     const type = (emp?.employee_type || '').toUpperCase();
 
-    if ((pos.includes('VP') || pos.includes('VICE PRESIDENT')) && !pos.includes('AVP') && !pos.includes('ASSISTANT')) return 1;
-    if (pos.includes('SIE') || pos.includes('STAFF INSPECTION ENGINEER') || pos.includes('MANAGER') || pos.includes('SUPERINTENDENT')) return 2;
-    if (pos.includes('AVP') || pos.includes('ASSISTANT VICE PRESIDENT') || pos.includes('SUPERVISOR')) return 3;
-    if (type.includes('ORGANIK') && !type.includes('NON')) return 4;
-    if (type.includes('NON ORGANIK') || type.includes('NON-ORGANIK')) return 5;
+    // VP, SIE, Manager grouped into Manager Level (Rank 1)
+    if (
+      pos.includes('VP') || pos.includes('VICE PRESIDENT') ||
+      pos.includes('SIE') || pos.includes('STAFF INSPECTION ENGINEER') || 
+      pos.includes('MANAGER') || pos.includes('SUPERINTENDENT')
+    ) return 1;
     
-    return 6;
+    if (pos.includes('AVP') || pos.includes('ASSISTANT VICE PRESIDENT') || pos.includes('SUPERVISOR')) return 2;
+    if (type.includes('ORGANIK') && !type.includes('NON')) return 3;
+    if (type.includes('NON ORGANIK') || type.includes('NON-ORGANIK')) return 4;
+    
+    return 5;
   };
 
   const getDivRank = (emp) => {
@@ -310,7 +315,7 @@ export default function ManpowerAvailabilityBoard() {
                 <tr className="border-b border-industrial-border bg-slate-50/50 text-industrial-muted text-xs uppercase tracking-wide">
                   <th className="px-4 py-3 font-semibold">Personel</th>
                   <th className="px-4 py-3 font-semibold">NPK</th>
-                  <th className="px-4 py-3 font-semibold">Jabatan & Divisi</th>
+                  <th className="px-4 py-3 font-semibold">Jabatan</th>
                   <th className="px-4 py-3 font-semibold">Tipe</th>
                   <th className="px-4 py-3 font-semibold">Status Ketersediaan</th>
                   <th className="px-4 py-3 font-semibold">Program / Keterangan</th>
@@ -324,11 +329,10 @@ export default function ManpowerAvailabilityBoard() {
                   const rank = getRoleRank(mp);
                   
                   let rowBg = 'hover:bg-slate-50';
-                  if (rank === 1) rowBg = 'bg-amber-200/40 hover:bg-amber-300/40'; // Gold
-                  else if (rank === 2) rowBg = 'bg-yellow-100/80 hover:bg-yellow-200/60'; // Yellow
-                  else if (rank === 3) rowBg = 'bg-red-50 hover:bg-red-100/70'; // Light red
-                  else if (rank === 4) rowBg = 'bg-slate-100/70 hover:bg-slate-200/70'; // Light grey
-                  else if (rank === 5) rowBg = 'bg-blue-50/70 hover:bg-blue-100/70'; // Light blue
+                  if (rank === 1) rowBg = 'bg-amber-200/40 hover:bg-amber-300/40'; // Manager Level
+                  else if (rank === 2) rowBg = 'bg-yellow-100/80 hover:bg-yellow-200/60'; // AVP Level
+                  else if (rank === 3) rowBg = 'bg-slate-100/70 hover:bg-slate-200/70'; // Organik
+                  else if (rank === 4) rowBg = 'bg-blue-50/70 hover:bg-blue-100/70'; // Non Organik
 
                   return (
                     <tr key={mp.id} className={`transition-colors border-b border-industrial-border/50 ${rowBg}`}>
@@ -343,7 +347,6 @@ export default function ManpowerAvailabilityBoard() {
                       <td className="px-4 py-3 text-xs font-mono text-industrial-muted">{mp.npk}</td>
                       <td className="px-4 py-3">
                         <p className="font-medium text-industrial-text text-xs">{mp.position}</p>
-                        <p className="text-[10px] text-industrial-muted">{mp.divisi?.nama_divisi}</p>
                       </td>
                       <td className="px-4 py-3">
                         <span className={`text-[10px] font-semibold px-2 py-0.5 rounded border ${mp.employee_type === 'Organik' ? 'bg-blue-50 text-blue-600 border-blue-200' : 'bg-purple-50 text-purple-600 border-purple-200'}`}>

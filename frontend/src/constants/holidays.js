@@ -46,4 +46,5 @@ export const MOCK_STATUSES = [
   { id: 7, name: 'Sakit', bg: 'bg-rose-50', color: 'text-rose-600' },
   { id: 8, name: 'Izin', bg: 'bg-orange-50', color: 'text-orange-600' },
   { id: 9, name: 'Referral', bg: 'bg-purple-50', color: 'text-purple-600' },
+  { id: 10, name: 'Alpha/Tanpa Keterangan', bg: 'bg-slate-100', color: 'text-slate-700' },
 ];

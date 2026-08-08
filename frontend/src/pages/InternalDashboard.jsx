@@ -106,13 +106,18 @@ export default function InternalDashboard() {
     const pos = (emp?.position || emp?.role || '').toUpperCase();
     const type = (emp?.employee_type || '').toUpperCase();
 
-    if ((pos.includes('VP') || pos.includes('VICE PRESIDENT')) && !pos.includes('AVP') && !pos.includes('ASSISTANT')) return 1;
-    if (pos.includes('SIE') || pos.includes('STAFF INSPECTION ENGINEER') || pos.includes('MANAGER') || pos.includes('SUPERINTENDENT')) return 2;
-    if (pos.includes('AVP') || pos.includes('ASSISTANT VICE PRESIDENT') || pos.includes('SUPERVISOR')) return 3;
-    if (type.includes('ORGANIK') && !type.includes('NON')) return 4;
-    if (type.includes('NON ORGANIK') || type.includes('NON-ORGANIK')) return 5;
+    // VP, SIE, Manager grouped into Manager Level (Rank 1)
+    if (
+      pos.includes('VP') || pos.includes('VICE PRESIDENT') ||
+      pos.includes('SIE') || pos.includes('STAFF INSPECTION ENGINEER') || 
+      pos.includes('MANAGER') || pos.includes('SUPERINTENDENT')
+    ) return 1;
     
-    return 6;
+    if (pos.includes('AVP') || pos.includes('ASSISTANT VICE PRESIDENT') || pos.includes('SUPERVISOR')) return 2;
+    if (type.includes('ORGANIK') && !type.includes('NON')) return 3;
+    if (type.includes('NON ORGANIK') || type.includes('NON-ORGANIK')) return 4;
+    
+    return 5;
   };
 
   const getDivRank = (emp) => {
@@ -1552,7 +1557,6 @@ export default function InternalDashboard() {
                         <th className="py-3 px-4">NPK</th>
                         <th className="py-3 px-4">Nama Personil</th>
                         <th className="py-3 px-4">Status SDM</th>
-                        <th className="py-3 px-4">Divisi / Bagian</th>
                         <th className="py-3 px-4">Jabatan</th>
                         <th className="py-3 px-4 text-center">Status Kehadiran Hari Ini</th>
                       </tr>
@@ -1564,11 +1568,10 @@ export default function InternalDashboard() {
                         const rank = getRoleRank(p);
                         
                         let rowBg = 'hover:bg-slate-50';
-                        if (rank === 1) rowBg = 'bg-amber-200/40 hover:bg-amber-300/40'; // Gold
-                        else if (rank === 2) rowBg = 'bg-yellow-100/80 hover:bg-yellow-200/60'; // Yellow
-                        else if (rank === 3) rowBg = 'bg-red-50 hover:bg-red-100/70'; // Light red
-                        else if (rank === 4) rowBg = 'bg-slate-100/70 hover:bg-slate-200/70'; // Light grey
-                        else if (rank === 5) rowBg = 'bg-blue-50/70 hover:bg-blue-100/70'; // Light blue
+                        if (rank === 1) rowBg = 'bg-amber-200/40 hover:bg-amber-300/40'; // Manager Level
+                        else if (rank === 2) rowBg = 'bg-yellow-100/80 hover:bg-yellow-200/60'; // AVP Level
+                        else if (rank === 3) rowBg = 'bg-slate-100/70 hover:bg-slate-200/70'; // Organik
+                        else if (rank === 4) rowBg = 'bg-blue-50/70 hover:bg-blue-100/70'; // Non Organik
 
                         return (
                           <tr key={p.id} className={`transition-colors border-b border-slate-100 ${rowBg}`}>
@@ -1580,9 +1583,6 @@ export default function InternalDashboard() {
                                 <HardHat size={12} className={isOrganik ? 'text-white' : 'text-emerald-700'} />
                                 {p.employee_type}
                               </span>
-                            </td>
-                            <td className="py-2.5 px-4 font-medium text-slate-700">
-                              {p.nama_divisi} {p.work_center_sap ? `(${p.work_center_sap})` : ''}
                             </td>
                             <td className="py-2.5 px-4 text-slate-600 font-medium">{p.position || '-'}</td>
                             <td className="py-2.5 px-4 text-center">
