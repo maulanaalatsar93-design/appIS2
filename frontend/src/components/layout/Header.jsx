@@ -98,7 +98,7 @@ export default function Header({ isCollapsed, setIsCollapsed }) {
   };
 
   return (
-    <header className="h-16 bg-[#F0F3F8] px-4 md:px-6 flex items-center justify-between sticky top-0 z-30 pt-3">
+    <header className="h-16 bg-[#F0F3F8] px-4 md:px-6 flex items-center justify-between sticky top-0 z-30 pt-3 print:hidden">
       <div className="w-full bg-white rounded-full px-5 py-2 shadow-md border border-[#E2E8F0] flex items-center justify-between">
         <div className="flex items-center space-x-3">
           {/* Header Left Content (Left intentionally clean) */}

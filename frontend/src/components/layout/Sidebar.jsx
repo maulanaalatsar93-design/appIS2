@@ -36,7 +36,7 @@ export default function Sidebar({ activeTab, setActiveTab, isCollapsed, setIsCol
   return (
     <aside
       className={`${isCollapsed ? 'w-16' : 'w-64'
-        } bg-[#050D1F]/95 backdrop-blur-xl bg-gradient-to-b from-[#0A1A4A] to-[#050D1F] border border-white/10 shadow-2xl flex flex-col justify-between shrink-0 h-[calc(100vh-1.5rem)] my-3 ml-3 rounded-2xl sticky top-3 transition-all duration-300 ease-in-out z-40 relative overflow-hidden`}
+        } bg-[#050D1F]/95 backdrop-blur-xl bg-gradient-to-b from-[#0A1A4A] to-[#050D1F] border border-white/10 shadow-2xl flex flex-col justify-between shrink-0 h-[calc(100vh-1.5rem)] my-3 ml-3 rounded-2xl sticky top-3 transition-all duration-300 ease-in-out z-40 relative overflow-hidden print:hidden`}
     >
       {/* Grid lines overlay */}
       <div
