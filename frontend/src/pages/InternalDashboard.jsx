@@ -162,17 +162,7 @@ export default function InternalDashboard() {
 
   if (view === 'public') {
     return (
-      <div className="relative">
-        <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[100]">
-          <button
-            onClick={() => setView('internal')}
-            className="flex items-center gap-2 px-5 py-2.5 bg-white/90 backdrop-blur border border-[#1A4BC4] text-[#1A4BC4] hover:bg-[#1A4BC4] hover:text-white text-xs font-bold rounded-full shadow-lg transition-all"
-          >
-            Kembali ke Internal View
-          </button>
-        </div>
-        <PublicDashboard />
-      </div>
+      <PublicDashboard onBack={() => setView('internal')} />
     );
   }
 

@@ -78,7 +78,7 @@ export default function WorkProgramForm({ onBack, onSaved }) {
     if (selectedMembers.find(m => m.man_power_id === mp.id)) return;
     setSelectedMembers(prev => [...prev, {
       man_power_id: mp.id, name: mp.name, position: mp.position,
-      role: mp.position, hasConflict: mp.availability_status !== 'Available'
+      role: mp.position, hasConflict: mp.availability_status !== 'Tersedia'
     }]);
   };
 
@@ -92,7 +92,7 @@ export default function WorkProgramForm({ onBack, onSaved }) {
           name: mp.name,
           position: mp.position,
           role: mp.position,
-          hasConflict: mp.availability_status !== 'Available'
+          hasConflict: mp.availability_status !== 'Tersedia'
         }));
       return [...prev, ...toAdd];
     });

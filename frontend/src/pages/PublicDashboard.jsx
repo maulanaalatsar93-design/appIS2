@@ -40,7 +40,7 @@ const MONTH_NAMES = {
   9: '09 - September', 10: '10 - Oktober', 11: '11 - November', 12: '12 - Desember'
 };
 
-export default function PublicDashboard() {
+export default function PublicDashboard({ onBack }) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [showPMModal, setShowPMModal] = useState(false);
@@ -299,26 +299,25 @@ export default function PublicDashboard() {
           </p>
         </div>
 
-        <div className="flex items-center gap-2 flex-wrap">
+        <div className="flex items-center gap-3 flex-wrap">
           {/* Executive Report Toolbar */}
-          <div className="bg-white px-3 py-2 rounded-xl shadow-sm border border-[#E2E8F0] flex items-center gap-3 overflow-x-auto">
-            <div className="flex items-center gap-1.5 border-r border-slate-200 pr-3 shrink-0">
-              <Download size={15} className="text-[#1A4BC4]" />
-              <span className="text-[11px] font-bold text-[#172033] uppercase tracking-wide">Report Export</span>
-            </div>
-            <div className="flex items-center gap-2 shrink-0">
-              <div className="flex items-center gap-1 bg-slate-50 border border-slate-200 rounded-lg p-0.5 text-[10px]">
-                <span className="font-bold text-slate-600 px-1.5">Dashboard</span>
-                <button onClick={() => { setIsExporting(true); setToastMsg({ type: 'info', text: 'Generating Dashboard PDF...' }); exportDashboardPDF().finally(() => { setIsExporting(false); setToastMsg({ type: 'success', text: 'Laporan berhasil diunduh' }); setTimeout(() => setToastMsg(null), 3000); }); }} className="p-1 hover:bg-white hover:text-red-600 rounded" title="Export PDF"><FileText size={13} /></button>
-                <button onClick={() => { setIsExporting(true); setToastMsg({ type: 'info', text: 'Generating Dashboard Excel...' }); exportDashboardExcel().finally(() => { setIsExporting(false); setToastMsg({ type: 'success', text: 'Laporan Excel berhasil dibuat' }); setTimeout(() => setToastMsg(null), 3000); }); }} className="p-1 hover:bg-white hover:text-emerald-600 rounded" title="Export Excel"><FileSpreadsheet size={13} /></button>
-              </div>
-              <div className="flex items-center gap-1 bg-slate-50 border border-slate-200 rounded-lg p-0.5 text-[10px]">
-                <span className="font-bold text-slate-600 px-1.5">SAP</span>
-                <button onClick={() => { exportSAPPDF(); }} className="p-1 hover:bg-white hover:text-red-600 rounded" title="Export SAP PDF"><FileText size={13} /></button>
-                <button onClick={() => { exportSAPExcel(); }} className="p-1 hover:bg-white hover:text-emerald-600 rounded" title="Export SAP Excel"><FileSpreadsheet size={13} /></button>
-              </div>
-            </div>
-          </div>
+          <button 
+            onClick={() => { setIsExporting(true); setToastMsg({ type: 'info', text: 'Generating Dashboard PDF...' }); exportDashboardPDF().finally(() => { setIsExporting(false); setToastMsg({ type: 'success', text: 'Laporan berhasil diunduh' }); setTimeout(() => setToastMsg(null), 3000); }); }} 
+            className="bg-white px-4 py-2.5 rounded-xl shadow-sm border border-[#E2E8F0] flex items-center gap-2 hover:bg-slate-50 transition-colors focus:outline-none"
+            title="Export PDF"
+          >
+            <Download size={16} className="text-[#1A4BC4]" />
+            <span className="text-xs font-bold text-[#172033] uppercase tracking-wide">Export PDF</span>
+          </button>
+          
+          {onBack && (
+            <button
+              onClick={onBack}
+              className="bg-white px-4 py-2.5 rounded-xl shadow-sm border border-[#1A4BC4] text-[#1A4BC4] hover:bg-[#1A4BC4] hover:text-white flex items-center gap-2 transition-all focus:outline-none"
+            >
+              <span className="text-xs font-bold uppercase tracking-wide">Kembali ke Internal View</span>
+            </button>
+          )}
         </div>
       </div>
 
