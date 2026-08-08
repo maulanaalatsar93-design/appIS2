@@ -69,6 +69,15 @@ export const getDashboardSummary = async (req, res) => {
       };
     }
 
+    const todayHoliday = await prisma.hariLibur.findFirst({
+      where: {
+        tanggal: { gte: todayStart, lte: todayEnd }
+      }
+    });
+    const dayOfWeek = now.getDay();
+    const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+    const isOffdayDefault = isWeekend || !!todayHoliday;
+
     // Concurrent batch query
     const [
       woGroupByTipe,
@@ -117,7 +126,16 @@ export const getDashboardSummary = async (req, res) => {
       }),
       prisma.manPower.findMany({
         where: manPowerWhere,
-        select: { id: true, employee_type: true }
+        select: { 
+          id: true, 
+          employee_type: true,
+          wp_memberships: {
+            include: { program: true }
+          },
+          plan_members: {
+            include: { plan: true }
+          }
+        }
       }),
       prisma.statusKehadiran.findMany({
         where: absentWhere,
@@ -317,9 +335,49 @@ export const getDashboardSummary = async (req, res) => {
     });
 
     const totalAbsen = cuti + izin + dinas + sakit + lainnya;
-    const hadir = totalPersonil - totalAbsen;
-    const organikHadir = Math.max(0, organikTotal - organikAbsen);
-    const nonOrganikHadir = Math.max(0, nonOrganikTotal - nonOrganikAbsen);
+    let hadir = 0;
+    let organikHadir = 0;
+    let nonOrganikHadir = 0;
+
+    if (isOffdayDefault) {
+      allPersonil.forEach(p => {
+        const empType = (p.employee_type || '').toLowerCase();
+        const isOrganik = !empType.includes('non');
+        
+        const hasActiveWorkProgram = p.wp_memberships?.some(m => {
+          const prog = m.program;
+          if (prog && prog.start_date && prog.end_date) {
+             const pStart = new Date(prog.start_date);
+             const pEnd = new Date(prog.end_date);
+             return pStart <= todayEnd && pEnd >= todayStart && ['Approved', 'Active', 'Team Ready'].includes(prog.status);
+          }
+          return false;
+        });
+
+        const hasActiveManpowerPlan = p.plan_members?.some(m => {
+          const plan = m.plan;
+          if (plan && plan.startDate && plan.endDate) {
+             const pStart = new Date(plan.startDate);
+             const pEnd = new Date(plan.endDate);
+             return pStart <= todayEnd && pEnd >= todayStart && plan.status === 'Approved';
+          }
+          return false;
+        });
+
+        const isInProgram = hasActiveWorkProgram || hasActiveManpowerPlan;
+        const hasAbsenRecord = absentRecords.some(r => r.man_power_id === p.id);
+
+        if (isInProgram && !hasAbsenRecord) {
+          hadir++;
+          if (isOrganik) organikHadir++;
+          else nonOrganikHadir++;
+        }
+      });
+    } else {
+      hadir = totalPersonil - totalAbsen;
+      organikHadir = Math.max(0, organikTotal - organikAbsen);
+      nonOrganikHadir = Math.max(0, nonOrganikTotal - nonOrganikAbsen);
+    }
 
     // ==========================================
     // AGGREGATE REKOMENDASI M4 & M7 per Bagian
@@ -671,6 +729,15 @@ export const getManpowerList = async (req, res) => {
     const todayStart = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0));
     const todayEnd = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999));
 
+    const todayHoliday = await prisma.hariLibur.findFirst({
+      where: {
+        tanggal: { gte: todayStart, lte: todayEnd }
+      }
+    });
+    const dayOfWeek = now.getDay();
+    const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+    const isOffdayDefault = isWeekend || !!todayHoliday;
+
     const rawList = await prisma.manPower.findMany({
       where: { is_active: true },
       include: {
@@ -680,6 +747,12 @@ export const getManpowerList = async (req, res) => {
             tanggal_mulai: { lte: todayEnd },
             tanggal_selesai: { gte: todayStart }
           }
+        },
+        wp_memberships: {
+          include: { program: true }
+        },
+        plan_members: {
+          include: { plan: true }
         }
       },
       orderBy: { name: 'asc' }
@@ -687,7 +760,34 @@ export const getManpowerList = async (req, res) => {
 
     const formatted = rawList.map(p => {
       const activeAbsensi = p.absensi && p.absensi.length > 0 ? p.absensi[0] : null;
+      
+      const hasActiveWorkProgram = p.wp_memberships?.some(m => {
+        const prog = m.program;
+        if (prog && prog.start_date && prog.end_date) {
+           const pStart = new Date(prog.start_date);
+           const pEnd = new Date(prog.end_date);
+           return pStart <= todayEnd && pEnd >= todayStart && ['Approved', 'Active', 'Team Ready'].includes(prog.status);
+        }
+        return false;
+      });
+
+      const hasActiveManpowerPlan = p.plan_members?.some(m => {
+        const plan = m.plan;
+        if (plan && plan.startDate && plan.endDate) {
+           const pStart = new Date(plan.startDate);
+           const pEnd = new Date(plan.endDate);
+           return pStart <= todayEnd && pEnd >= todayStart && plan.status === 'Approved';
+        }
+        return false;
+      });
+
+      const isInProgram = hasActiveWorkProgram || hasActiveManpowerPlan;
+
       let statusToday = 'Hadir';
+      if (isOffdayDefault) {
+         statusToday = isInProgram ? 'Hadir' : 'Offday';
+      }
+
       let keterangan = '';
       if (activeAbsensi) {
         statusToday = activeAbsensi.jenis || 'Absen';
