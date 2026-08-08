@@ -362,8 +362,18 @@ export default function ManpowerAvailabilityBoard() {
                   <th className="px-4 py-3 font-semibold">NPK</th>
                   <th className="px-4 py-3 font-semibold">Jabatan</th>
                   <th className="px-4 py-3 font-semibold">Tipe</th>
-                  <th className="px-4 py-3 font-semibold">Status Ketersediaan</th>
-                  <th className="px-4 py-3 font-semibold">Status Kehadiran</th>
+                  <th className="px-4 py-3 font-semibold">
+                    <div className="flex items-center space-x-1.5 cursor-help" title="Status Ketersediaan: Menunjukkan ketersediaan fisik personel untuk ditugaskan, terlepas dari apakah hari ini libur atau tidak. Jika tidak ada tugas atau absen, statusnya Tersedia.">
+                      <span>Status Ketersediaan</span>
+                      <Info className="w-3.5 h-3.5 text-industrial-muted" />
+                    </div>
+                  </th>
+                  <th className="px-4 py-3 font-semibold">
+                    <div className="flex items-center space-x-1.5 cursor-help" title="Status Kehadiran: Menunjukkan kewajiban hadir kerja hari ini berdasarkan kalender. Pada akhir pekan/libur, meskipun tersedia, status ini menjadi Tidak Hadir.">
+                      <span>Status Kehadiran</span>
+                      <Info className="w-3.5 h-3.5 text-industrial-muted" />
+                    </div>
+                  </th>
                   <th className="px-4 py-3 font-semibold">Program / Keterangan</th>
                   <th className="px-4 py-3 font-semibold">Tersedia Kembali</th>
                 </tr>
