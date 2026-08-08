@@ -8,18 +8,18 @@ import {
 } from 'lucide-react';
 
 const STATUS_CONFIG = {
-  'Tersedia':            { label: 'Tersedia',               category: 'Utama',     color: 'bg-emerald-100 text-emerald-700 border-emerald-200', dot: 'bg-emerald-500', icon: CheckCircle2, gradient: 'bg-gradient-to-br from-emerald-50 to-emerald-100/50' },
-  'Bertugas':            { label: 'Sedang Bertugas',        category: 'Utama',     color: 'bg-blue-100 text-blue-700 border-blue-200',          dot: 'bg-blue-500',    icon: Activity,     gradient: 'bg-gradient-to-br from-blue-50 to-blue-100/50' },
-  'Training':            { label: 'Training',               category: 'Penugasan', color: 'bg-purple-100 text-purple-700 border-purple-200',    dot: 'bg-purple-500',  icon: BookOpen,     gradient: 'bg-gradient-to-br from-purple-50 to-purple-100/50' },
-  'DinasDalamNegeri':    { label: 'Dinas Dalam Negeri',     category: 'Penugasan', color: 'bg-sky-100 text-sky-700 border-sky-200',             dot: 'bg-sky-500',     icon: PlaneTakeoff, gradient: 'bg-gradient-to-br from-sky-50 to-sky-100/50' },
-  'DinasLuarNegeri':     { label: 'Dinas Luar Negeri',      category: 'Penugasan', color: 'bg-indigo-100 text-indigo-700 border-indigo-200',    dot: 'bg-indigo-500',  icon: Globe,        gradient: 'bg-gradient-to-br from-indigo-50 to-indigo-100/50' },
-  'Cuti':                { label: 'Cuti',                   category: 'Absen',     color: 'bg-amber-100 text-amber-700 border-amber-200',       dot: 'bg-amber-500',   icon: Calendar,     gradient: 'bg-gradient-to-br from-amber-50 to-amber-100/50' },
-  'Izin':                { label: 'Izin',                   category: 'Absen',     color: 'bg-orange-100 text-orange-700 border-orange-200',    dot: 'bg-orange-500',  icon: Info,         gradient: 'bg-gradient-to-br from-orange-50 to-orange-100/50' },
-  'Sakit':               { label: 'Sakit',                  category: 'Absen',     color: 'bg-rose-100 text-rose-700 border-rose-200',          dot: 'bg-rose-500',    icon: Stethoscope,  gradient: 'bg-gradient-to-br from-rose-50 to-rose-100/50' },
-  'Referral':            { label: 'Referral',               category: 'Absen',     color: 'bg-fuchsia-100 text-fuchsia-700 border-fuchsia-200', dot: 'bg-fuchsia-500', icon: UserCheck,    gradient: 'bg-gradient-to-br from-fuchsia-50 to-fuchsia-100/50' },
-  'Alpha':               { label: 'Alpha/Tanpa Keterangan', category: 'Absen',     color: 'bg-slate-200 text-slate-700 border-slate-300',       dot: 'bg-slate-600',   icon: XCircle,      gradient: 'bg-gradient-to-br from-slate-100 to-slate-200/50' },
-  'Libur':               { label: 'Libur / Off',            category: 'Hide',      color: 'bg-slate-100 text-slate-600 border-slate-200',       dot: 'bg-slate-400',   icon: Clock,        gradient: 'bg-gradient-to-br from-slate-50 to-slate-100/50' },
-  'Inactive':            { label: 'Tidak Aktif',            category: 'Hide',      color: 'bg-gray-100 text-gray-500 border-gray-200',          dot: 'bg-gray-400',    icon: AlertCircle,  gradient: 'bg-gradient-to-br from-gray-50 to-gray-100/50' },
+  'Tersedia': { label: 'Tersedia', category: 'Utama', color: 'bg-emerald-100 text-emerald-700 border-emerald-200', dot: 'bg-emerald-500', icon: CheckCircle2, gradient: 'bg-gradient-to-br from-emerald-50 to-emerald-100/50' },
+  'Bertugas': { label: 'Sedang Bertugas', category: 'Utama', color: 'bg-blue-100 text-blue-700 border-blue-200', dot: 'bg-blue-500', icon: Activity, gradient: 'bg-gradient-to-br from-blue-50 to-blue-100/50' },
+  'Training': { label: 'Training', category: 'Penugasan', color: 'bg-purple-100 text-purple-700 border-purple-200', dot: 'bg-purple-500', icon: BookOpen, gradient: 'bg-gradient-to-br from-purple-50 to-purple-100/50' },
+  'DinasDalamNegeri': { label: 'Dinas Dalam Negeri', category: 'Penugasan', color: 'bg-sky-100 text-sky-700 border-sky-200', dot: 'bg-sky-500', icon: PlaneTakeoff, gradient: 'bg-gradient-to-br from-sky-50 to-sky-100/50' },
+  'DinasLuarNegeri': { label: 'Dinas Luar Negeri', category: 'Penugasan', color: 'bg-indigo-100 text-indigo-700 border-indigo-200', dot: 'bg-indigo-500', icon: Globe, gradient: 'bg-gradient-to-br from-indigo-50 to-indigo-100/50' },
+  'Cuti': { label: 'Cuti', category: 'Absen', color: 'bg-amber-100 text-amber-700 border-amber-200', dot: 'bg-amber-500', icon: Calendar, gradient: 'bg-gradient-to-br from-amber-50 to-amber-100/50' },
+  'Izin': { label: 'Izin', category: 'Absen', color: 'bg-orange-100 text-orange-700 border-orange-200', dot: 'bg-orange-500', icon: Info, gradient: 'bg-gradient-to-br from-orange-50 to-orange-100/50' },
+  'Sakit': { label: 'Sakit', category: 'Absen', color: 'bg-rose-100 text-rose-700 border-rose-200', dot: 'bg-rose-500', icon: Stethoscope, gradient: 'bg-gradient-to-br from-rose-50 to-rose-100/50' },
+  'Referral': { label: 'Referral', category: 'Absen', color: 'bg-fuchsia-100 text-fuchsia-700 border-fuchsia-200', dot: 'bg-fuchsia-500', icon: UserCheck, gradient: 'bg-gradient-to-br from-fuchsia-50 to-fuchsia-100/50' },
+  'Alpha': { label: 'Alpha/Tanpa Keterangan', category: 'Absen', color: 'bg-slate-200 text-slate-700 border-slate-300', dot: 'bg-slate-600', icon: XCircle, gradient: 'bg-gradient-to-br from-slate-100 to-slate-200/50' },
+  'Libur': { label: 'Libur / Off', category: 'Hide', color: 'bg-slate-100 text-slate-600 border-slate-200', dot: 'bg-slate-400', icon: Clock, gradient: 'bg-gradient-to-br from-slate-50 to-slate-100/50' },
+  'Inactive': { label: 'Tidak Aktif', category: 'Hide', color: 'bg-gray-100 text-gray-500 border-gray-200', dot: 'bg-gray-400', icon: AlertCircle, gradient: 'bg-gradient-to-br from-gray-50 to-gray-100/50' },
 };
 
 const DIVISI_LIST = [
@@ -74,8 +74,8 @@ export default function ManpowerAvailabilityBoard() {
     }
   };
 
-  useEffect(() => { 
-    fetchData(); 
+  useEffect(() => {
+    fetchData();
   }, [filters.selectedDivisions, filters.status, filters.startDate, filters.endDate]);
 
   const getRoleRank = (emp) => {
@@ -85,14 +85,14 @@ export default function ManpowerAvailabilityBoard() {
     // VP, SIE, Manager grouped into Manager Level (Rank 1)
     if (
       pos.includes('VP') || pos.includes('VICE PRESIDENT') ||
-      pos.includes('SIE') || pos.includes('STAFF INSPECTION ENGINEER') || 
+      pos.includes('SIE') || pos.includes('STAFF INSPECTION ENGINEER') ||
       pos.includes('MANAGER') || pos.includes('SUPERINTENDENT')
     ) return 1;
-    
+
     if (pos.includes('AVP') || pos.includes('ASSISTANT VICE PRESIDENT') || pos.includes('SUPERVISOR')) return 2;
     if (type.includes('ORGANIK') && !type.includes('NON')) return 3;
     if (type.includes('NON ORGANIK') || type.includes('NON-ORGANIK')) return 4;
-    
+
     return 5;
   };
 
@@ -189,7 +189,7 @@ export default function ManpowerAvailabilityBoard() {
 
       {/* Info Banner */}
       <div className="bg-blue-50 border border-blue-200 rounded-xl overflow-hidden shadow-sm">
-        <button 
+        <button
           onClick={() => setShowInfoBox(!showInfoBox)}
           className="w-full flex items-center justify-between px-4 py-3 bg-blue-100/50 hover:bg-blue-100 transition-colors text-blue-900 focus:outline-none"
         >
@@ -199,7 +199,7 @@ export default function ManpowerAvailabilityBoard() {
           </div>
           {showInfoBox ? <ChevronUp className="w-4 h-4 text-blue-600" /> : <ChevronDown className="w-4 h-4 text-blue-600" />}
         </button>
-        
+
         {showInfoBox && (
           <div className="p-4 text-sm text-blue-900/80 space-y-3">
             <p>
@@ -208,47 +208,9 @@ export default function ManpowerAvailabilityBoard() {
             <p>
               <strong>Status Ketersediaan</strong> menunjukkan apakah personel <strong>masih dapat diberikan tugas</strong>. Jadi, <strong>hari libur tidak otomatis berarti Tidak Tersedia</strong>. Personel yang sedang libur tetap dapat berstatus <strong>Tersedia</strong> dan sewaktu-waktu dapat diberikan penugasan.
             </p>
-            
-            <div className="mt-4 overflow-x-auto">
-              <table className="w-full text-left text-xs bg-white rounded-lg border border-blue-200 overflow-hidden">
-                <thead className="bg-blue-100 text-blue-900">
-                  <tr>
-                    <th className="px-3 py-2 border-b border-blue-200 font-semibold">Kondisi</th>
-                    <th className="px-3 py-2 border-b border-blue-200 font-semibold">Kehadiran</th>
-                    <th className="px-3 py-2 border-b border-blue-200 font-semibold">Ketersediaan</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-blue-100">
-                  <tr>
-                    <td className="px-3 py-2">Senin, tidak ada catatan khusus</td>
-                    <td className="px-3 py-2">Hadir</td>
-                    <td className="px-3 py-2">Tersedia</td>
-                  </tr>
-                  <tr className="bg-blue-50/30">
-                    <td className="px-3 py-2">Senin, sedang Cuti</td>
-                    <td className="px-3 py-2">Cuti</td>
-                    <td className="px-3 py-2">Tidak Tersedia</td>
-                  </tr>
-                  <tr>
-                    <td className="px-3 py-2">Sabtu, tidak ada program</td>
-                    <td className="px-3 py-2 font-semibold text-slate-600">Tidak Hadir</td>
-                    <td className="px-3 py-2 font-semibold text-emerald-600">Tersedia</td>
-                  </tr>
-                  <tr className="bg-blue-50/30">
-                    <td className="px-3 py-2">Minggu, mendapat tugas kerja</td>
-                    <td className="px-3 py-2 font-semibold text-emerald-600">Hadir</td>
-                    <td className="px-3 py-2">Assigned/Tersedia untuk tugas</td>
-                  </tr>
-                  <tr>
-                    <td className="px-3 py-2">Senin, Hadir tetapi sudah ditugaskan ke Program A</td>
-                    <td className="px-3 py-2">Hadir</td>
-                    <td className="px-3 py-2 font-semibold text-rose-600">Tidak Tersedia untuk Program lain</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+
             <p className="mt-3 italic font-medium text-blue-800">
-              Intinya: Libur/Akhir Pekan mengubah status kehadiran menjadi Tidak Hadir, tetapi tidak otomatis mengubah status ketersediaan.
+              Ringkasan: Libur/Akhir Pekan mengubah status kehadiran menjadi Tidak Hadir, tetapi tidak otomatis mengubah status ketersediaan.
             </p>
           </div>
         )}
@@ -451,7 +413,7 @@ export default function ManpowerAvailabilityBoard() {
                   const statusCfg = STATUS_CONFIG[mp.availability_status] || STATUS_CONFIG['Tersedia'];
                   const StatusIcon = statusCfg.icon;
                   const rank = getRoleRank(mp);
-                  
+
                   let rowBg = 'hover:bg-slate-50';
                   if (rank === 1) rowBg = 'bg-amber-200/40 hover:bg-amber-300/40'; // Manager Level
                   else if (rank === 2) rowBg = 'bg-yellow-100/80 hover:bg-yellow-200/60'; // AVP Level
