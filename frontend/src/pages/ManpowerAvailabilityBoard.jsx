@@ -363,6 +363,7 @@ export default function ManpowerAvailabilityBoard() {
                   <th className="px-4 py-3 font-semibold">Jabatan</th>
                   <th className="px-4 py-3 font-semibold">Tipe</th>
                   <th className="px-4 py-3 font-semibold">Status Ketersediaan</th>
+                  <th className="px-4 py-3 font-semibold">Status Kehadiran</th>
                   <th className="px-4 py-3 font-semibold">Program / Keterangan</th>
                   <th className="px-4 py-3 font-semibold">Tersedia Kembali</th>
                 </tr>
@@ -402,6 +403,12 @@ export default function ManpowerAvailabilityBoard() {
                         <span className={`inline-flex items-center space-x-1.5 text-xs font-semibold px-2.5 py-1 rounded-full border ${['Tersedia', 'Bertugas', 'Inactive'].includes(mp.availability_status) ? statusCfg.color : 'bg-rose-100 text-rose-700 border-rose-200'}`}>
                           <div className={`w-1.5 h-1.5 rounded-full ${['Tersedia', 'Bertugas', 'Inactive'].includes(mp.availability_status) ? statusCfg.dot : 'bg-rose-500'}`} />
                           <span>{['Tersedia', 'Bertugas', 'Inactive'].includes(mp.availability_status) ? statusCfg.label : 'Tidak Tersedia'}</span>
+                        </span>
+                      </td>
+                      <td className="px-4 py-3">
+                        <span className={`inline-flex items-center space-x-1.5 text-xs font-semibold px-2.5 py-1 rounded-full border ${mp.attendance_status === 'Hadir' ? 'bg-emerald-100 text-emerald-700 border-emerald-200' : mp.attendance_status === 'Libur / Tidak Hadir' ? 'bg-slate-100 text-slate-600 border-slate-200' : 'bg-amber-100 text-amber-700 border-amber-200'}`}>
+                          <div className={`w-1.5 h-1.5 rounded-full ${mp.attendance_status === 'Hadir' ? 'bg-emerald-500' : mp.attendance_status === 'Libur / Tidak Hadir' ? 'bg-slate-400' : 'bg-amber-500'}`} />
+                          <span>{mp.attendance_status}</span>
                         </span>
                       </td>
                       <td className="px-4 py-3">

@@ -137,8 +137,16 @@ export const getAvailability = async (req, res) => {
         statusColor = 'Libur';
       } else if (isBusy) {
         statusColor = 'Bertugas';
+      }
+
+      // Calculate synchronized attendance status
+      let kehadiranStatus = 'Hadir'; // Default on weekdays
+      if (!mp.is_active) {
+        kehadiranStatus = 'Tidak Aktif';
+      } else if (absensiJenis) {
+        kehadiranStatus = statusColor; // e.g. Cuti, Sakit
       } else if (isOffday) {
-        statusColor = 'Libur'; // Default jika weekend/libur dan tidak ada status absen lain
+        kehadiranStatus = isBusy ? 'Hadir' : 'Libur / Tidak Hadir';
       }
 
       return {
@@ -147,12 +155,16 @@ export const getAvailability = async (req, res) => {
         name: mp.name,
         position: mp.position,
         employee_type: mp.employee_type,
-        divisi: mp.divisi,
+        divisi: mp.divisi?.nama_divisi || 'N/A',
+        is_active: mp.is_active,
         availability_status: statusColor,
-        absensi: mp.absensi,
-        next_available: nextAvailable,
-        active_programs: mp.wp_memberships.map(m => m.program),
-        is_active: mp.is_active
+        attendance_status: kehadiranStatus,
+        current_program: isBusy ? activeProgram.program.nama_program : '-',
+        current_program_date: isBusy ? 
+          `${new Date(activeProgram.program.start_date).toLocaleDateString('id-ID')} - ${new Date(activeProgram.program.end_date).toLocaleDateString('id-ID')}` 
+          : '-',
+        next_available_date: nextAvailable ? new Date(nextAvailable).toLocaleDateString('id-ID') : 'Sekarang',
+        absensi: mp.absensi
       };
     });
 
