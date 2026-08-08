@@ -406,8 +406,8 @@ export default function ManpowerAvailabilityBoard() {
                         </span>
                       </td>
                       <td className="px-4 py-3">
-                        <span className={`inline-flex items-center space-x-1.5 text-xs font-semibold px-2.5 py-1 rounded-full border ${mp.attendance_status === 'Hadir' ? 'bg-emerald-100 text-emerald-700 border-emerald-200' : mp.attendance_status === 'Libur / Tidak Hadir' ? 'bg-slate-100 text-slate-600 border-slate-200' : 'bg-amber-100 text-amber-700 border-amber-200'}`}>
-                          <div className={`w-1.5 h-1.5 rounded-full ${mp.attendance_status === 'Hadir' ? 'bg-emerald-500' : mp.attendance_status === 'Libur / Tidak Hadir' ? 'bg-slate-400' : 'bg-amber-500'}`} />
+                        <span className={`inline-flex items-center space-x-1.5 text-xs font-semibold px-2.5 py-1 rounded-full border ${mp.attendance_status === 'Hadir' ? 'bg-emerald-100 text-emerald-700 border-emerald-200' : mp.attendance_status === 'Tidak Hadir' ? 'bg-slate-100 text-slate-600 border-slate-200' : 'bg-amber-100 text-amber-700 border-amber-200'}`}>
+                          <div className={`w-1.5 h-1.5 rounded-full ${mp.attendance_status === 'Hadir' ? 'bg-emerald-500' : mp.attendance_status === 'Tidak Hadir' ? 'bg-slate-400' : 'bg-amber-500'}`} />
                           <span>{mp.attendance_status}</span>
                         </span>
                       </td>

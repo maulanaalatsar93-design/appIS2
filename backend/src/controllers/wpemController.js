@@ -144,9 +144,9 @@ export const getAvailability = async (req, res) => {
       if (!mp.is_active) {
         kehadiranStatus = 'Tidak Aktif';
       } else if (absensiJenis) {
-        kehadiranStatus = statusColor; // e.g. Cuti, Sakit
+        kehadiranStatus = statusColor === 'Libur' ? 'Tidak Hadir' : statusColor; // e.g. Cuti, Sakit
       } else if (isOffday) {
-        kehadiranStatus = isBusy ? 'Hadir' : 'Libur / Tidak Hadir';
+        kehadiranStatus = isBusy ? 'Hadir' : 'Tidak Hadir';
       }
       const activeProgram = isBusy ? mp.wp_memberships[0] : null;
 
