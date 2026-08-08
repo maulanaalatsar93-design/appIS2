@@ -29,14 +29,14 @@ export const createKehadiran = async (req, res) => {
       return res.status(400).json({ message: 'Lengkapi semua field wajib.' });
     }
 
-    // Set proper UTC boundaries for start and end dates based on input date strings
-    const startObj = new Date(start_date);
-    const endObj = new Date(end_date);
-    
     // Asumsikan start_date dan end_date formatnya "YYYY-MM-DD"
+    // Ekstrak langsung dari string untuk menghindari pergeseran zona waktu server
+    const [startYear, startMonth, startDay] = start_date.split('-').map(Number);
+    const [endYear, endMonth, endDay] = end_date.split('-').map(Number);
+
     // Konversi ke UTC midnight (00:00:00) dan end of day (23:59:59)
-    const tanggal_mulai = new Date(Date.UTC(startObj.getFullYear(), startObj.getMonth(), startObj.getDate(), 0, 0, 0, 0));
-    const tanggal_selesai = new Date(Date.UTC(endObj.getFullYear(), endObj.getMonth(), endObj.getDate(), 23, 59, 59, 999));
+    const tanggal_mulai = new Date(Date.UTC(startYear, startMonth - 1, startDay, 0, 0, 0, 0));
+    const tanggal_selesai = new Date(Date.UTC(endYear, endMonth - 1, endDay, 23, 59, 59, 999));
 
     const newRecord = await prisma.statusKehadiran.create({
       data: {

@@ -550,7 +550,8 @@ export const getDashboardSummary = async (req, res) => {
         description: w.description,
         tanggal_dibuat: w.tanggal_dibuat,
         status: w.status,
-        equipment: w.equipment
+        equipment: w.equipment,
+        pabrik_name: pabriks.find(p => p.id === w.pabrik_id)?.nama_pabrik || '-'
       }));
 
       return {
@@ -817,6 +818,16 @@ export const getManpowerList = async (req, res) => {
 };
 
 export const getNotifications = async (req, res) => {
+  if (req.query.debug_shofwan) {
+    const shofwan = await prisma.manPower.findFirst({
+      where: { name: { contains: 'Shofwan' } },
+      include: {
+        absensi: true,
+        wp_memberships: { include: { program: true } }
+      }
+    });
+    return res.json(shofwan);
+  }
   try {
     const user = req.user; // from authenticateToken middleware
     if (!user || !user.id) {
