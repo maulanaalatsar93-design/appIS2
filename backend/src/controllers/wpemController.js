@@ -4,6 +4,46 @@ import path from 'path';
 import fs from 'fs';
 
 // ─────────────────────────────────────────────
+// DATA: HARI LIBUR NASIONAL INDONESIA 2025 & 2026
+// ─────────────────────────────────────────────
+const INDONESIA_HOLIDAYS = {
+  '2025-01-01': 'Tahun Baru 2025',
+  '2025-01-27': 'Isra Mikraj Nabi Muhammad SAW',
+  '2025-01-29': 'Tahun Baru Imlek 2576',
+  '2025-03-29': 'Hari Raya Nyepi',
+  '2025-03-31': 'Idul Fitri 1446 H (Hari 1)',
+  '2025-04-01': 'Idul Fitri 1446 H (Hari 2)',
+  '2025-04-18': 'Wafat Isa Almasih',
+  '2025-04-20': 'Hari Paskah',
+  '2025-05-01': 'Hari Buruh Internasional',
+  '2025-05-12': 'Hari Raya Waisak 2569',
+  '2025-05-29': 'Kenaikan Isa Almasih',
+  '2025-06-01': 'Hari Lahir Pancasila',
+  '2025-06-06': 'Idul Adha 1446 H',
+  '2025-06-27': 'Tahun Baru Islam 1447 H',
+  '2025-08-17': 'Hari Kemerdekaan RI',
+  '2025-09-05': 'Maulid Nabi Muhammad SAW',
+  '2025-12-25': 'Hari Raya Natal',
+  '2025-12-26': 'Cuti Bersama Natal',
+  '2026-01-01': 'Tahun Baru 2026',
+  '2026-01-16': 'Isra Mikraj Nabi Muhammad SAW',
+  '2026-02-17': 'Tahun Baru Imlek 2577',
+  '2026-03-19': 'Hari Raya Nyepi',
+  '2026-03-20': 'Idul Fitri 1447 H (Hari 1)',
+  '2026-03-21': 'Idul Fitri 1447 H (Hari 2)',
+  '2026-04-03': 'Wafat Isa Almasih',
+  '2026-05-01': 'Hari Buruh Internasional',
+  '2026-05-14': 'Kenaikan Isa Almasih',
+  '2026-05-31': 'Hari Raya Waisak 2570',
+  '2026-06-01': 'Hari Lahir Pancasila',
+  '2026-06-26': 'Idul Adha 1447 H',
+  '2026-07-17': 'Tahun Baru Islam 1448 H',
+  '2026-08-17': 'Hari Kemerdekaan RI',
+  '2026-09-25': 'Maulid Nabi Muhammad SAW',
+  '2026-12-25': 'Hari Raya Natal',
+};
+
+// ─────────────────────────────────────────────
 // AVAILABILITY BOARD
 // ─────────────────────────────────────────────
 export const getAvailability = async (req, res) => {
@@ -11,6 +51,14 @@ export const getAvailability = async (req, res) => {
     const { startDate, endDate, division_id, division_ids, status } = req.query;
     const start = startDate ? new Date(startDate) : new Date();
     const end = endDate ? new Date(endDate) : new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+
+    // Format start date as local YYYY-MM-DD to accurately check weekends/holidays in Indonesia timezone
+    const offset = 7 * 60 * 60 * 1000; // WIB offset
+    const localStart = new Date(start.getTime() + offset);
+    const startStr = localStart.toISOString().split('T')[0];
+    const isWeekend = localStart.getUTCDay() === 0 || localStart.getUTCDay() === 6; // Sunday or Saturday
+    const isHoliday = !!INDONESIA_HOLIDAYS[startStr];
+    const isOffday = isWeekend || isHoliday;
 
     const where = { is_active: true };
     const divFilter = division_ids || division_id;
@@ -59,18 +107,39 @@ export const getAvailability = async (req, res) => {
     const enriched = manpowerList.map(mp => {
       const hasAbsensi = mp.absensi.length > 0;
       const isBusy = mp.wp_memberships.length > 0;
-      const absensiJenis = hasAbsensi ? mp.absensi[0].jenis : null;
+      const absensiJenis = hasAbsensi ? (mp.absensi[0].jenis || '').toLowerCase().trim() : null;
       const nextAvailable = hasAbsensi
         ? mp.absensi.reduce((max, a) => a.tanggal_selesai > max ? a.tanggal_selesai : max, mp.absensi[0].tanggal_selesai)
         : null;
 
-      let statusColor = 'Available'; // default
-      if (!mp.is_active) statusColor = 'Inactive';
-      else if (absensiJenis === 'Cuti' || absensiJenis === 'Sakit' || absensiJenis === 'Izin') statusColor = 'Cuti/Sakit';
-      else if (absensiJenis === 'Training') statusColor = 'Training';
-      else if (absensiJenis === 'DinasDalamNegeri' || absensiJenis === 'DinasLuarNegeri') statusColor = 'Dinas';
-      else if (absensiJenis === 'Referral') statusColor = 'Dinas';
-      else if (isBusy) statusColor = 'Bertugas';
+      let statusColor = 'Hadir'; // default
+
+      if (!mp.is_active) {
+        statusColor = 'Inactive';
+      } else if (absensiJenis === 'cuti') {
+        // Cuti sabtu/minggu/libur nasional = Offday / Libur
+        statusColor = isOffday ? 'Libur' : 'Cuti';
+      } else if (absensiJenis === 'sakit') {
+        statusColor = 'Sakit';
+      } else if (absensiJenis === 'izin') {
+        statusColor = 'Izin';
+      } else if (absensiJenis === 'training') {
+        statusColor = 'Training';
+      } else if (absensiJenis === 'dinas dalam negeri' || absensiJenis === 'dinasdalamnegeri') {
+        statusColor = 'DinasDalamNegeri';
+      } else if (absensiJenis === 'dinas luar negeri' || absensiJenis === 'dinasluarnegeri') {
+        statusColor = 'DinasLuarNegeri';
+      } else if (absensiJenis === 'referral') {
+        statusColor = 'Referral';
+      } else if (absensiJenis === 'alpha/tanpa keterangan' || absensiJenis === 'alpha' || absensiJenis === 'alpa') {
+        statusColor = 'Alpha';
+      } else if (absensiJenis === 'libur') {
+        statusColor = 'Libur';
+      } else if (isBusy) {
+        statusColor = 'Bertugas';
+      } else if (isOffday) {
+        statusColor = 'Libur'; // Default jika weekend/libur dan tidak ada status absen lain
+      }
 
       return {
         id: mp.id,
