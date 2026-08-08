@@ -4,6 +4,8 @@ import ScorecardGroup from '../components/ui/ScorecardGroup';
 import FloatingFilterPill from '../components/ui/FloatingFilterPill';
 import { Filter, X, Loader2, Download, FileText, FileSpreadsheet, Info, CheckCircle2, AlertCircle, HardHat, Activity } from 'lucide-react';
 import { getDashboardSummary } from '../services/dashboardService';
+import logoImg from '../assets/logo.png';
+import brandIconImg from '../assets/brand-icon.png';
 import {
   exportDashboardPDF, exportDashboardExcel,
   exportProgramPDF, exportProgramExcel,
@@ -216,22 +218,6 @@ export default function PublicDashboard({ onBack }) {
 
   return (
     <div className="p-6 space-y-6 bg-[#F0F3F8] min-h-screen text-[#0F172A] relative print:bg-white print:p-0 print:space-y-4">
-
-      {/* Print Template Header */}
-      <div className="hidden print:flex justify-between items-center border-b-2 border-slate-800 pb-2 mb-4">
-        <div className="w-1/3 flex items-center gap-2">
-          <div className="font-black text-xl tracking-tighter"><span className="text-blue-700">PUPUK</span> <span className="text-orange-500">KALTIM</span></div>
-        </div>
-        <div className="w-1/3 text-center">
-          <h1 className="text-sm font-black text-slate-800 tracking-wider">DEPARTEMEN INSPEKSI TEKNIK 2</h1>
-          <p className="text-[10px] font-semibold text-slate-600">PT Pupuk Kalimantan Timur</p>
-        </div>
-        <div className="w-1/3 flex justify-end items-center">
-          <div className="w-10 h-10 rounded-full border-2 border-orange-400/50 flex items-center justify-center bg-blue-50/50">
-            <Activity className="w-6 h-6 text-blue-600" />
-          </div>
-        </div>
-      </div>
 
       {/* STANDARD FLOATING COLLAPSIBLE PILL FILTER (Hidden on print) */}
       <div className="print:hidden">
@@ -579,32 +565,47 @@ export default function PublicDashboard({ onBack }) {
       )}
 
       {/* FORMAL PRINT REPORT LAYOUT */}
-      <div className="hidden print:block w-full mt-6">
-        <div className="text-center mb-8">
-          <h2 className="text-xl font-black text-slate-800 uppercase tracking-widest border-b-2 border-slate-300 inline-block pb-1">
-            LAPORAN BULANAN KINERJA KEANDALAN OPERASIONAL
+      <div className="hidden print:block w-full mt-6 px-10">
+        
+        {/* Report Header with Real Logos */}
+        <div className="flex justify-between items-center border-b-2 border-slate-800 pb-4 mb-8">
+          <div className="w-1/3 flex items-center">
+            <img src={logoImg} alt="Pupuk Kaltim" className="h-10 object-contain" />
+          </div>
+          <div className="w-1/3 text-center">
+            <h1 className="text-base font-black text-slate-800 tracking-wider">DEPARTEMEN INSPEKSI TEKNIK 2</h1>
+            <p className="text-xs font-semibold text-slate-600">PT Pupuk Kalimantan Timur</p>
+          </div>
+          <div className="w-1/3 flex justify-end items-center">
+            <img src={brandIconImg} alt="App Icon" className="h-14 object-contain animate-[spin_10s_linear_infinite]" />
+          </div>
+        </div>
+
+        <div className="text-center mb-10">
+          <h2 className="text-2xl font-black text-slate-800 uppercase tracking-widest border-b-[3px] border-slate-300 inline-block pb-2">
+            LAPORAN KINERJA KEANDALAN OPERASIONAL
           </h2>
-          <p className="text-sm font-semibold text-slate-600 mt-2">
-            Periode: {month !== 'Semua Bulan' ? MONTH_NAMES[month] || month : 'Semua Bulan'} {year !== 'Semua' ? year : 'Semua Tahun'} | Bagian: {workCenter}
+          <p className="text-base font-semibold text-slate-600 mt-3">
+            Periode: {month !== 'Semua Bulan' ? MONTH_NAMES[month] || month : 'Tahun'} {year !== 'Semua' ? year : 'Semua Tahun'} | Area: {workCenter}
           </p>
         </div>
 
         {/* KPI Table */}
-        <div className="mb-8">
-          <h3 className="text-sm font-bold text-slate-800 mb-2 border-l-4 border-blue-600 pl-2">1. RINGKASAN EKSEKUTIF (KPI)</h3>
-          <table className="w-full text-xs text-left border-collapse border border-slate-300">
+        <div className="mb-10">
+          <h3 className="text-base font-bold text-slate-800 mb-3 border-l-4 border-blue-600 pl-3">1. RINGKASAN EKSEKUTIF (KPI)</h3>
+          <table className="w-full text-sm text-left border-collapse border border-slate-300 shadow-sm">
             <thead>
               <tr className="bg-slate-100">
-                <th className="border border-slate-300 p-2 w-1/2" colSpan="3">Work Order (WO)</th>
-                <th className="border border-slate-300 p-2 w-1/2" colSpan="3">Rekomendasi SAP</th>
+                <th className="border border-slate-300 p-3 w-1/2" colSpan="3">Work Order (WO)</th>
+                <th className="border border-slate-300 p-3 w-1/2" colSpan="3">Rekomendasi SAP</th>
               </tr>
               <tr className="bg-slate-50">
-                <th className="border border-slate-300 p-2 text-center text-blue-700">Total Semua PM</th>
-                <th className="border border-slate-300 p-2 text-center text-blue-700">Total PM 04</th>
-                <th className="border border-slate-300 p-2 text-center text-blue-700">Total PM 02+</th>
-                <th className="border border-slate-300 p-2 text-center text-teal-700">Total Rekomendasi</th>
-                <th className="border border-slate-300 p-2 text-center text-teal-700">Total M04</th>
-                <th className="border border-slate-300 p-2 text-center text-teal-700">Total M07</th>
+                <th className="border border-slate-300 p-3 text-center text-blue-800 font-bold">Total Semua PM</th>
+                <th className="border border-slate-300 p-3 text-center text-blue-800 font-bold">Total PM 04</th>
+                <th className="border border-slate-300 p-3 text-center text-blue-800 font-bold">Total PM 02+</th>
+                <th className="border border-slate-300 p-3 text-center text-teal-800 font-bold">Total Rekomendasi</th>
+                <th className="border border-slate-300 p-3 text-center text-teal-800 font-bold">Total M04</th>
+                <th className="border border-slate-300 p-3 text-center text-teal-800 font-bold">Total M07</th>
               </tr>
             </thead>
             <tbody>
@@ -621,86 +622,103 @@ export default function PublicDashboard({ onBack }) {
         </div>
 
         {/* Data Tables for Print */}
-        <div className="mb-6 print-break-avoid">
-          <h3 className="text-sm font-bold text-slate-800 mb-2 border-l-4 border-blue-600 pl-2">2. KOMPARASI KINERJA PER PABRIK</h3>
-          <table className="w-full text-xs text-left border-collapse border border-slate-300">
+        <div className="mb-8 print-break-avoid">
+          <h3 className="text-base font-bold text-slate-800 mb-3 border-l-4 border-blue-600 pl-3">2. KINERJA PER PABRIK / AREA</h3>
+          <table className="w-full text-sm text-left border-collapse border border-slate-300 shadow-sm">
             <thead>
               <tr className="bg-slate-100">
-                <th className="border border-slate-300 p-2 text-slate-800 w-1/3">Area Pabrik</th>
-                <th className="border border-slate-300 p-2 text-blue-700 w-1/3">Total Work Order</th>
-                <th className="border border-slate-300 p-2 text-teal-700 w-1/3">Rilis Rekomendasi</th>
+                <th className="border border-slate-300 p-3 text-slate-800 w-1/3">Area Pabrik</th>
+                <th className="border border-slate-300 p-3 text-blue-800 w-1/3 text-center">Total Work Order</th>
+                <th className="border border-slate-300 p-3 text-teal-800 w-1/3 text-center">Rilis Rekomendasi</th>
               </tr>
             </thead>
             <tbody>
-              {summary.factoryComparison?.categories?.map((factory, idx) => (
-                <tr key={factory} className="border-b border-slate-200">
-                  <td className="border border-slate-300 p-2 font-semibold">{factory}</td>
-                  <td className="border border-slate-300 p-2">{summary.factoryComparison.woData[idx]?.toLocaleString('id-ID') || 0}</td>
-                  <td className="border border-slate-300 p-2">{summary.factoryComparison.rekData[idx]?.toLocaleString('id-ID') || 0}</td>
-                </tr>
-              ))}
+              {summary.factoryComparison?.categories?.map((factory, idx) => {
+                const wo = summary.factoryComparison.woData[idx] || 0;
+                const rek = summary.factoryComparison.rekData[idx] || 0;
+                // Sembunyikan pabrik yang nilainya nol jika filter spesifik diaktifkan
+                if (workCenter !== 'Semua Bagian' && wo === 0 && rek === 0) return null;
+                
+                return (
+                  <tr key={factory} className="border-b border-slate-200 even:bg-slate-50">
+                    <td className="border border-slate-300 p-3 font-semibold text-slate-700">{factory}</td>
+                    <td className="border border-slate-300 p-3 text-center font-medium">{wo.toLocaleString('id-ID')}</td>
+                    <td className="border border-slate-300 p-3 text-center font-medium">{rek.toLocaleString('id-ID')}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="mb-8 print-break-avoid">
+          <h3 className="text-base font-bold text-slate-800 mb-3 border-l-4 border-blue-600 pl-3">
+            3. TREN KINERJA {month !== 'Semua Bulan' ? `BULAN ${MONTH_NAMES[month]?.toUpperCase()}` : 'BULANAN'}
+          </h3>
+          <table className="w-full text-sm text-left border-collapse border border-slate-300 shadow-sm">
+            <thead>
+              <tr className="bg-slate-100">
+                <th className="border border-slate-300 p-3 text-slate-800 w-1/3">Bulan</th>
+                <th className="border border-slate-300 p-3 text-blue-800 w-1/3 text-center">Total Work Order</th>
+                <th className="border border-slate-300 p-3 text-teal-800 w-1/3 text-center">Total Rekomendasi</th>
+              </tr>
+            </thead>
+            <tbody>
+              {['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'].map((monthName, idx) => {
+                const isSelectedMonth = String(idx + 1) === month;
+                if (month !== 'Semua Bulan' && !isSelectedMonth) return null;
+
+                const wo = summary.jobLoadTrend?.woSeries?.[idx] || 0;
+                const rek = summary.jobLoadTrend?.rekSeries?.[idx] || 0;
+
+                return (
+                  <tr key={monthName} className={`border-b border-slate-200 ${isSelectedMonth ? 'bg-blue-50/50' : 'even:bg-slate-50'}`}>
+                    <td className="border border-slate-300 p-3 font-semibold text-slate-700">{monthName}</td>
+                    <td className="border border-slate-300 p-3 text-center font-medium">{wo.toLocaleString('id-ID')}</td>
+                    <td className="border border-slate-300 p-3 text-center font-medium">{rek.toLocaleString('id-ID')}</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
 
         <div className="mb-6 print-break-avoid">
-          <h3 className="text-sm font-bold text-slate-800 mb-2 border-l-4 border-blue-600 pl-2">3. TREN KINERJA BULANAN</h3>
-          <table className="w-full text-xs text-left border-collapse border border-slate-300">
-            <thead>
-              <tr className="bg-slate-100">
-                <th className="border border-slate-300 p-2 text-slate-800 w-1/3">Bulan</th>
-                <th className="border border-slate-300 p-2 text-blue-700 w-1/3">Total Work Order</th>
-                <th className="border border-slate-300 p-2 text-teal-700 w-1/3">Total Rekomendasi</th>
-              </tr>
-            </thead>
-            <tbody>
-              {['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'].map((monthName, idx) => (
-                <tr key={monthName} className="border-b border-slate-200">
-                  <td className="border border-slate-300 p-2 font-semibold">{monthName}</td>
-                  <td className="border border-slate-300 p-2">{summary.jobLoadTrend?.woSeries?.[idx]?.toLocaleString('id-ID') || 0}</td>
-                  <td className="border border-slate-300 p-2">{summary.jobLoadTrend?.rekSeries?.[idx]?.toLocaleString('id-ID') || 0}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        <div className="mb-4 print-break-avoid">
-          <h3 className="text-sm font-bold text-slate-800 mb-2 border-l-4 border-blue-600 pl-2">4. DISTRIBUSI SPESIFIK</h3>
-          <div className="flex gap-6">
-            <table className="w-1/2 text-xs text-left border-collapse border border-slate-300">
+          <h3 className="text-base font-bold text-slate-800 mb-3 border-l-4 border-blue-600 pl-3">4. DISTRIBUSI TIPE ORDER & REKOMENDASI</h3>
+          <div className="flex gap-8">
+            <table className="w-1/2 text-sm text-left border-collapse border border-slate-300 shadow-sm">
               <thead>
                 <tr className="bg-slate-100">
-                  <th className="border border-slate-300 p-2 text-slate-800">Tipe Work Order</th>
-                  <th className="border border-slate-300 p-2 text-blue-700">Jumlah</th>
+                  <th className="border border-slate-300 p-3 text-slate-800">Tipe Work Order</th>
+                  <th className="border border-slate-300 p-3 text-blue-800 text-center">Jumlah</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td className="border border-slate-300 p-2 font-semibold">PM 04 (Predictive)</td>
-                  <td className="border border-slate-300 p-2">{summary.kpi?.pm04Count?.toLocaleString('id-ID') || 0}</td>
+                <tr className="border-b border-slate-200">
+                  <td className="border border-slate-300 p-3 font-semibold text-slate-700">PM 04 (Predictive)</td>
+                  <td className="border border-slate-300 p-3 text-center font-medium">{summary.kpi?.pm04Count?.toLocaleString('id-ID') || 0}</td>
                 </tr>
                 <tr>
-                  <td className="border border-slate-300 p-2 font-semibold">PM 02+ (Corrective dsb)</td>
-                  <td className="border border-slate-300 p-2">{summary.kpi?.pm02PlusCount?.toLocaleString('id-ID') || 0}</td>
+                  <td className="border border-slate-300 p-3 font-semibold text-slate-700">PM 02+ (Corrective, dll)</td>
+                  <td className="border border-slate-300 p-3 text-center font-medium">{summary.kpi?.pm02PlusCount?.toLocaleString('id-ID') || 0}</td>
                 </tr>
               </tbody>
             </table>
-            <table className="w-1/2 text-xs text-left border-collapse border border-slate-300">
+            <table className="w-1/2 text-sm text-left border-collapse border border-slate-300 shadow-sm">
               <thead>
                 <tr className="bg-slate-100">
-                  <th className="border border-slate-300 p-2 text-slate-800">Tipe Rekomendasi</th>
-                  <th className="border border-slate-300 p-2 text-teal-700">Jumlah</th>
+                  <th className="border border-slate-300 p-3 text-slate-800">Tipe Rekomendasi</th>
+                  <th className="border border-slate-300 p-3 text-teal-800 text-center">Jumlah</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td className="border border-slate-300 p-2 font-semibold">M04</td>
-                  <td className="border border-slate-300 p-2">{summary.kpi?.m04Count?.toLocaleString('id-ID') || 0}</td>
+                <tr className="border-b border-slate-200">
+                  <td className="border border-slate-300 p-3 font-semibold text-slate-700">M04</td>
+                  <td className="border border-slate-300 p-3 text-center font-medium">{summary.kpi?.m04Count?.toLocaleString('id-ID') || 0}</td>
                 </tr>
                 <tr>
-                  <td className="border border-slate-300 p-2 font-semibold">M07</td>
-                  <td className="border border-slate-300 p-2">{summary.kpi?.m07Count?.toLocaleString('id-ID') || 0}</td>
+                  <td className="border border-slate-300 p-3 font-semibold text-slate-700">M07</td>
+                  <td className="border border-slate-300 p-3 text-center font-medium">{summary.kpi?.m07Count?.toLocaleString('id-ID') || 0}</td>
                 </tr>
               </tbody>
             </table>
