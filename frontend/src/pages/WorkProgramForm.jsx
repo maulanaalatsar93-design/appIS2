@@ -39,6 +39,15 @@ export default function WorkProgramForm({ onBack, onSaved }) {
   // Fetch Manpower Availability when dates change
   useEffect(() => {
     if (!form.start_date || !form.end_date) return;
+
+    // Hitung otomatis estimasi durasi (hari)
+    const sDate = new Date(form.start_date);
+    const eDate = new Date(form.end_date);
+    if (eDate >= sDate) {
+      const diffTime = Math.abs(eDate - sDate);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; // +1 karena dihitung inklusif
+      setForm(prev => ({ ...prev, estimated_duration: diffDays }));
+    }
     const fetchMp = async () => {
       setLoadingMp(true);
       const params = new URLSearchParams({ startDate: form.start_date, endDate: form.end_date });
