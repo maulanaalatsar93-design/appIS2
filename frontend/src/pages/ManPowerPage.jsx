@@ -632,19 +632,28 @@ export default function ManPowerPage({ initialView = 'availability' }) {
 
       {/* FORMAL PRINT REPORT LAYOUT: REKAP IZIN */}
       {viewMode === 'recap' && (
-        <div className="hidden print:block w-full mt-6 px-10">
+        <div className="hidden print:block w-full mt-6 px-10 pb-20 relative">
           {/* Report Header with Real Logos */}
-          <div className="flex justify-between items-center border-b-2 border-slate-800 pb-4 mb-8">
-            <div className="w-1/3 flex items-center">
-              {/* Empty space for alignment */}
+          <div className="flex justify-between items-start pb-4 mb-8">
+            <div className="w-1/4 flex items-start">
+              <img src={pktLogoImg} alt="Pupuk Kaltim" className="h-10 object-contain" />
             </div>
-            <div className="w-1/3 text-center">
-              <h1 className="text-base font-black text-slate-800 tracking-wider">DEPARTEMEN INSPEKSI TEKNIK 2</h1>
-              <p className="text-xs font-semibold text-slate-600">PT Pupuk Kalimantan Timur</p>
+            <div className="w-2/4 flex flex-col items-center text-center">
+              <h1 className="text-sm font-bold text-[#0F2052] leading-tight tracking-wide uppercase">DEPARTEMEN INSPEKSI</h1>
+              <h1 className="text-sm font-bold text-[#0F2052] leading-tight tracking-wide uppercase">TEKNIK 2</h1>
+              <p className="text-[10px] font-semibold text-slate-500 mt-1">PT Pupuk Kalimantan Timur</p>
+              <div className="w-full max-w-[280px] border-b-2 border-[#1A4BC4] mt-3"></div>
             </div>
-            <div className="w-1/3 flex justify-end items-center">
-              <img src={brandIconImg} alt="App Icon" className="h-14 object-contain" />
+            <div className="w-1/4 flex justify-end items-start">
+              <img src={brandIconImg} alt="App Icon" className="h-12 object-contain" />
             </div>
+          </div>
+
+          {/* Print Footer */}
+          <div className="fixed bottom-0 left-0 w-full px-10 pb-8 hidden print:flex justify-between items-center text-[10px] text-slate-500 font-medium bg-white">
+            <span className="w-1/3 text-left">Departemen Inspeksi Teknik 2</span>
+            <span className="w-1/3 text-center">PT Pupuk Kalimantan Timur</span>
+            <span className="w-1/3 text-right text-slate-700">Halaman <strong className="font-bold">1</strong></span>
           </div>
 
           <div className="text-left mb-6">
