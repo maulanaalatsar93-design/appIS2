@@ -8,6 +8,8 @@ import RekapIzinView from '../components/attendance/RekapIzinView';
 import ManpowerAvailabilityBoard from './ManpowerAvailabilityBoard';
 import { MOCK_STATUSES, INDONESIA_HOLIDAYS } from '../constants/holidays';
 import { AuthContext } from '../context/AuthContext';
+import logoImg from '../assets/logo.png';
+import brandIconImg from '../assets/brand-icon.png';
 
 // 41 Seed Personnel
 const INITIAL_EMPLOYEES = [
@@ -283,8 +285,14 @@ export default function ManPowerPage({ initialView = 'availability' }) {
     }
   };
 
+  const dinasData = filteredChanges.filter(r => ['Dinas Dalam Negeri', 'Dinas Luar Negeri', 'Training'].includes(r.jenis || MOCK_STATUSES.find(s => s.id === r.status_id)?.name));
+  const cutiData = filteredChanges.filter(r => (r.jenis || MOCK_STATUSES.find(s => s.id === r.status_id)?.name) === 'Cuti');
+  const ijinData = filteredChanges.filter(r => (r.jenis || MOCK_STATUSES.find(s => s.id === r.status_id)?.name) === 'Izin' || (r.jenis || MOCK_STATUSES.find(s => s.id === r.status_id)?.name) === 'Alpha');
+  const sakitData = filteredChanges.filter(r => (r.jenis || MOCK_STATUSES.find(s => s.id === r.status_id)?.name) === 'Sakit');
+
   return (
-    <div className="p-4 md:p-6 space-y-6 bg-industrial-background min-h-screen text-industrial-text relative">
+    <div className="p-6 space-y-6 bg-industrial-background min-h-screen relative print:bg-white print:p-0 print:space-y-4">
+      <div className="print:hidden space-y-6">
       {/* FLOATING FILTER */}
       <div
         className={`fixed bottom-6 right-6 z-40 flex items-center gap-1 bg-white/90 backdrop-blur-md border border-industrial-border shadow-lg rounded-full p-1 transition-all duration-300 ${isFilterCollapsed ? 'scale-95 opacity-90' : 'scale-100 opacity-100'
@@ -616,6 +624,238 @@ export default function ManPowerPage({ initialView = 'availability' }) {
               </div>
             </form>
           </div>
+        </div>
+      )}
+      
+      </div> {/* End of print:hidden div */}
+
+      {/* FORMAL PRINT REPORT LAYOUT: REKAP IZIN */}
+      {viewMode === 'rekap' && (
+        <div className="hidden print:block w-full mt-6 px-10">
+          {/* Report Header with Real Logos */}
+          <div className="flex justify-between items-center border-b-2 border-slate-800 pb-4 mb-8">
+            <div className="w-1/3 flex items-center">
+              <img src={logoImg} alt="Pupuk Kaltim" className="h-10 object-contain" />
+            </div>
+            <div className="w-1/3 text-center">
+              <h1 className="text-base font-black text-slate-800 tracking-wider">DEPARTEMEN INSPEKSI TEKNIK 2</h1>
+              <p className="text-xs font-semibold text-slate-600">PT Pupuk Kalimantan Timur</p>
+            </div>
+            <div className="w-1/3 flex justify-end items-center">
+              <img src={brandIconImg} alt="App Icon" className="h-14 object-contain" />
+            </div>
+          </div>
+
+          <div className="text-left mb-6">
+            <h2 className="text-sm font-bold text-slate-800 tracking-wide mb-1">
+              REKAPITULASI KEHADIRAN (PERJALANAN DINAS, TRAINING, CUTI, IJIN, SAKIT)
+            </h2>
+            <p className="text-xs font-semibold text-slate-600">
+              Periode: {filterMonth !== 'all' ? new Date(2026, parseInt(filterMonth)).toLocaleString('id-ID', { month: 'long' }) : 'Semua Bulan'} {filterYear}
+            </p>
+          </div>
+
+          {/* 1.2.1 Perjalanan Dinas / Training */}
+          <div className="mb-6 print-break-avoid">
+            <h3 className="text-xs font-bold text-slate-800 mb-1">1.2.1 Perjalanan Dinas / Training</h3>
+            <p className="text-[10px] text-slate-600 mb-2">Realisasi perjalanan dinas & training untuk periode ini ditunjukkan pada tabel berikut.</p>
+            <table className="w-full text-[10px] text-left border-collapse border border-slate-400">
+              <thead>
+                <tr className="bg-slate-100">
+                  <th className="border border-slate-400 p-1.5 text-center w-8">No</th>
+                  <th className="border border-slate-400 p-1.5">Nama</th>
+                  <th className="border border-slate-400 p-1.5">Jabatan</th>
+                  <th className="border border-slate-400 p-1.5">Keterangan Dinas / Training</th>
+                  <th className="border border-slate-400 p-1.5 text-center w-20">Jumlah Hari</th>
+                </tr>
+              </thead>
+              <tbody>
+                {dinasData.length === 0 ? (
+                  <tr><td colSpan="5" className="border border-slate-400 p-1.5 text-center text-slate-400">Nihil</td></tr>
+                ) : dinasData.map((row, idx) => {
+                  const emp = getEmployee(row.employee_id);
+                  return (
+                    <tr key={idx}>
+                      <td className="border border-slate-400 p-1.5 text-center">{idx + 1}</td>
+                      <td className="border border-slate-400 p-1.5">{emp?.name}</td>
+                      <td className="border border-slate-400 p-1.5">{emp?.position}</td>
+                      <td className="border border-slate-400 p-1.5">{row.jenis} {row.note ? `- ${row.note}` : ''}</td>
+                      <td className="border border-slate-400 p-1.5 text-center">{row.duration}</td>
+                    </tr>
+                  )
+                })}
+                {dinasData.length > 0 && (
+                  <tr className="bg-slate-50 font-bold">
+                    <td colSpan="3" className="border border-slate-400 p-1.5 text-center">Jumlah Karyawan Dinas/Training</td>
+                    <td className="border border-slate-400 p-1.5 text-center">{dinasData.length}</td>
+                    <td className="border border-slate-400 p-1.5 text-center">{dinasData.reduce((acc, curr) => acc + curr.duration, 0)}</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+
+          {/* 1.2.2 Cuti */}
+          <div className="mb-6 print-break-avoid">
+            <h3 className="text-xs font-bold text-slate-800 mb-1">1.2.2 Cuti</h3>
+            <p className="text-[10px] text-slate-600 mb-2">Realisasi cuti untuk periode ini ditunjukkan pada tabel berikut.</p>
+            <table className="w-full text-[10px] text-left border-collapse border border-slate-400">
+              <thead>
+                <tr className="bg-emerald-100/50">
+                  <th className="border border-slate-400 p-1.5 text-center w-8">No</th>
+                  <th className="border border-slate-400 p-1.5">Nama</th>
+                  <th className="border border-slate-400 p-1.5">Jabatan</th>
+                  <th className="border border-slate-400 p-1.5 text-center">Periode Cuti</th>
+                  <th className="border border-slate-400 p-1.5 text-center w-20">Jumlah Hari</th>
+                </tr>
+              </thead>
+              <tbody>
+                {cutiData.length === 0 ? (
+                  <tr><td colSpan="5" className="border border-slate-400 p-1.5 text-center text-slate-400">Nihil</td></tr>
+                ) : cutiData.map((row, idx) => {
+                  const emp = getEmployee(row.employee_id);
+                  return (
+                    <tr key={idx}>
+                      <td className="border border-slate-400 p-1.5 text-center">{idx + 1}</td>
+                      <td className="border border-slate-400 p-1.5">{emp?.name}</td>
+                      <td className="border border-slate-400 p-1.5">{emp?.position}</td>
+                      <td className="border border-slate-400 p-1.5 text-center">{new Date(row.start_date).toLocaleDateString('id-ID')} s/d {new Date(row.end_date).toLocaleDateString('id-ID')}</td>
+                      <td className="border border-slate-400 p-1.5 text-center">{row.duration}</td>
+                    </tr>
+                  )
+                })}
+                {cutiData.length > 0 && (
+                  <tr className="bg-emerald-50 font-bold">
+                    <td colSpan="3" className="border border-slate-400 p-1.5 text-center">Jumlah Karyawan Cuti</td>
+                    <td className="border border-slate-400 p-1.5 text-center">{cutiData.length}</td>
+                    <td className="border border-slate-400 p-1.5 text-center">{cutiData.reduce((acc, curr) => acc + curr.duration, 0)}</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+
+          {/* 1.2.3 Ijin */}
+          <div className="mb-6 print-break-avoid">
+            <h3 className="text-xs font-bold text-slate-800 mb-1">1.2.3 Ijin</h3>
+            <p className="text-[10px] text-slate-600 mb-2">Daftar karyawan yang mengajukan permohonan izin meninggalkan pekerjaan.</p>
+            <table className="w-full text-[10px] text-left border-collapse border border-slate-400">
+              <thead>
+                <tr className="bg-slate-100">
+                  <th className="border border-slate-400 p-1.5 text-center w-8">No</th>
+                  <th className="border border-slate-400 p-1.5">Nama</th>
+                  <th className="border border-slate-400 p-1.5">Jabatan</th>
+                  <th className="border border-slate-400 p-1.5">Keterangan Izin</th>
+                  <th className="border border-slate-400 p-1.5 text-center w-20">Jumlah Hari</th>
+                </tr>
+              </thead>
+              <tbody>
+                {ijinData.length === 0 ? (
+                  <tr><td colSpan="5" className="border border-slate-400 p-1.5 text-center text-slate-400">Nihil</td></tr>
+                ) : ijinData.map((row, idx) => {
+                  const emp = getEmployee(row.employee_id);
+                  return (
+                    <tr key={idx}>
+                      <td className="border border-slate-400 p-1.5 text-center">{idx + 1}</td>
+                      <td className="border border-slate-400 p-1.5">{emp?.name}</td>
+                      <td className="border border-slate-400 p-1.5">{emp?.position}</td>
+                      <td className="border border-slate-400 p-1.5">{row.note || row.jenis}</td>
+                      <td className="border border-slate-400 p-1.5 text-center">{row.duration}</td>
+                    </tr>
+                  )
+                })}
+                {ijinData.length > 0 && (
+                  <tr className="bg-slate-50 font-bold">
+                    <td colSpan="3" className="border border-slate-400 p-1.5 text-center">Jumlah Karyawan Izin</td>
+                    <td className="border border-slate-400 p-1.5 text-center">{ijinData.length}</td>
+                    <td className="border border-slate-400 p-1.5 text-center">{ijinData.reduce((acc, curr) => acc + curr.duration, 0)}</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+
+          {/* 1.2.4 Sakit */}
+          <div className="mb-6 print-break-avoid">
+            <h3 className="text-xs font-bold text-slate-800 mb-1">1.2.4 Sakit</h3>
+            <p className="text-[10px] text-slate-600 mb-2">Daftar karyawan yang sakit.</p>
+            <table className="w-full text-[10px] text-left border-collapse border border-slate-400">
+              <thead>
+                <tr className="bg-slate-100">
+                  <th className="border border-slate-400 p-1.5 text-center w-8">No</th>
+                  <th className="border border-slate-400 p-1.5">Nama</th>
+                  <th className="border border-slate-400 p-1.5">Jabatan</th>
+                  <th className="border border-slate-400 p-1.5">Keterangan</th>
+                  <th className="border border-slate-400 p-1.5 text-center w-20">Jumlah Hari</th>
+                </tr>
+              </thead>
+              <tbody>
+                {sakitData.length === 0 ? (
+                  <tr><td colSpan="5" className="border border-slate-400 p-1.5 text-center text-slate-400">Nihil</td></tr>
+                ) : sakitData.map((row, idx) => {
+                  const emp = getEmployee(row.employee_id);
+                  return (
+                    <tr key={idx}>
+                      <td className="border border-slate-400 p-1.5 text-center">{idx + 1}</td>
+                      <td className="border border-slate-400 p-1.5">{emp?.name}</td>
+                      <td className="border border-slate-400 p-1.5">{emp?.position}</td>
+                      <td className="border border-slate-400 p-1.5">{row.note || 'Sakit'}</td>
+                      <td className="border border-slate-400 p-1.5 text-center">{row.duration}</td>
+                    </tr>
+                  )
+                })}
+                {sakitData.length > 0 && (
+                  <tr className="bg-slate-50 font-bold">
+                    <td colSpan="3" className="border border-slate-400 p-1.5 text-center">Jumlah Karyawan Sakit</td>
+                    <td className="border border-slate-400 p-1.5 text-center">{sakitData.length}</td>
+                    <td className="border border-slate-400 p-1.5 text-center">{sakitData.reduce((acc, curr) => acc + curr.duration, 0)}</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+
+          {/* 1.2.5 Resume Personalia */}
+          <div className="mb-6 print-break-avoid">
+            <h3 className="text-xs font-bold text-slate-800 mb-1">1.2.5 Resume Personalia</h3>
+            <table className="w-1/2 text-[10px] text-left border-collapse border border-slate-400">
+              <thead>
+                <tr className="bg-slate-100">
+                  <th className="border border-slate-400 p-1.5 text-center w-8">No</th>
+                  <th className="border border-slate-400 p-1.5">Keterangan</th>
+                  <th className="border border-slate-400 p-1.5 text-center">Jumlah Karyawan</th>
+                  <th className="border border-slate-400 p-1.5 text-center">Jumlah Hari</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="border border-slate-400 p-1.5 text-center">1</td>
+                  <td className="border border-slate-400 p-1.5">Dinas / Training</td>
+                  <td className="border border-slate-400 p-1.5 text-center">{dinasData.length}</td>
+                  <td className="border border-slate-400 p-1.5 text-center">{dinasData.reduce((acc, curr) => acc + curr.duration, 0)}</td>
+                </tr>
+                <tr>
+                  <td className="border border-slate-400 p-1.5 text-center">2</td>
+                  <td className="border border-slate-400 p-1.5">Cuti</td>
+                  <td className="border border-slate-400 p-1.5 text-center">{cutiData.length}</td>
+                  <td className="border border-slate-400 p-1.5 text-center">{cutiData.reduce((acc, curr) => acc + curr.duration, 0)}</td>
+                </tr>
+                <tr>
+                  <td className="border border-slate-400 p-1.5 text-center">3</td>
+                  <td className="border border-slate-400 p-1.5">Ijin</td>
+                  <td className="border border-slate-400 p-1.5 text-center">{ijinData.length}</td>
+                  <td className="border border-slate-400 p-1.5 text-center">{ijinData.reduce((acc, curr) => acc + curr.duration, 0)}</td>
+                </tr>
+                <tr>
+                  <td className="border border-slate-400 p-1.5 text-center">4</td>
+                  <td className="border border-slate-400 p-1.5">Sakit</td>
+                  <td className="border border-slate-400 p-1.5 text-center">{sakitData.length}</td>
+                  <td className="border border-slate-400 p-1.5 text-center">{sakitData.reduce((acc, curr) => acc + curr.duration, 0)}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
         </div>
       )}
     </div>
