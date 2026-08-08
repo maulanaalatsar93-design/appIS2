@@ -160,12 +160,13 @@ export const getAvailability = async (req, res) => {
         is_active: mp.is_active,
         availability_status: statusColor,
         attendance_status: kehadiranStatus,
-        current_program: isBusy ? activeProgram.program.title : '-',
-        current_program_date: isBusy ? 
+        current_program: isBusy ? (activeProgram?.program?.title || 'Program Aktif') : '-',
+        current_program_date: (isBusy && activeProgram?.program?.start_date && activeProgram?.program?.end_date) ? 
           `${new Date(activeProgram.program.start_date).toLocaleDateString('id-ID')} - ${new Date(activeProgram.program.end_date).toLocaleDateString('id-ID')}` 
           : '-',
         next_available_date: nextAvailable ? new Date(nextAvailable).toLocaleDateString('id-ID') : 'Sekarang',
-        absensi: mp.absensi
+        absensi: mp.absensi,
+        active_programs: mp.wp_memberships.map(m => m.program)
       };
     });
 
