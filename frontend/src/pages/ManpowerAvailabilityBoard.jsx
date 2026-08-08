@@ -4,7 +4,7 @@ import {
   Loader2, Search, Filter, RefreshCw, Users,
   CheckCircle2, Clock, AlertCircle, Plane, BookOpen,
   Activity, XCircle, MapPin, Calendar, Stethoscope,
-  PlaneTakeoff, Globe, Info, UserCheck
+  PlaneTakeoff, Globe, Info, UserCheck, ChevronDown, ChevronUp
 } from 'lucide-react';
 
 const STATUS_CONFIG = {
@@ -39,6 +39,7 @@ export default function ManpowerAvailabilityBoard() {
   const [loading, setLoading] = useState(true);
   const [lastUpdated, setLastUpdated] = useState(null);
   const [isDivDropdownOpen, setIsDivDropdownOpen] = useState(false);
+  const [showInfoBox, setShowInfoBox] = useState(false);
 
   const [filters, setFilters] = useState({
     search: '',
@@ -184,6 +185,73 @@ export default function ManpowerAvailabilityBoard() {
           <RefreshCw className="w-4 h-4" />
           <span>Refresh</span>
         </button>
+      </div>
+
+      {/* Info Banner */}
+      <div className="bg-blue-50 border border-blue-200 rounded-xl overflow-hidden shadow-sm">
+        <button 
+          onClick={() => setShowInfoBox(!showInfoBox)}
+          className="w-full flex items-center justify-between px-4 py-3 bg-blue-100/50 hover:bg-blue-100 transition-colors text-blue-900 focus:outline-none"
+        >
+          <div className="flex items-center space-x-2 font-semibold text-sm">
+            <Info className="w-4 h-4 text-blue-600" />
+            <span>Info: Perbedaan Status Kehadiran dan Ketersediaan</span>
+          </div>
+          {showInfoBox ? <ChevronUp className="w-4 h-4 text-blue-600" /> : <ChevronDown className="w-4 h-4 text-blue-600" />}
+        </button>
+        
+        {showInfoBox && (
+          <div className="p-4 text-sm text-blue-900/80 space-y-3">
+            <p>
+              <strong>Status Kehadiran</strong> menunjukkan kondisi aktual personel pada hari tersebut. Jika <strong>Sabtu/Minggu</strong> dan personel tidak memiliki absensi atau program kerja, maka status otomatis menjadi <strong>Tidak Hadir</strong>. Namun, jika pada hari libur personel mendapat tugas/program kerja, status kehadirannya berubah menjadi <strong>Hadir</strong>.
+            </p>
+            <p>
+              <strong>Status Ketersediaan</strong> menunjukkan apakah personel <strong>masih dapat diberikan tugas</strong>. Jadi, <strong>hari libur tidak otomatis berarti Tidak Tersedia</strong>. Personel yang sedang libur tetap dapat berstatus <strong>Tersedia</strong> dan sewaktu-waktu dapat diberikan penugasan.
+            </p>
+            
+            <div className="mt-4 overflow-x-auto">
+              <table className="w-full text-left text-xs bg-white rounded-lg border border-blue-200 overflow-hidden">
+                <thead className="bg-blue-100 text-blue-900">
+                  <tr>
+                    <th className="px-3 py-2 border-b border-blue-200 font-semibold">Kondisi</th>
+                    <th className="px-3 py-2 border-b border-blue-200 font-semibold">Kehadiran</th>
+                    <th className="px-3 py-2 border-b border-blue-200 font-semibold">Ketersediaan</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-blue-100">
+                  <tr>
+                    <td className="px-3 py-2">Senin, tidak ada catatan khusus</td>
+                    <td className="px-3 py-2">Hadir</td>
+                    <td className="px-3 py-2">Tersedia</td>
+                  </tr>
+                  <tr className="bg-blue-50/30">
+                    <td className="px-3 py-2">Senin, sedang Cuti</td>
+                    <td className="px-3 py-2">Cuti</td>
+                    <td className="px-3 py-2">Tidak Tersedia</td>
+                  </tr>
+                  <tr>
+                    <td className="px-3 py-2">Sabtu, tidak ada program</td>
+                    <td className="px-3 py-2 font-semibold text-slate-600">Tidak Hadir</td>
+                    <td className="px-3 py-2 font-semibold text-emerald-600">Tersedia</td>
+                  </tr>
+                  <tr className="bg-blue-50/30">
+                    <td className="px-3 py-2">Minggu, mendapat tugas kerja</td>
+                    <td className="px-3 py-2 font-semibold text-emerald-600">Hadir</td>
+                    <td className="px-3 py-2">Assigned/Tersedia untuk tugas</td>
+                  </tr>
+                  <tr>
+                    <td className="px-3 py-2">Senin, Hadir tetapi sudah ditugaskan ke Program A</td>
+                    <td className="px-3 py-2">Hadir</td>
+                    <td className="px-3 py-2 font-semibold text-rose-600">Tidak Tersedia untuk Program lain</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p className="mt-3 italic font-medium text-blue-800">
+              Intinya: Libur/Akhir Pekan mengubah status kehadiran menjadi Tidak Hadir, tetapi tidak otomatis mengubah status ketersediaan.
+            </p>
+          </div>
+        )}
       </div>
 
       {/* Summary Stats */}
