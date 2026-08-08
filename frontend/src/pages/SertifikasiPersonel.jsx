@@ -252,7 +252,9 @@ export default function SertifikasiPersonel() {
                 <th className="px-4 py-3">NPK</th>
                 <th className="px-4 py-3">Bagian</th>
                 <th className="px-4 py-3">Certificate</th>
-                <th className="px-4 py-3">Certification No</th>
+                {activeTab === 'sertifikasi' && (
+                  <th className="px-4 py-3">Certification No</th>
+                )}
                 {activeTab === 'rencana' ? (
                   <th className="px-4 py-3">Estimasi Tanggal</th>
                 ) : (
@@ -289,7 +291,9 @@ export default function SertifikasiPersonel() {
                       <td className="px-4 py-3 text-slate-600 font-mono text-xs">{item.man_power?.npk || '-'}</td>
                       <td className="px-4 py-3 text-slate-600">{item.man_power?.divisi?.nama_divisi || '-'}</td>
                       <td className="px-4 py-3 text-slate-800 font-medium">{item.nama_sertifikat}</td>
-                      <td className="px-4 py-3 text-slate-600 font-mono text-xs">{item.no_sertifikat || '-'}</td>
+                      {activeTab === 'sertifikasi' && (
+                        <td className="px-4 py-3 text-slate-600 font-mono text-xs">{item.no_sertifikat || '-'}</td>
+                      )}
                       {activeTab === 'rencana' ? (
                         <td className="px-4 py-3 text-slate-600">
                           {formatDate(item.tanggal_sertifikasi)}
@@ -303,10 +307,17 @@ export default function SertifikasiPersonel() {
                       )}
                       <td className="px-4 py-3 text-slate-600 max-w-[150px] truncate" title={item.remarks}>{item.remarks || '-'}</td>
                       <td className="px-4 py-3">
-                        <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${statusInfo.color}`}>
-                          <div className={`w-1.5 h-1.5 rounded-full ${statusInfo.dot}`} />
-                          {statusInfo.label}
-                        </div>
+                        {activeTab === 'tanpa_kedaluwarsa' ? (
+                          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border bg-blue-50 text-blue-700 border-blue-200">
+                            <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+                            Lifetime
+                          </div>
+                        ) : (
+                          <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${statusInfo.color}`}>
+                            <div className={`w-1.5 h-1.5 rounded-full ${statusInfo.dot}`} />
+                            {statusInfo.label}
+                          </div>
+                        )}
                       </td>
                       <td className="px-4 py-3">
                         <div className="flex items-center justify-center gap-2">
