@@ -1263,16 +1263,6 @@ export default function InternalDashboard() {
                       <tr key={idx} className="hover:bg-orange-50/40 transition-colors">
                         <td className="py-2.5 px-4 align-top">
                           <div className="font-semibold text-slate-800">{row.name}</div>
-                          {row.pabrikInfo && row.pabrikInfo.length > 0 && (
-                            <div className="text-[10px] text-slate-500 mt-1 font-medium leading-tight">
-                              {row.pabrikInfo.map((pInfo, pIdx) => (
-                                <span key={pIdx}>
-                                  {pInfo}
-                                  {pIdx < row.pabrikInfo.length - 1 && <br />}
-                                </span>
-                              ))}
-                            </div>
-                          )}
                         </td>
                         <td className="py-2.5 px-4 align-top">
                           <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-[#D9650F]/10 text-[#D9650F] border border-[#D9650F]/20">{row.tipe}</span>
