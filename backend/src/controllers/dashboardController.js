@@ -139,9 +139,14 @@ export const getDashboardSummary = async (req, res) => {
     let totalWO = 0;
     let pm04Count = 0;
     let pm02PlusCount = 0;
+    let pm02PlusCountNonCNF = 0;
     const pmTypes = ['PM01', 'PM02', 'PM03', 'PM04', 'PM05', 'PM06', 'PM07', 'PM08', 'PM09', 'PM10'];
     const pmBreakdown = {};
-    pmTypes.forEach(t => { pmBreakdown[t] = 0; });
+    const pmBreakdownNonCNF = {};
+    pmTypes.forEach(t => { 
+      pmBreakdown[t] = 0; 
+      pmBreakdownNonCNF[t] = 0; 
+    });
 
     woGroupByTipe.forEach(item => {
       const cnt = item._count.id;
@@ -153,6 +158,20 @@ export const getDashboardSummary = async (req, res) => {
       }
       if (item.tipe_pm && pmBreakdown[item.tipe_pm] !== undefined) {
         pmBreakdown[item.tipe_pm] += cnt;
+      }
+    });
+
+    woTrendData.forEach(item => {
+      const st = (item.status || '').toUpperCase();
+      const isCnf = (st.includes('CNF') || st.includes('TECO')) && !st.includes('PCNF');
+      
+      if (!isCnf) {
+        if (item.tipe_pm && pmBreakdownNonCNF[item.tipe_pm] !== undefined) {
+          pmBreakdownNonCNF[item.tipe_pm]++;
+        }
+        if (item.tipe_pm !== 'PM04') {
+          pm02PlusCountNonCNF++;
+        }
       }
     });
 
@@ -456,6 +475,15 @@ export const getDashboardSummary = async (req, res) => {
       const cnf = valid.filter(isCnfWO);
       const capaianCNF = valid.length > 0 ? Number(((cnf.length / valid.length) * 100).toFixed(2)) : 0;
       
+      const pabrikBreakdown = {};
+      wos.forEach(w => {
+        const pName = pabriks.find(p => p.id === w.pabrik_id)?.nama_pabrik || 'Lainnya';
+        pabrikBreakdown[pName] = (pabrikBreakdown[pName] || 0) + 1;
+      });
+      const pabrikInfo = Object.entries(pabrikBreakdown)
+        .sort((a,b) => a[0].localeCompare(b[0]))
+        .map(([k, v]) => `${k}: ${v} WO`);
+
       const mappedWos = wos.map(w => ({
         nomor_wo: w.nomor_wo,
         operation_activity: w.operation_activity,
@@ -471,6 +499,7 @@ export const getDashboardSummary = async (req, res) => {
         tipe: 'PM02+',
         totalWO: wos.length,
         capaianCNF,
+        pabrikInfo,
         list: mappedWos
       };
     }).filter(row => row.totalWO > 0);
@@ -547,10 +576,12 @@ export const getDashboardSummary = async (req, res) => {
         totalWO,
         pm04Count,
         pm02PlusCount,
+        pm02PlusCountNonCNF,
         totalRek,
         m04Count,
         m07Count,
         pmBreakdown,
+        pmBreakdownNonCNF,
         rekomendasiTindakLanjut,
       },
       manPower: {

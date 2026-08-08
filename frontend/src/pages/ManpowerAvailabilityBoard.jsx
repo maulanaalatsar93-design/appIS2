@@ -83,6 +83,15 @@ export default function ManpowerAvailabilityBoard() {
     return 6;
   };
 
+  const getDivRank = (emp) => {
+    const div = (emp?.divisi?.nama_divisi || emp?.nama_divisi || '').toUpperCase();
+    if (div.includes('ROTATING 1')) return 1;
+    if (div.includes('ROTATING 2')) return 2;
+    if (div.includes('BENGKEL')) return 3;
+    if (div.includes('METALURGI')) return 4;
+    return 5;
+  };
+
   const filtered = data.filter(mp =>
     !filters.search || mp.name.toLowerCase().includes(filters.search.toLowerCase()) ||
     mp.npk.toLowerCase().includes(filters.search.toLowerCase()) ||
@@ -91,6 +100,11 @@ export default function ManpowerAvailabilityBoard() {
     const rankA = getRoleRank(a);
     const rankB = getRoleRank(b);
     if (rankA !== rankB) return rankA - rankB;
+
+    const divA = getDivRank(a);
+    const divB = getDivRank(b);
+    if (divA !== divB) return divA - divB;
+
     return (a.name || '').localeCompare(b.name || '');
   });
 

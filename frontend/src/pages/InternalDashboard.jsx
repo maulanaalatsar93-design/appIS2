@@ -69,6 +69,7 @@ export default function InternalDashboard() {
   const [mpSearch, setMpSearch] = useState('');
   const [mpStatusFilter, setMpStatusFilter] = useState('ALL'); // 'ALL' | 'Hadir' | 'Absen'
   const [showPm02PlusModal, setShowPm02PlusModal] = useState(false);
+  const [hideCnfPm02, setHideCnfPm02] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [showCategoryModal, setShowCategoryModal] = useState(false);
   const [showExpiredCertsModal, setShowExpiredCertsModal] = useState(false);
@@ -100,6 +101,28 @@ export default function InternalDashboard() {
     return true;
   });
 
+  const getRoleRank = (emp) => {
+    const pos = (emp?.position || emp?.role || '').toUpperCase();
+    const type = (emp?.employee_type || '').toUpperCase();
+
+    if ((pos.includes('VP') || pos.includes('VICE PRESIDENT')) && !pos.includes('AVP') && !pos.includes('ASSISTANT')) return 1;
+    if (pos.includes('SIE') || pos.includes('STAFF INSPECTION ENGINEER') || pos.includes('MANAGER') || pos.includes('SUPERINTENDENT')) return 2;
+    if (pos.includes('AVP') || pos.includes('ASSISTANT VICE PRESIDENT') || pos.includes('SUPERVISOR')) return 3;
+    if (type.includes('ORGANIK') && !type.includes('NON')) return 4;
+    if (type.includes('NON ORGANIK') || type.includes('NON-ORGANIK')) return 5;
+    
+    return 6;
+  };
+
+  const getDivRank = (emp) => {
+    const div = (emp?.divisi?.nama_divisi || emp?.nama_divisi || '').toUpperCase();
+    if (div.includes('ROTATING 1')) return 1;
+    if (div.includes('ROTATING 2')) return 2;
+    if (div.includes('BENGKEL')) return 3;
+    if (div.includes('METALURGI')) return 4;
+    return 5;
+  };
+
   const filteredManpower = typeFilteredManpower.filter(p => {
     if (mpStatusFilter === 'Hadir' && p.statusToday !== 'Hadir') return false;
     if (mpStatusFilter === 'Absen' && p.statusToday === 'Hadir') return false;
@@ -113,6 +136,16 @@ export default function InternalDashboard() {
       (p.nama_divisi || '').toLowerCase().includes(term) ||
       (p.employee_type || '').toLowerCase().includes(term)
     );
+  }).sort((a, b) => {
+    const rankA = getRoleRank(a);
+    const rankB = getRoleRank(b);
+    if (rankA !== rankB) return rankA - rankB;
+
+    const divA = getDivRank(a);
+    const divB = getDivRank(b);
+    if (divA !== divB) return divA - divB;
+
+    return (a.name || '').localeCompare(b.name || '');
   });
 
   useEffect(() => {
@@ -1208,11 +1241,23 @@ export default function InternalDashboard() {
                   <tbody className="divide-y divide-slate-100">
                     {(summary?.jobLoadDetails?.pm02PlusProgress || []).map((row, idx) => (
                       <tr key={idx} className="hover:bg-orange-50/40 transition-colors">
-                        <td className="py-2.5 px-4 font-semibold text-slate-800">{row.name}</td>
-                        <td className="py-2.5 px-4">
+                        <td className="py-2.5 px-4 align-top">
+                          <div className="font-semibold text-slate-800">{row.name}</div>
+                          {row.pabrikInfo && row.pabrikInfo.length > 0 && (
+                            <div className="text-[10px] text-slate-500 mt-1 font-medium leading-tight">
+                              {row.pabrikInfo.map((pInfo, pIdx) => (
+                                <span key={pIdx}>
+                                  {pInfo}
+                                  {pIdx < row.pabrikInfo.length - 1 && <br />}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                        </td>
+                        <td className="py-2.5 px-4 align-top">
                           <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-[#D9650F]/10 text-[#D9650F] border border-[#D9650F]/20">{row.tipe}</span>
                         </td>
-                        <td className="py-2.5 px-4 text-right font-bold text-slate-900">{row.totalWO.toLocaleString('id-ID')}</td>
+                        <td className="py-2.5 px-4 text-right font-bold text-slate-900 align-top">{row.totalWO.toLocaleString('id-ID')}</td>
                         <td className="py-2.5 px-4">
                           <div className="w-full h-2.5 bg-slate-100 rounded-sm overflow-hidden">
                             <div
@@ -1491,8 +1536,17 @@ export default function InternalDashboard() {
                       {filteredManpower.map((p) => {
                         const isOrganik = (p.employee_type || '').toLowerCase().includes('organik') && !(p.employee_type || '').toLowerCase().includes('non');
                         const isHadir = p.statusToday === 'Hadir';
+                        const rank = getRoleRank(p);
+                        
+                        let rowBg = 'hover:bg-slate-50';
+                        if (rank === 1) rowBg = 'bg-amber-200/40 hover:bg-amber-300/40'; // Gold
+                        else if (rank === 2) rowBg = 'bg-yellow-100/80 hover:bg-yellow-200/60'; // Yellow
+                        else if (rank === 3) rowBg = 'bg-red-50 hover:bg-red-100/70'; // Light red
+                        else if (rank === 4) rowBg = 'bg-slate-100/70 hover:bg-slate-200/70'; // Light grey
+                        else if (rank === 5) rowBg = 'bg-blue-50/70 hover:bg-blue-100/70'; // Light blue
+
                         return (
-                          <tr key={p.id} className="hover:bg-slate-50 transition-colors">
+                          <tr key={p.id} className={`transition-colors border-b border-slate-100 ${rowBg}`}>
                             <td className="py-2.5 px-4 font-mono font-bold text-slate-600">{p.npk}</td>
                             <td className="py-2.5 px-4 font-bold text-slate-900">{p.name}</td>
                             <td className="py-2.5 px-4">
@@ -1572,13 +1626,27 @@ export default function InternalDashboard() {
             </div>
 
             {/* Modal Subheader KPI */}
-            <div className="bg-emerald-50/70 p-4 border-b border-emerald-100 flex items-center justify-between shrink-0">
+            <div className="bg-emerald-50/70 p-4 border-b border-emerald-100 flex flex-col sm:flex-row sm:items-center justify-between shrink-0 gap-3">
               <div>
                 <div className="text-[11px] font-bold text-emerald-900">Total Work Order PM 02+</div>
                 <p className="text-[10px] text-emerald-700">Akumulasi seluruh tipe pemeliharaan selain PM04 (Predictive)</p>
               </div>
-              <div className="text-2xl font-extrabold text-emerald-800">
-                {summary?.kpi?.pm02PlusCount ? summary.kpi.pm02PlusCount.toLocaleString('id-ID') : '0'} <span className="text-xs font-medium text-emerald-600">WO</span>
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                <label className="flex items-center gap-2 text-xs font-semibold cursor-pointer bg-white/60 px-3 py-1.5 rounded-lg border border-emerald-200 shadow-sm transition-all hover:bg-white">
+                  <input 
+                    type="checkbox" 
+                    className="w-4 h-4 rounded border-emerald-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer" 
+                    checked={hideCnfPm02}
+                    onChange={(e) => setHideCnfPm02(e.target.checked)}
+                  />
+                  <span className={hideCnfPm02 ? 'text-emerald-700 font-bold' : 'text-slate-600'}>Sembunyikan Status 'CNF/TECO'</span>
+                </label>
+                <div className="text-2xl font-extrabold text-emerald-800">
+                  {hideCnfPm02 
+                    ? (summary?.kpi?.pm02PlusCountNonCNF ? summary.kpi.pm02PlusCountNonCNF.toLocaleString('id-ID') : '0')
+                    : (summary?.kpi?.pm02PlusCount ? summary.kpi.pm02PlusCount.toLocaleString('id-ID') : '0')
+                  } <span className="text-xs font-medium text-emerald-600">WO</span>
+                </div>
               </div>
             </div>
 
@@ -1589,10 +1657,10 @@ export default function InternalDashboard() {
               </div>
 
               <div className="grid grid-cols-1 gap-3">
-                {Object.entries(summary?.kpi?.pmBreakdown || {})
+                {Object.entries(hideCnfPm02 ? (summary?.kpi?.pmBreakdownNonCNF || {}) : (summary?.kpi?.pmBreakdown || {}))
                   .filter(([pmType]) => pmType !== 'PM04')
                   .map(([pmType, count]) => {
-                    const totalPm02Plus = summary?.kpi?.pm02PlusCount || 1;
+                    const totalPm02Plus = hideCnfPm02 ? (summary?.kpi?.pm02PlusCountNonCNF || 1) : (summary?.kpi?.pm02PlusCount || 1);
                     const percent = totalPm02Plus > 0 ? ((count / totalPm02Plus) * 100).toFixed(1) : '0';
                     const pmDescriptions = {
                       'PM01': 'Routine & Operational Maintenance (Pemeliharaan Rutin)',
