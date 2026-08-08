@@ -635,7 +635,7 @@ export default function ManPowerPage({ initialView = 'availability' }) {
           {/* Report Header with Real Logos */}
           <div className="flex justify-between items-center border-b-2 border-slate-800 pb-4 mb-8">
             <div className="w-1/3 flex items-center">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Logo_pupuk_kaltim.svg/1024px-Logo_pupuk_kaltim.svg.png" alt="Pupuk Kaltim" className="h-10 object-contain" />
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Logo_pupuk_kaltim.svg/1024px-Logo_pupuk_kaltim.svg.png" alt="Pupuk Kaltim" className="h-16 object-contain" />
             </div>
             <div className="w-1/3 text-center">
               <h1 className="text-base font-black text-slate-800 tracking-wider">DEPARTEMEN INSPEKSI TEKNIK 2</h1>
