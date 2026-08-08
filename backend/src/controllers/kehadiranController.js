@@ -38,6 +38,19 @@ export const createKehadiran = async (req, res) => {
     const tanggal_mulai = new Date(Date.UTC(startYear, startMonth - 1, startDay, 0, 0, 0, 0));
     const tanggal_selesai = new Date(Date.UTC(endYear, endMonth - 1, endDay, 23, 59, 59, 999));
 
+    // Cek apakah ada catatan presensi yang tumpang tindih untuk personil ini
+    const overlappingRecords = await prisma.statusKehadiran.findMany({
+      where: {
+        man_power_id: parseInt(employee_id),
+        tanggal_mulai: { lte: tanggal_selesai },
+        tanggal_selesai: { gte: tanggal_mulai }
+      }
+    });
+
+    if (overlappingRecords.length > 0) {
+      return res.status(400).json({ message: 'Personil ini sudah memiliki catatan presensi pada rentang tanggal tersebut. Tidak dapat mencatat dobel.' });
+    }
+
     const newRecord = await prisma.statusKehadiran.create({
       data: {
         man_power_id: parseInt(employee_id),

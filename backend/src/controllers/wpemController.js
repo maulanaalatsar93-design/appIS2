@@ -116,22 +116,24 @@ export const getAvailability = async (req, res) => {
 
       if (!mp.is_active) {
         statusColor = 'Inactive';
-      } else if (absensiJenis === 'cuti') {
+      } else if (absensiJenis && (absensiJenis.includes('cuti') || absensiJenis.includes('annual leave'))) {
         // Cuti sabtu/minggu/libur nasional = Offday / Libur
         statusColor = isOffday ? 'Libur' : 'Cuti';
-      } else if (absensiJenis === 'sakit') {
+      } else if (absensiJenis && (absensiJenis.includes('sakit') || absensiJenis.includes('rs') || absensiJenis.includes('rawat'))) {
         statusColor = 'Sakit';
-      } else if (absensiJenis === 'izin') {
+      } else if (absensiJenis && (absensiJenis.includes('izin') || absensiJenis.includes('ijin') || absensiJenis.includes('permit'))) {
         statusColor = 'Izin';
-      } else if (absensiJenis === 'training') {
+      } else if (absensiJenis && (absensiJenis.includes('training') || absensiJenis.includes('pelatihan') || absensiJenis.includes('workshop'))) {
         statusColor = 'Training';
-      } else if (absensiJenis === 'dinas dalam negeri' || absensiJenis === 'dinas luar negeri' || absensiJenis === 'dinasdalamnegeri' || absensiJenis === 'dinasluarnegeri') {
-        statusColor = 'Dinas';
-      } else if (absensiJenis === 'referral') {
+      } else if (absensiJenis && (absensiJenis.includes('luar negeri') || absensiJenis.includes('luar negri') || absensiJenis.includes('overseas'))) {
+        statusColor = 'DinasLuarNegeri';
+      } else if (absensiJenis && (absensiJenis.includes('dinas') || absensiJenis.includes('dalam negeri') || absensiJenis.includes('luar kota'))) {
+        statusColor = 'DinasDalamNegeri';
+      } else if (absensiJenis && (absensiJenis.includes('referal') || absensiJenis.includes('referral'))) {
         statusColor = 'Referral';
-      } else if (absensiJenis === 'alpha/tanpa keterangan' || absensiJenis === 'alpha' || absensiJenis === 'alpa') {
+      } else if (absensiJenis && (absensiJenis.includes('absen') || absensiJenis.includes('alpha') || absensiJenis.includes('alpa') || absensiJenis.includes('tanpa keterangan'))) {
         statusColor = 'Alpha';
-      } else if (absensiJenis === 'libur') {
+      } else if (absensiJenis && (absensiJenis.includes('libur') || absensiJenis.includes('off'))) {
         statusColor = 'Libur';
       } else if (isBusy) {
         statusColor = 'Bertugas';

@@ -3,21 +3,23 @@ import { AuthContext } from '../context/AuthContext';
 import {
   Loader2, Search, Filter, RefreshCw, Users,
   CheckCircle2, Clock, AlertCircle, Plane, BookOpen,
-  Activity, XCircle, MapPin, Calendar, Stethoscope
+  Activity, XCircle, MapPin, Calendar, Stethoscope,
+  PlaneTakeoff, Globe, Info, UserCheck
 } from 'lucide-react';
 
 const STATUS_CONFIG = {
-  'Tersedia':            { label: 'Tersedia',               color: 'bg-emerald-100 text-emerald-700 border-emerald-200', dot: 'bg-emerald-500', icon: CheckCircle2, gradient: 'bg-gradient-to-br from-emerald-50 to-emerald-100/50' },
-  'Bertugas':            { label: 'Sedang Bertugas',        color: 'bg-blue-100 text-blue-700 border-blue-200',          dot: 'bg-blue-500',    icon: Activity,     gradient: 'bg-gradient-to-br from-blue-50 to-blue-100/50' },
-  'Training':            { label: 'Training',               color: 'bg-purple-100 text-purple-700 border-purple-200',    dot: 'bg-purple-500',  icon: BookOpen,     gradient: 'bg-gradient-to-br from-purple-50 to-purple-100/50' },
-  'Dinas':               { label: 'Dinas',                  color: 'bg-sky-100 text-sky-700 border-sky-200',             dot: 'bg-sky-500',     icon: Plane,        gradient: 'bg-gradient-to-br from-sky-50 to-sky-100/50' },
-  'Cuti':                { label: 'Cuti',                   color: 'bg-amber-100 text-amber-700 border-amber-200',       dot: 'bg-amber-500',   icon: Calendar,     gradient: 'bg-gradient-to-br from-amber-50 to-amber-100/50' },
-  'Sakit':               { label: 'Sakit',                  color: 'bg-rose-100 text-rose-700 border-rose-200',          dot: 'bg-rose-500',    icon: Stethoscope,  gradient: 'bg-gradient-to-br from-rose-50 to-rose-100/50' },
-  'Izin':                { label: 'Izin',                   color: 'bg-orange-100 text-orange-700 border-orange-200',    dot: 'bg-orange-500',  icon: Clock,        gradient: 'bg-gradient-to-br from-orange-50 to-orange-100/50' },
-  'Referral':            { label: 'Referral',               color: 'bg-fuchsia-100 text-fuchsia-700 border-fuchsia-200', dot: 'bg-fuchsia-500', icon: Stethoscope,  gradient: 'bg-gradient-to-br from-fuchsia-50 to-fuchsia-100/50' },
-  'Alpha':               { label: 'Alpha',                  color: 'bg-slate-200 text-slate-700 border-slate-300',       dot: 'bg-slate-600',   icon: XCircle,      gradient: 'bg-gradient-to-br from-slate-100 to-slate-200/50' },
-  'Libur':               { label: 'Libur / Off',            color: 'bg-slate-100 text-slate-600 border-slate-200',       dot: 'bg-slate-400',   icon: Clock,        gradient: 'bg-gradient-to-br from-slate-50 to-slate-100/50' },
-  'Inactive':            { label: 'Tidak Aktif',            color: 'bg-gray-100 text-gray-500 border-gray-200',          dot: 'bg-gray-400',    icon: AlertCircle,  gradient: 'bg-gradient-to-br from-gray-50 to-gray-100/50' },
+  'Tersedia':            { label: 'Tersedia',               category: 'Utama',     color: 'bg-emerald-100 text-emerald-700 border-emerald-200', dot: 'bg-emerald-500', icon: CheckCircle2, gradient: 'bg-gradient-to-br from-emerald-50 to-emerald-100/50' },
+  'Bertugas':            { label: 'Sedang Bertugas',        category: 'Utama',     color: 'bg-blue-100 text-blue-700 border-blue-200',          dot: 'bg-blue-500',    icon: Activity,     gradient: 'bg-gradient-to-br from-blue-50 to-blue-100/50' },
+  'Training':            { label: 'Training',               category: 'Penugasan', color: 'bg-purple-100 text-purple-700 border-purple-200',    dot: 'bg-purple-500',  icon: BookOpen,     gradient: 'bg-gradient-to-br from-purple-50 to-purple-100/50' },
+  'DinasDalamNegeri':    { label: 'Dinas Dalam Negeri',     category: 'Penugasan', color: 'bg-sky-100 text-sky-700 border-sky-200',             dot: 'bg-sky-500',     icon: PlaneTakeoff, gradient: 'bg-gradient-to-br from-sky-50 to-sky-100/50' },
+  'DinasLuarNegeri':     { label: 'Dinas Luar Negeri',      category: 'Penugasan', color: 'bg-indigo-100 text-indigo-700 border-indigo-200',    dot: 'bg-indigo-500',  icon: Globe,        gradient: 'bg-gradient-to-br from-indigo-50 to-indigo-100/50' },
+  'Cuti':                { label: 'Cuti',                   category: 'Absen',     color: 'bg-amber-100 text-amber-700 border-amber-200',       dot: 'bg-amber-500',   icon: Calendar,     gradient: 'bg-gradient-to-br from-amber-50 to-amber-100/50' },
+  'Izin':                { label: 'Izin',                   category: 'Absen',     color: 'bg-orange-100 text-orange-700 border-orange-200',    dot: 'bg-orange-500',  icon: Info,         gradient: 'bg-gradient-to-br from-orange-50 to-orange-100/50' },
+  'Sakit':               { label: 'Sakit',                  category: 'Absen',     color: 'bg-rose-100 text-rose-700 border-rose-200',          dot: 'bg-rose-500',    icon: Stethoscope,  gradient: 'bg-gradient-to-br from-rose-50 to-rose-100/50' },
+  'Referral':            { label: 'Referral',               category: 'Absen',     color: 'bg-fuchsia-100 text-fuchsia-700 border-fuchsia-200', dot: 'bg-fuchsia-500', icon: UserCheck,    gradient: 'bg-gradient-to-br from-fuchsia-50 to-fuchsia-100/50' },
+  'Alpha':               { label: 'Alpha/Tanpa Keterangan', category: 'Absen',     color: 'bg-slate-200 text-slate-700 border-slate-300',       dot: 'bg-slate-600',   icon: XCircle,      gradient: 'bg-gradient-to-br from-slate-100 to-slate-200/50' },
+  'Libur':               { label: 'Libur / Off',            category: 'Hide',      color: 'bg-slate-100 text-slate-600 border-slate-200',       dot: 'bg-slate-400',   icon: Clock,        gradient: 'bg-gradient-to-br from-slate-50 to-slate-100/50' },
+  'Inactive':            { label: 'Tidak Aktif',            category: 'Hide',      color: 'bg-gray-100 text-gray-500 border-gray-200',          dot: 'bg-gray-400',    icon: AlertCircle,  gradient: 'bg-gradient-to-br from-gray-50 to-gray-100/50' },
 };
 
 const DIVISI_LIST = [
@@ -148,6 +150,28 @@ export default function ManpowerAvailabilityBoard() {
 
   const realDivisions = DIVISI_LIST.filter(d => d.id !== 'All');
 
+  const renderScorecard = (s) => {
+    const StatusIcon = STATUS_CONFIG[s.key]?.icon || AlertCircle;
+    const gradient = STATUS_CONFIG[s.key]?.gradient || 'bg-white';
+    return (
+      <div key={s.key}
+        onClick={() => handleFilterChange('status', filters.status === s.key ? 'All' : s.key)}
+        className={`${gradient} border rounded-xl p-3.5 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ${filters.status === s.key ? 'ring-2 ring-industrial-blue shadow-md border-transparent' : 'border-industrial-border/60 shadow-sm-subtle'}`}
+      >
+        <div className="flex items-center justify-between mb-3">
+          <div className={`p-1.5 rounded-lg ${STATUS_CONFIG[s.key]?.color.split(' ')[0] || 'bg-slate-100'}`}>
+            <StatusIcon className={`w-4 h-4 ${STATUS_CONFIG[s.key]?.color.split(' ')[1] || 'text-slate-500'}`} />
+          </div>
+          <span className="text-2xl font-black text-industrial-text tracking-tight">{s.count}</span>
+        </div>
+        <div className="flex items-center space-x-1.5">
+          <div className={`w-2 h-2 rounded-full ${s.dot} shadow-sm`} />
+          <p className="text-[11px] font-bold text-industrial-muted uppercase tracking-wider">{s.label}</p>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="p-6 max-w-7xl mx-auto space-y-6">
       {/* Header */}
@@ -163,28 +187,33 @@ export default function ManpowerAvailabilityBoard() {
       </div>
 
       {/* Summary Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
-        {stats.map(s => {
-          const StatusIcon = STATUS_CONFIG[s.key]?.icon || AlertCircle;
-          const gradient = STATUS_CONFIG[s.key]?.gradient || 'bg-white';
-          return (
-            <div key={s.key}
-              onClick={() => handleFilterChange('status', filters.status === s.key ? 'All' : s.key)}
-              className={`${gradient} border rounded-xl p-3.5 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ${filters.status === s.key ? 'ring-2 ring-industrial-blue shadow-md border-transparent' : 'border-industrial-border/60 shadow-sm-subtle'}`}
-            >
-              <div className="flex items-center justify-between mb-3">
-                <div className={`p-1.5 rounded-lg ${STATUS_CONFIG[s.key]?.color.split(' ')[0] || 'bg-slate-100'}`}>
-                  <StatusIcon className={`w-4 h-4 ${STATUS_CONFIG[s.key]?.color.split(' ')[1] || 'text-slate-500'}`} />
-                </div>
-                <span className="text-2xl font-black text-industrial-text tracking-tight">{s.count}</span>
-              </div>
-              <div className="flex items-center space-x-1.5">
-                <div className={`w-2 h-2 rounded-full ${s.dot} shadow-sm`} />
-                <p className="text-[11px] font-bold text-industrial-muted uppercase tracking-wider">{s.label}</p>
-              </div>
-            </div>
-          );
-        })}
+      <div className="space-y-6">
+        {/* Utama */}
+        <div className="grid grid-cols-2 lg:grid-cols-2 gap-3">
+          {stats.filter(s => STATUS_CONFIG[s.key]?.category === 'Utama').map(renderScorecard)}
+        </div>
+
+        {/* Absen */}
+        <div>
+          <div className="flex items-center gap-2 mb-3">
+            <div className="w-1 h-4 bg-red-400 rounded-full"></div>
+            <span className="text-[10px] uppercase font-bold text-slate-500 tracking-widest">Ketidakhadiran & Izin</span>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+            {stats.filter(s => STATUS_CONFIG[s.key]?.category === 'Absen').map(renderScorecard)}
+          </div>
+        </div>
+
+        {/* Penugasan */}
+        <div>
+          <div className="flex items-center gap-2 mb-3">
+            <div className="w-1 h-4 bg-blue-400 rounded-full"></div>
+            <span className="text-[10px] uppercase font-bold text-slate-500 tracking-widest">Penugasan & Pengembangan</span>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-3">
+            {stats.filter(s => STATUS_CONFIG[s.key]?.category === 'Penugasan').map(renderScorecard)}
+          </div>
+        </div>
       </div>
 
       {/* Filters Row */}
@@ -372,7 +401,7 @@ export default function ManpowerAvailabilityBoard() {
                       <td className="px-4 py-3">
                         <span className={`inline-flex items-center space-x-1.5 text-xs font-semibold px-2.5 py-1 rounded-full border ${['Tersedia', 'Bertugas', 'Inactive'].includes(mp.availability_status) ? statusCfg.color : 'bg-rose-100 text-rose-700 border-rose-200'}`}>
                           <div className={`w-1.5 h-1.5 rounded-full ${['Tersedia', 'Bertugas', 'Inactive'].includes(mp.availability_status) ? statusCfg.dot : 'bg-rose-500'}`} />
-                          <span>{['Tersedia', 'Bertugas', 'Inactive'].includes(mp.availability_status) ? statusCfg.label : 'Tidak Tersedia'}</span>
+                          <span>{['Tersedia', 'Bertugas', 'Inactive'].includes(mp.availability_status) ? statusCfg.label : `${statusCfg.label}/Tidak Tersedia`}</span>
                         </span>
                       </td>
                       <td className="px-4 py-3">
