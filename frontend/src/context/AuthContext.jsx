@@ -9,6 +9,20 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     if (token) {
+      const loginTime = localStorage.getItem('loginTime');
+      const threeHours = 3 * 60 * 60 * 1000;
+      
+      if (loginTime && Date.now() - parseInt(loginTime, 10) > threeHours) {
+        logout();
+        setLoading(false);
+        return;
+      }
+      
+      const timeRemaining = loginTime ? threeHours - (Date.now() - parseInt(loginTime, 10)) : threeHours;
+      const timer = setTimeout(() => {
+        logout();
+      }, timeRemaining);
+
       fetch((import.meta.env.VITE_API_URL || '').replace(/\/$/, '') + '/api/auth/me', {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -25,6 +39,8 @@ export const AuthProvider = ({ children }) => {
           logout();
         })
         .finally(() => setLoading(false));
+
+      return () => clearTimeout(timer);
     } else {
       setLoading(false);
     }
@@ -32,12 +48,14 @@ export const AuthProvider = ({ children }) => {
 
   const login = (newToken, userData) => {
     localStorage.setItem('token', newToken);
+    localStorage.setItem('loginTime', Date.now().toString());
     setToken(newToken);
     setUser(userData);
   };
 
   const logout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('loginTime');
     setToken(null);
     setUser(null);
   };

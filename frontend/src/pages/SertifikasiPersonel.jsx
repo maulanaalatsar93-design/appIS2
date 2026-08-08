@@ -260,7 +260,9 @@ export default function SertifikasiPersonel() {
                 ) : (
                   <>
                     <th className="px-4 py-3">Date of Cert</th>
-                    <th className="px-4 py-3">Cert Expires</th>
+                    {activeTab !== 'tanpa_kedaluwarsa' && (
+                      <th className="px-4 py-3">Cert Expires</th>
+                    )}
                   </>
                 )}
                 <th className="px-4 py-3">Keterangan</th>
@@ -302,7 +304,9 @@ export default function SertifikasiPersonel() {
                       ) : (
                         <>
                           <td className="px-4 py-3 text-slate-600">{formatDate(item.tanggal_sertifikasi)}</td>
-                          <td className="px-4 py-3 text-slate-600">{formatDate(item.tanggal_berakhir)}</td>
+                          {activeTab !== 'tanpa_kedaluwarsa' && (
+                            <td className="px-4 py-3 text-slate-600">{formatDate(item.tanggal_berakhir)}</td>
+                          )}
                         </>
                       )}
                       <td className="px-4 py-3 text-slate-600 max-w-[150px] truncate" title={item.remarks}>{item.remarks || '-'}</td>
