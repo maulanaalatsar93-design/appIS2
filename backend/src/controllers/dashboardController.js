@@ -540,8 +540,16 @@ export const getDashboardSummary = async (req, res) => {
         const pName = pabriks.find(p => p.id === w.pabrik_id)?.nama_pabrik || 'Lainnya';
         pabrikBreakdown[pName] = (pabrikBreakdown[pName] || 0) + 1;
       });
+      const PABRIK_ORDER = ['P1A', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7'];
       const pabrikInfo = Object.entries(pabrikBreakdown)
-        .sort((a,b) => a[0].localeCompare(b[0]))
+        .sort((a,b) => {
+          const idxA = PABRIK_ORDER.indexOf(a[0]);
+          const idxB = PABRIK_ORDER.indexOf(b[0]);
+          const orderA = idxA === -1 ? 999 : idxA;
+          const orderB = idxB === -1 ? 999 : idxB;
+          if (orderA !== orderB) return orderA - orderB;
+          return a[0].localeCompare(b[0]);
+        })
         .map(([k, v]) => `${k}: ${v} WO`);
 
       const mappedWos = wos.map(w => ({
