@@ -407,46 +407,65 @@ export default function WorkProgramForm({ onBack, onSaved }) {
               </div>
             )}
 
-            <div className="p-4 max-h-[340px] overflow-y-auto bg-industrial-background/20">
+            <div className="p-4 max-h-[600px] min-h-[400px] overflow-y-auto bg-slate-50/80 inner-shadow-sm">
               {loadingMp ? (
-                <div className="flex justify-center py-6"><Loader2 className="w-6 h-6 animate-spin text-industrial-blue" /></div>
+                <div className="flex justify-center py-12"><Loader2 className="w-8 h-8 animate-spin text-industrial-blue" /></div>
               ) : availableManpower.length === 0 ? (
-                <p className="text-xs text-center text-slate-500 py-6">Pilih rentang tanggal untuk melihat ketersediaan personel.</p>
+                <div className="flex flex-col items-center justify-center py-12 text-slate-400">
+                  <Calendar className="w-12 h-12 mb-3 opacity-20" />
+                  <p className="text-sm">Pilih rentang tanggal untuk melihat ketersediaan personel.</p>
+                </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-3">
                   {filteredMp.map(mp => {
                     const isSelected = selectedMembers.some(m => m.man_power_id === mp.id);
-                    const hasConflict = mp.availability_status !== 'Available';
-                    const statusColors = {
-                      'Available': 'bg-white border-industrial-border hover:border-industrial-blue',
-                      'Bertugas': 'bg-blue-50/40 border-blue-200 hover:bg-blue-100',
-                      'Cuti/Sakit': 'bg-red-50/40 border-red-200 hover:bg-red-100',
-                      'Training': 'bg-yellow-50/40 border-yellow-200 hover:bg-yellow-100',
-                      'Dinas': 'bg-orange-50/40 border-orange-200',
-                    };
-                    const cardColor = isSelected ? 'bg-blue-50/50 border-blue-200 opacity-60 cursor-not-allowed' : (statusColors[mp.availability_status] || 'bg-white border-industrial-border');
+                    const hasConflict = mp.availability_status !== 'Tersedia';
+                    
+                    let bgConfig = 'bg-white border-slate-200 hover:border-industrial-blue';
+                    let alertColor = 'text-amber-700';
+                    let alertBg = 'bg-amber-50';
+
+                    if (mp.availability_status === 'Tersedia') {
+                      bgConfig = 'bg-white border-emerald-200 hover:border-emerald-400 shadow-sm';
+                    } else if (mp.availability_status === 'Bertugas') {
+                      bgConfig = 'bg-blue-50/60 border-blue-200 hover:bg-blue-100/60 shadow-sm';
+                      alertColor = 'text-blue-700';
+                      alertBg = 'bg-blue-100';
+                    } else if (['Cuti', 'Sakit', 'Izin'].includes(mp.availability_status)) {
+                      bgConfig = 'bg-rose-50/60 border-rose-200 hover:bg-rose-100/60';
+                      alertColor = 'text-rose-700';
+                      alertBg = 'bg-rose-100';
+                    } else if (['Training', 'DinasDalamNegeri', 'DinasLuarNegeri'].includes(mp.availability_status)) {
+                      bgConfig = 'bg-purple-50/60 border-purple-200 hover:bg-purple-100/60';
+                      alertColor = 'text-purple-700';
+                      alertBg = 'bg-purple-100';
+                    }
+
+                    const cardColor = isSelected ? 'bg-slate-100 border-slate-300 opacity-60 cursor-not-allowed' : bgConfig;
 
                     return (
                       <div key={mp.id} onClick={() => !isSelected && addMember(mp)}
-                        className={`p-3 border rounded-xl flex items-start justify-between cursor-pointer transition-colors shadow-sm-subtle ${cardColor}`}>
+                        className={`p-3 border rounded-xl flex items-start justify-between cursor-pointer transition-all duration-200 ${cardColor}`}>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center space-x-2 flex-wrap gap-1">
-                            <p className={`font-semibold text-sm ${isSelected ? 'text-blue-700' : 'text-industrial-text'}`}>{mp.name}</p>
+                            <p className={`font-bold text-[13px] ${isSelected ? 'text-slate-600' : 'text-industrial-text'}`}>{mp.name}</p>
                             {!hasConflict && !isSelected && (
-                              <span className="px-1.5 py-0.5 bg-emerald-100 text-emerald-700 text-[9px] font-bold rounded-full border border-emerald-200">TERSEDIA</span>
+                              <span className="px-2 py-0.5 bg-emerald-100 text-emerald-700 text-[9px] font-black rounded border border-emerald-200 uppercase tracking-wide">Tersedia</span>
                             )}
                           </div>
-                          <p className="text-[10px] text-industrial-muted">{mp.position} • <span className="font-medium">{mp.divisi?.nama_divisi}</span></p>
+                          <p className="text-[10.5px] text-slate-500 mt-0.5">{mp.position} <span className="mx-1">•</span> <span className="font-semibold">{mp.divisi?.nama_divisi}</span></p>
                           {hasConflict && !isSelected && (
-                            <p className="text-[10px] font-medium text-amber-700 mt-1 flex items-center">
-                              <AlertTriangle className="w-3 h-3 mr-1" />
-                              {mp.availability_status}
-                              {mp.active_programs?.[0] ? ` — ${mp.active_programs[0].title}` : ''}
-                            </p>
+                            <div className={`mt-2 inline-flex items-center space-x-1 px-2 py-1 rounded text-[10px] font-bold border border-white/20 ${alertBg} ${alertColor}`}>
+                              <AlertTriangle className="w-3 h-3 shrink-0" />
+                              <span className="truncate max-w-[200px]">
+                                {mp.availability_status}
+                                {mp.active_programs?.[0] ? ` — ${mp.active_programs[0].title}` : ''}
+                              </span>
+                            </div>
                           )}
                         </div>
-                        <div className={`w-7 h-7 shrink-0 rounded-full flex items-center justify-center border transition-colors ml-2 ${isSelected ? 'bg-blue-100 border-blue-200' : 'bg-slate-50 border-slate-200 hover:bg-industrial-blue hover:border-industrial-blue hover:text-white'}`}>
-                          {isSelected ? <Check className="w-4 h-4 text-industrial-blue" /> : <Plus className="w-4 h-4 text-slate-400" />}
+                        <div className={`w-8 h-8 shrink-0 rounded-full flex items-center justify-center border transition-colors ml-2 shadow-sm ${isSelected ? 'bg-slate-200 border-slate-300 text-slate-500' : 'bg-white border-slate-200 hover:bg-industrial-blue hover:border-industrial-blue hover:text-white text-slate-400'}`}>
+                          {isSelected ? <Check className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
                         </div>
                       </div>
                     );
