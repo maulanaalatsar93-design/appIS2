@@ -570,7 +570,7 @@ export default function PublicDashboard({ onBack }) {
         {/* Report Header with Real Logos */}
         <div className="flex justify-between items-center border-b-2 border-slate-800 pb-4 mb-8">
           <div className="w-1/3 flex items-center">
-            <img src={pktLogoImg} alt="Pupuk Kaltim" className="h-16 object-contain" />
+            {/* Empty space for alignment */}
           </div>
           <div className="w-1/3 text-center">
             <h1 className="text-base font-black text-slate-800 tracking-wider">DEPARTEMEN INSPEKSI TEKNIK 2</h1>
