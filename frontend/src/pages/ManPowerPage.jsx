@@ -79,7 +79,11 @@ export default function ManPowerPage({ initialView = 'availability' }) {
       .then((data) => {
         if (Array.isArray(data)) {
           const formatted = data.map((record) => {
-            const statusMatch = MOCK_STATUSES.find(s => s.name.toLowerCase() === record.jenis.toLowerCase());
+            const recJenis = (record.jenis || '').toLowerCase().trim();
+            const statusMatch = MOCK_STATUSES.find(s => {
+              const sName = s.name.toLowerCase().trim();
+              return sName === recJenis || recJenis.includes(sName) || sName.includes(recJenis);
+            });
             return {
               id: record.id,
               employee_id: record.man_power_id,

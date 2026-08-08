@@ -58,6 +58,7 @@ export default function RekapIzinView({
       let totalDinasDalamNegeri = 0;
       let totalDinasLuarNegeri = 0;
       let totalTraining = 0;
+      let totalAlpha = 0;
       let totalOther = 0;
 
       empChanges.forEach((rec) => {
@@ -68,11 +69,12 @@ export default function RekapIzinView({
         else if (rec.status_id === 5) totalDinasDalamNegeri += days;
         else if (rec.status_id === 4) totalDinasLuarNegeri += days;
         else if (rec.status_id === 6) totalTraining += days;
+        else if (rec.status_id === 10) totalAlpha += days;
         else if (rec.status_id !== 1 && rec.status_id !== 2) totalOther += days;
       });
 
       const totalIzinAll =
-        totalCuti + totalSakit + totalIzin + totalDinasDalamNegeri + totalDinasLuarNegeri + totalTraining + totalOther;
+        totalCuti + totalSakit + totalIzin + totalDinasDalamNegeri + totalDinasLuarNegeri + totalTraining + totalAlpha + totalOther;
 
       return {
         emp,
@@ -82,6 +84,7 @@ export default function RekapIzinView({
         totalDinasDalamNegeri,
         totalDinasLuarNegeri,
         totalTraining,
+        totalAlpha,
         totalIzinAll,
       };
     });
@@ -126,10 +129,11 @@ export default function RekapIzinView({
               <tr className="border-b border-slate-200 text-[11px] font-bold text-slate-600 uppercase bg-slate-50">
                 <th className="py-3 px-3 w-10 text-center">No</th>
                 <th className="py-3 px-3">Personel (NPK)</th>
-                <th className="py-3 px-3">Divisi & Jabatan</th>
+                <th className="py-3 px-3">Jabatan</th>
                 <th className="py-3 px-3 text-center">Cuti</th>
                 <th className="py-3 px-3 text-center">Sakit</th>
                 <th className="py-3 px-3 text-center">Izin</th>
+                <th className="py-3 px-3 text-center">Alpha</th>
                 <th className="py-3 px-3 text-center">Dinas Dalam Negeri</th>
                 <th className="py-3 px-3 text-center">Dinas Luar Negeri</th>
                 <th className="py-3 px-3 text-center">Training</th>
@@ -153,17 +157,17 @@ export default function RekapIzinView({
                       <div className="text-[10px] text-slate-400 font-mono">NPK: {row.emp.npk}</div>
                     </td>
                     <td className="py-3 px-3">
-                      <div className="text-slate-700 font-medium">{row.emp.division}</div>
-                      <div className="text-[10px] text-slate-400">{row.emp.position}</div>
+                      <div className="text-slate-700 font-medium">{row.emp.position}</div>
                     </td>
-                    <td className="py-3 px-3 text-center font-bold text-amber-600">{row.totalCuti} Hari</td>
-                    <td className="py-3 px-3 text-center font-bold text-rose-600">{row.totalSakit} Hari</td>
-                    <td className="py-3 px-3 text-center font-bold text-orange-600">{row.totalIzin} Hari</td>
-                    <td className="py-3 px-3 text-center font-bold text-blue-600">{row.totalDinasDalamNegeri} Hari</td>
-                    <td className="py-3 px-3 text-center font-bold text-blue-600">{row.totalDinasLuarNegeri} Hari</td>
-                    <td className="py-3 px-3 text-center font-bold text-indigo-600">{row.totalTraining} Hari</td>
+                    <td className="py-3 px-3 text-center font-bold text-amber-600">{row.totalCuti > 0 ? `${row.totalCuti} Hari` : '-'}</td>
+                    <td className="py-3 px-3 text-center font-bold text-rose-600">{row.totalSakit > 0 ? `${row.totalSakit} Hari` : '-'}</td>
+                    <td className="py-3 px-3 text-center font-bold text-orange-600">{row.totalIzin > 0 ? `${row.totalIzin} Hari` : '-'}</td>
+                    <td className="py-3 px-3 text-center font-bold text-slate-600">{row.totalAlpha > 0 ? `${row.totalAlpha} Hari` : '-'}</td>
+                    <td className="py-3 px-3 text-center font-bold text-sky-600">{row.totalDinasDalamNegeri > 0 ? `${row.totalDinasDalamNegeri} Hari` : '-'}</td>
+                    <td className="py-3 px-3 text-center font-bold text-indigo-600">{row.totalDinasLuarNegeri > 0 ? `${row.totalDinasLuarNegeri} Hari` : '-'}</td>
+                    <td className="py-3 px-3 text-center font-bold text-teal-600">{row.totalTraining > 0 ? `${row.totalTraining} Hari` : '-'}</td>
                     <td className="py-3 px-3 text-center font-bold text-rose-700 bg-rose-50/60">
-                      {row.totalIzinAll} Hari
+                      {row.totalIzinAll > 0 ? `${row.totalIzinAll} Hari` : '-'}
                     </td>
                     <td className="py-3 px-3 text-right">
                       {isAdmin && (
