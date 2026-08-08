@@ -6,7 +6,7 @@ import {
 import AbsensiCalendar from '../components/attendance/AbsensiCalendar';
 import RekapIzinView from '../components/attendance/RekapIzinView';
 import ManpowerAvailabilityBoard from './ManpowerAvailabilityBoard';
-import { MOCK_STATUSES } from '../constants/holidays';
+import { MOCK_STATUSES, INDONESIA_HOLIDAYS } from '../constants/holidays';
 import { AuthContext } from '../context/AuthContext';
 
 // 41 Seed Personnel
