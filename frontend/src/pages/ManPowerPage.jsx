@@ -630,7 +630,7 @@ export default function ManPowerPage({ initialView = 'availability' }) {
       </div> {/* End of print:hidden div */}
 
       {/* FORMAL PRINT REPORT LAYOUT: REKAP IZIN */}
-      {viewMode === 'rekap' && (
+      {viewMode === 'recap' && (
         <div className="hidden print:block w-full mt-6 px-10">
           {/* Report Header with Real Logos */}
           <div className="flex justify-between items-center border-b-2 border-slate-800 pb-4 mb-8">
