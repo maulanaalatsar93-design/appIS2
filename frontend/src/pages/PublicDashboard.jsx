@@ -562,15 +562,14 @@ export default function PublicDashboard({ onBack }) {
         </div>
       )}
 
-      )}
 
       {/* FORMAL PRINT REPORT LAYOUT */}
       <div className="hidden print:block w-full mt-6 px-10">
-        
+
         {/* Report Header with Real Logos */}
         <div className="flex justify-between items-center border-b-2 border-slate-800 pb-4 mb-8">
           <div className="w-1/3 flex items-center">
-            <img src={logoImg} alt="Pupuk Kaltim" className="h-10 object-contain" />
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Logo_pupuk_kaltim.svg/1024px-Logo_pupuk_kaltim.svg.png" alt="Pupuk Kaltim" className="h-10 object-contain" />
           </div>
           <div className="w-1/3 text-center">
             <h1 className="text-base font-black text-slate-800 tracking-wider">DEPARTEMEN INSPEKSI TEKNIK 2</h1>
@@ -638,7 +637,7 @@ export default function PublicDashboard({ onBack }) {
                 const rek = summary.factoryComparison.rekData[idx] || 0;
                 // Sembunyikan pabrik yang nilainya nol jika filter spesifik diaktifkan
                 if (workCenter !== 'Semua Bagian' && wo === 0 && rek === 0) return null;
-                
+
                 return (
                   <tr key={factory} className="border-b border-slate-200 even:bg-slate-50">
                     <td className="border border-slate-300 p-3 font-semibold text-slate-700">{factory}</td>
