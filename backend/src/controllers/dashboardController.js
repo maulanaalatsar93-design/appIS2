@@ -49,8 +49,10 @@ export const getDashboardSummary = async (req, res) => {
     }
 
     const now = new Date();
-    const todayStart = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0));
-    const todayEnd = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999));
+    // Gunakan zona waktu WITA (UTC+8) untuk Bontang
+    const witaTime = new Date(now.getTime() + (8 * 60 * 60 * 1000));
+    const todayStart = new Date(Date.UTC(witaTime.getUTCFullYear(), witaTime.getUTCMonth(), witaTime.getUTCDate(), -8, 0, 0, 0));
+    const todayEnd = new Date(Date.UTC(witaTime.getUTCFullYear(), witaTime.getUTCMonth(), witaTime.getUTCDate(), 15, 59, 59, 999));
 
     const manPowerWhere = { is_active: true };
     const absentWhere = {
@@ -74,7 +76,7 @@ export const getDashboardSummary = async (req, res) => {
         tanggal: { gte: todayStart, lte: todayEnd }
       }
     });
-    const dayOfWeek = now.getDay();
+    const dayOfWeek = witaTime.getUTCDay();
     const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
     const isOffdayDefault = isWeekend || !!todayHoliday;
 
@@ -726,15 +728,16 @@ export const getDashboardSummary = async (req, res) => {
 export const getManpowerList = async (req, res) => {
   try {
     const now = new Date();
-    const todayStart = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0));
-    const todayEnd = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999));
+    const witaTime = new Date(now.getTime() + (8 * 60 * 60 * 1000));
+    const todayStart = new Date(Date.UTC(witaTime.getUTCFullYear(), witaTime.getUTCMonth(), witaTime.getUTCDate(), -8, 0, 0, 0));
+    const todayEnd = new Date(Date.UTC(witaTime.getUTCFullYear(), witaTime.getUTCMonth(), witaTime.getUTCDate(), 15, 59, 59, 999));
 
     const todayHoliday = await prisma.hariLibur.findFirst({
       where: {
         tanggal: { gte: todayStart, lte: todayEnd }
       }
     });
-    const dayOfWeek = now.getDay();
+    const dayOfWeek = witaTime.getUTCDay();
     const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
     const isOffdayDefault = isWeekend || !!todayHoliday;
 
