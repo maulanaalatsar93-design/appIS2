@@ -70,11 +70,29 @@ export default function ManpowerAvailabilityBoard() {
     fetchData(); 
   }, [filters.selectedDivisions, filters.status, filters.startDate, filters.endDate]);
 
+  const getRoleRank = (emp) => {
+    const pos = (emp?.position || emp?.role || '').toUpperCase();
+    const type = (emp?.employee_type || '').toUpperCase();
+
+    if ((pos.includes('VP') || pos.includes('VICE PRESIDENT')) && !pos.includes('AVP') && !pos.includes('ASSISTANT')) return 1;
+    if (pos.includes('SIE') || pos.includes('STAFF INSPECTION ENGINEER') || pos.includes('MANAGER') || pos.includes('SUPERINTENDENT')) return 2;
+    if (pos.includes('AVP') || pos.includes('ASSISTANT VICE PRESIDENT') || pos.includes('SUPERVISOR')) return 3;
+    if (type.includes('ORGANIK') && !type.includes('NON')) return 4;
+    if (type.includes('NON ORGANIK') || type.includes('NON-ORGANIK')) return 5;
+    
+    return 6;
+  };
+
   const filtered = data.filter(mp =>
     !filters.search || mp.name.toLowerCase().includes(filters.search.toLowerCase()) ||
     mp.npk.toLowerCase().includes(filters.search.toLowerCase()) ||
     mp.position.toLowerCase().includes(filters.search.toLowerCase())
-  );
+  ).sort((a, b) => {
+    const rankA = getRoleRank(a);
+    const rankB = getRoleRank(b);
+    if (rankA !== rankB) return rankA - rankB;
+    return (a.name || '').localeCompare(b.name || '');
+  });
 
   // Summary stats
   const stats = Object.keys(STATUS_CONFIG).map(key => ({
@@ -289,8 +307,17 @@ export default function ManpowerAvailabilityBoard() {
                 {filtered.map(mp => {
                   const statusCfg = STATUS_CONFIG[mp.availability_status] || STATUS_CONFIG['Available'];
                   const StatusIcon = statusCfg.icon;
+                  const rank = getRoleRank(mp);
+                  
+                  let rowBg = 'hover:bg-slate-50';
+                  if (rank === 1) rowBg = 'bg-amber-200/40 hover:bg-amber-300/40'; // Gold
+                  else if (rank === 2) rowBg = 'bg-yellow-100/80 hover:bg-yellow-200/60'; // Yellow
+                  else if (rank === 3) rowBg = 'bg-red-50 hover:bg-red-100/70'; // Light red
+                  else if (rank === 4) rowBg = 'bg-slate-100/70 hover:bg-slate-200/70'; // Light grey
+                  else if (rank === 5) rowBg = 'bg-blue-50/70 hover:bg-blue-100/70'; // Light blue
+
                   return (
-                    <tr key={mp.id} className="hover:bg-slate-50 transition-colors">
+                    <tr key={mp.id} className={`transition-colors border-b border-industrial-border/50 ${rowBg}`}>
                       <td className="px-4 py-3">
                         <div className="flex items-center space-x-3">
                           <div className="w-8 h-8 rounded-full bg-industrial-blue/10 border border-industrial-blue/20 flex items-center justify-center shrink-0">
