@@ -112,7 +112,7 @@ export const getAvailability = async (req, res) => {
         ? mp.absensi.reduce((max, a) => a.tanggal_selesai > max ? a.tanggal_selesai : max, mp.absensi[0].tanggal_selesai)
         : null;
 
-      let statusColor = 'Hadir'; // default
+      let statusColor = 'Tersedia'; // default
 
       if (!mp.is_active) {
         statusColor = 'Inactive';
@@ -125,10 +125,8 @@ export const getAvailability = async (req, res) => {
         statusColor = 'Izin';
       } else if (absensiJenis === 'training') {
         statusColor = 'Training';
-      } else if (absensiJenis === 'dinas dalam negeri' || absensiJenis === 'dinasdalamnegeri') {
-        statusColor = 'DinasDalamNegeri';
-      } else if (absensiJenis === 'dinas luar negeri' || absensiJenis === 'dinasluarnegeri') {
-        statusColor = 'DinasLuarNegeri';
+      } else if (absensiJenis === 'dinas dalam negeri' || absensiJenis === 'dinas luar negeri' || absensiJenis === 'dinasdalamnegeri' || absensiJenis === 'dinasluarnegeri') {
+        statusColor = 'Dinas';
       } else if (absensiJenis === 'referral') {
         statusColor = 'Referral';
       } else if (absensiJenis === 'alpha/tanpa keterangan' || absensiJenis === 'alpha' || absensiJenis === 'alpa') {
