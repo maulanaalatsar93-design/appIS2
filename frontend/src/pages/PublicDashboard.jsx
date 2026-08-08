@@ -620,39 +620,90 @@ export default function PublicDashboard({ onBack }) {
           </table>
         </div>
 
-        {/* Charts Grid for Print */}
-        <div className="mb-4 print-break-avoid">
-          <h3 className="text-sm font-bold text-slate-800 mb-2 border-l-4 border-blue-600 pl-2">2. DISTRIBUSI & ALOKASI</h3>
-          <div className="grid grid-cols-2 gap-6">
-            <div className="border border-slate-300 rounded p-2">
-              <div className="text-[11px] font-bold text-center mb-1">Distribusi Tipe Order</div>
-              <Chart options={{...chart3Options, colors: PM_TYPES_LIST.map(p => p.color), legend: {position: 'bottom', fontSize: '8px'} }} series={chart3Series} type="donut" width="100%" height="220" />
-            </div>
-            <div className="border border-slate-300 rounded p-2">
-              <div className="text-[11px] font-bold text-center mb-1">Rekomendasi M4 & M7</div>
-              <Chart options={{...chart4Options, legend: {position: 'bottom', fontSize: '10px'}}} series={chart4Series} type="donut" width="100%" height="220" />
-            </div>
-          </div>
+        {/* Data Tables for Print */}
+        <div className="mb-6 print-break-avoid">
+          <h3 className="text-sm font-bold text-slate-800 mb-2 border-l-4 border-blue-600 pl-2">2. KOMPARASI KINERJA PER PABRIK</h3>
+          <table className="w-full text-xs text-left border-collapse border border-slate-300">
+            <thead>
+              <tr className="bg-slate-100">
+                <th className="border border-slate-300 p-2 text-slate-800 w-1/3">Area Pabrik</th>
+                <th className="border border-slate-300 p-2 text-blue-700 w-1/3">Total Work Order</th>
+                <th className="border border-slate-300 p-2 text-teal-700 w-1/3">Rilis Rekomendasi</th>
+              </tr>
+            </thead>
+            <tbody>
+              {summary.factoryComparison?.categories?.map((factory, idx) => (
+                <tr key={factory} className="border-b border-slate-200">
+                  <td className="border border-slate-300 p-2 font-semibold">{factory}</td>
+                  <td className="border border-slate-300 p-2">{summary.factoryComparison.woData[idx]?.toLocaleString('id-ID') || 0}</td>
+                  <td className="border border-slate-300 p-2">{summary.factoryComparison.rekData[idx]?.toLocaleString('id-ID') || 0}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="mb-6 print-break-avoid">
+          <h3 className="text-sm font-bold text-slate-800 mb-2 border-l-4 border-blue-600 pl-2">3. TREN KINERJA BULANAN</h3>
+          <table className="w-full text-xs text-left border-collapse border border-slate-300">
+            <thead>
+              <tr className="bg-slate-100">
+                <th className="border border-slate-300 p-2 text-slate-800 w-1/3">Bulan</th>
+                <th className="border border-slate-300 p-2 text-blue-700 w-1/3">Total Work Order</th>
+                <th className="border border-slate-300 p-2 text-teal-700 w-1/3">Total Rekomendasi</th>
+              </tr>
+            </thead>
+            <tbody>
+              {['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'].map((monthName, idx) => (
+                <tr key={monthName} className="border-b border-slate-200">
+                  <td className="border border-slate-300 p-2 font-semibold">{monthName}</td>
+                  <td className="border border-slate-300 p-2">{summary.jobLoadTrend?.woSeries?.[idx]?.toLocaleString('id-ID') || 0}</td>
+                  <td className="border border-slate-300 p-2">{summary.jobLoadTrend?.rekSeries?.[idx]?.toLocaleString('id-ID') || 0}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
 
         <div className="mb-4 print-break-avoid">
-          <h3 className="text-sm font-bold text-slate-800 mb-2 border-l-4 border-blue-600 pl-2">3. KOMPARASI PABRIK</h3>
-          <div className="grid grid-cols-2 gap-6">
-            <div className="border border-slate-300 rounded p-2">
-              <div className="text-[11px] font-bold text-center mb-1">Work Order per Pabrik</div>
-              <Chart options={{...chart2Options, colors: ['#193B8F']}} series={chart2Series} type="bar" width="100%" height="220" />
-            </div>
-            <div className="border border-slate-300 rounded p-2">
-              <div className="text-[11px] font-bold text-center mb-1">Rilis Rekomendasi per Pabrik</div>
-              <Chart options={{...chart5Options, colors: ['#168477']}} series={chart5Series} type="bar" width="100%" height="220" />
-            </div>
-          </div>
-        </div>
-
-        <div className="print-break-avoid">
-          <h3 className="text-sm font-bold text-slate-800 mb-2 border-l-4 border-blue-600 pl-2">4. TREN KINERJA BULANAN</h3>
-          <div className="border border-slate-300 rounded p-2">
-            <Chart options={chart1Options} series={chart1Series} type="area" width="100%" height="220" />
+          <h3 className="text-sm font-bold text-slate-800 mb-2 border-l-4 border-blue-600 pl-2">4. DISTRIBUSI SPESIFIK</h3>
+          <div className="flex gap-6">
+            <table className="w-1/2 text-xs text-left border-collapse border border-slate-300">
+              <thead>
+                <tr className="bg-slate-100">
+                  <th className="border border-slate-300 p-2 text-slate-800">Tipe Work Order</th>
+                  <th className="border border-slate-300 p-2 text-blue-700">Jumlah</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="border border-slate-300 p-2 font-semibold">PM 04 (Predictive)</td>
+                  <td className="border border-slate-300 p-2">{summary.kpi?.pm04Count?.toLocaleString('id-ID') || 0}</td>
+                </tr>
+                <tr>
+                  <td className="border border-slate-300 p-2 font-semibold">PM 02+ (Corrective dsb)</td>
+                  <td className="border border-slate-300 p-2">{summary.kpi?.pm02PlusCount?.toLocaleString('id-ID') || 0}</td>
+                </tr>
+              </tbody>
+            </table>
+            <table className="w-1/2 text-xs text-left border-collapse border border-slate-300">
+              <thead>
+                <tr className="bg-slate-100">
+                  <th className="border border-slate-300 p-2 text-slate-800">Tipe Rekomendasi</th>
+                  <th className="border border-slate-300 p-2 text-teal-700">Jumlah</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="border border-slate-300 p-2 font-semibold">M04</td>
+                  <td className="border border-slate-300 p-2">{summary.kpi?.m04Count?.toLocaleString('id-ID') || 0}</td>
+                </tr>
+                <tr>
+                  <td className="border border-slate-300 p-2 font-semibold">M07</td>
+                  <td className="border border-slate-300 p-2">{summary.kpi?.m07Count?.toLocaleString('id-ID') || 0}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
