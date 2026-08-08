@@ -258,7 +258,8 @@ export default function ManPowerPage({ initialView = 'availability' }) {
         setIsFormOpen(false);
         setFormData({ employee_id: '', status_id: MOCK_STATUSES[0].id, start_date: '', end_date: '', note: '' });
       } else {
-        alert('Gagal menyimpan presensi');
+        const errorData = await res.json();
+        alert(errorData.message || 'Gagal menyimpan presensi');
       }
     } catch (err) {
       console.error(err);
