@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Chart from 'react-apexcharts';
 import ScorecardGroup from '../components/ui/ScorecardGroup';
 import FloatingFilterPill from '../components/ui/FloatingFilterPill';
-import { Filter, X, Loader2, Download, FileText, FileSpreadsheet, Info, CheckCircle2, AlertCircle, HardHat } from 'lucide-react';
+import { Filter, X, Loader2, Download, FileText, FileSpreadsheet, Info, CheckCircle2, AlertCircle, HardHat, Activity } from 'lucide-react';
 import { getDashboardSummary } from '../services/dashboardService';
 import {
   exportDashboardPDF, exportDashboardExcel,
@@ -215,80 +215,99 @@ export default function PublicDashboard({ onBack }) {
   const chart5Series = [{ name: 'Rekomendasi', data: summary.factoryComparison.rekData }];
 
   return (
-    <div className="p-6 space-y-6 bg-[#F0F3F8] min-h-screen text-[#0F172A] relative">
-      {/* STANDARD FLOATING COLLAPSIBLE PILL FILTER */}
-      <FloatingFilterPill
-        isCollapsed={!isFilterOpen}
-        setIsCollapsed={(val) => setIsFilterOpen(!val)}
-        activeCount={(workCenter !== 'Semua Bagian' ? 1 : 0) + (month !== 'Semua Bulan' ? 1 : 0) + (year !== 'Semua' ? 1 : 0)}
-        position="bottom-6 right-6"
-      >
-        {/* WorkCenter Filter */}
-        <div className="flex items-center gap-1 bg-white border border-slate-200 rounded-full px-3 py-1 text-[11px] shadow-xs">
-          <span className="text-slate-400 font-medium">Bagian:</span>
-          <select
-            value={workCenter}
-            onChange={(e) => setWorkCenter(e.target.value)}
-            className="bg-transparent font-bold text-[#0F172A] outline-none cursor-pointer text-[11px]"
-          >
-            <option value="Semua Bagian">Semua Bagian</option>
-            {(summary.availableFilters?.workCenters || []).map((wc) => (
-              <option key={wc} value={wc}>
-                {WORK_CENTER_LABELS[wc] || wc}
-              </option>
-            ))}
-          </select>
+    <div className="p-6 space-y-6 bg-[#F0F3F8] min-h-screen text-[#0F172A] relative print:bg-white print:p-0 print:space-y-4">
+
+      {/* Print Template Header */}
+      <div className="hidden print:flex justify-between items-center border-b-2 border-slate-800 pb-2 mb-4">
+        <div className="w-1/3 flex items-center gap-2">
+          <div className="font-black text-xl tracking-tighter"><span className="text-blue-700">PUPUK</span> <span className="text-orange-500">KALTIM</span></div>
         </div>
-
-        {/* Month Filter */}
-        <div className="flex items-center gap-1 bg-white border border-slate-200 rounded-full px-3 py-1 text-[11px] shadow-xs">
-          <span className="text-slate-400 font-medium">Bulan:</span>
-          <select
-            value={month}
-            onChange={(e) => setMonth(e.target.value)}
-            className="bg-transparent font-bold text-[#0F172A] outline-none cursor-pointer text-[11px]"
-          >
-            <option value="Semua Bulan">Semua Bulan</option>
-            {(summary.availableFilters?.months || []).map((m) => (
-              <option key={m} value={m}>
-                {MONTH_NAMES[m] || String(m).padStart(2, '0')}
-              </option>
-            ))}
-          </select>
+        <div className="w-1/3 text-center">
+          <h1 className="text-sm font-black text-slate-800 tracking-wider">DEPARTEMEN INSPEKSI TEKNIK 2</h1>
+          <p className="text-[10px] font-semibold text-slate-600">PT Pupuk Kalimantan Timur</p>
         </div>
-
-        {/* Year Filter */}
-        <div className="flex items-center gap-1 bg-white border border-slate-200 rounded-full px-3 py-1 text-[11px] shadow-xs">
-          <span className="text-slate-400 font-medium">Tahun:</span>
-          <select
-            value={year}
-            onChange={(e) => setYear(e.target.value)}
-            className="bg-transparent font-bold text-[#0F172A] outline-none cursor-pointer text-[11px]"
-          >
-            <option value="Semua">Semua Tahun</option>
-            {(summary.availableFilters?.years || []).map((y) => (
-              <option key={y} value={y}>{y}</option>
-            ))}
-          </select>
+        <div className="w-1/3 flex justify-end items-center">
+          <div className="w-10 h-10 rounded-full border-2 border-orange-400/50 flex items-center justify-center bg-blue-50/50">
+            <Activity className="w-6 h-6 text-blue-600" />
+          </div>
         </div>
+      </div>
 
-        {/* Reset Filter Button if active */}
-        {(workCenter !== 'Semua Bagian' || month !== currentMonth || year !== currentYear) && (
-          <button
-            onClick={() => {
-              setWorkCenter('Semua Bagian');
-              setMonth(currentMonth);
-              setYear(currentYear);
-            }}
-            className="text-[10px] font-bold text-red-600 hover:text-red-700 bg-red-50 hover:bg-red-100 px-2.5 py-1 rounded-full transition-colors border border-red-200 flex items-center gap-0.5"
-            title="Reset Filter"
-          >
-            <X size={12} /> Reset
-          </button>
-        )}
-      </FloatingFilterPill>
+      {/* STANDARD FLOATING COLLAPSIBLE PILL FILTER (Hidden on print) */}
+      <div className="print:hidden">
+        <FloatingFilterPill
+          isCollapsed={!isFilterOpen}
+          setIsCollapsed={(val) => setIsFilterOpen(!val)}
+          activeCount={(workCenter !== 'Semua Bagian' ? 1 : 0) + (month !== 'Semua Bulan' ? 1 : 0) + (year !== 'Semua' ? 1 : 0)}
+          position="bottom-6 right-6"
+        >
+          {/* WorkCenter Filter */}
+          <div className="flex items-center gap-1 bg-white border border-slate-200 rounded-full px-3 py-1 text-[11px] shadow-xs">
+            <span className="text-slate-400 font-medium">Bagian:</span>
+            <select
+              value={workCenter}
+              onChange={(e) => setWorkCenter(e.target.value)}
+              className="bg-transparent font-bold text-[#0F172A] outline-none cursor-pointer text-[11px]"
+            >
+              <option value="Semua Bagian">Semua Bagian</option>
+              {(summary.availableFilters?.workCenters || []).map((wc) => (
+                <option key={wc} value={wc}>
+                  {WORK_CENTER_LABELS[wc] || wc}
+                </option>
+              ))}
+            </select>
+          </div>
 
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+          {/* Month Filter */}
+          <div className="flex items-center gap-1 bg-white border border-slate-200 rounded-full px-3 py-1 text-[11px] shadow-xs">
+            <span className="text-slate-400 font-medium">Bulan:</span>
+            <select
+              value={month}
+              onChange={(e) => setMonth(e.target.value)}
+              className="bg-transparent font-bold text-[#0F172A] outline-none cursor-pointer text-[11px]"
+            >
+              <option value="Semua Bulan">Semua Bulan</option>
+              {(summary.availableFilters?.months || []).map((m) => (
+                <option key={m} value={m}>
+                  {MONTH_NAMES[m] || String(m).padStart(2, '0')}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Year Filter */}
+          <div className="flex items-center gap-1 bg-white border border-slate-200 rounded-full px-3 py-1 text-[11px] shadow-xs">
+            <span className="text-slate-400 font-medium">Tahun:</span>
+            <select
+              value={year}
+              onChange={(e) => setYear(e.target.value)}
+              className="bg-transparent font-bold text-[#0F172A] outline-none cursor-pointer text-[11px]"
+            >
+              <option value="Semua">Semua Tahun</option>
+              {(summary.availableFilters?.years || []).map((y) => (
+                <option key={y} value={y}>{y}</option>
+              ))}
+            </select>
+          </div>
+
+          {/* Reset Filter Button if active */}
+          {(workCenter !== 'Semua Bagian' || month !== currentMonth || year !== currentYear) && (
+            <button
+              onClick={() => {
+                setWorkCenter('Semua Bagian');
+                setMonth(currentMonth);
+                setYear(currentYear);
+              }}
+              className="text-[10px] font-bold text-red-600 hover:text-red-700 bg-red-50 hover:bg-red-100 px-2.5 py-1 rounded-full transition-colors border border-red-200 flex items-center gap-0.5"
+              title="Reset Filter"
+            >
+              <X size={12} /> Reset
+            </button>
+          )}
+        </FloatingFilterPill>
+      </div>
+
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 print:hidden">
         <div>
           <h2 className="text-xl md:text-2xl font-bold text-[#172033] tracking-tight flex items-center gap-3">
             <span>Public Executive Dashboard</span>
@@ -301,21 +320,21 @@ export default function PublicDashboard({ onBack }) {
 
         <div className="flex items-center gap-3 flex-wrap">
           {/* Executive Report Toolbar */}
-          <button 
-            onClick={() => { setIsExporting(true); setToastMsg({ type: 'info', text: 'Generating Dashboard PDF...' }); exportDashboardPDF().finally(() => { setIsExporting(false); setToastMsg({ type: 'success', text: 'Laporan berhasil diunduh' }); setTimeout(() => setToastMsg(null), 3000); }); }} 
+          <button
+            onClick={() => { setIsExporting(true); setToastMsg({ type: 'info', text: 'Generating Dashboard PDF...' }); exportDashboardPDF().finally(() => { setIsExporting(false); setToastMsg({ type: 'success', text: 'Laporan berhasil diunduh' }); setTimeout(() => setToastMsg(null), 3000); }); }}
             className="bg-white px-4 py-2.5 rounded-xl shadow-sm border border-[#E2E8F0] flex items-center gap-2 hover:bg-slate-50 transition-colors focus:outline-none"
             title="Export PDF"
           >
             <Download size={16} className="text-[#1A4BC4]" />
             <span className="text-xs font-bold text-[#172033] uppercase tracking-wide">Export PDF</span>
           </button>
-          
+
           {onBack && (
             <button
               onClick={onBack}
               className="bg-white px-4 py-2.5 rounded-xl shadow-sm border border-[#1A4BC4] text-[#1A4BC4] hover:bg-[#1A4BC4] hover:text-white flex items-center gap-2 transition-all focus:outline-none"
             >
-              <span className="text-xs font-bold uppercase tracking-wide">Kembali ke Internal View</span>
+              <span className="text-xs font-bold tracking-wide">Kembali ke Internal View</span>
             </button>
           )}
         </div>
@@ -452,22 +471,22 @@ export default function PublicDashboard({ onBack }) {
           </div>
         </div>
 
-      {/* Full Width Bottom Chart: Job Load & Output */}
-      <div className="mt-6 bg-white p-6 border border-slate-200 rounded-3xl shadow-sm lg:col-span-2 flex flex-col">
-        <h3 className="text-center text-lg font-bold text-slate-800 tracking-tight mb-6">Job Load & Output (12 Bulan Terakhir)</h3>
-        <div className="flex-1 min-h-[320px]">
-          {chart3Series[0]?.data?.length > 0 ? (
-            <Chart options={chart3Options} series={chart3Series} type="area" width="100%" height="320" />
-          ) : (
-            <div className="h-full flex items-center justify-center">
-              <p className="text-industrial-muted text-sm flex items-center gap-2">
-                <AlertCircle className="w-4 h-4" /> Tidak ada data Job Load
-              </p>
-            </div>
-          )}
+        {/* Full Width Bottom Chart: Job Load & Output */}
+        <div className="mt-6 bg-white p-6 border border-slate-200 rounded-3xl shadow-sm lg:col-span-2 flex flex-col">
+          <h3 className="text-center text-lg font-bold text-slate-800 tracking-tight mb-6">Job Load & Output (12 Bulan Terakhir)</h3>
+          <div className="flex-1 min-h-[320px]">
+            {chart3Series[0]?.data?.length > 0 ? (
+              <Chart options={chart3Options} series={chart3Series} type="area" width="100%" height="320" />
+            ) : (
+              <div className="h-full flex items-center justify-center">
+                <p className="text-industrial-muted text-sm flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4" /> Tidak ada data Job Load
+                </p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
-    </div>
 
       {/* MODAL POPUP: DETAIL PM BREAKDOWN */}
       {showPMModal && (
@@ -567,6 +586,13 @@ export default function PublicDashboard({ onBack }) {
           {toastMsg.text}
         </div>
       )}
+
+      {/* Print Footer Template */}
+      <div className="hidden print:flex fixed bottom-0 left-0 w-full justify-between items-center border-t border-slate-400 pt-2 pb-2 text-[10px] text-slate-500 bg-white z-50">
+        <div className="w-1/3 text-left">Departemen Inspeksi Teknik 2</div>
+        <div className="w-1/3 text-center">PT Pupuk Kalimantan Timur</div>
+        <div className="w-1/3 text-right">Halaman 1</div>
+      </div>
     </div>
   );
 }
