@@ -140,8 +140,8 @@ export default function SertifikasiPersonel() {
   };
 
   const getStatusInfo = (endDate, isRencana) => {
-    if (isRencana) return { label: 'Rencana Pelatihan', color: 'bg-blue-50 text-blue-700 border-blue-200', dot: 'bg-blue-500' };
-    if (!endDate) return { label: 'Active', color: 'bg-emerald-50 text-emerald-700 border-emerald-200', dot: 'bg-emerald-500' };
+    if (isRencana) return { label: 'Rencana Pelatihan', color: 'bg-blue-50 text-blue-700 border-blue-200', dot: 'bg-blue-500', rowColor: '' };
+    if (!endDate) return { label: 'Active', color: 'bg-emerald-50 text-emerald-700 border-emerald-200', dot: 'bg-emerald-500', rowColor: '' };
 
     const today = new Date();
     // Reset time part for accurate date comparison
@@ -149,11 +149,30 @@ export default function SertifikasiPersonel() {
     const expiry = new Date(endDate);
     expiry.setHours(0, 0, 0, 0);
 
+    const oneMonthFromNow = new Date(today);
+    oneMonthFromNow.setMonth(oneMonthFromNow.getMonth() + 1);
+
     if (expiry < today) {
-      return { label: 'Expired', color: 'bg-red-50 text-red-700 border-red-200', dot: 'bg-red-500' };
+      return { 
+        label: 'Expired!', 
+        color: 'bg-red-100 text-red-800 border-red-300 font-bold', 
+        dot: 'bg-red-600', 
+        rowColor: 'bg-red-50/80 hover:bg-red-100/70',
+        alertIcon: true
+      };
     }
 
-    return { label: 'Active', color: 'bg-emerald-50 text-emerald-700 border-emerald-200', dot: 'bg-emerald-500' };
+    if (expiry <= oneMonthFromNow) {
+      return { 
+        label: 'Akan Expire!', 
+        color: 'bg-orange-100 text-orange-800 border-orange-300 font-bold', 
+        dot: 'bg-orange-500', 
+        rowColor: 'bg-orange-50/80 hover:bg-orange-100/70',
+        alertIcon: true
+      };
+    }
+
+    return { label: 'Active', color: 'bg-emerald-50 text-emerald-700 border-emerald-200', dot: 'bg-emerald-500', rowColor: '' };
   };
 
   const formatDate = (dateStr) => {
@@ -287,7 +306,7 @@ export default function SertifikasiPersonel() {
                 filteredData.map((item, index) => {
                   const statusInfo = getStatusInfo(item.tanggal_berakhir, item.is_rencana);
                   return (
-                    <tr key={item.id} className="hover:bg-slate-50/80 transition-colors">
+                    <tr key={item.id} className={`transition-colors ${statusInfo.rowColor || 'hover:bg-slate-50/80'}`}>
                       <td className="px-4 py-3 text-center text-slate-500">{index + 1}</td>
                       <td className="px-4 py-3 font-medium text-slate-800">{item.man_power?.name || '-'}</td>
                       <td className="px-4 py-3 text-slate-600 font-mono text-xs">{item.man_power?.npk || '-'}</td>
@@ -318,7 +337,11 @@ export default function SertifikasiPersonel() {
                           </div>
                         ) : (
                           <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${statusInfo.color}`}>
-                            <div className={`w-1.5 h-1.5 rounded-full ${statusInfo.dot}`} />
+                            {statusInfo.alertIcon ? (
+                              <AlertCircle className="w-3.5 h-3.5" />
+                            ) : (
+                              <div className={`w-1.5 h-1.5 rounded-full ${statusInfo.dot}`} />
+                            )}
                             {statusInfo.label}
                           </div>
                         )}
