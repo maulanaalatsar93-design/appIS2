@@ -3,7 +3,7 @@ import { AuthContext } from '../context/AuthContext';
 import {
   Loader2, Search, Filter, RefreshCw, Users,
   CheckCircle2, Clock, AlertCircle, Plane, BookOpen,
-  Activity, XCircle, MapPin, Calendar
+  Activity, XCircle, MapPin, Calendar, Stethoscope
 } from 'lucide-react';
 
 const STATUS_CONFIG = {
@@ -11,7 +11,9 @@ const STATUS_CONFIG = {
   'Bertugas':    { label: 'Sedang Bertugas', color: 'bg-blue-100 text-blue-700 border-blue-200',       dot: 'bg-blue-500',    icon: Activity },
   'Training':    { label: 'Training',      color: 'bg-yellow-100 text-yellow-700 border-yellow-200',   dot: 'bg-yellow-400',  icon: BookOpen },
   'Dinas':       { label: 'Dinas',         color: 'bg-orange-100 text-orange-700 border-orange-200',   dot: 'bg-orange-500',  icon: Plane },
-  'Cuti/Sakit':  { label: 'Cuti / Sakit',  color: 'bg-red-100 text-red-700 border-red-200',           dot: 'bg-red-500',     icon: AlertCircle },
+  'Cuti':        { label: 'Cuti',          color: 'bg-amber-100 text-amber-700 border-amber-200',     dot: 'bg-amber-500',   icon: Calendar },
+  'Sakit':       { label: 'Sakit',         color: 'bg-red-100 text-red-700 border-red-200',           dot: 'bg-red-500',     icon: Stethoscope },
+  'Alpha':       { label: 'Alpha',         color: 'bg-slate-100 text-slate-700 border-slate-300',     dot: 'bg-slate-500',   icon: XCircle },
   'Inactive':    { label: 'Tidak Aktif',   color: 'bg-gray-100 text-gray-500 border-gray-200',         dot: 'bg-gray-400',    icon: XCircle },
 };
 
@@ -156,7 +158,7 @@ export default function ManpowerAvailabilityBoard() {
       </div>
 
       {/* Summary Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-8 gap-3">
         {stats.map(s => (
           <div key={s.key}
             onClick={() => handleFilterChange('status', filters.status === s.key ? 'All' : s.key)}

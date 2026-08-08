@@ -698,7 +698,7 @@ export default function InternalDashboard() {
                     { key: 'izin', label: 'Izin', icon: Info, color: 'orange', val: summary?.manPower?.detailed?.izin || 0 },
                     { key: 'sakit', label: 'Sakit', icon: Stethoscope, color: 'rose', val: summary?.manPower?.detailed?.sakit || 0 },
                     { key: 'referal', label: 'Referal', icon: UserCheck, color: 'purple', val: summary?.manPower?.detailed?.referal || 0 },
-                    { key: 'absen', label: 'Alpa', icon: UserX, color: 'slate', val: summary?.manPower?.detailed?.absen || 0 },
+                    { key: 'absen', label: 'Alpha/Tanpa Keterangan', icon: UserX, color: 'slate', val: summary?.manPower?.detailed?.absen || 0 },
                   ].map(({ key, label, icon: Icon, color, val }) => (
                     <button
                       key={key}
@@ -1760,7 +1760,7 @@ export default function InternalDashboard() {
           izin: { label: 'Izin', color: 'orange' },
           sakit: { label: 'Sakit / Referal', color: 'rose' },
           referal: { label: 'Referal', color: 'purple' },
-          absen: { label: 'Absen / Alpa', color: 'slate' },
+          absen: { label: 'Alpha / Tanpa Keterangan', color: 'slate' },
           dinasDalamNegeri: { label: 'Dinas Dalam Negeri', color: 'sky' },
           dinasLuarNegeri: { label: 'Dinas Luar Negeri', color: 'indigo' },
           training: { label: 'Training / Pelatihan', color: 'teal' },
