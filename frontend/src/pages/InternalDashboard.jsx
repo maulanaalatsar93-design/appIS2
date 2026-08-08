@@ -70,6 +70,7 @@ export default function InternalDashboard() {
   const [mpStatusFilter, setMpStatusFilter] = useState('ALL'); // 'ALL' | 'Hadir' | 'Absen'
   const [showPm02PlusModal, setShowPm02PlusModal] = useState(false);
   const [hideCnfPm02, setHideCnfPm02] = useState(false);
+  const [hideCnfPm02Overview, setHideCnfPm02Overview] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [showCategoryModal, setShowCategoryModal] = useState(false);
   const [showExpiredCertsModal, setShowExpiredCertsModal] = useState(false);
@@ -863,8 +864,17 @@ export default function InternalDashboard() {
             <div className="flex items-center justify-between px-4 py-3 bg-[#D9650F]">
               <h4 className="text-sm font-bold text-white flex items-center gap-2">
                 <span>Work Order PM 02+</span>
+                <span className="text-[10px] bg-white/20 text-white font-semibold px-2.5 py-0.5 rounded-full">Corrective &amp; Other</span>
               </h4>
-              <span className="text-[10px] bg-white/20 text-white font-semibold px-2.5 py-0.5 rounded-full">Corrective &amp; Other</span>
+              <label className="flex items-center gap-2 text-white text-xs font-semibold cursor-pointer hover:bg-white/10 px-2 py-1 rounded transition-colors">
+                <input
+                  type="checkbox"
+                  checked={hideCnfPm02Overview}
+                  onChange={(e) => setHideCnfPm02Overview(e.target.checked)}
+                  className="rounded border-white/30 text-white focus:ring-0 cursor-pointer"
+                />
+                Sembunyikan Status 'CNF'
+              </label>
             </div>
 
             <div className="p-4 space-y-6 max-h-[600px] overflow-y-auto">
@@ -898,30 +908,45 @@ export default function InternalDashboard() {
                           <th className="py-2.5 px-4 whitespace-nowrap">Notification Date</th>
                           <th className="py-2.5 px-4 whitespace-nowrap">Oper. System Status</th>
                           <th className="py-2.5 px-4 whitespace-nowrap">Equipment</th>
+                          <th className="py-2.5 px-4 whitespace-nowrap">Maintenance Plant</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-slate-100">
-                        {(wc.list || []).map((wo, woIdx) => (
-                          <tr key={woIdx} className={`transition-colors text-[11px] text-slate-700 ${(wo.status || '').toUpperCase().includes('CNF') ? 'bg-green-100 hover:bg-green-200' : 'hover:bg-orange-50/40'}`}>
-                            <td className="py-2 px-4 font-mono font-bold text-industrial-navy">{wo.nomor_wo}</td>
-                            <td className="py-2 px-4 leading-relaxed">{wo.description || '-'}</td>
-                            <td className="py-2 px-4 leading-relaxed">{wo.operation_activity || '-'}</td>
-                            <td className="py-2 px-4 whitespace-nowrap">
-                              {wo.tanggal_dibuat ? new Date(wo.tanggal_dibuat).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' }) : '-'}
-                            </td>
-                            <td className="py-2 px-4">
-                              <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold border ${getWoStatusColor(wo.status)}`}>
-                                {wo.status || '-'}
-                              </span>
-                            </td>
-                            <td className="py-2 px-4 font-mono text-slate-600">{wo.equipment || '-'}</td>
-                          </tr>
-                        ))}
-                        {(!wc.list || wc.list.length === 0) && (
-                          <tr>
-                            <td colSpan="6" className="py-3 px-4 text-center text-slate-500 italic text-[11px]">Tidak ada data Work Order PM 02+ di bagian ini pada bulan berjalan.</td>
-                          </tr>
-                        )}
+                        {(() => {
+                          const listToRender = hideCnfPm02Overview
+                            ? (wc.list || []).filter(wo => !(wo.status || '').toUpperCase().includes('CNF'))
+                            : (wc.list || []);
+                          
+                          if (listToRender.length === 0) {
+                            return (
+                              <tr>
+                                <td colSpan="7" className="py-3 px-4 text-center text-slate-500 italic text-[11px]">
+                                  {wc.list?.length > 0 
+                                    ? 'Semua Work Order di bagian ini sudah berstatus CNF.' 
+                                    : 'Tidak ada data Work Order PM 02+ di bagian ini pada bulan berjalan.'}
+                                </td>
+                              </tr>
+                            );
+                          }
+
+                          return listToRender.map((wo, woIdx) => (
+                            <tr key={woIdx} className={`transition-colors text-[11px] text-slate-700 ${(wo.status || '').toUpperCase().includes('CNF') ? 'bg-green-100 hover:bg-green-200' : 'hover:bg-orange-50/40'}`}>
+                              <td className="py-2 px-4 font-mono font-bold text-industrial-navy">{wo.nomor_wo}</td>
+                              <td className="py-2 px-4 leading-relaxed">{wo.description || '-'}</td>
+                              <td className="py-2 px-4 leading-relaxed">{wo.operation_activity || '-'}</td>
+                              <td className="py-2 px-4 whitespace-nowrap">
+                                {wo.tanggal_dibuat ? new Date(wo.tanggal_dibuat).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' }) : '-'}
+                              </td>
+                              <td className="py-2 px-4">
+                                <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold border ${getWoStatusColor(wo.status)}`}>
+                                  {wo.status || '-'}
+                                </span>
+                              </td>
+                              <td className="py-2 px-4 font-mono text-slate-600">{wo.equipment || '-'}</td>
+                              <td className="py-2 px-4 font-bold text-slate-700">{wo.pabrik_name || '-'}</td>
+                            </tr>
+                          ));
+                        })()}
                       </tbody>
                     </table>
                   </div>
