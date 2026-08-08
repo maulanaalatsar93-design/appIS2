@@ -341,7 +341,7 @@ export default function PublicDashboard({ onBack }) {
       </div>
 
       {/* Top Row: Symmetrical Scorecards Side-by-Side with Rich Varied Themes */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 print:hidden">
         <ScorecardGroup
           title="Work Order"
           items={[
@@ -417,7 +417,7 @@ export default function PublicDashboard({ onBack }) {
         />
       </div>
       {/* Main Symmetrical Charts Grid (2 Columns) */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 print:hidden">
 
         {/* Symmetrical Bar Chart 1: Work Order per Pabrik */}
         <div className="bg-white border border-industrial-border rounded-card shadow-sm-subtle overflow-hidden flex flex-col">
@@ -575,6 +575,87 @@ export default function PublicDashboard({ onBack }) {
           </div>
         </div>
       )}
+
+      )}
+
+      {/* FORMAL PRINT REPORT LAYOUT */}
+      <div className="hidden print:block w-full mt-6">
+        <div className="text-center mb-8">
+          <h2 className="text-xl font-black text-slate-800 uppercase tracking-widest border-b-2 border-slate-300 inline-block pb-1">
+            LAPORAN BULANAN KINERJA KEANDALAN OPERASIONAL
+          </h2>
+          <p className="text-sm font-semibold text-slate-600 mt-2">
+            Periode: {month !== 'Semua Bulan' ? MONTH_NAMES[month] || month : 'Semua Bulan'} {year !== 'Semua' ? year : 'Semua Tahun'} | Bagian: {workCenter}
+          </p>
+        </div>
+
+        {/* KPI Table */}
+        <div className="mb-8">
+          <h3 className="text-sm font-bold text-slate-800 mb-2 border-l-4 border-blue-600 pl-2">1. RINGKASAN EKSEKUTIF (KPI)</h3>
+          <table className="w-full text-xs text-left border-collapse border border-slate-300">
+            <thead>
+              <tr className="bg-slate-100">
+                <th className="border border-slate-300 p-2 w-1/2" colSpan="3">Work Order (WO)</th>
+                <th className="border border-slate-300 p-2 w-1/2" colSpan="3">Rekomendasi SAP</th>
+              </tr>
+              <tr className="bg-slate-50">
+                <th className="border border-slate-300 p-2 text-center text-blue-700">Total Semua PM</th>
+                <th className="border border-slate-300 p-2 text-center text-blue-700">Total PM 04</th>
+                <th className="border border-slate-300 p-2 text-center text-blue-700">Total PM 02+</th>
+                <th className="border border-slate-300 p-2 text-center text-teal-700">Total Rekomendasi</th>
+                <th className="border border-slate-300 p-2 text-center text-teal-700">Total M04</th>
+                <th className="border border-slate-300 p-2 text-center text-teal-700">Total M07</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td className="border border-slate-300 p-3 text-center font-bold text-lg">{summary.kpi?.totalWO?.toLocaleString('id-ID') || 0}</td>
+                <td className="border border-slate-300 p-3 text-center font-bold text-lg">{summary.kpi?.pm04Count?.toLocaleString('id-ID') || 0}</td>
+                <td className="border border-slate-300 p-3 text-center font-bold text-lg">{summary.kpi?.pm02PlusCount?.toLocaleString('id-ID') || 0}</td>
+                <td className="border border-slate-300 p-3 text-center font-bold text-lg">{summary.kpi?.totalRek?.toLocaleString('id-ID') || 0}</td>
+                <td className="border border-slate-300 p-3 text-center font-bold text-lg">{summary.kpi?.m04Count?.toLocaleString('id-ID') || 0}</td>
+                <td className="border border-slate-300 p-3 text-center font-bold text-lg">{summary.kpi?.m07Count?.toLocaleString('id-ID') || 0}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        {/* Charts Grid for Print */}
+        <div className="mb-4 print-break-avoid">
+          <h3 className="text-sm font-bold text-slate-800 mb-2 border-l-4 border-blue-600 pl-2">2. DISTRIBUSI & ALOKASI</h3>
+          <div className="grid grid-cols-2 gap-6">
+            <div className="border border-slate-300 rounded p-2">
+              <div className="text-[11px] font-bold text-center mb-1">Distribusi Tipe Order</div>
+              <Chart options={{...chart3Options, colors: PM_TYPES_LIST.map(p => p.color), legend: {position: 'bottom', fontSize: '8px'} }} series={chart3Series} type="donut" width="100%" height="220" />
+            </div>
+            <div className="border border-slate-300 rounded p-2">
+              <div className="text-[11px] font-bold text-center mb-1">Rekomendasi M4 & M7</div>
+              <Chart options={{...chart4Options, legend: {position: 'bottom', fontSize: '10px'}}} series={chart4Series} type="donut" width="100%" height="220" />
+            </div>
+          </div>
+        </div>
+
+        <div className="mb-4 print-break-avoid">
+          <h3 className="text-sm font-bold text-slate-800 mb-2 border-l-4 border-blue-600 pl-2">3. KOMPARASI PABRIK</h3>
+          <div className="grid grid-cols-2 gap-6">
+            <div className="border border-slate-300 rounded p-2">
+              <div className="text-[11px] font-bold text-center mb-1">Work Order per Pabrik</div>
+              <Chart options={{...chart2Options, colors: ['#193B8F']}} series={chart2Series} type="bar" width="100%" height="220" />
+            </div>
+            <div className="border border-slate-300 rounded p-2">
+              <div className="text-[11px] font-bold text-center mb-1">Rilis Rekomendasi per Pabrik</div>
+              <Chart options={{...chart5Options, colors: ['#168477']}} series={chart5Series} type="bar" width="100%" height="220" />
+            </div>
+          </div>
+        </div>
+
+        <div className="print-break-avoid">
+          <h3 className="text-sm font-bold text-slate-800 mb-2 border-l-4 border-blue-600 pl-2">4. TREN KINERJA BULANAN</h3>
+          <div className="border border-slate-300 rounded p-2">
+            <Chart options={chart1Options} series={chart1Series} type="area" width="100%" height="220" />
+          </div>
+        </div>
+      </div>
 
       {/* TOAST NOTIFICATION */}
       {toastMsg && (
