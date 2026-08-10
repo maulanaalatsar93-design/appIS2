@@ -42,7 +42,7 @@ export default function OnlineChatWidget() {
   if (!user) return null;
 
   return (
-    <div className="fixed bottom-4 right-4 z-50 flex flex-col items-end">
+    <div className="fixed bottom-4 right-4 z-[9999] flex flex-col items-end">
       {isOpen && (
         <div 
           className={`bg-white border border-gray-200 rounded-t-lg shadow-xl overflow-hidden transition-all duration-300 ease-in-out flex flex-col w-80 sm:w-96 ${isMinimized ? 'h-12' : 'h-96'}`}
