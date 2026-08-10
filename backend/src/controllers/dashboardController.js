@@ -534,24 +534,6 @@ export const getDashboardSummary = async (req, res) => {
       const valid = wos.filter(isValidWO);
       const cnf = valid.filter(isCnfWO);
       const capaianCNF = valid.length > 0 ? Number(((cnf.length / valid.length) * 100).toFixed(2)) : 0;
-      
-      const pabrikBreakdown = {};
-      wos.forEach(w => {
-        const pName = pabriks.find(p => p.id === w.pabrik_id)?.nama_pabrik || 'Lainnya';
-        pabrikBreakdown[pName] = (pabrikBreakdown[pName] || 0) + 1;
-      });
-      const PABRIK_ORDER = ['P1A', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7'];
-      const pabrikInfo = Object.entries(pabrikBreakdown)
-        .sort((a,b) => {
-          const idxA = PABRIK_ORDER.indexOf(a[0]);
-          const idxB = PABRIK_ORDER.indexOf(b[0]);
-          const orderA = idxA === -1 ? 999 : idxA;
-          const orderB = idxB === -1 ? 999 : idxB;
-          if (orderA !== orderB) return orderA - orderB;
-          return a[0].localeCompare(b[0]);
-        })
-        .map(([k, v]) => `${k}: ${v} WO`);
-
       const mappedWos = wos.map(w => ({
         nomor_wo: w.nomor_wo,
         operation_activity: w.operation_activity,
@@ -561,6 +543,7 @@ export const getDashboardSummary = async (req, res) => {
         equipment: w.equipment,
         pabrik_name: pabriks.find(p => p.id === w.pabrik_id)?.nama_pabrik || '-'
       })).sort((a, b) => {
+        const PABRIK_ORDER = ['P1A', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7'];
         const idxA = PABRIK_ORDER.indexOf(a.pabrik_name);
         const idxB = PABRIK_ORDER.indexOf(b.pabrik_name);
         const orderA = idxA === -1 ? 999 : idxA;
@@ -575,7 +558,6 @@ export const getDashboardSummary = async (req, res) => {
         tipe: 'PM02+',
         totalWO: wos.length,
         capaianCNF,
-        pabrikInfo,
         list: mappedWos
       };
     }).filter(row => row.totalWO > 0);

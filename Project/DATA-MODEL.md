@@ -235,3 +235,24 @@ individu. Tampilan berupa perbandingan jumlah per pabrik:
 - details (Detail perubahan/log)
 - createdAt
 
+
+ 
+ # # #   1 2 .   D a i l y T a s k   ( C a t a t a n   P e k e r j a a n   H a r i a n   &   M a n   H o u r s ) 
+ -   i d 
+ -   t a n g g a l   ( D a t e )      T a n g g a l   p e l a k s a n a a n   p e k e r j a a n 
+ -   c o d e _ r e f e r e n s i   ( S t r i n g ,   o p s i o n a l )      K o d e   r e f e r e n s i   i n t e r n a l   ( d a r i   E x c e l ) 
+ -   m a n _ p o w e r _ i d   ’!  r e l a s i   k e   M a n P o w e r   ( o p s i o n a l ) .   J i k a   N U L L   b e r a r t i   U n a s s i g n e d / b e l u m   d i - t a k e . 
+ -   p a b r i k _ i d   ’!  r e l a s i   k e   P a b r i k   ( o p s i o n a l )      L o k a s i   P a b r i k 
+ -   a r e a   ( S t r i n g ,   o p s i o n a l )      A r e a / U n i t   d i   p a b r i k 
+ -   e q u i p m e n t   ( S t r i n g ,   o p s i o n a l )      N a m a   m e s i n / e q u i p m e n t 
+ -   k a t e g o r i _ p r o g r a m   ( S t r i n g )      J e n i s   p e k e r j a a n   ( P d M ,   E x t r a ,   M e e t i n g ,   T A ,   d l l ) 
+ -   d e s k r i p s i _ p e k e r j a a n   ( S t r i n g )      D e s k r i p s i   p e k e r j a a n 
+ -   s t a t u s   ( S t r i n g )      E n u m :   U n a s s i g n e d ,   I n   P r o g r e s s ,   D o n e ,   H o l d ,   C a n c e l l e d 
+ -   w o _ n o t i f   ( S t r i n g ,   o p s i o n a l )      R e f e r e n s i   W O   S A P   /   N o t i f 
+ -   w a k t u _ m u l a i   ( D a t e T i m e ,   o p s i o n a l )      J a m   p e r s i s   s a a t   T a k e   J o b   /   S t a r t   d i t e k a n 
+ -   w a k t u _ s e l e s a i   ( D a t e T i m e ,   o p s i o n a l )      J a m   p e r s i s   s a a t   F i n i s h   d i t e k a n 
+ -   m a n _ h o u r s   ( F l o a t ,   o p s i o n a l )      D u r a s i   k e r j a   d a l a m   j a m .   D i h i t u n g   o t o m a t i s . 
+ -   c r e a t e d _ b y _ i d   ’!  r e l a s i   k e   U s e r   ( o p s i o n a l )      S i a p a   y a n g   m e n c a t a t   j o b   i n i 
+ -   i s _ s e l f _ i n p u t   ( B o o l e a n )      T r u e   j i k a   d i i n p u t   m a n d i r i   o l e h   p e k e r j a   d i   l a p a n g a n ,   F a l s e   j i k a   d a r i   A d m i n . 
+ -   c r e a t e d A t   /   u p d a t e d A t  
+ 
