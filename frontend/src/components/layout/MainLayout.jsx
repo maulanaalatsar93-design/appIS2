@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import { AuthContext } from '../../context/AuthContext';
+import OnlineChatWidget from '../chat/OnlineChatWidget';
 
 export default function MainLayout({ activeTab, setActiveTab, children }) {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -23,10 +24,12 @@ export default function MainLayout({ activeTab, setActiveTab, children }) {
           isCollapsed={isCollapsed} 
           setIsCollapsed={setIsCollapsed} 
         />
-        <main className="flex-1 p-4 md:p-6 lg:p-8 overflow-y-auto">
+        <main className="flex-1 p-4 md:p-6 lg:p-8 overflow-y-auto relative">
           {children}
         </main>
       </div>
+      {/* Chat Widget untuk personnel online */}
+      {user && <OnlineChatWidget />}
     </div>
   );
 }

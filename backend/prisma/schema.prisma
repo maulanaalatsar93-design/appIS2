@@ -27,6 +27,8 @@ model User {
   password     String
   name         String
   role         String    @default("staff")
+  is_online    Boolean   @default(false)
+  last_active  DateTime? @default(now())
   man_power_id Int?      @unique
   man_power    ManPower? @relation(fields: [man_power_id], references: [id])
 

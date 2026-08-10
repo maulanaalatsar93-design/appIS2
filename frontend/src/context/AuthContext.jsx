@@ -70,7 +70,19 @@ export const AuthProvider = ({ children }) => {
     setUser(userData);
   };
 
-  const logout = () => {
+  const logout = async () => {
+    if (token) {
+      try {
+        await fetch((import.meta.env.VITE_API_URL || '').replace(/\/$/, '') + '/api/auth/logout', {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+      } catch (err) {
+        console.error('Error logging out on backend:', err);
+      }
+    }
     localStorage.removeItem('token');
     localStorage.removeItem('loginTime');
     localStorage.removeItem('user');

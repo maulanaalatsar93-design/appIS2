@@ -47,8 +47,8 @@ Ditampilkan secara default saat pengguna belum login / mengakses sebagai pihak l
 |                   |                                   | (P1A, P2, P3, P4, P5, P6, P7)     |
 | • Work Order:     +-----------------------------------+-----------------------------------+
 |   - Total: 19,068 | CHART 3: Job Load & Output                                            |
-|   - PM 04: 17,969 | (Tren Line Chart Bulanan Jan - Des: Total WO vs Total Rekomendasi)|
-|   - PM02+:  1,099 |                                                                   |
+|   - PM 04: 17,969 | (Tren Line Chart Bulanan Jan - Des: Total WO vs Total Rekomendasi)    |
+|   - PM02+:  1,099 |                                                                       |
 |                   +-----------------------------------+-----------------------------------+
 | • Rekomendasi:    | CHART 4: Rekomendasi              | CHART 5: Rekomendasi              |
 |   - Total:  2,138 | (M4 dan M7)                       | (Rilis berdasarkan Pabrik)        |
