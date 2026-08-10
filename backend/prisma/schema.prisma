@@ -39,9 +39,13 @@ model User {
   // WPEM relations
   wp_created      WorkProgram[]      @relation("WPCreatedBy")
   wp_audits       WorkProgramAudit[] @relation("WPAudits")
-  item_activities WorkItemActivity[] @relation("ActivityActor")
-  item_reviews    WorkItemReview[]   @relation("ItemReviewer")
-  DailyTask       DailyTask[]
+  item_activities  WorkItemActivity[] @relation("ActivityActor")
+  item_reviews     WorkItemReview[]   @relation("ItemReviewer")
+  DailyTask        DailyTask[]
+
+  // Chat relations
+  sent_messages    ChatMessage[]      @relation("SentMessages")
+  received_messages ChatMessage[]     @relation("ReceivedMessages")
 
   @@map("app_users")
   @@schema("public")
@@ -77,6 +81,19 @@ model ManPower {
   wi_pic           WorkItem[]            @relation("WorkItemPIC")
   wi_checklist_pic WorkItemChecklist[]   @relation("ChecklistPIC")
   DailyTask        DailyTask[]
+
+  @@schema("public")
+}
+
+model ChatMessage {
+  id         Int      @id @default(autoincrement())
+  senderId   Int
+  sender     User     @relation("SentMessages", fields: [senderId], references: [id])
+  receiverId Int
+  receiver   User     @relation("ReceivedMessages", fields: [receiverId], references: [id])
+  content    String
+  isRead     Boolean  @default(false)
+  createdAt  DateTime @default(now())
 
   @@schema("public")
 }

@@ -10,6 +10,7 @@ import kehadiranRoutes from './routes/kehadiranRoutes.js';
 import manpowerPlanRoutes from './routes/manpowerPlanRoutes.js';
 import wpemRoutes from './routes/wpemRoutes.js';
 import sertifikasiRoutes from './routes/sertifikasiRoutes.js';
+import chatRoutes from './routes/chatRoutes.js';
 
 dotenv.config();
 
@@ -29,6 +30,7 @@ app.use('/api/kehadiran', kehadiranRoutes);
 app.use('/api/manpower-plans', manpowerPlanRoutes);
 app.use('/api/wpem', wpemRoutes);
 app.use('/api/sertifikasi', sertifikasiRoutes);
+app.use('/api/chat', chatRoutes);
 
 // Health check endpoint
 app.get('/api/health', async (req, res) => {
