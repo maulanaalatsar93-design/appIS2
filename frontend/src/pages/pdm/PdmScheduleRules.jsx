@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { PlusCircle, Edit, Trash2, Calendar, Settings } from 'lucide-react';
-import axios from 'axios';
 
 export default function PdmScheduleRules() {
   const [rules, setRules] = useState([]);
