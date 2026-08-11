@@ -11,7 +11,6 @@ import manpowerPlanRoutes from './routes/manpowerPlanRoutes.js';
 import wpemRoutes from './routes/wpemRoutes.js';
 import sertifikasiRoutes from './routes/sertifikasiRoutes.js';
 import chatRoutes from './routes/chatRoutes.js';
-import pdmScheduleRoutes from './routes/pdmScheduleRoutes.js';
 
 dotenv.config();
 
@@ -36,7 +35,6 @@ app.use('/api/manpower-plans', manpowerPlanRoutes);
 app.use('/api/wpem', wpemRoutes);
 app.use('/api/sertifikasi', sertifikasiRoutes);
 app.use('/api/chat', chatRoutes);
-app.use('/api/pdm-schedule', pdmScheduleRoutes);
 
 // Health check endpoint
 app.get('/api/health', async (req, res) => {
@@ -52,7 +50,7 @@ app.use((err, req, res, next) => {
   console.error('Unhandled Error:', err);
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-  res.status(500).json({ 
+  res.status(500).json({
     error: 'Internal Server Error',
     message: err.message || 'Terjadi kesalahan pada server.'
   });

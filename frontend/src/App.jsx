@@ -19,12 +19,13 @@ import SertifikasiPersonel from './pages/SertifikasiPersonel';
 import PdmScheduleRules from './pages/pdm/PdmScheduleRules';
 import PdmTaskBoard from './pages/pdm/PdmTaskBoard';
 import PdmCalendar from './pages/pdm/PdmCalendar';
+import PdmDashboard from './pages/pdm/PdmDashboard';
 import { Loader2 } from 'lucide-react';
 
 // A simple protected route wrapper
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useContext(AuthContext);
-  
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-industrial-background">
@@ -32,11 +33,11 @@ const ProtectedRoute = ({ children }) => {
       </div>
     );
   }
-  
+
   if (!user) {
     return <Navigate to="/login" replace />;
   }
-  
+
   return children;
 };
 
@@ -58,10 +59,10 @@ function MainApp() {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
-      
+
       {/* Root Route (Public or Internal Dashboard) */}
-      <Route 
-        path="/" 
+      <Route
+        path="/"
         element={
           <MainLayout activeTab={activeTab} setActiveTab={setActiveTab}>
             {activeTab === 'dashboard' ? (
@@ -106,17 +107,21 @@ function MainApp() {
               <ProtectedRoute>
                 <WPEMMonitor />
               </ProtectedRoute>
-            ) : activeTab === 'pdm-rules' ? (
+            ) : activeTab === 'pdm-dashboard' ? (
               <ProtectedRoute>
-                <PdmScheduleRules />
+                <PdmDashboard />
+              </ProtectedRoute>
+            ) : activeTab === 'pdm-calendar' ? (
+              <ProtectedRoute>
+                <PdmCalendar />
               </ProtectedRoute>
             ) : activeTab === 'pdm-tasks' ? (
               <ProtectedRoute>
                 <PdmTaskBoard />
               </ProtectedRoute>
-            ) : activeTab === 'pdm-calendar' ? (
+            ) : activeTab === 'pdm-rules' ? (
               <ProtectedRoute>
-                <PdmCalendar />
+                <PdmScheduleRules />
               </ProtectedRoute>
             ) : (
               <ProtectedRoute>
@@ -131,9 +136,9 @@ function MainApp() {
               </ProtectedRoute>
             )}
           </MainLayout>
-        } 
+        }
       />
-      
+
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

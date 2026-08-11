@@ -84,9 +84,13 @@ model ManPower {
   DailyTask        DailyTask[]
 
   // PdM Rotating relations
-  pdm_default_pic    PdmScheduleRule[]       @relation("RuleDefaultPic")
-  pdm_monthly_pic    PdmRuleMonthlyPic[]     @relation("MonthlyPicOverride")
-  pdm_assigned_tasks PdmScheduleOccurrence[] @relation("AssignedTo")
+  pdm_default_pic        PdmScheduleRule[]       @relation("RuleDefaultPic")
+  pdm_monthly_pic        PdmRuleMonthlyPic[]     @relation("MonthlyPicOverride")
+  pdm_assigned_tasks     PdmScheduleOccurrence[] @relation("AssignedTo")
+  pdm_pic_history_from   PdmPicHistory[]         @relation("PicHistoryFrom")
+  pdm_pic_history_to     PdmPicHistory[]         @relation("PicHistoryTo")
+  pdm_pic_history_by     PdmPicHistory[]         @relation("PicHistoryChangedBy")
+  pdm_daily_activities   PdmDailyActivity[]      @relation("DailyActivityPerformer")
 
   @@schema("public")
 }
@@ -451,11 +455,13 @@ enum RecurrencePattern {
 }
 
 enum JobStatus {
-  SCHEDULED // belum ada PIC, perlu di-claim manual
-  ASSIGNED // sudah auto-assign ke PIC, belum mulai
+  SCHEDULED   // belum ada PIC, perlu di-claim manual
+  ASSIGNED    // sudah auto-assign ke PIC, belum mulai
   IN_PROGRESS
   ON_HOLD
   COMPLETED
+  OVERDUE     // belum selesai, sudah lewat scheduledDate
+  CANCELLED   // dibatalkan
 
   @@schema("public")
 }
@@ -499,25 +505,35 @@ model PdmScheduleOccurrence {
   id            Int             @id @default(autoincrement())
   ruleId        Int
   rule          PdmScheduleRule @relation(fields: [ruleId], references: [id])
-  scheduledDate DateTime
-  effectiveDate DateTime
-  wasShifted    Boolean         @default(false)
-  status        JobStatus       @default(SCHEDULED)
 
-  assignedToId   Int?
-  assignedTo     ManPower? @relation("AssignedTo", fields: [assignedToId], references: [id])
-  originalPicId  Int?
-  reassignReason String?
-  reassignedAt   DateTime?
-  reassignedById Int?
+  // Tanggal
+  targetDate    DateTime  // Tanggal asli dari master rule (tidak berubah)
+  scheduledDate DateTime  // Tanggal setelah shift hari libur
+  actualDate    DateTime? // Tanggal task benar-benar dikerjakan
+  wasShifted    Boolean   @default(false)
+  year          Int       // untuk query filter bulanan
+  month         Int       // untuk query filter bulanan
 
+  status        JobStatus @default(SCHEDULED)
+  isOverdue     Boolean   @default(false)
+  cancelReason  String?
+
+  // PIC Assignment
+  assignedToId      Int?
+  assignedTo        ManPower? @relation("AssignedTo", fields: [assignedToId], references: [id])
+  originalPicId     Int?      // snapshot PIC awal saat generate, untuk audit
+  originalPicName   String?   // snapshot nama PIC awal
+
+  // Timestamps
   claimedAt       DateTime?
   startedAt       DateTime?
   completedAt     DateTime?
-  isOverdue       Boolean            @default(false)
-  dailyActivities PdmDailyActivity[]
+  createdAt       DateTime  @default(now())
 
-  @@unique([ruleId, scheduledDate])
+  dailyActivities PdmDailyActivity[]
+  picHistories    PdmPicHistory[]
+
+  @@unique([ruleId, targetDate])
   @@schema("public")
 }
 
@@ -531,6 +547,25 @@ model PdmDailyActivity {
   durationMinutes Int?
   activityNote    String?
   statusSnapshot  JobStatus
+  performedById   Int?
+  performedBy     ManPower?             @relation("DailyActivityPerformer", fields: [performedById], references: [id])
+
+  @@schema("public")
+}
+
+// Histori setiap perubahan PIC per occurrence
+model PdmPicHistory {
+  id           Int                   @id @default(autoincrement())
+  occurrenceId Int
+  occurrence   PdmScheduleOccurrence @relation(fields: [occurrenceId], references: [id])
+  fromPicId    Int?
+  fromPic      ManPower?             @relation("PicHistoryFrom", fields: [fromPicId], references: [id])
+  toPicId      Int
+  toPic        ManPower              @relation("PicHistoryTo", fields: [toPicId], references: [id])
+  reason       String
+  changedById  Int
+  changedBy    ManPower              @relation("PicHistoryChangedBy", fields: [changedById], references: [id])
+  changedAt    DateTime              @default(now())
 
   @@schema("public")
 }

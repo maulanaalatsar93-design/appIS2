@@ -1,256 +1,286 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, Play, Pause, CheckCircle, UserPlus, FileText, AlertCircle, Clock } from 'lucide-react';
-import { format, parseISO } from 'date-fns';
-import { id as idLocale } from 'date-fns/locale';
+import { ClipboardList, Play, Square, CheckCircle, UserCheck, Clock, AlertTriangle, AlertOctagon, ChevronDown, ChevronUp, History } from 'lucide-react';
 
-export default function PdmTaskBoard() {
-  const [activeTab, setActiveTab] = useState('TASK_SAYA'); // 'TASK_SAYA' | 'JOB_BOARD'
-  const [myTasks, setMyTasks] = useState([]);
-  const [jobBoardTasks, setJobBoardTasks] = useState([]);
-  const [loading, setLoading] = useState(true);
+const STATUS_STYLE = {
+  SCHEDULED:   { bg: 'bg-gray-50 border-gray-200',   badge: 'bg-gray-100 text-gray-600',    label: 'Scheduled' },
+  ASSIGNED:    { bg: 'bg-blue-50 border-blue-200',    badge: 'bg-blue-100 text-blue-700',    label: 'Assigned' },
+  IN_PROGRESS: { bg: 'bg-amber-50 border-amber-200',  badge: 'bg-amber-100 text-amber-700',  label: 'In Progress' },
+  ON_HOLD:     { bg: 'bg-orange-50 border-orange-200',badge: 'bg-orange-100 text-orange-700',label: 'On Hold' },
+  COMPLETED:   { bg: 'bg-green-50 border-green-200',  badge: 'bg-green-100 text-green-700',  label: 'Completed' },
+  OVERDUE:     { bg: 'bg-red-50 border-red-200',      badge: 'bg-red-100 text-red-700',      label: 'Overdue' },
+};
 
-  // Reassign Modal
-  const [isReassignOpen, setIsReassignOpen] = useState(false);
-  const [selectedTaskForReassign, setSelectedTaskForReassign] = useState(null);
-  const [reassignData, setReassignData] = useState({ newPicId: '', reason: '' });
-  const [manpowers, setManpowers] = useState([]);
+function TaskBox({ occ, onAction, manpowers }) {
+  const [expanded, setExpanded] = useState(false);
+  const [reassignOpen, setReassignOpen] = useState(false);
+  const [newPicId, setNewPicId] = useState('');
+  const [reason, setReason] = useState('');
+  const [historyOpen, setHistoryOpen] = useState(false);
 
-  useEffect(() => {
-    fetchTasks();
-    fetchManpowers();
-  }, [activeTab]);
+  const now = new Date();
+  const daysLate = !['COMPLETED','CANCELLED'].includes(occ.status)
+    ? Math.max(0, Math.floor((now - new Date(occ.scheduledDate)) / 86400000))
+    : 0;
+  const statusKey = daysLate > 0 && !['COMPLETED','CANCELLED'].includes(occ.status) ? 'OVERDUE' : occ.status;
+  const style = STATUS_STYLE[statusKey] || STATUS_STYLE.ASSIGNED;
 
-  const fetchTasks = async () => {
-    setLoading(true);
-    try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-      const token = localStorage.getItem('token');
-      
-      if (activeTab === 'TASK_SAYA') {
-        const response = await fetch(`${apiUrl}/api/pdm-schedule/my-tasks`, {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
-        if (response.ok) {
-          const data = await response.json();
-          setMyTasks(data);
-        }
-      } else {
-        const currentDate = new Date();
-        const year = currentDate.getFullYear();
-        const month = currentDate.getMonth() + 1; // 1-12
-        const response = await fetch(`${apiUrl}/api/pdm-schedule/occurrences?year=${year}&month=${month}&status=SCHEDULED`, {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
-        if (response.ok) {
-          const data = await response.json();
-          setJobBoardTasks(data);
-        }
-      }
-    } catch (error) {
-      console.error('Error fetching tasks:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const targetDateStr = occ.targetDate ? new Date(occ.targetDate).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' }) : '-';
+  const scheduledDateStr = occ.scheduledDate ? new Date(occ.scheduledDate).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' }) : '-';
 
-  const fetchManpowers = async () => {
-    try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-      const token = localStorage.getItem('token');
-      const response = await fetch(`${apiUrl}/api/dashboard/manpower`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setManpowers(data);
-      }
-    } catch (error) {
-      console.error('Error fetching manpowers:', error);
-    }
-  };
+  return (
+    <div className={`rounded-xl border-2 ${style.bg} shadow-sm overflow-hidden`}>
+      {/* Header strip berdasarkan kritikalitas */}
+      <div className={`h-1 w-full ${occ.rule?.criticality === 'CRITICAL' ? 'bg-red-400' : 'bg-blue-300'}`} />
 
-  const handleAction = async (taskId, action, body = {}) => {
-    try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-      const token = localStorage.getItem('token');
-      const response = await fetch(`${apiUrl}/api/pdm-schedule/occurrences/${taskId}/${action}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: Object.keys(body).length > 0 ? JSON.stringify(body) : undefined
-      });
-      
-      if (response.ok) {
-        fetchTasks();
-      } else {
-        const data = await response.json();
-        alert(data.error || 'Terjadi kesalahan');
-      }
-    } catch (error) {
-      console.error('Error handling action:', error);
-    }
-  };
-
-  const submitReassign = async (e) => {
-    e.preventDefault();
-    await handleAction(selectedTaskForReassign.id, 'reassign', reassignData);
-    setIsReassignOpen(false);
-    setSelectedTaskForReassign(null);
-  };
-
-  const getStatusBadge = (status) => {
-    switch (status) {
-      case 'SCHEDULED': return <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded-full text-xs font-semibold">Tersedia</span>;
-      case 'ASSIGNED': return <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs font-semibold">Assigned</span>;
-      case 'IN_PROGRESS': return <span className="bg-amber-100 text-amber-700 px-2 py-1 rounded-full text-xs font-semibold">In Progress</span>;
-      case 'ON_HOLD': return <span className="bg-orange-100 text-orange-700 px-2 py-1 rounded-full text-xs font-semibold">On Hold</span>;
-      case 'COMPLETED': return <span className="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs font-semibold">Selesai</span>;
-      default: return null;
-    }
-  };
-
-  const renderTaskCard = (task, isMyTask) => (
-    <div key={task.id} className="bg-white border border-gray-100 rounded-xl shadow-sm hover:shadow-md transition p-5 flex flex-col h-full">
-      <div className="flex justify-between items-start mb-3">
+      <div className="p-4 space-y-3">
+        {/* ── TASK PROGRAM ──────────────────────────── */}
         <div>
-          <h3 className="font-bold text-gray-800 text-lg leading-tight">{task.rule?.taskName}</h3>
-          <p className="text-gray-500 text-sm mt-1">{task.rule?.pabrik?.nama_pabrik} - {task.rule?.subArea}</p>
-        </div>
-        {getStatusBadge(task.status)}
-      </div>
-
-      <div className="flex-1 space-y-2 mt-2 text-sm text-gray-600">
-        <div className="flex items-center gap-2">
-          <Calendar className="w-4 h-4 text-blue-500" />
-          <span>Jadwal: {format(parseISO(task.effectiveDate), 'dd MMM yyyy', { locale: idLocale })}</span>
-        </div>
-        {task.wasShifted && (
-          <div className="flex items-center gap-2 text-orange-600 text-xs mt-1 bg-orange-50 p-1.5 rounded">
-            <AlertCircle className="w-3.5 h-3.5" />
-            Tanggal digeser karena hari libur
+          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">Task Program</p>
+          <div className="flex justify-between items-start">
+            <div>
+              <p className="font-bold text-gray-800">{occ.rule?.pabrik?.nama_pabrik} – <span className="text-blue-600">{occ.rule?.equipmentCat}</span></p>
+              <p className="text-sm text-gray-600">{occ.rule?.criticality === 'CRITICAL' ? 'PdM Critical' : 'PdM Non Critical'} – {occ.rule?.subArea}</p>
+            </div>
+            <span className={`text-xs px-2 py-0.5 rounded-full font-semibold ${style.badge}`}>{style.label}</span>
           </div>
-        )}
-      </div>
+        </div>
 
-      <div className="mt-5 pt-4 border-t border-gray-100 flex flex-wrap gap-2 justify-end">
-        {!isMyTask ? (
-          <button onClick={() => handleAction(task.id, 'claim')} className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium text-sm transition">
-            <UserPlus className="w-4 h-4" />
-            Ambil Job
-          </button>
-        ) : (
-          <>
-            {(task.status === 'ASSIGNED' || task.status === 'ON_HOLD') && (
-              <button onClick={() => handleAction(task.id, 'start')} className="flex items-center gap-2 px-3 py-1.5 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm transition">
-                <Play className="w-4 h-4" /> Mulai
-              </button>
-            )}
-            {task.status === 'IN_PROGRESS' && (
-              <>
-                <button onClick={() => {
-                  const note = prompt('Keterangan On Hold:');
-                  if (note !== null) handleAction(task.id, 'hold', { note });
-                }} className="flex items-center gap-2 px-3 py-1.5 bg-amber-500 text-white rounded hover:bg-amber-600 text-sm transition">
-                  <Pause className="w-4 h-4" /> Hold
-                </button>
-                <button onClick={() => {
-                  const note = prompt('Keterangan Penyelesaian:');
-                  if (note !== null) handleAction(task.id, 'complete', { note });
-                }} className="flex items-center gap-2 px-3 py-1.5 bg-green-600 text-white rounded hover:bg-green-700 text-sm transition">
-                  <CheckCircle className="w-4 h-4" /> Selesai
-                </button>
-              </>
-            )}
-            {/* Optional: Only admin/AVP can reassign, but let's show it for demo */}
-            <button onClick={() => {
-              setSelectedTaskForReassign(task);
-              setIsReassignOpen(true);
-            }} className="flex items-center gap-2 px-3 py-1.5 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 text-sm transition">
-              <UserPlus className="w-4 h-4" /> Reassign
+        <hr className="border-gray-200" />
+
+        {/* ── TASK PdM ──────────────────────────────── */}
+        <div>
+          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">Task PdM</p>
+          <p className="text-sm font-medium text-gray-700">{occ.rule?.taskName}</p>
+          <div className="mt-1 flex items-center gap-1.5 text-xs text-gray-500">
+            <UserCheck className="w-3.5 h-3.5" />
+            <span>PIC: <span className="font-medium text-gray-700">{occ.assignedTo?.name || <em>Belum ada</em>}</span></span>
+          </div>
+          {occ.picHistories?.length > 0 && (
+            <button onClick={() => setHistoryOpen(!historyOpen)} className="mt-1 text-xs text-blue-500 hover:underline flex items-center gap-1">
+              <History className="w-3 h-3" /> {occ.picHistories.length} perubahan PIC
             </button>
-          </>
+          )}
+          {historyOpen && (
+            <div className="mt-2 space-y-1 bg-white rounded-lg border border-gray-200 p-2 text-xs">
+              {occ.picHistories.map(h => (
+                <div key={h.id} className="flex gap-2 text-gray-600">
+                  <span className="text-gray-400 shrink-0">{new Date(h.changedAt).toLocaleDateString('id-ID')}</span>
+                  <span>{h.fromPic?.name || 'awal'} → <strong>{h.toPic?.name}</strong></span>
+                  <span className="text-orange-500">({h.reason})</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <hr className="border-gray-200" />
+
+        {/* ── TASK ORDER ────────────────────────────── */}
+        <div>
+          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">Task Order</p>
+          <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-xs text-gray-600">
+            <div><span className="text-gray-400">Target:</span> <span className="font-medium">{targetDateStr}</span></div>
+            <div>
+              <span className="text-gray-400">Scheduled:</span> <span className="font-medium">{scheduledDateStr}</span>
+              {occ.wasShifted && <span className="ml-1 text-orange-500 text-[10px]">(geser)</span>}
+            </div>
+            <div><span className="text-gray-400">Status:</span> <span className={`font-semibold ${daysLate > 4 ? 'text-red-600' : daysLate > 0 ? 'text-orange-500' : 'text-gray-700'}`}>{style.label}</span></div>
+            {daysLate > 0 && (
+              <div className="flex items-center gap-1">
+                {daysLate > 4 ? <AlertOctagon className="w-3 h-3 text-red-500" /> : <AlertTriangle className="w-3 h-3 text-orange-400" />}
+                <span className={`font-bold ${daysLate > 4 ? 'text-red-600' : 'text-orange-500'}`}>+{daysLate} hari terlambat</span>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* ── ACTION BUTTONS ─────────────────────────── */}
+        <div className="flex flex-wrap gap-2 pt-1">
+          {occ.status === 'ASSIGNED' && (
+            <button onClick={() => onAction('start', occ.id)} className="flex items-center gap-1 px-3 py-1.5 bg-amber-500 text-white rounded-lg text-xs font-medium hover:bg-amber-600 transition">
+              <Play className="w-3 h-3" /> Mulai
+            </button>
+          )}
+          {occ.status === 'ON_HOLD' && (
+            <button onClick={() => onAction('start', occ.id)} className="flex items-center gap-1 px-3 py-1.5 bg-blue-500 text-white rounded-lg text-xs font-medium hover:bg-blue-600 transition">
+              <Play className="w-3 h-3" /> Lanjutkan
+            </button>
+          )}
+          {occ.status === 'IN_PROGRESS' && (
+            <>
+              <button onClick={() => onAction('hold', occ.id)} className="flex items-center gap-1 px-3 py-1.5 bg-orange-100 text-orange-700 border border-orange-200 rounded-lg text-xs font-medium hover:bg-orange-200 transition">
+                <Square className="w-3 h-3" /> Hold
+              </button>
+              <button onClick={() => onAction('complete', occ.id)} className="flex items-center gap-1 px-3 py-1.5 bg-green-500 text-white rounded-lg text-xs font-medium hover:bg-green-600 transition">
+                <CheckCircle className="w-3 h-3" /> Selesai
+              </button>
+            </>
+          )}
+
+          <button onClick={() => setReassignOpen(!reassignOpen)} className="flex items-center gap-1 px-3 py-1.5 bg-gray-100 text-gray-600 border border-gray-200 rounded-lg text-xs font-medium hover:bg-gray-200 transition ml-auto">
+            <UserCheck className="w-3 h-3" /> Ganti PIC
+          </button>
+        </div>
+
+        {/* Reassign Form */}
+        {reassignOpen && (
+          <div className="bg-white border border-gray-200 rounded-lg p-3 space-y-2">
+            <p className="text-xs font-semibold text-gray-600">Ganti PIC</p>
+            <select value={newPicId} onChange={e => setNewPicId(e.target.value)} className="w-full text-xs border border-gray-200 rounded p-2">
+              <option value="">-- Pilih PIC Baru --</option>
+              {manpowers.map(m => <option key={m.id} value={m.id}>{m.name} – {m.position}</option>)}
+            </select>
+            <input value={reason} onChange={e => setReason(e.target.value)} placeholder="Alasan (wajib)" className="w-full text-xs border border-gray-200 rounded p-2" />
+            <div className="flex gap-2">
+              <button onClick={() => { onAction('reassign', occ.id, { newPicId, reason }); setReassignOpen(false); }} className="px-3 py-1.5 bg-blue-600 text-white rounded text-xs font-medium hover:bg-blue-700">Simpan</button>
+              <button onClick={() => setReassignOpen(false)} className="px-3 py-1.5 bg-gray-100 text-gray-600 rounded text-xs">Batal</button>
+            </div>
+          </div>
         )}
       </div>
     </div>
   );
+}
+
+export default function PdmTaskBoard() {
+  const [tab, setTab] = useState('MY_TASKS');
+  const [myTasks, setMyTasks] = useState([]);
+  const [jobBoard, setJobBoard] = useState([]);
+  const [manpowers, setManpowers] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [filterMonth, setFilterMonth] = useState(new Date().getMonth() + 1);
+  const [filterYear, setFilterYear] = useState(new Date().getFullYear());
+
+  const api = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+  const token = localStorage.getItem('token');
+  const headers = { Authorization: `Bearer ${token}` };
+
+  useEffect(() => { fetchAll(); }, [filterMonth, filterYear, tab]);
+  useEffect(() => { fetchManpowers(); }, []);
+
+  const fetchAll = async () => {
+    setLoading(true);
+    try {
+      const params = `year=${filterYear}&month=${filterMonth}`;
+      const [myRes, jobRes] = await Promise.all([
+        fetch(`${api}/api/pdm-schedule/my-tasks?${params}`, { headers }),
+        fetch(`${api}/api/pdm-schedule/job-board?${params}`, { headers }),
+      ]);
+      if (myRes.ok) setMyTasks(await myRes.json());
+      if (jobRes.ok) setJobBoard(await jobRes.json());
+    } catch (e) { console.error(e); }
+    finally { setLoading(false); }
+  };
+
+  const fetchManpowers = async () => {
+    const res = await fetch(`${api}/api/dashboard/manpower`, { headers });
+    if (res.ok) setManpowers(await res.json());
+  };
+
+  const handleAction = async (action, id, extra = {}) => {
+    const endpoints = {
+      start: 'start', hold: 'hold', complete: 'complete', reassign: 'reassign', claim: 'claim'
+    };
+    try {
+      const res = await fetch(`${api}/api/pdm-schedule/occurrences/${id}/${endpoints[action]}`, {
+        method: 'POST',
+        headers: { ...headers, 'Content-Type': 'application/json' },
+        body: JSON.stringify(extra)
+      });
+      if (res.ok) { fetchAll(); }
+      else {
+        const err = await res.json();
+        alert(err.error || 'Gagal melakukan aksi');
+      }
+    } catch (e) { console.error(e); }
+  };
+
+  const monthNames = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des'];
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
-      <div className="mb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
+    <div className="p-6 max-w-7xl mx-auto space-y-4">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
-            <FileText className="w-6 h-6 text-blue-600" />
-            PdM Task Board
+            <ClipboardList className="w-6 h-6 text-blue-600" />
+            Task Board PdM Rotating
           </h1>
-          <p className="text-gray-500 text-sm mt-1">Kelola pekerjaan dan jadwal harian inspeksi</p>
+          <p className="text-gray-500 text-sm mt-1">Kelola dan pantau task inspeksi Anda</p>
         </div>
 
-        <div className="flex bg-gray-100 p-1 rounded-lg">
-          <button 
-            className={`px-4 py-2 rounded-md text-sm font-medium transition ${activeTab === 'TASK_SAYA' ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-600 hover:text-gray-800'}`}
-            onClick={() => setActiveTab('TASK_SAYA')}
-          >
-            Tugas Saya
-          </button>
-          <button 
-            className={`px-4 py-2 rounded-md text-sm font-medium transition ${activeTab === 'JOB_BOARD' ? 'bg-white text-blue-600 shadow-sm' : 'text-gray-600 hover:text-gray-800'}`}
-            onClick={() => setActiveTab('JOB_BOARD')}
-          >
-            Job Board (Tersedia)
-          </button>
+        <div className="flex items-center gap-2">
+          <select value={filterMonth} onChange={e => setFilterMonth(parseInt(e.target.value))} className="text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white">
+            {monthNames.map((n, i) => <option key={i} value={i+1}>{n}</option>)}
+          </select>
+          <select value={filterYear} onChange={e => setFilterYear(parseInt(e.target.value))} className="text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white">
+            {[2024,2025,2026,2027].map(y => <option key={y} value={y}>{y}</option>)}
+          </select>
         </div>
       </div>
 
-      {loading ? (
-        <div className="flex justify-center p-12">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {activeTab === 'TASK_SAYA' && myTasks.map(task => renderTaskCard(task, true))}
-          {activeTab === 'JOB_BOARD' && jobBoardTasks.map(task => renderTaskCard(task, false))}
-          
-          {((activeTab === 'TASK_SAYA' && myTasks.length === 0) || (activeTab === 'JOB_BOARD' && jobBoardTasks.length === 0)) && (
-            <div className="col-span-full bg-white rounded-xl border border-dashed border-gray-300 p-12 text-center">
-              <CheckCircle className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-              <h3 className="text-lg font-medium text-gray-900">Tidak ada tugas</h3>
-              <p className="text-gray-500 mt-1">Semua tugas sudah selesai atau belum ada jadwal baru.</p>
-            </div>
-          )}
-        </div>
-      )}
+      {/* Tabs */}
+      <div className="flex gap-1 bg-gray-100 p-1 rounded-xl w-fit">
+        {[
+          { key: 'MY_TASKS', label: `Tugas Saya (${myTasks.length})` },
+          { key: 'JOB_BOARD', label: `Job Board (${jobBoard.length})` }
+        ].map(t => (
+          <button
+            key={t.key}
+            onClick={() => setTab(t.key)}
+            className={`px-5 py-2 rounded-lg text-sm font-semibold transition ${tab === t.key ? 'bg-white text-blue-700 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+          >
+            {t.label}
+          </button>
+        ))}
+      </div>
 
-      {/* Modal Reassign */}
-      {isReassignOpen && selectedTaskForReassign && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden">
-            <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50">
-              <h2 className="text-xl font-bold text-gray-800">Reassign Task</h2>
-              <button onClick={() => setIsReassignOpen(false)} className="text-gray-400 hover:text-gray-600">X</button>
-            </div>
-            <div className="p-6">
-              <form id="reassignForm" onSubmit={submitReassign} className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Pilih PIC Baru *</label>
-                  <select required className="w-full p-2 border border-gray-300 rounded-lg" value={reassignData.newPicId} onChange={e => setReassignData({...reassignData, newPicId: e.target.value})}>
-                    <option value="">-- Pilih --</option>
-                    {manpowers.map(m => <option key={m.id} value={m.id}>{m.name} ({m.position})</option>)}
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Alasan Reassign</label>
-                  <textarea className="w-full p-2 border border-gray-300 rounded-lg" rows="3" value={reassignData.reason} onChange={e => setReassignData({...reassignData, reason: e.target.value})} placeholder="Misal: PIC sebelumnya sakit..."></textarea>
-                </div>
-              </form>
-            </div>
-            <div className="p-6 border-t border-gray-100 flex justify-end gap-3 bg-gray-50">
-              <button type="button" onClick={() => setIsReassignOpen(false)} className="px-4 py-2 text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition">Batal</button>
-              <button type="submit" form="reassignForm" className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium">Reassign</button>
-            </div>
+      {/* Task Grid */}
+      {loading ? (
+        <div className="text-center py-20 text-gray-400">Memuat task...</div>
+      ) : tab === 'MY_TASKS' ? (
+        myTasks.length === 0 ? (
+          <div className="text-center py-20 text-gray-400">
+            <ClipboardList className="w-12 h-12 mx-auto mb-3 text-gray-300" />
+            <p>Tidak ada task yang di-assign untuk Anda bulan ini.</p>
           </div>
-        </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {myTasks.map(occ => <TaskBox key={occ.id} occ={occ} onAction={handleAction} manpowers={manpowers} />)}
+          </div>
+        )
+      ) : (
+        jobBoard.length === 0 ? (
+          <div className="text-center py-20 text-gray-400">
+            <CheckCircle className="w-12 h-12 mx-auto mb-3 text-green-300" />
+            <p>Tidak ada task yang belum memiliki PIC.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {jobBoard.map(occ => (
+              <div key={occ.id} className="rounded-xl border-2 border-gray-200 bg-gray-50 shadow-sm p-4 space-y-3">
+                <div className="h-1 w-full rounded bg-gray-300 -mt-4 mx-0 mb-0" />
+                <div>
+                  <p className="font-bold text-gray-800">{occ.rule?.pabrik?.nama_pabrik} – {occ.rule?.subArea}</p>
+                  <p className="text-sm text-gray-500">{occ.rule?.taskName}</p>
+                  <p className="text-xs text-gray-400 mt-1">Scheduled: {occ.scheduledDate ? new Date(occ.scheduledDate).toLocaleDateString('id-ID') : '-'}</p>
+                </div>
+                <div className="flex gap-2 text-xs">
+                  <span className={`px-2 py-0.5 rounded-full font-medium ${occ.rule?.criticality === 'CRITICAL' ? 'bg-red-100 text-red-600' : 'bg-blue-100 text-blue-600'}`}>
+                    {occ.rule?.criticality === 'CRITICAL' ? 'Critical' : 'Non Critical'}
+                  </span>
+                  <span className="px-2 py-0.5 rounded-full bg-gray-200 text-gray-600">{occ.rule?.equipmentCat}</span>
+                </div>
+                <button
+                  onClick={() => handleAction('claim', occ.id)}
+                  className="w-full py-2 bg-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-blue-700 transition"
+                >
+                  Ambil Task
+                </button>
+              </div>
+            ))}
+          </div>
+        )
       )}
     </div>
   );

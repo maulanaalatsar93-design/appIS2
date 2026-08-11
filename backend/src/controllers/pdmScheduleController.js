@@ -1,113 +1,100 @@
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
-import { endOfMonth, startOfMonth, getDaysInMonth, addDays, getDay, isSameDay } from 'date-fns';
 
-// --- Helper Functions ---
-
-// Fetch holidays for shifting dates
-const getHolidaysInMonth = async (year, month) => {
-  // We assume HariLibur stores dates in "tanggal" field
-  const start = new Date(year, month - 1, 1);
-  const end = new Date(year, month, 0); // last day
-  
-  const holidays = await prisma.hariLibur.findMany({
-    where: {
-      tanggal: {
-        gte: start,
-        lte: end
-      }
-    }
-  });
-  return holidays.map(h => new Date(h.tanggal).toISOString().split('T')[0]);
-};
-
-// Check if a date is weekend or holiday
-const isWeekendOrHoliday = (dateObj, holidayStrArray) => {
-  const day = getDay(dateObj); // 0 = Sunday, 6 = Saturday
+// Helper: cek apakah tanggal adalah hari libur (Sabtu/Minggu atau tanggal merah)
+async function isHoliday(date) {
+  const day = date.getDay(); // 0=Sun, 6=Sat
   if (day === 0 || day === 6) return true;
-  
-  const dateStr = dateObj.toISOString().split('T')[0];
-  return holidayStrArray.includes(dateStr);
-};
 
-// Shift date to next working day
-const getEffectiveDate = (scheduledDate, holidayStrArray) => {
-  let current = new Date(scheduledDate);
-  while (isWeekendOrHoliday(current, holidayStrArray)) {
-    current = addDays(current, 1);
+  // Cek di tabel HariLibur jika ada
+  try {
+    const dateStr = date.toISOString().split('T')[0];
+    const holiday = await prisma.hariLibur.findFirst({
+      where: { tanggal: { equals: new Date(dateStr) } }
+    });
+    return !!holiday;
+  } catch {
+    return false; // tabel tidak ada, hanya cek weekend
   }
-  return current;
-};
+}
 
-// --- Controllers ---
+// Helper: geser ke hari kerja berikutnya
+async function shiftToWorkday(date) {
+  let shifted = new Date(date);
+  let wasShifted = false;
+  while (await isHoliday(shifted)) {
+    shifted.setDate(shifted.getDate() + 1);
+    wasShifted = true;
+  }
+  return { effectiveDate: shifted, wasShifted };
+}
+
+// ============================================================
+// CRUD MASTER RULE
+// ============================================================
 
 export const getRules = async (req, res) => {
   try {
+    const { pabrik_id, equipmentCat, criticality, isActive } = req.query;
+    const where = {};
+    if (pabrik_id) where.pabrik_id = parseInt(pabrik_id);
+    if (equipmentCat) where.equipmentCat = equipmentCat;
+    if (criticality) where.criticality = criticality;
+    if (isActive !== undefined) where.isActive = isActive === 'true';
+
     const rules = await prisma.pdmScheduleRule.findMany({
+      where,
       include: {
         pabrik: true,
-        defaultPic: true
+        defaultPic: { select: { id: true, name: true, npk: true, position: true } },
+        _count: { select: { occurrences: true } }
       },
-      orderBy: { id: 'desc' }
+      orderBy: [{ pabrik_id: 'asc' }, { subArea: 'asc' }]
     });
     res.json(rules);
-  } catch (error) {
-    console.error('Error getRules:', error);
-    res.status(500).json({ error: 'Internal server error' });
+  } catch (err) {
+    console.error('getRules error:', err);
+    res.status(500).json({ error: err.message });
   }
 };
 
 export const createRule = async (req, res) => {
   try {
-    const { code, pabrik_id, subArea, equipmentCat, criticality, taskName, recurrence, dateFirst, dateSecond, defaultPicId, notes } = req.body;
+    const { code, pabrik_id, subArea, equipmentCat, criticality, taskName, recurrence, dateFirst, dateSecond, defaultPicId, notes, isActive } = req.body;
+    if (!code || !pabrik_id || !equipmentCat || !criticality || !taskName || !recurrence) {
+      return res.status(400).json({ error: 'Field wajib: code, pabrik_id, equipmentCat, criticality, taskName, recurrence' });
+    }
     const rule = await prisma.pdmScheduleRule.create({
       data: {
-        code,
-        pabrik_id: parseInt(pabrik_id),
-        subArea,
-        equipmentCat,
-        criticality,
-        taskName,
-        recurrence,
+        code, pabrik_id: parseInt(pabrik_id), subArea,
+        equipmentCat, criticality, taskName, recurrence,
         dateFirst: dateFirst ? parseInt(dateFirst) : null,
         dateSecond: dateSecond ? parseInt(dateSecond) : null,
         defaultPicId: defaultPicId ? parseInt(defaultPicId) : null,
-        notes
-      }
+        notes, isActive: isActive !== false
+      },
+      include: { pabrik: true, defaultPic: { select: { id: true, name: true } } }
     });
     res.status(201).json(rule);
-  } catch (error) {
-    console.error('Error createRule:', error);
-    if (error.code === 'P2002') return res.status(400).json({ error: 'Code rule sudah ada.' });
-    res.status(500).json({ error: 'Internal server error' });
+  } catch (err) {
+    if (err.code === 'P2002') return res.status(409).json({ error: 'Kode rule sudah ada' });
+    res.status(500).json({ error: err.message });
   }
 };
 
 export const updateRule = async (req, res) => {
   try {
     const { id } = req.params;
-    const { code, pabrik_id, subArea, equipmentCat, criticality, taskName, recurrence, dateFirst, dateSecond, defaultPicId, notes, isActive } = req.body;
-    const rule = await prisma.pdmScheduleRule.update({
-      where: { id: parseInt(id) },
-      data: {
-        code,
-        pabrik_id: pabrik_id ? parseInt(pabrik_id) : undefined,
-        subArea,
-        equipmentCat,
-        criticality,
-        taskName,
-        recurrence,
-        dateFirst: dateFirst ? parseInt(dateFirst) : null,
-        dateSecond: dateSecond ? parseInt(dateSecond) : null,
-        defaultPicId: defaultPicId ? parseInt(defaultPicId) : null,
-        notes,
-        isActive
-      }
-    });
+    const data = { ...req.body };
+    if (data.pabrik_id) data.pabrik_id = parseInt(data.pabrik_id);
+    if (data.dateFirst) data.dateFirst = parseInt(data.dateFirst);
+    if (data.dateSecond !== undefined) data.dateSecond = data.dateSecond ? parseInt(data.dateSecond) : null;
+    if (data.defaultPicId !== undefined) data.defaultPicId = data.defaultPicId ? parseInt(data.defaultPicId) : null;
+    delete data.id;
+    const rule = await prisma.pdmScheduleRule.update({ where: { id: parseInt(id) }, data, include: { pabrik: true, defaultPic: { select: { id: true, name: true } } } });
     res.json(rule);
-  } catch (error) {
-    console.error('Error updateRule:', error);
-    res.status(500).json({ error: 'Internal server error' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 };
 
@@ -115,300 +102,511 @@ export const deleteRule = async (req, res) => {
   try {
     const { id } = req.params;
     await prisma.pdmScheduleRule.delete({ where: { id: parseInt(id) } });
-    res.json({ message: 'Deleted successfully' });
-  } catch (error) {
-    console.error('Error deleteRule:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.json({ message: 'Rule berhasil dihapus' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 };
+
+// ============================================================
+// GENERATE MONTHLY SCHEDULE
+// ============================================================
 
 export const generateMonthlySchedule = async (req, res) => {
   try {
-    const { year, month } = req.body; // e.g. 2024, 8
-    if (!year || !month) return res.status(400).json({ error: 'Year dan Month harus diisi' });
+    const { year, month, pabrik_id } = req.body;
+    if (!year || !month) return res.status(400).json({ error: 'year dan month wajib diisi' });
 
-    // 1. Ambil rules aktif untuk kategori yg butuh generate otomatis
+    const y = parseInt(year);
+    const m = parseInt(month);
+
+    const where = { isActive: true, recurrence: { not: 'TENTATIVE' } };
+    if (pabrik_id) where.pabrik_id = parseInt(pabrik_id);
+
     const rules = await prisma.pdmScheduleRule.findMany({
-      where: {
-        isActive: true,
-        recurrence: { in: ['MONTHLY_ONCE', 'MONTHLY_TWICE'] }
-      },
+      where,
       include: {
-        monthlyPicOverrides: {
-          where: { year: parseInt(year), month: parseInt(month) }
-        }
+        monthlyPicOverrides: { where: { year: y, month: m } },
+        defaultPic: { select: { id: true, name: true } }
       }
     });
 
-    const holidays = await getHolidaysInMonth(parseInt(year), parseInt(month));
-    const daysInMonth = getDaysInMonth(new Date(parseInt(year), parseInt(month) - 1, 1));
-
-    let createdCount = 0;
+    let created = 0, skipped = 0;
+    const results = [];
 
     for (const rule of rules) {
-      const datesToGenerate = [];
+      const dates = [];
       if (rule.recurrence === 'MONTHLY_ONCE' && rule.dateFirst) {
-        datesToGenerate.push(Math.min(rule.dateFirst, daysInMonth));
-      } else if (rule.recurrence === 'MONTHLY_TWICE' && rule.dateFirst && rule.dateSecond) {
-        datesToGenerate.push(Math.min(rule.dateFirst, daysInMonth));
-        datesToGenerate.push(Math.min(rule.dateSecond, daysInMonth));
+        dates.push(rule.dateFirst);
+      } else if (rule.recurrence === 'MONTHLY_TWICE') {
+        if (rule.dateFirst) dates.push(rule.dateFirst);
+        if (rule.dateSecond) dates.push(rule.dateSecond);
       }
 
-      for (const day of datesToGenerate) {
-        const scheduledDate = new Date(year, month - 1, day, 8, 0, 0); // Jam 8 pagi
-        
-        // Cek duplicate
-        const existing = await prisma.pdmScheduleOccurrence.findUnique({
-          where: {
-            ruleId_scheduledDate: {
-              ruleId: rule.id,
-              scheduledDate: scheduledDate
-            }
-          }
-        });
-        
-        if (!existing) {
-          const effectiveDate = getEffectiveDate(scheduledDate, holidays);
-          const wasShifted = !isSameDay(scheduledDate, effectiveDate);
-          
-          let assignedToId = null;
-          if (rule.monthlyPicOverrides.length > 0) {
-            assignedToId = rule.monthlyPicOverrides[0].picId;
-          } else if (rule.defaultPicId) {
-            assignedToId = rule.defaultPicId;
-          }
+      // Tentukan PIC bulan ini
+      const override = rule.monthlyPicOverrides[0];
+      const picId = override?.picId || rule.defaultPicId || null;
+      const picName = rule.defaultPic?.name || null;
 
-          const status = assignedToId ? 'ASSIGNED' : 'SCHEDULED';
+      for (const d of dates) {
+        const targetDate = new Date(y, m - 1, d);
+        const { effectiveDate, wasShifted } = await shiftToWorkday(new Date(targetDate));
 
-          await prisma.pdmScheduleOccurrence.create({
-            data: {
+        try {
+          const occ = await prisma.pdmScheduleOccurrence.upsert({
+            where: { ruleId_targetDate: { ruleId: rule.id, targetDate } },
+            update: {}, // jangan override yang sudah ada
+            create: {
               ruleId: rule.id,
-              scheduledDate,
-              effectiveDate,
+              targetDate,
+              scheduledDate: effectiveDate,
               wasShifted,
-              status,
-              assignedToId,
-              originalPicId: assignedToId
+              year: y,
+              month: m,
+              status: picId ? 'ASSIGNED' : 'SCHEDULED',
+              assignedToId: picId,
+              originalPicId: picId,
+              originalPicName: picName,
             }
           });
-          createdCount++;
+          created++;
+          results.push({ code: rule.code, targetDate: targetDate.toISOString().split('T')[0], scheduledDate: effectiveDate.toISOString().split('T')[0], wasShifted });
+        } catch (e) {
+          if (e.code !== 'P2002') throw e;
+          skipped++;
         }
       }
     }
 
-    res.json({ message: `Generate berhasil. ${createdCount} task baru dibuat.` });
-  } catch (error) {
-    console.error('Error generateMonthlySchedule:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.json({ message: `Generate selesai: ${created} occurrence dibuat, ${skipped} dilewati (sudah ada).`, results });
+  } catch (err) {
+    console.error('generateMonthlySchedule error:', err);
+    res.status(500).json({ error: err.message });
   }
 };
 
+// ============================================================
+// QUERY OCCURRENCES
+// ============================================================
+
 export const getOccurrences = async (req, res) => {
   try {
-    const { year, month, status, pabrik_id } = req.query;
-    
-    let dateFilter = {};
-    if (year && month) {
-      const y = parseInt(year);
-      const m = parseInt(month);
-      const start = new Date(y, m - 1, 1);
-      const end = new Date(y, m, 0, 23, 59, 59);
-      dateFilter = {
-        scheduledDate: { gte: start, lte: end }
-      };
-    }
+    const { year, month, pabrik_id, subArea, status, criticality, equipmentCat, assignedToId } = req.query;
 
-    let ruleFilter = {};
-    if (pabrik_id) {
-      ruleFilter.pabrik_id = parseInt(pabrik_id);
+    const where = {};
+    if (year) where.year = parseInt(year);
+    if (month) where.month = parseInt(month);
+    if (status) {
+      if (status.includes(',')) where.status = { in: status.split(',') };
+      else where.status = status;
     }
+    if (assignedToId) where.assignedToId = parseInt(assignedToId);
+
+    const ruleFilter = {};
+    if (pabrik_id) ruleFilter.pabrik_id = parseInt(pabrik_id);
+    if (subArea) ruleFilter.subArea = { contains: subArea, mode: 'insensitive' };
+    if (criticality) ruleFilter.criticality = criticality;
+    if (equipmentCat) ruleFilter.equipmentCat = equipmentCat;
+    if (Object.keys(ruleFilter).length > 0) where.rule = ruleFilter;
 
     const occurrences = await prisma.pdmScheduleOccurrence.findMany({
-      where: {
-        ...dateFilter,
-        status: status ? status : undefined,
-        rule: ruleFilter
-      },
+      where,
       include: {
-        rule: {
-          include: { pabrik: true }
-        },
-        assignedTo: true
+        rule: { include: { pabrik: true } },
+        assignedTo: { select: { id: true, name: true, npk: true, position: true } },
+        picHistories: {
+          include: {
+            fromPic: { select: { id: true, name: true } },
+            toPic: { select: { id: true, name: true } },
+            changedBy: { select: { id: true, name: true } }
+          },
+          orderBy: { changedAt: 'desc' }
+        }
       },
       orderBy: { scheduledDate: 'asc' }
     });
 
-    res.json(occurrences);
-  } catch (error) {
-    console.error('Error getOccurrences:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    // Cek dan update overdue
+    const now = new Date();
+    const updated = occurrences.map(occ => {
+      if (!['COMPLETED', 'CANCELLED'].includes(occ.status)) {
+        const diffDays = Math.floor((now - new Date(occ.scheduledDate)) / (1000 * 60 * 60 * 24));
+        const isOverdue = diffDays > 0;
+        const isOverdue4 = diffDays > 4;
+        return { ...occ, isOverdue, isOverdue4, daysLate: diffDays };
+      }
+      return { ...occ, isOverdue: false, isOverdue4: false, daysLate: 0 };
+    });
+
+    res.json(updated);
+  } catch (err) {
+    console.error('getOccurrences error:', err);
+    res.status(500).json({ error: err.message });
   }
 };
 
 export const getMyTasks = async (req, res) => {
   try {
-    const userId = req.user.id; // assume authMiddleware sets req.user
-    
-    const manpower = await prisma.manPower.findFirst({
-      where: { user_id: userId }
-    });
+    const manpowerId = req.user?.man_power_id;
+    if (!manpowerId) return res.status(403).json({ error: 'User tidak terhubung ke manpower' });
 
-    if (!manpower) return res.status(404).json({ error: 'Manpower tidak ditemukan untuk user ini' });
+    const { year, month } = req.query;
+    const now = new Date();
+    const y = year ? parseInt(year) : now.getFullYear();
+    const m = month ? parseInt(month) : now.getMonth() + 1;
 
-    const tasks = await prisma.pdmScheduleOccurrence.findMany({
+    const occurrences = await prisma.pdmScheduleOccurrence.findMany({
       where: {
-        assignedToId: manpower.id,
-        status: {
-          in: ['ASSIGNED', 'IN_PROGRESS', 'ON_HOLD']
-        }
+        assignedToId: parseInt(manpowerId),
+        year: y,
+        month: m,
+        status: { in: ['ASSIGNED', 'IN_PROGRESS', 'ON_HOLD'] }
       },
       include: {
-        rule: {
-          include: { pabrik: true }
+        rule: { include: { pabrik: true } },
+        assignedTo: { select: { id: true, name: true, position: true } },
+        picHistories: {
+          include: {
+            fromPic: { select: { id: true, name: true } },
+            toPic: { select: { id: true, name: true } }
+          },
+          orderBy: { changedAt: 'desc' }
         }
       },
-      orderBy: { effectiveDate: 'asc' }
+      orderBy: { scheduledDate: 'asc' }
     });
 
-    res.json(tasks);
-  } catch (error) {
-    console.error('Error getMyTasks:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    const result = occurrences.map(occ => {
+      const diffDays = Math.floor((now - new Date(occ.scheduledDate)) / (1000 * 60 * 60 * 24));
+      return { ...occ, daysLate: diffDays > 0 ? diffDays : 0, isOverdue: diffDays > 0, isOverdue4: diffDays > 4 };
+    });
+
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 };
+
+export const getJobBoard = async (req, res) => {
+  try {
+    const { year, month } = req.query;
+    const now = new Date();
+    const y = year ? parseInt(year) : now.getFullYear();
+    const m = month ? parseInt(month) : now.getMonth() + 1;
+
+    const occurrences = await prisma.pdmScheduleOccurrence.findMany({
+      where: { status: 'SCHEDULED', year: y, month: m },
+      include: { rule: { include: { pabrik: true } } },
+      orderBy: { scheduledDate: 'asc' }
+    });
+    res.json(occurrences);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// ============================================================
+// STATUS TRANSITIONS
+// ============================================================
 
 export const claimTask = async (req, res) => {
   try {
     const { id } = req.params;
-    const userId = req.user.id;
-    
-    const manpower = await prisma.manPower.findFirst({ where: { user_id: userId } });
-    if (!manpower) return res.status(404).json({ error: 'Manpower not found' });
+    const manpowerId = req.user?.man_power_id;
+    if (!manpowerId) return res.status(403).json({ error: 'User tidak terhubung ke manpower' });
 
-    const occurrence = await prisma.pdmScheduleOccurrence.update({
+    const occ = await prisma.pdmScheduleOccurrence.findUnique({ where: { id: parseInt(id) } });
+    if (!occ) return res.status(404).json({ error: 'Task tidak ditemukan' });
+    if (occ.status !== 'SCHEDULED') return res.status(400).json({ error: 'Task sudah di-claim atau tidak tersedia' });
+
+    const updated = await prisma.pdmScheduleOccurrence.update({
       where: { id: parseInt(id) },
-      data: {
-        assignedToId: manpower.id,
-        claimedAt: new Date(),
-        status: 'ASSIGNED'
-      }
+      data: { assignedToId: parseInt(manpowerId), status: 'ASSIGNED', claimedAt: new Date() },
+      include: { rule: { include: { pabrik: true } }, assignedTo: { select: { id: true, name: true } } }
     });
-    res.json(occurrence);
-  } catch (error) {
-    console.error('Error claimTask:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.json(updated);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 };
 
 export const startTask = async (req, res) => {
   try {
     const { id } = req.params;
-    const occurrence = await prisma.pdmScheduleOccurrence.update({
-      where: { id: parseInt(id) },
-      data: {
-        status: 'IN_PROGRESS',
-        startedAt: new Date()
-      }
-    });
+    const { activityNote } = req.body;
+    const manpowerId = req.user?.man_power_id;
 
-    // Record activity
-    await prisma.pdmDailyActivity.create({
-      data: {
-        occurrenceId: occurrence.id,
-        workDate: new Date(),
-        startTime: new Date(),
-        statusSnapshot: 'IN_PROGRESS',
-        activityNote: 'Task started'
-      }
-    });
+    const occ = await prisma.pdmScheduleOccurrence.findUnique({ where: { id: parseInt(id) } });
+    if (!occ) return res.status(404).json({ error: 'Task tidak ditemukan' });
+    if (!['ASSIGNED', 'ON_HOLD'].includes(occ.status)) return res.status(400).json({ error: `Status saat ini: ${occ.status}` });
 
-    res.json(occurrence);
-  } catch (error) {
-    console.error('Error startTask:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    const now = new Date();
+    const [updated] = await prisma.$transaction([
+      prisma.pdmScheduleOccurrence.update({
+        where: { id: parseInt(id) },
+        data: { status: 'IN_PROGRESS', startedAt: occ.startedAt || now, actualDate: now },
+        include: { rule: { include: { pabrik: true } }, assignedTo: { select: { id: true, name: true } } }
+      }),
+      prisma.pdmDailyActivity.create({
+        data: {
+          occurrenceId: parseInt(id),
+          workDate: now,
+          startTime: now,
+          activityNote,
+          statusSnapshot: 'IN_PROGRESS',
+          performedById: manpowerId ? parseInt(manpowerId) : null
+        }
+      })
+    ]);
+    res.json(updated);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 };
 
 export const holdTask = async (req, res) => {
   try {
     const { id } = req.params;
-    const { note } = req.body;
-    const occurrence = await prisma.pdmScheduleOccurrence.update({
-      where: { id: parseInt(id) },
-      data: {
-        status: 'ON_HOLD'
-      }
-    });
+    const { activityNote } = req.body;
+    const manpowerId = req.user?.man_power_id;
 
-    await prisma.pdmDailyActivity.create({
-      data: {
-        occurrenceId: occurrence.id,
-        workDate: new Date(),
-        startTime: new Date(), // This might be better as the actual time
-        endTime: new Date(),
-        statusSnapshot: 'ON_HOLD',
-        activityNote: note || 'Task on hold'
-      }
-    });
+    const occ = await prisma.pdmScheduleOccurrence.findUnique({ where: { id: parseInt(id) } });
+    if (!occ || occ.status !== 'IN_PROGRESS') return res.status(400).json({ error: 'Task tidak sedang in-progress' });
 
-    res.json(occurrence);
-  } catch (error) {
-    console.error('Error holdTask:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    const now = new Date();
+    // Tutup daily activity terakhir
+    const lastActivity = await prisma.pdmDailyActivity.findFirst({
+      where: { occurrenceId: parseInt(id), endTime: null },
+      orderBy: { startTime: 'desc' }
+    });
+    
+    const ops = [
+      prisma.pdmScheduleOccurrence.update({
+        where: { id: parseInt(id) },
+        data: { status: 'ON_HOLD' },
+        include: { rule: { include: { pabrik: true } } }
+      })
+    ];
+
+    if (lastActivity) {
+      const duration = Math.floor((now - new Date(lastActivity.startTime)) / 60000);
+      ops.push(prisma.pdmDailyActivity.update({
+        where: { id: lastActivity.id },
+        data: { endTime: now, durationMinutes: duration, activityNote: activityNote || lastActivity.activityNote, statusSnapshot: 'ON_HOLD' }
+      }));
+    }
+
+    const [updated] = await prisma.$transaction(ops);
+    res.json(updated);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 };
 
 export const completeTask = async (req, res) => {
   try {
     const { id } = req.params;
-    const { note } = req.body;
-    const occurrence = await prisma.pdmScheduleOccurrence.update({
-      where: { id: parseInt(id) },
-      data: {
-        status: 'COMPLETED',
-        completedAt: new Date()
-      }
-    });
+    const { activityNote } = req.body;
 
-    await prisma.pdmDailyActivity.create({
-      data: {
-        occurrenceId: occurrence.id,
-        workDate: new Date(),
-        startTime: new Date(), 
-        endTime: new Date(),
-        statusSnapshot: 'COMPLETED',
-        activityNote: note || 'Task completed'
-      }
-    });
+    const occ = await prisma.pdmScheduleOccurrence.findUnique({ where: { id: parseInt(id) } });
+    if (!occ || !['IN_PROGRESS', 'ASSIGNED', 'ON_HOLD'].includes(occ.status)) {
+      return res.status(400).json({ error: 'Task tidak dapat diselesaikan dari status ini' });
+    }
 
-    res.json(occurrence);
-  } catch (error) {
-    console.error('Error completeTask:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    const now = new Date();
+    const lastActivity = await prisma.pdmDailyActivity.findFirst({
+      where: { occurrenceId: parseInt(id), endTime: null },
+      orderBy: { startTime: 'desc' }
+    });
+    
+    const ops = [
+      prisma.pdmScheduleOccurrence.update({
+        where: { id: parseInt(id) },
+        data: { status: 'COMPLETED', completedAt: now, isOverdue: false },
+        include: { rule: { include: { pabrik: true } }, assignedTo: { select: { id: true, name: true } } }
+      })
+    ];
+
+    if (lastActivity) {
+      const duration = Math.floor((now - new Date(lastActivity.startTime)) / 60000);
+      ops.push(prisma.pdmDailyActivity.update({
+        where: { id: lastActivity.id },
+        data: { endTime: now, durationMinutes: duration, activityNote: activityNote || lastActivity.activityNote, statusSnapshot: 'COMPLETED' }
+      }));
+    }
+
+    const [updated] = await prisma.$transaction(ops);
+    res.json(updated);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 };
 
-export const reassignTask = async (req, res) => {
+export const cancelTask = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { reason } = req.body;
+    const updated = await prisma.pdmScheduleOccurrence.update({
+      where: { id: parseInt(id) },
+      data: { status: 'CANCELLED', cancelReason: reason || 'Dibatalkan' }
+    });
+    res.json(updated);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+export const reassignPic = async (req, res) => {
   try {
     const { id } = req.params;
     const { newPicId, reason } = req.body;
-    const adminUserId = req.user.id;
+    const manpowerId = req.user?.man_power_id;
 
-    // We can fetch admin's manpower ID or just store user id
-    const admin = await prisma.manPower.findFirst({ where: { user_id: adminUserId } });
+    if (!newPicId || !reason) return res.status(400).json({ error: 'newPicId dan reason wajib diisi' });
 
-    const occurrence = await prisma.pdmScheduleOccurrence.update({
-      where: { id: parseInt(id) },
-      data: {
-        assignedToId: parseInt(newPicId),
-        reassignReason: reason,
-        reassignedAt: new Date(),
-        reassignedById: admin ? admin.id : null
+    const occ = await prisma.pdmScheduleOccurrence.findUnique({ where: { id: parseInt(id) } });
+    if (!occ) return res.status(404).json({ error: 'Occurrence tidak ditemukan' });
+    if (['COMPLETED', 'CANCELLED'].includes(occ.status)) return res.status(400).json({ error: 'Task sudah selesai/dibatalkan' });
+
+    const [updated] = await prisma.$transaction([
+      prisma.pdmScheduleOccurrence.update({
+        where: { id: parseInt(id) },
+        data: { assignedToId: parseInt(newPicId), status: 'ASSIGNED' },
+        include: { assignedTo: { select: { id: true, name: true } }, rule: { include: { pabrik: true } } }
+      }),
+      prisma.pdmPicHistory.create({
+        data: {
+          occurrenceId: parseInt(id),
+          fromPicId: occ.assignedToId,
+          toPicId: parseInt(newPicId),
+          reason,
+          changedById: manpowerId ? parseInt(manpowerId) : parseInt(newPicId),
+        }
+      })
+    ]);
+    res.json(updated);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// ============================================================
+// DASHBOARD STATS
+// ============================================================
+
+export const getDashboardStats = async (req, res) => {
+  try {
+    const { year, month, pabrik_id } = req.query;
+    const now = new Date();
+    const y = year ? parseInt(year) : now.getFullYear();
+    const m = month ? parseInt(month) : now.getMonth() + 1;
+
+    const baseWhere = { year: y, month: m };
+    if (pabrik_id) baseWhere.rule = { pabrik_id: parseInt(pabrik_id) };
+
+    const [total, completed, inProgress, onHold, assigned, scheduled] = await Promise.all([
+      prisma.pdmScheduleOccurrence.count({ where: baseWhere }),
+      prisma.pdmScheduleOccurrence.count({ where: { ...baseWhere, status: 'COMPLETED' } }),
+      prisma.pdmScheduleOccurrence.count({ where: { ...baseWhere, status: 'IN_PROGRESS' } }),
+      prisma.pdmScheduleOccurrence.count({ where: { ...baseWhere, status: 'ON_HOLD' } }),
+      prisma.pdmScheduleOccurrence.count({ where: { ...baseWhere, status: 'ASSIGNED' } }),
+      prisma.pdmScheduleOccurrence.count({ where: { ...baseWhere, status: 'SCHEDULED' } }),
+    ]);
+
+    // Hitung overdue dari semua yg belum selesai
+    const allPending = await prisma.pdmScheduleOccurrence.findMany({
+      where: { ...baseWhere, status: { notIn: ['COMPLETED', 'CANCELLED'] } },
+      select: { scheduledDate: true }
+    });
+    const overdue = allPending.filter(o => Math.floor((now - new Date(o.scheduledDate)) / 86400000) > 0).length;
+    const overdue4 = allPending.filter(o => Math.floor((now - new Date(o.scheduledDate)) / 86400000) > 4).length;
+
+    res.json({ total, completed, inProgress, onHold, assigned, scheduled, overdue, overdue4 });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// Ambil history PIC per occurrence
+export const getPicHistory = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const history = await prisma.pdmPicHistory.findMany({
+      where: { occurrenceId: parseInt(id) },
+      include: {
+        fromPic: { select: { id: true, name: true } },
+        toPic: { select: { id: true, name: true } },
+        changedBy: { select: { id: true, name: true } }
+      },
+      orderBy: { changedAt: 'asc' }
+    });
+    res.json(history);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// ============================================================
+// MONTHLY PIC OVERRIDE
+// ============================================================
+export const setMonthlyPicOverride = async (req, res) => {
+  try {
+    const { ruleId, year, month, picId } = req.body;
+    if (!ruleId || !year || !month || !picId) return res.status(400).json({ error: 'Semua field wajib diisi' });
+    const override = await prisma.pdmRuleMonthlyPic.upsert({
+      where: { ruleId_year_month: { ruleId: parseInt(ruleId), year: parseInt(year), month: parseInt(month) } },
+      update: { picId: parseInt(picId) },
+      create: { ruleId: parseInt(ruleId), year: parseInt(year), month: parseInt(month), picId: parseInt(picId) }
+    });
+    res.json(override);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// ============================================================
+// COMPLETION BY PABRIK (chart per pabrik)
+// ============================================================
+export const getCompletionByPabrik = async (req, res) => {
+  try {
+    const { year, month } = req.query;
+    const now = new Date();
+    const y = year ? parseInt(year) : now.getFullYear();
+    const m = month ? parseInt(month) : now.getMonth() + 1;
+
+    const occurrences = await prisma.pdmScheduleOccurrence.findMany({
+      where: { year: y, month: m },
+      select: {
+        status: true,
+        scheduledDate: true,
+        rule: { select: { pabrik: { select: { id: true, nama_pabrik: true } } } }
       }
     });
-    res.json(occurrence);
-  } catch (error) {
-    console.error('Error reassignTask:', error);
-    res.status(500).json({ error: 'Internal server error' });
+
+    const pabrikMap = {};
+    for (const occ of occurrences) {
+      const pabrik = occ.rule?.pabrik;
+      if (!pabrik) continue;
+      const key = pabrik.id;
+      if (!pabrikMap[key]) {
+        pabrikMap[key] = { id: pabrik.id, nama_pabrik: pabrik.nama_pabrik, total: 0, completed: 0, overdue: 0 };
+      }
+      pabrikMap[key].total++;
+      if (occ.status === 'COMPLETED') pabrikMap[key].completed++;
+      if (!['COMPLETED', 'CANCELLED'].includes(occ.status)) {
+        const diffDays = Math.floor((now - new Date(occ.scheduledDate)) / 86400000);
+        if (diffDays > 0) pabrikMap[key].overdue++;
+      }
+    }
+
+    const result = Object.values(pabrikMap).map(p => ({
+      ...p,
+      completionRate: p.total > 0 ? Math.round((p.completed / p.total) * 100) : 0
+    })).sort((a, b) => a.nama_pabrik.localeCompare(b.nama_pabrik));
+
+    res.json(result);
+  } catch (err) {
+    console.error('getCompletionByPabrik error:', err);
+    res.status(500).json({ error: err.message });
   }
 };

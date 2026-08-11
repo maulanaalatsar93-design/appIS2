@@ -65,3 +65,17 @@ Status: ditunda
 Update status tiap task selesai. Kalau ada task baru yang muncul
 di tengah jalan, tambahkan di sini juga — jangan biarkan Antigravity
 kerja dari task yang tidak tercatat.
+
+## Task 10: PdM Rotating — Lanjutan & Enhancement
+- [x] Fix routing App.jsx: semua 4 tab PdM bisa diakses dari sidebar
+- [x] Backend endpoint `GET /completion-by-pabrik` untuk chart per pabrik
+- [x] PdmDashboard: filter tambahan (status, criticality, search kode/area/PIC)
+- [x] PdmDashboard: bar chart ApexCharts Selesai vs Terlambat per Pabrik
+- [x] PdmDashboard: detail modal klik row (info occurrence + riwayat PIC + quick action)
+- [x] PdmDashboard: export CSV tabel yang sudah difilter
+- [x] PdmScheduleRules: Monthly PIC Override modal per rule (tombol UserCog)
+- [x] PdmScheduleRules: Generate jadwal inline (tombol Zap per rule + Generate Semua)
+- [x] PdmCalendar: action buttons di detail panel (Mulai, Lanjutkan, Selesaikan)
+- [x] PdmCalendar: tampilkan nama task di detail panel
+- [x] `PdM_rotating.md`: diisi spesifikasi resmi lengkap
+Status: selesai

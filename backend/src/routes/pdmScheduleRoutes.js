@@ -1,24 +1,39 @@
 import express from 'express';
 const router = express.Router();
-import * as pdmScheduleController from '../controllers/pdmScheduleController.js';
+import * as pdm from '../controllers/pdmScheduleController.js';
 import { authenticateToken as verifyToken } from '../middleware/authMiddleware.js';
 
-// Route untuk PdmScheduleRule
-router.get('/rules', verifyToken, pdmScheduleController.getRules);
-router.post('/rules', verifyToken, pdmScheduleController.createRule);
-router.put('/rules/:id', verifyToken, pdmScheduleController.updateRule);
-router.delete('/rules/:id', verifyToken, pdmScheduleController.deleteRule);
+// ── Master Rules ─────────────────────────────────────────────
+router.get('/rules',       verifyToken, pdm.getRules);
+router.post('/rules',      verifyToken, pdm.createRule);
+router.put('/rules/:id',   verifyToken, pdm.updateRule);
+router.delete('/rules/:id',verifyToken, pdm.deleteRule);
 
-// Route untuk Occurrences / Generate
-router.post('/generate', verifyToken, pdmScheduleController.generateMonthlySchedule);
-router.get('/occurrences', verifyToken, pdmScheduleController.getOccurrences); // Untuk Job Board / Calendar
-router.get('/my-tasks', verifyToken, pdmScheduleController.getMyTasks); // Untuk Task Saya
+// ── Generate ─────────────────────────────────────────────────
+router.post('/generate', verifyToken, pdm.generateMonthlySchedule);
 
-// Route untuk aksi Task
-router.post('/occurrences/:id/claim', verifyToken, pdmScheduleController.claimTask);
-router.post('/occurrences/:id/start', verifyToken, pdmScheduleController.startTask);
-router.post('/occurrences/:id/hold', verifyToken, pdmScheduleController.holdTask);
-router.post('/occurrences/:id/complete', verifyToken, pdmScheduleController.completeTask);
-router.post('/occurrences/:id/reassign', verifyToken, pdmScheduleController.reassignTask);
+// ── Query Occurrences ────────────────────────────────────────
+router.get('/occurrences', verifyToken, pdm.getOccurrences);
+router.get('/my-tasks',    verifyToken, pdm.getMyTasks);
+router.get('/job-board',   verifyToken, pdm.getJobBoard);
+
+// ── Status Transitions ───────────────────────────────────────
+router.post('/occurrences/:id/claim',    verifyToken, pdm.claimTask);
+router.post('/occurrences/:id/start',    verifyToken, pdm.startTask);
+router.post('/occurrences/:id/hold',     verifyToken, pdm.holdTask);
+router.post('/occurrences/:id/complete', verifyToken, pdm.completeTask);
+router.post('/occurrences/:id/cancel',   verifyToken, pdm.cancelTask);
+router.post('/occurrences/:id/reassign', verifyToken, pdm.reassignPic);
+
+// ── PIC History ──────────────────────────────────────────────
+router.get('/occurrences/:id/history', verifyToken, pdm.getPicHistory);
+
+// ── Monthly PIC Override ─────────────────────────────────────
+router.post('/monthly-pic', verifyToken, pdm.setMonthlyPicOverride);
+
+// ── Dashboard Stats ──────────────────────────────────────────
+router.get('/dashboard-stats',      verifyToken, pdm.getDashboardStats);
+router.get('/completion-by-pabrik', verifyToken, pdm.getCompletionByPabrik);
 
 export default router;
+

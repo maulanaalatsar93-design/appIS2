@@ -2,7 +2,7 @@ import React from 'react';
 import {
   LayoutDashboard, Users, UploadCloud,
   ChevronLeft, ChevronRight, CalendarClock,
-  MapPin, ClipboardList, BarChart3, Briefcase, Shield, Settings
+  MapPin, ClipboardList, BarChart3, Briefcase, Shield
 } from 'lucide-react';
 import logoImg from '../../assets/logo.png';
 import brandIconImg from '../../assets/brand-icon.png';
@@ -18,19 +18,20 @@ export default function Sidebar({ activeTab, setActiveTab, isCollapsed, setIsCol
       ]
     },
     {
+      label: 'PdM Rotating',
+      items: [
+        { id: 'pdm-dashboard', label: 'Dashboard PdM', icon: BarChart3 },
+        { id: 'pdm-calendar', label: 'Kalender PdM', icon: CalendarClock },
+        { id: 'pdm-tasks', label: 'Task Board', icon: ClipboardList },
+        { id: 'pdm-rules', label: 'Master Schedule', icon: Settings },
+      ]
+    },
+    {
       label: 'Workforce Management',
       items: [
         { id: 'wp-programs', label: 'Work Programs', icon: Briefcase },
         { id: 'wp-my-cube', label: 'Work Cube — My Tasks', icon: ClipboardList },
         { id: 'wp-monitor', label: 'KPI Monitor', icon: BarChart3 },
-      ]
-    },
-    {
-      label: 'PdM Rotating',
-      items: [
-        { id: 'pdm-rules', label: 'Schedule Rules', icon: Settings },
-        { id: 'pdm-tasks', label: 'Task Board', icon: ClipboardList },
-        { id: 'pdm-calendar', label: 'Kalender PdM', icon: CalendarClock },
       ]
     },
     {
