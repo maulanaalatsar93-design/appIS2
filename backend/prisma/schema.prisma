@@ -374,6 +374,7 @@ model Sertifikasi {
   tanggal_berakhir    DateTime? // Certification Expires
   remarks             String? // Remarks
   is_rencana          Boolean   @default(false)
+  is_ignored_expired  Boolean   @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

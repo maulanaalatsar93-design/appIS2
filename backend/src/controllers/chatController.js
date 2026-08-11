@@ -55,7 +55,23 @@ export const getUnreadCount = async (req, res) => {
       }
     });
 
-    res.json({ count });
+    const unreadGroup = await prisma.chatMessage.groupBy({
+      by: ['senderId'],
+      where: {
+        receiverId: parseInt(currentUserId),
+        isRead: false
+      },
+      _count: {
+        id: true
+      }
+    });
+
+    const details = {};
+    unreadGroup.forEach(g => {
+      details[g.senderId] = g._count.id;
+    });
+
+    res.json({ count, details });
   } catch (error) {
     console.error('Error fetching unread count:', error);
     res.status(500).json({ message: 'Internal server error' });

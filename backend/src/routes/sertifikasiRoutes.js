@@ -3,7 +3,8 @@ import {
   getAllSertifikasi,
   createSertifikasi,
   updateSertifikasi,
-  deleteSertifikasi
+  deleteSertifikasi,
+  ignoreExpiredSertifikasi
 } from '../controllers/sertifikasiController.js';
 import { authenticateToken, authorize } from '../middleware/authMiddleware.js';
 
@@ -17,5 +18,6 @@ router.get('/', getAllSertifikasi);
 router.post('/', authorize(['admin', 'vp', 'manager']), createSertifikasi);
 router.put('/:id', authorize(['admin', 'vp', 'manager']), updateSertifikasi);
 router.delete('/:id', authorize(['admin', 'vp', 'manager']), deleteSertifikasi);
+router.put('/:id/ignore-expired', ignoreExpiredSertifikasi);
 
 export default router;

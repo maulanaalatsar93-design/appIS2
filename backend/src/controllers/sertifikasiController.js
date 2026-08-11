@@ -101,3 +101,22 @@ export const deleteSertifikasi = async (req, res) => {
     res.status(500).json({ message: 'Gagal menghapus data sertifikasi', error: error.message });
   }
 };
+
+// Ignore expired sertifikasi
+export const ignoreExpiredSertifikasi = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const updatedSertifikasi = await prisma.sertifikasi.update({
+      where: { id: parseInt(id) },
+      data: {
+        is_ignored_expired: true
+      }
+    });
+
+    res.json(updatedSertifikasi);
+  } catch (error) {
+    console.error('Error in ignoreExpiredSertifikasi:', error);
+    res.status(500).json({ message: 'Gagal mengabaikan peringatan sertifikasi', error: error.message });
+  }
+};

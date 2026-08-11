@@ -8,6 +8,7 @@ export default function OnlineChatWidget() {
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [loadingUsers, setLoadingUsers] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
+  const [unreadDetails, setUnreadDetails] = useState({});
   const prevUnreadCountRef = useRef(0);
   
   // Chat state
@@ -57,6 +58,7 @@ export default function OnlineChatWidget() {
         }
         prevUnreadCountRef.current = data.count;
         setUnreadCount(data.count);
+        setUnreadDetails(data.details || {});
       }
     } catch (error) {
       console.error('Failed to fetch unread count', error);
@@ -313,26 +315,34 @@ export default function OnlineChatWidget() {
                       </div>
                     ) : (
                       <ul className="space-y-1">
-                        {filteredUsers.map(u => (
-                          <li 
-                            key={u.id} 
-                            onClick={() => setActiveChatUser(u)}
-                            className="flex items-center gap-3 p-2 hover:bg-gray-100 rounded-md cursor-pointer transition-colors border border-transparent hover:border-gray-200"
-                          >
-                            <div className="relative">
-                              <div className="w-10 h-10 bg-industrial-blue/10 text-industrial-blue rounded-full flex items-center justify-center font-bold text-sm">
-                                {u.name.substring(0, 2).toUpperCase()}
+                        {filteredUsers.map(u => {
+                          const userUnread = unreadDetails[u.id] || 0;
+                          return (
+                            <li 
+                              key={u.id} 
+                              onClick={() => setActiveChatUser(u)}
+                              className="flex items-center gap-3 p-2 hover:bg-gray-100 rounded-md cursor-pointer transition-colors border border-transparent hover:border-gray-200"
+                            >
+                              <div className="relative">
+                                <div className="w-10 h-10 bg-industrial-blue/10 text-industrial-blue rounded-full flex items-center justify-center font-bold text-sm">
+                                  {u.name.substring(0, 2).toUpperCase()}
+                                </div>
+                                <Circle className="w-3 h-3 absolute bottom-0 right-0 text-green-500 fill-green-500 border-2 border-white rounded-full" />
                               </div>
-                              <Circle className="w-3 h-3 absolute bottom-0 right-0 text-green-500 fill-green-500 border-2 border-white rounded-full" />
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <p className="text-sm font-medium text-gray-900 truncate">{u.name}</p>
-                              <p className="text-xs text-gray-500 truncate">
-                                {u.man_power?.position || u.role}
-                              </p>
-                            </div>
-                          </li>
-                        ))}
+                              <div className="flex-1 min-w-0">
+                                <p className={`text-sm truncate ${userUnread > 0 ? 'font-bold text-gray-900' : 'font-medium text-gray-900'}`}>{u.name}</p>
+                                <p className="text-xs text-gray-500 truncate">
+                                  {u.man_power?.position || u.role}
+                                </p>
+                              </div>
+                              {userUnread > 0 && (
+                                <div className="bg-red-500 text-white text-[10px] font-bold rounded-full h-5 w-5 flex items-center justify-center shadow-sm">
+                                  {userUnread > 99 ? '99+' : userUnread}
+                                </div>
+                              )}
+                            </li>
+                          );
+                        })}
                       </ul>
                     )}
                   </div>

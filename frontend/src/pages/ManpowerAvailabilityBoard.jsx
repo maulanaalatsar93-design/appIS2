@@ -74,6 +74,20 @@ export default function ManpowerAvailabilityBoard() {
     }
   };
 
+  const handleIgnoreCert = async (certId) => {
+    try {
+      const res = await fetch(`${(import.meta.env.VITE_API_URL || '').replace(/\/$/, '')}/api/sertifikasi/${certId}/ignore-expired`, {
+        method: 'PUT',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (res.ok) {
+        fetchData(); // Refresh list to remove warning
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   useEffect(() => {
     fetchData();
   }, [filters.selectedDivisions, filters.status, filters.startDate, filters.endDate]);
@@ -428,6 +442,30 @@ export default function ManpowerAvailabilityBoard() {
                             <span className="text-[10px] font-bold text-industrial-blue">{mp.name.charAt(0)}</span>
                           </div>
                           <span className="font-semibold text-industrial-text text-sm">{mp.name}</span>
+                          {mp.sertifikasi && mp.sertifikasi.length > 0 && (
+                            <div className="relative group flex items-center">
+                              <AlertCircle className="w-4 h-4 text-red-500 cursor-pointer animate-pulse" />
+                              <div className="absolute left-6 top-1/2 -translate-y-1/2 hidden group-hover:block z-50 w-64 bg-white border border-red-200 rounded shadow-xl p-2">
+                                <p className="text-[10px] font-bold text-red-600 mb-1">Sertifikat Kedaluwarsa:</p>
+                                <ul className="space-y-1">
+                                  {mp.sertifikasi.map(cert => (
+                                    <li key={cert.id} className="text-[10px] flex flex-col gap-1 bg-red-50 p-1.5 rounded border border-red-100">
+                                      <div className="flex items-center justify-between">
+                                        <span className="font-semibold truncate max-w-[150px]" title={cert.nama_sertifikat}>{cert.nama_sertifikat}</span>
+                                        <button 
+                                          onClick={() => handleIgnoreCert(cert.id)}
+                                          className="text-[9px] font-bold bg-white text-slate-500 px-1.5 py-0.5 rounded shadow-sm hover:bg-slate-100 transition-colors"
+                                        >
+                                          Abaikan
+                                        </button>
+                                      </div>
+                                      <span className="text-red-500 text-[9px]">Exp: {new Date(cert.tanggal_berakhir).toLocaleDateString('id-ID')}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            </div>
+                          )}
                         </div>
                       </td>
                       <td className="px-4 py-3 text-xs font-mono text-industrial-muted">{mp.npk}</td>

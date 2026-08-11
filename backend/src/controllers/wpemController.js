@@ -99,6 +99,13 @@ export const getAvailability = async (req, res) => {
               select: { id: true, title: true, status: true, start_date: true, end_date: true }
             }
           }
+        },
+        sertifikasi: {
+          where: {
+            tanggal_berakhir: { lt: new Date() },
+            is_rencana: false,
+            is_ignored_expired: false
+          }
         }
       },
       orderBy: [{ division_id: 'asc' }, { position: 'asc' }, { name: 'asc' }]
@@ -166,7 +173,8 @@ export const getAvailability = async (req, res) => {
           : '-',
         next_available_date: nextAvailable ? new Date(nextAvailable).toLocaleDateString('id-ID') : 'Sekarang',
         absensi: mp.absensi,
-        active_programs: mp.wp_memberships.map(m => m.program)
+        active_programs: mp.wp_memberships.map(m => m.program),
+        sertifikasi: mp.sertifikasi || []
       };
     });
 

@@ -296,7 +296,7 @@ export default function ManPowerPage({ initialView = 'availability' }) {
       <div className="print:hidden space-y-6">
       {/* FLOATING FILTER */}
       <div
-        className={`fixed bottom-24 right-6 z-40 flex items-center gap-1 bg-white/90 backdrop-blur-md border border-industrial-border shadow-lg rounded-full p-1 transition-all duration-300 ${isFilterCollapsed ? 'scale-95 opacity-90' : 'scale-100 opacity-100'
+        className={`fixed bottom-20 right-4 z-[9998] flex items-center gap-1 bg-white/90 backdrop-blur-md border border-industrial-border shadow-lg rounded-full p-1 transition-all duration-300 ${isFilterCollapsed ? 'scale-95 opacity-90' : 'scale-100 opacity-100'
           }`}
       >
         <button
