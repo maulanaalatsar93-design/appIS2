@@ -1,7 +1,7 @@
 import express from 'express';
 const router = express.Router();
 import * as pdmScheduleController from '../controllers/pdmScheduleController.js';
-import { verifyToken, isAdmin } from '../middleware/authMiddleware.js'; // assuming we have isAdmin or similar, but maybe we just use verifyToken for now
+import { authenticateToken as verifyToken } from '../middleware/authMiddleware.js';
 
 // Route untuk PdmScheduleRule
 router.get('/rules', verifyToken, pdmScheduleController.getRules);
