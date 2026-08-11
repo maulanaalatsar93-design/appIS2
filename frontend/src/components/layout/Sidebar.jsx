@@ -2,7 +2,7 @@ import React from 'react';
 import {
   LayoutDashboard, Users, UploadCloud,
   ChevronLeft, ChevronRight, CalendarClock,
-  MapPin, ClipboardList, BarChart3, Briefcase, Shield
+  MapPin, ClipboardList, BarChart3, Briefcase, Shield, Settings
 } from 'lucide-react';
 import logoImg from '../../assets/logo.png';
 import brandIconImg from '../../assets/brand-icon.png';
