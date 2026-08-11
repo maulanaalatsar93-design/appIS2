@@ -10,13 +10,13 @@ export default function OnlineChatWidget() {
   const [unreadCount, setUnreadCount] = useState(0);
   const [unreadDetails, setUnreadDetails] = useState({});
   const prevUnreadCountRef = useRef(0);
-  
+
   // Chat state
   const [activeChatUser, setActiveChatUser] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
-  
+
   const { token, user } = useContext(AuthContext);
   const messagesEndRef = useRef(null);
 
@@ -27,17 +27,17 @@ export default function OnlineChatWidget() {
       const audioCtx = new AudioContext();
       const oscillator = audioCtx.createOscillator();
       const gainNode = audioCtx.createGain();
-      
+
       oscillator.type = 'sine';
-      oscillator.frequency.setValueAtTime(880, audioCtx.currentTime); 
+      oscillator.frequency.setValueAtTime(880, audioCtx.currentTime);
       oscillator.frequency.exponentialRampToValueAtTime(440, audioCtx.currentTime + 0.1);
-      
+
       gainNode.gain.setValueAtTime(0.5, audioCtx.currentTime);
       gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
-      
+
       oscillator.connect(gainNode);
       gainNode.connect(audioCtx.destination);
-      
+
       oscillator.start();
       oscillator.stop(audioCtx.currentTime + 0.15);
     } catch (e) {
@@ -102,10 +102,10 @@ export default function OnlineChatWidget() {
   const sendMessage = async (e) => {
     if (e) e.preventDefault();
     if (!newMessage.trim() || !activeChatUser) return;
-    
+
     const textToSend = newMessage;
     setNewMessage('');
-    
+
     // Optimistic UI update
     const optimisticMsg = {
       id: `temp-${Date.now()}`,
@@ -115,13 +115,13 @@ export default function OnlineChatWidget() {
       createdAt: new Date().toISOString()
     };
     setMessages(prev => [...prev, optimisticMsg]);
-    
+
     try {
       const res = await fetch((import.meta.env.VITE_API_URL || '').replace(/\/$/, '') + '/api/chat/send', {
         method: 'POST',
-        headers: { 
+        headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}` 
+          Authorization: `Bearer ${token}`
         },
         body: JSON.stringify({
           receiverId: activeChatUser.id,
@@ -169,14 +169,14 @@ export default function OnlineChatWidget() {
 
   if (!user) return null;
 
-  const filteredUsers = onlineUsers.filter(u => 
+  const filteredUsers = onlineUsers.filter(u =>
     u.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
     <div className="fixed bottom-4 right-4 z-[9999] flex flex-col items-end">
       {isOpen && (
-        <div 
+        <div
           className={`bg-white border border-gray-200 rounded-t-lg shadow-xl overflow-hidden transition-all duration-300 ease-in-out flex flex-col w-80 sm:w-96 ${isMinimized ? 'h-12' : 'h-[28rem]'}`}
           style={{ marginBottom: isOpen ? '16px' : '0' }}
         >
@@ -185,7 +185,7 @@ export default function OnlineChatWidget() {
             <div className="flex items-center gap-2">
               {activeChatUser ? (
                 <>
-                  <button 
+                  <button
                     onClick={(e) => { e.stopPropagation(); setActiveChatUser(null); }}
                     className="hover:bg-white/20 p-1 rounded transition-colors mr-1"
                   >
@@ -214,15 +214,15 @@ export default function OnlineChatWidget() {
               )}
             </div>
             <div className="flex items-center gap-2">
-              <button 
-                onClick={(e) => { e.stopPropagation(); setIsMinimized(!isMinimized); }} 
+              <button
+                onClick={(e) => { e.stopPropagation(); setIsMinimized(!isMinimized); }}
                 className="hover:bg-white/20 p-1 rounded transition-colors"
                 title={isMinimized ? "Maximize" : "Minimize"}
               >
                 <Minus className="w-4 h-4" />
               </button>
-              <button 
-                onClick={(e) => { e.stopPropagation(); setIsOpen(false); }} 
+              <button
+                onClick={(e) => { e.stopPropagation(); setIsOpen(false); }}
                 className="hover:bg-white/20 p-1 rounded transition-colors"
                 title="Close"
               >
@@ -230,7 +230,7 @@ export default function OnlineChatWidget() {
               </button>
             </div>
           </div>
-          
+
           {/* Content */}
           {!isMinimized && (
             <div className="flex-1 flex flex-col bg-gray-50 overflow-hidden relative">
@@ -253,7 +253,7 @@ export default function OnlineChatWidget() {
                             <div className={`max-w-[75%] rounded-lg px-3 py-2 text-sm ${isMe ? 'bg-industrial-blue text-white rounded-tr-none' : 'bg-white border border-gray-200 text-gray-800 rounded-tl-none shadow-sm'}`}>
                               <p className="break-words">{msg.content}</p>
                               <span className={`text-[10px] mt-1 block ${isMe ? 'text-blue-200 text-right' : 'text-gray-400 text-left'}`}>
-                                {new Date(msg.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                                {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                               </span>
                             </div>
                           </div>
@@ -263,8 +263,8 @@ export default function OnlineChatWidget() {
                     <div ref={messagesEndRef} />
                   </div>
                   <form onSubmit={sendMessage} className="p-3 bg-white border-t border-gray-200 flex gap-2">
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       value={newMessage}
                       onChange={(e) => setNewMessage(e.target.value)}
                       onKeyDown={(e) => {
@@ -273,11 +273,11 @@ export default function OnlineChatWidget() {
                           sendMessage(e);
                         }
                       }}
-                      placeholder="Ketik pesan..." 
+                      placeholder="Ketik pesan..."
                       className="flex-1 border border-gray-300 rounded-full px-4 py-2 text-sm focus:outline-none focus:border-industrial-blue focus:ring-1 focus:ring-industrial-blue"
                     />
-                    <button 
-                      type="submit" 
+                    <button
+                      type="submit"
                       disabled={!newMessage.trim()}
                       className="bg-industrial-blue text-white p-2 rounded-full hover:bg-industrial-blue-light disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     >
@@ -291,9 +291,9 @@ export default function OnlineChatWidget() {
                   <div className="p-3 bg-white border-b border-gray-200 sticky top-0 z-10">
                     <div className="relative">
                       <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                      <input 
-                        type="text" 
-                        placeholder="Cari nama personil..." 
+                      <input
+                        type="text"
+                        placeholder="Cari nama personil..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         className="w-full bg-gray-100 border-transparent rounded-md pl-9 pr-4 py-2 text-sm focus:bg-white focus:border-industrial-blue focus:ring-1 focus:ring-industrial-blue transition-colors"
@@ -318,8 +318,8 @@ export default function OnlineChatWidget() {
                         {filteredUsers.map(u => {
                           const userUnread = unreadDetails[u.id] || 0;
                           return (
-                            <li 
-                              key={u.id} 
+                            <li
+                              key={u.id}
                               onClick={() => setActiveChatUser(u)}
                               className="flex items-center gap-3 p-2 hover:bg-gray-100 rounded-md cursor-pointer transition-colors border border-transparent hover:border-gray-200"
                             >
@@ -357,10 +357,10 @@ export default function OnlineChatWidget() {
       {!isOpen && (
         <button
           onClick={() => { setIsOpen(true); setIsMinimized(false); }}
-          className="bg-industrial-blue text-white p-3 rounded-full shadow-lg hover:bg-industrial-blue-light transition-all hover:scale-105 relative"
+          className="bg-industrial-blue text-white p-2.5 rounded-full shadow-lg hover:bg-industrial-blue-light transition-all hover:scale-105 relative"
           title="Online Personnel"
         >
-          <MessageSquare className="w-6 h-6" />
+          <MessageSquare className="w-4 h-4" />
           {unreadCount > 0 && (
             <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold rounded-full h-5 w-5 flex items-center justify-center animate-pulse shadow-sm border-2 border-white">
               {unreadCount > 99 ? '99+' : unreadCount}

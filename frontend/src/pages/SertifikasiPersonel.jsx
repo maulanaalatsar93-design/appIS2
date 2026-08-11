@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Shield, Plus, Search, Filter, Edit2, Trash2, X, AlertCircle } from 'lucide-react';
+import { Shield, Plus, Search, Filter, Edit2, Trash2, X, AlertCircle, CheckCircle, XCircle } from 'lucide-react';
+import { AuthContext } from '../context/AuthContext';
 
 export default function SertifikasiPersonel() {
+  const { user } = React.useContext(AuthContext);
+  const isVPOrAdmin = user && ['admin', 'vp'].includes(user.role);
+
   const [sertifikasi, setSertifikasi] = useState([]);
   const [manpowerList, setManpowerList] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -133,6 +137,36 @@ export default function SertifikasiPersonel() {
 
       if (!res.ok) throw new Error('Failed to delete data');
 
+      await fetchData();
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
+  const handleApprove = async (id) => {
+    if (!window.confirm('Setujui perubahan ini?')) return;
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/sertifikasi/${id}/approve`, {
+        method: 'PUT',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (!res.ok) throw new Error('Failed to approve');
+      await fetchData();
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
+  const handleReject = async (id) => {
+    if (!window.confirm('Tolak perubahan ini?')) return;
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/sertifikasi/${id}/reject`, {
+        method: 'PUT',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (!res.ok) throw new Error('Failed to reject');
       await fetchData();
     } catch (err) {
       alert(err.message);
@@ -345,23 +379,50 @@ export default function SertifikasiPersonel() {
                             {statusInfo.label}
                           </div>
                         )}
+                        {item.status && item.status.startsWith('Pending') && (
+                          <div className="mt-1 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border bg-amber-50 text-amber-700 border-amber-200">
+                            <AlertCircle className="w-3.5 h-3.5" />
+                            Menunggu Approval
+                          </div>
+                        )}
                       </td>
                       <td className="px-4 py-3">
                         <div className="flex items-center justify-center gap-2">
-                          <button
-                            onClick={() => openModal(item)}
-                            className="p-1.5 text-slate-400 hover:text-industrial-blue hover:bg-blue-50 rounded-lg transition-colors"
-                            title="Edit"
-                          >
-                            <Edit2 size={16} />
-                          </button>
-                          <button
-                            onClick={() => handleDelete(item.id)}
-                            className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                            title="Hapus"
-                          >
-                            <Trash2 size={16} />
-                          </button>
+                          {isVPOrAdmin && item.status && item.status.startsWith('Pending') ? (
+                            <>
+                              <button
+                                onClick={() => handleApprove(item.id)}
+                                className="p-1.5 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors"
+                                title="Approve"
+                              >
+                                <CheckCircle size={16} />
+                              </button>
+                              <button
+                                onClick={() => handleReject(item.id)}
+                                className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                title="Reject"
+                              >
+                                <XCircle size={16} />
+                              </button>
+                            </>
+                          ) : (
+                            <>
+                              <button
+                                onClick={() => openModal(item)}
+                                className="p-1.5 text-slate-400 hover:text-industrial-blue hover:bg-blue-50 rounded-lg transition-colors"
+                                title="Edit"
+                              >
+                                <Edit2 size={16} />
+                              </button>
+                              <button
+                                onClick={() => handleDelete(item.id)}
+                                className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                title="Hapus"
+                              >
+                                <Trash2 size={16} />
+                              </button>
+                            </>
+                          )}
                         </div>
                       </td>
                     </tr>

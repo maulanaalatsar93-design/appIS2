@@ -375,6 +375,9 @@ model Sertifikasi {
   remarks             String? // Remarks
   is_rencana          Boolean   @default(false)
   is_ignored_expired  Boolean   @default(false)
+  status              String    @default("Approved") // "Approved", "Pending Update", "Pending New"
+  pending_changes     Json?
+  proposed_by_id      Int?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

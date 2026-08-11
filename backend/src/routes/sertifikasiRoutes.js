@@ -4,7 +4,10 @@ import {
   createSertifikasi,
   updateSertifikasi,
   deleteSertifikasi,
-  ignoreExpiredSertifikasi
+  deleteSertifikasi,
+  ignoreExpiredSertifikasi,
+  approveSertifikasi,
+  rejectSertifikasi
 } from '../controllers/sertifikasiController.js';
 import { authenticateToken, authorize } from '../middleware/authMiddleware.js';
 
@@ -15,9 +18,13 @@ router.use(authenticateToken);
 
 // Routes for Sertifikasi
 router.get('/', getAllSertifikasi);
-router.post('/', authorize(['admin', 'vp', 'manager']), createSertifikasi);
-router.put('/:id', authorize(['admin', 'vp', 'manager']), updateSertifikasi);
+router.post('/', createSertifikasi);
+router.put('/:id', updateSertifikasi);
 router.delete('/:id', authorize(['admin', 'vp', 'manager']), deleteSertifikasi);
-router.put('/:id/ignore-expired', ignoreExpiredSertifikasi);
+router.put('/:id/ignore-expired', authorize(['admin', 'vp', 'manager']), ignoreExpiredSertifikasi);
+
+// Approval Routes
+router.put('/:id/approve', authorize(['admin', 'vp']), approveSertifikasi);
+router.put('/:id/reject', authorize(['admin', 'vp']), rejectSertifikasi);
 
 export default router;
