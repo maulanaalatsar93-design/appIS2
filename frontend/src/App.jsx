@@ -16,6 +16,9 @@ import WorkProgramList from './pages/WorkProgramList';
 import WorkCube from './pages/WorkCube';
 import WPEMMonitor from './pages/WPEMMonitor';
 import SertifikasiPersonel from './pages/SertifikasiPersonel';
+import PdmScheduleRules from './pages/pdm/PdmScheduleRules';
+import PdmTaskBoard from './pages/pdm/PdmTaskBoard';
+import PdmCalendar from './pages/pdm/PdmCalendar';
 import { Loader2 } from 'lucide-react';
 
 // A simple protected route wrapper
@@ -102,6 +105,18 @@ function MainApp() {
             ) : activeTab === 'wp-monitor' ? (
               <ProtectedRoute>
                 <WPEMMonitor />
+              </ProtectedRoute>
+            ) : activeTab === 'pdm-rules' ? (
+              <ProtectedRoute>
+                <PdmScheduleRules />
+              </ProtectedRoute>
+            ) : activeTab === 'pdm-tasks' ? (
+              <ProtectedRoute>
+                <PdmTaskBoard />
+              </ProtectedRoute>
+            ) : activeTab === 'pdm-calendar' ? (
+              <ProtectedRoute>
+                <PdmCalendar />
               </ProtectedRoute>
             ) : (
               <ProtectedRoute>
