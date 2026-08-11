@@ -485,7 +485,7 @@ export default function InternalDashboard() {
         isCollapsed={!isFilterOpen}
         setIsCollapsed={(val) => setIsFilterOpen(!val)}
         activeCount={(workCenter !== 'Semua Bagian' ? 1 : 0) + (month !== 'Semua Bulan' ? 1 : 0) + (year !== 'Semua' ? 1 : 0)}
-        position="bottom-28 right-8"
+        position="bottom-14 right-3"
       >
         {/* WorkCenter Filter */}
         <div className="flex items-center gap-1 bg-white border border-slate-200 rounded-full px-3 py-1 text-[11px] shadow-xs">
