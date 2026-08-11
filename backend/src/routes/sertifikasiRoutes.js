@@ -4,7 +4,6 @@ import {
   createSertifikasi,
   updateSertifikasi,
   deleteSertifikasi,
-  deleteSertifikasi,
   ignoreExpiredSertifikasi,
   approveSertifikasi,
   rejectSertifikasi
