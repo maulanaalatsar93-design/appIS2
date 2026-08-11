@@ -131,7 +131,7 @@ export default function ManPowerPage({ initialView = 'availability' }) {
       const isWeekend = (day === 0 || day === 6);
       const isHoliday = !!INDONESIA_HOLIDAYS[dateStr];
       const isOffday = isWeekend || isHoliday;
-      
+
       // Jika status adalah Cuti (id = 3), maka tidak terakumulasi di weekend/libur nasional
       if (statusId === 3) {
         if (!isOffday) count++;
@@ -245,7 +245,7 @@ export default function ManPowerPage({ initialView = 'availability' }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
-      
+
       if (res.ok) {
         const data = await res.json();
         const newRecord = {
@@ -294,340 +294,340 @@ export default function ManPowerPage({ initialView = 'availability' }) {
   return (
     <div className="p-6 space-y-6 bg-industrial-background min-h-screen relative print:bg-white print:p-0 print:space-y-4">
       <div className="print:hidden space-y-6">
-      {/* FLOATING FILTER */}
-      <div
-        className={`fixed bottom-16 right-4 z-[9998] flex items-center gap-1 bg-white/90 backdrop-blur-md border border-industrial-border shadow-lg rounded-full p-1 transition-all duration-300 ${isFilterCollapsed ? 'scale-95 opacity-90' : 'scale-100 opacity-100'
-          }`}
-      >
-        <button
-          onClick={() => setIsFilterCollapsed(!isFilterCollapsed)}
-          className="relative flex items-center justify-center shrink-0 w-8 h-8 rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200"
-          title={isFilterCollapsed ? 'Buka Filter' : 'Tutup Filter'}
+        {/* FLOATING FILTER */}
+        <div
+          className={`fixed bottom-14 right-3 z-[9998] flex items-center gap-1 bg-white/90 backdrop-blur-md border border-industrial-border shadow-lg rounded-full p-1 transition-all duration-300 ${isFilterCollapsed ? 'scale-95 opacity-90' : 'scale-100 opacity-100'
+            }`}
         >
-          {isFilterCollapsed ? <Filter size={14} /> : <X size={14} />}
-        </button>
-
-        {!isFilterCollapsed && (
-          <>
-            <div className="flex items-center gap-1 bg-white border border-slate-200 rounded-full px-2 py-1">
-              <Calendar size={12} className="text-slate-400" />
-              <select
-                value={filterMonth}
-                onChange={(e) => setFilterMonth(e.target.value)}
-                className="bg-transparent text-[11px] outline-none cursor-pointer"
-              >
-                <option value="all">Semua Waktu</option>
-                {Array.from({ length: 12 }).map((_, i) => (
-                  <option key={i} value={i.toString()}>
-                    {new Date(0, i).toLocaleString('id-ID', { month: 'long' })}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="flex items-center gap-1 bg-white border border-slate-200 rounded-full px-2 py-1 w-[140px]">
-              <Search size={12} className="text-slate-400" />
-              <input
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Cari nama..."
-                className="bg-transparent text-[11px] outline-none w-full"
-              />
-            </div>
-          </>
-        )}
-      </div>
-
-      {/* HEADER */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-industrial-blue/10 text-industrial-blue flex items-center justify-center shrink-0">
-            <Users size={22} />
-          </div>
-          <div>
-            <h1 className="text-xl font-bold text-industrial-text tracking-tight">Man Power Control</h1>
-            <p className="text-xs text-industrial-muted">Kelola personil dan status presensi.</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-2">
           <button
-            onClick={() => setIsAddEmpOpen(true)}
-            className="flex items-center gap-1.5 bg-emerald-600 text-white px-3.5 py-2 rounded-lg text-xs font-semibold hover:bg-emerald-700 transition-colors shadow-sm"
+            onClick={() => setIsFilterCollapsed(!isFilterCollapsed)}
+            className="relative flex items-center justify-center shrink-0 w-8 h-8 rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200"
+            title={isFilterCollapsed ? 'Buka Filter' : 'Tutup Filter'}
           >
-            <UserPlus size={16} /> Tambah Karyawan
+            {isFilterCollapsed ? <Filter size={14} /> : <X size={14} />}
           </button>
-          <button
-            onClick={() => setIsFormOpen(true)}
-            className="flex items-center gap-1.5 bg-industrial-navy text-white px-3.5 py-2 rounded-lg text-xs font-semibold hover:bg-industrial-text transition-colors shadow-sm"
-          >
-            <PlusCircle size={16} /> Catat Status Presensi
-          </button>
-        </div>
-      </div>
 
-      {/* KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-white rounded-card p-4 border border-industrial-border shadow-sm-subtle">
-          <div className="text-xs text-industrial-muted font-medium mb-1">Total Personel</div>
-          <div className="text-2xl font-bold text-industrial-text">{employees.length} Personil</div>
-        </div>
-        <div className="bg-white rounded-card p-4 border border-industrial-border shadow-sm-subtle">
-          <div className="text-xs text-industrial-muted font-medium mb-1">Catatan Aktif / Akan Datang</div>
-          <div className="text-2xl font-bold text-industrial-blue">{activeOrUpcomingCount} Catatan</div>
-        </div>
-        <div className="bg-white rounded-card p-4 border border-industrial-border shadow-sm-subtle">
-          <div className="text-xs text-industrial-muted font-medium mb-1">Total Riwayat Presensi</div>
-          <div className="text-2xl font-bold text-industrial-text">{attendanceChanges.length} Riwayat</div>
-        </div>
-      </div>
+          {!isFilterCollapsed && (
+            <>
+              <div className="flex items-center gap-1 bg-white border border-slate-200 rounded-full px-2 py-1">
+                <Calendar size={12} className="text-slate-400" />
+                <select
+                  value={filterMonth}
+                  onChange={(e) => setFilterMonth(e.target.value)}
+                  className="bg-transparent text-[11px] outline-none cursor-pointer"
+                >
+                  <option value="all">Semua Waktu</option>
+                  {Array.from({ length: 12 }).map((_, i) => (
+                    <option key={i} value={i.toString()}>
+                      {new Date(0, i).toLocaleString('id-ID', { month: 'long' })}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-      {/* Main Table / Calendar Container */}
-      <div className="bg-white rounded-card border border-industrial-border shadow-sm-subtle overflow-hidden">
-        <div className="p-4 border-b border-industrial-border flex flex-col sm:flex-row justify-between sm:items-center gap-3">
-          <h3 className="font-semibold text-sm md:text-base text-industrial-text">
-            {viewMode === 'calendar' ? 'Kalender Presensi' : viewMode === 'recap' ? 'Rekap Izin & Anggota' : 'Riwayat Perubahan Status'}
-          </h3>
-          <div className="flex items-center gap-2">
-            <div className="flex items-center bg-slate-100 p-0.5 rounded-lg">
-              <button
-                onClick={() => setViewMode('availability')}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${viewMode === 'availability' ? 'bg-industrial-navy text-white shadow-sm' : 'text-slate-500'
-                  }`}
-              >
-                <MapPin size={13} /> Availability Board
-              </button>
-              <button
-                onClick={() => setViewMode('table')}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${viewMode === 'table' ? 'bg-white text-industrial-navy shadow-sm' : 'text-slate-500'
-                  }`}
-              >
-                <Activity size={13} /> Tabel Riwayat
-              </button>
-              <button
-                onClick={() => setViewMode('calendar')}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${viewMode === 'calendar' ? 'bg-industrial-navy text-white shadow-sm' : 'text-slate-500'
-                  }`}
-              >
-                <Calendar size={13} /> Kalender
-              </button>
-              <button
-                onClick={() => setViewMode('recap')}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${viewMode === 'recap' ? 'bg-white text-industrial-navy shadow-sm' : 'text-slate-500'
-                  }`}
-              >
-                <Users size={13} /> Rekap Izin
-              </button>
-            </div>
-
-            <div className="relative">
-              <button
-                onClick={() => setShowExportMenu(!showExportMenu)}
-                className="flex items-center gap-1 bg-white border border-industrial-border px-3 py-1.5 rounded-lg text-xs font-medium hover:bg-slate-50"
-              >
-                <Download size={13} /> Export
-              </button>
-              {showExportMenu && (
-                <div className="absolute right-0 mt-2 w-44 bg-white rounded-xl shadow-lg border border-industrial-border py-1 z-10">
-                  <button onClick={() => handleExport('pdf')} className="w-full text-left px-4 py-2 text-xs text-slate-700 hover:bg-slate-50 flex items-center gap-2">
-                    <Printer size={13} /> Print / Export PDF
-                  </button>
-                  <button onClick={() => handleExport('csv')} className="w-full text-left px-4 py-2 text-xs text-slate-700 hover:bg-slate-50 flex items-center gap-2">
-                    <FileText size={13} /> Export CSV
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-
-        <div className="p-4">
-          {viewMode === 'table' ? (
-            <div className="space-y-3">
-              {filteredChanges.map((row) => {
-                const status = MOCK_STATUSES.find((s) => s.id === row.status_id);
-                const emp = getEmployee(row.employee_id);
-                return (
-                  <div key={row.id} className="bg-white p-3.5 rounded-xl border border-industrial-border hover:border-industrial-blue/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                    <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-full bg-industrial-blue/10 text-industrial-blue font-bold text-xs flex items-center justify-center">
-                        {emp?.name?.charAt(0) || '?'}
-                      </div>
-                      <div>
-                        <p className="font-semibold text-xs text-industrial-text">{emp?.name || 'Unknown'}</p>
-                        <p className="text-[11px] text-industrial-muted">NPK: {emp?.npk} &bull; {emp?.division}</p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-4">
-                      <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase ${status?.bg || ''} ${status?.color || ''}`}>
-                        {status?.name || 'Unknown'}
-                      </span>
-                      <p className="text-xs font-medium text-slate-600">{row.start_date} s/d {row.end_date}</p>
-                      <button
-                        onClick={() => handleDeleteAttendance(row.id)}
-                        className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                      >
-                        <Trash2 size={14} />
-                      </button>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          ) : viewMode === 'calendar' ? (
-            <AbsensiCalendar employees={employees} attendanceChanges={attendanceChanges} />
-          ) : viewMode === 'availability' ? (
-            <div className="-m-4">
-              <ManpowerAvailabilityBoard />
-            </div>
-          ) : (
-            <RekapIzinView
-              employees={employees}
-              attendanceChanges={attendanceChanges}
-              onDeleteEmployee={handleDeleteEmployee}
-              onEditEmployee={handleEditEmployeeClick}
-            />
+              <div className="flex items-center gap-1 bg-white border border-slate-200 rounded-full px-2 py-1 w-[140px]">
+                <Search size={12} className="text-slate-400" />
+                <input
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  placeholder="Cari nama..."
+                  className="bg-transparent text-[11px] outline-none w-full"
+                />
+              </div>
+            </>
           )}
         </div>
-      </div>
 
-      {/* Modal Catat Status Presensi */}
-      {isFormOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
-          <div className="bg-white rounded-2xl p-6 border border-industrial-border max-w-md w-full shadow-2xl space-y-4">
-            <div className="flex justify-between items-center pb-2 border-b border-industrial-border">
-              <h3 className="font-bold text-base text-industrial-text">Catat Perubahan Status Presensi</h3>
-              <button onClick={() => setIsFormOpen(false)} className="text-slate-400 hover:text-slate-600"><X size={18} /></button>
+        {/* HEADER */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-industrial-blue/10 text-industrial-blue flex items-center justify-center shrink-0">
+              <Users size={22} />
             </div>
-            <form onSubmit={handleSubmitAttendance} className="space-y-3 text-xs">
-              <div>
-                <label className="block font-medium mb-1">Pilih Karyawan</label>
-                <select
-                  required
-                  value={formData.employee_id}
-                  onChange={(e) => setFormData({ ...formData, employee_id: e.target.value })}
-                  className="w-full border border-industrial-border rounded-lg p-2 bg-industrial-background"
+            <div>
+              <h1 className="text-xl font-bold text-industrial-text tracking-tight">Man Power Control</h1>
+              <p className="text-xs text-industrial-muted">Kelola personil dan status presensi.</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setIsAddEmpOpen(true)}
+              className="flex items-center gap-1.5 bg-emerald-600 text-white px-3.5 py-2 rounded-lg text-xs font-semibold hover:bg-emerald-700 transition-colors shadow-sm"
+            >
+              <UserPlus size={16} /> Tambah Karyawan
+            </button>
+            <button
+              onClick={() => setIsFormOpen(true)}
+              className="flex items-center gap-1.5 bg-industrial-navy text-white px-3.5 py-2 rounded-lg text-xs font-semibold hover:bg-industrial-text transition-colors shadow-sm"
+            >
+              <PlusCircle size={16} /> Catat Status Presensi
+            </button>
+          </div>
+        </div>
+
+        {/* KPI Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="bg-white rounded-card p-4 border border-industrial-border shadow-sm-subtle">
+            <div className="text-xs text-industrial-muted font-medium mb-1">Total Personel</div>
+            <div className="text-2xl font-bold text-industrial-text">{employees.length} Personil</div>
+          </div>
+          <div className="bg-white rounded-card p-4 border border-industrial-border shadow-sm-subtle">
+            <div className="text-xs text-industrial-muted font-medium mb-1">Catatan Aktif / Akan Datang</div>
+            <div className="text-2xl font-bold text-industrial-blue">{activeOrUpcomingCount} Catatan</div>
+          </div>
+          <div className="bg-white rounded-card p-4 border border-industrial-border shadow-sm-subtle">
+            <div className="text-xs text-industrial-muted font-medium mb-1">Total Riwayat Presensi</div>
+            <div className="text-2xl font-bold text-industrial-text">{attendanceChanges.length} Riwayat</div>
+          </div>
+        </div>
+
+        {/* Main Table / Calendar Container */}
+        <div className="bg-white rounded-card border border-industrial-border shadow-sm-subtle overflow-hidden">
+          <div className="p-4 border-b border-industrial-border flex flex-col sm:flex-row justify-between sm:items-center gap-3">
+            <h3 className="font-semibold text-sm md:text-base text-industrial-text">
+              {viewMode === 'calendar' ? 'Kalender Presensi' : viewMode === 'recap' ? 'Rekap Izin & Anggota' : 'Riwayat Perubahan Status'}
+            </h3>
+            <div className="flex items-center gap-2">
+              <div className="flex items-center bg-slate-100 p-0.5 rounded-lg">
+                <button
+                  onClick={() => setViewMode('availability')}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${viewMode === 'availability' ? 'bg-industrial-navy text-white shadow-sm' : 'text-slate-500'
+                    }`}
                 >
-                  <option value="">Pilih Karyawan</option>
-                  {employees.map((emp) => (
-                    <option key={emp.id} value={emp.id}>{emp.name} (NPK: {emp.npk})</option>
-                  ))}
-                </select>
+                  <MapPin size={13} /> Availability Board
+                </button>
+                <button
+                  onClick={() => setViewMode('table')}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${viewMode === 'table' ? 'bg-white text-industrial-navy shadow-sm' : 'text-slate-500'
+                    }`}
+                >
+                  <Activity size={13} /> Tabel Riwayat
+                </button>
+                <button
+                  onClick={() => setViewMode('calendar')}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${viewMode === 'calendar' ? 'bg-industrial-navy text-white shadow-sm' : 'text-slate-500'
+                    }`}
+                >
+                  <Calendar size={13} /> Kalender
+                </button>
+                <button
+                  onClick={() => setViewMode('recap')}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${viewMode === 'recap' ? 'bg-white text-industrial-navy shadow-sm' : 'text-slate-500'
+                    }`}
+                >
+                  <Users size={13} /> Rekap Izin
+                </button>
               </div>
 
-              <div>
-                <label className="block font-medium mb-1">Status Kehadiran</label>
-                <select
-                  required
-                  value={formData.status_id}
-                  onChange={(e) => setFormData({ ...formData, status_id: e.target.value })}
-                  className="w-full border border-industrial-border rounded-lg p-2 bg-industrial-background"
+              <div className="relative">
+                <button
+                  onClick={() => setShowExportMenu(!showExportMenu)}
+                  className="flex items-center gap-1 bg-white border border-industrial-border px-3 py-1.5 rounded-lg text-xs font-medium hover:bg-slate-50"
                 >
-                  {MOCK_STATUSES.map((s) => (
-                    <option key={s.id} value={s.id}>{s.name}</option>
-                  ))}
-                </select>
+                  <Download size={13} /> Export
+                </button>
+                {showExportMenu && (
+                  <div className="absolute right-0 mt-2 w-44 bg-white rounded-xl shadow-lg border border-industrial-border py-1 z-10">
+                    <button onClick={() => handleExport('pdf')} className="w-full text-left px-4 py-2 text-xs text-slate-700 hover:bg-slate-50 flex items-center gap-2">
+                      <Printer size={13} /> Print / Export PDF
+                    </button>
+                    <button onClick={() => handleExport('csv')} className="w-full text-left px-4 py-2 text-xs text-slate-700 hover:bg-slate-50 flex items-center gap-2">
+                      <FileText size={13} /> Export CSV
+                    </button>
+                  </div>
+                )}
               </div>
+            </div>
+          </div>
 
-              <div className="grid grid-cols-2 gap-3">
+          <div className="p-4">
+            {viewMode === 'table' ? (
+              <div className="space-y-3">
+                {filteredChanges.map((row) => {
+                  const status = MOCK_STATUSES.find((s) => s.id === row.status_id);
+                  const emp = getEmployee(row.employee_id);
+                  return (
+                    <div key={row.id} className="bg-white p-3.5 rounded-xl border border-industrial-border hover:border-industrial-blue/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                      <div className="flex items-center gap-3">
+                        <div className="w-9 h-9 rounded-full bg-industrial-blue/10 text-industrial-blue font-bold text-xs flex items-center justify-center">
+                          {emp?.name?.charAt(0) || '?'}
+                        </div>
+                        <div>
+                          <p className="font-semibold text-xs text-industrial-text">{emp?.name || 'Unknown'}</p>
+                          <p className="text-[11px] text-industrial-muted">NPK: {emp?.npk} &bull; {emp?.division}</p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-4">
+                        <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase ${status?.bg || ''} ${status?.color || ''}`}>
+                          {status?.name || 'Unknown'}
+                        </span>
+                        <p className="text-xs font-medium text-slate-600">{row.start_date} s/d {row.end_date}</p>
+                        <button
+                          onClick={() => handleDeleteAttendance(row.id)}
+                          className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                        >
+                          <Trash2 size={14} />
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : viewMode === 'calendar' ? (
+              <AbsensiCalendar employees={employees} attendanceChanges={attendanceChanges} />
+            ) : viewMode === 'availability' ? (
+              <div className="-m-4">
+                <ManpowerAvailabilityBoard />
+              </div>
+            ) : (
+              <RekapIzinView
+                employees={employees}
+                attendanceChanges={attendanceChanges}
+                onDeleteEmployee={handleDeleteEmployee}
+                onEditEmployee={handleEditEmployeeClick}
+              />
+            )}
+          </div>
+        </div>
+
+        {/* Modal Catat Status Presensi */}
+        {isFormOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+            <div className="bg-white rounded-2xl p-6 border border-industrial-border max-w-md w-full shadow-2xl space-y-4">
+              <div className="flex justify-between items-center pb-2 border-b border-industrial-border">
+                <h3 className="font-bold text-base text-industrial-text">Catat Perubahan Status Presensi</h3>
+                <button onClick={() => setIsFormOpen(false)} className="text-slate-400 hover:text-slate-600"><X size={18} /></button>
+              </div>
+              <form onSubmit={handleSubmitAttendance} className="space-y-3 text-xs">
                 <div>
-                  <label className="block font-medium mb-1">Tanggal Mulai</label>
+                  <label className="block font-medium mb-1">Pilih Karyawan</label>
+                  <select
+                    required
+                    value={formData.employee_id}
+                    onChange={(e) => setFormData({ ...formData, employee_id: e.target.value })}
+                    className="w-full border border-industrial-border rounded-lg p-2 bg-industrial-background"
+                  >
+                    <option value="">Pilih Karyawan</option>
+                    {employees.map((emp) => (
+                      <option key={emp.id} value={emp.id}>{emp.name} (NPK: {emp.npk})</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block font-medium mb-1">Status Kehadiran</label>
+                  <select
+                    required
+                    value={formData.status_id}
+                    onChange={(e) => setFormData({ ...formData, status_id: e.target.value })}
+                    className="w-full border border-industrial-border rounded-lg p-2 bg-industrial-background"
+                  >
+                    {MOCK_STATUSES.map((s) => (
+                      <option key={s.id} value={s.id}>{s.name}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block font-medium mb-1">Tanggal Mulai</label>
+                    <input
+                      required
+                      type="date"
+                      value={formData.start_date}
+                      onChange={(e) => setFormData({ ...formData, start_date: e.target.value })}
+                      className="w-full border border-industrial-border rounded-lg p-2 bg-industrial-background"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-medium mb-1">Tanggal Selesai</label>
+                    <input
+                      required
+                      type="date"
+                      value={formData.end_date}
+                      onChange={(e) => setFormData({ ...formData, end_date: e.target.value })}
+                      className="w-full border border-industrial-border rounded-lg p-2 bg-industrial-background"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block font-medium mb-1">Catatan</label>
+                  <textarea
+                    value={formData.note}
+                    onChange={(e) => setFormData({ ...formData, note: e.target.value })}
+                    rows={2}
+                    className="w-full border border-industrial-border rounded-lg p-2 bg-industrial-background"
+                  />
+                </div>
+
+                <div className="flex justify-end gap-2 pt-2">
+                  <button type="button" onClick={() => setIsFormOpen(false)} className="px-4 py-2 rounded-lg bg-slate-100 text-slate-600">Batal</button>
+                  <button type="submit" className="px-4 py-2 rounded-lg bg-industrial-navy text-white font-semibold">Simpan</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {/* Modal Tambah Karyawan */}
+        {isAddEmpOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+            <div className="bg-white rounded-2xl p-6 border border-industrial-border max-w-md w-full shadow-2xl space-y-4">
+              <div className="flex justify-between items-center pb-2 border-b border-industrial-border">
+                <h3 className="font-bold text-base text-industrial-text">Tambah Data Karyawan Baru</h3>
+                <button onClick={() => setIsAddEmpOpen(false)} className="text-slate-400 hover:text-slate-600"><X size={18} /></button>
+              </div>
+              <form onSubmit={handleAddEmployeeSubmit} className="space-y-3 text-xs">
+                <div>
+                  <label className="block font-medium mb-1">NPK Karyawan</label>
                   <input
                     required
-                    type="date"
-                    value={formData.start_date}
-                    onChange={(e) => setFormData({ ...formData, start_date: e.target.value })}
+                    type="text"
+                    placeholder="Contoh: 4254883 / K225716"
+                    value={newEmpData.npk}
+                    onChange={(e) => setNewEmpData({ ...newEmpData, npk: e.target.value })}
                     className="w-full border border-industrial-border rounded-lg p-2 bg-industrial-background"
                   />
                 </div>
                 <div>
-                  <label className="block font-medium mb-1">Tanggal Selesai</label>
+                  <label className="block font-medium mb-1">Nama Lengkap</label>
                   <input
                     required
-                    type="date"
-                    value={formData.end_date}
-                    onChange={(e) => setFormData({ ...formData, end_date: e.target.value })}
+                    type="text"
+                    placeholder="Nama Karyawan"
+                    value={newEmpData.name}
+                    onChange={(e) => setNewEmpData({ ...newEmpData, name: e.target.value })}
                     className="w-full border border-industrial-border rounded-lg p-2 bg-industrial-background"
                   />
                 </div>
-              </div>
+                <div>
+                  <label className="block font-medium mb-1">Divisi</label>
+                  <select
+                    value={newEmpData.division}
+                    onChange={(e) => setNewEmpData({ ...newEmpData, division: e.target.value })}
+                    className="w-full border border-industrial-border rounded-lg p-2 bg-industrial-background"
+                  >
+                    <option value="Rotating 1">Rotating 1</option>
+                    <option value="Rotating 2">Rotating 2</option>
+                    <option value="PPHS & OSBL">PPHS & OSBL</option>
+                    <option value="Bengkel">Bengkel</option>
+                    <option value="Metalurgi">Metalurgi</option>
+                    <option value="QC">QC</option>
+                    <option value="Sekretaris">Sekretaris</option>
+                  </select>
+                </div>
 
-              <div>
-                <label className="block font-medium mb-1">Catatan</label>
-                <textarea
-                  value={formData.note}
-                  onChange={(e) => setFormData({ ...formData, note: e.target.value })}
-                  rows={2}
-                  className="w-full border border-industrial-border rounded-lg p-2 bg-industrial-background"
-                />
-              </div>
-
-              <div className="flex justify-end gap-2 pt-2">
-                <button type="button" onClick={() => setIsFormOpen(false)} className="px-4 py-2 rounded-lg bg-slate-100 text-slate-600">Batal</button>
-                <button type="submit" className="px-4 py-2 rounded-lg bg-industrial-navy text-white font-semibold">Simpan</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {/* Modal Tambah Karyawan */}
-      {isAddEmpOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
-          <div className="bg-white rounded-2xl p-6 border border-industrial-border max-w-md w-full shadow-2xl space-y-4">
-            <div className="flex justify-between items-center pb-2 border-b border-industrial-border">
-              <h3 className="font-bold text-base text-industrial-text">Tambah Data Karyawan Baru</h3>
-              <button onClick={() => setIsAddEmpOpen(false)} className="text-slate-400 hover:text-slate-600"><X size={18} /></button>
+                <div className="flex justify-end gap-2 pt-2">
+                  <button type="button" onClick={() => setIsAddEmpOpen(false)} className="px-4 py-2 rounded-lg bg-slate-100 text-slate-600">Batal</button>
+                  <button type="submit" className="px-4 py-2 rounded-lg bg-emerald-600 text-white font-semibold">Simpan Karyawan</button>
+                </div>
+              </form>
             </div>
-            <form onSubmit={handleAddEmployeeSubmit} className="space-y-3 text-xs">
-              <div>
-                <label className="block font-medium mb-1">NPK Karyawan</label>
-                <input
-                  required
-                  type="text"
-                  placeholder="Contoh: 4254883 / K225716"
-                  value={newEmpData.npk}
-                  onChange={(e) => setNewEmpData({ ...newEmpData, npk: e.target.value })}
-                  className="w-full border border-industrial-border rounded-lg p-2 bg-industrial-background"
-                />
-              </div>
-              <div>
-                <label className="block font-medium mb-1">Nama Lengkap</label>
-                <input
-                  required
-                  type="text"
-                  placeholder="Nama Karyawan"
-                  value={newEmpData.name}
-                  onChange={(e) => setNewEmpData({ ...newEmpData, name: e.target.value })}
-                  className="w-full border border-industrial-border rounded-lg p-2 bg-industrial-background"
-                />
-              </div>
-              <div>
-                <label className="block font-medium mb-1">Divisi</label>
-                <select
-                  value={newEmpData.division}
-                  onChange={(e) => setNewEmpData({ ...newEmpData, division: e.target.value })}
-                  className="w-full border border-industrial-border rounded-lg p-2 bg-industrial-background"
-                >
-                  <option value="Rotating 1">Rotating 1</option>
-                  <option value="Rotating 2">Rotating 2</option>
-                  <option value="PPHS & OSBL">PPHS & OSBL</option>
-                  <option value="Bengkel">Bengkel</option>
-                  <option value="Metalurgi">Metalurgi</option>
-                  <option value="QC">QC</option>
-                  <option value="Sekretaris">Sekretaris</option>
-                </select>
-              </div>
-
-              <div className="flex justify-end gap-2 pt-2">
-                <button type="button" onClick={() => setIsAddEmpOpen(false)} className="px-4 py-2 rounded-lg bg-slate-100 text-slate-600">Batal</button>
-                <button type="submit" className="px-4 py-2 rounded-lg bg-emerald-600 text-white font-semibold">Simpan Karyawan</button>
-              </div>
-            </form>
           </div>
-        </div>
-      )}
-      
+        )}
+
       </div> {/* End of print:hidden div */}
 
       {/* FORMAL PRINT REPORT LAYOUT: REKAP IZIN */}
