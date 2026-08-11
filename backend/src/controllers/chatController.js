@@ -43,6 +43,25 @@ export const sendMessage = async (req, res) => {
   }
 };
 
+export const getUnreadCount = async (req, res) => {
+  try {
+    const currentUserId = req.user?.id;
+    if (!currentUserId) return res.status(401).json({ message: 'Unauthorized' });
+
+    const count = await prisma.chatMessage.count({
+      where: {
+        receiverId: parseInt(currentUserId),
+        isRead: false
+      }
+    });
+
+    res.json({ count });
+  } catch (error) {
+    console.error('Error fetching unread count:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
 export const getConversation = async (req, res) => {
   try {
     // Jalankan auto delete setiap ada request masuk
@@ -69,6 +88,18 @@ export const getConversation = async (req, res) => {
       },
       orderBy: {
         createdAt: 'asc' // Oldest to newest for chatting UI
+      }
+    });
+
+    // Mark messages as read
+    await prisma.chatMessage.updateMany({
+      where: {
+        senderId: parseInt(userId),
+        receiverId: parseInt(currentUserId),
+        isRead: false
+      },
+      data: {
+        isRead: true
       }
     });
 

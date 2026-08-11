@@ -7,6 +7,8 @@ export default function OnlineChatWidget() {
   const [isMinimized, setIsMinimized] = useState(false);
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [loadingUsers, setLoadingUsers] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(0);
+  const prevUnreadCountRef = useRef(0);
   
   // Chat state
   const [activeChatUser, setActiveChatUser] = useState(null);
@@ -16,6 +18,50 @@ export default function OnlineChatWidget() {
   
   const { token, user } = useContext(AuthContext);
   const messagesEndRef = useRef(null);
+
+  const playNotificationSound = () => {
+    try {
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContext) return;
+      const audioCtx = new AudioContext();
+      const oscillator = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
+      
+      oscillator.type = 'sine';
+      oscillator.frequency.setValueAtTime(880, audioCtx.currentTime); 
+      oscillator.frequency.exponentialRampToValueAtTime(440, audioCtx.currentTime + 0.1);
+      
+      gainNode.gain.setValueAtTime(0.5, audioCtx.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+      
+      oscillator.start();
+      oscillator.stop(audioCtx.currentTime + 0.15);
+    } catch (e) {
+      console.error("Audio play failed", e);
+    }
+  };
+
+  const fetchUnreadCount = async () => {
+    if (!token) return;
+    try {
+      const res = await fetch((import.meta.env.VITE_API_URL || '').replace(/\/$/, '') + '/api/chat/unread', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.count > prevUnreadCountRef.current) {
+          playNotificationSound();
+        }
+        prevUnreadCountRef.current = data.count;
+        setUnreadCount(data.count);
+      }
+    } catch (error) {
+      console.error('Failed to fetch unread count', error);
+    }
+  };
 
   const fetchOnlineUsers = async () => {
     if (!token) return;
@@ -44,6 +90,7 @@ export default function OnlineChatWidget() {
       if (res.ok) {
         const data = await res.json();
         setMessages(data);
+        fetchUnreadCount();
       }
     } catch (error) {
       console.error('Failed to fetch messages', error);
@@ -92,6 +139,14 @@ export default function OnlineChatWidget() {
       fetchOnlineUsers();
       const interval = setInterval(fetchOnlineUsers, 30000); // 30s poll for online users & heartbeat
       return () => clearInterval(interval);
+    }
+  }, [token]);
+
+  useEffect(() => {
+    if (token) {
+      fetchUnreadCount();
+      const unreadInterval = setInterval(fetchUnreadCount, 10000); // 10s poll for unread
+      return () => clearInterval(unreadInterval);
     }
   }, [token]);
 
@@ -146,6 +201,11 @@ export default function OnlineChatWidget() {
                   {!isMinimized && (
                     <span className="bg-white/20 text-xs px-2 py-0.5 rounded-full ml-2">
                       {onlineUsers.length}
+                    </span>
+                  )}
+                  {isMinimized && unreadCount > 0 && (
+                    <span className="bg-red-500 text-white text-xs px-2 py-0.5 rounded-full ml-2 animate-pulse">
+                      {unreadCount} New
                     </span>
                   )}
                 </>
@@ -287,10 +347,15 @@ export default function OnlineChatWidget() {
       {!isOpen && (
         <button
           onClick={() => { setIsOpen(true); setIsMinimized(false); }}
-          className="bg-industrial-blue text-white p-3 rounded-full shadow-lg hover:bg-industrial-blue-light transition-all hover:scale-105"
+          className="bg-industrial-blue text-white p-3 rounded-full shadow-lg hover:bg-industrial-blue-light transition-all hover:scale-105 relative"
           title="Online Personnel"
         >
           <MessageSquare className="w-6 h-6" />
+          {unreadCount > 0 && (
+            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold rounded-full h-5 w-5 flex items-center justify-center animate-pulse shadow-sm border-2 border-white">
+              {unreadCount > 99 ? '99+' : unreadCount}
+            </span>
+          )}
         </button>
       )}
     </div>
