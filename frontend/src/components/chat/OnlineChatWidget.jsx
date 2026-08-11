@@ -51,8 +51,21 @@ export default function OnlineChatWidget() {
   };
 
   const sendMessage = async (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
     if (!newMessage.trim() || !activeChatUser) return;
+    
+    const textToSend = newMessage;
+    setNewMessage('');
+    
+    // Optimistic UI update
+    const optimisticMsg = {
+      id: `temp-${Date.now()}`,
+      senderId: user.id,
+      receiverId: activeChatUser.id,
+      content: textToSend,
+      createdAt: new Date().toISOString()
+    };
+    setMessages(prev => [...prev, optimisticMsg]);
     
     try {
       const res = await fetch((import.meta.env.VITE_API_URL || '').replace(/\/$/, '') + '/api/chat/send', {
@@ -63,12 +76,11 @@ export default function OnlineChatWidget() {
         },
         body: JSON.stringify({
           receiverId: activeChatUser.id,
-          content: newMessage
+          content: textToSend
         })
       });
       if (res.ok) {
-        setNewMessage('');
-        fetchMessages(); // refresh messages immediately
+        fetchMessages(); // refresh messages immediately to get real IDs
       }
     } catch (error) {
       console.error('Failed to send message', error);
@@ -76,12 +88,12 @@ export default function OnlineChatWidget() {
   };
 
   useEffect(() => {
-    if (isOpen && !isMinimized && !activeChatUser) {
+    if (token) {
       fetchOnlineUsers();
-      const interval = setInterval(fetchOnlineUsers, 30000); // 30s poll for online users
+      const interval = setInterval(fetchOnlineUsers, 30000); // 30s poll for online users & heartbeat
       return () => clearInterval(interval);
     }
-  }, [isOpen, isMinimized, activeChatUser, token]);
+  }, [token]);
 
   useEffect(() => {
     if (isOpen && !isMinimized && activeChatUser) {
@@ -193,6 +205,12 @@ export default function OnlineChatWidget() {
                       type="text" 
                       value={newMessage}
                       onChange={(e) => setNewMessage(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          sendMessage(e);
+                        }
+                      }}
                       placeholder="Ketik pesan..." 
                       className="flex-1 border border-gray-300 rounded-full px-4 py-2 text-sm focus:outline-none focus:border-industrial-blue focus:ring-1 focus:ring-industrial-blue"
                     />

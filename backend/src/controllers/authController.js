@@ -125,6 +125,27 @@ export const logout = async (req, res) => {
 
 export const getOnlineUsers = async (req, res) => {
   try {
+    const userId = req.user?.id;
+    if (userId) {
+      await prisma.user.update({
+        where: { id: userId },
+        data: { is_online: true, last_active: new Date() }
+      });
+    }
+
+    const twoMinsAgo = new Date(Date.now() - 2 * 60 * 1000);
+    await prisma.user.updateMany({
+      where: {
+        is_online: true,
+        last_active: {
+          lt: twoMinsAgo
+        }
+      },
+      data: {
+        is_online: false
+      }
+    });
+
     const onlineUsers = await prisma.user.findMany({
       where: { is_online: true },
       select: {

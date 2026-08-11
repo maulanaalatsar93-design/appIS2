@@ -19,7 +19,7 @@ const deleteOldMessages = async () => {
 export const sendMessage = async (req, res) => {
   try {
     // Jalankan auto delete setiap ada request masuk
-    await deleteOldMessages();
+    deleteOldMessages().catch(console.error);
 
     const { receiverId, content } = req.body;
     const senderId = req.user?.id;
@@ -46,7 +46,7 @@ export const sendMessage = async (req, res) => {
 export const getConversation = async (req, res) => {
   try {
     // Jalankan auto delete setiap ada request masuk
-    await deleteOldMessages();
+    deleteOldMessages().catch(console.error);
 
     const { userId } = req.params; // The other user
     const currentUserId = req.user?.id;
