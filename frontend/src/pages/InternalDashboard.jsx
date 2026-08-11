@@ -109,14 +109,14 @@ export default function InternalDashboard() {
     // VP, SIE, Manager grouped into Manager Level (Rank 1)
     if (
       pos.includes('VP') || pos.includes('VICE PRESIDENT') ||
-      pos.includes('SIE') || pos.includes('STAFF INSPECTION ENGINEER') || 
+      pos.includes('SIE') || pos.includes('STAFF INSPECTION ENGINEER') ||
       pos.includes('MANAGER') || pos.includes('SUPERINTENDENT')
     ) return 1;
-    
+
     if (pos.includes('AVP') || pos.includes('ASSISTANT VICE PRESIDENT') || pos.includes('SUPERVISOR')) return 2;
     if (type.includes('ORGANIK') && !type.includes('NON')) return 3;
     if (type.includes('NON ORGANIK') || type.includes('NON-ORGANIK')) return 4;
-    
+
     return 5;
   };
 
@@ -485,7 +485,7 @@ export default function InternalDashboard() {
         isCollapsed={!isFilterOpen}
         setIsCollapsed={(val) => setIsFilterOpen(!val)}
         activeCount={(workCenter !== 'Semua Bagian' ? 1 : 0) + (month !== 'Semua Bulan' ? 1 : 0) + (year !== 'Semua' ? 1 : 0)}
-        position="bottom-24 right-6"
+        position="bottom-27 right-7"
       >
         {/* WorkCenter Filter */}
         <div className="flex items-center gap-1 bg-white border border-slate-200 rounded-full px-3 py-1 text-[11px] shadow-xs">
@@ -911,13 +911,13 @@ export default function InternalDashboard() {
                           const listToRender = hideCnfPm02Overview
                             ? (wc.list || []).filter(wo => !(wo.status || '').toUpperCase().includes('CNF'))
                             : (wc.list || []);
-                          
+
                           if (listToRender.length === 0) {
                             return (
                               <tr>
                                 <td colSpan="7" className="py-3 px-4 text-center text-slate-500 italic text-[11px]">
-                                  {wc.list?.length > 0 
-                                    ? 'Semua Work Order di bagian ini sudah berstatus CNF.' 
+                                  {wc.list?.length > 0
+                                    ? 'Semua Work Order di bagian ini sudah berstatus CNF.'
                                     : 'Tidak ada data Work Order PM 02+ di bagian ini pada bulan berjalan.'}
                                 </td>
                               </tr>
@@ -1546,7 +1546,7 @@ export default function InternalDashboard() {
                         const isOrganik = (p.employee_type || '').toLowerCase().includes('organik') && !(p.employee_type || '').toLowerCase().includes('non');
                         const isHadir = p.statusToday === 'Hadir';
                         const rank = getRoleRank(p);
-                        
+
                         let rowBg = 'hover:bg-slate-50';
                         if (rank === 1) rowBg = 'bg-amber-200/40 hover:bg-amber-300/40'; // Manager Level
                         else if (rank === 2) rowBg = 'bg-yellow-100/80 hover:bg-yellow-200/60'; // AVP Level
@@ -1638,16 +1638,16 @@ export default function InternalDashboard() {
               </div>
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
                 <label className="flex items-center gap-2 text-xs font-semibold cursor-pointer bg-white/60 px-3 py-1.5 rounded-lg border border-emerald-200 shadow-sm transition-all hover:bg-white">
-                  <input 
-                    type="checkbox" 
-                    className="w-4 h-4 rounded border-emerald-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer" 
+                  <input
+                    type="checkbox"
+                    className="w-4 h-4 rounded border-emerald-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer"
                     checked={hideCnfPm02}
                     onChange={(e) => setHideCnfPm02(e.target.checked)}
                   />
                   <span className={hideCnfPm02 ? 'text-emerald-700 font-bold' : 'text-slate-600'}>Sembunyikan Status 'CNF/TECO'</span>
                 </label>
                 <div className="text-2xl font-extrabold text-emerald-800">
-                  {hideCnfPm02 
+                  {hideCnfPm02
                     ? (summary?.kpi?.pm02PlusCountNonCNF ? summary.kpi.pm02PlusCountNonCNF.toLocaleString('id-ID') : '0')
                     : (summary?.kpi?.pm02PlusCount ? summary.kpi.pm02PlusCount.toLocaleString('id-ID') : '0')
                   } <span className="text-xs font-medium text-emerald-600">WO</span>
