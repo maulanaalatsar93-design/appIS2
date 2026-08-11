@@ -226,7 +226,7 @@ export default function PublicDashboard({ onBack }) {
           isCollapsed={!isFilterOpen}
           setIsCollapsed={(val) => setIsFilterOpen(!val)}
           activeCount={(workCenter !== 'Semua Bagian' ? 1 : 0) + (month !== 'Semua Bulan' ? 1 : 0) + (year !== 'Semua' ? 1 : 0)}
-          position="bottom-24 right-6"
+          position="bottom-18 right-6"
         >
           {/* WorkCenter Filter */}
           <div className="flex items-center gap-1 bg-white border border-slate-200 rounded-full px-3 py-1 text-[11px] shadow-xs">
