@@ -201,42 +201,44 @@ export const uploadWorkOrders = async (req, res) => {
       });
 
       try {
-        const values = [];
-        const placeholders = [];
-        let pIndex = 1;
+        // 1. Ambil existing records untuk dihapus (Delete & Re-insert)
+        const woKeys = finalRows.map(r => ({ nomor_wo: r[0], operation_activity: r[1] }));
+        const existingRecords = await prisma.workOrder.findMany({
+          where: { OR: woKeys },
+          select: { id: true, nomor_wo: true, operation_activity: true }
+        });
+        
+        const existingIds = existingRecords.map(r => r.id);
+        const existingCount = existingIds.length;
 
-        for (const r of finalRows) {
-          placeholders.push(`($${pIndex++}, $${pIndex++}, $${pIndex++}, $${pIndex++}, $${pIndex++}, $${pIndex++}, $${pIndex++}, $${pIndex++}, $${pIndex++}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`);
-          values.push(
-            r[0], // nomor_wo
-            r[1], // operation_activity
-            r[2], // description
-            r[3] ? new Date(r[3]) : null, // tanggal_dibuat
-            r[4], // status
-            r[5], // tipe_pm
-            r[6], // pabrik_id
-            r[7], // work_center
-            r[8]  // equipment
-          );
+        // 2. Hapus data lama yang bentrok
+        if (existingIds.length > 0) {
+          await prisma.workOrder.deleteMany({
+            where: { id: { in: existingIds } }
+          });
         }
 
-        const query = `
-          INSERT INTO "WorkOrder" ("nomor_wo", "operation_activity", "description", "tanggal_dibuat", "status", "tipe_pm", "pabrik_id", "work_center", "equipment", "createdAt", "updatedAt")
-          VALUES ${placeholders.join(', ')}
-          ON CONFLICT ("nomor_wo", "operation_activity") 
-          DO UPDATE SET 
-            "description" = EXCLUDED."description",
-            "tanggal_dibuat" = EXCLUDED."tanggal_dibuat",
-            "status" = EXCLUDED."status",
-            "tipe_pm" = EXCLUDED."tipe_pm",
-            "pabrik_id" = EXCLUDED."pabrik_id",
-            "work_center" = EXCLUDED."work_center",
-            "equipment" = EXCLUDED."equipment",
-            "updatedAt" = CURRENT_TIMESTAMP
-        `;
+        // 3. Siapkan semua data untuk Insert
+        const allDataToInsert = finalRows.map(r => ({
+          nomor_wo: r[0],
+          operation_activity: r[1],
+          description: r[2],
+          tanggal_dibuat: r[3] ? new Date(r[3]) : null,
+          status: r[4],
+          tipe_pm: r[5],
+          pabrik_id: r[6],
+          work_center: r[7],
+          equipment: r[8]
+        }));
 
-        const affectedRows = await prisma.$executeRawUnsafe(query, ...values);
-        updatedCount += affectedRows; // executeRawUnsafe returns number of rows affected (insert + updates)
+        // 4. Bulk Insert (1 Query)
+        const createRes = await prisma.workOrder.createMany({
+          data: allDataToInsert,
+          skipDuplicates: true
+        });
+
+        updatedCount += existingCount;
+        insertedCount += (createRes.count - existingCount);
       } catch (bulkErr) {
         console.error('Bulk WO insert error:', bulkErr.message);
         failCount += finalRows.length;
@@ -374,50 +376,42 @@ export const uploadRecommendations = async (req, res) => {
       });
 
       try {
-        const values = [];
-        const placeholders = [];
-        let pIndex = 1;
+        // 1. Ambil existing records untuk dihapus (Delete & Re-insert)
+        const notifs = finalRekRows.map(r => r[0]);
+        const existingRecords = await prisma.rekomendasi.findMany({
+          where: { notification: { in: notifs } },
+          select: { id: true, notification: true, reported_by: true }
+        });
+        
+        // Filter by composite key manually if needed, but since we map by notification it's mostly correct
+        const existingIds = existingRecords.map(r => r.id);
+        const existingCount = existingIds.length;
 
-        for (const r of finalRekRows) {
-          placeholders.push(`($${pIndex++}, $${pIndex++}, $${pIndex++}, $${pIndex++}, $${pIndex++}, $${pIndex++}, $${pIndex++}, $${pIndex++}, $${pIndex++}, $${pIndex++}, $${pIndex++}, $${pIndex++}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`);
-          values.push(
-            r[0], // notification
-            r[1], // notification_type
-            r[2] ? new Date(r[2]) : null, // created_on
-            r[3], // order
-            r[4], // equipment
-            r[5], // description
-            r[6], // reported_by
-            r[7], // functional_loc
-            r[8], // pabrik_id
-            r[9], // status
-            r[10], // work_center
-            r[11]  // user_status
-          );
+        // 2. Hapus data lama yang bentrok
+        if (existingIds.length > 0) {
+          await prisma.rekomendasi.deleteMany({
+            where: { id: { in: existingIds } }
+          });
         }
 
-        const query = `
-          INSERT INTO "Rekomendasi" ("notification", "notification_type", "created_on", "order", "equipment", "description", "reported_by", "functional_loc", "pabrik_id", "status", "work_center", "user_status", "createdAt", "updatedAt")
-          VALUES ${placeholders.join(', ')}
-          ON CONFLICT ("notification", "reported_by") 
-          DO UPDATE SET 
-            "notification_type" = EXCLUDED."notification_type",
-            "created_on" = EXCLUDED."created_on",
-            "order" = EXCLUDED."order",
-            "equipment" = EXCLUDED."equipment",
-            "description" = EXCLUDED."description",
-            "functional_loc" = EXCLUDED."functional_loc",
-            "pabrik_id" = EXCLUDED."pabrik_id",
-            "status" = EXCLUDED."status",
-            "work_center" = EXCLUDED."work_center",
-            "user_status" = EXCLUDED."user_status",
-            "updatedAt" = CURRENT_TIMESTAMP
-        `;
+        // 3. Siapkan semua data untuk Insert
+        const allDataToInsert = finalRekRows.map(r => ({
+          notification: r[0], notification_type: r[1],
+          created_on: r[2] ? new Date(r[2]) : null,
+          order: r[3], equipment: r[4], description: r[5],
+          reported_by: r[6], functional_loc: r[7],
+          pabrik_id: r[8], status: r[9],
+          work_center: r[10], user_status: r[11] || null
+        }));
 
-        const affectedRows = await prisma.$executeRawUnsafe(query, ...values);
-        updatedCount += affectedRows; // executeRawUnsafe returns number of rows affected (insert + updates)
+        // 4. Bulk Insert (1 Query)
+        const createRes = await prisma.rekomendasi.createMany({
+          data: allDataToInsert,
+          skipDuplicates: true
+        });
 
-
+        updatedCount += existingCount;
+        insertedCount += (createRes.count - existingCount);
       } catch (err) {
         console.error('Batch process error:', err.message);
         failCount += finalRekRows.length;
