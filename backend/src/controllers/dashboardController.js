@@ -723,6 +723,16 @@ export const getDashboardSummary = async (req, res) => {
   }
 };
 
+export const getPabrikList = async (req, res) => {
+  try {
+    const pabriks = await prisma.pabrik.findMany({ orderBy: { id: 'asc' } });
+    return res.status(200).json(pabriks);
+  } catch (error) {
+    console.error('Error fetching pabrik list:', error);
+    return res.status(500).json({ message: 'Internal server error', error: error.message });
+  }
+};
+
 export const getManpowerList = async (req, res) => {
   try {
     const now = new Date();
