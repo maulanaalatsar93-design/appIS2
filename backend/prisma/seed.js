@@ -32,6 +32,7 @@ async function main() {
     { id: 5, nama_pabrik: 'P5', kode_pabrik: 'P5' },
     { id: 6, nama_pabrik: 'P6', kode_pabrik: 'P6' },
     { id: 7, nama_pabrik: 'P7', kode_pabrik: 'P7' },
+    { id: 8, nama_pabrik: 'PPHS & OSBL', kode_pabrik: 'PPHS' },
   ];
 
   console.log('Seeding Pabrik...');
