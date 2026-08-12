@@ -480,6 +480,7 @@ model PdmScheduleRule {
   dateSecond          Int?
   defaultPicId        Int?
   defaultPic          ManPower?               @relation("RuleDefaultPic", fields: [defaultPicId], references: [id])
+  defaultPicIds              Int[]
   defaultDataCollectorIds    Int[]
   defaultGtgDataCollectorIds Int[]
   isActive            Boolean                 @default(true)
@@ -498,6 +499,7 @@ model PdmRuleMonthlyPic {
   month  Int
   picId  Int?
   pic    ManPower?       @relation("MonthlyPicOverride", fields: [picId], references: [id])
+  picIds              Int[]
   dataCollectorIds    Int[]
   gtgDataCollectorIds Int[]
 

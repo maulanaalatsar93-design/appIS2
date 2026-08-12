@@ -662,6 +662,12 @@ export const getRoster = async (req, res) => {
       const override = rule.monthlyPicOverrides[0];
       const effectivePic = override?.pic || rule.defaultPic || null;
       const hasOverride = !!override;
+      
+      const effectivePics = override?.picIds?.length > 0 
+        ? override.picIds.map(id => mpMap.get(id)).filter(Boolean)
+        : (rule.defaultPicIds?.length > 0 
+            ? rule.defaultPicIds.map(id => mpMap.get(id)).filter(Boolean) 
+            : (effectivePic ? [effectivePic] : []));
 
       const entry = {
         rule_id: rule.id,
@@ -670,8 +676,9 @@ export const getRoster = async (req, res) => {
         taskName: rule.taskName,
         is_gtg: rule.is_gtg,
         pic: effectivePic,
-        dataCollectors: (override ? override.dataCollectorIds : rule.defaultDataCollectorIds).map(id => mpMap.get(id)).filter(Boolean),
-        gtgDataCollectors: (override ? override.gtgDataCollectorIds : rule.defaultGtgDataCollectorIds).map(id => mpMap.get(id)).filter(Boolean),
+        pics: effectivePics,
+        dataCollectors: (override && override.dataCollectorIds ? override.dataCollectorIds : (rule.defaultDataCollectorIds || [])).map(id => mpMap.get(id)).filter(Boolean),
+        gtgDataCollectors: (override && override.gtgDataCollectorIds ? override.gtgDataCollectorIds : (rule.defaultGtgDataCollectorIds || [])).map(id => mpMap.get(id)).filter(Boolean),
         hasOverride,
         overrideId: override?.id || null
       };
@@ -691,18 +698,26 @@ export const getRoster = async (req, res) => {
         const criticalPics = [];
         const seenC = new Set();
         for (const e of p.critical) {
-          if (e.pic && !seenC.has(e.pic.id)) {
-            seenC.add(e.pic.id);
-            criticalPics.push(e.pic);
+          if (e.pics && e.pics.length > 0) {
+            for (const pic of e.pics) {
+              if (!seenC.has(pic.id)) {
+                seenC.add(pic.id);
+                criticalPics.push(pic);
+              }
+            }
           }
         }
 
         const nonCriticalPics = [];
         const seenNC = new Set();
         for (const e of p.nonCritical) {
-          if (e.pic && !seenNC.has(e.pic.id)) {
-            seenNC.add(e.pic.id);
-            nonCriticalPics.push(e.pic);
+          if (e.pics && e.pics.length > 0) {
+            for (const pic of e.pics) {
+              if (!seenNC.has(pic.id)) {
+                seenNC.add(pic.id);
+                nonCriticalPics.push(pic);
+              }
+            }
           }
           e.dataCollectors.forEach(dc => {
             if (!seenNC.has(dc.id)) {
@@ -747,8 +762,9 @@ export const setMonthlyPicBulk = async (req, res) => {
     }
 
     const ops = entries.map(e => {
-      // Pastikan dataCollectorIds & gtgDataCollectorIds tersimpan sebagai array
+      // Pastikan dataCollectorIds & gtgDataCollectorIds & picIds tersimpan sebagai array
       const picIdVal = e.picId ? parseInt(e.picId) : null;
+      const pIds = Array.isArray(e.picIds) ? e.picIds.map(id => parseInt(id)).filter(id => !isNaN(id)) : [];
       const dcIds = Array.isArray(e.dataCollectorIds) ? e.dataCollectorIds.map(id => parseInt(id)).filter(id => !isNaN(id)) : [];
       const gtgIds = Array.isArray(e.gtgDataCollectorIds) ? e.gtgDataCollectorIds.map(id => parseInt(id)).filter(id => !isNaN(id)) : [];
       
@@ -760,12 +776,13 @@ export const setMonthlyPicBulk = async (req, res) => {
             month: parseInt(e.month)
           }
         },
-        update: { picId: picIdVal, dataCollectorIds: dcIds, gtgDataCollectorIds: gtgIds },
+        update: { picId: picIdVal, picIds: pIds, dataCollectorIds: dcIds, gtgDataCollectorIds: gtgIds },
         create: {
           ruleId: parseInt(e.ruleId),
           year: parseInt(e.year),
           month: parseInt(e.month),
           picId: picIdVal,
+          picIds: pIds,
           dataCollectorIds: dcIds,
           gtgDataCollectorIds: gtgIds
         }

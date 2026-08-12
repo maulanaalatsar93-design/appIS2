@@ -70,6 +70,7 @@ function EditRosterModal({ pabrikEntry, criticality, manpowers, api, headers, pe
     entries.forEach(e => {
       s[e.rule_id] = {
         picId: e.pic?.id?.toString() || '',
+        picIds: e.pics?.map(p => p.id) || (e.pic ? [e.pic.id] : []),
         dataCollectorIds: e.dataCollectors?.map(dc => dc.id) || [],
         gtgDataCollectorIds: e.gtgDataCollectors?.map(dc => dc.id) || []
       };
@@ -116,13 +117,14 @@ function EditRosterModal({ pabrikEntry, criticality, manpowers, api, headers, pe
     try {
       const bulkEntries = [];
       for (const [ruleId, sel] of Object.entries(selections)) {
-        if (!sel.picId && sel.dataCollectorIds.length === 0 && sel.gtgDataCollectorIds.length === 0) continue;
+        if (!sel.picId && (!sel.picIds || sel.picIds.length === 0) && sel.dataCollectorIds.length === 0 && sel.gtgDataCollectorIds.length === 0) continue;
         for (const { year, month } of monthsInRange) {
           bulkEntries.push({ 
             ruleId: parseInt(ruleId), 
             year, 
             month, 
-            picId: sel.picId ? parseInt(sel.picId) : null,
+            picId: sel.picIds?.length > 0 ? sel.picIds[0] : (sel.picId ? parseInt(sel.picId) : null),
+            picIds: sel.picIds || [],
             dataCollectorIds: sel.dataCollectorIds,
             gtgDataCollectorIds: sel.gtgDataCollectorIds
           });
@@ -222,33 +224,53 @@ function EditRosterModal({ pabrikEntry, criticality, manpowers, api, headers, pe
                 </div>
 
                 {criticality === 'CRITICAL' ? (
-                  <div>
-                    <label className="text-xs font-semibold text-gray-600 mb-1 block">Analyst</label>
-                    <select
-                      value={sel.picId}
-                      onChange={e => updateSelection(entry.rule_id, 'picId', e.target.value)}
-                      className="w-full p-2 text-sm border border-gray-200 rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-200"
-                    >
-                      <option value="">-- Pilih PIC --</option>
-                      {rotatingManpowers.map(m => (
-                        <option key={m.id} value={m.id}>{m.name} — {m.position}</option>
-                      ))}
-                    </select>
+                  <div className="space-y-3 pt-1 border-t border-gray-200">
+                    <div>
+                      <label className="text-xs font-semibold text-gray-600 mb-1 flex items-center justify-between">
+                        <span>Analyst (Maks 2)</span>
+                        <span className="text-blue-500">{sel.picIds?.length || 0}/2</span>
+                      </label>
+                      <MultiSelect 
+                        value={sel.picIds || []}
+                        onChange={val => {
+                          if (val.length <= 2) updateSelection(entry.rule_id, 'picIds', val);
+                        }}
+                        options={rotatingManpowers}
+                        placeholder="Pilih Analyst..."
+                      />
+                    </div>
+                    {entry.is_gtg && (
+                      <div>
+                        <label className="text-xs font-semibold text-gray-600 mb-1 flex items-center justify-between">
+                          <span>Data Collector GTG (Maks 5)</span>
+                          <span className="text-blue-500">{sel.gtgDataCollectorIds.length}/5</span>
+                        </label>
+                        <MultiSelect 
+                          value={sel.gtgDataCollectorIds}
+                          onChange={val => {
+                            if (val.length <= 5) updateSelection(entry.rule_id, 'gtgDataCollectorIds', val);
+                          }}
+                          options={filteredDataCollectors}
+                          placeholder="Pilih Data Collector GTG..."
+                        />
+                      </div>
+                    )}
                   </div>
                 ) : (
                   <div className="space-y-3 pt-1 border-t border-gray-200">
                     <div>
-                      <label className="text-xs font-semibold text-gray-600 mb-1 block">PIC / Analyst</label>
-                      <select
-                        value={sel.picId}
-                        onChange={e => updateSelection(entry.rule_id, 'picId', e.target.value)}
-                        className="w-full p-2 text-sm border border-gray-200 rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-200"
-                      >
-                        <option value="">-- Pilih PIC / Analyst --</option>
-                        {rotatingManpowers.map(m => (
-                          <option key={m.id} value={m.id}>{m.name} — {m.position}</option>
-                        ))}
-                      </select>
+                      <label className="text-xs font-semibold text-gray-600 mb-1 flex items-center justify-between">
+                        <span>PIC / Analyst (Maks 2)</span>
+                        <span className="text-blue-500">{sel.picIds?.length || 0}/2</span>
+                      </label>
+                      <MultiSelect 
+                        value={sel.picIds || []}
+                        onChange={val => {
+                          if (val.length <= 2) updateSelection(entry.rule_id, 'picIds', val);
+                        }}
+                        options={rotatingManpowers}
+                        placeholder="Pilih PIC / Analyst..."
+                      />
                     </div>
                     <div>
                       <label className="text-xs font-semibold text-gray-600 mb-1 flex items-center justify-between">
@@ -257,7 +279,9 @@ function EditRosterModal({ pabrikEntry, criticality, manpowers, api, headers, pe
                       </label>
                       <MultiSelect 
                         value={sel.dataCollectorIds}
-                        onChange={val => updateSelection(entry.rule_id, 'dataCollectorIds', val)}
+                        onChange={val => {
+                          if (val.length <= 5) updateSelection(entry.rule_id, 'dataCollectorIds', val);
+                        }}
                         options={filteredDataCollectors}
                         placeholder="Pilih Data Collector..."
                       />
@@ -270,8 +294,10 @@ function EditRosterModal({ pabrikEntry, criticality, manpowers, api, headers, pe
                         </label>
                         <MultiSelect 
                           value={sel.gtgDataCollectorIds}
-                          onChange={val => updateSelection(entry.rule_id, 'gtgDataCollectorIds', val)}
-                          options={filteredManpowers}
+                          onChange={val => {
+                            if (val.length <= 5) updateSelection(entry.rule_id, 'gtgDataCollectorIds', val);
+                          }}
+                          options={filteredDataCollectors}
                           placeholder="Pilih Data Collector GTG..."
                         />
                       </div>
@@ -531,9 +557,23 @@ export default function PdmRoster() {
                       <span className="mt-0.5 shrink-0 w-2 h-2 rounded-full bg-red-400" />
                       <div className="flex-1 min-w-0">
                         <p className="font-medium text-gray-700 truncate">{r.code} — {r.subArea}</p>
+                        {(r.dataCollectors?.length > 0 || r.gtgDataCollectors?.length > 0) && (
+                          <div className="flex flex-wrap gap-1 mt-1.5">
+                            {r.dataCollectors?.map(d => (
+                              <span key={`dc-${d.id}`} className="bg-blue-50 text-blue-600 border border-blue-100 px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap">
+                                {d.name}
+                              </span>
+                            ))}
+                            {r.gtgDataCollectors?.map(d => (
+                              <span key={`gtg-${d.id}`} className="bg-orange-50 text-orange-600 border border-orange-100 px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap">
+                                GTG: {d.name}
+                              </span>
+                            ))}
+                          </div>
+                        )}
                       </div>
-                      <span className={`shrink-0 font-semibold ${r.pic ? 'text-gray-600' : 'text-gray-300 italic'}`}>
-                        {r.pic ? r.pic.name.split(' ').slice(0, 2).join(' ') : 'Belum diset'}
+                      <span className={`shrink-0 font-semibold ${r.pics?.length > 0 ? 'text-gray-600' : 'text-gray-300 italic'}`}>
+                        {r.pics?.length > 0 ? r.pics.map(p => p.name.split(' ').slice(0, 2).join(' ')).join(' & ') : 'Belum diset'}
                       </span>
                     </div>
                   ))}
@@ -558,8 +598,8 @@ export default function PdmRoster() {
                           </div>
                         )}
                       </div>
-                      <span className={`shrink-0 font-semibold ${r.pic ? 'text-gray-600' : 'text-gray-300 italic'}`}>
-                        {r.pic ? r.pic.name.split(' ').slice(0, 2).join(' ') : 'No Analyst'}
+                      <span className={`shrink-0 font-semibold ${r.pics?.length > 0 ? 'text-gray-600' : 'text-gray-300 italic'}`}>
+                        {r.pics?.length > 0 ? r.pics.map(p => p.name.split(' ').slice(0, 2).join(' ')).join(' & ') : 'No Analyst'}
                       </span>
                     </div>
                   ))}
