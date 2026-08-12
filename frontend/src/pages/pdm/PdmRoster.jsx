@@ -78,6 +78,22 @@ function EditRosterModal({ pabrikEntry, criticality, manpowers, api, headers, pe
   });
   const [saving, setSaving] = useState(false);
   const [result, setResult] = useState(null);
+  
+  // Filter state untuk TKO / TNO
+  const [empFilter, setEmpFilter] = useState('ALL'); // 'ALL' | 'TKO' | 'TNO'
+
+  // Filter manpowers: Hanya Rotating (berdasarkan divisi/posisi) dan sesuai filter TKO/TNO
+  const filteredManpowers = useMemo(() => {
+    return manpowers.filter(m => {
+      const isRotating = (m.nama_divisi && m.nama_divisi.toLowerCase().includes('rotating')) || 
+                         (m.position && m.position.toLowerCase().includes('rotating'));
+      if (!isRotating) return false;
+      
+      if (empFilter === 'TKO' && m.employee_type !== 'Organik') return false;
+      if (empFilter === 'TNO' && m.employee_type !== 'Non Organik') return false;
+      return true;
+    });
+  }, [manpowers, empFilter]);
 
   const monthsInRange = useMemo(() => {
     const months = [];
@@ -165,6 +181,22 @@ function EditRosterModal({ pabrikEntry, criticality, manpowers, api, headers, pe
           <span className="text-xs text-blue-500 ml-auto">({monthsInRange.length} bulan)</span>
         </div>
 
+        <div className="px-5 py-2.5 border-b border-gray-200 bg-gray-50 flex items-center gap-4 text-sm">
+          <span className="font-semibold text-gray-700">Filter Tipe Personil:</span>
+          <label className="flex items-center gap-1.5 cursor-pointer text-gray-600 hover:text-gray-900">
+            <input type="radio" checked={empFilter === 'ALL'} onChange={() => setEmpFilter('ALL')} className="text-blue-600 focus:ring-blue-500 cursor-pointer" />
+            Semua
+          </label>
+          <label className="flex items-center gap-1.5 cursor-pointer text-gray-600 hover:text-gray-900">
+            <input type="radio" checked={empFilter === 'TKO'} onChange={() => setEmpFilter('TKO')} className="text-blue-600 focus:ring-blue-500 cursor-pointer" />
+            TKO (Organik)
+          </label>
+          <label className="flex items-center gap-1.5 cursor-pointer text-gray-600 hover:text-gray-900">
+            <input type="radio" checked={empFilter === 'TNO'} onChange={() => setEmpFilter('TNO')} className="text-blue-600 focus:ring-blue-500 cursor-pointer" />
+            TNO (Non Organik)
+          </label>
+        </div>
+
         <div className="flex-1 overflow-y-auto p-5 space-y-4">
           {entries.length === 0 && (
             <p className="text-center text-gray-400 py-8 text-sm">Tidak ada rule untuk kategori ini di pabrik ini.</p>
@@ -194,7 +226,7 @@ function EditRosterModal({ pabrikEntry, criticality, manpowers, api, headers, pe
                       className="w-full p-2 text-sm border border-gray-200 rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-200"
                     >
                       <option value="">-- Pilih PIC --</option>
-                      {manpowers.map(m => (
+                      {filteredManpowers.map(m => (
                         <option key={m.id} value={m.id}>{m.name} — {m.position}</option>
                       ))}
                     </select>
@@ -209,7 +241,7 @@ function EditRosterModal({ pabrikEntry, criticality, manpowers, api, headers, pe
                         className="w-full p-2 text-sm border border-gray-200 rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-200"
                       >
                         <option value="">-- Pilih PIC / Analyst --</option>
-                        {manpowers.map(m => (
+                        {filteredManpowers.map(m => (
                           <option key={m.id} value={m.id}>{m.name} — {m.position}</option>
                         ))}
                       </select>
@@ -222,7 +254,7 @@ function EditRosterModal({ pabrikEntry, criticality, manpowers, api, headers, pe
                       <MultiSelect 
                         value={sel.dataCollectorIds}
                         onChange={val => updateSelection(entry.rule_id, 'dataCollectorIds', val)}
-                        options={manpowers}
+                        options={filteredManpowers}
                         placeholder="Pilih Data Collector..."
                       />
                     </div>
@@ -235,7 +267,7 @@ function EditRosterModal({ pabrikEntry, criticality, manpowers, api, headers, pe
                         <MultiSelect 
                           value={sel.gtgDataCollectorIds}
                           onChange={val => updateSelection(entry.rule_id, 'gtgDataCollectorIds', val)}
-                          options={manpowers}
+                          options={filteredManpowers}
                           placeholder="Pilih Data Collector GTG..."
                         />
                       </div>
