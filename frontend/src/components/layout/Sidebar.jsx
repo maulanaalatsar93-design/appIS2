@@ -2,7 +2,7 @@ import React from 'react';
 import {
   LayoutDashboard, Users, UploadCloud,
   ChevronLeft, ChevronRight, CalendarClock,
-  MapPin, ClipboardList, BarChart3, Briefcase, Shield, Settings, TableProperties
+  MapPin, ClipboardList, BarChart3, BarChart2, Briefcase, Shield, Settings, TableProperties
 } from 'lucide-react';
 import logoImg from '../../assets/logo.png';
 import brandIconImg from '../../assets/brand-icon.png';
@@ -21,6 +21,7 @@ export default function Sidebar({ activeTab, setActiveTab, isCollapsed, setIsCol
       label: 'PdM Rotating',
       items: [
         { id: 'pdm-dashboard', label: 'Dashboard PdM', icon: BarChart3 },
+        { id: 'pdm-area-dashboard', label: 'Area Dashboard', icon: BarChart2 },
         { id: 'pdm-calendar', label: 'Kalender PdM', icon: CalendarClock },
         { id: 'pdm-roster',   label: 'Roster PIC',    icon: TableProperties },
         { id: 'pdm-tasks',    label: 'Task Board',    icon: ClipboardList },

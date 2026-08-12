@@ -21,6 +21,7 @@ import PdmTaskBoard from './pages/pdm/PdmTaskBoard';
 import PdmCalendar from './pages/pdm/PdmCalendar';
 import PdmDashboard from './pages/pdm/PdmDashboard';
 import PdmRoster from './pages/pdm/PdmRoster';
+import PdmAreaDashboard from './pages/pdm/PdmAreaDashboard';
 import { Loader2 } from 'lucide-react';
 
 // A simple protected route wrapper
@@ -127,6 +128,10 @@ function MainApp() {
             ) : activeTab === 'pdm-rules' ? (
               <ProtectedRoute>
                 <PdmScheduleRules />
+              </ProtectedRoute>
+            ) : activeTab === 'pdm-area-dashboard' ? (
+              <ProtectedRoute>
+                <PdmAreaDashboard />
               </ProtectedRoute>
             ) : (
               <ProtectedRoute>

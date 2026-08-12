@@ -87,10 +87,14 @@ model ManPower {
   pdm_default_pic        PdmScheduleRule[]       @relation("RuleDefaultPic")
   pdm_monthly_pic        PdmRuleMonthlyPic[]     @relation("MonthlyPicOverride")
   pdm_assigned_tasks     PdmScheduleOccurrence[] @relation("AssignedTo")
+  pdm_as_dc              PdmScheduleOccurrence[] @relation("OccurrenceDC")
+  pdm_as_analyst         PdmScheduleOccurrence[] @relation("OccurrenceAnalyst")
+  pdm_as_avp             PdmScheduleOccurrence[] @relation("OccurrenceAVP")
   pdm_pic_history_from   PdmPicHistory[]         @relation("PicHistoryFrom")
   pdm_pic_history_to     PdmPicHistory[]         @relation("PicHistoryTo")
   pdm_pic_history_by     PdmPicHistory[]         @relation("PicHistoryChangedBy")
   pdm_daily_activities   PdmDailyActivity[]      @relation("DailyActivityPerformer")
+  pdm_workflow_logs      PdmWorkflowLog[]        @relation("WorkflowLogActor")
 
   @@schema("public")
 }
@@ -507,6 +511,16 @@ model PdmRuleMonthlyPic {
   @@schema("public")
 }
 
+enum WorkflowStage {
+  DC_COLLECTION   // Stage 1: Data Collector mengumpulkan data
+  ANALYSIS        // Stage 2: Analyst menganalisis data
+  AVP_APPROVAL    // Stage 3: AVP menyetujui hasil analisis
+  SAP_UPLOAD      // Stage 4: DC upload data ke SAP
+  CLOSED          // Selesai semua tahap
+
+  @@schema("public")
+}
+
 model PdmScheduleOccurrence {
   id            Int             @id @default(autoincrement())
   ruleId        Int
@@ -524,7 +538,30 @@ model PdmScheduleOccurrence {
   isOverdue     Boolean   @default(false)
   cancelReason  String?
 
-  // PIC Assignment
+  // 4-Stage Workflow
+  workflowStage   WorkflowStage @default(DC_COLLECTION)
+  dataCollectorId Int?          // Stage 1: siapa DC yang bertugas
+  dataCollector   ManPower?     @relation("OccurrenceDC",       fields: [dataCollectorId], references: [id])
+  analystId       Int?          // Stage 2: siapa Analyst yang bertugas
+  analyst         ManPower?     @relation("OccurrenceAnalyst",  fields: [analystId],       references: [id])
+  avpId           Int?          // Stage 3: siapa AVP yang ditugaskan
+  avp             ManPower?     @relation("OccurrenceAVP",      fields: [avpId],           references: [id])
+
+  // Stage Timestamps
+  dcStartedAt       DateTime?
+  dcFinishedAt      DateTime?
+  analysisStartedAt DateTime?
+  analysisFinishedAt DateTime?
+  avpActionAt       DateTime?
+  sapUploadedAt     DateTime?
+
+  // Hold tracking untuk man-hours calculation
+  totalHoldMinutes  Int       @default(0)  // Akumulasi semua hold duration (menit)
+
+  // AVP Rejection
+  avpRejectedReason String?
+
+  // PIC Assignment (legacy — Analyst utama)
   assignedToId      Int?
   assignedTo        ManPower? @relation("AssignedTo", fields: [assignedToId], references: [id])
   originalPicId     Int?      // snapshot PIC awal saat generate, untuk audit
@@ -538,6 +575,7 @@ model PdmScheduleOccurrence {
 
   dailyActivities PdmDailyActivity[]
   picHistories    PdmPicHistory[]
+  workflowLogs    PdmWorkflowLog[]
 
   @@unique([ruleId, targetDate])
   @@schema("public")
@@ -553,6 +591,7 @@ model PdmDailyActivity {
   durationMinutes Int?
   activityNote    String?
   statusSnapshot  JobStatus
+  workflowStage   WorkflowStage?        // Stage saat aktivitas terjadi
   performedById   Int?
   performedBy     ManPower?             @relation("DailyActivityPerformer", fields: [performedById], references: [id])
 
@@ -572,6 +611,22 @@ model PdmPicHistory {
   changedById  Int
   changedBy    ManPower              @relation("PicHistoryChangedBy", fields: [changedById], references: [id])
   changedAt    DateTime              @default(now())
+
+  @@schema("public")
+}
+
+// Audit log per perubahan stage workflow
+model PdmWorkflowLog {
+  id           Int                   @id @default(autoincrement())
+  occurrenceId Int
+  occurrence   PdmScheduleOccurrence @relation(fields: [occurrenceId], references: [id])
+  fromStage    WorkflowStage?
+  toStage      WorkflowStage
+  action       String                // 'DC_FINISH', 'ANALYSIS_FINISH', 'AVP_APPROVE', 'AVP_REJECT', 'SAP_UPLOAD', 'HOLD', 'RESUME'
+  actorId      Int?
+  actor        ManPower?             @relation("WorkflowLogActor", fields: [actorId], references: [id])
+  notes        String?
+  createdAt    DateTime              @default(now())
 
   @@schema("public")
 }
