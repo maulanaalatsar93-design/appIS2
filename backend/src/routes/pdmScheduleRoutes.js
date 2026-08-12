@@ -35,5 +35,9 @@ router.post('/monthly-pic', verifyToken, pdm.setMonthlyPicOverride);
 router.get('/dashboard-stats',      verifyToken, pdm.getDashboardStats);
 router.get('/completion-by-pabrik', verifyToken, pdm.getCompletionByPabrik);
 
+// ── Roster PIC ───────────────────────────────────────────────
+router.get('/roster',               verifyToken, pdm.getRoster);
+router.post('/monthly-pic/bulk',    verifyToken, pdm.setMonthlyPicBulk);
+
 export default router;
 

@@ -610,3 +610,143 @@ export const getCompletionByPabrik = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+// ============================================================
+// ROSTER PIC per PABRIK per CRITICALITY
+// ============================================================
+export const getRoster = async (req, res) => {
+  try {
+    const { year, month } = req.query;
+    const now = new Date();
+    const y = year ? parseInt(year) : now.getFullYear();
+    const m = month ? parseInt(month) : now.getMonth() + 1;
+
+    // Ambil semua rules aktif beserta override bulan ini
+    const rules = await prisma.pdmScheduleRule.findMany({
+      where: { isActive: true },
+      include: {
+        pabrik: { select: { id: true, nama_pabrik: true } },
+        defaultPic: { select: { id: true, name: true, npk: true, position: true } },
+        monthlyPicOverrides: {
+          where: { year: y, month: m },
+          include: {
+            pic: { select: { id: true, name: true, npk: true, position: true } }
+          }
+        }
+      },
+      orderBy: [{ pabrik_id: 'asc' }, { criticality: 'asc' }, { subArea: 'asc' }]
+    });
+
+    // Kelompokkan per pabrik per criticality
+    const pabrikMap = {}; // key: pabrik_id
+
+    for (const rule of rules) {
+      const pid = rule.pabrik_id;
+      if (!pabrikMap[pid]) {
+        pabrikMap[pid] = {
+          pabrik_id: pid,
+          nama_pabrik: rule.pabrik?.nama_pabrik || '-',
+          critical: [],   // list { rule_id, subArea, pic, hasOverride }
+          nonCritical: [] // list { rule_id, subArea, pic, hasOverride }
+        };
+      }
+
+      // Tentukan PIC: override bulan ini > default PIC
+      const override = rule.monthlyPicOverrides[0];
+      const effectivePic = override?.pic || rule.defaultPic || null;
+      const hasOverride = !!override;
+
+      const entry = {
+        rule_id: rule.id,
+        code: rule.code,
+        subArea: rule.subArea || rule.taskName,
+        taskName: rule.taskName,
+        pic: effectivePic,
+        hasOverride,
+        overrideId: override?.id || null
+      };
+
+      if (rule.criticality === 'CRITICAL') {
+        pabrikMap[pid].critical.push(entry);
+      } else {
+        pabrikMap[pid].nonCritical.push(entry);
+      }
+    }
+
+    // Buat ringkasan PIC unik per pabrik per criticality (untuk tampilan tabel ringkas)
+    const result = Object.values(pabrikMap)
+      .sort((a, b) => a.nama_pabrik.localeCompare(b.nama_pabrik))
+      .map(p => {
+        // Deduplikasi PIC per criticality
+        const criticalPics = [];
+        const seenC = new Set();
+        for (const e of p.critical) {
+          if (e.pic && !seenC.has(e.pic.id)) {
+            seenC.add(e.pic.id);
+            criticalPics.push(e.pic);
+          }
+        }
+
+        const nonCriticalPics = [];
+        const seenNC = new Set();
+        for (const e of p.nonCritical) {
+          if (e.pic && !seenNC.has(e.pic.id)) {
+            seenNC.add(e.pic.id);
+            nonCriticalPics.push(e.pic);
+          }
+        }
+
+        return {
+          pabrik_id: p.pabrik_id,
+          nama_pabrik: p.nama_pabrik,
+          critical: p.critical,
+          nonCritical: p.nonCritical,
+          criticalPicsSummary: criticalPics,
+          nonCriticalPicsSummary: nonCriticalPics,
+        };
+      });
+
+    res.json({ year: y, month: m, data: result });
+  } catch (err) {
+    console.error('getRoster error:', err);
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// ============================================================
+// BULK MONTHLY PIC OVERRIDE (set untuk range bulan sekaligus)
+// ============================================================
+export const setMonthlyPicBulk = async (req, res) => {
+  try {
+    const { entries } = req.body;
+    // entries: [{ ruleId, year, month, picId }, ...]
+    if (!Array.isArray(entries) || entries.length === 0) {
+      return res.status(400).json({ error: 'entries wajib diisi (array)' });
+    }
+
+    const ops = entries.map(e =>
+      prisma.pdmRuleMonthlyPic.upsert({
+        where: {
+          ruleId_year_month: {
+            ruleId: parseInt(e.ruleId),
+            year: parseInt(e.year),
+            month: parseInt(e.month)
+          }
+        },
+        update: { picId: parseInt(e.picId) },
+        create: {
+          ruleId: parseInt(e.ruleId),
+          year: parseInt(e.year),
+          month: parseInt(e.month),
+          picId: parseInt(e.picId)
+        }
+      })
+    );
+
+    const results = await prisma.$transaction(ops);
+    res.json({ message: `${results.length} override berhasil disimpan`, count: results.length });
+  } catch (err) {
+    console.error('setMonthlyPicBulk error:', err);
+    res.status(500).json({ error: err.message });
+  }
+};
