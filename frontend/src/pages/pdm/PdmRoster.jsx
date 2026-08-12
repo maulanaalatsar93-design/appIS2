@@ -106,11 +106,13 @@ function EditRosterModal({ pabrikEntry, criticality, manpowers, api, headers, pe
   // Filter state untuk TKO / TNO
   const [empFilter, setEmpFilter] = useState('ALL'); // 'ALL' | 'TKO' | 'TNO'
 
-  // Filter dasar: Hanya Rotating (berdasarkan divisi/posisi)
   const rotatingManpowers = useMemo(() => {
     return manpowers.filter(m => {
-      return (m.nama_divisi && m.nama_divisi.toLowerCase().includes('rotating')) || 
-             (m.position && m.position.toLowerCase().includes('rotating'));
+      const div = m.nama_divisi ? m.nama_divisi.toLowerCase() : '';
+      const pos = m.position ? m.position.toLowerCase() : '';
+      return div.includes('rotating') || pos.includes('rotating') || 
+             div.includes('pphs') || pos.includes('pphs') ||
+             div.includes('osbl') || pos.includes('osbl');
     });
   }, [manpowers]);
 
