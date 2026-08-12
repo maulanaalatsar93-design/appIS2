@@ -4,21 +4,81 @@ import { Users, Edit3, X, Save, ChevronRight, AlertCircle, CheckCircle2, Calenda
 const MONTH_NAMES = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des'];
 const MONTH_FULL  = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
 
+// ── Komponen MultiSelect Dropdown ──────────────────────────────────────────
+function MultiSelect({ value, onChange, options, max = 5, placeholder = "Pilih Personel" }) {
+  const [open, setOpen] = useState(false);
+  const containerRef = React.useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (containerRef.current && !containerRef.current.contains(event.target)) setOpen(false);
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const toggle = (id) => {
+    if (value.includes(id)) onChange(value.filter(v => v !== id));
+    else if (value.length < max) onChange([...value, id]);
+  };
+
+  return (
+    <div className="relative" ref={containerRef}>
+      <div 
+        className="min-h-[38px] p-2 text-sm border border-gray-200 rounded-lg bg-white flex flex-wrap gap-1 items-center cursor-pointer"
+        onClick={() => setOpen(!open)}
+      >
+        {value.length === 0 && <span className="text-gray-400">{placeholder}</span>}
+        {value.map(id => {
+          const opt = options.find(o => o.id === id);
+          return opt ? (
+            <span key={id} className="bg-blue-100 text-blue-800 px-2 py-0.5 rounded text-xs flex items-center gap-1">
+              {opt.name.split(' ')[0]} 
+              <X className="w-3 h-3 hover:text-red-500" onClick={(e) => { e.stopPropagation(); toggle(id); }}/>
+            </span>
+          ) : null;
+        })}
+      </div>
+      {open && (
+        <div className="absolute z-20 top-full left-0 mt-1 w-full max-h-48 overflow-y-auto bg-white border border-gray-200 shadow-xl rounded-lg p-1">
+          {options.map(opt => (
+            <label key={opt.id} className="flex items-center gap-2 p-2 hover:bg-gray-50 rounded cursor-pointer text-sm">
+              <input 
+                type="checkbox" 
+                checked={value.includes(opt.id)} 
+                disabled={!value.includes(opt.id) && value.length >= max}
+                onChange={() => toggle(opt.id)} 
+                className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+              />
+              {opt.name} — {opt.position}
+            </label>
+          ))}
+          {options.length === 0 && <div className="p-2 text-xs text-gray-500 text-center">Data kosong</div>}
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ── Modal Edit PIC per Pabrik per Tipe ─────────────────────────────────────
 function EditRosterModal({ pabrikEntry, criticality, manpowers, api, headers, periodStart, periodEnd, onClose, onSaved }) {
   const label   = criticality === 'CRITICAL' ? 'Critical (Analyst)' : 'Non Critical (Inspector)';
   const entries = criticality === 'CRITICAL' ? pabrikEntry.critical : pabrikEntry.nonCritical;
 
-  // Untuk setiap rule, simpan picId yang dipilih
-  const [picMap, setPicMap] = useState(() => {
-    const m = {};
-    entries.forEach(e => { m[e.rule_id] = e.pic?.id?.toString() || ''; });
-    return m;
+  const [selections, setSelections] = useState(() => {
+    const s = {};
+    entries.forEach(e => {
+      s[e.rule_id] = {
+        picId: e.pic?.id?.toString() || '',
+        dataCollectorIds: e.dataCollectors?.map(dc => dc.id) || [],
+        gtgDataCollectorIds: e.gtgDataCollectors?.map(dc => dc.id) || []
+      };
+    });
+    return s;
   });
   const [saving, setSaving] = useState(false);
   const [result, setResult] = useState(null);
 
-  // Buat array months dari range
   const monthsInRange = useMemo(() => {
     const months = [];
     let y = periodStart.year;
@@ -34,12 +94,18 @@ function EditRosterModal({ pabrikEntry, criticality, manpowers, api, headers, pe
   const handleSave = async () => {
     setSaving(true);
     try {
-      // Bangun bulk entries: setiap rule × setiap bulan dalam range
       const bulkEntries = [];
-      for (const [ruleId, picId] of Object.entries(picMap)) {
-        if (!picId) continue;
+      for (const [ruleId, sel] of Object.entries(selections)) {
+        if (!sel.picId && sel.dataCollectorIds.length === 0 && sel.gtgDataCollectorIds.length === 0) continue;
         for (const { year, month } of monthsInRange) {
-          bulkEntries.push({ ruleId: parseInt(ruleId), year, month, picId: parseInt(picId) });
+          bulkEntries.push({ 
+            ruleId: parseInt(ruleId), 
+            year, 
+            month, 
+            picId: sel.picId ? parseInt(sel.picId) : null,
+            dataCollectorIds: sel.dataCollectorIds,
+            gtgDataCollectorIds: sel.gtgDataCollectorIds
+          });
         }
       }
 
@@ -68,10 +134,16 @@ function EditRosterModal({ pabrikEntry, criticality, manpowers, api, headers, pe
     }
   };
 
+  const updateSelection = (ruleId, field, val) => {
+    setSelections(prev => ({
+      ...prev,
+      [ruleId]: { ...prev[ruleId], [field]: val }
+    }));
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg flex flex-col max-h-[92vh] overflow-hidden">
-        {/* Header */}
         <div className="p-5 bg-gradient-to-r from-blue-600 to-blue-700 text-white flex justify-between items-start rounded-t-2xl">
           <div>
             <p className="text-xs font-bold text-blue-200 uppercase tracking-wider mb-1">Edit Roster PIC</p>
@@ -83,7 +155,6 @@ function EditRosterModal({ pabrikEntry, criticality, manpowers, api, headers, pe
           </button>
         </div>
 
-        {/* Period range selector */}
         <div className="px-5 py-3 bg-blue-50 border-b border-blue-100 flex items-center gap-3 text-sm">
           <Calendar className="w-4 h-4 text-blue-500 shrink-0" />
           <span className="font-medium text-blue-800">
@@ -94,37 +165,88 @@ function EditRosterModal({ pabrikEntry, criticality, manpowers, api, headers, pe
           <span className="text-xs text-blue-500 ml-auto">({monthsInRange.length} bulan)</span>
         </div>
 
-        {/* Rules list */}
-        <div className="flex-1 overflow-y-auto p-5 space-y-3">
+        <div className="flex-1 overflow-y-auto p-5 space-y-4">
           {entries.length === 0 && (
             <p className="text-center text-gray-400 py-8 text-sm">Tidak ada rule untuk kategori ini di pabrik ini.</p>
           )}
-          {entries.map(entry => (
-            <div key={entry.rule_id} className="bg-gray-50 rounded-xl border border-gray-200 p-3.5">
-              <div className="mb-2">
-                <p className="text-xs font-bold text-gray-500 uppercase tracking-wide">{entry.code}</p>
-                <p className="text-sm font-semibold text-gray-800">{entry.subArea}</p>
-                {entry.hasOverride && (
-                  <span className="inline-flex items-center gap-1 text-xs text-purple-600 mt-0.5">
-                    <CheckCircle2 className="w-3 h-3" /> Override aktif bulan ini
-                  </span>
+          {entries.map(entry => {
+            const sel = selections[entry.rule_id];
+            return (
+              <div key={entry.rule_id} className="bg-gray-50 rounded-xl border border-gray-200 p-4 space-y-3">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <p className="text-xs font-bold text-gray-500 uppercase tracking-wide">{entry.code}</p>
+                    <p className="text-sm font-semibold text-gray-800">{entry.subArea}</p>
+                  </div>
+                  {entry.hasOverride && (
+                    <span className="inline-flex items-center gap-1 text-xs text-purple-600 bg-purple-100 px-2 py-0.5 rounded-full">
+                      <CheckCircle2 className="w-3 h-3" /> Override
+                    </span>
+                  )}
+                </div>
+
+                {criticality === 'CRITICAL' ? (
+                  <div>
+                    <label className="text-xs font-semibold text-gray-600 mb-1 block">Analyst</label>
+                    <select
+                      value={sel.picId}
+                      onChange={e => updateSelection(entry.rule_id, 'picId', e.target.value)}
+                      className="w-full p-2 text-sm border border-gray-200 rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-200"
+                    >
+                      <option value="">-- Pilih PIC --</option>
+                      {manpowers.map(m => (
+                        <option key={m.id} value={m.id}>{m.name} — {m.position}</option>
+                      ))}
+                    </select>
+                  </div>
+                ) : (
+                  <div className="space-y-3 pt-1 border-t border-gray-200">
+                    <div>
+                      <label className="text-xs font-semibold text-gray-600 mb-1 block">PIC / Analyst</label>
+                      <select
+                        value={sel.picId}
+                        onChange={e => updateSelection(entry.rule_id, 'picId', e.target.value)}
+                        className="w-full p-2 text-sm border border-gray-200 rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-200"
+                      >
+                        <option value="">-- Pilih PIC / Analyst --</option>
+                        {manpowers.map(m => (
+                          <option key={m.id} value={m.id}>{m.name} — {m.position}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="text-xs font-semibold text-gray-600 mb-1 flex items-center justify-between">
+                        <span>Data Collector (Maks 5)</span>
+                        <span className="text-blue-500">{sel.dataCollectorIds.length}/5</span>
+                      </label>
+                      <MultiSelect 
+                        value={sel.dataCollectorIds}
+                        onChange={val => updateSelection(entry.rule_id, 'dataCollectorIds', val)}
+                        options={manpowers}
+                        placeholder="Pilih Data Collector..."
+                      />
+                    </div>
+                    {entry.is_gtg && (
+                      <div>
+                        <label className="text-xs font-semibold text-gray-600 mb-1 flex items-center justify-between">
+                          <span>Data Collector GTG (Maks 5)</span>
+                          <span className="text-blue-500">{sel.gtgDataCollectorIds.length}/5</span>
+                        </label>
+                        <MultiSelect 
+                          value={sel.gtgDataCollectorIds}
+                          onChange={val => updateSelection(entry.rule_id, 'gtgDataCollectorIds', val)}
+                          options={manpowers}
+                          placeholder="Pilih Data Collector GTG..."
+                        />
+                      </div>
+                    )}
+                  </div>
                 )}
               </div>
-              <select
-                value={picMap[entry.rule_id] || ''}
-                onChange={e => setPicMap(prev => ({ ...prev, [entry.rule_id]: e.target.value }))}
-                className="w-full p-2 text-sm border border-gray-200 rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-200"
-              >
-                <option value="">-- Pilih PIC --</option>
-                {manpowers.map(m => (
-                  <option key={m.id} value={m.id}>{m.name} — {m.position}</option>
-                ))}
-              </select>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
-        {/* Result alert */}
         {result && (
           <div className={`mx-5 mb-3 p-3 rounded-lg text-sm flex items-center gap-2 ${result.type === 'ok' ? 'bg-green-50 text-green-700 border border-green-200' : result.type === 'warn' ? 'bg-amber-50 text-amber-700 border border-amber-200' : 'bg-red-50 text-red-700 border border-red-200'}`}>
             {result.type === 'ok' ? <CheckCircle2 className="w-4 h-4 shrink-0" /> : <AlertCircle className="w-4 h-4 shrink-0" />}
@@ -132,7 +254,6 @@ function EditRosterModal({ pabrikEntry, criticality, manpowers, api, headers, pe
           </div>
         )}
 
-        {/* Footer */}
         <div className="p-4 bg-gray-50 border-t border-gray-100 flex justify-end gap-2 rounded-b-2xl">
           <button onClick={onClose} className="px-4 py-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition">Batal</button>
           <button onClick={handleSave} disabled={saving}
@@ -386,9 +507,14 @@ export default function PdmRoster() {
                       <span className="mt-0.5 shrink-0 w-2 h-2 rounded-full bg-blue-400" />
                       <div className="flex-1 min-w-0">
                         <p className="font-medium text-gray-700 truncate">{r.code} — {r.subArea}</p>
+                        {(r.dataCollectors?.length > 0 || r.gtgDataCollectors?.length > 0) && (
+                          <p className="text-[10px] text-gray-500 mt-0.5">
+                            DC: {[...(r.dataCollectors || []), ...(r.gtgDataCollectors || [])].map(d => d.name.split(' ')[0]).join(', ')}
+                          </p>
+                        )}
                       </div>
                       <span className={`shrink-0 font-semibold ${r.pic ? 'text-gray-600' : 'text-gray-300 italic'}`}>
-                        {r.pic ? r.pic.name.split(' ').slice(0, 2).join(' ') : 'Belum diset'}
+                        {r.pic ? r.pic.name.split(' ').slice(0, 2).join(' ') : 'No Analyst'}
                       </span>
                     </div>
                   ))}

@@ -637,6 +637,13 @@ export const getRoster = async (req, res) => {
       orderBy: [{ pabrik_id: 'asc' }, { criticality: 'asc' }, { subArea: 'asc' }]
     });
 
+    // Fetch all manpowers to resolve array IDs to names
+    const allManpower = await prisma.manPower.findMany({
+      where: { is_active: true },
+      select: { id: true, name: true, npk: true, position: true }
+    });
+    const mpMap = new Map(allManpower.map(m => [m.id, m]));
+
     // Kelompokkan per pabrik per criticality
     const pabrikMap = {}; // key: pabrik_id
 
@@ -661,7 +668,10 @@ export const getRoster = async (req, res) => {
         code: rule.code,
         subArea: rule.subArea || rule.taskName,
         taskName: rule.taskName,
+        is_gtg: rule.is_gtg,
         pic: effectivePic,
+        dataCollectors: (override ? override.dataCollectorIds : rule.defaultDataCollectorIds).map(id => mpMap.get(id)).filter(Boolean),
+        gtgDataCollectors: (override ? override.gtgDataCollectorIds : rule.defaultGtgDataCollectorIds).map(id => mpMap.get(id)).filter(Boolean),
         hasOverride,
         overrideId: override?.id || null
       };
@@ -694,6 +704,18 @@ export const getRoster = async (req, res) => {
             seenNC.add(e.pic.id);
             nonCriticalPics.push(e.pic);
           }
+          e.dataCollectors.forEach(dc => {
+            if (!seenNC.has(dc.id)) {
+              seenNC.add(dc.id);
+              nonCriticalPics.push(dc);
+            }
+          });
+          e.gtgDataCollectors.forEach(dc => {
+            if (!seenNC.has(dc.id)) {
+              seenNC.add(dc.id);
+              nonCriticalPics.push(dc);
+            }
+          });
         }
 
         return {
@@ -724,8 +746,13 @@ export const setMonthlyPicBulk = async (req, res) => {
       return res.status(400).json({ error: 'entries wajib diisi (array)' });
     }
 
-    const ops = entries.map(e =>
-      prisma.pdmRuleMonthlyPic.upsert({
+    const ops = entries.map(e => {
+      // Pastikan dataCollectorIds & gtgDataCollectorIds tersimpan sebagai array
+      const picIdVal = e.picId ? parseInt(e.picId) : null;
+      const dcIds = Array.isArray(e.dataCollectorIds) ? e.dataCollectorIds.map(id => parseInt(id)).filter(id => !isNaN(id)) : [];
+      const gtgIds = Array.isArray(e.gtgDataCollectorIds) ? e.gtgDataCollectorIds.map(id => parseInt(id)).filter(id => !isNaN(id)) : [];
+      
+      return prisma.pdmRuleMonthlyPic.upsert({
         where: {
           ruleId_year_month: {
             ruleId: parseInt(e.ruleId),
@@ -733,15 +760,17 @@ export const setMonthlyPicBulk = async (req, res) => {
             month: parseInt(e.month)
           }
         },
-        update: { picId: parseInt(e.picId) },
+        update: { picId: picIdVal, dataCollectorIds: dcIds, gtgDataCollectorIds: gtgIds },
         create: {
           ruleId: parseInt(e.ruleId),
           year: parseInt(e.year),
           month: parseInt(e.month),
-          picId: parseInt(e.picId)
+          picId: picIdVal,
+          dataCollectorIds: dcIds,
+          gtgDataCollectorIds: gtgIds
         }
-      })
-    );
+      });
+    });
 
     const results = await prisma.$transaction(ops);
     res.json({ message: `${results.length} override berhasil disimpan`, count: results.length });
