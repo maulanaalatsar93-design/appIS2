@@ -544,9 +544,18 @@ export default function PdmRoster() {
                       <div className="flex-1 min-w-0">
                         <p className="font-medium text-gray-700 truncate">{r.code} — {r.subArea}</p>
                         {(r.dataCollectors?.length > 0 || r.gtgDataCollectors?.length > 0) && (
-                          <p className="text-[10px] text-gray-500 mt-0.5">
-                            DC: {[...(r.dataCollectors || []), ...(r.gtgDataCollectors || [])].map(d => d.name.split(' ')[0]).join(', ')}
-                          </p>
+                          <div className="flex flex-wrap gap-1 mt-1.5">
+                            {r.dataCollectors?.map(d => (
+                              <span key={`dc-${d.id}`} className="bg-blue-50 text-blue-600 border border-blue-100 px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap">
+                                {d.name}
+                              </span>
+                            ))}
+                            {r.gtgDataCollectors?.map(d => (
+                              <span key={`gtg-${d.id}`} className="bg-orange-50 text-orange-600 border border-orange-100 px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap">
+                                GTG: {d.name}
+                              </span>
+                            ))}
+                          </div>
                         )}
                       </div>
                       <span className={`shrink-0 font-semibold ${r.pic ? 'text-gray-600' : 'text-gray-300 italic'}`}>
