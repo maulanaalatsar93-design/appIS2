@@ -9,9 +9,14 @@ function MultiSelect({ value, onChange, options, max = 5, placeholder = "Pilih P
   const [open, setOpen] = useState(false);
   const containerRef = React.useRef(null);
 
+  const [search, setSearch] = useState("");
+
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (containerRef.current && !containerRef.current.contains(event.target)) setOpen(false);
+    const handleClickOutside = (e) => {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        setOpen(false);
+        setSearch(""); // reset search when closed
+      }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
@@ -21,6 +26,12 @@ function MultiSelect({ value, onChange, options, max = 5, placeholder = "Pilih P
     if (value.includes(id)) onChange(value.filter(v => v !== id));
     else if (value.length < max) onChange([...value, id]);
   };
+
+  const filteredOptions = options.filter(o => {
+    if (!search) return true;
+    const lower = search.toLowerCase();
+    return o.name.toLowerCase().includes(lower) || (o.position && o.position.toLowerCase().includes(lower));
+  });
 
   return (
     <div className="relative" ref={containerRef}>
@@ -40,20 +51,32 @@ function MultiSelect({ value, onChange, options, max = 5, placeholder = "Pilih P
         })}
       </div>
       {open && (
-        <div className="absolute z-20 top-full left-0 mt-1 w-full max-h-48 overflow-y-auto bg-white border border-gray-200 shadow-xl rounded-lg p-1">
-          {options.map(opt => (
-            <label key={opt.id} className="flex items-center gap-2 p-2 hover:bg-gray-50 rounded cursor-pointer text-sm">
-              <input 
-                type="checkbox" 
-                checked={value.includes(opt.id)} 
-                disabled={!value.includes(opt.id) && value.length >= max}
-                onChange={() => toggle(opt.id)} 
-                className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-              />
-              {opt.name} — {opt.position}
-            </label>
-          ))}
-          {options.length === 0 && <div className="p-2 text-xs text-gray-500 text-center">Data kosong</div>}
+        <div className="absolute z-20 top-full left-0 mt-1 w-full max-h-56 overflow-y-auto bg-white border border-gray-200 shadow-xl rounded-lg flex flex-col">
+          <div className="sticky top-0 bg-white p-2 border-b border-gray-100 z-10">
+            <input 
+              type="text" 
+              className="w-full text-xs p-1.5 border border-gray-300 rounded outline-none focus:border-blue-500" 
+              placeholder="Cari..." 
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              onClick={e => e.stopPropagation()}
+            />
+          </div>
+          <div className="p-1">
+            {filteredOptions.map(opt => (
+              <label key={opt.id} className="flex items-center gap-2 p-2 hover:bg-gray-50 rounded cursor-pointer text-sm">
+                <input 
+                  type="checkbox" 
+                  checked={value.includes(opt.id)} 
+                  disabled={!value.includes(opt.id) && value.length >= max}
+                  onChange={() => toggle(opt.id)} 
+                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                />
+                {opt.name} — {opt.position}
+              </label>
+            ))}
+            {filteredOptions.length === 0 && <div className="p-2 text-xs text-gray-500 text-center">Data kosong</div>}
+          </div>
         </div>
       )}
     </div>
@@ -237,6 +260,20 @@ function EditRosterModal({ pabrikEntry, criticality, manpowers, api, headers, pe
                         }}
                         options={rotatingManpowers}
                         placeholder="Pilih Analyst..."
+                      />
+                    </div>
+                    <div>
+                      <label className="text-xs font-semibold text-gray-600 mb-1 flex items-center justify-between">
+                        <span>Data Collector (Maks 5)</span>
+                        <span className="text-blue-500">{sel.dataCollectorIds.length}/5</span>
+                      </label>
+                      <MultiSelect 
+                        value={sel.dataCollectorIds}
+                        onChange={val => {
+                          if (val.length <= 5) updateSelection(entry.rule_id, 'dataCollectorIds', val);
+                        }}
+                        options={filteredDataCollectors}
+                        placeholder="Pilih Data Collector..."
                       />
                     </div>
                     {entry.is_gtg && (
