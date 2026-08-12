@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Users, Edit3, X, Save, ChevronRight, AlertCircle, CheckCircle2, Calendar, RefreshCw } from 'lucide-react';
 
 const MONTH_NAMES = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des'];
@@ -6,7 +6,7 @@ const MONTH_FULL  = ['Januari','Februari','Maret','April','Mei','Juni','Juli','A
 
 // ── Modal Edit PIC per Pabrik per Tipe ─────────────────────────────────────
 function EditRosterModal({ pabrikEntry, criticality, manpowers, api, headers, periodStart, periodEnd, onClose, onSaved }) {
-  const label   = criticality === 'CRITICAL' ? 'Critical (Analisator)' : 'Non Critical (Inspector)';
+  const label   = criticality === 'CRITICAL' ? 'Critical (Analyst)' : 'Non Critical (Inspector)';
   const entries = criticality === 'CRITICAL' ? pabrikEntry.critical : pabrikEntry.nonCritical;
 
   // Untuk setiap rule, simpan picId yang dipilih
@@ -285,7 +285,7 @@ export default function PdmRoster() {
           <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
             <div className="bg-gradient-to-r from-red-500 to-red-600 px-5 py-4 text-white">
               <p className="text-xs font-bold uppercase tracking-widest text-red-100 mb-0.5">CRITICAL ITEM</p>
-              <h2 className="text-base font-bold">Analisator Inspector</h2>
+              <h2 className="text-base font-bold">Analyst Inspector</h2>
               <p className="text-xs text-red-100 mt-0.5">Periode: {periodLabel}</p>
             </div>
             <div className="overflow-x-auto">
@@ -293,7 +293,7 @@ export default function PdmRoster() {
                 <thead className="bg-red-50 text-xs text-red-600 uppercase tracking-wider border-b border-red-100">
                   <tr>
                     <th className="px-4 py-3 text-left font-bold">Pabrik</th>
-                    <th className="px-4 py-3 text-left font-bold">Analisator</th>
+                    <th className="px-4 py-3 text-left font-bold">Analyst</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-50">
