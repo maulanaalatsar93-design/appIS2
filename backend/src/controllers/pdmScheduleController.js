@@ -301,9 +301,9 @@ export const getJobBoard = async (req, res) => {
     // Bikin filter berdasarkan userSubArea (contoh: "P6 PPHS & OSBL" -> pabrik 6, baseArea "PPHS & OSBL")
     let areaFilter = {};
     if (userSubArea && !isSpecialRole) {
-      const match = userSubArea.match(/^(P\d[A-Z]?)\s+(.+)$/i);
+      const match = userSubArea.match(/^(?:Pabrik\s+|P)(\d[A-Z]?)\s+(.+)$/i);
       if (match) {
-        const pabrikCode = match[1].replace(/^P/i, ''); // e.g. "6" or "1A"
+        const pabrikCode = match[1]; // e.g. "6" or "1A"
         areaFilter = { 
           rule: { 
             pabrik: { nama_pabrik: { contains: pabrikCode, mode: 'insensitive' } },

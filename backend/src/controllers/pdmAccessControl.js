@@ -73,7 +73,7 @@ export async function canReadOccurrence(manpowerId, userSubArea, isAdmin, occurr
   // Jika area cocok
   let isSubAreaMatch = false;
   if (taskSubArea && userSubArea) {
-    const match = userSubArea.match(/^(P\d[A-Z]?)\s+(.+)$/i);
+    const match = userSubArea.match(/^(?:Pabrik\s+|P)(\d[A-Z]?)\s+(.+)$/i);
     if (match) {
       isSubAreaMatch = taskSubArea.toLowerCase().includes(match[2].trim().toLowerCase());
     } else {
