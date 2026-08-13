@@ -72,7 +72,6 @@ export const finishDataCollection = async (req, res) => {
       include: {
         rule: { include: { pabrik: true } },
         analyst: true,
-        monthlyPicOverrides: false,
       }
     });
 
