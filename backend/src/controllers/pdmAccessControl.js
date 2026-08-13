@@ -9,8 +9,18 @@ const prisma = new PrismaClient();
  * Ambil sub_area user + role dari DB.
  * Returns: { manpowerId, userSubArea, userRole, isAdmin }
  */
-export async function getUserAreaContext(req) {
-  const manpowerId = req.user?.man_power_id ? parseInt(req.user.man_power_id) : null;
+export const getUserAreaContext = async (req) => {
+  let manpowerId = req.user?.man_power_id ? parseInt(req.user.man_power_id) : null;
+  
+  // Fallback for old tokens that didn't include man_power_id
+  if (!manpowerId && req.user?.id) {
+    const userDb = await prisma.user.findUnique({
+      where: { id: parseInt(req.user.id) },
+      select: { man_power_id: true }
+    });
+    manpowerId = userDb?.man_power_id ? parseInt(userDb.man_power_id) : null;
+  }
+
   const userRole = req.user?.role || 'staff';
   const isAdmin = ['admin', 'superadmin', 'supervisor'].includes(userRole);
 
@@ -61,7 +71,16 @@ export async function canReadOccurrence(manpowerId, userSubArea, isAdmin, occurr
   if (!userSubArea) return true;
 
   // Jika area cocok
-  if (taskSubArea && userSubArea && taskSubArea.toLowerCase() === userSubArea.toLowerCase()) return true;
+  let isSubAreaMatch = false;
+  if (taskSubArea && userSubArea) {
+    const match = userSubArea.match(/^(P\d[A-Z]?)\s+(.+)$/i);
+    if (match) {
+      isSubAreaMatch = taskSubArea.toLowerCase().includes(match[2].trim().toLowerCase());
+    } else {
+      isSubAreaMatch = taskSubArea.toLowerCase() === userSubArea.toLowerCase();
+    }
+  }
+  if (isSubAreaMatch) return true;
 
   // Cek delegasi cross-area
   if (manpowerId) {

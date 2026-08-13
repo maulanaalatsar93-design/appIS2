@@ -358,7 +358,16 @@ export const claimTask = async (req, res) => {
     // Guard area: user hanya boleh claim task di area yang sama, kecuali admin
     if (!isAdmin && userSubArea) {
       const taskSubArea = occ.rule?.subArea;
-      const areaMatch = !taskSubArea || taskSubArea.toLowerCase() === userSubArea.toLowerCase();
+      
+      let isSubAreaMatch = false;
+      const match = userSubArea.match(/^(P\d[A-Z]?)\s+(.+)$/i);
+      if (match) {
+        isSubAreaMatch = taskSubArea && taskSubArea.toLowerCase().includes(match[2].trim().toLowerCase());
+      } else {
+        isSubAreaMatch = taskSubArea && taskSubArea.toLowerCase() === userSubArea.toLowerCase();
+      }
+
+      const areaMatch = !taskSubArea || isSubAreaMatch;
       const hasDelegation = await hasCrossDelegation(manpowerId, parseInt(id));
       if (!areaMatch && !hasDelegation) {
         return res.status(403).json({ error: `Anda hanya dapat claim task di area Anda (${userSubArea}). Task ini berada di area ${taskSubArea}.` });
