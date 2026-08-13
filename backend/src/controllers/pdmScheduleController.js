@@ -303,9 +303,10 @@ export const getJobBoard = async (req, res) => {
     if (userSubArea && !isSpecialRole) {
       const match = userSubArea.match(/^(P\d[A-Z]?)\s+(.+)$/i);
       if (match) {
+        const pabrikCode = match[1].replace(/^P/i, ''); // e.g. "6" or "1A"
         areaFilter = { 
           rule: { 
-            pabrik: { nama_pabrik: { startsWith: match[1], mode: 'insensitive' } },
+            pabrik: { nama_pabrik: { contains: pabrikCode, mode: 'insensitive' } },
             subArea: { contains: match[2].trim(), mode: 'insensitive' } 
           } 
         };
