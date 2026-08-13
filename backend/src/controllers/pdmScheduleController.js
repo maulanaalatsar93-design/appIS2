@@ -295,23 +295,15 @@ export const getJobBoard = async (req, res) => {
     const y = year ? parseInt(year) : now.getFullYear();
     const m = month ? parseInt(month) : now.getMonth() + 1;
 
-    // Cek sub_area user jika ada man_power_id
-    let userSubArea = null;
-    const manpowerId = req.user?.man_power_id;
-    if (manpowerId) {
-      const mp = await prisma.manPower.findUnique({
-        where: { id: parseInt(manpowerId) },
-        select: { sub_area: true }
-      });
-      userSubArea = mp?.sub_area || null;
-    }
+    const { manpowerId, userSubArea, userRole, isAdmin } = await getUserAreaContext(req);
+    const isSpecialRole = isAdmin || ['analyst', 'avp'].includes((userRole || '').toLowerCase());
 
-    // Filter SCHEDULED tasks berdasarkan area user (jika sub_area diset)
+    // Filter SCHEDULED tasks berdasarkan area user (jika sub_area diset), HANYA JIKA BUKAN ADMIN/ANALYST/AVP
     const where = {
       status: 'SCHEDULED',
       year: y,
       month: m,
-      ...(userSubArea ? { rule: { subArea: { equals: userSubArea, mode: 'insensitive' } } } : {})
+      ...(userSubArea && !isSpecialRole ? { rule: { subArea: { equals: userSubArea, mode: 'insensitive' } } } : {})
     };
 
     const occurrences = await prisma.pdmScheduleOccurrence.findMany({

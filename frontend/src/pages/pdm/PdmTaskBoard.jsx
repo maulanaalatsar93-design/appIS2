@@ -274,8 +274,8 @@ function TaskBox({ occ, onAction, manpowers, userRole, userMpId }) {
             </button>
           )}
 
-          {/* Reassign (Admin/Supervisor) */}
-          {(isAdmin || true) && (
+          {/* Reassign (Admin/Analyst/AVP) */}
+          {(isAdmin || ['analyst', 'avp'].includes((userRole || '').toLowerCase())) && (
             <button onClick={() => setReassignOpen(!reassignOpen)} className="flex items-center gap-1 px-3 py-1.5 bg-gray-100 text-gray-600 border border-gray-200 rounded-lg text-xs font-medium hover:bg-gray-200 transition ml-auto">
               <UserCheck className="w-3 h-3" /> Ganti PIC
             </button>
@@ -314,6 +314,72 @@ function TaskBox({ occ, onAction, manpowers, userRole, userMpId }) {
           onCancel={() => setShowRejectModal(false)}
         />
       )}
+    </div>
+  );
+}
+
+// ── Job Board Box ────────────────────────────────────────────────────────────
+function JobBoardBox({ occ, onAction, manpowers, userRole, isAdmin }) {
+  const [reassignOpen, setReassignOpen] = useState(false);
+  const [newPicId, setNewPicId] = useState('');
+  const [reasonInput, setReasonInput] = useState('');
+  
+  const isSpecialRole = isAdmin || ['analyst', 'avp'].includes((userRole || '').toLowerCase());
+
+  return (
+    <div className="rounded-xl border-2 border-gray-200 bg-gray-50 shadow-sm p-4 flex flex-col justify-between">
+      <div className="space-y-3">
+        <div>
+          <p className="font-bold text-gray-800">{occ.rule?.pabrik?.nama_pabrik} – {occ.rule?.subArea}</p>
+          <p className="text-sm text-gray-500">{occ.rule?.taskName}</p>
+          <p className="text-xs text-gray-400 mt-1">Scheduled: {occ.scheduledDate ? new Date(occ.scheduledDate).toLocaleDateString('id-ID') : '-'}</p>
+        </div>
+        <div className="flex gap-2 text-xs">
+          <span className={`px-2 py-0.5 rounded-full font-medium ${occ.rule?.criticality === 'CRITICAL' ? 'bg-red-100 text-red-600' : 'bg-blue-100 text-blue-600'}`}>
+            {occ.rule?.criticality === 'CRITICAL' ? 'Critical' : 'Non Critical'}
+          </span>
+          <span className="px-2 py-0.5 rounded-full bg-gray-200 text-gray-600">{occ.rule?.equipmentCat}</span>
+        </div>
+      </div>
+      
+      <div className="mt-4 space-y-2">
+        <button onClick={() => onAction('claim', occ.id)}
+          className="w-full py-2 bg-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-blue-700 transition">
+          Ambil Task
+        </button>
+
+        {isSpecialRole && (
+          <button onClick={() => setReassignOpen(!reassignOpen)} className="w-full py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 transition border border-gray-300">
+            <UserCheck className="w-4 h-4 inline mr-1" /> Assign PLT
+          </button>
+        )}
+
+        {reassignOpen && (
+          <div className="bg-white border border-gray-200 rounded-lg p-3 space-y-2 mt-2">
+            <p className="text-xs font-semibold text-gray-600">Assign PLT / Ganti PIC</p>
+            <select value={newPicId} onChange={e => setNewPicId(e.target.value)} className="w-full text-xs border border-gray-200 rounded p-2">
+              <option value="">-- Pilih PIC Baru --</option>
+              {manpowers.map(m => <option key={m.id} value={m.id}>{m.name} – {m.position} ({m.sub_area || 'No Area'})</option>)}
+            </select>
+            <input value={reasonInput} onChange={e => setReasonInput(e.target.value)} placeholder="Alasan / Ket. PLT (wajib)" className="w-full text-xs border border-gray-200 rounded p-2" />
+            <div className="flex gap-2">
+              <button 
+                onClick={() => { 
+                  if(newPicId && reasonInput) { 
+                    onAction('reassign', occ.id, { newPicId, reason: reasonInput }); 
+                    setReassignOpen(false); 
+                  } else {
+                    alert('Pilih PIC dan masukkan alasan.');
+                  }
+                }} 
+                className="px-3 py-1.5 bg-blue-600 text-white rounded text-xs font-medium hover:bg-blue-700">
+                Simpan
+              </button>
+              <button onClick={() => setReassignOpen(false)} className="px-3 py-1.5 bg-gray-100 text-gray-600 rounded text-xs">Batal</button>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -466,23 +532,7 @@ export default function PdmTaskBoard() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {jobBoard.map(occ => (
-              <div key={occ.id} className="rounded-xl border-2 border-gray-200 bg-gray-50 shadow-sm p-4 space-y-3">
-                <div>
-                  <p className="font-bold text-gray-800">{occ.rule?.pabrik?.nama_pabrik} – {occ.rule?.subArea}</p>
-                  <p className="text-sm text-gray-500">{occ.rule?.taskName}</p>
-                  <p className="text-xs text-gray-400 mt-1">Scheduled: {occ.scheduledDate ? new Date(occ.scheduledDate).toLocaleDateString('id-ID') : '-'}</p>
-                </div>
-                <div className="flex gap-2 text-xs">
-                  <span className={`px-2 py-0.5 rounded-full font-medium ${occ.rule?.criticality === 'CRITICAL' ? 'bg-red-100 text-red-600' : 'bg-blue-100 text-blue-600'}`}>
-                    {occ.rule?.criticality === 'CRITICAL' ? 'Critical' : 'Non Critical'}
-                  </span>
-                  <span className="px-2 py-0.5 rounded-full bg-gray-200 text-gray-600">{occ.rule?.equipmentCat}</span>
-                </div>
-                <button onClick={() => handleAction('claim', occ.id)}
-                  className="w-full py-2 bg-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-blue-700 transition">
-                  Ambil Task
-                </button>
-              </div>
+              <JobBoardBox key={occ.id} occ={occ} onAction={handleAction} manpowers={manpowers} userRole={userRole} isAdmin={['admin', 'superadmin', 'supervisor'].includes(userRole)} />
             ))}
           </div>
         )
