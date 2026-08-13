@@ -25,12 +25,22 @@ function getAvpRole(pabrikName) {
 }
 
 async function findAvpManpower(pabrikName) {
-  const role = getAvpRole(pabrikName);
-  if (!role) return null;
-  // Cari User dengan role ini, yang punya relasi man_power
+  const avpMapping = getAvpRole(pabrikName);
+  if (!avpMapping) return null;
+  
+  let keyword = '';
+  if (avpMapping === 'avp_rotating1') keyword = 'Rotating 1';
+  else if (avpMapping === 'avp_rotating2') keyword = 'Rotating 2';
+  else if (avpMapping === 'avp_pphs') keyword = 'PPHS';
+  else return null;
+
   const user = await prisma.user.findFirst({
-    where: { role, man_power_id: { not: null } },
-    select: { man_power_id: true, man_power: { select: { id: true, name: true } } }
+    where: { 
+      role: 'avp', 
+      man_power_id: { not: null },
+      man_power: { position: { contains: keyword, mode: 'insensitive' } }
+    },
+    select: { man_power_id: true }
   });
   return user?.man_power_id || null;
 }
