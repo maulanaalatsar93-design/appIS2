@@ -26,6 +26,12 @@ export default function WorkItemDetail({ itemId, onBack }) {
   const [reviewing, setReviewing] = useState(false);
   const [error, setError] = useState('');
 
+  // Plt states
+  const [showPltModal, setShowPltModal] = useState(false);
+  const [manpowerList, setManpowerList] = useState([]);
+  const [selectedPltId, setSelectedPltId] = useState('');
+  const [assigningPlt, setAssigningPlt] = useState(false);
+
   const fetchItem = async () => {
     setLoading(true);
     const res = await fetch(`${(import.meta.env.VITE_API_URL || '').replace(/\/$/, '')}/api/wpem/items/${itemId}`, { headers: { 'Authorization': `Bearer ${token}` } });
@@ -34,6 +40,26 @@ export default function WorkItemDetail({ itemId, onBack }) {
   };
 
   useEffect(() => { fetchItem(); }, [itemId]);
+
+  const fetchManpower = async () => {
+    try {
+      const res = await fetch(`${(import.meta.env.VITE_API_URL || '').replace(/\/$/, '')}/api/wpem/availability`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setManpowerList(data);
+      }
+    } catch (err) {
+      console.error('Failed to fetch manpower', err);
+    }
+  };
+
+  useEffect(() => {
+    if (showPltModal && manpowerList.length === 0) {
+      fetchManpower();
+    }
+  }, [showPltModal]);
 
   const addActivity = async () => {
     if (!activityText.trim()) return;
@@ -79,6 +105,28 @@ export default function WorkItemDetail({ itemId, onBack }) {
     if (res.ok) await fetchItem();
     else { const d = await res.json(); setError(d.error || 'Gagal review.'); }
     setReviewing(false);
+  };
+
+  const handleAssignPlt = async (isRemove = false) => {
+    setAssigningPlt(true);
+    try {
+      const res = await fetch(`${(import.meta.env.VITE_API_URL || '').replace(/\/$/, '')}/api/wpem/items/${itemId}/plt`, {
+        method: 'PUT',
+        headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ plt_id: isRemove ? null : selectedPltId })
+      });
+      if (res.ok) {
+        setShowPltModal(false);
+        setSelectedPltId('');
+        await fetchItem();
+      } else {
+        const d = await res.json();
+        setError(d.error || 'Gagal mengubah Plt.');
+      }
+    } catch (err) {
+      setError('Terjadi kesalahan jaringan.');
+    }
+    setAssigningPlt(false);
   };
 
   if (loading) return <div className="flex items-center justify-center h-64"><Loader2 className="w-8 h-8 animate-spin text-industrial-blue" /></div>;
@@ -259,8 +307,37 @@ export default function WorkItemDetail({ itemId, onBack }) {
           {/* Item Info */}
           <div className="bg-white border border-industrial-border rounded-card p-4 shadow-sm-subtle space-y-3">
             <h3 className="font-semibold text-industrial-text text-sm">Info Item</h3>
+            <div className="flex justify-between">
+              <span className="text-[10px] font-bold text-industrial-muted uppercase">PIC</span>
+              <span className="text-xs text-industrial-text font-medium">{item.pic?.name || '—'}</span>
+            </div>
+            
+            {/* Display Plt Info */}
+            {(item.plt || showPltModal || true) && (
+              <div className="mt-2 pt-2 border-t border-dashed border-slate-200">
+                <div className="flex justify-between items-center mb-1">
+                  <span className="text-[10px] font-bold text-amber-600 uppercase flex items-center">
+                    <AlertCircle className="w-3 h-3 mr-1" /> Plt Sementara
+                  </span>
+                  {item.plt ? (
+                    <button onClick={() => handleAssignPlt(true)} disabled={assigningPlt}
+                      className="text-[9px] text-red-500 hover:text-red-700 underline font-semibold">
+                      Cabut Plt
+                    </button>
+                  ) : (
+                    <button onClick={() => setShowPltModal(true)} 
+                      className="text-[9px] text-industrial-blue hover:text-blue-700 underline font-semibold">
+                      Set Plt
+                    </button>
+                  )}
+                </div>
+                <div className="text-xs font-semibold text-industrial-text mb-2">
+                  {item.plt ? `${item.plt.name} (${item.plt.position})` : <span className="text-slate-400 italic">Belum ada Plt ditunjuk</span>}
+                </div>
+              </div>
+            )}
+
             {[
-              { label: 'PIC', value: item.pic?.name || '—' },
               { label: 'Jabatan PIC', value: item.pic?.position || '—' },
               { label: 'Equipment', value: item.equipment || '—' },
               { label: 'Mulai', value: item.started_at ? new Date(item.started_at).toLocaleString('id-ID') : '—' },
@@ -274,6 +351,48 @@ export default function WorkItemDetail({ itemId, onBack }) {
           </div>
         </div>
       </div>
+
+      {/* Plt Modal */}
+      {showPltModal && (
+        <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl w-full max-w-sm shadow-xl p-5 border border-industrial-border">
+            <h3 className="text-lg font-bold text-industrial-text mb-4 flex items-center">
+              <AlertCircle className="w-5 h-5 mr-2 text-amber-500" /> Tunjuk Plt Sementara
+            </h3>
+            <p className="text-xs text-industrial-muted mb-4">
+              Pilih anggota tim untuk menjadi Pelaksana Tugas (Plt) sementara jika PIC utama berhalangan.
+            </p>
+            <div className="mb-4">
+              <label className="block text-xs font-bold text-industrial-muted uppercase mb-1">Pilih Plt</label>
+              <select 
+                value={selectedPltId} 
+                onChange={(e) => setSelectedPltId(e.target.value)}
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-industrial-blue"
+              >
+                <option value="">-- Pilih Anggota --</option>
+                {manpowerList.map(mp => (
+                  <option key={mp.id} value={mp.id}>{mp.name} - {mp.position}</option>
+                ))}
+              </select>
+            </div>
+            <div className="flex space-x-3">
+              <button 
+                onClick={() => setShowPltModal(false)}
+                className="flex-1 py-2 bg-slate-100 text-slate-700 text-sm font-semibold rounded-xl hover:bg-slate-200"
+              >
+                Batal
+              </button>
+              <button 
+                onClick={() => handleAssignPlt(false)}
+                disabled={!selectedPltId || assigningPlt}
+                className="flex-1 py-2 bg-industrial-blue text-white text-sm font-semibold rounded-xl hover:bg-blue-700 disabled:opacity-50 flex justify-center items-center"
+              >
+                {assigningPlt ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Simpan'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

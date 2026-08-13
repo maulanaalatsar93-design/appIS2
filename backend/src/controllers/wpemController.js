@@ -163,6 +163,7 @@ export const getAvailability = async (req, res) => {
         name: mp.name,
         position: mp.position,
         employee_type: mp.employee_type,
+        sub_area: mp.sub_area,
         divisi: mp.divisi?.nama_divisi || 'N/A',
         is_active: mp.is_active,
         availability_status: statusColor,
@@ -804,6 +805,7 @@ export const getItemDetail = async (req, res) => {
       include: {
         program: { select: { id: true, title: true, status: true } },
         pic: { select: { id: true, name: true, position: true } },
+        plt: { select: { id: true, name: true, position: true } },
         activities: {
           include: { actor: { select: { id: true, name: true } } },
           orderBy: { logged_at: 'asc' }
@@ -848,6 +850,47 @@ export const addActivity = async (req, res) => {
     res.status(201).json(activity);
   } catch (error) {
     console.error('Error in addActivity:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+export const assignPlt = async (req, res) => {
+  try {
+    const { itemId } = req.params;
+    const { plt_id } = req.body;
+    const userId = req.user?.id;
+
+    // Verify if item exists
+    const item = await prisma.workItem.findUnique({
+      where: { id: parseInt(itemId) },
+      include: { plt: true }
+    });
+
+    if (!item) return res.status(404).json({ error: 'Item not found' });
+
+    // Update plt_id
+    const updated = await prisma.workItem.update({
+      where: { id: parseInt(itemId) },
+      data: { plt_id: plt_id ? parseInt(plt_id) : null },
+      include: { plt: { select: { id: true, name: true, position: true } } }
+    });
+
+    // Log the activity
+    const actionDesc = plt_id
+      ? `Plt. (Pengganti Sementara) ditunjuk: ${updated.plt?.name}`
+      : `Plt. (Pengganti Sementara) dihapus / PIC utama kembali aktif`;
+
+    await prisma.workItemActivity.create({
+      data: {
+        item_id: parseInt(itemId),
+        actor_id: userId,
+        description: actionDesc
+      }
+    });
+
+    res.json(updated);
+  } catch (error) {
+    console.error('Error in assignPlt:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 };

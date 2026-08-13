@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
+import { getUserAreaContext, canWriteOccurrence } from './pdmAccessControl.js';
 
 // ============================================================
 // AVP ROUTING: Pabrik code prefix → AVP role
@@ -87,6 +88,12 @@ export const finishDataCollection = async (req, res) => {
     }
     if (!['IN_PROGRESS', 'ASSIGNED', 'ON_HOLD'].includes(occFull.status)) {
       return res.status(400).json({ error: 'Task harus dimulai dulu sebelum bisa diselesaikan' });
+    }
+
+    // Guard: hanya DC PIC atau admin yang boleh selesaikan DC
+    const { isAdmin } = await getUserAreaContext(req);
+    if (!await canWriteOccurrence(manpowerId, isAdmin, occFull, 'DC')) {
+      return res.status(403).json({ error: 'Anda bukan Data Collector task ini. Hanya PIC DC atau Admin yang dapat menyelesaikan tahap ini.' });
     }
 
     const now = new Date();
@@ -182,6 +189,12 @@ export const finishAnalysis = async (req, res) => {
     });
     if (!occ) return res.status(404).json({ error: 'Task tidak ditemukan' });
     if (occ.workflowStage !== 'ANALYSIS') return res.status(400).json({ error: 'Task tidak di stage ANALYSIS' });
+
+    // Guard: hanya Analyst PIC atau admin
+    const { isAdmin } = await getUserAreaContext(req);
+    if (!await canWriteOccurrence(manpowerId, isAdmin, occ, 'ANALYST')) {
+      return res.status(403).json({ error: 'Anda bukan Analyst task ini. Hanya Analyst PIC atau Admin yang dapat menyelesaikan analisis.' });
+    }
 
     const now = new Date();
     let holdDuration = 0;
@@ -427,7 +440,7 @@ export const assignWorkflowPersonnel = async (req, res) => {
 };
 
 // ============================================================
-// AREA DASHBOARD — Matrix view per pabrik per stage
+// AREA DASHBOARD — Matrix view per AREA (pabrik + subArea) per stage
 // ============================================================
 export const getAreaDashboard = async (req, res) => {
   try {
@@ -435,6 +448,8 @@ export const getAreaDashboard = async (req, res) => {
     const now = new Date();
     const y = year ? parseInt(year) : now.getFullYear();
     const m = month ? parseInt(month) : now.getMonth() + 1;
+
+    const { userSubArea } = await getUserAreaContext(req);
 
     const occurrences = await prisma.pdmScheduleOccurrence.findMany({
       where: { year: y, month: m },
@@ -444,30 +459,37 @@ export const getAreaDashboard = async (req, res) => {
         analyst: { select: { id: true, name: true, npk: true } },
         avp: { select: { id: true, name: true, npk: true } }
       },
-      orderBy: [{ rule: { pabrik_id: 'asc' } }, { scheduledDate: 'asc' }]
+      orderBy: [{ rule: { pabrik_id: 'asc' } }, { rule: { subArea: 'asc' } }, { scheduledDate: 'asc' }]
     });
 
-    // Group by Pabrik
-    const pabrikMap = {};
+    // Group by pabrik_id + subArea (composite key) — ensures P6 PPHS & OSBL and P6 Utility are separate
+    const areaMap = {};
     for (const occ of occurrences) {
       const pid = occ.rule?.pabrik_id;
       const pabrikName = occ.rule?.pabrik?.nama_pabrik || 'Unknown';
-      if (!pabrikMap[pid]) {
-        pabrikMap[pid] = {
+      const subArea = occ.rule?.subArea || 'Umum';
+      const areaKey = `${pid}||${subArea}`;
+
+      if (!areaMap[areaKey]) {
+        areaMap[areaKey] = {
+          area_key: areaKey,
           pabrik_id: pid,
           nama_pabrik: pabrikName,
+          sub_area: subArea,
+          display_name: `${pabrikName} — ${subArea}`,
           tasks: [],
           summary: { total: 0, dc_done: 0, analysis_done: 0, avp_approved: 0, sap_closed: 0 }
         };
       }
-      const s = pabrikMap[pid].summary;
+
+      const s = areaMap[areaKey].summary;
       s.total++;
       if (['ANALYSIS', 'AVP_APPROVAL', 'SAP_UPLOAD', 'CLOSED'].includes(occ.workflowStage)) s.dc_done++;
       if (['AVP_APPROVAL', 'SAP_UPLOAD', 'CLOSED'].includes(occ.workflowStage)) s.analysis_done++;
       if (['SAP_UPLOAD', 'CLOSED'].includes(occ.workflowStage)) s.avp_approved++;
       if (occ.workflowStage === 'CLOSED') s.sap_closed++;
 
-      pabrikMap[pid].tasks.push({
+      areaMap[areaKey].tasks.push({
         id: occ.id,
         code: occ.rule?.code,
         subArea: occ.rule?.subArea,
@@ -482,16 +504,25 @@ export const getAreaDashboard = async (req, res) => {
       });
     }
 
-    const result = Object.values(pabrikMap).sort((a, b) => a.nama_pabrik.localeCompare(b.nama_pabrik));
-    res.json(result);
+    // Sort: by pabrik_id asc, then subArea asc
+    const result = Object.values(areaMap).sort((a, b) => {
+      if (a.pabrik_id !== b.pabrik_id) return a.pabrik_id - b.pabrik_id;
+      return a.sub_area.localeCompare(b.sub_area);
+    });
+
+    res.json({
+      userSubArea,
+      areas: result
+    });
   } catch (err) {
     console.error('getAreaDashboard error:', err);
     res.status(500).json({ error: err.message });
   }
 };
 
+
 // ============================================================
-// MY WORKFLOW TASKS — berdasar role dan stage
+// MY WORKFLOW TASKS — berdasar role, stage, dan area (sub_area)
 // ============================================================
 export const getMyWorkflowTasks = async (req, res) => {
   try {
@@ -504,29 +535,56 @@ export const getMyWorkflowTasks = async (req, res) => {
 
     let where = { year: y, month: m, status: { notIn: ['CANCELLED'] } };
 
+    // Ambil sub_area dari ManPower jika ada
+    let userSubArea = null;
+    if (manpowerId) {
+      const mp = await prisma.manPower.findUnique({
+        where: { id: parseInt(manpowerId) },
+        select: { sub_area: true }
+      });
+      userSubArea = mp?.sub_area || null;
+    }
+
+    // Tambah filter subArea ke rule jika user punya sub_area assignment
+    const ruleAreaFilter = userSubArea
+      ? { rule: { subArea: { equals: userSubArea, mode: 'insensitive' } } }
+      : {};
+
     if (manpowerId) {
       const mpId = parseInt(manpowerId);
-      // DC: tasks yang dia adalah DC, di stage DC_COLLECTION atau SAP_UPLOAD
+      // DC/staff: tasks yang dia adalah DC (di stage DC_COLLECTION atau SAP_UPLOAD), ditambah filter area
       // Analyst: tasks yang dia adalah analyst, di stage ANALYSIS
       // AVP: tasks yang dia adalah AVP, di stage AVP_APPROVAL
       if (role === 'staff' || role === 'data_collector') {
-        where.OR = [
-          { dataCollectorId: mpId, workflowStage: { in: ['DC_COLLECTION', 'SAP_UPLOAD'] } },
-          { assignedToId: mpId, workflowStage: 'DC_COLLECTION' }
-        ];
+        where = {
+          ...where,
+          ...ruleAreaFilter,
+          OR: [
+            { dataCollectorId: mpId, workflowStage: { in: ['DC_COLLECTION', 'SAP_UPLOAD'] } },
+            { assignedToId: mpId, workflowStage: 'DC_COLLECTION' }
+          ]
+        };
       } else if (role === 'analyst') {
-        where.OR = [
-          { analystId: mpId, workflowStage: 'ANALYSIS' },
-          { assignedToId: mpId, workflowStage: 'ANALYSIS' }
-        ];
+        where = {
+          ...where,
+          ...ruleAreaFilter,
+          OR: [
+            { analystId: mpId, workflowStage: 'ANALYSIS' },
+            { assignedToId: mpId, workflowStage: 'ANALYSIS' }
+          ]
+        };
       } else if (role?.startsWith('avp')) {
-        where.OR = [
-          { avpId: mpId, workflowStage: 'AVP_APPROVAL' },
-          { assignedToId: mpId, workflowStage: 'AVP_APPROVAL' }
-        ];
+        where = {
+          ...where,
+          ...ruleAreaFilter,
+          OR: [
+            { avpId: mpId, workflowStage: 'AVP_APPROVAL' },
+            { assignedToId: mpId, workflowStage: 'AVP_APPROVAL' }
+          ]
+        };
       } else {
-        // admin/manager: lihat semua
-        where = { year: y, month: m };
+        // admin/manager: lihat semua, tetapi masih bisa difilter berdasar area jika punya sub_area
+        where = { year: y, month: m, ...(userSubArea ? ruleAreaFilter : {}) };
       }
     }
 

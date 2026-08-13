@@ -22,6 +22,7 @@ import PdmCalendar from './pages/pdm/PdmCalendar';
 import PdmDashboard from './pages/pdm/PdmDashboard';
 import PdmRoster from './pages/pdm/PdmRoster';
 import PdmAreaDashboard from './pages/pdm/PdmAreaDashboard';
+import ManHoursPage from './pages/ManHoursPage';
 import { Loader2 } from 'lucide-react';
 
 // A simple protected route wrapper
@@ -132,6 +133,10 @@ function MainApp() {
             ) : activeTab === 'pdm-area-dashboard' ? (
               <ProtectedRoute>
                 <PdmAreaDashboard />
+              </ProtectedRoute>
+            ) : activeTab === 'pdm-man-hours' ? (
+              <ProtectedRoute>
+                <ManHoursPage />
               </ProtectedRoute>
             ) : (
               <ProtectedRoute>

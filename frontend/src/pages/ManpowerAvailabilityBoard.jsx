@@ -4,7 +4,7 @@ import {
   Loader2, Search, Filter, RefreshCw, Users,
   CheckCircle2, Clock, AlertCircle, Plane, BookOpen,
   Activity, XCircle, MapPin, Calendar, Stethoscope,
-  PlaneTakeoff, Globe, Info, UserCheck, ChevronDown, ChevronUp
+  PlaneTakeoff, Globe, Info, UserCheck, ChevronDown, ChevronUp, Edit
 } from 'lucide-react';
 
 const STATUS_CONFIG = {
@@ -40,6 +40,10 @@ export default function ManpowerAvailabilityBoard() {
   const [lastUpdated, setLastUpdated] = useState(null);
   const [isDivDropdownOpen, setIsDivDropdownOpen] = useState(false);
   const [showInfoBox, setShowInfoBox] = useState(false);
+  
+  const { user } = useContext(AuthContext);
+  const [editingSubArea, setEditingSubArea] = useState(null);
+  const [newSubArea, setNewSubArea] = useState('');
 
   const [filters, setFilters] = useState({
     search: '',
@@ -85,6 +89,30 @@ export default function ManpowerAvailabilityBoard() {
       }
     } catch (err) {
       console.error(err);
+    }
+  };
+
+  const handleUpdateSubArea = async (e) => {
+    e.preventDefault();
+    if (!editingSubArea) return;
+    try {
+      const res = await fetch(`${(import.meta.env.VITE_API_URL || '').replace(/\/$/, '')}/api/dashboard/manpower/${editingSubArea.id}/subarea`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ sub_area: newSubArea })
+      });
+      if (res.ok) {
+        setEditingSubArea(null);
+        fetchData();
+      } else {
+        alert('Gagal update area');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Gagal update area');
     }
   };
 
@@ -405,6 +433,7 @@ export default function ManpowerAvailabilityBoard() {
                   <th className="px-4 py-3 font-semibold">Personel</th>
                   <th className="px-4 py-3 font-semibold">NPK</th>
                   <th className="px-4 py-3 font-semibold">Jabatan</th>
+                  <th className="px-4 py-3 font-semibold">Area</th>
                   <th className="px-4 py-3 font-semibold">Tipe</th>
                   <th className="px-4 py-3 font-semibold">
                     <div className="flex items-center space-x-1.5 cursor-help" title="Status Ketersediaan: Menunjukkan ketersediaan fisik personel untuk ditugaskan, terlepas dari apakah hari ini libur atau tidak. Jika tidak ada tugas atau absen, statusnya Tersedia.">
@@ -473,6 +502,16 @@ export default function ManpowerAvailabilityBoard() {
                         <p className="font-medium text-industrial-text text-xs">{mp.position}</p>
                       </td>
                       <td className="px-4 py-3">
+                        <div className="flex items-center gap-2">
+                          <p className="font-medium text-industrial-text text-xs">{mp.sub_area || '-'}</p>
+                          {(user?.role === 'Admin' || user?.role === 'Manager') && (
+                            <button onClick={() => { setEditingSubArea(mp); setNewSubArea(mp.sub_area || ''); }} className="text-industrial-blue hover:text-blue-700 p-1 bg-blue-50 rounded hover:bg-blue-100">
+                              <Edit className="w-3 h-3" />
+                            </button>
+                          )}
+                        </div>
+                      </td>
+                      <td className="px-4 py-3">
                         <span className={`text-[10px] font-semibold px-2 py-0.5 rounded border ${mp.employee_type === 'Organik' ? 'bg-blue-50 text-blue-600 border-blue-200' : 'bg-purple-50 text-purple-600 border-purple-200'}`}>
                           {mp.employee_type}
                         </span>
@@ -531,6 +570,36 @@ export default function ManpowerAvailabilityBoard() {
           </div>
         )}
       </div>
+
+      {/* Edit Sub Area Modal */}
+      {editingSubArea && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+          <div className="bg-white rounded-2xl p-6 border border-industrial-border max-w-sm w-full shadow-2xl space-y-4">
+            <div className="flex justify-between items-center pb-2 border-b border-industrial-border">
+              <h3 className="font-bold text-base text-industrial-text">Edit Area Karyawan</h3>
+              <button onClick={() => setEditingSubArea(null)} className="text-slate-400 hover:text-slate-600"><XCircle size={18} /></button>
+            </div>
+            <p className="text-xs text-gray-500">Edit area kerja untuk {editingSubArea.name} (NPK: {editingSubArea.npk})</p>
+            <form onSubmit={handleUpdateSubArea} className="space-y-3 text-xs">
+              <div>
+                <label className="block font-medium mb-1">Sub Area</label>
+                <input
+                  required
+                  type="text"
+                  placeholder="Contoh: PPHS & OSBL"
+                  value={newSubArea}
+                  onChange={(e) => setNewSubArea(e.target.value)}
+                  className="w-full border border-industrial-border rounded-lg p-2 bg-industrial-background"
+                />
+              </div>
+              <div className="flex justify-end gap-2 pt-2">
+                <button type="button" onClick={() => setEditingSubArea(null)} className="px-4 py-2 rounded-lg bg-slate-100 text-slate-600">Batal</button>
+                <button type="submit" className="px-4 py-2 rounded-lg bg-industrial-navy text-white font-semibold hover:bg-slate-800">Simpan</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
+import { getUserAreaContext, canReadOccurrence, canWriteOccurrence, hasCrossDelegation } from './pdmAccessControl.js';
 
 // Helper: cek apakah tanggal adalah hari libur (Sabtu/Minggu atau tanggal merah)
 async function isHoliday(date) {
@@ -294,9 +295,32 @@ export const getJobBoard = async (req, res) => {
     const y = year ? parseInt(year) : now.getFullYear();
     const m = month ? parseInt(month) : now.getMonth() + 1;
 
+    // Cek sub_area user jika ada man_power_id
+    let userSubArea = null;
+    const manpowerId = req.user?.man_power_id;
+    if (manpowerId) {
+      const mp = await prisma.manPower.findUnique({
+        where: { id: parseInt(manpowerId) },
+        select: { sub_area: true }
+      });
+      userSubArea = mp?.sub_area || null;
+    }
+
+    // Filter SCHEDULED tasks berdasarkan area user (jika sub_area diset)
+    const where = {
+      status: 'SCHEDULED',
+      year: y,
+      month: m,
+      ...(userSubArea ? { rule: { subArea: { equals: userSubArea, mode: 'insensitive' } } } : {})
+    };
+
     const occurrences = await prisma.pdmScheduleOccurrence.findMany({
-      where: { status: 'SCHEDULED', year: y, month: m },
-      include: { rule: { include: { pabrik: true } } },
+      where,
+      include: {
+        rule: { include: { pabrik: true } },
+        dataCollector: { select: { id: true, name: true, npk: true } },
+        analyst: { select: { id: true, name: true, npk: true } },
+      },
       orderBy: { scheduledDate: 'asc' }
     });
     res.json(occurrences);
@@ -312,16 +336,29 @@ export const getJobBoard = async (req, res) => {
 export const claimTask = async (req, res) => {
   try {
     const { id } = req.params;
-    const manpowerId = req.user?.man_power_id;
+    const { manpowerId, userSubArea, isAdmin } = await getUserAreaContext(req);
     if (!manpowerId) return res.status(403).json({ error: 'User tidak terhubung ke manpower' });
 
-    const occ = await prisma.pdmScheduleOccurrence.findUnique({ where: { id: parseInt(id) } });
+    const occ = await prisma.pdmScheduleOccurrence.findUnique({
+      where: { id: parseInt(id) },
+      include: { rule: { select: { subArea: true, pabrik_id: true } } }
+    });
     if (!occ) return res.status(404).json({ error: 'Task tidak ditemukan' });
     if (occ.status !== 'SCHEDULED') return res.status(400).json({ error: 'Task sudah di-claim atau tidak tersedia' });
 
+    // Guard area: user hanya boleh claim task di area yang sama, kecuali admin
+    if (!isAdmin && userSubArea) {
+      const taskSubArea = occ.rule?.subArea;
+      const areaMatch = !taskSubArea || taskSubArea.toLowerCase() === userSubArea.toLowerCase();
+      const hasDelegation = await hasCrossDelegation(manpowerId, parseInt(id));
+      if (!areaMatch && !hasDelegation) {
+        return res.status(403).json({ error: `Anda hanya dapat claim task di area Anda (${userSubArea}). Task ini berada di area ${taskSubArea}.` });
+      }
+    }
+
     const updated = await prisma.pdmScheduleOccurrence.update({
       where: { id: parseInt(id) },
-      data: { assignedToId: parseInt(manpowerId), status: 'ASSIGNED', claimedAt: new Date() },
+      data: { assignedToId: manpowerId, status: 'ASSIGNED', claimedAt: new Date() },
       include: { rule: { include: { pabrik: true } }, assignedTo: { select: { id: true, name: true } } }
     });
     res.json(updated);
@@ -334,11 +371,16 @@ export const startTask = async (req, res) => {
   try {
     const { id } = req.params;
     const { activityNote } = req.body;
-    const manpowerId = req.user?.man_power_id;
+    const { manpowerId, isAdmin } = await getUserAreaContext(req);
 
     const occ = await prisma.pdmScheduleOccurrence.findUnique({ where: { id: parseInt(id) } });
     if (!occ) return res.status(404).json({ error: 'Task tidak ditemukan' });
     if (!['ASSIGNED', 'ON_HOLD'].includes(occ.status)) return res.status(400).json({ error: `Status saat ini: ${occ.status}` });
+
+    // Guard: hanya PIC atau admin yang bisa mulai task
+    if (!await canWriteOccurrence(manpowerId, isAdmin, occ)) {
+      return res.status(403).json({ error: 'Anda bukan PIC task ini. Hanya PIC atau Admin yang dapat mengubah status.' });
+    }
 
     const now = new Date();
     const [updated] = await prisma.$transaction([
@@ -354,7 +396,7 @@ export const startTask = async (req, res) => {
           startTime: now,
           activityNote,
           statusSnapshot: 'IN_PROGRESS',
-          performedById: manpowerId ? parseInt(manpowerId) : null
+          performedById: manpowerId || null
         }
       })
     ]);
@@ -368,13 +410,17 @@ export const holdTask = async (req, res) => {
   try {
     const { id } = req.params;
     const { activityNote } = req.body;
-    const manpowerId = req.user?.man_power_id;
+    const { manpowerId, isAdmin } = await getUserAreaContext(req);
 
     const occ = await prisma.pdmScheduleOccurrence.findUnique({ where: { id: parseInt(id) } });
     if (!occ || occ.status !== 'IN_PROGRESS') return res.status(400).json({ error: 'Task tidak sedang in-progress' });
 
+    // Guard: hanya PIC atau admin
+    if (!await canWriteOccurrence(manpowerId, isAdmin, occ)) {
+      return res.status(403).json({ error: 'Anda bukan PIC task ini. Hanya PIC atau Admin yang dapat mengubah status.' });
+    }
+
     const now = new Date();
-    // Tutup daily activity terakhir
     const lastActivity = await prisma.pdmDailyActivity.findFirst({
       where: { occurrenceId: parseInt(id), endTime: null },
       orderBy: { startTime: 'desc' }
@@ -407,10 +453,16 @@ export const completeTask = async (req, res) => {
   try {
     const { id } = req.params;
     const { activityNote } = req.body;
+    const { manpowerId, isAdmin } = await getUserAreaContext(req);
 
     const occ = await prisma.pdmScheduleOccurrence.findUnique({ where: { id: parseInt(id) } });
     if (!occ || !['IN_PROGRESS', 'ASSIGNED', 'ON_HOLD'].includes(occ.status)) {
       return res.status(400).json({ error: 'Task tidak dapat diselesaikan dari status ini' });
+    }
+
+    // Guard: hanya PIC atau admin
+    if (!await canWriteOccurrence(manpowerId, isAdmin, occ)) {
+      return res.status(403).json({ error: 'Anda bukan PIC task ini. Hanya PIC atau Admin yang dapat menyelesaikan task.' });
     }
 
     const now = new Date();
@@ -446,6 +498,13 @@ export const cancelTask = async (req, res) => {
   try {
     const { id } = req.params;
     const { reason } = req.body;
+    const { isAdmin } = await getUserAreaContext(req);
+
+    // Hanya admin/supervisor yang bisa cancel
+    if (!isAdmin) {
+      return res.status(403).json({ error: 'Hanya Admin atau Supervisor yang dapat membatalkan task' });
+    }
+
     const updated = await prisma.pdmScheduleOccurrence.update({
       where: { id: parseInt(id) },
       data: { status: 'CANCELLED', cancelReason: reason || 'Dibatalkan' }

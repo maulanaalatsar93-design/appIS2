@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   CheckCircle2, Clock, AlertTriangle, AlertOctagon, Calendar, Users,
   LayoutGrid, TrendingUp, Search, X, Download,
@@ -154,6 +154,7 @@ export default function PdmDashboard() {
   const [filterPabrik, setFilterPabrik] = useState('');
   const [filterStatus, setFilterStatus] = useState('');
   const [filterCriticality, setFilterCriticality] = useState('');
+  const [filterSubArea, setFilterSubArea] = useState('');
   const [search, setSearch] = useState('');
   const [pabriks, setPabriks] = useState([]);
   const [selectedOcc, setSelectedOcc] = useState(null);
@@ -201,13 +202,19 @@ export default function PdmDashboard() {
         if (filterStatus === 'OVERDUE' ? effStatus !== 'OVERDUE' : o.status !== filterStatus) return false;
       }
       if (filterCriticality && o.rule?.criticality !== filterCriticality) return false;
+      if (filterSubArea && o.rule?.subArea !== filterSubArea) return false;
       if (search) {
         const q = search.toLowerCase();
         if (!o.rule?.code?.toLowerCase().includes(q) && !o.rule?.subArea?.toLowerCase().includes(q) && !o.assignedTo?.name?.toLowerCase().includes(q)) return false;
       }
       return true;
     });
-  }, [occurrences, filterStatus, filterCriticality, search]);
+  }, [occurrences, filterStatus, filterCriticality, filterSubArea, search]);
+
+  const uniqueSubAreas = useMemo(() => {
+    const areas = new Set(occurrences.map(o => o.rule?.subArea).filter(Boolean));
+    return Array.from(areas).sort();
+  }, [occurrences]);
 
   const overdueList = occurrences.filter(o => !['COMPLETED','CANCELLED'].includes(o.status) && o.daysLate > 0);
   const monthNames = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des'];
@@ -369,6 +376,10 @@ export default function PdmDashboard() {
               {['SCHEDULED','ASSIGNED','IN_PROGRESS','ON_HOLD','COMPLETED','OVERDUE','CANCELLED'].map(s => (
                 <option key={s} value={s}>{STATUS_COLOR[s]?.label || s}</option>
               ))}
+            </select>
+            <select value={filterSubArea} onChange={e => setFilterSubArea(e.target.value)} className="text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white outline-none focus:ring-2 focus:ring-blue-200">
+              <option value="">Semua Area</option>
+              {uniqueSubAreas.map(a => <option key={a} value={a}>{a}</option>)}
             </select>
             <select value={filterCriticality} onChange={e => setFilterCriticality(e.target.value)} className="text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white outline-none focus:ring-2 focus:ring-blue-200">
               <option value="">Semua Kritikalitas</option>

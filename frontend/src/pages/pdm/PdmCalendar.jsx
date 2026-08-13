@@ -23,12 +23,13 @@ export default function PdmCalendar() {
   const [filterPabrik, setFilterPabrik] = useState('');
   const [filterStatus, setFilterStatus] = useState('');
   const [filterCriticality, setFilterCriticality] = useState('');
+  const [filterSubArea, setFilterSubArea] = useState('');
 
   const api = import.meta.env.VITE_API_URL || 'http://localhost:5000';
   const token = localStorage.getItem('token');
   const headers = { Authorization: `Bearer ${token}` };
 
-  useEffect(() => { fetchOccurrences(); }, [currentDate, filterPabrik, filterStatus, filterCriticality]);
+  useEffect(() => { fetchOccurrences(); }, [currentDate, filterPabrik, filterStatus, filterCriticality, filterSubArea]);
   useEffect(() => { fetchPabriks(); }, []);
 
   const fetchOccurrences = async () => {
@@ -38,6 +39,7 @@ export default function PdmCalendar() {
       if (filterPabrik) params.append('pabrik_id', filterPabrik);
       if (filterStatus) params.append('status', filterStatus);
       if (filterCriticality) params.append('criticality', filterCriticality);
+      if (filterSubArea) params.append('sub_area', filterSubArea);
 
       const res = await fetch(`${api}/api/pdm-schedule/occurrences?${params}`, { headers });
       if (res.ok) setOccurrences(await res.json());
@@ -90,6 +92,11 @@ export default function PdmCalendar() {
 
   const selectedDayTasks = selected ? getTasksForDay(selected) : [];
 
+  const uniqueSubAreas = React.useMemo(() => {
+    const areas = new Set(occurrences.map(o => o.rule?.subArea).filter(Boolean));
+    return Array.from(areas).sort();
+  }, [occurrences]);
+
   return (
     <div className="p-6 max-w-7xl mx-auto space-y-4">
       {/* Header */}
@@ -111,6 +118,10 @@ export default function PdmCalendar() {
           <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)} className="text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white">
             <option value="">Semua Status</option>
             {['SCHEDULED','ASSIGNED','IN_PROGRESS','ON_HOLD','COMPLETED','OVERDUE','CANCELLED'].map(s => <option key={s}>{s}</option>)}
+          </select>
+          <select value={filterSubArea} onChange={e => setFilterSubArea(e.target.value)} className="text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white">
+            <option value="">Semua Area</option>
+            {uniqueSubAreas.map(a => <option key={a} value={a}>{a}</option>)}
           </select>
           <select value={filterCriticality} onChange={e => setFilterCriticality(e.target.value)} className="text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white">
             <option value="">Semua Kritikalitas</option>

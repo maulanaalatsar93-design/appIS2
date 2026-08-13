@@ -12,6 +12,8 @@ import wpemRoutes from './routes/wpemRoutes.js';
 import sertifikasiRoutes from './routes/sertifikasiRoutes.js';
 import chatRoutes from './routes/chatRoutes.js';
 import pdmScheduleRoutes from './routes/pdmScheduleRoutes.js';
+import manHoursRoutes from './routes/manHoursRoutes.js';
+import dailyTaskRoutes from './routes/dailyTaskRoutes.js';
 
 dotenv.config();
 
@@ -37,6 +39,8 @@ app.use('/api/wpem', wpemRoutes);
 app.use('/api/sertifikasi', sertifikasiRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/api/pdm-schedule', pdmScheduleRoutes);
+app.use('/api/man-hours', manHoursRoutes);
+app.use('/api/daily-tasks', dailyTaskRoutes);
 
 // Health check endpoint
 app.get('/api/health', async (req, res) => {

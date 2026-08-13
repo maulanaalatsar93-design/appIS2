@@ -22,7 +22,8 @@ import {
   updateChecklist,
   reviewItem,
   getMyWorkCube,
-  getKPI
+  getKPI,
+  assignPlt
 } from '../controllers/wpemController.js';
 
 const router = express.Router();
@@ -55,6 +56,7 @@ router.post('/programs/:id/items', createItem);
 // Work Item actions
 router.put('/items/:itemId', updateItem);
 router.put('/items/:itemId/status', updateItemStatus);
+router.put('/items/:itemId/plt', assignPlt);
 router.get('/items/:itemId', getItemDetail);
 router.post('/items/:itemId/activity', addActivity);
 router.get('/items/:itemId/checklists', getChecklists);

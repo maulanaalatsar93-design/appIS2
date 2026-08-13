@@ -2,6 +2,7 @@ import express from 'express';
 const router = express.Router();
 import * as pdm from '../controllers/pdmScheduleController.js';
 import * as wf from '../controllers/pdmWorkflowController.js';
+import * as ac from '../controllers/pdmAccessControl.js';
 import { authenticateToken as verifyToken } from '../middleware/authMiddleware.js';
 
 // ── Master Rules ─────────────────────────────────────────────
@@ -42,6 +43,11 @@ router.get('/workflow-tasks',                      verifyToken, wf.getMyWorkflow
 router.get('/area-dashboard',                      verifyToken, wf.getAreaDashboard);
 router.get('/occurrences/:id/workflow-logs',       verifyToken, wf.getWorkflowLogs);
 
+// ── Cross-Area Delegation ────────────────────────────────────
+router.post('/occurrences/:id/delegate',                 verifyToken, ac.createDelegation);
+router.get('/occurrences/:id/delegations',               verifyToken, ac.getDelegations);
+router.delete('/occurrences/:id/delegate/:delegationId', verifyToken, ac.revokeDelegation);
+
 // ── PIC History ──────────────────────────────────────────────
 router.get('/occurrences/:id/history', verifyToken, pdm.getPicHistory);
 
@@ -55,5 +61,9 @@ router.get('/completion-by-pabrik', verifyToken, pdm.getCompletionByPabrik);
 // ── Roster PIC ───────────────────────────────────────────────
 router.get('/roster',               verifyToken, pdm.getRoster);
 router.post('/monthly-pic/bulk',    verifyToken, pdm.setMonthlyPicBulk);
+
+// ── Admin: Manpower Sub-Area Management ─────────────────────
+router.get('/admin/manpower/areas',          verifyToken, ac.getManpowerAreas);
+router.put('/admin/manpower/:mpId/sub-area', verifyToken, ac.updateManpowerSubArea);
 
 export default router;

@@ -2,7 +2,7 @@ import React from 'react';
 import {
   LayoutDashboard, Users, UploadCloud,
   ChevronLeft, ChevronRight, CalendarClock,
-  MapPin, ClipboardList, BarChart3, BarChart2, Briefcase, Shield, Settings, TableProperties
+  MapPin, ClipboardList, BarChart3, BarChart2, Briefcase, Shield, Settings, TableProperties, Clock
 } from 'lucide-react';
 import logoImg from '../../assets/logo.png';
 import brandIconImg from '../../assets/brand-icon.png';
@@ -25,6 +25,7 @@ export default function Sidebar({ activeTab, setActiveTab, isCollapsed, setIsCol
         { id: 'pdm-calendar', label: 'Kalender PdM', icon: CalendarClock },
         { id: 'pdm-roster',   label: 'Roster PIC',    icon: TableProperties },
         { id: 'pdm-tasks',    label: 'Task Board',    icon: ClipboardList },
+        { id: 'pdm-man-hours', label: 'Man Hours (Daily Task)', icon: Clock },
         { id: 'pdm-rules',    label: 'Master Schedule', icon: Settings },
       ]
     },

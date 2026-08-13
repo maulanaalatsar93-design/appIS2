@@ -69,6 +69,7 @@ model ManPower {
   division_id   Int
   divisi        Divisi               @relation(fields: [division_id], references: [id])
   position      String
+  sub_area      String?              // Area kerja spesifik (contoh: "P6 PPHS & OSBL", "P6 Utility & Urea")
   is_active     Boolean              @default(true)
   absensi       StatusKehadiran[]
   user          User?
@@ -80,6 +81,7 @@ model ManPower {
   wp_memberships   WorkProgramMember[]   @relation("WPMembers")
   wp_approvals     WorkProgramApproval[] @relation("WPApprovals")
   wi_pic           WorkItem[]            @relation("WorkItemPIC")
+  wi_plt           WorkItem[]            @relation("WorkItemPLT")
   wi_checklist_pic WorkItemChecklist[]   @relation("ChecklistPIC")
   DailyTask        DailyTask[]
 
@@ -95,6 +97,8 @@ model ManPower {
   pdm_pic_history_by     PdmPicHistory[]         @relation("PicHistoryChangedBy")
   pdm_daily_activities   PdmDailyActivity[]      @relation("DailyActivityPerformer")
   pdm_workflow_logs      PdmWorkflowLog[]        @relation("WorkflowLogActor")
+  pdm_delegations_given  PdmCrossDelegation[]    @relation("DelegationGranter")
+  pdm_delegations_recv   PdmCrossDelegation[]    @relation("DelegationReceiver")
 
   @@schema("public")
 }
@@ -319,6 +323,8 @@ model WorkItem {
   description        String?
   pic_id             Int? // PIC from ManPower
   pic                ManPower?   @relation("WorkItemPIC", fields: [pic_id], references: [id])
+  plt_id             Int? // Temporary substitute PIC
+  plt                ManPower?   @relation("WorkItemPLT", fields: [plt_id], references: [id])
   helpers            Json? // JSON array of man_power_id
   estimated_duration Int? // Estimasi Kerja dalam Hari (Days)
   priority           String      @default("Normal") // Low | Normal | High | Urgent
@@ -573,9 +579,10 @@ model PdmScheduleOccurrence {
   completedAt     DateTime?
   createdAt       DateTime  @default(now())
 
-  dailyActivities PdmDailyActivity[]
-  picHistories    PdmPicHistory[]
-  workflowLogs    PdmWorkflowLog[]
+  dailyActivities    PdmDailyActivity[]
+  picHistories       PdmPicHistory[]
+  workflowLogs       PdmWorkflowLog[]
+  crossDelegations   PdmCrossDelegation[]
 
   @@unique([ruleId, targetDate])
   @@schema("public")
@@ -627,6 +634,27 @@ model PdmWorkflowLog {
   actor        ManPower?             @relation("WorkflowLogActor", fields: [actorId], references: [id])
   notes        String?
   createdAt    DateTime              @default(now())
+
+  @@schema("public")
+}
+
+// ============================================================
+// DELEGASI CROSS-AREA — Analyst/AVP bisa assign personel dari area lain
+// ============================================================
+
+model PdmCrossDelegation {
+  id             Int                   @id @default(autoincrement())
+  occurrenceId   Int
+  occurrence     PdmScheduleOccurrence @relation(fields: [occurrenceId], references: [id], onDelete: Cascade)
+  delegatedById  Int                   // Analyst/AVP yang memberi delegasi
+  delegatedBy    ManPower              @relation("DelegationGranter", fields: [delegatedById], references: [id])
+  delegatedToId  Int                   // Personel penerima (boleh dari area berbeda)
+  delegatedTo    ManPower              @relation("DelegationReceiver", fields: [delegatedToId], references: [id])
+  role           String                // 'DC' | 'ANALYST' | 'OBSERVER' — peran delegasi
+  isActive       Boolean               @default(true)
+  reason         String?
+  expiresAt      DateTime?             // null = tidak expired, otomatis hapus ketika task selesai
+  createdAt      DateTime              @default(now())
 
   @@schema("public")
 }

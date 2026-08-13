@@ -130,7 +130,11 @@ export const getDashboardSummary = async (req, res) => {
         where: manPowerWhere,
         select: { 
           id: true, 
+          name: true,
+          npk: true,
+          position: true,
           employee_type: true,
+          sub_area: true,
           wp_memberships: {
             include: { program: true }
           },
@@ -733,6 +737,21 @@ export const getPabrikList = async (req, res) => {
   }
 };
 
+export const updateManpowerSubArea = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { sub_area } = req.body;
+    const updated = await prisma.manPower.update({
+      where: { id: parseInt(id) },
+      data: { sub_area }
+    });
+    res.json(updated);
+  } catch (err) {
+    console.error('Error updateManpowerSubArea:', err);
+    res.status(500).json({ error: err.message });
+  }
+};
+
 export const getManpowerList = async (req, res) => {
   try {
     const now = new Date();
@@ -809,6 +828,7 @@ export const getManpowerList = async (req, res) => {
         npk: p.npk,
         name: p.name,
         employee_type: p.employee_type,
+        sub_area: p.sub_area,
         position: p.position,
         nama_divisi: p.divisi?.nama_divisi || 'N/A',
         work_center_sap: p.divisi?.work_center_sap || '',
