@@ -36,7 +36,7 @@ async function findAvpManpower(pabrikName) {
 }
 
 // Helper: catat log workflow
-async function logWorkflow(occurrenceId, fromStage, toStage, action, actorId, notes, tx = prisma) {
+function logWorkflow(occurrenceId, fromStage, toStage, action, actorId, notes, tx = prisma) {
   return tx.pdmWorkflowLog.create({
     data: { occurrenceId, fromStage, toStage, action, actorId, notes }
   });
