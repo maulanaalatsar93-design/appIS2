@@ -572,39 +572,20 @@ export const getMyWorkflowTasks = async (req, res) => {
 
     if (manpowerId) {
       const mpId = parseInt(manpowerId);
-      // DC/staff: tasks yang dia adalah DC (di stage DC_COLLECTION atau SAP_UPLOAD), ditambah filter area
-      // Analyst: tasks yang dia adalah analyst, di stage ANALYSIS
-      // AVP: tasks yang dia adalah AVP, di stage AVP_APPROVAL
-      if (role === 'staff' || role === 'data_collector') {
-        where = {
-          ...where,
-          ...ruleAreaFilter,
-          OR: [
-            { dataCollectorId: mpId, workflowStage: { in: ['DC_COLLECTION', 'SAP_UPLOAD'] } },
-            { assignedToId: mpId, workflowStage: 'DC_COLLECTION' }
-          ]
-        };
-      } else if (role === 'analyst') {
-        where = {
-          ...where,
-          ...ruleAreaFilter,
-          OR: [
-            { analystId: mpId, workflowStage: 'ANALYSIS' },
-            { assignedToId: mpId, workflowStage: 'ANALYSIS' }
-          ]
-        };
-      } else if (role?.startsWith('avp')) {
-        where = {
-          ...where,
-          ...ruleAreaFilter,
-          OR: [
-            { avpId: mpId, workflowStage: 'AVP_APPROVAL' },
-            { assignedToId: mpId, workflowStage: 'AVP_APPROVAL' }
-          ]
-        };
+      if (role === 'admin' || role === 'manager') {
+        // admin/manager: lihat semua, difilter berdasar area jika punya sub_area
+        where = { year: y, month: m, status: { notIn: ['CANCELLED'] }, ...(userSubArea ? ruleAreaFilter : {}) };
       } else {
-        // admin/manager: lihat semua, tetapi masih bisa difilter berdasar area jika punya sub_area
-        where = { year: y, month: m, ...(userSubArea ? ruleAreaFilter : {}) };
+        // user biasa: lihat task yang sedang di-assign ke dia, atau yang pernah dia kerjakan
+        where = {
+          ...where,
+          OR: [
+            { assignedToId: mpId },
+            { dataCollectorId: mpId },
+            { analystId: mpId },
+            { avpId: mpId }
+          ]
+        };
       }
     }
 
