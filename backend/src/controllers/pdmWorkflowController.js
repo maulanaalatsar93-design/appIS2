@@ -78,7 +78,14 @@ export const finishDataCollection = async (req, res) => {
     // Re-fetch with proper include
     const occFull = await prisma.pdmScheduleOccurrence.findUnique({
       where: { id: parseInt(id) },
-      include: { rule: { include: { pabrik: true } } }
+      include: { 
+        rule: { 
+          include: { 
+            pabrik: true,
+            monthlyPicOverrides: true
+          } 
+        } 
+      }
     });
 
     if (!occFull) return res.status(404).json({ error: 'Task tidak ditemukan' });
@@ -105,8 +112,10 @@ export const finishDataCollection = async (req, res) => {
       holdDuration = await closeOpenActivity(parseInt(id), manpowerId, 'COMPLETED', 'DC_COLLECTION', notes);
     }
 
-    // Tentukan analyst dari roster (pakai analystId yang sudah di-set, atau cari dari rule)
-    const analystId = occFull.analystId;
+    // Tentukan analyst: pakai analystId jika ada, jika tidak pakai override picId, lalu defaultPicId dari rule
+    const override = occFull.rule?.monthlyPicOverrides?.find(o => o.year === occFull.year && o.month === occFull.month);
+    const defaultPicId = override?.picId || occFull.rule?.defaultPicId;
+    const nextAssignedToId = occFull.analystId || defaultPicId || occFull.assignedToId;
 
     ops.push(
       prisma.pdmScheduleOccurrence.update({
@@ -115,7 +124,7 @@ export const finishDataCollection = async (req, res) => {
           workflowStage: 'ANALYSIS',
           dcFinishedAt: now,
           status: 'ASSIGNED',
-          assignedToId: analystId || occFull.assignedToId,
+          assignedToId: nextAssignedToId,
           totalHoldMinutes: { increment: holdDuration }
         },
         include: { rule: { include: { pabrik: true } }, assignedTo: true, dataCollector: true, analyst: true }
