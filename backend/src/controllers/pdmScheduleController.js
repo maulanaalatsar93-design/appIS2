@@ -412,13 +412,15 @@ export const claimTask = async (req, res) => {
       });
     }
 
-    // Validasi role: Analyst tidak bisa claim DC task, DC tidak bisa claim Analyst task
+    // Allow analyst to claim DC task ONLY if it is a compressor
+    const isCompressor = taskSubArea && taskSubArea.toLowerCase().includes('compressor');
+
     if (!isAdmin) {
       if (isAnalystClaim && role !== 'analyst') {
         return res.status(403).json({ error: 'Hanya Analyst yang dapat mengambil task analisis' });
       }
-      if (isDcClaim && role === 'analyst') {
-        return res.status(403).json({ error: 'Analyst tidak dapat mengambil task Data Collection' });
+      if (isDcClaim && role === 'analyst' && !isCompressor) {
+        return res.status(403).json({ error: 'Analyst tidak dapat mengambil task Data Collection (kecuali Compressor)' });
       }
     }
 
@@ -448,17 +450,19 @@ export const claimTask = async (req, res) => {
     }
 
     // Set field yang tepat sesuai stage:
-    // DC_COLLECTION → dataCollectorId + assignedToId
-    // ANALYSIS      → analystId + assignedToId
     const updateData = {
-      assignedToId: manpowerId,
+      assignedToId: parseInt(manpowerId),
       status: 'ASSIGNED',
       claimedAt: new Date()
     };
     if (isDcClaim) {
-      updateData.dataCollectorId = manpowerId;
+      updateData.dataCollectorId = parseInt(manpowerId);
+      // Jika Analyst yang claim task DC (karena compressor), auto assign juga sbg analyst
+      if (role === 'analyst' && isCompressor) {
+        updateData.analystId = parseInt(manpowerId);
+      }
     } else if (isAnalystClaim) {
-      updateData.analystId = manpowerId;
+      updateData.analystId = parseInt(manpowerId);
     }
 
     const updated = await prisma.pdmScheduleOccurrence.update({
