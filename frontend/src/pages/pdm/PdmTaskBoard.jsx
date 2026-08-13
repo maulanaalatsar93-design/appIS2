@@ -109,7 +109,7 @@ function RejectModal({ onConfirm, onCancel }) {
 }
 
 // ── Task Box ─────────────────────────────────────────────────────────────────
-function TaskBox({ occ, onAction, manpowers, userRole, userMpId }) {
+function TaskBox({ occ, onAction, manpowers, userRole, userMpId, isAdmin: globalIsAdmin }) {
   const [expanded, setExpanded] = useState(false);
   const [reassignOpen, setReassignOpen] = useState(false);
   const [newPicId, setNewPicId] = useState('');
@@ -131,15 +131,17 @@ function TaskBox({ occ, onAction, manpowers, userRole, userMpId }) {
   const fmt = d => d ? new Date(d).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' }) : '-';
 
   // Role-based action visibility
+  const isAdmin = globalIsAdmin || ['admin', 'manager', 'supervisor'].includes(userRole);
   const isDC = ['staff', 'data_collector', 'technician'].includes(userRole);
   const isAnalyst = userRole === 'analyst';
   const isAVP = userRole?.startsWith('avp');
-  const isAdmin = ['admin', 'manager', 'supervisor'].includes(userRole);
+  
+  const isAssigned = occ.assignedToId === userMpId;
 
-  const showDcActions = (isDC || isAdmin) && stage === 'DC_COLLECTION';
-  const showAnalysisActions = (isAnalyst || isAdmin) && stage === 'ANALYSIS';
-  const showAvpActions = (isAVP || isAdmin) && stage === 'AVP_APPROVAL';
-  const showSapActions = (isDC || isAdmin) && stage === 'SAP_UPLOAD';
+  const showDcActions = (isDC || isAdmin || isAssigned) && stage === 'DC_COLLECTION';
+  const showAnalysisActions = (isAnalyst || isAdmin || isAssigned) && stage === 'ANALYSIS';
+  const showAvpActions = (isAVP || isAdmin || isAssigned) && stage === 'AVP_APPROVAL';
+  const showSapActions = (isDC || isAdmin || isAssigned) && stage === 'SAP_UPLOAD';
 
   return (
     <div className={`rounded-xl border-2 ${style.bg} shadow-sm overflow-hidden`}>
@@ -319,49 +321,75 @@ function TaskBox({ occ, onAction, manpowers, userRole, userMpId }) {
 }
 
 // ── Job Board Box ────────────────────────────────────────────────────────────
-function JobBoardBox({ occ, onAction, manpowers, userRole, isAdmin }) {
+function JobBoardBox({ occ, onAction, manpowers, userRole, isAdmin,
+  claimLabel = 'Ambil Task', claimAction = 'claim',
+  badgeColor = 'bg-blue-500', badgeLabel = 'DC Collection'
+}) {
   const [reassignOpen, setReassignOpen] = useState(false);
   const [newPicId, setNewPicId] = useState('');
   const [reasonInput, setReasonInput] = useState('');
   
   const isSpecialRole = isAdmin || ['analyst', 'avp'].includes((userRole || '').toLowerCase());
+  const fmt = d => d ? new Date(d).toLocaleDateString('id-ID', { day: '2-digit', month: 'short' }) : '-';
 
   return (
-    <div className="rounded-xl border-2 border-gray-200 bg-gray-50 shadow-sm p-4 flex flex-col justify-between">
-      <div className="space-y-3">
-        <div>
-          <p className="font-bold text-gray-800">{occ.rule?.pabrik?.nama_pabrik} – {occ.rule?.subArea}</p>
-          <p className="text-sm text-gray-500">{occ.rule?.taskName}</p>
-          <p className="text-xs text-gray-400 mt-1">Scheduled: {occ.scheduledDate ? new Date(occ.scheduledDate).toLocaleDateString('id-ID') : '-'}</p>
+    <div className="rounded-xl border-2 border-gray-200 bg-gray-50 shadow-sm p-4 flex flex-col justify-between min-h-[200px]">
+      {/* Criticality strip */}
+      <div className={`h-1 w-full rounded-t-xl -mt-4 -mx-4 mb-3 ${occ.rule?.criticality === 'CRITICAL' ? 'bg-red-400' : 'bg-blue-300'}`} style={{ width: 'calc(100% + 2rem)' }} />
+      
+      <div className="space-y-2 flex-1">
+        {/* Header: Pabrik → Area */}
+        <div className="flex items-start justify-between gap-2">
+          <div>
+            <p className="font-bold text-gray-800 text-sm leading-tight">
+              {occ.rule?.pabrik?.nama_pabrik}
+            </p>
+            <p className="text-xs font-semibold text-blue-600 mt-0.5">→ {occ.rule?.subArea}</p>
+            <p className="text-xs text-gray-500 mt-1">{occ.rule?.taskName}</p>
+          </div>
+          <span className={`shrink-0 text-[10px] px-2 py-0.5 rounded-full font-bold text-white ${badgeColor}`}>
+            {badgeLabel}
+          </span>
         </div>
-        <div className="flex gap-2 text-xs">
+
+        {/* Badges */}
+        <div className="flex gap-2 text-xs flex-wrap">
           <span className={`px-2 py-0.5 rounded-full font-medium ${occ.rule?.criticality === 'CRITICAL' ? 'bg-red-100 text-red-600' : 'bg-blue-100 text-blue-600'}`}>
-            {occ.rule?.criticality === 'CRITICAL' ? 'Critical' : 'Non Critical'}
+            {occ.rule?.criticality === 'CRITICAL' ? '⚠ Critical' : 'Non Critical'}
           </span>
           <span className="px-2 py-0.5 rounded-full bg-gray-200 text-gray-600">{occ.rule?.equipmentCat}</span>
         </div>
+
+        {/* Info DC jika ada (untuk task analisis) */}
+        {occ.dataCollector && (
+          <p className="text-xs text-gray-500">DC selesai: <span className="font-medium text-gray-700">{occ.dataCollector.name}</span></p>
+        )}
+
+        <p className="text-xs text-gray-400">Tgl: {fmt(occ.scheduledDate)}</p>
       </div>
       
-      <div className="mt-4 space-y-2">
-        <button onClick={() => onAction('claim', occ.id)}
-          className="w-full py-2 bg-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-blue-700 transition">
-          Ambil Task
+      <div className="mt-3 space-y-2">
+        <button onClick={() => onAction(claimAction, occ.id)}
+          className={`w-full py-2 text-white rounded-lg text-sm font-semibold transition ${
+            badgeColor.includes('amber') ? 'bg-amber-500 hover:bg-amber-600' : 'bg-blue-600 hover:bg-blue-700'
+          }`}>
+          {claimLabel}
         </button>
 
         {isSpecialRole && (
           <button onClick={() => setReassignOpen(!reassignOpen)} className="w-full py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 transition border border-gray-300">
-            <UserCheck className="w-4 h-4 inline mr-1" /> Assign PLT
+            <UserCheck className="w-4 h-4 inline mr-1" /> Assign Langsung
           </button>
         )}
 
         {reassignOpen && (
           <div className="bg-white border border-gray-200 rounded-lg p-3 space-y-2 mt-2">
-            <p className="text-xs font-semibold text-gray-600">Assign PLT / Ganti PIC</p>
+            <p className="text-xs font-semibold text-gray-600">Assign Langsung ke Personel</p>
             <select value={newPicId} onChange={e => setNewPicId(e.target.value)} className="w-full text-xs border border-gray-200 rounded p-2">
-              <option value="">-- Pilih PIC Baru --</option>
+              <option value="">-- Pilih Personel --</option>
               {manpowers.map(m => <option key={m.id} value={m.id}>{m.name} – {m.position} ({m.sub_area || 'No Area'})</option>)}
             </select>
-            <input value={reasonInput} onChange={e => setReasonInput(e.target.value)} placeholder="Alasan / Ket. PLT (wajib)" className="w-full text-xs border border-gray-200 rounded p-2" />
+            <input value={reasonInput} onChange={e => setReasonInput(e.target.value)} placeholder="Alasan / Ket. (wajib)" className="w-full text-xs border border-gray-200 rounded p-2" />
             <div className="flex gap-2">
               <button 
                 onClick={() => { 
@@ -369,7 +397,7 @@ function JobBoardBox({ occ, onAction, manpowers, userRole, isAdmin }) {
                     onAction('reassign', occ.id, { newPicId, reason: reasonInput }); 
                     setReassignOpen(false); 
                   } else {
-                    alert('Pilih PIC dan masukkan alasan.');
+                    alert('Pilih personel dan masukkan alasan.');
                   }
                 }} 
                 className="px-3 py-1.5 bg-blue-600 text-white rounded text-xs font-medium hover:bg-blue-700">
@@ -384,11 +412,13 @@ function JobBoardBox({ occ, onAction, manpowers, userRole, isAdmin }) {
   );
 }
 
+
 // ── Main PdmTaskBoard ────────────────────────────────────────────────────────
 export default function PdmTaskBoard() {
   const [tab, setTab] = useState('WORKFLOW');
   const [workflowTasks, setWorkflowTasks] = useState([]);
-  const [jobBoard, setJobBoard] = useState([]);
+  const [dcTasks, setDcTasks] = useState([]);        // Job Board: DC tasks tersedia
+  const [analysisTasks, setAnalysisTasks] = useState([]); // Job Board: Analyst tasks tersedia
   const [manpowers, setManpowers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [filterMonth, setFilterMonth] = useState(new Date().getMonth() + 1);
@@ -418,7 +448,18 @@ export default function PdmTaskBoard() {
         fetch(`${api}/api/pdm-schedule/job-board?${params}`, { headers }),
       ]);
       if (wfRes.ok) setWorkflowTasks(await wfRes.json());
-      if (jbRes.ok) setJobBoard(await jbRes.json());
+      if (jbRes.ok) {
+        const jbData = await jbRes.json();
+        // Backend sekarang mengembalikan { dcTasks, analysisTasks, items }
+        if (jbData && typeof jbData === 'object' && 'dcTasks' in jbData) {
+          setDcTasks(jbData.dcTasks || []);
+          setAnalysisTasks(jbData.analysisTasks || []);
+        } else {
+          // Fallback jika backend masih return array lama
+          setDcTasks(Array.isArray(jbData) ? jbData : []);
+          setAnalysisTasks([]);
+        }
+      }
     } catch (e) { console.error(e); }
     finally { setLoading(false); }
   }, [filterMonth, filterYear]);
@@ -449,9 +490,13 @@ export default function PdmTaskBoard() {
     ? workflowTasks.filter(t => t.workflowStage === filterStage)
     : workflowTasks;
 
+  const isAnalystUser = userRole === 'analyst';
+  const isAdminUser = ['admin', 'manager', 'supervisor'].includes(userRole);
+  const totalJobBoard = dcTasks.length + analysisTasks.length;
+
   const tabCounts = {
     WORKFLOW: workflowTasks.length,
-    JOB_BOARD: jobBoard.length,
+    JOB_BOARD: totalJobBoard,
   };
 
   return (
@@ -515,25 +560,105 @@ export default function PdmTaskBoard() {
           <div className="text-center py-20 text-gray-400">
             <ClipboardList className="w-12 h-12 mx-auto mb-3 text-gray-300" />
             <p>Tidak ada task aktif untuk Anda bulan ini.</p>
+            {(userRole === 'analyst' || userRole === 'data_collector') && (
+              <p className="text-xs mt-2 text-blue-400">Cek <strong>Job Board</strong> untuk mengambil task baru di area Anda.</p>
+            )}
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredWorkflow.map(occ => (
-              <TaskBox key={occ.id} occ={occ} onAction={handleAction} manpowers={manpowers} userRole={userRole} userMpId={userMpId} />
+              <TaskBox 
+                key={occ.id} 
+                occ={occ} 
+                onAction={handleAction} 
+                manpowers={manpowers} 
+                userRole={userRole} 
+                userMpId={userMpId}
+                isAdmin={isAdminUser} 
+              />
             ))}
           </div>
         )
       ) : (
-        jobBoard.length === 0 ? (
+        /* ── JOB BOARD TAB ── */
+        totalJobBoard === 0 ? (
           <div className="text-center py-20 text-gray-400">
             <CheckCircle className="w-12 h-12 mx-auto mb-3 text-green-300" />
-            <p>Tidak ada task yang belum memiliki PIC.</p>
+            <p>Tidak ada task yang belum memiliki PIC di area Anda.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {jobBoard.map(occ => (
-              <JobBoardBox key={occ.id} occ={occ} onAction={handleAction} manpowers={manpowers} userRole={userRole} isAdmin={['admin', 'superadmin', 'supervisor'].includes(userRole)} />
-            ))}
+          <div className="space-y-6">
+
+            {/* Section: Task DC Tersedia */}
+            {(dcTasks.length > 0 && !isAnalystUser) || isAdminUser ? (
+              dcTasks.length > 0 ? (
+                <div>
+                  <div className="flex items-center gap-2 mb-3">
+                    <Database className="w-4 h-4 text-blue-500" />
+                    <h3 className="text-sm font-bold text-gray-700">
+                      Task Data Collection Tersedia
+                      <span className="ml-2 px-2 py-0.5 bg-blue-100 text-blue-700 rounded-full text-xs">{dcTasks.length}</span>
+                    </h3>
+                    <span className="text-xs text-gray-400">— Belum ada Data Collector</span>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {dcTasks.map(occ => (
+                      <JobBoardBox 
+                        key={occ.id} 
+                        occ={occ} 
+                        onAction={handleAction} 
+                        manpowers={manpowers} 
+                        userRole={userRole} 
+                        isAdmin={isAdminUser}
+                        claimLabel="Ambil Task DC"
+                        claimAction="claim"
+                        badgeColor="bg-blue-500"
+                        badgeLabel="DC Collection"
+                      />
+                    ))}
+                  </div>
+                </div>
+              ) : null
+            ) : null}
+
+            {/* Section: Task Analisis Tersedia — untuk Analyst + Admin */}
+            {(isAnalystUser || isAdminUser) && analysisTasks.length > 0 ? (
+              <div>
+                <div className="flex items-center gap-2 mb-3">
+                  <BarChart2 className="w-4 h-4 text-amber-500" />
+                  <h3 className="text-sm font-bold text-gray-700">
+                    Task Analisis Tersedia
+                    <span className="ml-2 px-2 py-0.5 bg-amber-100 text-amber-700 rounded-full text-xs">{analysisTasks.length}</span>
+                  </h3>
+                  <span className="text-xs text-gray-400">— DC sudah selesai, belum ada Analyst</span>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {analysisTasks.map(occ => (
+                    <JobBoardBox 
+                      key={occ.id} 
+                      occ={occ} 
+                      onAction={handleAction} 
+                      manpowers={manpowers} 
+                      userRole={userRole} 
+                      isAdmin={isAdminUser}
+                      claimLabel="Ambil Analisis"
+                      claimAction="claim"
+                      badgeColor="bg-amber-500"
+                      badgeLabel="Analisis"
+                    />
+                  ))}
+                </div>
+              </div>
+            ) : null}
+
+            {/* Pesan jika analyst tidak lihat DC tasks */}
+            {isAnalystUser && dcTasks.length > 0 && analysisTasks.length === 0 && (
+              <div className="text-center py-8 text-gray-400">
+                <p className="text-sm">Ada {dcTasks.length} task DC yang sedang dalam proses pengumpulan data.</p>
+                <p className="text-xs mt-1">Task analisis akan muncul setelah DC selesai.</p>
+              </div>
+            )}
+
           </div>
         )
       )}

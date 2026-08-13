@@ -288,6 +288,23 @@ export const getMyTasks = async (req, res) => {
   }
 };
 
+// Helper: build strict area filter dari sub_area string
+// "P6 PPHS & OSBL" → exact subArea equals match agar tidak cross ke "Utility & Urea"
+function buildStrictAreaFilter(userSubArea) {
+  if (!userSubArea) return null;
+  const norm = userSubArea.trim();
+  const match = norm.match(/^(?:Pabrik\s+|P)(\d[A-Z]?)\s+(.+)$/i);
+  if (match) {
+    return {
+      rule: {
+        pabrik: { nama_pabrik: { contains: match[1], mode: 'insensitive' } },
+        subArea: { equals: match[2].trim(), mode: 'insensitive' } // exact ≠ contains
+      }
+    };
+  }
+  return { rule: { subArea: { equals: norm, mode: 'insensitive' } } };
+}
+
 export const getJobBoard = async (req, res) => {
   try {
     const { year, month } = req.query;
@@ -296,43 +313,65 @@ export const getJobBoard = async (req, res) => {
     const m = month ? parseInt(month) : now.getMonth() + 1;
 
     const { manpowerId, userSubArea, userRole, isAdmin } = await getUserAreaContext(req);
-    const isSpecialRole = isAdmin || ['analyst', 'avp'].includes((userRole || '').toLowerCase());
+    const role = (userRole || '').toLowerCase();
+    const isAnalyst = role === 'analyst';
 
-    // Bikin filter berdasarkan userSubArea (contoh: "P6 PPHS & OSBL" -> pabrik 6, baseArea "PPHS & OSBL")
-    let areaFilter = {};
-    if (userSubArea && !isSpecialRole) {
-      const match = userSubArea.match(/^(?:Pabrik\s+|P)(\d[A-Z]?)\s+(.+)$/i);
-      if (match) {
-        const pabrikCode = match[1]; // e.g. "6" or "1A"
-        areaFilter = { 
-          rule: { 
-            pabrik: { nama_pabrik: { contains: pabrikCode, mode: 'insensitive' } },
-            subArea: { contains: match[2].trim(), mode: 'insensitive' } 
-          } 
-        };
-      } else {
-        areaFilter = { rule: { subArea: { contains: userSubArea, mode: 'insensitive' } } };
-      }
-    }
+    // ============================================================
+    // DC/Staff: lihat task SCHEDULED (belum di-claim) di areanya
+    // Analyst: lihat task ANALYSIS (belum ada analystId) di areanya
+    //          + task SCHEDULED jika ternyata DC belum ada
+    // Admin: lihat semua
+    // ============================================================
 
-    // Filter SCHEDULED tasks berdasarkan area user (jika sub_area diset), HANYA JIKA BUKAN ADMIN/ANALYST/AVP
-    const where = {
+    const areaFilter = buildStrictAreaFilter(userSubArea);
+
+    // Section 1: Task DC tersedia (status=SCHEDULED, workflowStage=DC_COLLECTION)
+    // Semua role bisa lihat ini, tapi filter area berlaku untuk non-admin
+    const dcWhere = {
       status: 'SCHEDULED',
-      year: y,
-      month: m,
-      ...areaFilter
+      workflowStage: 'DC_COLLECTION',
+      year: y, month: m,
+      ...((!isAdmin && areaFilter) ? areaFilter : {})
     };
 
-    const occurrences = await prisma.pdmScheduleOccurrence.findMany({
-      where,
-      include: {
-        rule: { include: { pabrik: true } },
-        dataCollector: { select: { id: true, name: true, npk: true } },
-        analyst: { select: { id: true, name: true, npk: true } },
-      },
-      orderBy: { scheduledDate: 'asc' }
+    // Section 2: Task Analisis tersedia (workflowStage=ANALYSIS, analystId null)
+    // Hanya relevan untuk Analyst dan Admin
+    const analystWhere = {
+      workflowStage: 'ANALYSIS',
+      analystId: null,
+      year: y, month: m,
+      ...((!isAdmin && areaFilter) ? areaFilter : {})
+    };
+
+    // Jalankan query sesuai role
+    const [dcTasks, analysisTasks] = await Promise.all([
+      prisma.pdmScheduleOccurrence.findMany({
+        where: dcWhere,
+        include: {
+          rule: { include: { pabrik: true } },
+          dataCollector: { select: { id: true, name: true, npk: true } },
+          analyst: { select: { id: true, name: true, npk: true } },
+        },
+        orderBy: { scheduledDate: 'asc' }
+      }),
+      (isAnalyst || isAdmin) ? prisma.pdmScheduleOccurrence.findMany({
+        where: analystWhere,
+        include: {
+          rule: { include: { pabrik: true } },
+          dataCollector: { select: { id: true, name: true, npk: true } },
+          analyst: { select: { id: true, name: true, npk: true } },
+        },
+        orderBy: { scheduledDate: 'asc' }
+      }) : Promise.resolve([])
+    ]);
+
+    // Return response dengan struktur terpisah
+    res.json({
+      dcTasks,         // Task DC tersedia (belum di-claim)
+      analysisTasks,   // Task Analisis tersedia (belum ada analyst)
+      // Untuk backward compat: field 'items' berisi gabungan sesuai role
+      items: isAnalyst ? analysisTasks : dcTasks,
     });
-    res.json(occurrences);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -345,39 +384,92 @@ export const getJobBoard = async (req, res) => {
 export const claimTask = async (req, res) => {
   try {
     const { id } = req.params;
-    const { manpowerId, userSubArea, isAdmin } = await getUserAreaContext(req);
+    const { manpowerId, userSubArea, userRole, isAdmin } = await getUserAreaContext(req);
     if (!manpowerId) return res.status(403).json({ error: 'User tidak terhubung ke manpower' });
 
     const occ = await prisma.pdmScheduleOccurrence.findUnique({
       where: { id: parseInt(id) },
-      include: { rule: { select: { subArea: true, pabrik_id: true } } }
+      include: { rule: { include: { pabrik: true } } }
     });
     if (!occ) return res.status(404).json({ error: 'Task tidak ditemukan' });
-    if (occ.status !== 'SCHEDULED') return res.status(400).json({ error: 'Task sudah di-claim atau tidak tersedia' });
 
-    // Guard area: user hanya boleh claim task di area yang sama, kecuali admin
+    const taskStage = occ.workflowStage;
+    const taskSubArea = occ.rule?.subArea;
+    const taskPabrikNama = occ.rule?.pabrik?.nama_pabrik || '';
+    const role = (userRole || '').toLowerCase();
+
+    // Validasi: status harus SCHEDULED (untuk DC) atau ANALYSIS tanpa analystId (untuk Analyst)
+    const isDcClaim = taskStage === 'DC_COLLECTION' && occ.status === 'SCHEDULED';
+    const isAnalystClaim = taskStage === 'ANALYSIS' && !occ.analystId;
+
+    if (!isDcClaim && !isAnalystClaim) {
+      return res.status(400).json({
+        error: isDcClaim === false && taskStage === 'DC_COLLECTION'
+          ? 'Task sudah di-claim atau tidak tersedia'
+          : taskStage === 'ANALYSIS'
+            ? 'Task analisis ini sudah memiliki analyst'
+            : `Task tidak dapat di-claim pada stage ini (${taskStage})`
+      });
+    }
+
+    // Validasi role: Analyst tidak bisa claim DC task, DC tidak bisa claim Analyst task
+    if (!isAdmin) {
+      if (isAnalystClaim && role !== 'analyst') {
+        return res.status(403).json({ error: 'Hanya Analyst yang dapat mengambil task analisis' });
+      }
+      if (isDcClaim && role === 'analyst') {
+        return res.status(403).json({ error: 'Analyst tidak dapat mengambil task Data Collection' });
+      }
+    }
+
+    // Guard area: EXACT match — P6 PPHS & OSBL harus sama persis dengan subArea task
     if (!isAdmin && userSubArea) {
-      const taskSubArea = occ.rule?.subArea;
-      
-      let isSubAreaMatch = false;
-      const match = userSubArea.match(/^(P\d[A-Z]?)\s+(.+)$/i);
-      if (match) {
-        isSubAreaMatch = taskSubArea && taskSubArea.toLowerCase().includes(match[2].trim().toLowerCase());
+      const norm = (s) => (s || '').toLowerCase().replace(/\s+/g, ' ').trim();
+      const matchUser = userSubArea.trim().match(/^(?:Pabrik\s+|P)(\d[A-Z]?)\s+(.+)$/i);
+
+      let isAreaMatch = false;
+      if (matchUser) {
+        const pabrikCode = matchUser[1];
+        const areaName   = norm(matchUser[2]);
+        // Pabrik harus mengandung kode yang sama + area harus EXACT match
+        const pabrikMatch = taskPabrikNama.toLowerCase().includes(pabrikCode.toLowerCase());
+        const subAreaMatch = norm(taskSubArea) === areaName;
+        isAreaMatch = pabrikMatch && subAreaMatch;
       } else {
-        isSubAreaMatch = taskSubArea && taskSubArea.toLowerCase() === userSubArea.toLowerCase();
+        isAreaMatch = norm(taskSubArea) === norm(userSubArea);
       }
 
-      const areaMatch = !taskSubArea || isSubAreaMatch;
       const hasDelegation = await hasCrossDelegation(manpowerId, parseInt(id));
-      if (!areaMatch && !hasDelegation) {
-        return res.status(403).json({ error: `Anda hanya dapat claim task di area Anda (${userSubArea}). Task ini berada di area ${taskSubArea}.` });
+      if (!isAreaMatch && !hasDelegation) {
+        return res.status(403).json({
+          error: `Anda hanya dapat claim task di area Anda (${userSubArea}). Task ini berada di area ${taskPabrikNama} → ${taskSubArea}.`
+        });
       }
+    }
+
+    // Set field yang tepat sesuai stage:
+    // DC_COLLECTION → dataCollectorId + assignedToId
+    // ANALYSIS      → analystId + assignedToId
+    const updateData = {
+      assignedToId: manpowerId,
+      status: 'ASSIGNED',
+      claimedAt: new Date()
+    };
+    if (isDcClaim) {
+      updateData.dataCollectorId = manpowerId;
+    } else if (isAnalystClaim) {
+      updateData.analystId = manpowerId;
     }
 
     const updated = await prisma.pdmScheduleOccurrence.update({
       where: { id: parseInt(id) },
-      data: { assignedToId: manpowerId, status: 'ASSIGNED', claimedAt: new Date() },
-      include: { rule: { include: { pabrik: true } }, assignedTo: { select: { id: true, name: true } } }
+      data: updateData,
+      include: {
+        rule: { include: { pabrik: true } },
+        assignedTo: { select: { id: true, name: true } },
+        dataCollector: { select: { id: true, name: true } },
+        analyst: { select: { id: true, name: true } }
+      }
     });
     res.json(updated);
   } catch (err) {

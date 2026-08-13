@@ -148,7 +148,7 @@ function EditRosterModal({ pabrikEntry, criticality, manpowers, api, headers, pe
             ruleId: parseInt(ruleId), 
             year, 
             month, 
-            picId: sel.picIds?.length > 0 ? sel.picIds[0] : (sel.picId ? parseInt(sel.picId) : null),
+            picId: null, // Set null so tasks become SCHEDULED for Analyst team to claim
             picIds: sel.picIds || [],
             dataCollectorIds: sel.dataCollectorIds,
             gtgDataCollectorIds: sel.gtgDataCollectorIds

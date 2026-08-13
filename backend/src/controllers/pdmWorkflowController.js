@@ -125,7 +125,8 @@ export const finishDataCollection = async (req, res) => {
     // Tentukan analyst: pakai analystId jika ada, jika tidak pakai override picId, lalu defaultPicId dari rule
     const override = occFull.rule?.monthlyPicOverrides?.find(o => o.year === occFull.year && o.month === occFull.month);
     const defaultPicId = override?.picId || occFull.rule?.defaultPicId;
-    const nextAssignedToId = occFull.analystId || defaultPicId || occFull.assignedToId;
+    const nextAssignedToId = occFull.analystId || defaultPicId || null;
+    const nextStatus = nextAssignedToId ? 'ASSIGNED' : 'SCHEDULED';
 
     ops.push(
       prisma.pdmScheduleOccurrence.update({
@@ -133,7 +134,7 @@ export const finishDataCollection = async (req, res) => {
         data: {
           workflowStage: 'ANALYSIS',
           dcFinishedAt: now,
-          status: 'ASSIGNED',
+          status: nextStatus,
           assignedToId: nextAssignedToId,
           totalHoldMinutes: { increment: holdDuration }
         },
@@ -538,11 +539,11 @@ export const getAreaDashboard = async (req, res) => {
   }
 };
 
-
 // ============================================================
 // MY WORKFLOW TASKS — berdasar role, stage, dan area (sub_area)
 // ============================================================
 export const getMyWorkflowTasks = async (req, res) => {
+
   try {
     const manpowerId = req.user?.man_power_id;
     const role = req.user?.role;
@@ -551,9 +552,7 @@ export const getMyWorkflowTasks = async (req, res) => {
     const y = year ? parseInt(year) : now.getFullYear();
     const m = month ? parseInt(month) : now.getMonth() + 1;
 
-    let where = { year: y, month: m, status: { notIn: ['CANCELLED'] } };
-
-    // Ambil sub_area dari ManPower jika ada
+    // Ambil sub_area + division dari ManPower user
     let userSubArea = null;
     if (manpowerId) {
       const mp = await prisma.manPower.findUnique({
@@ -563,40 +562,112 @@ export const getMyWorkflowTasks = async (req, res) => {
       userSubArea = mp?.sub_area || null;
     }
 
-    // Tambah filter subArea ke rule jika user punya sub_area assignment
-    let ruleAreaFilter = {};
-    if (userSubArea) {
-      const match = userSubArea.match(/^(?:Pabrik\s+|P)(\d[A-Z]?)\s+(.+)$/i);
+    // ============================================================
+    // buildAreaRuleFilter: membangun filter strict Pabrik+Area
+    // sub_area format: "P6 PPHS & OSBL" atau "Pabrik 6 PPHS & OSBL"
+    // Gunakan EQUALS (bukan contains) agar P6 PPHS & OSBL ≠ P6 Utility & Urea
+    // ============================================================
+    const buildAreaRuleFilter = (subArea) => {
+      if (!subArea) return null;
+      const norm = subArea.trim();
+      const match = norm.match(/^(?:Pabrik\s+|P)(\d[A-Z]?)\s+(.+)$/i);
       if (match) {
-        const pabrikCode = match[1]; // e.g. "6" or "1A"
-        ruleAreaFilter = { 
-          rule: { 
+        const pabrikCode = match[1]; // e.g. "6"
+        const areaName   = match[2].trim(); // e.g. "PPHS & OSBL"
+        return {
+          rule: {
             pabrik: { nama_pabrik: { contains: pabrikCode, mode: 'insensitive' } },
-            subArea: { contains: match[2].trim(), mode: 'insensitive' } 
-          } 
+            subArea: { equals: areaName, mode: 'insensitive' } // exact: PPHS & OSBL ≠ Utility & Urea
+          }
         };
-      } else {
-        ruleAreaFilter = { rule: { subArea: { contains: userSubArea, mode: 'insensitive' } } };
       }
+      // Fallback: exact match seluruh sub_area string
+      return { rule: { subArea: { equals: norm, mode: 'insensitive' } } };
+    };
+
+    const areaFilter = buildAreaRuleFilter(userSubArea);
+
+    // ============================================================
+    // Bangun where clause berdasarkan role
+    // Prinsip:
+    // - Analyst    : hanya lihat task stage ANALYSIS di areanya
+    //                ATAU task yang dia sudah jadi analystId
+    // - DataCollector: hanya lihat task stage DC_COLLECTION di areanya
+    //                ATAU task yang dia sudah jadi dataCollectorId
+    // - AVP        : hanya lihat task stage AVP_APPROVAL di areanya
+    //                ATAU task yang dia sudah jadi avpId
+    // - Admin/Manager: lihat semua stage, filter area jika punya sub_area
+    // - Staff/lain : hanya task yang di-assign ke dia (semua stage)
+    // ============================================================
+    const mpId = manpowerId ? parseInt(manpowerId) : null;
+    let where = { year: y, month: m, status: { notIn: ['CANCELLED'] } };
+
+    if (!mpId) {
+      // Tidak ada manpower context → return empty (jangan tampilkan semua)
+      return res.json([]);
     }
 
-    if (manpowerId) {
-      const mpId = parseInt(manpowerId);
-      if (role === 'admin' || role === 'manager') {
-        // admin/manager: lihat semua, difilter berdasar area jika punya sub_area
-        where = { year: y, month: m, status: { notIn: ['CANCELLED'] }, ...(userSubArea ? ruleAreaFilter : {}) };
-      } else {
-        // user biasa: lihat task yang sedang di-assign ke dia, atau yang pernah dia kerjakan
-        where = {
-          ...where,
-          OR: [
-            { assignedToId: mpId },
-            { dataCollectorId: mpId },
-            { analystId: mpId },
-            { avpId: mpId }
-          ]
-        };
-      }
+    if (role === 'admin' || role === 'manager' || role === 'supervisor') {
+      // Admin/manager/supervisor: lihat semua stage
+      // Filter area jika mereka punya sub_area assignment
+      where = {
+        year: y, month: m, status: { notIn: ['CANCELLED'] },
+        ...(areaFilter || {})
+      };
+
+    } else if (role === 'analyst') {
+      // Analyst: HANYA stage ANALYSIS
+      // Task yang terlihat:
+      // 1. Task yang sudah di-assign ke dia (analystId atau assignedToId)
+      // 2. Task di area tanggung jawabnya yang belum ada analyst (team pilih siapa)
+      where = {
+        year: y, month: m, status: { notIn: ['CANCELLED'] },
+        workflowStage: 'ANALYSIS',
+        OR: [
+          { analystId: mpId },
+          { assignedToId: mpId },
+          ...(areaFilter ? [areaFilter] : [])
+        ]
+      };
+
+    } else if (role === 'data_collector') {
+      // Data Collector: HANYA stage DC_COLLECTION
+      // Task yang terlihat:
+      // 1. Task yang sudah di-assign ke dia (dataCollectorId atau assignedToId)
+      // 2. Task di area tanggung jawabnya yang belum ada DC (team pilih siapa)
+      where = {
+        year: y, month: m, status: { notIn: ['CANCELLED'] },
+        workflowStage: 'DC_COLLECTION',
+        OR: [
+          { dataCollectorId: mpId },
+          { assignedToId: mpId },
+          ...(areaFilter ? [areaFilter] : [])
+        ]
+      };
+
+    } else if (role?.startsWith('avp')) {
+      // AVP: HANYA stage AVP_APPROVAL
+      where = {
+        year: y, month: m, status: { notIn: ['CANCELLED'] },
+        workflowStage: 'AVP_APPROVAL',
+        OR: [
+          { avpId: mpId },
+          { assignedToId: mpId },
+          ...(areaFilter ? [areaFilter] : [])
+        ]
+      };
+
+    } else {
+      // Staff/technician/lain: hanya task yang di-assign ke dia (semua stage)
+      where = {
+        ...where,
+        OR: [
+          { assignedToId: mpId },
+          { dataCollectorId: mpId },
+          { analystId: mpId },
+          { avpId: mpId }
+        ]
+      };
     }
 
     const occurrences = await prisma.pdmScheduleOccurrence.findMany({
@@ -632,7 +703,6 @@ export const getMyWorkflowTasks = async (req, res) => {
 
 // ============================================================
 // WORKFLOW LOG per Occurrence
-// ============================================================
 export const getWorkflowLogs = async (req, res) => {
   try {
     const { id } = req.params;
