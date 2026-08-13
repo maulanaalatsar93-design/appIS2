@@ -118,6 +118,20 @@ function TaskBox({ occ, onAction, manpowers, userRole, userMpId, isAdmin: global
   const [showHoldModal, setShowHoldModal] = useState(false);
   const [showRejectModal, setShowRejectModal] = useState(false);
 
+  const isAdmin = globalIsAdmin || ['admin', 'manager', 'supervisor'].includes(userRole);
+
+  // Filter manpower based on role and area
+  const filteredManpowers = (Array.isArray(manpowers) ? manpowers : []).filter(m => {
+    if (!m) return false;
+    if (isAdmin || ['admin', 'manager', 'supervisor', 'avp'].includes((userRole || '').toLowerCase())) return true;
+    if ((userRole || '').toLowerCase() === 'analyst') {
+      const occArea = `${occ?.rule?.pabrik?.nama_pabrik || ''} ${occ?.rule?.subArea || ''}`.trim().toLowerCase();
+      const mArea = (m.sub_area || '').toLowerCase();
+      return mArea === occArea;
+    }
+    return true;
+  });
+
   const now = new Date();
   const daysLate = !['COMPLETED', 'CANCELLED'].includes(occ.status) && occ.workflowStage !== 'CLOSED'
     ? Math.max(0, Math.floor((now - new Date(occ.scheduledDate)) / 86400000))
@@ -131,7 +145,6 @@ function TaskBox({ occ, onAction, manpowers, userRole, userMpId, isAdmin: global
   const fmt = d => d ? new Date(d).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' }) : '-';
 
   // Role-based action visibility
-  const isAdmin = globalIsAdmin || ['admin', 'manager', 'supervisor'].includes(userRole);
   const isDC = ['staff', 'data_collector', 'technician'].includes(userRole);
   const isAnalyst = userRole === 'analyst';
   const isAVP = userRole?.startsWith('avp');
@@ -286,11 +299,11 @@ function TaskBox({ occ, onAction, manpowers, userRole, userMpId, isAdmin: global
 
         {/* Reassign Form */}
         {reassignOpen && (
-          <div className="bg-white border border-gray-200 rounded-lg p-3 space-y-2">
+          <div className="bg-gray-50 border border-gray-200 rounded-lg p-3 space-y-2">
             <p className="text-xs font-semibold text-gray-600">Ganti PIC</p>
             <select value={newPicId} onChange={e => setNewPicId(e.target.value)} className="w-full text-xs border border-gray-200 rounded p-2">
               <option value="">-- Pilih PIC Baru --</option>
-              {manpowers.map(m => <option key={m.id} value={m.id}>{m.name} – {m.position}</option>)}
+              {filteredManpowers.map(m => <option key={m.id} value={m.id}>{m.name} – {m.position} ({m.sub_area || 'No Area'})</option>)}
             </select>
             <input value={reasonInput} onChange={e => setReasonInput(e.target.value)} placeholder="Alasan (wajib)" className="w-full text-xs border border-gray-200 rounded p-2" />
             <div className="flex gap-2">
@@ -328,6 +341,18 @@ function JobBoardBox({ occ, onAction, manpowers, userRole, isAdmin,
   const [reassignOpen, setReassignOpen] = useState(false);
   const [newPicId, setNewPicId] = useState('');
   const [reasonInput, setReasonInput] = useState('');
+
+  // Filter manpower based on role and area
+  const filteredManpowers = (Array.isArray(manpowers) ? manpowers : []).filter(m => {
+    if (!m) return false;
+    if (isAdmin || ['admin', 'manager', 'supervisor', 'avp'].includes((userRole || '').toLowerCase())) return true;
+    if ((userRole || '').toLowerCase() === 'analyst') {
+      const occArea = `${occ?.rule?.pabrik?.nama_pabrik || ''} ${occ?.rule?.subArea || ''}`.trim().toLowerCase();
+      const mArea = (m.sub_area || '').toLowerCase();
+      return mArea === occArea;
+    }
+    return true;
+  });
   
   const isSpecialRole = isAdmin || ['analyst', 'avp'].includes((userRole || '').toLowerCase());
   const fmt = d => d ? new Date(d).toLocaleDateString('id-ID', { day: '2-digit', month: 'short' }) : '-';
@@ -387,7 +412,7 @@ function JobBoardBox({ occ, onAction, manpowers, userRole, isAdmin,
             <p className="text-xs font-semibold text-gray-600">Assign Langsung ke Personel</p>
             <select value={newPicId} onChange={e => setNewPicId(e.target.value)} className="w-full text-xs border border-gray-200 rounded p-2">
               <option value="">-- Pilih Personel --</option>
-              {manpowers.map(m => <option key={m.id} value={m.id}>{m.name} – {m.position} ({m.sub_area || 'No Area'})</option>)}
+              {filteredManpowers.map(m => <option key={m.id} value={m.id}>{m.name} – {m.position} ({m.sub_area || 'No Area'})</option>)}
             </select>
             <input value={reasonInput} onChange={e => setReasonInput(e.target.value)} placeholder="Alasan / Ket. (wajib)" className="w-full text-xs border border-gray-200 rounded p-2" />
             <div className="flex gap-2">
@@ -439,6 +464,8 @@ export default function PdmTaskBoard() {
   useEffect(() => { fetchAll(); }, [filterMonth, filterYear, tab]);
   useEffect(() => { fetchManpowers(); }, []);
 
+  const safeArray = (data) => Array.isArray(data) ? data : [];
+
   const fetchAll = useCallback(async () => {
     setLoading(true);
     try {
@@ -447,7 +474,11 @@ export default function PdmTaskBoard() {
         fetch(`${api}/api/pdm-schedule/workflow-tasks?${params}`, { headers }),
         fetch(`${api}/api/pdm-schedule/job-board?${params}`, { headers }),
       ]);
-      if (wfRes.ok) setWorkflowTasks(await wfRes.json());
+      
+      if (wfRes.ok) {
+        const wfData = await wfRes.json();
+        setWorkflowTasks(safeArray(wfData));
+      }
       if (jbRes.ok) {
         const jbData = await jbRes.json();
         // Backend sekarang mengembalikan { dcTasks, analysisTasks, items }
@@ -465,8 +496,15 @@ export default function PdmTaskBoard() {
   }, [filterMonth, filterYear]);
 
   const fetchManpowers = async () => {
-    const res = await fetch(`${api}/api/dashboard/manpower`, { headers });
-    if (res.ok) setManpowers(await res.json());
+    try {
+      const res = await fetch(`${api}/api/dashboard/manpower`, { headers });
+      if (res.ok) {
+        const data = await res.json();
+        setManpowers(safeArray(data));
+      }
+    } catch (e) {
+      setManpowers([]);
+    }
   };
 
   const handleAction = async (action, id, extra = {}) => {

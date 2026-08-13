@@ -630,12 +630,29 @@ export const reassignPic = async (req, res) => {
     const { id } = req.params;
     const { newPicId, reason } = req.body;
     const manpowerId = req.user?.man_power_id;
+    const role = (req.user?.role || '').toLowerCase();
 
     if (!newPicId || !reason) return res.status(400).json({ error: 'newPicId dan reason wajib diisi' });
 
-    const occ = await prisma.pdmScheduleOccurrence.findUnique({ where: { id: parseInt(id) } });
+    const occ = await prisma.pdmScheduleOccurrence.findUnique({ 
+      where: { id: parseInt(id) },
+      include: { rule: { include: { pabrik: true } } }
+    });
     if (!occ) return res.status(404).json({ error: 'Occurrence tidak ditemukan' });
     if (['COMPLETED', 'CANCELLED'].includes(occ.status)) return res.status(400).json({ error: 'Task sudah selesai/dibatalkan' });
+
+    // Validate area for analyst
+    if (role === 'analyst') {
+      const newPic = await prisma.manPower.findUnique({ where: { id: parseInt(newPicId) } });
+      if (!newPic) return res.status(404).json({ error: 'Personel PIC baru tidak ditemukan' });
+      
+      const occArea = `${occ.rule?.pabrik?.nama_pabrik || ''} ${occ.rule?.subArea || ''}`.trim().toLowerCase();
+      const mArea = (newPic.sub_area || '').toLowerCase();
+      
+      if (mArea !== occArea) {
+        return res.status(403).json({ error: `Akses ditolak: Anda hanya dapat menugaskan PIC yang berada di area task ini (${occArea})` });
+      }
+    }
 
     const [updated] = await prisma.$transaction([
       prisma.pdmScheduleOccurrence.update({
