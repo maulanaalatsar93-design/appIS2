@@ -546,9 +546,20 @@ export const getMyWorkflowTasks = async (req, res) => {
     }
 
     // Tambah filter subArea ke rule jika user punya sub_area assignment
-    const ruleAreaFilter = userSubArea
-      ? { rule: { subArea: { equals: userSubArea, mode: 'insensitive' } } }
-      : {};
+    let ruleAreaFilter = {};
+    if (userSubArea) {
+      const match = userSubArea.match(/^(P\d[A-Z]?)\s+(.+)$/i);
+      if (match) {
+        ruleAreaFilter = { 
+          rule: { 
+            pabrik: { nama_pabrik: { startsWith: match[1], mode: 'insensitive' } },
+            subArea: { contains: match[2].trim(), mode: 'insensitive' } 
+          } 
+        };
+      } else {
+        ruleAreaFilter = { rule: { subArea: { contains: userSubArea, mode: 'insensitive' } } };
+      }
+    }
 
     if (manpowerId) {
       const mpId = parseInt(manpowerId);

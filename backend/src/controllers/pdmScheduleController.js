@@ -298,12 +298,28 @@ export const getJobBoard = async (req, res) => {
     const { manpowerId, userSubArea, userRole, isAdmin } = await getUserAreaContext(req);
     const isSpecialRole = isAdmin || ['analyst', 'avp'].includes((userRole || '').toLowerCase());
 
+    // Bikin filter berdasarkan userSubArea (contoh: "P6 PPHS & OSBL" -> pabrik 6, baseArea "PPHS & OSBL")
+    let areaFilter = {};
+    if (userSubArea && !isSpecialRole) {
+      const match = userSubArea.match(/^(P\d[A-Z]?)\s+(.+)$/i);
+      if (match) {
+        areaFilter = { 
+          rule: { 
+            pabrik: { nama_pabrik: { startsWith: match[1], mode: 'insensitive' } },
+            subArea: { contains: match[2].trim(), mode: 'insensitive' } 
+          } 
+        };
+      } else {
+        areaFilter = { rule: { subArea: { contains: userSubArea, mode: 'insensitive' } } };
+      }
+    }
+
     // Filter SCHEDULED tasks berdasarkan area user (jika sub_area diset), HANYA JIKA BUKAN ADMIN/ANALYST/AVP
     const where = {
       status: 'SCHEDULED',
       year: y,
       month: m,
-      ...(userSubArea && !isSpecialRole ? { rule: { subArea: { equals: userSubArea, mode: 'insensitive' } } } : {})
+      ...areaFilter
     };
 
     const occurrences = await prisma.pdmScheduleOccurrence.findMany({
