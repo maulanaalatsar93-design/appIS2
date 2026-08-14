@@ -4,7 +4,7 @@ import { AuthContext } from '../context/AuthContext';
 import { ShieldCheck, Loader2, Mail, Lock, Eye, EyeOff, ArrowRight, Cpu, Activity, BarChart2, User } from 'lucide-react';
 import logoImg from '../assets/logo.png';
 import brandIconImg from '../assets/brand-icon.png';
-import { playSubmitSound, playSuccessSound, playErrorSound } from '../utils/soundUtils';
+import { playSubmitSound, playSuccessSound, playErrorSound, playSiuuuSound } from '../utils/soundUtils';
 
 export default function Login() {
   const [npk, setNpk] = useState('');
@@ -30,7 +30,11 @@ export default function Login() {
       });
       const data = await response.json();
       if (response.ok) {
-        playSuccessSound();
+        if (data.user?.npk === 'K257612' || data.user?.npk?.toUpperCase() === 'K257612') {
+          playSiuuuSound();
+        } else {
+          playSuccessSound();
+        }
         login(data.token, data.user);
         navigate('/');
       } else {

@@ -39,7 +39,7 @@ export const playSubmitSound = () => {
 export const playSuccessSound = () => {
   try {
     initAudio();
-    
+
     // Nada 1
     const osc1 = audioCtx.createOscillator();
     const gain1 = audioCtx.createGain();
@@ -65,7 +65,7 @@ export const playSuccessSound = () => {
     gain2.connect(audioCtx.destination);
     osc2.start(audioCtx.currentTime + 0.1);
     osc2.stop(audioCtx.currentTime + 0.4);
-    
+
   } catch (e) {
     console.warn('Audio play failed', e);
   }
@@ -90,6 +90,15 @@ export const playErrorSound = () => {
 
     osc.start();
     osc.stop(audioCtx.currentTime + 0.2);
+  } catch (e) {
+    console.warn('Audio play failed', e);
+  }
+};
+
+export const playSiuuuSound = () => {
+  try {
+    const audio = new Audio('https://www.myinstants.com/media/sounds/cr7-siuu.mp3');
+    audio.play().catch(e => console.warn('Audio play failed', e));
   } catch (e) {
     console.warn('Audio play failed', e);
   }
