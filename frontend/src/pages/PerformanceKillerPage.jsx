@@ -301,7 +301,11 @@ export default function PerformanceKillerPage() {
                     <ReactQuill 
                       theme="snow"
                       value={formData.masalah}
-                      onChange={(val) => setFormData({...formData, masalah: val})}
+                      onChange={(val) => {
+                        if (val !== formData.masalah) {
+                          setFormData(prev => ({ ...prev, masalah: val }));
+                        }
+                      }}
                       className="h-32 mb-10"
                       modules={{
                         toolbar: [
@@ -320,7 +324,11 @@ export default function PerformanceKillerPage() {
                     <ReactQuill 
                       theme="snow"
                       value={formData.tindak_lanjut}
-                      onChange={(val) => setFormData({...formData, tindak_lanjut: val})}
+                      onChange={(val) => {
+                        if (val !== formData.tindak_lanjut) {
+                          setFormData(prev => ({ ...prev, tindak_lanjut: val }));
+                        }
+                      }}
                       className="h-32 mb-10"
                       modules={{
                         toolbar: [

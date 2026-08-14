@@ -23,9 +23,10 @@ export const authenticate = (req, res, next) => {
 export const protect = authenticate;
 export const authenticateToken = authenticate;
 
-export const authorize = (roles = []) => {
+export const authorize = (...allowedRoles) => {
+  const roles = allowedRoles.flat().map(r => typeof r === 'string' ? r.toLowerCase() : '');
   return (req, res, next) => {
-    if (!req.user || !roles.includes(req.user.role)) {
+    if (!req.user || !roles.includes((req.user.role || '').toLowerCase())) {
       return res.status(403).json({ message: 'Forbidden: Insufficient permissions' });
     }
     next();
