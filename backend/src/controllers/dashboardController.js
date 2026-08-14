@@ -895,14 +895,18 @@ export const getNotifications = async (req, res) => {
       const tasks = isAnalyst ? analysisTasks : dcTasks;
       
       tasks.forEach(t => {
+        const isAnalysisStage = t.workflowStage === 'ANALYSIS';
+        const actionLabel = isAnalysisStage ? 'Mulai Analisa' : 'Mulai Eksekusi';
+        
         notifications.push({
           id: `pdm-${t.id}`,
           title: `Tugas PdM: ${t.rule?.pabrik?.nama_pabrik} - ${t.rule?.subArea}`,
-          desc: `Tugas ${t.rule?.code} untuk bulan ini telah dijadwalkan dan siap dieksekusi.`,
+          desc: `Tugas ${t.rule?.code} untuk bulan ini telah siap di${isAnalysisStage ? 'analisa' : 'eksekusi'}.`,
           time: 'Bulan ini',
           type: 'info',
           action: 'start-pdm',
-          taskId: t.id
+          taskId: t.id,
+          actionLabel: actionLabel
         });
       });
     }

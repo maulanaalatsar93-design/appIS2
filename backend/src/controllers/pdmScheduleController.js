@@ -846,9 +846,8 @@ export const getCompletionByPabrik = async (req, res) => {
       const pabrik = occ.rule?.pabrik;
       if (!pabrik) continue;
 
-      const isPphsTask = (occ.rule.subArea || '').toUpperCase().includes('PPHS');
-      const key = isPphsTask ? `${pabrik.id}_PPHS` : `${pabrik.id}`;
-      const nama = isPphsTask ? `PPHS & OSBL (${pabrik.nama_pabrik})` : pabrik.nama_pabrik;
+      const key = pabrik.id.toString();
+      const nama = pabrik.nama_pabrik;
 
       if (!pabrikMap[key]) {
         pabrikMap[key] = { id: key, nama_pabrik: nama, total: 0, completed: 0, overdue: 0 };
@@ -910,9 +909,8 @@ export const getRoster = async (req, res) => {
     const pabrikMap = {}; // key: pabrik_id
 
     for (const rule of rules) {
-      const isPphsTask = (rule.subArea || '').toUpperCase().includes('PPHS');
-      const pid = isPphsTask ? `${rule.pabrik_id}_PPHS` : `${rule.pabrik_id}`;
-      const pNama = isPphsTask ? `PPHS & OSBL (${rule.pabrik?.nama_pabrik || '-'})` : (rule.pabrik?.nama_pabrik || '-');
+      const pid = rule.pabrik_id.toString();
+      const pNama = rule.pabrik?.nama_pabrik || '-';
 
       if (!pabrikMap[pid]) {
         pabrikMap[pid] = {

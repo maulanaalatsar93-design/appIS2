@@ -163,7 +163,7 @@ export default function Header({ isCollapsed, setIsCollapsed }) {
                         onClick={() => handleStartPdm(n.taskId)}
                         className="mt-2 w-full text-center py-1 bg-amber-500 hover:bg-amber-600 text-white rounded-md text-[10px] font-bold transition-colors"
                       >
-                        Mulai Eksekusi
+                        {n.actionLabel || 'Mulai Eksekusi'}
                       </button>
                     )}
                   </div>
