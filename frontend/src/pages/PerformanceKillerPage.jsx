@@ -5,7 +5,7 @@ import {
 } from 'lucide-react';
 
 export default function PerformanceKillerPage() {
-  const { user } = useContext(AuthContext);
+  const { user, token } = useContext(AuthContext);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -40,7 +40,7 @@ export default function PerformanceKillerPage() {
   const fetchPabrikList = async () => {
     try {
       // The endpoint requires authentication. Check if user token is available, if not, skip or handle appropriately.
-      const headers = user?.token ? { 'Authorization': `Bearer ${user.token}` } : {};
+      const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
       const res = await fetch((import.meta.env.VITE_API_URL || '').replace(/\/$/, '') + '/api/dashboard/pabrik', { headers });
       if (res.ok) {
         const result = await res.json();
@@ -56,7 +56,7 @@ export default function PerformanceKillerPage() {
   useEffect(() => {
     fetchData();
     fetchPabrikList();
-  }, [user]);
+  }, [user, token]);
 
   const openModal = (item = null) => {
     if (item) {
@@ -83,7 +83,7 @@ export default function PerformanceKillerPage() {
 
   const handleSave = async (e) => {
     e.preventDefault();
-    if (!user || !user.token) {
+    if (!user || !token) {
       alert("Anda harus login untuk menyimpan data.");
       return;
     }
@@ -96,7 +96,7 @@ export default function PerformanceKillerPage() {
         method,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${user.token}`
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(formData)
       });
@@ -114,7 +114,7 @@ export default function PerformanceKillerPage() {
   const handleDelete = async (id) => {
     if (!window.confirm('Yakin ingin menghapus item ini?')) return;
     
-    if (!user || !user.token) {
+    if (!user || !token) {
       alert("Anda harus login untuk menghapus data.");
       return;
     }
@@ -123,7 +123,7 @@ export default function PerformanceKillerPage() {
       const res = await fetch((import.meta.env.VITE_API_URL || '').replace(/\/$/, '') + `/api/performance-killers/${id}`, {
         method: 'DELETE',
         headers: {
-          'Authorization': `Bearer ${user.token}`
+          'Authorization': `Bearer ${token}`
         }
       });
 
