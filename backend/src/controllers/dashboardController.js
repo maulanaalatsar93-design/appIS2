@@ -769,6 +769,15 @@ export const getManpowerList = async (req, res) => {
     const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
     const isOffdayDefault = isWeekend || !!todayHoliday;
 
+    // Fetch all holidays for working days calculation
+    const allHolidays = await prisma.hariLibur.findMany({
+      select: { tanggal: true }
+    });
+    const holidayStrings = new Set(allHolidays.map(h => {
+      const d = new Date(h.tanggal);
+      return `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}-${String(d.getUTCDate()).padStart(2, '0')}`;
+    }));
+
     const rawList = await prisma.manPower.findMany({
       where: { is_active: true },
       include: {
@@ -823,6 +832,25 @@ export const getManpowerList = async (req, res) => {
       if (activeAbsensi) {
         statusToday = activeAbsensi.jenis || 'Absen';
         keterangan = activeAbsensi.keterangan || '';
+        
+        // Calculate durasi kerja excluding weekends and holidays
+        if (activeAbsensi.tanggal_mulai && activeAbsensi.tanggal_selesai) {
+          const tMulai = new Date(activeAbsensi.tanggal_mulai);
+          const tSelesai = new Date(activeAbsensi.tanggal_selesai);
+          let durasiKerja = 0;
+          let currentDate = new Date(tMulai);
+          
+          while (currentDate <= tSelesai) {
+            const day = currentDate.getUTCDay();
+            const dateStr = `${currentDate.getUTCFullYear()}-${String(currentDate.getUTCMonth() + 1).padStart(2, '0')}-${String(currentDate.getUTCDate()).padStart(2, '0')}`;
+            
+            if (day !== 0 && day !== 6 && !holidayStrings.has(dateStr)) {
+              durasiKerja++;
+            }
+            currentDate.setUTCDate(currentDate.getUTCDate() + 1);
+          }
+          activeAbsensi.durasi_kerja = durasiKerja;
+        }
       }
 
       return {
