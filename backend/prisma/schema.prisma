@@ -405,6 +405,18 @@ model Sertifikasi {
   @@schema("public")
 }
 
+model PerformanceKiller {
+  id            Int      @id @default(autoincrement())
+  item          String
+  area_plant    String
+  masalah       String
+  tindak_lanjut String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@schema("public")
+}
+
 // ============================================================
 // Daily Task & Man Hours
 // ============================================================

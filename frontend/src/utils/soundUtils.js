@@ -100,7 +100,7 @@ let siuuuAudio = null;
 export const playSiuuuSound = () => {
   try {
     if (!siuuuAudio) {
-      siuuuAudio = new Audio('https://www.myinstants.com/media/sounds/cr7-siuu.mp3');
+      siuuuAudio = new Audio('/cr7-siuu.mp3');
     }
     // reset to start if it was played before
     siuuuAudio.currentTime = 0;

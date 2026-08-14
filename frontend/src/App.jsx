@@ -19,6 +19,7 @@ import PdmDashboard from './pages/pdm/PdmDashboard';
 import PdmRoster from './pages/pdm/PdmRoster';
 import PdmAreaDashboard from './pages/pdm/PdmAreaDashboard';
 import ManHoursPage from './pages/ManHoursPage';
+import PerformanceKillerPage from './pages/PerformanceKillerPage';
 import { Loader2 } from 'lucide-react';
 
 // Route guard: redirect ke /login jika belum login
@@ -89,6 +90,9 @@ export default function App() {
 
               {/* ── Import Data ── */}
               <Route path="import" element={<ProtectedRoute><ImportData /></ProtectedRoute>} />
+
+              {/* ── Performance Killer ── */}
+              <Route path="performance-killer" element={<ProtectedRoute><PerformanceKillerPage /></ProtectedRoute>} />
             </Route>
 
             {/* Catch-all */}

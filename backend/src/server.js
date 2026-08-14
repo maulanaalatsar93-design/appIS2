@@ -14,6 +14,7 @@ import chatRoutes from './routes/chatRoutes.js';
 import pdmScheduleRoutes from './routes/pdmScheduleRoutes.js';
 import manHoursRoutes from './routes/manHoursRoutes.js';
 import dailyTaskRoutes from './routes/dailyTaskRoutes.js';
+import performanceKillerRoutes from './routes/performanceKillerRoutes.js';
 
 dotenv.config();
 
@@ -41,6 +42,7 @@ app.use('/api/chat', chatRoutes);
 app.use('/api/pdm-schedule', pdmScheduleRoutes);
 app.use('/api/man-hours', manHoursRoutes);
 app.use('/api/daily-tasks', dailyTaskRoutes);
+app.use('/api/performance-killers', performanceKillerRoutes);
 
 // Health check endpoint
 app.get('/api/health', async (req, res) => {
