@@ -21,6 +21,7 @@ export default function KPICard({
       case 'teal': return 'bg-[#118B75] border-[#0C6A5A]/20 shadow-lg';
       case 'orange': return 'bg-[#E85D04] border-[#B94A03]/20 shadow-lg';
       case 'red': return 'bg-[#DC2626] border-[#991B1B]/20 shadow-lg';
+      case 'rose': return 'bg-[#E11D48] border-[#BE123C]/20 shadow-lg';
       default: return 'bg-white border-industrial-border shadow-sm-subtle';
     }
   };

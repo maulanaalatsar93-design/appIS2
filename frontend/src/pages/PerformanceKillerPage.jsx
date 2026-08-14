@@ -183,9 +183,9 @@ export default function PerformanceKillerPage() {
               <tr>
                 <th className="px-6 py-4">No</th>
                 <th className="px-6 py-4">Item</th>
-                <th className="px-6 py-4">Area/Plant</th>
-                <th className="px-6 py-4">Masalah</th>
-                <th className="px-6 py-4">Tindak Lanjut</th>
+                <th className="px-6 py-4">Plant</th>
+                <th className="px-6 py-4">Masalah (Problem)</th>
+                <th className="px-6 py-4">Tindak Lanjut (Mitigation)</th>
                 <th className="px-6 py-4 text-right">Aksi</th>
               </tr>
             </thead>
@@ -278,14 +278,14 @@ export default function PerformanceKillerPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1">Area / Plant</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">Plant</label>
                   <select
                     required
                     value={formData.area_plant}
                     onChange={(e) => setFormData({...formData, area_plant: e.target.value})}
                     className="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-sm"
                   >
-                    <option value="" disabled>Pilih Area / Plant</option>
+                    <option value="" disabled>Pilih Plant</option>
                     {pabrikList.map((pabrik) => (
                       <option key={pabrik.id} value={pabrik.nama_pabrik}>
                         {pabrik.nama_pabrik} {pabrik.kode_pabrik ? `(${pabrik.kode_pabrik})` : ''}
@@ -294,7 +294,7 @@ export default function PerformanceKillerPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1">Masalah</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">Masalah (Problem)</label>
                   <textarea 
                     required
                     rows="3"
@@ -305,7 +305,7 @@ export default function PerformanceKillerPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1">Tindak Lanjut</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">Tindak Lanjut (Mitigation)</label>
                   <textarea 
                     required
                     rows="3"

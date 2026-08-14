@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import KPICard from '../components/ui/KPICard';
 import Sparkline from '../components/ui/Sparkline';
 import FloatingFilterPill from '../components/ui/FloatingFilterPill';
-import { Users, Factory, FileText, CheckCircle2, X, Info, HardHat, Search, UserCheck, UserX, Loader2, PlaneTakeoff, Globe, GraduationCap, Stethoscope, Calendar, AlertTriangle, TrendingUp } from 'lucide-react';
+import { Users, Factory, FileText, CheckCircle2, X, Info, HardHat, Search, UserCheck, UserX, Loader2, PlaneTakeoff, Globe, GraduationCap, Stethoscope, Calendar, AlertTriangle, TrendingUp, Edit } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import Chart from 'react-apexcharts';
 import PublicDashboard from './PublicDashboard';
 import { getDashboardSummary, getManpowerList } from '../services/dashboardService';
@@ -1870,6 +1871,10 @@ export default function InternalDashboard() {
                   <AlertTriangle size={18} />
                   <span>Daftar Detail Performance Killer</span>
                 </h4>
+                <Link to="/performance-killer" className="flex items-center gap-2 px-4 py-2 bg-white text-[#8B0000] font-bold rounded-lg hover:bg-slate-100 transition-colors shadow-sm text-sm">
+                  <Edit size={16} />
+                  <span>Akses Edit (CRUD)</span>
+                </Link>
               </div>
 
               <div className="p-0 overflow-x-auto">
@@ -1878,7 +1883,7 @@ export default function InternalDashboard() {
                     <tr>
                       <th className="py-3 px-4 border border-slate-200 bg-slate-100 w-12 text-center">No</th>
                       <th className="py-3 px-4 border border-slate-200 bg-slate-100 uppercase tracking-wider text-[10px]">Item</th>
-                      <th className="py-3 px-4 border border-slate-200 bg-slate-100 uppercase tracking-wider text-[10px]">Area/Plant</th>
+                      <th className="py-3 px-4 border border-slate-200 bg-slate-100 uppercase tracking-wider text-[10px]">Plant</th>
                       <th className="py-3 px-4 border border-slate-200 bg-slate-100 uppercase tracking-wider text-[10px]">Masalah (Problem)</th>
                       <th className="py-3 px-4 border border-slate-200 bg-slate-100 uppercase tracking-wider text-[10px]">Tindak Lanjut (Mitigation)</th>
                     </tr>
