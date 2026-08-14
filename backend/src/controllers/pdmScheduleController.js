@@ -304,117 +304,120 @@ function buildStrictAreaFilter(userSubArea) {
   return { rule: { subArea: { equals: norm, mode: 'insensitive' } } };
 }
 
-export const getJobBoard = async (req, res) => {
-  try {
-    const { year, month } = req.query;
-    const now = new Date();
-    const y = year ? parseInt(year) : now.getFullYear();
-    const m = month ? parseInt(month) : now.getMonth() + 1;
+export const getJobBoardTasksForUser = async (user, year, month) => {
+  const y = year ? parseInt(year) : new Date().getFullYear();
+  const m = month ? parseInt(month) : new Date().getMonth() + 1;
 
-    const { manpowerId, userSubArea, userRole, isAdmin } = await getUserAreaContext(req);
-    const role = (userRole || '').toLowerCase();
-    const isAnalyst = role === 'analyst';
+  // Manual extract getUserAreaContext logic since we only have user object
+  const manpowerId = user?.man_power_id || null;
+  const role = (user?.role || '').toLowerCase();
+  const isAdmin = ['admin', 'superadmin', 'manager', 'supervisor', 'vp', 'avp'].includes(role);
+  let userSubArea = '';
 
-    // ============================================================
-    // DC/Staff: lihat task SCHEDULED (belum di-claim) di areanya
-    // Analyst: lihat task ANALYSIS (belum ada analystId) di areanya
-    //          + task SCHEDULED jika ternyata DC belum ada
-    // Admin: lihat semua
-    // ============================================================
+  if (manpowerId) {
+    const mp = await prisma.manPower.findUnique({ where: { id: parseInt(manpowerId) }, select: { sub_area: true } });
+    if (mp) userSubArea = mp.sub_area;
+  }
 
-    let filterByRoster = {};
-    if (!isAdmin) {
-      const myRules = await prisma.pdmScheduleRule.findMany({
-        where: { isActive: true },
-        include: { monthlyPicOverrides: { where: { year: y, month: m } } }
-      });      const myAreas = new Set();
-      for (const r of myRules) {
-        const mo = r.monthlyPicOverrides[0];
-        let assignedHere = false;
-        
-        if (mo) {
-          const hasOverrideAssignee = mo.picId || (mo.picIds && mo.picIds.length > 0) || (mo.dataCollectorIds && mo.dataCollectorIds.length > 0) || (mo.gtgDataCollectorIds && mo.gtgDataCollectorIds.length > 0);
-          if (hasOverrideAssignee) {
-            if (mo.picId === manpowerId || (mo.picIds||[]).includes(manpowerId) || (mo.dataCollectorIds||[]).includes(manpowerId) || (mo.gtgDataCollectorIds||[]).includes(manpowerId)) {
-               assignedHere = true;
-            }
-          } else {
-            if (r.defaultPicId === manpowerId || (r.defaultPicIds||[]).includes(manpowerId) || (r.defaultDataCollectorIds||[]).includes(manpowerId) || (r.defaultGtgDataCollectorIds||[]).includes(manpowerId)) {
-               assignedHere = true;
-            }
+  const isAnalyst = role === 'analyst';
+
+  let filterByRoster = {};
+  if (!isAdmin) {
+    const myRules = await prisma.pdmScheduleRule.findMany({
+      where: { isActive: true },
+      include: { monthlyPicOverrides: { where: { year: y, month: m } } }
+    });      
+    const myAreas = new Set();
+    for (const r of myRules) {
+      const mo = r.monthlyPicOverrides[0];
+      let assignedHere = false;
+      
+      if (mo) {
+        const hasOverrideAssignee = mo.picId || (mo.picIds && mo.picIds.length > 0) || (mo.dataCollectorIds && mo.dataCollectorIds.length > 0) || (mo.gtgDataCollectorIds && mo.gtgDataCollectorIds.length > 0);
+        if (hasOverrideAssignee) {
+          if (mo.picId === manpowerId || (mo.picIds||[]).includes(manpowerId) || (mo.dataCollectorIds||[]).includes(manpowerId) || (mo.gtgDataCollectorIds||[]).includes(manpowerId)) {
+             assignedHere = true;
           }
         } else {
           if (r.defaultPicId === manpowerId || (r.defaultPicIds||[]).includes(manpowerId) || (r.defaultDataCollectorIds||[]).includes(manpowerId) || (r.defaultGtgDataCollectorIds||[]).includes(manpowerId)) {
              assignedHere = true;
           }
         }
-
-        if (assignedHere) {
-           const isPphsRule = (r.subArea || '').toUpperCase().includes('PPHS');
-           myAreas.add(`${r.pabrik_id}_${isPphsRule ? 'PPHS' : 'NORMAL'}`);
+      } else {
+        if (r.defaultPicId === manpowerId || (r.defaultPicIds||[]).includes(manpowerId) || (r.defaultDataCollectorIds||[]).includes(manpowerId) || (r.defaultGtgDataCollectorIds||[]).includes(manpowerId)) {
+           assignedHere = true;
         }
       }
-      
-      const areaArray = Array.from(myAreas);
-      if (areaArray.length > 0) {
-         const orConditions = areaArray.map(areaKey => {
-            const [pid, type] = areaKey.split('_');
-            if (type === 'PPHS') {
-               return { pabrik_id: parseInt(pid), subArea: { contains: 'PPHS', mode: 'insensitive' } };
-            } else {
-               return { pabrik_id: parseInt(pid), NOT: { subArea: { contains: 'PPHS', mode: 'insensitive' } } };
-            }
-         });
-         filterByRoster = { rule: { OR: orConditions } };
-      } else {
-         const fallbackArea = buildStrictAreaFilter(userSubArea);
-         filterByRoster = fallbackArea || { id: -1 };
+
+      if (assignedHere) {
+         const isPphsRule = (r.subArea || '').toUpperCase().includes('PPHS');
+         myAreas.add(`${r.pabrik_id}_${isPphsRule ? 'PPHS' : 'NORMAL'}`);
       }
     }
+    
+    const areaArray = Array.from(myAreas);
+    if (areaArray.length > 0) {
+       const orConditions = areaArray.map(areaKey => {
+          const [pid, type] = areaKey.split('_');
+          if (type === 'PPHS') {
+             return { pabrik_id: parseInt(pid), subArea: { contains: 'PPHS', mode: 'insensitive' } };
+          } else {
+             return { pabrik_id: parseInt(pid), NOT: { subArea: { contains: 'PPHS', mode: 'insensitive' } } };
+          }
+       });
+       filterByRoster = { rule: { OR: orConditions } };
+    } else {
+       const fallbackArea = buildStrictAreaFilter(userSubArea);
+       filterByRoster = fallbackArea || { id: -1 };
+    }
+  }
 
-    // Section 1: Task DC tersedia (status=SCHEDULED, workflowStage=DC_COLLECTION)
-    const dcWhere = {
-      status: 'SCHEDULED',
-      workflowStage: 'DC_COLLECTION',
-      year: y, month: m,
-      ...(!isAdmin ? filterByRoster : {})
-    };
+  const dcWhere = {
+    status: 'SCHEDULED',
+    workflowStage: 'DC_COLLECTION',
+    year: y, month: m,
+    ...(!isAdmin ? filterByRoster : {})
+  };
 
-    // Section 2: Task Analisis tersedia (workflowStage=ANALYSIS, analystId null)
-    const analystWhere = {
-      workflowStage: 'ANALYSIS',
-      analystId: null,
-      year: y, month: m,
-      ...(!isAdmin ? filterByRoster : {})
-    };
+  const analystWhere = {
+    workflowStage: 'ANALYSIS',
+    analystId: null,
+    year: y, month: m,
+    ...(!isAdmin ? filterByRoster : {})
+  };
 
-    // Jalankan query sesuai role
-    const [dcTasks, analysisTasks] = await Promise.all([
-      prisma.pdmScheduleOccurrence.findMany({
-        where: dcWhere,
-        include: {
-          rule: { include: { pabrik: true } },
-          dataCollector: { select: { id: true, name: true, npk: true } },
-          analyst: { select: { id: true, name: true, npk: true } },
-        },
-        orderBy: { scheduledDate: 'asc' }
-      }),
-      (isAnalyst || isAdmin) ? prisma.pdmScheduleOccurrence.findMany({
-        where: analystWhere,
-        include: {
-          rule: { include: { pabrik: true } },
-          dataCollector: { select: { id: true, name: true, npk: true } },
-          analyst: { select: { id: true, name: true, npk: true } },
-        },
-        orderBy: { scheduledDate: 'asc' }
-      }) : Promise.resolve([])
-    ]);
+  const [dcTasks, analysisTasks] = await Promise.all([
+    prisma.pdmScheduleOccurrence.findMany({
+      where: dcWhere,
+      include: {
+        rule: { include: { pabrik: true } },
+        dataCollector: { select: { id: true, name: true, npk: true } },
+        analyst: { select: { id: true, name: true, npk: true } },
+      },
+      orderBy: { scheduledDate: 'asc' }
+    }),
+    (isAnalyst || isAdmin) ? prisma.pdmScheduleOccurrence.findMany({
+      where: analystWhere,
+      include: {
+        rule: { include: { pabrik: true } },
+        dataCollector: { select: { id: true, name: true, npk: true } },
+        analyst: { select: { id: true, name: true, npk: true } },
+      },
+      orderBy: { scheduledDate: 'asc' }
+    }) : Promise.resolve([])
+  ]);
 
-    // Return response dengan struktur terpisah
+  return { dcTasks, analysisTasks, isAnalyst };
+};
+
+export const getJobBoard = async (req, res) => {
+  try {
+    const { year, month } = req.query;
+    const { dcTasks, analysisTasks, isAnalyst } = await getJobBoardTasksForUser(req.user, year, month);
+
     res.json({
-      dcTasks,         // Task DC tersedia (belum di-claim)
-      analysisTasks,   // Task Analisis tersedia (belum ada analyst)
-      // Untuk backward compat: field 'items' berisi gabungan sesuai role
+      dcTasks,
+      analysisTasks,
       items: isAnalyst ? analysisTasks : dcTasks,
     });
   } catch (err) {

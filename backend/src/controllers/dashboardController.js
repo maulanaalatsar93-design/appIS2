@@ -1,4 +1,5 @@
 import prisma from '../utils/prisma.js';
+import { getJobBoardTasksForUser } from './pdmScheduleController.js';
 
 export const getDashboardSummary = async (req, res) => {
   try {
@@ -870,6 +871,7 @@ export const getNotifications = async (req, res) => {
     });
 
     if (fullUser?.man_power_id) {
+      // 1. Sertifikat
       const expiredCerts = await prisma.sertifikasi.findMany({
         where: {
           man_power_id: fullUser.man_power_id,
@@ -884,6 +886,23 @@ export const getNotifications = async (req, res) => {
           desc: `Sertifikat "${cert.nama_sertifikat}" Anda telah kedaluwarsa sejak ${cert.tanggal_berakhir ? new Date(cert.tanggal_berakhir).toLocaleDateString('id-ID') : 'lama'}.`,
           time: 'Baru',
           type: 'warning'
+        });
+      });
+
+      // 2. PdM Tasks
+      const { dcTasks, analysisTasks, isAnalyst } = await getJobBoardTasksForUser(fullUser, null, null);
+      
+      const tasks = isAnalyst ? analysisTasks : dcTasks;
+      
+      tasks.forEach(t => {
+        notifications.push({
+          id: `pdm-${t.id}`,
+          title: `Tugas PdM: ${t.rule?.pabrik?.nama_pabrik} - ${t.rule?.subArea}`,
+          desc: `Tugas ${t.rule?.code} untuk bulan ini telah dijadwalkan dan siap dieksekusi.`,
+          time: 'Bulan ini',
+          type: 'info',
+          action: 'start-pdm',
+          taskId: t.id
         });
       });
     }

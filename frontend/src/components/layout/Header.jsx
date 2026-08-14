@@ -88,6 +88,27 @@ export default function Header({ isCollapsed, setIsCollapsed }) {
     navigate('/login');
   };
 
+  const handleStartPdm = async (taskId) => {
+    try {
+      const res = await fetch((import.meta.env.VITE_API_URL || '').replace(/\/$/, '') + '/api/pdm-schedule/occurrences/' + taskId + '/claim', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      if (res.ok) {
+        setIsNotifOpen(false);
+        navigate('/pdm/tasks');
+      } else {
+        const err = await res.json();
+        alert(err.error || 'Gagal memulai task');
+      }
+    } catch (e) {
+      console.error(e);
+      alert('Koneksi bermasalah');
+    }
+  };
+
   const getRoleBadgeColor = (role) => {
     switch (role) {
       case 'admin': return 'bg-industrial-navy/10 text-industrial-navy border-industrial-navy/20';
@@ -131,12 +152,20 @@ export default function Header({ isCollapsed, setIsCollapsed }) {
 
               <div className="space-y-2.5 max-h-64 overflow-y-auto pr-1">
                 {notifications.map((n) => (
-                  <div key={n.id} className={`p-2.5 bg-[#F8FAFC] border border-slate-100 rounded-xl hover:bg-slate-100/80 transition-colors ${n.type === 'warning' ? 'border-l-4 border-l-red-500' : ''}`}>
+                  <div key={n.id} className={`p-2.5 bg-[#F8FAFC] border border-slate-100 rounded-xl hover:bg-slate-100/80 transition-colors ${n.type === 'warning' ? 'border-l-4 border-l-red-500' : ''} ${n.type === 'info' ? 'border-l-4 border-l-blue-500' : ''}`}>
                     <div className="flex items-center justify-between mb-1">
                       <span className="text-xs font-bold text-[#0F172A]">{n.title}</span>
                       <span className="text-[9px] text-slate-400 font-medium">{n.time}</span>
                     </div>
                     <p className="text-[11px] text-slate-600 leading-snug">{n.desc}</p>
+                    {n.action === 'start-pdm' && n.taskId && (
+                      <button 
+                        onClick={() => handleStartPdm(n.taskId)}
+                        className="mt-2 w-full text-center py-1 bg-amber-500 hover:bg-amber-600 text-white rounded-md text-[10px] font-bold transition-colors"
+                      >
+                        Mulai Eksekusi
+                      </button>
+                    )}
                   </div>
                 ))}
               </div>
