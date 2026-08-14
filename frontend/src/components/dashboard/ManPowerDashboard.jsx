@@ -28,14 +28,14 @@ export default function ManPowerDashboard() {
 
   const getPriority = (position = '') => {
     const pos = position.toUpperCase();
-    if (pos.includes('VP') && !pos.includes('AVP')) return 1;
+    if ((pos.includes('VP') && !pos.includes('AVP')) || pos.includes('VICE PRESIDENT')) return 1;
     if (pos.includes('AVP')) return 2;
     return 3; // Staff and others
   };
 
   const getBagian = (p) => {
     const pos = (p.position || '').toUpperCase();
-    if (pos.includes('VP') && !pos.includes('AVP')) return 'VP';
+    if ((pos.includes('VP') && !pos.includes('AVP')) || pos.includes('VICE PRESIDENT')) return 'VP';
     if (pos.includes('AVP')) return 'AVP';
     return `Staff ${p.nama_divisi && p.nama_divisi !== 'N/A' ? p.nama_divisi : p.sub_area || ''}`.trim();
   };
@@ -109,15 +109,14 @@ export default function ManPowerDashboard() {
     dataLabels: {
       enabled: true,
       formatter: function (val) {
-        return val.toFixed(1) + "%"
+        return typeof val === 'number' ? val.toFixed(1) + "%" : val + "%";
       }
     },
     legend: { show: false },
     stroke: { width: 1, colors: ['#ffffff'] }
   });
 
-  const renderDurasiCell = (p) => {
-    let durasiText = p.statusToday;
+  const renderStatusBadge = (p) => {
     let bgClass = 'bg-slate-400';
     if (p.statusToday === 'Cuti') bgClass = 'bg-[#EAB308]'; // Yellow 500
     if (p.statusToday === 'Izin') bgClass = 'bg-amber-800';
@@ -127,6 +126,14 @@ export default function ManPowerDashboard() {
     if (p.statusToday === 'Dinas Dalam Negeri') bgClass = 'bg-orange-500';
     if (p.statusToday === 'Dinas Luar Negeri') bgClass = 'bg-black';
 
+    return (
+      <div className={`w-full text-center py-1.5 text-white font-bold text-[11px] uppercase rounded-md tracking-wider shadow-sm ${bgClass}`}>
+        {p.statusToday}
+      </div>
+    );
+  };
+
+  const renderDurasiCell = (p) => {
     if (p.absensi && p.absensi.tanggal_mulai && p.absensi.tanggal_selesai) {
       const tMulai = parseISO(p.absensi.tanggal_mulai);
       const tSelesai = parseISO(p.absensi.tanggal_selesai);
@@ -137,31 +144,19 @@ export default function ManPowerDashboard() {
       const tKembaliStr = format(tKembali, 'dd MMM yyyy');
       
       const dateRange = tMulaiStr === tSelesaiStr ? tMulaiStr : `${tMulaiStr} - ${tSelesaiStr}`;
-      
-      // Use the newly calculated backend duration if available, else fallback
       const diffDays = p.absensi.durasi_kerja !== undefined ? p.absensi.durasi_kerja : differenceInDays(tSelesai, tMulai) + 1;
 
       return (
-        <div className="flex flex-col text-center">
-          <span className={`w-full py-1 text-white text-[11px] font-bold rounded-sm leading-tight shadow-sm ${bgClass}`}>
-            {p.statusToday}
-          </span>
-          <div className="flex flex-col gap-0.5 mt-1">
-            <span className="text-[11px] font-bold text-slate-800">{diffDays} Hari</span>
-            <span className="text-[10px] text-slate-500">{dateRange}</span>
-            <span className="text-[10px] font-semibold text-[#1A4BC4] mt-0.5 border-t border-slate-200 pt-0.5">
-              Masuk: {tKembaliStr}
-            </span>
+        <div className="flex flex-col text-center mt-1">
+          <span className="text-xs font-bold text-slate-800">{diffDays} Hari</span>
+          <span className="text-[10px] text-slate-500">{dateRange}</span>
+          <div className="mt-1.5 pt-1.5 border-t border-slate-100">
+            <span className="text-[10px] font-bold text-blue-600">Masuk: {tKembaliStr}</span>
           </div>
         </div>
       );
     }
-
-    return (
-      <div className={`w-full py-1.5 px-2 text-center text-white text-xs font-bold rounded-sm leading-tight shadow-sm ${bgClass}`}>
-        {durasiText}
-      </div>
-    );
+    return <span className="text-xs text-slate-400">-</span>;
   };
 
   return (
@@ -204,8 +199,12 @@ export default function ManPowerDashboard() {
             <div className="absolute top-0 left-0 right-0 bg-[#0f172a] text-white text-xs font-bold px-4 py-2 z-10 shadow-sm flex items-center gap-2">
               <span className="w-1.5 h-1.5 bg-blue-400 rounded-full"></span> Overall
             </div>
-            <div className="mt-8">
-              <Chart options={createDonutOptions('')} series={[overallStats.hadir, overallStats.total - overallStats.hadir]} type="donut" height="200" />
+            <div className="mt-8 w-full flex justify-center">
+              {overallStats.total > 0 ? (
+                <Chart options={createDonutOptions('')} series={[overallStats.hadir, overallStats.total - overallStats.hadir]} type="donut" height="200" width="100%" />
+              ) : (
+                <div className="h-[200px] flex items-center justify-center"><Loader2 className="w-5 h-5 text-blue-500 animate-spin" /></div>
+              )}
             </div>
             <div className="absolute bottom-3 right-4 text-sm font-bold text-blue-800 bg-blue-100 px-3 py-1 rounded-xl shadow-sm border border-blue-200">
               {overallStats.percentage}%
@@ -215,8 +214,12 @@ export default function ManPowerDashboard() {
             <div className="absolute top-0 left-0 right-0 bg-[#0f172a] text-white text-xs font-bold px-4 py-2 z-10 shadow-sm flex items-center gap-2">
               <span className="w-1.5 h-1.5 bg-green-400 rounded-full"></span> TKO
             </div>
-            <div className="mt-8">
-              <Chart options={createDonutOptions('')} series={[tkoStats.hadir, tkoStats.total - tkoStats.hadir]} type="donut" height="200" />
+            <div className="mt-8 w-full flex justify-center">
+              {tkoStats.total > 0 ? (
+                <Chart options={createDonutOptions('')} series={[tkoStats.hadir, tkoStats.total - tkoStats.hadir]} type="donut" height="200" width="100%" />
+              ) : (
+                <div className="h-[200px] flex items-center justify-center text-xs text-slate-400">Belum ada data</div>
+              )}
             </div>
             <div className="absolute bottom-3 right-4 text-sm font-bold text-blue-800 bg-blue-100 px-3 py-1 rounded-xl shadow-sm border border-blue-200">
               {tkoStats.percentage}%
@@ -226,8 +229,12 @@ export default function ManPowerDashboard() {
             <div className="absolute top-0 left-0 right-0 bg-[#0f172a] text-white text-xs font-bold px-4 py-2 z-10 shadow-sm flex items-center gap-2">
               <span className="w-1.5 h-1.5 bg-orange-400 rounded-full"></span> TKNO
             </div>
-            <div className="mt-8">
-              <Chart options={createDonutOptions('')} series={[tknoStats.hadir, tknoStats.total - tknoStats.hadir]} type="donut" height="200" />
+            <div className="mt-8 w-full flex justify-center">
+              {tknoStats.total > 0 ? (
+                <Chart options={createDonutOptions('')} series={[tknoStats.hadir, tknoStats.total - tknoStats.hadir]} type="donut" height="200" width="100%" />
+              ) : (
+                <div className="h-[200px] flex items-center justify-center text-xs text-slate-400">Belum ada data</div>
+              )}
             </div>
             <div className="absolute bottom-3 right-4 text-sm font-bold text-blue-800 bg-blue-100 px-3 py-1 rounded-xl shadow-sm border border-blue-200">
               {tknoStats.percentage}%
@@ -319,9 +326,7 @@ export default function ManPowerDashboard() {
                     <td className="py-3 px-4 font-bold text-slate-800">{p.name}</td>
                     <td className="py-3 px-4 text-slate-600 text-xs font-semibold">{getBagian(p)}</td>
                     <td className="py-2 px-4">
-                      <div className={`w-full text-center py-1.5 text-white font-bold text-[11px] uppercase rounded-md tracking-wider shadow-sm ${p.statusToday === 'Hadir' ? 'bg-[#2563EB]' : 'bg-slate-400'}`}>
-                        {p.statusToday}
-                      </div>
+                      {renderStatusBadge(p)}
                     </td>
                   </tr>
                 ))}
@@ -356,9 +361,7 @@ export default function ManPowerDashboard() {
                     <td className="py-3 px-4 font-bold text-slate-800">{p.name}</td>
                     <td className="py-3 px-4 text-slate-600 text-xs font-semibold">{getBagian(p)}</td>
                     <td className="py-2 px-4">
-                      <div className={`w-full text-center py-1.5 text-white font-bold text-[11px] uppercase rounded-md tracking-wider shadow-sm ${p.statusToday === 'Hadir' ? 'bg-[#2563EB]' : 'bg-slate-400'}`}>
-                        {p.statusToday}
-                      </div>
+                      {renderStatusBadge(p)}
                     </td>
                   </tr>
                 ))}
@@ -382,23 +385,27 @@ export default function ManPowerDashboard() {
                   <th className="py-3 px-4 font-bold w-12 text-center">No.</th>
                   <th className="py-3 px-4 font-bold">Nama</th>
                   <th className="py-3 px-4 font-bold">Bagian</th>
-                  <th className="py-3 px-4 font-bold text-center w-36">Keterangan</th>
+                  <th className="py-3 px-4 font-bold text-center w-28">Status</th>
+                  <th className="py-3 px-4 font-bold text-center w-36">Durasi</th>
                 </tr>
               </thead>
               <tbody>
-                {loading ? <tr><td colSpan="4" className="text-center py-8 text-slate-400">Memuat Data...</td></tr> : 
+                {loading ? <tr><td colSpan="5" className="text-center py-8 text-slate-400">Memuat Data...</td></tr> : 
                   ketidakhadiranData.map((p, i) => (
                   <tr key={p.id} className="border-b border-slate-100 hover:bg-slate-50 last:border-0 transition-colors">
                     <td className="py-3 px-4 text-center text-slate-500 font-medium">{i + 1}.</td>
                     <td className="py-3 px-4 font-bold text-slate-800">{p.name}</td>
                     <td className="py-3 px-4 text-slate-600 text-xs font-semibold">{getBagian(p)}</td>
                     <td className="py-2 px-4">
+                      {renderStatusBadge(p)}
+                    </td>
+                    <td className="py-2 px-4">
                       {renderDurasiCell(p)}
                     </td>
                   </tr>
                 ))}
                 {ketidakhadiranData.length === 0 && !loading && (
-                  <tr><td colSpan="4" className="text-center py-6 text-slate-400 text-sm">Semua personil hadir</td></tr>
+                  <tr><td colSpan="5" className="text-center py-6 text-slate-400 text-sm">Semua personil hadir</td></tr>
                 )}
               </tbody>
             </table>
