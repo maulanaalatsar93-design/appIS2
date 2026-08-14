@@ -356,7 +356,26 @@ export const getJobBoard = async (req, res) => {
       
       const myPabrikArray = Array.from(myPabriks);
       if (myPabrikArray.length > 0) {
-         filterByRoster = { rule: { pabrik_id: { in: myPabrikArray } } };
+         // Cek apakah user adalah anggota tim PPHS & OSBL (berdasarkan sub_area di ManPower)
+         const isPphsUser = (userSubArea || '').toUpperCase().includes('PPHS');
+         
+         if (isPphsUser) {
+            // Jika dia orang PPHS, dia hanya boleh melihat task PPHS
+            filterByRoster = { 
+               rule: { 
+                  pabrik_id: { in: myPabrikArray }, 
+                  subArea: { contains: 'PPHS', mode: 'insensitive' } 
+               } 
+            };
+         } else {
+            // Jika BUKAN orang PPHS, dia boleh melihat task di pabriknya, KECUALI task PPHS
+            filterByRoster = { 
+               rule: { 
+                  pabrik_id: { in: myPabrikArray },
+                  NOT: { subArea: { contains: 'PPHS', mode: 'insensitive' } }
+               } 
+            };
+         }
       } else {
          const fallbackArea = buildStrictAreaFilter(userSubArea);
          filterByRoster = fallbackArea || { id: -1 };
@@ -805,7 +824,7 @@ export const getCompletionByPabrik = async (req, res) => {
       select: {
         status: true,
         scheduledDate: true,
-        rule: { select: { pabrik: { select: { id: true, nama_pabrik: true } } } }
+        rule: { select: { subArea: true, pabrik: { select: { id: true, nama_pabrik: true } } } }
       }
     });
 
@@ -813,9 +832,13 @@ export const getCompletionByPabrik = async (req, res) => {
     for (const occ of occurrences) {
       const pabrik = occ.rule?.pabrik;
       if (!pabrik) continue;
-      const key = pabrik.id;
+
+      const isPphsTask = (occ.rule.subArea || '').toUpperCase().includes('PPHS');
+      const key = isPphsTask ? `${pabrik.id}_PPHS` : `${pabrik.id}`;
+      const nama = isPphsTask ? `PPHS & OSBL (${pabrik.nama_pabrik})` : pabrik.nama_pabrik;
+
       if (!pabrikMap[key]) {
-        pabrikMap[key] = { id: pabrik.id, nama_pabrik: pabrik.nama_pabrik, total: 0, completed: 0, overdue: 0 };
+        pabrikMap[key] = { id: key, nama_pabrik: nama, total: 0, completed: 0, overdue: 0 };
       }
       pabrikMap[key].total++;
       if (occ.status === 'COMPLETED') pabrikMap[key].completed++;
@@ -874,11 +897,14 @@ export const getRoster = async (req, res) => {
     const pabrikMap = {}; // key: pabrik_id
 
     for (const rule of rules) {
-      const pid = rule.pabrik_id;
+      const isPphsTask = (rule.subArea || '').toUpperCase().includes('PPHS');
+      const pid = isPphsTask ? `${rule.pabrik_id}_PPHS` : `${rule.pabrik_id}`;
+      const pNama = isPphsTask ? `PPHS & OSBL (${rule.pabrik?.nama_pabrik || '-'})` : (rule.pabrik?.nama_pabrik || '-');
+
       if (!pabrikMap[pid]) {
         pabrikMap[pid] = {
           pabrik_id: pid,
-          nama_pabrik: rule.pabrik?.nama_pabrik || '-',
+          nama_pabrik: pNama,
           critical: [],   // list { rule_id, subArea, pic, hasOverride }
           nonCritical: [] // list { rule_id, subArea, pic, hasOverride }
         };
