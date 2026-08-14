@@ -322,24 +322,61 @@ export const getJobBoard = async (req, res) => {
     // Admin: lihat semua
     // ============================================================
 
-    const areaFilter = buildStrictAreaFilter(userSubArea);
+    let filterByRoster = {};
+    if (!isAdmin) {
+      const myRules = await prisma.pdmScheduleRule.findMany({
+        where: { isActive: true },
+        include: { monthlyPicOverrides: { where: { year: y, month: m } } }
+      });
+
+      const myPabriks = new Set();
+      for (const r of myRules) {
+        const mo = r.monthlyPicOverrides[0];
+        let assignedHere = false;
+        
+        if (mo) {
+          const hasOverrideAssignee = mo.picId || (mo.picIds && mo.picIds.length > 0) || (mo.dataCollectorIds && mo.dataCollectorIds.length > 0) || (mo.gtgDataCollectorIds && mo.gtgDataCollectorIds.length > 0);
+          if (hasOverrideAssignee) {
+            if (mo.picId === manpowerId || (mo.picIds||[]).includes(manpowerId) || (mo.dataCollectorIds||[]).includes(manpowerId) || (mo.gtgDataCollectorIds||[]).includes(manpowerId)) {
+               assignedHere = true;
+            }
+          } else {
+            if (r.defaultPicId === manpowerId || (r.defaultPicIds||[]).includes(manpowerId) || (r.defaultDataCollectorIds||[]).includes(manpowerId) || (r.defaultGtgDataCollectorIds||[]).includes(manpowerId)) {
+               assignedHere = true;
+            }
+          }
+        } else {
+          if (r.defaultPicId === manpowerId || (r.defaultPicIds||[]).includes(manpowerId) || (r.defaultDataCollectorIds||[]).includes(manpowerId) || (r.defaultGtgDataCollectorIds||[]).includes(manpowerId)) {
+             assignedHere = true;
+          }
+        }
+
+        if (assignedHere) myPabriks.add(r.pabrik_id);
+      }
+      
+      const myPabrikArray = Array.from(myPabriks);
+      if (myPabrikArray.length > 0) {
+         filterByRoster = { rule: { pabrik_id: { in: myPabrikArray } } };
+      } else {
+         const fallbackArea = buildStrictAreaFilter(userSubArea);
+         filterByRoster = fallbackArea || { id: -1 };
+      }
+    }
 
     // Section 1: Task DC tersedia (status=SCHEDULED, workflowStage=DC_COLLECTION)
-    // Semua role bisa lihat ini, tapi filter area berlaku untuk non-admin
     const dcWhere = {
       status: 'SCHEDULED',
       workflowStage: 'DC_COLLECTION',
       year: y, month: m,
-      ...((!isAdmin && areaFilter) ? areaFilter : {})
+      ...(!isAdmin ? filterByRoster : {})
     };
 
     // Section 2: Task Analisis tersedia (workflowStage=ANALYSIS, analystId null)
-    // Hanya relevan untuk Analyst dan Admin
     const analystWhere = {
       workflowStage: 'ANALYSIS',
       analystId: null,
       year: y, month: m,
-      ...((!isAdmin && areaFilter) ? areaFilter : {})
+      ...(!isAdmin ? filterByRoster : {})
     };
 
     // Jalankan query sesuai role

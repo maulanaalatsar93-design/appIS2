@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext';
 import {
   LayoutDashboard, Users, UploadCloud,
   ChevronLeft, ChevronRight, CalendarClock,
@@ -11,6 +12,9 @@ import brandIconImg from '../../assets/brand-icon.png';
 export default function Sidebar({ isCollapsed, setIsCollapsed }) {
   const location = useLocation();
   const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
+
+  const isAdmin = user && ['admin', 'superadmin', 'supervisor', 'manager', 'avp', 'vp'].includes(user.role);
 
   const menuGroups = [
     {
@@ -30,8 +34,8 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
         { path: '/pdm/roster',   label: 'Roster PIC',    icon: TableProperties },
         { path: '/pdm/tasks',    label: 'Task Board',    icon: ClipboardList },
         { path: '/pdm/man-hours', label: 'Man Hours (Daily Task)', icon: Clock },
-        { path: '/pdm/rules',    label: 'Master Schedule', icon: Settings },
-      ]
+        isAdmin ? { path: '/pdm/rules', label: 'Master Schedule', icon: Settings } : null,
+      ].filter(Boolean)
     },
     {
       label: 'Workforce Management',
@@ -111,10 +115,8 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
                 <div className="space-y-1">
                   {group.items.map((item) => {
                     const Icon = item.icon;
-                    // Strict match untuk root (/), loose match untuk lainnya agar sub-path tetap active (optional)
-                    const isActive = item.path === '/' 
-                      ? location.pathname === '/' 
-                      : location.pathname.startsWith(item.path);
+                    // Gunakan exact match agar /pdm tidak overlap dengan /pdm/tasks dll
+                    const isActive = location.pathname === item.path;
 
                     return (
                       <button
