@@ -4,7 +4,7 @@ import { AuthContext } from '../../context/AuthContext';
 import {
   LayoutDashboard, Users, UploadCloud,
   ChevronLeft, ChevronRight, CalendarClock,
-  MapPin, ClipboardList, BarChart3, BarChart2, Briefcase, Shield, Settings, TableProperties, Clock
+  MapPin, ClipboardList, BarChart3, BarChart2, Briefcase, Shield, Settings, TableProperties, Clock, AlertOctagon
 } from 'lucide-react';
 import logoImg from '../../assets/logo.png';
 import brandIconImg from '../../assets/brand-icon.png';
@@ -23,6 +23,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
         { path: '/', label: 'Executive Dashboard', icon: LayoutDashboard },
         { path: '/manpower', label: 'Man Power & Kalender', icon: Users },
         { path: '/sertifikasi', label: 'Sertifikasi Personel', icon: Shield },
+        { path: '/performance-killer', label: 'Performance Killer', icon: AlertOctagon },
       ]
     },
     {
