@@ -95,10 +95,16 @@ export const playErrorSound = () => {
   }
 };
 
+let siuuuAudio = null;
+
 export const playSiuuuSound = () => {
   try {
-    const audio = new Audio('https://www.myinstants.com/media/sounds/cr7-siuu.mp3');
-    audio.play().catch(e => console.warn('Audio play failed', e));
+    if (!siuuuAudio) {
+      siuuuAudio = new Audio('/siuuu.mp3');
+    }
+    // reset to start if it was played before
+    siuuuAudio.currentTime = 0;
+    siuuuAudio.play().catch(e => console.warn('Audio play failed', e));
   } catch (e) {
     console.warn('Audio play failed', e);
   }
