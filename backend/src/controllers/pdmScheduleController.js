@@ -327,9 +327,7 @@ export const getJobBoard = async (req, res) => {
       const myRules = await prisma.pdmScheduleRule.findMany({
         where: { isActive: true },
         include: { monthlyPicOverrides: { where: { year: y, month: m } } }
-      });
-
-      const myPabriks = new Set();
+      });      const myAreas = new Set();
       for (const r of myRules) {
         const mo = r.monthlyPicOverrides[0];
         let assignedHere = false;
@@ -351,31 +349,23 @@ export const getJobBoard = async (req, res) => {
           }
         }
 
-        if (assignedHere) myPabriks.add(r.pabrik_id);
+        if (assignedHere) {
+           const isPphsRule = (r.subArea || '').toUpperCase().includes('PPHS');
+           myAreas.add(`${r.pabrik_id}_${isPphsRule ? 'PPHS' : 'NORMAL'}`);
+        }
       }
       
-      const myPabrikArray = Array.from(myPabriks);
-      if (myPabrikArray.length > 0) {
-         // Cek apakah user adalah anggota tim PPHS & OSBL (berdasarkan sub_area di ManPower)
-         const isPphsUser = (userSubArea || '').toUpperCase().includes('PPHS');
-         
-         if (isPphsUser) {
-            // Jika dia orang PPHS, dia hanya boleh melihat task PPHS
-            filterByRoster = { 
-               rule: { 
-                  pabrik_id: { in: myPabrikArray }, 
-                  subArea: { contains: 'PPHS', mode: 'insensitive' } 
-               } 
-            };
-         } else {
-            // Jika BUKAN orang PPHS, dia boleh melihat task di pabriknya, KECUALI task PPHS
-            filterByRoster = { 
-               rule: { 
-                  pabrik_id: { in: myPabrikArray },
-                  NOT: { subArea: { contains: 'PPHS', mode: 'insensitive' } }
-               } 
-            };
-         }
+      const areaArray = Array.from(myAreas);
+      if (areaArray.length > 0) {
+         const orConditions = areaArray.map(areaKey => {
+            const [pid, type] = areaKey.split('_');
+            if (type === 'PPHS') {
+               return { pabrik_id: parseInt(pid), subArea: { contains: 'PPHS', mode: 'insensitive' } };
+            } else {
+               return { pabrik_id: parseInt(pid), NOT: { subArea: { contains: 'PPHS', mode: 'insensitive' } } };
+            }
+         });
+         filterByRoster = { rule: { OR: orConditions } };
       } else {
          const fallbackArea = buildStrictAreaFilter(userSubArea);
          filterByRoster = fallbackArea || { id: -1 };
@@ -481,25 +471,17 @@ export const claimTask = async (req, res) => {
 
     // Guard area:
     if (!isAdmin) {
-      const isPphsUser = (userSubArea || '').toUpperCase().includes('PPHS');
-      const isPphsTask = (taskSubArea || '').toUpperCase().includes('PPHS');
-
       const hasDelegation = await hasCrossDelegation(manpowerId, parseInt(id));
 
       if (!hasDelegation) {
-        if (isPphsUser && !isPphsTask) {
-          return res.status(403).json({ error: 'Anda (Tim PPHS) tidak dapat mengambil task di luar PPHS & OSBL.' });
-        }
-        if (!isPphsUser && isPphsTask) {
-          return res.status(403).json({ error: 'Task ini khusus untuk tim PPHS & OSBL.' });
-        }
-
         const myRules = await prisma.pdmScheduleRule.findMany({
           where: { isActive: true },
           include: { monthlyPicOverrides: { where: { year: occ.year, month: occ.month } } }
         });
 
-        let isAssignedToThisPabrik = false;
+        let isAssignedToThisArea = false;
+        const occIsPphs = (occ.rule.subArea || '').toUpperCase().includes('PPHS');
+
         for (const r of myRules) {
           const mo = r.monthlyPicOverrides[0];
           let assignedHere = false;
@@ -516,14 +498,17 @@ export const claimTask = async (req, res) => {
           }
 
           if (assignedHere && r.pabrik_id === occ.rule.pabrik_id) {
-            isAssignedToThisPabrik = true;
-            break;
+             const rIsPphs = (r.subArea || '').toUpperCase().includes('PPHS');
+             if (rIsPphs === occIsPphs) {
+                 isAssignedToThisArea = true;
+                 break;
+             }
           }
         }
 
-        if (!isAssignedToThisPabrik) {
+        if (!isAssignedToThisArea) {
            return res.status(403).json({
-             error: `Anda tidak terdaftar di Roster untuk mengambil task di ${taskPabrikNama} bulan ini.`
+             error: `Anda tidak terdaftar di Roster untuk mengambil task di area ini (${taskPabrikNama} ${occIsPphs ? 'PPHS' : 'Utama'}).`
            });
         }
       }
