@@ -1,10 +1,11 @@
 import React, { useState, useContext } from 'react';
+import { Outlet } from 'react-router-dom';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import { AuthContext } from '../../context/AuthContext';
 import OnlineChatWidget from '../chat/OnlineChatWidget';
 
-export default function MainLayout({ activeTab, setActiveTab, children }) {
+export default function MainLayout() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const { user } = useContext(AuthContext);
 
@@ -13,8 +14,6 @@ export default function MainLayout({ activeTab, setActiveTab, children }) {
       {/* Sidebar hanya tampil bila sudah login */}
       {user && (
         <Sidebar 
-          activeTab={activeTab} 
-          setActiveTab={setActiveTab} 
           isCollapsed={isCollapsed} 
           setIsCollapsed={setIsCollapsed} 
         />
@@ -25,7 +24,7 @@ export default function MainLayout({ activeTab, setActiveTab, children }) {
           setIsCollapsed={setIsCollapsed} 
         />
         <main className="flex-1 p-4 md:p-6 lg:p-8 overflow-y-auto relative">
-          {children}
+          <Outlet />
         </main>
       </div>
       {/* Chat Widget untuk personnel online */}

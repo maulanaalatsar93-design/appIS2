@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard, Users, UploadCloud,
   ChevronLeft, ChevronRight, CalendarClock,
@@ -7,40 +8,43 @@ import {
 import logoImg from '../../assets/logo.png';
 import brandIconImg from '../../assets/brand-icon.png';
 
-export default function Sidebar({ activeTab, setActiveTab, isCollapsed, setIsCollapsed }) {
+export default function Sidebar({ isCollapsed, setIsCollapsed }) {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const menuGroups = [
     {
       label: 'Menu Utama',
       items: [
-        { id: 'dashboard', label: 'Executive Dashboard', icon: LayoutDashboard },
-        { id: 'manpower', label: 'Man Power & Kalender', icon: Users },
-        { id: 'sertifikasi', label: 'Sertifikasi Personel', icon: Shield },
+        { path: '/', label: 'Executive Dashboard', icon: LayoutDashboard },
+        { path: '/manpower', label: 'Man Power & Kalender', icon: Users },
+        { path: '/sertifikasi', label: 'Sertifikasi Personel', icon: Shield },
       ]
     },
     {
       label: 'PdM Rotating',
       items: [
-        { id: 'pdm-dashboard', label: 'Dashboard PdM', icon: BarChart3 },
-        { id: 'pdm-area-dashboard', label: 'Area Dashboard', icon: BarChart2 },
-        { id: 'pdm-calendar', label: 'Kalender PdM', icon: CalendarClock },
-        { id: 'pdm-roster',   label: 'Roster PIC',    icon: TableProperties },
-        { id: 'pdm-tasks',    label: 'Task Board',    icon: ClipboardList },
-        { id: 'pdm-man-hours', label: 'Man Hours (Daily Task)', icon: Clock },
-        { id: 'pdm-rules',    label: 'Master Schedule', icon: Settings },
+        { path: '/pdm', label: 'Dashboard PdM', icon: BarChart3 },
+        { path: '/pdm/area', label: 'Area Dashboard', icon: BarChart2 },
+        { path: '/pdm/calendar', label: 'Kalender PdM', icon: CalendarClock },
+        { path: '/pdm/roster',   label: 'Roster PIC',    icon: TableProperties },
+        { path: '/pdm/tasks',    label: 'Task Board',    icon: ClipboardList },
+        { path: '/pdm/man-hours', label: 'Man Hours (Daily Task)', icon: Clock },
+        { path: '/pdm/rules',    label: 'Master Schedule', icon: Settings },
       ]
     },
     {
       label: 'Workforce Management',
       items: [
-        { id: 'wp-programs', label: 'Work Programs', icon: Briefcase },
-        { id: 'wp-my-cube', label: 'Work Cube — My Tasks', icon: ClipboardList },
-        { id: 'wp-monitor', label: 'KPI Monitor', icon: BarChart3 },
+        { path: '/wp/programs', label: 'Work Programs', icon: Briefcase },
+        { path: '/wp/cube', label: 'Work Cube — My Tasks', icon: ClipboardList },
+        { path: '/wp/monitor', label: 'KPI Monitor', icon: BarChart3 },
       ]
     },
     {
       label: 'Import data',
       items: [
-        { id: 'import', label: 'Kelola & Import Data SAP', icon: UploadCloud },
+        { path: '/import', label: 'Kelola & Import Data SAP', icon: UploadCloud },
       ]
     }
   ];
@@ -107,11 +111,15 @@ export default function Sidebar({ activeTab, setActiveTab, isCollapsed, setIsCol
                 <div className="space-y-1">
                   {group.items.map((item) => {
                     const Icon = item.icon;
-                    const isActive = activeTab === item.id;
+                    // Strict match untuk root (/), loose match untuk lainnya agar sub-path tetap active (optional)
+                    const isActive = item.path === '/' 
+                      ? location.pathname === '/' 
+                      : location.pathname.startsWith(item.path);
+
                     return (
                       <button
-                        key={item.id}
-                        onClick={() => setActiveTab(item.id)}
+                        key={item.path}
+                        onClick={() => navigate(item.path)}
                         title={isCollapsed ? item.label : undefined}
                         className={`w-full flex items-center ${isCollapsed ? 'justify-center py-2' : 'space-x-3 px-3 py-2.5'
                           } rounded-xl text-xs font-bold transition-all duration-300 ease-out border ${isActive
