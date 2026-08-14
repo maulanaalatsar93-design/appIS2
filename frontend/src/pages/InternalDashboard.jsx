@@ -1863,33 +1863,6 @@ export default function InternalDashboard() {
               />
             </div>
 
-            {/* Charts Section */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <div className="lg:col-span-2 bg-white border border-industrial-border rounded-card shadow-sm-subtle p-5">
-                {performanceKillers.length > 0 ? (
-                  <div className="h-[350px]">
-                    <Chart options={pkBarChart.options} series={pkBarChart.series} type="bar" height="100%" />
-                  </div>
-                ) : (
-                  <div className="h-[350px] flex items-center justify-center text-slate-500 italic text-sm bg-slate-50 rounded-xl border border-dashed border-slate-200">
-                    Belum ada data untuk ditampilkan.
-                  </div>
-                )}
-              </div>
-              
-              <div className="bg-white border border-industrial-border rounded-card shadow-sm-subtle p-5 flex flex-col items-center justify-center">
-                {performanceKillers.length > 0 ? (
-                  <div className="w-full h-[350px]">
-                    <Chart options={pkDonutChart.options} series={pkDonutChart.series} type="donut" height="100%" />
-                  </div>
-                ) : (
-                  <div className="h-[350px] w-full flex items-center justify-center text-slate-500 italic text-sm bg-slate-50 rounded-xl border border-dashed border-slate-200">
-                    Belum ada data untuk ditampilkan.
-                  </div>
-                )}
-              </div>
-            </div>
-
             {/* Data Table Section */}
             <div className="bg-white border border-industrial-border rounded-card shadow-sm-subtle overflow-hidden">
               <div className="flex items-center justify-between px-5 py-4 bg-[#8B0000]">
@@ -1932,6 +1905,33 @@ export default function InternalDashboard() {
                     )}
                   </tbody>
                 </table>
+              </div>
+            </div>
+
+            {/* Charts Section */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div className="lg:col-span-2 bg-white border border-industrial-border rounded-card shadow-sm-subtle p-5">
+                {performanceKillers.length > 0 ? (
+                  <div className="h-[350px]">
+                    <Chart options={pkBarChart.options} series={pkBarChart.series} type="bar" height="100%" />
+                  </div>
+                ) : (
+                  <div className="h-[350px] flex items-center justify-center text-slate-500 italic text-sm bg-slate-50 rounded-xl border border-dashed border-slate-200">
+                    Belum ada data untuk ditampilkan.
+                  </div>
+                )}
+              </div>
+              
+              <div className="bg-white border border-industrial-border rounded-card shadow-sm-subtle p-5 flex flex-col items-center justify-center">
+                {performanceKillers.length > 0 ? (
+                  <div className="w-full h-[350px]">
+                    <Chart options={pkDonutChart.options} series={pkDonutChart.series} type="donut" height="100%" />
+                  </div>
+                ) : (
+                  <div className="h-[350px] w-full flex items-center justify-center text-slate-500 italic text-sm bg-slate-50 rounded-xl border border-dashed border-slate-200">
+                    Belum ada data untuk ditampilkan.
+                  </div>
+                )}
               </div>
             </div>
           </div>
