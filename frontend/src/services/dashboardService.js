@@ -11,10 +11,17 @@ export const getDashboardSummary = async (params = {}) => {
   return await res.json();
 };
 
-export const getManpowerList = async () => {
-  const res = await fetch(`${API_URL}/manpower`);
-  if (!res.ok) {
-    throw new Error('Gagal mengambil data personil manpower');
+export const getManpowerList = async (date = null) => {
+  try {
+    let url = '/manpower';
+    if (date) {
+      url += `?date=${date}`;
+    }
+    const res = await fetch(API_URL + url);
+    if (!res.ok) throw new Error('Failed to fetch manpower data');
+    return await res.json();
+  } catch (error) {
+    console.error('getManpowerList error:', error);
+    throw error;
   }
-  return await res.json();
 };

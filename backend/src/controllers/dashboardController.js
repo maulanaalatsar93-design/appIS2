@@ -755,8 +755,8 @@ export const updateManpowerSubArea = async (req, res) => {
 
 export const getManpowerList = async (req, res) => {
   try {
-    const now = new Date();
-    const witaTime = new Date(now.getTime() + (8 * 60 * 60 * 1000));
+    const targetDate = req.query.date ? new Date(req.query.date) : new Date();
+    const witaTime = new Date(targetDate.getTime() + (8 * 60 * 60 * 1000));
     const todayStart = new Date(Date.UTC(witaTime.getUTCFullYear(), witaTime.getUTCMonth(), witaTime.getUTCDate(), -8, 0, 0, 0));
     const todayEnd = new Date(Date.UTC(witaTime.getUTCFullYear(), witaTime.getUTCMonth(), witaTime.getUTCDate(), 15, 59, 59, 999));
 
@@ -824,6 +824,7 @@ export const getManpowerList = async (req, res) => {
         statusToday = activeAbsensi.jenis || 'Absen';
         keterangan = activeAbsensi.keterangan || '';
       }
+
       return {
         id: p.id,
         npk: p.npk,
@@ -834,7 +835,8 @@ export const getManpowerList = async (req, res) => {
         nama_divisi: p.divisi?.nama_divisi || 'N/A',
         work_center_sap: p.divisi?.work_center_sap || '',
         statusToday,
-        keterangan
+        keterangan,
+        absensi: activeAbsensi
       };
     });
 

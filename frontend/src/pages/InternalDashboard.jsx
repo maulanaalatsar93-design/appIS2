@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import Chart from 'react-apexcharts';
 import PublicDashboard from './PublicDashboard';
 import { getDashboardSummary, getManpowerList } from '../services/dashboardService';
+import ManPowerDashboard from '../components/dashboard/ManPowerDashboard';
 
 const WORK_CENTER_LABELS = {
   'D0179': 'D0179 - Inspeksi Rotating 1',
@@ -605,6 +606,15 @@ export default function InternalDashboard() {
             >
               Performance Killer
             </button>
+            <button
+              onClick={() => setActiveTab('man_power')}
+              className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${activeTab === 'man_power'
+                ? 'bg-[#1A4BC4] text-white shadow-sm'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+                }`}
+            >
+              Man Power
+            </button>
           </div>
 
           <button
@@ -617,6 +627,10 @@ export default function InternalDashboard() {
       </div>
 
       {/* OVERVIEW TAB CONTENT */}
+      {activeTab === 'man_power' && (
+        <ManPowerDashboard />
+      )}
+
       {activeTab === 'overview' && (
         <div className="space-y-6">
           {/* Pemisah Monitor Availability & Sertification */}
