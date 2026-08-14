@@ -1899,8 +1899,12 @@ export default function InternalDashboard() {
                               {pk.area_plant}
                             </span>
                           </td>
-                          <td className="py-3 px-4 border border-slate-200 min-w-[280px] max-w-sm whitespace-normal leading-relaxed text-slate-700">{pk.masalah}</td>
-                          <td className="py-3 px-4 border border-slate-200 min-w-[280px] max-w-sm whitespace-normal leading-relaxed text-slate-700">{pk.tindak_lanjut}</td>
+                          <td className="py-3 px-4 border border-slate-200 min-w-[280px] max-w-sm whitespace-normal leading-relaxed text-slate-700">
+                            <div dangerouslySetInnerHTML={{ __html: pk.masalah }} className="prose prose-sm prose-slate max-w-none" />
+                          </td>
+                          <td className="py-3 px-4 border border-slate-200 min-w-[280px] max-w-sm whitespace-normal leading-relaxed text-slate-700">
+                            <div dangerouslySetInnerHTML={{ __html: pk.tindak_lanjut }} className="prose prose-sm prose-slate max-w-none" />
+                          </td>
                         </tr>
                       ))
                     ) : (

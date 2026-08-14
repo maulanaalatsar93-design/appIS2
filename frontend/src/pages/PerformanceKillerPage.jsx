@@ -3,6 +3,8 @@ import { AuthContext } from '../context/AuthContext';
 import { 
   Plus, Edit, Trash2, Search, X, Loader2, Save, FileText 
 } from 'lucide-react';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 export default function PerformanceKillerPage() {
   const { user, token } = useContext(AuthContext);
@@ -152,14 +154,14 @@ export default function PerformanceKillerPage() {
           <p className="text-slate-500 mt-1">Kelola data peralatan penyumbang masalah performa / reliability pabrik.</p>
         </div>
         
-        {user && ['VP', 'AVP', 'Manager', 'Administrator', 'Admin', 'Supervisor', 'staff'].includes(user.role) && (
-          <button 
-            onClick={() => openModal()}
-            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl shadow-lg shadow-blue-600/20 font-medium transition-all"
-          >
-            <Plus className="h-5 w-5" />
-            Tambah Data
-          </button>
+        {user && ['vp', 'avp', 'manager', 'administrator', 'admin', 'supervisor', 'staff'].includes(user.role?.toLowerCase() || '') && (
+            <button 
+              onClick={() => openModal()}
+              className="flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-all shadow-sm shadow-blue-600/20 font-medium"
+            >
+              <Plus className="h-5 w-5" />
+              <span>Tambah Data</span>
+            </button>
         )}
       </div>
 
@@ -213,14 +215,14 @@ export default function PerformanceKillerPage() {
                         {row.area_plant}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-slate-600 max-w-xs truncate" title={row.masalah}>
-                      {row.masalah}
+                    <td className="px-6 py-4 text-slate-600 max-w-xs truncate" title="Lihat selengkapnya di mode edit">
+                      <div dangerouslySetInnerHTML={{ __html: row.masalah }} className="line-clamp-2" />
                     </td>
-                    <td className="px-6 py-4 text-slate-600 max-w-xs truncate" title={row.tindak_lanjut}>
-                      {row.tindak_lanjut}
+                    <td className="px-6 py-4 text-slate-600 max-w-xs truncate" title="Lihat selengkapnya di mode edit">
+                      <div dangerouslySetInnerHTML={{ __html: row.tindak_lanjut }} className="line-clamp-2" />
                     </td>
                     <td className="px-6 py-4 text-right">
-                      {user && ['VP', 'AVP', 'Manager', 'Administrator', 'Admin', 'Supervisor', 'staff'].includes(user.role) && (
+                      {user && ['vp', 'avp', 'manager', 'administrator', 'admin', 'supervisor', 'staff'].includes(user.role?.toLowerCase() || '') && (
                         <div className="flex justify-end gap-2">
                           <button 
                             onClick={() => openModal(row)}
@@ -295,25 +297,41 @@ export default function PerformanceKillerPage() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">Masalah (Problem)</label>
-                  <textarea 
-                    required
-                    rows="3"
-                    value={formData.masalah}
-                    onChange={(e) => setFormData({...formData, masalah: e.target.value})}
-                    placeholder="Jelaskan masalahnya..."
-                    className="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-sm resize-none"
-                  />
+                  <div className="bg-white rounded-xl overflow-hidden border border-slate-200 focus-within:ring-2 focus-within:ring-blue-500/20 focus-within:border-blue-500 transition-all">
+                    <ReactQuill 
+                      theme="snow"
+                      value={formData.masalah}
+                      onChange={(val) => setFormData({...formData, masalah: val})}
+                      className="h-32 mb-10"
+                      modules={{
+                        toolbar: [
+                          ['bold', 'italic', 'underline'],
+                          [{ 'color': [] }, { 'background': [] }],
+                          [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                          ['clean']
+                        ]
+                      }}
+                    />
+                  </div>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">Tindak Lanjut (Mitigation)</label>
-                  <textarea 
-                    required
-                    rows="3"
-                    value={formData.tindak_lanjut}
-                    onChange={(e) => setFormData({...formData, tindak_lanjut: e.target.value})}
-                    placeholder="Jelaskan tindak lanjutnya..."
-                    className="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-sm resize-none"
-                  />
+                  <div className="bg-white rounded-xl overflow-hidden border border-slate-200 focus-within:ring-2 focus-within:ring-blue-500/20 focus-within:border-blue-500 transition-all">
+                    <ReactQuill 
+                      theme="snow"
+                      value={formData.tindak_lanjut}
+                      onChange={(val) => setFormData({...formData, tindak_lanjut: val})}
+                      className="h-32 mb-10"
+                      modules={{
+                        toolbar: [
+                          ['bold', 'italic', 'underline'],
+                          [{ 'color': [] }, { 'background': [] }],
+                          [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                          ['clean']
+                        ]
+                      }}
+                    />
+                  </div>
                 </div>
 
                 <div className="pt-4 flex justify-end gap-3 border-t border-slate-100">
