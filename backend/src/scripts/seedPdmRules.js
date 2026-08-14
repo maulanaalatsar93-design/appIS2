@@ -2,9 +2,7 @@
 // Jalankan: node backend/src/scripts/seedPdmRules.js
 // SAFE: menggunakan upsert (tidak duplikasi)
 
-import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient();
-
+import prisma from '../utils/prisma.js';
 const MASTER_RULES = [
   // Pabrik 1A – Rotating
   { code: 'P1A-ROT-NC-AMMONIA',    pabrikNama: 'P1A', subArea: 'Ammonia',        equipmentCat: 'ROTATING', criticality: 'NON_CRITICAL', taskName: 'Pengukuran PdM Non Critical', recurrence: 'MONTHLY_TWICE', dateFirst: 1,  dateSecond: 12 },

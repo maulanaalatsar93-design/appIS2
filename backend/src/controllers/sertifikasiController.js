@@ -1,7 +1,4 @@
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
-
+import prisma from '../utils/prisma.js';
 // Get all sertifikasi
 export const getAllSertifikasi = async (req, res) => {
   try {

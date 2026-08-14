@@ -1,5 +1,4 @@
-import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient();
+import prisma from '../utils/prisma.js';
 import { getUserAreaContext, canReadOccurrence, canWriteOccurrence, hasCrossDelegation } from './pdmAccessControl.js';
 
 // Helper: cek apakah tanggal adalah hari libur (Sabtu/Minggu atau tanggal merah)

@@ -2,9 +2,7 @@ import jwt from 'jsonwebtoken';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'supersecret_istek2_key_fallback';
 
-import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient();
-
+import prisma from '../utils/prisma.js';
 export const authenticate = (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
