@@ -479,28 +479,53 @@ export const claimTask = async (req, res) => {
       }
     }
 
-    // Guard area: EXACT match — P6 PPHS & OSBL harus sama persis dengan subArea task
-    if (!isAdmin && userSubArea) {
-      const norm = (s) => (s || '').toLowerCase().replace(/\s+/g, ' ').trim();
-      const matchUser = userSubArea.trim().match(/^(?:Pabrik\s+|P)(\d[A-Z]?)\s+(.+)$/i);
-
-      let isAreaMatch = false;
-      if (matchUser) {
-        const pabrikCode = matchUser[1];
-        const areaName   = norm(matchUser[2]);
-        // Pabrik harus mengandung kode yang sama + area harus EXACT match
-        const pabrikMatch = taskPabrikNama.toLowerCase().includes(pabrikCode.toLowerCase());
-        const subAreaMatch = norm(taskSubArea) === areaName;
-        isAreaMatch = pabrikMatch && subAreaMatch;
-      } else {
-        isAreaMatch = norm(taskSubArea) === norm(userSubArea);
-      }
+    // Guard area:
+    if (!isAdmin) {
+      const isPphsUser = (userSubArea || '').toUpperCase().includes('PPHS');
+      const isPphsTask = (taskSubArea || '').toUpperCase().includes('PPHS');
 
       const hasDelegation = await hasCrossDelegation(manpowerId, parseInt(id));
-      if (!isAreaMatch && !hasDelegation) {
-        return res.status(403).json({
-          error: `Anda hanya dapat claim task di area Anda (${userSubArea}). Task ini berada di area ${taskPabrikNama} → ${taskSubArea}.`
+
+      if (!hasDelegation) {
+        if (isPphsUser && !isPphsTask) {
+          return res.status(403).json({ error: 'Anda (Tim PPHS) tidak dapat mengambil task di luar PPHS & OSBL.' });
+        }
+        if (!isPphsUser && isPphsTask) {
+          return res.status(403).json({ error: 'Task ini khusus untuk tim PPHS & OSBL.' });
+        }
+
+        const myRules = await prisma.pdmScheduleRule.findMany({
+          where: { isActive: true },
+          include: { monthlyPicOverrides: { where: { year: occ.year, month: occ.month } } }
         });
+
+        let isAssignedToThisPabrik = false;
+        for (const r of myRules) {
+          const mo = r.monthlyPicOverrides[0];
+          let assignedHere = false;
+          
+          if (mo) {
+            const hasOverrideAssignee = mo.picId || (mo.picIds && mo.picIds.length > 0) || (mo.dataCollectorIds && mo.dataCollectorIds.length > 0) || (mo.gtgDataCollectorIds && mo.gtgDataCollectorIds.length > 0);
+            if (hasOverrideAssignee) {
+              if (mo.picId === manpowerId || (mo.picIds||[]).includes(manpowerId) || (mo.dataCollectorIds||[]).includes(manpowerId) || (mo.gtgDataCollectorIds||[]).includes(manpowerId)) assignedHere = true;
+            } else {
+              if (r.defaultPicId === manpowerId || (r.defaultPicIds||[]).includes(manpowerId) || (r.defaultDataCollectorIds||[]).includes(manpowerId) || (r.defaultGtgDataCollectorIds||[]).includes(manpowerId)) assignedHere = true;
+            }
+          } else {
+            if (r.defaultPicId === manpowerId || (r.defaultPicIds||[]).includes(manpowerId) || (r.defaultDataCollectorIds||[]).includes(manpowerId) || (r.defaultGtgDataCollectorIds||[]).includes(manpowerId)) assignedHere = true;
+          }
+
+          if (assignedHere && r.pabrik_id === occ.rule.pabrik_id) {
+            isAssignedToThisPabrik = true;
+            break;
+          }
+        }
+
+        if (!isAssignedToThisPabrik) {
+           return res.status(403).json({
+             error: `Anda tidak terdaftar di Roster untuk mengambil task di ${taskPabrikNama} bulan ini.`
+           });
+        }
       }
     }
 
