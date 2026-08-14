@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import KPICard from '../components/ui/KPICard';
 import Sparkline from '../components/ui/Sparkline';
 import FloatingFilterPill from '../components/ui/FloatingFilterPill';
-import { Users, Factory, FileText, CheckCircle2, X, Info, HardHat, Search, UserCheck, UserX, Loader2, PlaneTakeoff, Globe, GraduationCap, Stethoscope, Calendar, AlertTriangle, TrendingUp, Edit } from 'lucide-react';
+import { Users, Factory, FileText, CheckCircle2, X, Info, HardHat, Search, UserCheck, UserX, Loader2, PlaneTakeoff, Globe, GraduationCap, Stethoscope, Calendar, AlertTriangle, TrendingUp, Edit, Activity } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Chart from 'react-apexcharts';
 import PublicDashboard from './PublicDashboard';
@@ -1232,92 +1232,108 @@ export default function InternalDashboard() {
 
           </div>
           {/* Middle Row: Side-by-Side Breakdown Tables — Enterprise Blue Progress Bars */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Progress PM04 Table */}
-            <div className="bg-white border border-industrial-border rounded-card shadow-sm-subtle overflow-hidden">
-              <div className="flex items-center justify-between px-4 py-3 bg-[#13254F]">
-                <h4 className="text-sm font-bold text-white flex items-center gap-2">
-                  <span>Progress PM04 (Per Bagian)</span>
+            <div className="bg-white border border-slate-200 rounded-2xl shadow-lg overflow-hidden flex flex-col">
+              <div className="flex items-center justify-between px-5 py-4 bg-gradient-to-r from-[#13254F] to-[#1E3A8A]">
+                <h4 className="text-[15px] font-bold text-white flex items-center gap-2 tracking-wide">
+                  <Activity size={18} className="text-blue-300" />
+                  <span>Progress PM04 (Per Pabrik)</span>
                 </h4>
-                <span className="text-[10px] bg-white/20 text-white font-semibold px-2.5 py-0.5 rounded-full">Predictive</span>
+                <span className="text-[10px] bg-blue-400/20 text-blue-100 font-bold px-3 py-1 rounded-full border border-blue-400/30 shadow-inner">
+                  Predictive
+                </span>
               </div>
-              <div className="overflow-x-auto">
-                <table className="w-full text-xs text-left">
-                  <thead className="bg-slate-50 text-slate-500 font-bold uppercase text-[10px] border-b border-slate-200">
-                    <tr>
-                      <th className="py-2.5 px-4">Bagian</th>
-                      <th className="py-2.5 px-4">Tipe</th>
-                      <th className="py-2.5 px-4 text-right">Total WO</th>
-                      <th className="py-2.5 px-4 w-32">Progress</th>
-                      <th className="py-2.5 px-4 text-center">Capaian CNF</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-100">
-                    {(summary?.jobLoadDetails?.pm04Progress || []).map((row, idx) => (
-                      <tr key={idx} className="hover:bg-blue-50/40 transition-colors">
-                        <td className="py-2.5 px-4 font-semibold text-slate-800">{row.name}</td>
-                        <td className="py-2.5 px-4">
-                          <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-[#1A4BC4]/10 text-[#1A4BC4] border border-[#1A4BC4]/20">{row.tipe}</span>
-                        </td>
-                        <td className="py-2.5 px-4 text-right font-bold text-slate-900">{row.totalWO.toLocaleString('id-ID')}</td>
-                        <td className="py-2.5 px-4">
-                          <div className="w-full h-2.5 bg-slate-100 rounded-sm overflow-hidden">
-                            <div
-                              className="h-full bg-[#1E56D9] rounded-sm transition-all duration-500"
-                              style={{ width: `${Math.min(row.capaianCNF || 0, 100)}%` }}
-                            />
+              <div className="p-4 flex-1 bg-slate-50/50">
+                <div className="space-y-3">
+                  {(summary?.jobLoadDetails?.pm04Progress || []).map((row, idx) => (
+                    <div key={idx} className="bg-white border border-slate-100 rounded-xl p-3.5 shadow-sm hover:shadow-md hover:border-blue-200 transition-all duration-300 group">
+                      <div className="flex justify-between items-center mb-2.5">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-xs border border-blue-100 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                            {row.name.substring(0, 2)}
                           </div>
-                        </td>
-                        <td className="py-2.5 px-4 text-center">{getCapaianBadge(row.capaianCNF)}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                          <div>
+                            <div className="font-bold text-slate-800 text-sm">{row.name}</div>
+                            <div className="text-[10px] font-semibold text-slate-400">Total WO: <span className="text-slate-600">{row.totalWO.toLocaleString('id-ID')}</span></div>
+                          </div>
+                        </div>
+                        <div className="flex flex-col items-end">
+                          {getCapaianBadge(row.capaianCNF)}
+                        </div>
+                      </div>
+                      <div className="relative pt-1">
+                        <div className="flex mb-1 items-center justify-between">
+                          <span className="text-[10px] font-semibold text-blue-600 uppercase tracking-wider">Progress CNF</span>
+                          <span className="text-[11px] font-bold text-blue-700">{row.capaianCNF.toFixed(1)}%</span>
+                        </div>
+                        <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden shadow-inner">
+                          <div
+                            className="h-full bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full transition-all duration-1000 ease-out shadow-[0_0_10px_rgba(59,130,246,0.6)]"
+                            style={{ width: `${Math.min(row.capaianCNF || 0, 100)}%` }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                  {(!summary?.jobLoadDetails?.pm04Progress || summary.jobLoadDetails.pm04Progress.length === 0) && (
+                    <div className="text-center py-8 text-slate-400 text-sm font-medium border-2 border-dashed border-slate-200 rounded-xl">
+                      Tidak ada data PM04
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
 
             {/* Progress PM02+ Table */}
-            <div className="bg-white border border-industrial-border rounded-card shadow-sm-subtle overflow-hidden">
-              <div className="flex items-center justify-between px-4 py-3 bg-[#D9650F]">
-                <h4 className="text-sm font-bold text-white flex items-center gap-2">
-                  <span>Progress PM02+ (Per Bagian)</span>
+            <div className="bg-white border border-slate-200 rounded-2xl shadow-lg overflow-hidden flex flex-col">
+              <div className="flex items-center justify-between px-5 py-4 bg-gradient-to-r from-[#D9650F] to-[#EA580C]">
+                <h4 className="text-[15px] font-bold text-white flex items-center gap-2 tracking-wide">
+                  <HardHat size={18} className="text-orange-200" />
+                  <span>Progress PM02+ (Per Pabrik)</span>
                 </h4>
-                <span className="text-[10px] bg-white/20 text-white font-semibold px-2.5 py-0.5 rounded-full">Corrective &amp; Other</span>
+                <span className="text-[10px] bg-orange-300/20 text-orange-50 font-bold px-3 py-1 rounded-full border border-orange-300/30 shadow-inner">
+                  Corrective &amp; Other
+                </span>
               </div>
-              <div className="overflow-x-auto">
-                <table className="w-full text-xs text-left">
-                  <thead className="bg-slate-50 text-slate-500 font-bold uppercase text-[10px] border-b border-slate-200">
-                    <tr>
-                      <th className="py-2.5 px-4">Bagian</th>
-                      <th className="py-2.5 px-4">Tipe</th>
-                      <th className="py-2.5 px-4 text-right">Total WO</th>
-                      <th className="py-2.5 px-4 w-32">Progress</th>
-                      <th className="py-2.5 px-4 text-center">Capaian CNF</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-100">
-                    {(summary?.jobLoadDetails?.pm02PlusProgress || []).map((row, idx) => (
-                      <tr key={idx} className="hover:bg-orange-50/40 transition-colors">
-                        <td className="py-2.5 px-4 align-top">
-                          <div className="font-semibold text-slate-800">{row.name}</div>
-                        </td>
-                        <td className="py-2.5 px-4 align-top">
-                          <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-[#D9650F]/10 text-[#D9650F] border border-[#D9650F]/20">{row.tipe}</span>
-                        </td>
-                        <td className="py-2.5 px-4 text-right font-bold text-slate-900 align-top">{row.totalWO.toLocaleString('id-ID')}</td>
-                        <td className="py-2.5 px-4">
-                          <div className="w-full h-2.5 bg-slate-100 rounded-sm overflow-hidden">
-                            <div
-                              className="h-full bg-[#D9650F] rounded-sm transition-all duration-500"
-                              style={{ width: `${Math.min(row.capaianCNF || 0, 100)}%` }}
-                            />
+              <div className="p-4 flex-1 bg-slate-50/50">
+                <div className="space-y-3">
+                  {(summary?.jobLoadDetails?.pm02PlusProgress || []).map((row, idx) => (
+                    <div key={idx} className="bg-white border border-slate-100 rounded-xl p-3.5 shadow-sm hover:shadow-md hover:border-orange-200 transition-all duration-300 group">
+                      <div className="flex justify-between items-center mb-2.5">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 rounded-lg bg-orange-50 text-orange-600 flex items-center justify-center font-bold text-xs border border-orange-100 group-hover:bg-orange-500 group-hover:text-white transition-colors">
+                            {row.name.substring(0, 2)}
                           </div>
-                        </td>
-                        <td className="py-2.5 px-4 text-center">{getCapaianBadge(row.capaianCNF)}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                          <div>
+                            <div className="font-bold text-slate-800 text-sm">{row.name}</div>
+                            <div className="text-[10px] font-semibold text-slate-400">Total WO: <span className="text-slate-600">{row.totalWO.toLocaleString('id-ID')}</span></div>
+                          </div>
+                        </div>
+                        <div className="flex flex-col items-end">
+                          {getCapaianBadge(row.capaianCNF)}
+                        </div>
+                      </div>
+                      <div className="relative pt-1">
+                        <div className="flex mb-1 items-center justify-between">
+                          <span className="text-[10px] font-semibold text-orange-600 uppercase tracking-wider">Progress CNF</span>
+                          <span className="text-[11px] font-bold text-orange-700">{row.capaianCNF.toFixed(1)}%</span>
+                        </div>
+                        <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden shadow-inner">
+                          <div
+                            className="h-full bg-gradient-to-r from-orange-500 to-amber-400 rounded-full transition-all duration-1000 ease-out shadow-[0_0_10px_rgba(249,115,22,0.6)]"
+                            style={{ width: `${Math.min(row.capaianCNF || 0, 100)}%` }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                  {(!summary?.jobLoadDetails?.pm02PlusProgress || summary.jobLoadDetails.pm02PlusProgress.length === 0) && (
+                    <div className="text-center py-8 text-slate-400 text-sm font-medium border-2 border-dashed border-slate-200 rounded-xl">
+                      Tidak ada data PM02+
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>

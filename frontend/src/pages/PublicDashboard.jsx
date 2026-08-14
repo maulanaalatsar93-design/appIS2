@@ -632,11 +632,11 @@ export default function PublicDashboard({ onBack }) {
 
         {/* Data Tables for Print */}
         <div className="mb-8 print-break-avoid">
-          <h3 className="text-base font-bold text-slate-800 mb-3 border-l-4 border-blue-600 pl-3">2. KINERJA PER PABRIK / AREA</h3>
+          <h3 className="text-base font-bold text-slate-800 mb-3 border-l-4 border-blue-600 pl-3">2. KINERJA PER PABRIK</h3>
           <table className="w-full text-sm text-left border-collapse border border-slate-300 shadow-sm">
             <thead>
               <tr className="bg-slate-100">
-                <th className="border border-slate-300 p-3 text-slate-800 w-1/3">Area Pabrik</th>
+                <th className="border border-slate-300 p-3 text-slate-800 w-1/3">Pabrik</th>
                 <th className="border border-slate-300 p-3 text-blue-800 w-1/3 text-center">Total Work Order</th>
                 <th className="border border-slate-300 p-3 text-teal-800 w-1/3 text-center">Rilis Rekomendasi</th>
               </tr>
