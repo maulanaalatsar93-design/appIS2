@@ -46,6 +46,7 @@ export const login = async (req, res) => {
         npk: user.npk,
         name: user.name,
         role: user.role,
+        man_power_id: user.man_power_id ?? null,
       },
     });
   } catch (error) {
@@ -93,6 +94,7 @@ export const getMe = async (req, res) => {
         npk: true,
         name: true,
         role: true,
+        man_power_id: true,
       },
     });
 

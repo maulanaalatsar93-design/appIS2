@@ -45,7 +45,7 @@ export const AuthProvider = ({ children }) => {
           return res.json();
         })
         .then((data) => {
-          setUser(data.user);
+          setUser(data.user);  // data.user sudah include man_power_id dari backend
           localStorage.setItem('user', JSON.stringify(data.user));
         })
         .catch((err) => {
@@ -63,6 +63,7 @@ export const AuthProvider = ({ children }) => {
   }, [token]);
 
   const login = (newToken, userData) => {
+    // userData dari login response: { id, npk, name, role, man_power_id (jika tersedia) }
     localStorage.setItem('token', newToken);
     localStorage.setItem('loginTime', Date.now().toString());
     localStorage.setItem('user', JSON.stringify(userData));

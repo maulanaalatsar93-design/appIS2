@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useContext } from 'react';
 import {
   Clock, Users, MapPin, BarChart3, Download, RefreshCw, Filter,
   TrendingUp, Building2, UserCog, ChevronUp, ChevronDown, Search,
-  Plus, X, Save, Trash2
+  Plus, X, Save, Trash2, Edit2, Check
 } from 'lucide-react';
 import Chart from 'react-apexcharts';
+import { AuthContext } from '../context/AuthContext';
 
 const MONTH_NAMES = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
 const SOURCE_LABELS = { DailyTask: 'Daily Task', PdmActivity: 'PdM Rotating', all: 'Semua Sumber' };
@@ -31,7 +32,79 @@ function SortIcon({ field, sortBy, sortDir }) {
   return sortDir === 'asc' ? <ChevronUp className="w-3 h-3 ml-1 inline text-blue-500" /> : <ChevronDown className="w-3 h-3 ml-1 inline text-blue-500" />;
 }
 
+// Inline edit jam untuk personil
+function InlineTimeEditor({ row, onSave, onCancel, isSaving }) {
+  const getTimeStr = (iso) => {
+    if (!iso) return '';
+    const d = new Date(iso);
+    return d.toTimeString().slice(0, 5);
+  };
+  const getDateStr = (iso) => {
+    if (!iso) return '';
+    return new Date(iso).toISOString().split('T')[0];
+  };
+
+  const rowId = typeof row.id === 'string' && row.id.startsWith('dt-')
+    ? parseInt(row.id.replace('dt-', ''))
+    : null;
+
+  const [mulai, setMulai] = useState(getTimeStr(row.jam_mulai));
+  const [selesai, setSelesai] = useState(getTimeStr(row.jam_selesai));
+  const tanggal = getDateStr(row.tanggal);
+
+  const hitungMH = () => {
+    if (!mulai || !selesai) return null;
+    const diff = new Date(`2000-01-01T${selesai}`) - new Date(`2000-01-01T${mulai}`);
+    return diff > 0 ? (diff / 3600000).toFixed(2) : null;
+  };
+
+  if (!rowId) return null;
+
+  return (
+    <tr className="bg-green-50 border-b border-green-100">
+      <td colSpan={12} className="px-4 py-3">
+        <div className="flex items-center gap-3 flex-wrap">
+          <span className="text-xs font-semibold text-gray-600">Edit Jam Kerja:</span>
+          <div className="flex items-center gap-1.5">
+            <label className="text-xs text-gray-500">Mulai</label>
+            <input type="time" value={mulai} onChange={e => setMulai(e.target.value)}
+              className="text-sm border border-gray-300 rounded px-2 py-1 focus:ring-1 focus:ring-green-400 focus:outline-none" />
+          </div>
+          <div className="flex items-center gap-1.5">
+            <label className="text-xs text-gray-500">Selesai</label>
+            <input type="time" value={selesai} onChange={e => setSelesai(e.target.value)}
+              className="text-sm border border-gray-300 rounded px-2 py-1 focus:ring-1 focus:ring-green-400 focus:outline-none" />
+          </div>
+          {mulai && selesai && hitungMH() && (
+            <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full font-medium">
+              ⏱ {hitungMH()} jam
+            </span>
+          )}
+          <button
+            onClick={() => onSave(rowId, tanggal, mulai, selesai)}
+            disabled={isSaving || !mulai || !selesai}
+            className="flex items-center gap-1 px-3 py-1.5 bg-green-600 text-white rounded-lg text-xs font-semibold hover:bg-green-700 disabled:opacity-50 transition"
+          >
+            <Check className="w-3.5 h-3.5" /> {isSaving ? 'Menyimpan...' : 'Simpan'}
+          </button>
+          <button onClick={onCancel}
+            className="flex items-center gap-1 px-3 py-1.5 bg-gray-100 text-gray-600 rounded-lg text-xs font-semibold hover:bg-gray-200 transition">
+            <X className="w-3.5 h-3.5" /> Batal
+          </button>
+        </div>
+      </td>
+    </tr>
+  );
+}
+
 export default function ManHoursPage() {
+  const { user } = useContext(AuthContext);
+
+  // Role & permission
+  const userRole = user?.role || '';
+  const userManPowerId = user?.man_power_id || null;
+  const isAdmin = ['admin', 'superadmin', 'supervisor', 'manager', 'avp', 'vp'].includes(userRole);
+  const isAnggota = !isAdmin && !!userManPowerId;
   const [rows, setRows] = useState([]);
   const [summary, setSummary] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -47,6 +120,9 @@ export default function ManHoursPage() {
   const [search, setSearch] = useState('');
   const [sortBy, setSortBy] = useState('tanggal');
   const [sortDir, setSortDir] = useState('desc');
+
+  const [editingRowId, setEditingRowId] = useState(null);
+  const [editSaving, setEditSaving] = useState(false);
 
   // Form tambah DailyTask
   const [showForm, setShowForm] = useState(false);
@@ -96,6 +172,7 @@ export default function ManHoursPage() {
 
   // Fetch referensi data untuk form
   useEffect(() => {
+    if (!isAdmin) return; // Anggota tidak perlu dropdown personel
     const fetchRefs = async () => {
       try {
         const [mpRes, pbRes] = await Promise.all([
@@ -113,7 +190,14 @@ export default function ManHoursPage() {
       } catch (e) { console.error('fetchRefs error:', e); }
     };
     fetchRefs();
-  }, []);
+  }, [isAdmin]);
+
+  // Sync man_power_id ke form ketika anggota buka halaman
+  useEffect(() => {
+    if (isAnggota && userManPowerId) {
+      setForm(f => ({ ...f, man_power_id: String(userManPowerId) }));
+    }
+  }, [isAnggota, userManPowerId]);;
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -121,6 +205,8 @@ export default function ManHoursPage() {
     setFormError('');
     try {
       const body = { ...form };
+      // Untuk anggota, paksa man_power_id ke dirinya sendiri
+      if (isAnggota) body.man_power_id = userManPowerId;
       // Convert tanggal + waktu ke ISO
       if (form.waktu_mulai) {
         body.waktu_mulai = new Date(`${form.tanggal}T${form.waktu_mulai}:00`).toISOString();
@@ -153,6 +239,38 @@ export default function ManHoursPage() {
       await fetch(`${api}/api/daily-tasks/${rowId}`, { method: 'DELETE', headers });
       await fetchData();
     } catch (e) { console.error(e); }
+  };
+
+  // Inline edit: hanya update waktu_mulai & waktu_selesai
+  const handleInlineSave = async (taskId, tanggal, mulai, selesai) => {
+    setEditSaving(true);
+    try {
+      const waktu_mulai = mulai ? new Date(`${tanggal}T${mulai}:00`).toISOString() : null;
+      const waktu_selesai = selesai ? new Date(`${tanggal}T${selesai}:00`).toISOString() : null;
+      const res = await fetch(`${api}/api/daily-tasks/${taskId}`, {
+        method: 'PUT',
+        headers: { ...headers, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ waktu_mulai, waktu_selesai })
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error || 'Gagal menyimpan');
+      }
+      setEditingRowId(null);
+      await fetchData();
+    } catch (err) {
+      alert('Gagal menyimpan: ' + err.message);
+    } finally {
+      setEditSaving(false);
+    }
+  };
+
+  // Cek apakah baris bisa diedit user ini
+  const canEditRow = (row) => {
+    if (!row.source || row.source !== 'DailyTask') return false;
+    if (isAdmin) return true;
+    if (isAnggota && row.man_power_id === userManPowerId) return true;
+    return false;
   };
 
   // Client-side filter & sort
@@ -248,8 +366,15 @@ export default function ManHoursPage() {
             <Clock className="w-6 h-6 text-blue-600" /> Man Hours (Daily Task)
           </h1>
           <p className="text-sm text-gray-500 mt-0.5">
-            Rekap jam kerja personel berdasarkan task — {MONTH_NAMES[month-1]} {year}
+            {isAnggota
+              ? `Rekap jam kerja Anda \u2014 ${MONTH_NAMES[month-1]} ${year}`
+              : `Rekap jam kerja personel berdasarkan task \u2014 ${MONTH_NAMES[month-1]} ${year}`}
           </p>
+          {isAnggota && (
+            <span className="inline-flex items-center gap-1 text-xs bg-blue-50 text-blue-700 border border-blue-200 rounded-full px-2.5 py-0.5 mt-1">
+              <UserCog className="w-3 h-3" /> Tampilan Personil \u2014 hanya data Anda
+            </span>
+          )}
         </div>
         <div className="flex items-center gap-2 flex-wrap">
           <select value={month} onChange={e => setMonth(parseInt(e.target.value))}
@@ -299,13 +424,19 @@ export default function ManHoursPage() {
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-gray-600 mb-1">Personel</label>
-                  <select value={form.man_power_id} onChange={e => setForm(f => ({ ...f, man_power_id: e.target.value }))}
-                    className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-200">
-                    <option value="">-- Pilih Personel --</option>
-                    {manpowerList.map(mp => (
-                      <option key={mp.id} value={mp.id}>{mp.name} ({mp.npk})</option>
-                    ))}
-                  </select>
+                  {isAnggota ? (
+                    <div className="w-full text-sm border border-gray-100 bg-gray-50 rounded-lg px-3 py-2 text-gray-700 font-medium">
+                      {user?.name || 'Anda'} <span className="text-xs text-gray-400">(otomatis)</span>
+                    </div>
+                  ) : (
+                    <select value={form.man_power_id} onChange={e => setForm(f => ({ ...f, man_power_id: e.target.value }))}
+                      className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-200">
+                      <option value="">-- Pilih Personel --</option>
+                      {manpowerList.map(mp => (
+                        <option key={mp.id} value={mp.id}>{mp.name} ({mp.npk})</option>
+                      ))}
+                    </select>
+                  )}
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
@@ -402,7 +533,8 @@ export default function ManHoursPage() {
         <KpiCard icon={MapPin} label="Total MH Filtered" value={totalMhFiltered} sub={`${filtered.length} baris data`} color="border-amber-200" />
       </div>
 
-      {/* ── Charts ── */}
+      {/* ── Charts (hanya admin) ── */}
+      {isAdmin && (
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Bar: MH per Personel */}
         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-4">
@@ -428,6 +560,7 @@ export default function ManHoursPage() {
           )}
         </div>
       </div>
+      )}
 
       {/* ── Filter Bar ── */}
       <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-4 space-y-3">
@@ -473,86 +606,130 @@ export default function ManHoursPage() {
 
       {/* ── Data Table ── */}
       <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+        {isAnggota && (
+          <div className="px-4 py-2.5 bg-blue-50 border-b border-blue-100 text-xs text-blue-700 flex items-center gap-1.5">
+            <Edit2 className="w-3.5 h-3.5" />
+            Klik ikon <strong className="mx-0.5">Edit Jam</strong> pada baris task Anda untuk memperbarui waktu kerja aktual.
+          </div>
+        )}
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="bg-gray-50 border-b border-gray-100">
               <tr>
                 {[
                   { key: 'tanggal', label: 'Tanggal' },
-                  { key: 'nama_personel', label: 'Personel' },
+                  ...(isAdmin ? [{ key: 'nama_personel', label: 'Personel' }] : []),
                   { key: 'sub_area', label: 'Area' },
                   { key: 'pabrik', label: 'Pabrik' },
-                  { key: 'task_code', label: 'Task' },
+                  { key: 'task_code', label: 'Task / Deskripsi' },
                   { key: 'jenis_pekerjaan', label: 'Jenis' },
                   { key: 'jam_mulai', label: 'Mulai' },
                   { key: 'jam_selesai', label: 'Selesai' },
                   { key: 'man_hours', label: 'Man Hours' },
                   { key: 'status', label: 'Status' },
                   { key: 'source', label: 'Sumber' },
+                  { key: '_action', label: '' },
                 ].map(col => (
-                  <th key={col.key} onClick={() => handleSort(col.key)}
-                    className="px-4 py-3 text-left text-[11px] font-bold text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 whitespace-nowrap select-none">
-                    {col.label}<SortIcon field={col.key} sortBy={sortBy} sortDir={sortDir} />
+                  <th key={col.key} onClick={col.key !== '_action' ? () => handleSort(col.key) : undefined}
+                    className={`px-4 py-3 text-left text-[11px] font-bold text-gray-500 uppercase tracking-wider whitespace-nowrap select-none ${col.key !== '_action' ? 'cursor-pointer hover:bg-gray-100' : ''}`}>
+                    {col.label}{col.key !== '_action' && <SortIcon field={col.key} sortBy={sortBy} sortDir={sortDir} />}
                   </th>
                 ))}
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-50">
               {loading ? (
-                <tr><td colSpan={11} className="py-20 text-center text-gray-400">Memuat data...</td></tr>
+                <tr><td colSpan={isAdmin ? 12 : 11} className="py-20 text-center text-gray-400">Memuat data...</td></tr>
               ) : filtered.length === 0 ? (
-                <tr><td colSpan={11} className="py-16 text-center text-gray-400">
+                <tr><td colSpan={isAdmin ? 12 : 11} className="py-16 text-center text-gray-400">
                   <Clock className="w-10 h-10 mx-auto mb-2 text-gray-200" />
                   Tidak ada data man hours untuk periode ini.
                 </td></tr>
               ) : filtered.map(row => (
-                <tr key={row.id} className="hover:bg-blue-50/30 transition-colors">
-                  <td className="px-4 py-2.5 text-gray-600 whitespace-nowrap">{fmtDate(row.tanggal)}</td>
-                  <td className="px-4 py-2.5">
-                    <p className="font-semibold text-gray-800 text-xs">{row.nama_personel || '—'}</p>
-                    <p className="text-[10px] text-gray-400">{row.npk} · {row.posisi}</p>
-                  </td>
-                  <td className="px-4 py-2.5 text-gray-600 text-xs whitespace-nowrap">
-                    {row.sub_area || '—'}
-                  </td>
-                  <td className="px-4 py-2.5 text-gray-500 text-xs whitespace-nowrap">{row.pabrik || '—'}</td>
-                  <td className="px-4 py-2.5">
-                    <p className="font-mono text-xs font-medium text-blue-700">{row.task_code || '—'}</p>
-                    <p className="text-[10px] text-gray-400 truncate max-w-[180px]">{row.deskripsi}</p>
-                  </td>
-                  <td className="px-4 py-2.5 text-xs text-gray-500 whitespace-nowrap">{row.jenis_pekerjaan || '—'}</td>
-                  <td className="px-4 py-2.5 text-xs text-gray-600 whitespace-nowrap">{fmtTime(row.jam_mulai)}</td>
-                  <td className="px-4 py-2.5 text-xs text-gray-600 whitespace-nowrap">{fmtTime(row.jam_selesai)}</td>
-                  <td className="px-4 py-2.5 whitespace-nowrap">
-                    {row.man_hours != null ? (
-                      <span className="font-bold text-blue-700 text-sm">{row.man_hours}</span>
-                    ) : (
-                      <span className="text-gray-300 text-xs">—</span>
+                <React.Fragment key={row.id}>
+                  <tr className={`hover:bg-blue-50/30 transition-colors ${editingRowId === row.id ? 'bg-green-50/50' : ''}`}>
+                    <td className="px-4 py-2.5 text-gray-600 whitespace-nowrap">{fmtDate(row.tanggal)}</td>
+                    {isAdmin && (
+                      <td className="px-4 py-2.5">
+                        <p className="font-semibold text-gray-800 text-xs">{row.nama_personel || '—'}</p>
+                        <p className="text-[10px] text-gray-400">{row.npk} · {row.posisi}</p>
+                      </td>
                     )}
-                    {row.man_hours != null && <span className="text-gray-400 text-[10px] ml-0.5">jam</span>}
-                  </td>
-                  <td className="px-4 py-2.5">
-                    <span className={`text-[10px] px-2 py-0.5 rounded-full font-semibold ${
-                      row.status === 'COMPLETED' || row.status === 'CLOSED' ? 'bg-green-100 text-green-700' :
-                      row.status === 'IN_PROGRESS' ? 'bg-amber-100 text-amber-700' :
-                      row.status === 'CANCELLED' ? 'bg-red-100 text-red-600' :
-                      'bg-gray-100 text-gray-500'
-                    }`}>{row.status || '—'}</span>
-                  </td>
-                  <td className="px-4 py-2.5">
-                    <span className={`text-[10px] px-2 py-0.5 rounded font-medium ${
-                      row.source === 'PdmActivity' ? 'bg-purple-100 text-purple-700' : 'bg-blue-100 text-blue-700'
-                    }`}>{row.source === 'PdmActivity' ? 'PdM' : 'Daily'}</span>
-                  </td>
-                </tr>
+                    <td className="px-4 py-2.5 text-gray-600 text-xs whitespace-nowrap">{row.sub_area || '—'}</td>
+                    <td className="px-4 py-2.5 text-gray-500 text-xs whitespace-nowrap">{row.pabrik || '—'}</td>
+                    <td className="px-4 py-2.5">
+                      <p className="font-mono text-xs font-medium text-blue-700">{row.task_code || '—'}</p>
+                      <p className="text-[10px] text-gray-400 truncate max-w-[180px]">{row.deskripsi}</p>
+                    </td>
+                    <td className="px-4 py-2.5 text-xs text-gray-500 whitespace-nowrap">{row.jenis_pekerjaan || '—'}</td>
+                    <td className="px-4 py-2.5 text-xs text-gray-600 whitespace-nowrap">{fmtTime(row.jam_mulai)}</td>
+                    <td className="px-4 py-2.5 text-xs text-gray-600 whitespace-nowrap">{fmtTime(row.jam_selesai)}</td>
+                    <td className="px-4 py-2.5 whitespace-nowrap">
+                      {row.man_hours != null ? (
+                        <span className="font-bold text-blue-700 text-sm">{row.man_hours}</span>
+                      ) : (
+                        <span className="text-gray-300 text-xs">—</span>
+                      )}
+                      {row.man_hours != null && <span className="text-gray-400 text-[10px] ml-0.5">jam</span>}
+                    </td>
+                    <td className="px-4 py-2.5">
+                      <span className={`text-[10px] px-2 py-0.5 rounded-full font-semibold ${
+                        row.status === 'COMPLETED' || row.status === 'CLOSED' ? 'bg-green-100 text-green-700' :
+                        row.status === 'IN_PROGRESS' ? 'bg-amber-100 text-amber-700' :
+                        row.status === 'CANCELLED' ? 'bg-red-100 text-red-600' :
+                        'bg-gray-100 text-gray-500'
+                      }`}>{row.status || '—'}</span>
+                    </td>
+                    <td className="px-4 py-2.5">
+                      <span className={`text-[10px] px-2 py-0.5 rounded font-medium ${
+                        row.source === 'PdmActivity' ? 'bg-purple-100 text-purple-700' : 'bg-blue-100 text-blue-700'
+                      }`}>{row.source === 'PdmActivity' ? 'PdM' : 'Daily'}</span>
+                    </td>
+                    <td className="px-4 py-2.5 whitespace-nowrap">
+                      <div className="flex items-center gap-1">
+                        {canEditRow(row) && editingRowId !== row.id && (
+                          <button
+                            onClick={() => setEditingRowId(row.id)}
+                            className="p-1.5 text-green-600 hover:bg-green-50 rounded-lg transition"
+                            title="Edit jam kerja"
+                          >
+                            <Edit2 className="w-3.5 h-3.5" />
+                          </button>
+                        )}
+                        {isAdmin && row.source === 'DailyTask' && (
+                          <button
+                            onClick={() => {
+                              const taskId = typeof row.id === 'string' && row.id.startsWith('dt-')
+                                ? parseInt(row.id.replace('dt-', ''))
+                                : null;
+                              if (taskId) handleDeleteRow(taskId);
+                            }}
+                            className="p-1.5 text-red-400 hover:bg-red-50 rounded-lg transition"
+                            title="Hapus"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                  {editingRowId === row.id && (
+                    <InlineTimeEditor
+                      row={row}
+                      onSave={handleInlineSave}
+                      onCancel={() => setEditingRowId(null)}
+                      isSaving={editSaving}
+                    />
+                  )}
+                </React.Fragment>
               ))}
             </tbody>
           </table>
         </div>
       </div>
 
-      {/* ── Summary Tables ── */}
-      {summary && (
+      {/* ── Summary Tables (hanya admin) ── */}
+      {isAdmin && summary && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {/* Per Personel */}
           <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">

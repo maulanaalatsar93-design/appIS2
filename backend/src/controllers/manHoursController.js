@@ -19,6 +19,14 @@ export const getManHours = async (req, res) => {
     const { startDate, endDate, month, year, pabrik_id, sub_area,
             man_power_id, role, kategori, source = 'all' } = req.query;
 
+    // RBAC: jika user adalah anggota (non-admin dengan man_power_id), paksa filter ke dirinya sendiri
+    const userRole = req.user?.role;
+    const userManPowerId = req.user?.man_power_id;
+    const isAdmin = ['admin', 'superadmin', 'supervisor', 'manager', 'avp', 'vp'].includes(userRole);
+    const effectiveManPowerId = (!isAdmin && userManPowerId)
+      ? userManPowerId
+      : (man_power_id ? parseInt(man_power_id) : null);
+
     // Tentukan rentang tanggal
     const now = new Date();
     const y = year ? parseInt(year) : now.getFullYear();
@@ -35,7 +43,7 @@ export const getManHours = async (req, res) => {
       };
       if (pabrik_id) dtWhere.pabrik_id = parseInt(pabrik_id);
       if (sub_area) dtWhere.area = { contains: sub_area, mode: 'insensitive' };
-      if (man_power_id) dtWhere.man_power_id = parseInt(man_power_id);
+      if (effectiveManPowerId) dtWhere.man_power_id = effectiveManPowerId;
       if (kategori) dtWhere.kategori_program = { contains: kategori, mode: 'insensitive' };
       // filter by role: join via man_power.divisi — skip role filter for DailyTask (tidak ada role di DailyTask)
 
@@ -89,7 +97,7 @@ export const getManHours = async (req, res) => {
       const pdmWhere = {
         workDate: { gte: dateFrom, lte: dateTo }
       };
-      if (man_power_id) pdmWhere.performedById = parseInt(man_power_id);
+      if (effectiveManPowerId) pdmWhere.performedById = effectiveManPowerId;
 
       const pdmActivities = await prisma.pdmDailyActivity.findMany({
         where: pdmWhere,

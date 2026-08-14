@@ -19,11 +19,22 @@ export const getDailyTasks = async (req, res) => {
     const dateFrom = startDate ? new Date(startDate) : new Date(y, m - 1, 1);
     const dateTo   = endDate   ? new Date(endDate)   : new Date(y, m, 0, 23, 59, 59);
 
+    // RBAC: anggota (non-admin yang punya man_power_id) hanya bisa lihat task miliknya
+    const userRole = req.user?.role;
+    const userManPowerId = req.user?.man_power_id;
+    const isAdmin = ['admin', 'superadmin', 'supervisor', 'manager', 'avp', 'vp'].includes(userRole);
+
     const where = { tanggal: { gte: dateFrom, lte: dateTo } };
     if (pabrik_id) where.pabrik_id = parseInt(pabrik_id);
-    if (man_power_id) where.man_power_id = parseInt(man_power_id);
     if (area) where.area = { contains: area, mode: 'insensitive' };
     if (kategori) where.kategori_program = { contains: kategori, mode: 'insensitive' };
+
+    // Jika admin: boleh filter by man_power_id query param; jika anggota: paksa filter ke dirinya
+    if (!isAdmin && userManPowerId) {
+      where.man_power_id = userManPowerId;
+    } else if (man_power_id) {
+      where.man_power_id = parseInt(man_power_id);
+    }
 
     const tasks = await prisma.dailyTask.findMany({
       where,
@@ -119,9 +130,41 @@ export const updateDailyTask = async (req, res) => {
     const existing = await prisma.dailyTask.findUnique({ where: { id: parseInt(id) } });
     if (!existing) return res.status(404).json({ error: 'DailyTask tidak ditemukan' });
 
-    // Hanya admin atau pembuat sendiri yang bisa update
-    if (!isAdmin && existing.created_by_id !== userId) {
-      return res.status(403).json({ error: 'Hanya pembuat task atau Admin yang dapat mengedit' });
+    // Boleh edit jika:
+    // 1. Admin/supervisor, ATAU
+    // 2. Pembuat task (created_by_id), ATAU
+    // 3. Personil yang ditugaskan (man_power_id === user.man_power_id dari token)
+    const userManPowerId = req.user?.man_power_id;
+    const isAssignedPersonil = userManPowerId && existing.man_power_id === userManPowerId;
+
+    if (!isAdmin && existing.created_by_id !== userId && !isAssignedPersonil) {
+      return res.status(403).json({ error: 'Hanya pembuat task, personil yang ditugaskan, atau Admin yang dapat mengedit' });
+    }
+
+    // Jika anggota yang ditugaskan (bukan pembuat): hanya bisa edit waktu kerja actual
+    if (!isAdmin && isAssignedPersonil && existing.created_by_id !== userId) {
+      // Anggota yang bukan pembuat: hanya bisa edit waktu kerja actual
+      const { waktu_mulai, waktu_selesai } = req.body;
+      let man_hours = existing.man_hours;
+      const newMulai  = waktu_mulai  ? new Date(waktu_mulai)  : existing.waktu_mulai;
+      const newSelesai = waktu_selesai ? new Date(waktu_selesai) : existing.waktu_selesai;
+      if (newMulai && newSelesai) {
+        const diff = new Date(newSelesai) - new Date(newMulai);
+        if (diff > 0) man_hours = parseFloat((diff / 3600000).toFixed(2));
+      }
+      const updated = await prisma.dailyTask.update({
+        where: { id: parseInt(id) },
+        data: {
+          waktu_mulai: waktu_mulai !== undefined ? (waktu_mulai ? new Date(waktu_mulai) : null) : existing.waktu_mulai,
+          waktu_selesai: waktu_selesai !== undefined ? (waktu_selesai ? new Date(waktu_selesai) : null) : existing.waktu_selesai,
+          man_hours,
+        },
+        include: {
+          man_power: { select: { id: true, name: true, npk: true } },
+          pabrik: { select: { id: true, nama_pabrik: true } }
+        }
+      });
+      return res.json(updated);
     }
 
     const { tanggal, man_power_id, pabrik_id, area, kategori_program,

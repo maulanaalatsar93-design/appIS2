@@ -17,7 +17,7 @@ export default function OnlineChatWidget() {
   const [newMessage, setNewMessage] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
 
-  const { token, user } = useContext(AuthContext);
+  const { token, user, logout } = useContext(AuthContext);
   const messagesEndRef = useRef(null);
 
   const playNotificationSound = () => {
@@ -51,6 +51,11 @@ export default function OnlineChatWidget() {
       const res = await fetch((import.meta.env.VITE_API_URL || '').replace(/\/$/, '') + '/api/chat/unread', {
         headers: { Authorization: `Bearer ${token}` }
       });
+      // Jika token expired/invalid, hentikan polling dan logout
+      if (res.status === 401 || res.status === 403) {
+        logout();
+        return;
+      }
       if (res.ok) {
         const data = await res.json();
         if (data.count > prevUnreadCountRef.current) {
@@ -61,7 +66,8 @@ export default function OnlineChatWidget() {
         setUnreadDetails(data.details || {});
       }
     } catch (error) {
-      console.error('Failed to fetch unread count', error);
+      // Network error — jangan logout, mungkin server sementara tidak bisa diakses
+      console.warn('Failed to fetch unread count (network error)');
     }
   };
 
@@ -72,12 +78,18 @@ export default function OnlineChatWidget() {
       const res = await fetch((import.meta.env.VITE_API_URL || '').replace(/\/$/, '') + '/api/auth/online', {
         headers: { Authorization: `Bearer ${token}` }
       });
+      // Jika token expired/invalid, hentikan polling dan logout
+      if (res.status === 401 || res.status === 403) {
+        logout();
+        return;
+      }
       if (res.ok) {
         const data = await res.json();
         setOnlineUsers(data.filter(u => u.id !== user?.id));
       }
     } catch (error) {
-      console.error('Failed to fetch online users', error);
+      // Network error — jangan logout
+      console.warn('Failed to fetch online users (network error)');
     } finally {
       setLoadingUsers(false);
     }
