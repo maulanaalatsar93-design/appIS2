@@ -269,7 +269,7 @@ export default function ManHoursPage() {
   const canEditRow = (row) => {
     if (!row.source || (row.source !== 'DailyTask' && row.source !== 'PdmActivity')) return false;
     if (isAdmin) return true;
-    if (isAnggota && row.man_power_id === userManPowerId) return true;
+    if (isAnggota && String(row.man_power_id) === String(userManPowerId)) return true;
     return false;
   };
 
