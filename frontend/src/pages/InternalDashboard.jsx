@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import KPICard from '../components/ui/KPICard';
 import Sparkline from '../components/ui/Sparkline';
 import FloatingFilterPill from '../components/ui/FloatingFilterPill';
-import { Users, Factory, FileText, CheckCircle2, X, Info, HardHat, Search, UserCheck, UserX, Loader2, PlaneTakeoff, Globe, GraduationCap, Stethoscope, Calendar, AlertTriangle } from 'lucide-react';
+import { Users, Factory, FileText, CheckCircle2, X, Info, HardHat, Search, UserCheck, UserX, Loader2, PlaneTakeoff, Globe, GraduationCap, Stethoscope, Calendar, AlertTriangle, TrendingUp } from 'lucide-react';
 import Chart from 'react-apexcharts';
 import PublicDashboard from './PublicDashboard';
 import { getDashboardSummary, getManpowerList } from '../services/dashboardService';

@@ -14,6 +14,7 @@ export default function PerformanceKillerPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [currentId, setCurrentId] = useState(null);
+  const [pabrikList, setPabrikList] = useState([]);
   const [formData, setFormData] = useState({
     item: '',
     area_plant: '',
@@ -36,9 +37,26 @@ export default function PerformanceKillerPage() {
     }
   };
 
+  const fetchPabrikList = async () => {
+    try {
+      // The endpoint requires authentication. Check if user token is available, if not, skip or handle appropriately.
+      const headers = user?.token ? { 'Authorization': `Bearer ${user.token}` } : {};
+      const res = await fetch((import.meta.env.VITE_API_URL || '').replace(/\/$/, '') + '/api/dashboard/pabrik', { headers });
+      if (res.ok) {
+        const result = await res.json();
+        if (Array.isArray(result)) {
+          setPabrikList(result);
+        }
+      }
+    } catch (error) {
+      console.error('Failed to fetch pabrik list:', error);
+    }
+  };
+
   useEffect(() => {
     fetchData();
-  }, []);
+    fetchPabrikList();
+  }, [user]);
 
   const openModal = (item = null) => {
     if (item) {
@@ -261,14 +279,19 @@ export default function PerformanceKillerPage() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">Area / Plant</label>
-                  <input 
-                    type="text" 
+                  <select
                     required
                     value={formData.area_plant}
                     onChange={(e) => setFormData({...formData, area_plant: e.target.value})}
-                    placeholder="Contoh: Urea P2"
                     className="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-sm"
-                  />
+                  >
+                    <option value="" disabled>Pilih Area / Plant</option>
+                    {pabrikList.map((pabrik) => (
+                      <option key={pabrik.id} value={pabrik.nama_pabrik}>
+                        {pabrik.nama_pabrik} {pabrik.kode_pabrik ? `(${pabrik.kode_pabrik})` : ''}
+                      </option>
+                    ))}
+                  </select>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">Masalah</label>
