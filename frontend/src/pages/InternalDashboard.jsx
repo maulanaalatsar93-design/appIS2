@@ -595,6 +595,15 @@ export default function InternalDashboard() {
             >
               Job Load &amp; Progress
             </button>
+            <button
+              onClick={() => setActiveTab('performance_killer')}
+              className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${activeTab === 'performance_killer'
+                ? 'bg-[#1A4BC4] text-white shadow-sm'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+                }`}
+            >
+              Performance Killer
+            </button>
           </div>
 
           <button
@@ -866,102 +875,6 @@ export default function InternalDashboard() {
           </div>
 
 
-          {/* Performance Killer Widget */}
-          <div className="bg-white border border-industrial-border rounded-card shadow-sm-subtle overflow-hidden mt-6">
-            <div className="flex items-center justify-between px-4 py-3 bg-[#8B0000]">
-              <h4 className="text-sm font-bold text-white flex items-center gap-2">
-                <AlertTriangle size={16} />
-                <span>Performance Killer</span>
-              </h4>
-              <div className="flex items-center bg-black/20 rounded-lg p-1 border border-white/10">
-                <button
-                  onClick={() => setPkViewMode('kualitatif')}
-                  className={`px-3 py-1 text-xs font-bold rounded-md transition-all ${
-                    pkViewMode === 'kualitatif'
-                      ? 'bg-white text-[#8B0000] shadow-sm'
-                      : 'text-white/70 hover:text-white hover:bg-white/10'
-                  }`}
-                >
-                  Kualitatif
-                </button>
-                <button
-                  onClick={() => setPkViewMode('kuantitatif')}
-                  className={`px-3 py-1 text-xs font-bold rounded-md transition-all ${
-                    pkViewMode === 'kuantitatif'
-                      ? 'bg-white text-[#8B0000] shadow-sm'
-                      : 'text-white/70 hover:text-white hover:bg-white/10'
-                  }`}
-                >
-                  Kuantitatif
-                </button>
-              </div>
-            </div>
-
-            <div className="p-0">
-              {pkViewMode === 'kualitatif' ? (
-                <div className="overflow-x-auto">
-                  <table className="w-full text-xs text-left border-collapse">
-                    <thead className="bg-slate-50 text-slate-700 font-bold border-b border-slate-300">
-                      <tr>
-                        <th className="py-2 px-3 border border-slate-300 bg-slate-200 w-12 text-center">No</th>
-                        <th className="py-2 px-3 border border-slate-300 bg-slate-200">Item</th>
-                        <th className="py-2 px-3 border border-slate-300 bg-slate-200">Area/Plant</th>
-                        <th className="py-2 px-3 border border-slate-300 bg-slate-200">Masalah</th>
-                        <th className="py-2 px-3 border border-slate-300 bg-slate-200">Tindak Lanjut</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-200 text-[11px] font-medium text-slate-700">
-                      {performanceKillers.length > 0 ? (
-                        performanceKillers.map((pk, idx) => (
-                          <tr key={pk.id} className="hover:bg-slate-50 transition-colors">
-                            <td className="py-2 px-3 border border-slate-200 bg-slate-50/50 text-center">{idx + 1}</td>
-                            <td className="py-2 px-3 border border-slate-200 font-bold">{pk.item}</td>
-                            <td className="py-2 px-3 border border-slate-200">{pk.area_plant}</td>
-                            <td className="py-2 px-3 border border-slate-200 max-w-[250px] whitespace-normal break-words">{pk.masalah}</td>
-                            <td className="py-2 px-3 border border-slate-200 max-w-[250px] whitespace-normal break-words">{pk.tindak_lanjut}</td>
-                          </tr>
-                        ))
-                      ) : (
-                        <tr>
-                          <td colSpan="5" className="py-4 text-center text-slate-500 italic">Tidak ada data Performance Killer.</td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </table>
-                </div>
-              ) : (
-                <div className="p-4 bg-white">
-                  {(() => {
-                    // Group data for quantitative chart
-                    const grouped = performanceKillers.reduce((acc, curr) => {
-                      acc[curr.area_plant] = (acc[curr.area_plant] || 0) + 1;
-                      return acc;
-                    }, {});
-                    const chartData = {
-                      series: [{ name: 'Jumlah Masalah', data: Object.values(grouped) }],
-                      options: {
-                        chart: { type: 'bar', height: 350, toolbar: { show: false } },
-                        plotOptions: { bar: { borderRadius: 4, horizontal: true } },
-                        dataLabels: { enabled: true },
-                        xaxis: { categories: Object.keys(grouped) },
-                        colors: ['#8B0000'],
-                        title: { text: 'Distribusi Performance Killer Berdasarkan Area/Plant', style: { color: '#475569', fontSize: '12px' } }
-                      }
-                    };
-                    return (
-                      <div className="h-[350px]">
-                        {performanceKillers.length > 0 ? (
-                          <Chart options={chartData.options} series={chartData.series} type="bar" height="100%" />
-                        ) : (
-                          <div className="h-full flex items-center justify-center text-slate-500 italic text-xs">Belum ada data untuk ditampilkan.</div>
-                        )}
-                      </div>
-                    );
-                  })()}
-                </div>
-              )}
-            </div>
-          </div>
 
           {/* Work Order PM 02+ List (Overview) */}
           <div className="bg-white border border-industrial-border rounded-card shadow-sm-subtle overflow-hidden mt-6">
@@ -1837,6 +1750,107 @@ export default function InternalDashboard() {
               >
                 Tutup Detail
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* PERFORMANCE KILLER TAB CONTENT */}
+      {activeTab === 'performance_killer' && (
+        <div className="space-y-6">
+          <div className="bg-white border border-industrial-border rounded-card shadow-sm-subtle overflow-hidden">
+            <div className="flex items-center justify-between px-4 py-3 bg-[#8B0000]">
+              <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                <AlertTriangle size={16} />
+                <span>Performance Killer</span>
+              </h4>
+              <div className="flex items-center bg-black/20 rounded-lg p-1 border border-white/10">
+                <button
+                  onClick={() => setPkViewMode('kualitatif')}
+                  className={`px-3 py-1 text-xs font-bold rounded-md transition-all ${
+                    pkViewMode === 'kualitatif'
+                      ? 'bg-white text-[#8B0000] shadow-sm'
+                      : 'text-white/70 hover:text-white hover:bg-white/10'
+                  }`}
+                >
+                  Kualitatif
+                </button>
+                <button
+                  onClick={() => setPkViewMode('kuantitatif')}
+                  className={`px-3 py-1 text-xs font-bold rounded-md transition-all ${
+                    pkViewMode === 'kuantitatif'
+                      ? 'bg-white text-[#8B0000] shadow-sm'
+                      : 'text-white/70 hover:text-white hover:bg-white/10'
+                  }`}
+                >
+                  Kuantitatif
+                </button>
+              </div>
+            </div>
+
+            <div className="p-0">
+              {pkViewMode === 'kualitatif' ? (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-xs text-left border-collapse">
+                    <thead className="bg-slate-50 text-slate-700 font-bold border-b border-slate-300">
+                      <tr>
+                        <th className="py-2 px-3 border border-slate-300 bg-slate-200 w-12 text-center">No</th>
+                        <th className="py-2 px-3 border border-slate-300 bg-slate-200">Item</th>
+                        <th className="py-2 px-3 border border-slate-300 bg-slate-200">Area/Plant</th>
+                        <th className="py-2 px-3 border border-slate-300 bg-slate-200">Masalah</th>
+                        <th className="py-2 px-3 border border-slate-300 bg-slate-200">Tindak Lanjut</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-200 text-[11px] font-medium text-slate-700">
+                      {performanceKillers.length > 0 ? (
+                        performanceKillers.map((pk, idx) => (
+                          <tr key={pk.id} className="hover:bg-slate-50 transition-colors">
+                            <td className="py-2 px-3 border border-slate-200 bg-slate-50/50 text-center">{idx + 1}</td>
+                            <td className="py-2 px-3 border border-slate-200 font-bold">{pk.item}</td>
+                            <td className="py-2 px-3 border border-slate-200">{pk.area_plant}</td>
+                            <td className="py-2 px-3 border border-slate-200 max-w-[250px] whitespace-normal break-words">{pk.masalah}</td>
+                            <td className="py-2 px-3 border border-slate-200 max-w-[250px] whitespace-normal break-words">{pk.tindak_lanjut}</td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan="5" className="py-4 text-center text-slate-500 italic">Tidak ada data Performance Killer.</td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <div className="p-4 bg-white">
+                  {(() => {
+                    // Group data for quantitative chart
+                    const grouped = performanceKillers.reduce((acc, curr) => {
+                      acc[curr.area_plant] = (acc[curr.area_plant] || 0) + 1;
+                      return acc;
+                    }, {});
+                    const chartData = {
+                      series: [{ name: 'Jumlah Masalah', data: Object.values(grouped) }],
+                      options: {
+                        chart: { type: 'bar', height: 350, toolbar: { show: false } },
+                        plotOptions: { bar: { borderRadius: 4, horizontal: true } },
+                        dataLabels: { enabled: true },
+                        xaxis: { categories: Object.keys(grouped) },
+                        colors: ['#8B0000'],
+                        title: { text: 'Distribusi Performance Killer Berdasarkan Area/Plant', style: { color: '#475569', fontSize: '12px' } }
+                      }
+                    };
+                    return (
+                      <div className="h-[350px]">
+                        {performanceKillers.length > 0 ? (
+                          <Chart options={chartData.options} series={chartData.series} type="bar" height="100%" />
+                        ) : (
+                          <div className="h-full flex items-center justify-center text-slate-500 italic text-xs">Belum ada data untuk ditampilkan.</div>
+                        )}
+                      </div>
+                    );
+                  })()}
+                </div>
+              )}
             </div>
           </div>
         </div>
