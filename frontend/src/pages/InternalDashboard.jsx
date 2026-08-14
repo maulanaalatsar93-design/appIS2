@@ -1756,159 +1756,187 @@ export default function InternalDashboard() {
       )}
 
       {/* PERFORMANCE KILLER TAB CONTENT */}
-      {activeTab === 'performance_killer' && (
-        <div className="space-y-6">
-          {/* KPI Summary Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <KPICard
-              icon={AlertTriangle}
-              label="Total Performance Killer"
-              value={performanceKillers.length.toString()}
-              unit="Item"
-              trendValue="Real Time"
-              trendDir="neutral"
-              trendLabel="SAP / Database"
-              variant="orange"
-            />
-            <KPICard
-              icon={Factory}
-              label="Area/Plant Terdampak"
-              value={new Set(performanceKillers.map(pk => pk.area_plant)).size.toString()}
-              unit="Area"
-              trendValue="Distribusi"
-              trendDir="neutral"
-              trendLabel="Lokasi Pabrik"
-              variant="blue"
-            />
-            <KPICard
-              icon={FileText}
-              label="Tindak Lanjut Berjalan"
-              value={performanceKillers.filter(pk => pk.tindak_lanjut).length.toString()}
-              unit="Tindakan"
-              trendValue="On Progress"
-              trendDir="up"
-              trendLabel="Mitigasi Masalah"
-              variant="teal"
-            />
-          </div>
+      {activeTab === 'performance_killer' && (() => {
+        // Prepare chart data
+        const pkGrouped = performanceKillers.reduce((acc, curr) => {
+          acc[curr.area_plant] = (acc[curr.area_plant] || 0) + 1;
+          return acc;
+        }, {});
+        
+        const pkCategories = Object.keys(pkGrouped);
+        const pkData = Object.values(pkGrouped);
+        
+        const topArea = pkCategories.length > 0 ? pkCategories[pkData.indexOf(Math.max(...pkData))] : '-';
+        const maxIssues = pkData.length > 0 ? Math.max(...pkData) : 0;
 
-          <div className="bg-white border border-industrial-border rounded-card shadow-sm-subtle overflow-hidden">
-            <div className="flex items-center justify-between px-5 py-4 bg-[#8B0000]">
-              <h4 className="text-base font-bold text-white flex items-center gap-2">
-                <AlertTriangle size={18} />
-                <span>Monitoring Performance Killer</span>
-              </h4>
-              <div className="flex items-center bg-black/20 rounded-lg p-1 border border-white/10">
-                <button
-                  onClick={() => setPkViewMode('kualitatif')}
-                  className={`px-4 py-1.5 text-xs font-bold rounded-md transition-all ${
-                    pkViewMode === 'kualitatif'
-                      ? 'bg-white text-[#8B0000] shadow-sm'
-                      : 'text-white/70 hover:text-white hover:bg-white/10'
-                  }`}
-                >
-                  Daftar Kualitatif
-                </button>
-                <button
-                  onClick={() => setPkViewMode('kuantitatif')}
-                  className={`px-4 py-1.5 text-xs font-bold rounded-md transition-all ${
-                    pkViewMode === 'kuantitatif'
-                      ? 'bg-white text-[#8B0000] shadow-sm'
-                      : 'text-white/70 hover:text-white hover:bg-white/10'
-                  }`}
-                >
-                  Grafik Kuantitatif
-                </button>
+        const pkBarChart = {
+          series: [{ name: 'Jumlah Item (Masalah)', data: pkData }],
+          options: {
+            chart: { type: 'bar', toolbar: { show: false }, fontFamily: 'Plus Jakarta Sans, sans-serif' },
+            plotOptions: { 
+              bar: { borderRadius: 4, horizontal: false, columnWidth: '45%', distributed: true } 
+            },
+            dataLabels: { enabled: true, style: { fontSize: '14px', fontWeight: 'bold' }, offsetY: -20 },
+            xaxis: { categories: pkCategories, labels: { style: { fontWeight: 600 } } },
+            colors: ['#8B0000', '#B91C1C', '#C2410C', '#B45309', '#1D4ED8', '#0F766E', '#4338CA', '#A21CAF'],
+            title: { text: 'Distribusi per Area/Plant', style: { color: '#1E293B', fontSize: '13px', fontWeight: 'bold' } },
+            legend: { show: false },
+            grid: { strokeDashArray: 4 }
+          }
+        };
+
+        const pkDonutChart = {
+          series: pkData,
+          options: {
+            chart: { type: 'donut', fontFamily: 'Plus Jakarta Sans, sans-serif' },
+            labels: pkCategories,
+            colors: ['#8B0000', '#B91C1C', '#C2410C', '#B45309', '#1D4ED8', '#0F766E', '#4338CA', '#A21CAF'],
+            plotOptions: {
+              pie: {
+                donut: {
+                  size: '70%',
+                  labels: {
+                    show: true,
+                    name: { show: true, fontSize: '12px', color: '#64748B' },
+                    value: { show: true, fontSize: '20px', fontWeight: 'bold', color: '#1E293B' },
+                    total: {
+                      show: true,
+                      label: 'Total Masalah',
+                      formatter: function (w) {
+                        return w.globals.seriesTotals.reduce((a, b) => { return a + b }, 0)
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            title: { text: 'Proporsi Masalah per Area/Plant', style: { color: '#1E293B', fontSize: '13px', fontWeight: 'bold' } },
+            legend: { position: 'bottom', horizontalAlign: 'center', fontSize: '11px', markers: { radius: 12 } },
+            stroke: { width: 1, colors: ['#ffffff'] },
+            dataLabels: { enabled: false }
+          }
+        };
+
+        return (
+          <div className="space-y-6">
+            {/* KPI Summary Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <KPICard
+                icon={AlertTriangle}
+                label="Total Performance Killer"
+                value={performanceKillers.length.toString()}
+                unit="Item"
+                trendValue="Real Time"
+                trendDir="neutral"
+                trendLabel="Database"
+                variant="orange"
+              />
+              <KPICard
+                icon={Factory}
+                label="Area/Plant Terdampak"
+                value={pkCategories.length.toString()}
+                unit="Area"
+                trendValue="Distribusi"
+                trendDir="neutral"
+                trendLabel="Lokasi Pabrik"
+                variant="blue"
+              />
+              <KPICard
+                icon={FileText}
+                label="Tindak Lanjut Berjalan"
+                value={performanceKillers.filter(pk => pk.tindak_lanjut).length.toString()}
+                unit="Tindakan"
+                trendValue="On Progress"
+                trendDir="up"
+                trendLabel="Mitigasi Masalah"
+                variant="teal"
+              />
+              <KPICard
+                icon={TrendingUp}
+                label="Area Terbanyak"
+                value={topArea}
+                unit={`${maxIssues} Item`}
+                trendValue="Highest"
+                trendDir="down"
+                trendLabel="Perhatian Khusus"
+                variant="rose"
+              />
+            </div>
+
+            {/* Charts Section */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div className="lg:col-span-2 bg-white border border-industrial-border rounded-card shadow-sm-subtle p-5">
+                {performanceKillers.length > 0 ? (
+                  <div className="h-[350px]">
+                    <Chart options={pkBarChart.options} series={pkBarChart.series} type="bar" height="100%" />
+                  </div>
+                ) : (
+                  <div className="h-[350px] flex items-center justify-center text-slate-500 italic text-sm bg-slate-50 rounded-xl border border-dashed border-slate-200">
+                    Belum ada data untuk ditampilkan.
+                  </div>
+                )}
+              </div>
+              
+              <div className="bg-white border border-industrial-border rounded-card shadow-sm-subtle p-5 flex flex-col items-center justify-center">
+                {performanceKillers.length > 0 ? (
+                  <div className="w-full h-[350px]">
+                    <Chart options={pkDonutChart.options} series={pkDonutChart.series} type="donut" height="100%" />
+                  </div>
+                ) : (
+                  <div className="h-[350px] w-full flex items-center justify-center text-slate-500 italic text-sm bg-slate-50 rounded-xl border border-dashed border-slate-200">
+                    Belum ada data untuk ditampilkan.
+                  </div>
+                )}
               </div>
             </div>
 
-            <div className="p-0">
-              {pkViewMode === 'kualitatif' ? (
-                <div className="overflow-x-auto">
-                  <table className="w-full text-xs text-left border-collapse">
-                    <thead className="bg-slate-50 text-slate-700 font-bold border-b border-slate-300">
-                      <tr>
-                        <th className="py-3 px-4 border border-slate-200 bg-slate-100 w-12 text-center">No</th>
-                        <th className="py-3 px-4 border border-slate-200 bg-slate-100 uppercase tracking-wider text-[10px]">Item</th>
-                        <th className="py-3 px-4 border border-slate-200 bg-slate-100 uppercase tracking-wider text-[10px]">Area/Plant</th>
-                        <th className="py-3 px-4 border border-slate-200 bg-slate-100 uppercase tracking-wider text-[10px]">Masalah (Problem)</th>
-                        <th className="py-3 px-4 border border-slate-200 bg-slate-100 uppercase tracking-wider text-[10px]">Tindak Lanjut (Mitigation)</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-200 text-[11px] font-medium text-slate-700">
-                      {performanceKillers.length > 0 ? (
-                        performanceKillers.map((pk, idx) => (
-                          <tr key={pk.id} className="hover:bg-slate-50 transition-colors">
-                            <td className="py-3 px-4 border border-slate-200 bg-slate-50/50 text-center font-bold text-slate-600">{idx + 1}</td>
-                            <td className="py-3 px-4 border border-slate-200 font-bold text-industrial-navy">{pk.item}</td>
-                            <td className="py-3 px-4 border border-slate-200">
-                              <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 text-slate-700 border border-slate-200">
-                                {pk.area_plant}
-                              </span>
-                            </td>
-                            <td className="py-3 px-4 border border-slate-200 min-w-[280px] max-w-sm whitespace-normal leading-relaxed text-slate-700">{pk.masalah}</td>
-                            <td className="py-3 px-4 border border-slate-200 min-w-[280px] max-w-sm whitespace-normal leading-relaxed text-slate-700">{pk.tindak_lanjut}</td>
-                          </tr>
-                        ))
-                      ) : (
-                        <tr>
-                          <td colSpan="5" className="py-4 text-center text-slate-500 italic">Tidak ada data Performance Killer.</td>
+            {/* Data Table Section */}
+            <div className="bg-white border border-industrial-border rounded-card shadow-sm-subtle overflow-hidden">
+              <div className="flex items-center justify-between px-5 py-4 bg-[#8B0000]">
+                <h4 className="text-base font-bold text-white flex items-center gap-2">
+                  <AlertTriangle size={18} />
+                  <span>Daftar Detail Performance Killer</span>
+                </h4>
+              </div>
+
+              <div className="p-0 overflow-x-auto">
+                <table className="w-full text-xs text-left border-collapse">
+                  <thead className="bg-slate-50 text-slate-700 font-bold border-b border-slate-300">
+                    <tr>
+                      <th className="py-3 px-4 border border-slate-200 bg-slate-100 w-12 text-center">No</th>
+                      <th className="py-3 px-4 border border-slate-200 bg-slate-100 uppercase tracking-wider text-[10px]">Item</th>
+                      <th className="py-3 px-4 border border-slate-200 bg-slate-100 uppercase tracking-wider text-[10px]">Area/Plant</th>
+                      <th className="py-3 px-4 border border-slate-200 bg-slate-100 uppercase tracking-wider text-[10px]">Masalah (Problem)</th>
+                      <th className="py-3 px-4 border border-slate-200 bg-slate-100 uppercase tracking-wider text-[10px]">Tindak Lanjut (Mitigation)</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-200 text-[11px] font-medium text-slate-700">
+                    {performanceKillers.length > 0 ? (
+                      performanceKillers.map((pk, idx) => (
+                        <tr key={pk.id} className="hover:bg-slate-50 transition-colors">
+                          <td className="py-3 px-4 border border-slate-200 bg-slate-50/50 text-center font-bold text-slate-600">{idx + 1}</td>
+                          <td className="py-3 px-4 border border-slate-200 font-bold text-industrial-navy">{pk.item}</td>
+                          <td className="py-3 px-4 border border-slate-200">
+                            <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 text-slate-700 border border-slate-200">
+                              {pk.area_plant}
+                            </span>
+                          </td>
+                          <td className="py-3 px-4 border border-slate-200 min-w-[280px] max-w-sm whitespace-normal leading-relaxed text-slate-700">{pk.masalah}</td>
+                          <td className="py-3 px-4 border border-slate-200 min-w-[280px] max-w-sm whitespace-normal leading-relaxed text-slate-700">{pk.tindak_lanjut}</td>
                         </tr>
-                      )}
-                    </tbody>
-                  </table>
-                </div>
-              ) : (
-                <div className="p-4 bg-white">
-                  {(() => {
-                    // Group data for quantitative chart
-                    const grouped = performanceKillers.reduce((acc, curr) => {
-                      acc[curr.area_plant] = (acc[curr.area_plant] || 0) + 1;
-                      return acc;
-                    }, {});
-                        const chartData = {
-                          series: [{ name: 'Jumlah Item (Masalah)', data: Object.values(grouped) }],
-                          options: {
-                            chart: { type: 'bar', height: 380, toolbar: { show: false }, fontFamily: 'Plus Jakarta Sans, sans-serif' },
-                            plotOptions: { 
-                              bar: { 
-                                borderRadius: 4, 
-                                horizontal: false,
-                                columnWidth: '45%',
-                                distributed: true
-                              } 
-                            },
-                            dataLabels: { 
-                              enabled: true,
-                              style: { fontSize: '14px', fontWeight: 'bold' },
-                              offsetY: -20
-                            },
-                            xaxis: { 
-                              categories: Object.keys(grouped),
-                              labels: { style: { fontWeight: 600 } }
-                            },
-                            colors: ['#8B0000', '#B91C1C', '#C2410C', '#B45309', '#1D4ED8', '#0F766E', '#4338CA', '#A21CAF'],
-                            title: { text: 'Distribusi Masalah (Performance Killer) per Area/Plant', style: { color: '#1E293B', fontSize: '14px', fontWeight: 'bold' } },
-                            legend: { show: false },
-                            grid: { strokeDashArray: 4 }
-                          }
-                        };
-                        return (
-                          <div className="h-[400px]">
-                        {performanceKillers.length > 0 ? (
-                          <Chart options={chartData.options} series={chartData.series} type="bar" height="100%" />
-                        ) : (
-                          <div className="h-full flex items-center justify-center text-slate-500 italic text-xs">Belum ada data untuk ditampilkan.</div>
-                        )}
-                      </div>
-                    );
-                  })()}
-                </div>
-              )}
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="5" className="py-8 text-center text-slate-500 italic">Tidak ada data Performance Killer.</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        );
+      })()}
 
       {/* ===== CATEGORY DETAIL MODAL (Manpower per Kategori) ===== */}
       {showCategoryModal && selectedCategory && (() => {
