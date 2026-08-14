@@ -247,7 +247,7 @@ export default function ManHoursPage() {
     try {
       const waktu_mulai = mulai ? new Date(`${tanggal}T${mulai}:00`).toISOString() : null;
       const waktu_selesai = selesai ? new Date(`${tanggal}T${selesai}:00`).toISOString() : null;
-      const res = await fetch(`${api}/api/daily-tasks/${taskId}`, {
+      const res = await fetch(`${api}/api/man-hours/inline/${taskId}`, {
         method: 'PUT',
         headers: { ...headers, 'Content-Type': 'application/json' },
         body: JSON.stringify({ waktu_mulai, waktu_selesai })
@@ -267,7 +267,7 @@ export default function ManHoursPage() {
 
   // Cek apakah baris bisa diedit user ini
   const canEditRow = (row) => {
-    if (!row.source || row.source !== 'DailyTask') return false;
+    if (!row.source || (row.source !== 'DailyTask' && row.source !== 'PdmActivity')) return false;
     if (isAdmin) return true;
     if (isAnggota && row.man_power_id === userManPowerId) return true;
     return false;

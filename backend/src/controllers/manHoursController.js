@@ -278,3 +278,80 @@ export const getManHoursSummary = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+/**
+ * PUT /api/man-hours/inline/:id
+ * Inline update for both DailyTask and PdmActivity
+ */
+export const updateInlineManHours = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { waktu_mulai, waktu_selesai } = req.body;
+
+    const isAdmin = ['admin', 'superadmin', 'supervisor'].includes(req.user?.role?.toLowerCase());
+    const userManPowerId = req.user?.man_power_id;
+
+    if (!id) return res.status(400).json({ error: 'ID tidak valid' });
+
+    if (id.startsWith('dt-')) {
+      const dtId = parseInt(id.replace('dt-', ''), 10);
+      if (isNaN(dtId)) return res.status(400).json({ error: 'ID DailyTask tidak valid' });
+
+      const dt = await prisma.dailyTask.findUnique({ where: { id: dtId } });
+      if (!dt) return res.status(404).json({ error: 'Data DailyTask tidak ditemukan' });
+
+      if (!isAdmin && dt.man_power_id !== userManPowerId) {
+        return res.status(403).json({ error: 'Tidak memiliki akses untuk mengubah data ini' });
+      }
+
+      let man_hours = dt.man_hours;
+      if (waktu_mulai && waktu_selesai) {
+        const diffMs = new Date(waktu_selesai) - new Date(waktu_mulai);
+        man_hours = diffMs > 0 ? Number((diffMs / (1000 * 60 * 60)).toFixed(2)) : 0;
+      }
+
+      const updated = await prisma.dailyTask.update({
+        where: { id: dtId },
+        data: {
+          waktu_mulai: waktu_mulai ? new Date(waktu_mulai) : null,
+          waktu_selesai: waktu_selesai ? new Date(waktu_selesai) : null,
+          man_hours
+        }
+      });
+      return res.json(updated);
+
+    } else if (id.startsWith('pdm-')) {
+      const pdmId = parseInt(id.replace('pdm-', ''), 10);
+      if (isNaN(pdmId)) return res.status(400).json({ error: 'ID PdM tidak valid' });
+
+      const pdm = await prisma.pdmDailyActivity.findUnique({ where: { id: pdmId } });
+      if (!pdm) return res.status(404).json({ error: 'Data PdM Activity tidak ditemukan' });
+
+      if (!isAdmin && pdm.performedById !== userManPowerId) {
+        return res.status(403).json({ error: 'Tidak memiliki akses untuk mengubah data ini' });
+      }
+      
+      let durationMinutes = pdm.durationMinutes;
+      if (waktu_mulai && waktu_selesai) {
+        const diffMs = new Date(waktu_selesai) - new Date(waktu_mulai);
+        durationMinutes = diffMs > 0 ? Math.round(diffMs / (1000 * 60)) : 0;
+      }
+
+      const updated = await prisma.pdmDailyActivity.update({
+        where: { id: pdmId },
+        data: {
+          startTime: waktu_mulai ? new Date(waktu_mulai) : pdm.startTime,
+          endTime: waktu_selesai ? new Date(waktu_selesai) : null,
+          durationMinutes: durationMinutes
+        }
+      });
+      return res.json(updated);
+    }
+
+    return res.status(400).json({ error: 'Format ID tidak dikenali' });
+
+  } catch (error) {
+    console.error('Error inline update man hours:', error);
+    res.status(500).json({ error: 'Terjadi kesalahan pada server' });
+  }
+};
