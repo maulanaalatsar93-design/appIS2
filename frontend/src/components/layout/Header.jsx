@@ -119,7 +119,17 @@ export default function Header({ isCollapsed, setIsCollapsed }) {
   };
 
   return (
-    <header className="h-20 bg-transparent px-4 lg:px-8 flex items-center justify-end sticky top-0 z-30 pt-4 pb-2 print:hidden">
+    <header className="h-20 bg-transparent px-4 lg:px-8 flex items-center justify-between sticky top-0 z-30 pt-4 pb-2 print:hidden">
+      <div className="flex items-center">
+        {/* Hamburger menu for mobile */}
+        <button
+          onClick={() => setIsCollapsed(!isCollapsed)}
+          className="lg:hidden p-2 text-industrial-text hover:bg-slate-100 rounded-md transition-colors mr-2"
+        >
+          <Menu className="w-5 h-5" />
+        </button>
+        {/* Optional: Page Title could go here */}
+      </div>
       <div className="flex items-center">
         {/* Right: Actions */}
         <div className="flex items-center space-x-4 relative justify-end flex-1">
@@ -182,13 +192,8 @@ export default function Header({ isCollapsed, setIsCollapsed }) {
             </div>
           )}
 
-          {/* Add Data Button & User Profile */}
+          {/* User Profile */}
           <div className="flex items-center space-x-3 pl-3 ml-2 border-l border-industrial-border">
-            <button className="hidden lg:flex items-center gap-2 bg-industrial-orange hover:bg-orange-600 text-white px-5 py-2.5 rounded-full text-xs font-bold transition-all shadow-md hover:shadow-lg">
-              Tambah Data
-              <span className="bg-white/20 rounded-full w-4 h-4 flex items-center justify-center text-[10px]">+</span>
-            </button>
-            
             {user ? (
               <div className="flex items-center gap-2 relative group cursor-pointer ml-2">
                 <div className="w-9 h-9 rounded-full bg-[#0a0a0a] text-white flex items-center justify-center text-xs font-extrabold uppercase shadow-sm">

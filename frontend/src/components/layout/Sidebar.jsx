@@ -56,7 +56,11 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
 
   return (
     <aside
-      className={`${isCollapsed ? 'w-20' : 'w-64'} bg-industrial-primaryBase flex flex-col justify-between shrink-0 h-full transition-all duration-300 ease-in-out z-40 relative overflow-y-auto print:hidden`}
+      className={`bg-industrial-primaryBase flex flex-col justify-between shrink-0 h-full transition-all duration-300 ease-in-out z-50 overflow-y-auto print:hidden ${
+        isCollapsed 
+          ? 'w-0 -translate-x-full lg:translate-x-0 lg:w-20 fixed lg:static inset-y-0 left-0 opacity-0 lg:opacity-100' 
+          : 'w-full translate-x-0 lg:w-64 fixed lg:static inset-y-0 left-0 opacity-100'
+      }`}
     >
 
       <div className="relative z-10 flex flex-col justify-between h-full p-2.5">
@@ -91,7 +95,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
                 className="p-1 text-white/40 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
                 title="Ciutkan Sidebar"
               >
-                <ChevronLeft size={16} />
+                <ChevronLeft size={20} className="lg:w-4 lg:h-4" />
               </button>
             )}
           </div>
@@ -112,7 +116,10 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
                     return (
                       <button
                         key={item.path}
-                        onClick={() => navigate(item.path)}
+                        onClick={() => {
+                          navigate(item.path);
+                          if (window.innerWidth < 1024) setIsCollapsed(true);
+                        }}
                         title={isCollapsed ? item.label : undefined}
                         className={`w-full flex items-center ${isCollapsed ? 'justify-center py-3' : 'space-x-3 px-4 py-3'
                           } rounded-none text-xs font-bold transition-all duration-300 ease-out border-l-4 ${isActive

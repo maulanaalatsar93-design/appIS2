@@ -7,44 +7,54 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['"Aeonik"', '"Plus Jakarta Sans"', 'sans-serif'],
-        display: ['"SendHapy"', '"Fredoka"', 'sans-serif'],
+        sans: ['"Inter"', '"Plus Jakarta Sans"', 'sans-serif'],
+        display: ['"Inter"', '"Plus Jakarta Sans"', 'sans-serif'],
       },
       colors: {
+        // New Thema.md standards
+        navy: { DEFAULT: '#14131D', soft: '#1F1E2E' },
+        accent: { DEFAULT: '#FCA311', soft: '#FFD98F' },
+        platinum: { DEFAULT: '#E5E5E5', dark: '#C9C9C9' },
+        ink: '#000000',
+        success: '#2E7D32',
+        warning: '#FCA311',
+        danger: '#D32F2F',
+        info: '#14131D',
+
+        // Legacy industrial mappings updated to new palette for backwards compatibility
         industrial: {
-          primaryBase: '#032A53',     // OxfordBlue
-          primaryAccent: '#E43B00',   // Sinopia
-          bgEggshell: '#F4F1DE',      // Eggshell
-          accentChampagne: '#F2CC8F', // Deep Champagne
-          accentGreen: '#81B29A',     // Green Sheen
-          surfaceWhite: '#FFFFFF',    // White
+          primaryBase: '#14131D',     // navy
+          primaryAccent: '#FCA311',   // accent
+          bgEggshell: '#E5E5E5',      // platinum
+          accentChampagne: '#FFD98F', // accent.soft
+          accentGreen: '#2E7D32',     // success
+          surfaceWhite: '#FFFFFF',    // white
           
-          // Legacy mappings mapped to new colors so existing components don't break entirely
-          navy: '#032A53',
-          blue: '#E43B00',        
-          orange: '#F2CC8F',      
-          green: '#81B29A',       
-          red: '#E43B00',         
-          amber: '#F2CC8F',       
-          background: '#F4F1DE',  
-          border: '#E2E8F0',      
-          text: '#032A53',        
-          muted: '#64748B',       
-          surfaceDark: '#032A53', 
-          navyDark: '#032A53',      
+          navy: '#14131D',
+          blue: '#14131D',        
+          orange: '#FCA311',      
+          green: '#2E7D32',       
+          red: '#D32F2F',         
+          amber: '#FCA311',       
+          background: '#E5E5E5',  
+          border: '#C9C9C9',      
+          text: '#000000',        
+          muted: '#C9C9C9',       
+          surfaceDark: '#14131D', 
+          navyDark: '#14131D',      
           navyCard: '#FFFFFF',      
-          royalBlue: '#E43B00',     
-          royalLight: '#F2CC8F',    
-          cardOrange: '#E43B00',    
-          progressBar: '#81B29A',   
+          royalBlue: '#14131D',     
+          royalLight: '#E5E5E5',    
+          cardOrange: '#FCA311',    
+          progressBar: '#2E7D32',   
         },
       },
       boxShadow: {
-        'sm-subtle': '0 2px 8px 0 rgba(0, 48, 91, 0.03)',
-        'soft-card': '0 4px 16px 0 rgba(0, 48, 91, 0.04)',
+        'sm-subtle': '0 2px 8px 0 rgba(0, 0, 0, 0.05)',
+        'soft-card': '0 4px 16px 0 rgba(0, 0, 0, 0.08)',
       },
       borderRadius: {
-        'card': '18px',
+        'card': '12px',
         'pill': '9999px',
       }
     },
