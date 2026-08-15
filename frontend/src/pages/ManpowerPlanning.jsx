@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+﻿import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { Loader2, Plus, Calendar as CalendarIcon, Users, FileText, ChevronRight, Eye, CheckCircle2, Clock, XCircle, AlertTriangle } from 'lucide-react';
 import ManpowerPlanningForm from './ManpowerPlanningForm';
@@ -47,13 +47,13 @@ export default function ManpowerPlanning() {
 
   const getStatusBadge = (status) => {
     const badges = {
-      'Draft': 'bg-slate-100 text-slate-600 border-slate-200',
-      'Waiting AVP Approval': 'bg-blue-50 text-blue-600 border-blue-200',
-      'Waiting VP Approval': 'bg-indigo-50 text-indigo-600 border-indigo-200',
+      'Draft': 'bg-platinum-dark text-slate-600 border-platinum-dark',
+      'Waiting AVP Approval': 'bg-blue-50 text-navy border-navy-soft',
+      'Waiting VP Approval': 'bg-indigo-50 text-navy border-indigo-200',
       'Approved': 'bg-emerald-50 text-emerald-600 border-emerald-200',
       'Rejected': 'bg-red-50 text-red-600 border-red-200',
       'Revision Requested': 'bg-amber-50 text-amber-600 border-amber-200',
-      'Cancelled': 'bg-gray-100 text-gray-500 border-gray-200',
+      'Cancelled': 'bg-gray-100 text-gray-500 border-platinum-dark',
     };
     
     return (
@@ -136,7 +136,7 @@ export default function ManpowerPlanning() {
 
       {/* List */}
       <div className="bg-white border border-platinum-dark rounded-card overflow-hidden shadow-soft-card">
-        <div className="p-4 border-b border-platinum-dark bg-gray-50/50">
+        <div className="p-4 border-b border-platinum-dark bg-platinum/50">
           <h2 className="text-sm font-semibold text-ink">Daftar Dokumen Perencanaan</h2>
         </div>
         
@@ -155,7 +155,7 @@ export default function ManpowerPlanning() {
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm whitespace-nowrap">
               <thead>
-                <tr className="text-platinum-dark border-b border-platinum-dark bg-gray-50/50">
+                <tr className="text-platinum-dark border-b border-platinum-dark bg-platinum/50">
                   <th className="px-4 py-3 font-medium">Program / Pekerjaan</th>
                   <th className="px-4 py-3 font-medium">Jadwal Pelaksanaan</th>
                   <th className="px-4 py-3 font-medium">Departemen & Area</th>
@@ -166,7 +166,7 @@ export default function ManpowerPlanning() {
               </thead>
               <tbody className="divide-y divide-platinum-dark">
                 {plans.map((plan) => (
-                  <tr key={plan.id} className="hover:bg-slate-50 transition-colors group">
+                  <tr key={plan.id} className="hover:bg-platinum transition-colors group">
                     <td className="px-4 py-3">
                       <p className="font-semibold text-ink truncate max-w-[200px]">{plan.title}</p>
                       <p className="text-xs text-platinum-dark mt-0.5">Pembuat: {plan.createdBy.name}</p>
@@ -186,7 +186,7 @@ export default function ManpowerPlanning() {
                       <p className="text-xs text-platinum-dark mt-0.5">{plan.area}</p>
                     </td>
                     <td className="px-4 py-3">
-                      <div className="flex items-center space-x-1.5 text-ink text-xs bg-slate-100 px-2 py-1 rounded-md w-fit border border-slate-200">
+                      <div className="flex items-center space-x-1.5 text-ink text-xs bg-platinum-dark px-2 py-1 rounded-md w-fit border border-platinum-dark">
                         <Users className="w-3.5 h-3.5 text-blue-500" />
                         <span className="font-medium">{plan.members?.length || 0} orang</span>
                       </div>
@@ -197,7 +197,7 @@ export default function ManpowerPlanning() {
                     <td className="px-4 py-3 text-right">
                       <button 
                         onClick={() => handleViewDetail(plan.id)}
-                        className="p-1.5 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg transition-colors border border-blue-200 inline-flex items-center"
+                        className="p-1.5 bg-blue-50 text-navy hover:bg-blue-100 rounded-lg transition-colors border border-navy-soft inline-flex items-center"
                         title="Lihat Detail"
                       >
                         <Eye className="w-4 h-4" />
@@ -213,3 +213,5 @@ export default function ManpowerPlanning() {
     </div>
   );
 }
+
+

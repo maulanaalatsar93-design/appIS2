@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+﻿import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { Loader2, ArrowLeft, Calendar, Save, AlertCircle, Check, Users, Search, Plus, Trash2, FastForward, Info } from 'lucide-react';
 
@@ -176,7 +176,7 @@ export default function ManpowerPlanningForm({ onBack, onSaved }) {
         <div className="flex items-center space-x-4">
           <button 
             onClick={onBack}
-            className="p-2 bg-white hover:bg-slate-50 text-slate-600 rounded-lg transition-colors border border-platinum-dark shadow-sm-subtle"
+            className="p-2 bg-white hover:bg-platinum text-slate-600 rounded-lg transition-colors border border-platinum-dark shadow-sm-subtle"
           >
             <ArrowLeft className="w-5 h-5" />
           </button>
@@ -291,7 +291,7 @@ export default function ManpowerPlanningForm({ onBack, onSaved }) {
                           <option key={user.id} value={user.id}>{user.name} ({user.position})</option>
                         ))}
                       </select>
-                      <button onClick={() => removeApprover(idx)} className="p-1.5 text-slate-400 hover:text-red-500 bg-slate-50 rounded-lg border border-slate-200"><Trash2 className="w-4 h-4"/></button>
+                      <button onClick={() => removeApprover(idx)} className="p-1.5 text-slate-400 hover:text-red-500 bg-platinum rounded-lg border border-platinum-dark"><Trash2 className="w-4 h-4"/></button>
                     </div>
                   ))}
                 </div>
@@ -303,7 +303,7 @@ export default function ManpowerPlanningForm({ onBack, onSaved }) {
         {/* Right Column: Manpower Selection */}
         <div className="lg:col-span-2 space-y-6">
           <div className="bg-white border border-platinum-dark rounded-card overflow-hidden shadow-soft-card flex flex-col h-[400px]">
-            <div className="p-4 border-b border-platinum-dark flex items-center justify-between bg-slate-50">
+            <div className="p-4 border-b border-platinum-dark flex items-center justify-between bg-platinum">
               <h3 className="font-semibold text-ink">Personil yang Ditugaskan ({selectedMembers.length})</h3>
             </div>
             
@@ -332,9 +332,9 @@ export default function ManpowerPlanningForm({ onBack, onSaved }) {
                         value={member.role}
                         onChange={(e) => updateMemberRole(member.manPowerId, e.target.value)}
                         placeholder="Peran (Opsional)"
-                        className="w-full sm:w-40 bg-slate-50 border border-platinum-dark rounded-lg px-2 py-1.5 text-xs text-ink focus:outline-none focus:border-navy"
+                        className="w-full sm:w-40 bg-platinum border border-platinum-dark rounded-lg px-2 py-1.5 text-xs text-ink focus:outline-none focus:border-navy"
                       />
-                      <button onClick={() => removeMember(member.manPowerId)} className="p-1.5 text-slate-500 hover:text-red-500 hover:bg-red-50 border border-slate-200 rounded-lg transition-colors">
+                      <button onClick={() => removeMember(member.manPowerId)} className="p-1.5 text-slate-500 hover:text-red-500 hover:bg-red-50 border border-platinum-dark rounded-lg transition-colors">
                         <Trash2 className="w-4 h-4" />
                       </button>
                     </div>
@@ -346,7 +346,7 @@ export default function ManpowerPlanningForm({ onBack, onSaved }) {
 
           {/* Availability Pool */}
           <div className="bg-white border border-platinum-dark rounded-card overflow-hidden shadow-soft-card">
-            <div className="p-4 border-b border-platinum-dark flex items-center justify-between bg-slate-50">
+            <div className="p-4 border-b border-platinum-dark flex items-center justify-between bg-platinum">
               <div className="flex flex-col">
                  <h3 className="font-semibold text-ink text-sm flex items-center">
                    <Users className="w-4 h-4 mr-1.5 text-navy" />
@@ -371,13 +371,13 @@ export default function ManpowerPlanningForm({ onBack, onSaved }) {
                     placeholder="Cari nama atau jabatan..." 
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-ink focus:outline-none focus:border-navy"
+                    className="w-full pl-9 pr-3 py-2 bg-platinum border border-platinum-dark rounded-lg text-xs text-ink focus:outline-none focus:border-navy"
                   />
                 </div>
                 <select 
                   value={selectedDivision}
                   onChange={(e) => setSelectedDivision(e.target.value)}
-                  className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-ink focus:outline-none focus:border-navy min-w-[120px]"
+                  className="bg-platinum border border-platinum-dark rounded-lg px-3 py-2 text-xs text-ink focus:outline-none focus:border-navy min-w-[120px]"
                 >
                   {divisions.map(div => (
                     <option key={div} value={div}>{div === 'All' ? 'Semua Bagian' : div}</option>
@@ -400,7 +400,7 @@ export default function ManpowerPlanningForm({ onBack, onSaved }) {
                     const hasConflicts = hasAbsensi || hasPlanConflicts;
                     
                     return (
-                      <div key={mp.id} onClick={() => !isSelected && addMember(mp)} className={`p-3 border rounded-xl flex items-center justify-between cursor-pointer transition-colors ${isSelected ? 'bg-blue-50/50 border-blue-200 opacity-50 cursor-not-allowed' : hasConflicts ? 'bg-amber-50/50 border-amber-200 hover:bg-amber-100' : 'bg-white border-platinum-dark hover:border-navy shadow-sm-subtle'}`}>
+                      <div key={mp.id} onClick={() => !isSelected && addMember(mp)} className={`p-3 border rounded-xl flex items-center justify-between cursor-pointer transition-colors ${isSelected ? 'bg-blue-50/50 border-navy-soft opacity-50 cursor-not-allowed' : hasConflicts ? 'bg-amber-50/50 border-amber-200 hover:bg-amber-100' : 'bg-white border-platinum-dark hover:border-navy shadow-sm-subtle'}`}>
                         <div>
                           <p className={`font-semibold text-sm flex items-center ${isSelected ? 'text-blue-700' : 'text-ink'}`}>
                             {mp.name}
@@ -418,11 +418,11 @@ export default function ManpowerPlanningForm({ onBack, onSaved }) {
                           )}
                         </div>
                         {isSelected ? (
-                          <div className="w-7 h-7 rounded-full bg-blue-100 flex items-center justify-center border border-blue-200 shrink-0">
+                          <div className="w-7 h-7 rounded-full bg-blue-100 flex items-center justify-center border border-navy-soft shrink-0">
                             <Check className="w-4 h-4 text-navy" />
                           </div>
                         ) : (
-                          <div className="w-7 h-7 rounded-full bg-slate-50 flex items-center justify-center border border-slate-200 hover:bg-navy hover:border-navy hover:text-white text-slate-400 transition-colors shrink-0">
+                          <div className="w-7 h-7 rounded-full bg-platinum flex items-center justify-center border border-platinum-dark hover:bg-navy hover:border-navy hover:text-white text-slate-400 transition-colors shrink-0">
                             <Plus className="w-4 h-4" />
                           </div>
                         )}
@@ -438,3 +438,5 @@ export default function ManpowerPlanningForm({ onBack, onSaved }) {
     </div>
   );
 }
+
+

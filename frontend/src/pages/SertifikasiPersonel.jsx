@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { Shield, Plus, Search, Filter, Edit2, Trash2, X, AlertCircle, CheckCircle, XCircle } from 'lucide-react';
 import { AuthContext } from '../context/AuthContext';
 
@@ -174,7 +174,7 @@ export default function SertifikasiPersonel() {
   };
 
   const getStatusInfo = (endDate, isRencana) => {
-    if (isRencana) return { label: 'Rencana Pelatihan', color: 'bg-blue-50 text-blue-700 border-blue-200', dot: 'bg-blue-500', rowColor: '' };
+    if (isRencana) return { label: 'Rencana Pelatihan', color: 'bg-blue-50 text-blue-700 border-navy-soft', dot: 'bg-blue-500', rowColor: '' };
     if (!endDate) return { label: 'Active', color: 'bg-emerald-50 text-emerald-700 border-emerald-200', dot: 'bg-emerald-500', rowColor: '' };
 
     const today = new Date();
@@ -239,7 +239,7 @@ export default function SertifikasiPersonel() {
     <div className="p-6 space-y-6">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-800 flex items-center gap-2">
+          <h1 className="text-2xl font-bold text-ink flex items-center gap-2">
             <Shield className="w-6 h-6 text-navy" />
             Monitoring Sertifikasi Personel
           </h1>
@@ -256,8 +256,8 @@ export default function SertifikasiPersonel() {
         </button>
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-        <div className="border-b border-slate-200 bg-slate-50/50 px-4 pt-4 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
+      <div className="bg-white rounded-xl shadow-sm border border-platinum-dark overflow-hidden">
+        <div className="border-b border-platinum-dark bg-platinum/50 px-4 pt-4 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
           <div className="flex space-x-6">
             <button
               onClick={() => setActiveTab('sertifikasi')}
@@ -286,10 +286,10 @@ export default function SertifikasiPersonel() {
                 placeholder="Cari nama, NPK..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-9 pr-3 py-1.5 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-navy/20 focus:border-navy text-sm"
+                className="w-full pl-9 pr-3 py-1.5 rounded-lg border border-platinum-dark focus:outline-none focus:ring-2 focus:ring-navy/20 focus:border-navy text-sm"
               />
             </div>
-            <button className="flex items-center gap-2 px-3 py-1.5 text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 rounded-lg text-sm font-medium transition-colors">
+            <button className="flex items-center gap-2 px-3 py-1.5 text-slate-600 bg-white border border-platinum-dark hover:bg-platinum rounded-lg text-sm font-medium transition-colors">
               <Filter size={14} />
               Filter
             </button>
@@ -298,7 +298,7 @@ export default function SertifikasiPersonel() {
 
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left">
-            <thead className="bg-slate-50 text-slate-600 font-semibold border-b border-slate-200 uppercase text-[11px] tracking-wider">
+            <thead className="bg-platinum text-slate-600 font-semibold border-b border-platinum-dark uppercase text-[11px] tracking-wider">
               <tr>
                 <th className="px-4 py-3 text-center w-12">No</th>
                 <th className="px-4 py-3">Nama</th>
@@ -340,12 +340,12 @@ export default function SertifikasiPersonel() {
                 filteredData.map((item, index) => {
                   const statusInfo = getStatusInfo(item.tanggal_berakhir, item.is_rencana);
                   return (
-                    <tr key={item.id} className={`transition-colors ${statusInfo.rowColor || 'hover:bg-slate-50/80'}`}>
+                    <tr key={item.id} className={`transition-colors ${statusInfo.rowColor || 'hover:bg-platinum/80'}`}>
                       <td className="px-4 py-3 text-center text-slate-500">{index + 1}</td>
-                      <td className="px-4 py-3 font-medium text-slate-800">{item.man_power?.name || '-'}</td>
+                      <td className="px-4 py-3 font-medium text-ink">{item.man_power?.name || '-'}</td>
                       <td className="px-4 py-3 text-slate-600 font-mono text-xs">{item.man_power?.npk || '-'}</td>
                       <td className="px-4 py-3 text-slate-600">{item.man_power?.divisi?.nama_divisi || '-'}</td>
-                      <td className="px-4 py-3 text-slate-800 font-medium">{item.nama_sertifikat}</td>
+                      <td className="px-4 py-3 text-ink font-medium">{item.nama_sertifikat}</td>
                       {activeTab === 'sertifikasi' && (
                         <td className="px-4 py-3 text-slate-600 font-mono text-xs">{item.no_sertifikat || '-'}</td>
                       )}
@@ -365,7 +365,7 @@ export default function SertifikasiPersonel() {
                       <td className="px-4 py-3 text-slate-600 max-w-[150px] truncate" title={item.remarks}>{item.remarks || '-'}</td>
                       <td className="px-4 py-3">
                         {activeTab === 'tanpa_kedaluwarsa' ? (
-                          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border bg-blue-50 text-blue-700 border-blue-200">
+                          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border bg-blue-50 text-blue-700 border-navy-soft">
                             <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />
                             Lifetime
                           </div>
@@ -439,7 +439,7 @@ export default function SertifikasiPersonel() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-xl overflow-hidden flex flex-col max-h-[90vh]">
             <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
-              <h2 className="text-lg font-bold text-slate-800">
+              <h2 className="text-lg font-bold text-ink">
                 {editingId ? 'Edit Data Sertifikasi' : 'Tambah Data Sertifikasi'}
               </h2>
               <button onClick={closeModal} className="text-slate-400 hover:text-slate-600 p-1">
@@ -479,7 +479,7 @@ export default function SertifikasiPersonel() {
                   />
                 </div>
 
-                <div className="flex items-center gap-2 p-3 bg-slate-50 border border-slate-200 rounded-lg">
+                <div className="flex items-center gap-2 p-3 bg-platinum border border-platinum-dark rounded-lg">
                   <input
                     type="checkbox"
                     id="is_rencana"
@@ -541,11 +541,11 @@ export default function SertifikasiPersonel() {
                 </div>
 
               </div>
-              <div className="px-6 py-4 border-t border-slate-100 bg-slate-50 flex justify-end gap-3 rounded-b-2xl">
+              <div className="px-6 py-4 border-t border-slate-100 bg-platinum flex justify-end gap-3 rounded-b-2xl">
                 <button
                   type="button"
                   onClick={closeModal}
-                  className="px-4 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors"
+                  className="px-4 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-300 rounded-lg hover:bg-platinum transition-colors"
                 >
                   Batal
                 </button>
@@ -563,3 +563,5 @@ export default function SertifikasiPersonel() {
     </div>
   );
 }
+
+

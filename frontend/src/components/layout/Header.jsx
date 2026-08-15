@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+﻿import React, { useState, useEffect, useContext } from 'react';
 import { Bell, Database, Server, LogOut, User, Menu, Lock, Settings } from 'lucide-react';
 import { AuthContext } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -124,7 +124,7 @@ export default function Header({ isCollapsed, setIsCollapsed }) {
         {/* Hamburger menu for mobile */}
         <button
           onClick={() => setIsCollapsed(!isCollapsed)}
-          className="lg:hidden p-2 text-ink hover:bg-slate-100 rounded-md transition-colors mr-2"
+          className="lg:hidden p-2 text-ink hover:bg-platinum-dark rounded-md transition-colors mr-2"
         >
           <Menu className="w-5 h-5" />
         </button>
@@ -151,20 +151,20 @@ export default function Header({ isCollapsed, setIsCollapsed }) {
 
           {/* NOTIFICATION POPUP DRAWER */}
           {isNotifOpen && (
-            <div className="absolute right-0 top-12 w-80 bg-white border border-[#E2E8F0] rounded-2xl shadow-2xl z-50 p-4 animate-in fade-in zoom-in-95 duration-200">
+            <div className="absolute right-0 top-12 w-80 bg-white border border-platinum-dark rounded-2xl shadow-2xl z-50 p-4 animate-in fade-in zoom-in-95 duration-200">
               <div className="flex items-center justify-between border-b border-slate-100 pb-2 mb-3">
                 <div className="flex items-center gap-2">
                   <Bell size={14} className="text-[#FF5722]" />
-                  <span className="text-xs font-bold text-[#0F172A]">Notifikasi Sistem</span>
+                  <span className="text-xs font-bold text-ink">Notifikasi Sistem</span>
                 </div>
                 <span className="text-[10px] font-bold bg-[#FF5722]/10 text-[#FF5722] px-2 py-0.5 rounded-full">{unreadCount} Baru</span>
               </div>
 
               <div className="space-y-2.5 max-h-64 overflow-y-auto pr-1">
                 {notifications.map((n) => (
-                  <div key={n.id} className={`p-2.5 bg-[#F8FAFC] border border-slate-100 rounded-xl hover:bg-slate-100/80 transition-colors ${n.type === 'warning' ? 'border-l-4 border-l-red-500' : ''} ${n.type === 'info' ? 'border-l-4 border-l-blue-500' : ''}`}>
+                  <div key={n.id} className={`p-2.5 bg-[#F8FAFC] border border-slate-100 rounded-xl hover:bg-platinum-dark/80 transition-colors ${n.type === 'warning' ? 'border-l-4 border-l-red-500' : ''} ${n.type === 'info' ? 'border-l-4 border-l-blue-500' : ''}`}>
                     <div className="flex items-center justify-between mb-1">
-                      <span className="text-xs font-bold text-[#0F172A]">{n.title}</span>
+                      <span className="text-xs font-bold text-ink">{n.title}</span>
                       <span className="text-[9px] text-slate-400 font-medium">{n.time}</span>
                     </div>
                     <p className="text-[11px] text-slate-600 leading-snug">{n.desc}</p>
@@ -205,7 +205,7 @@ export default function Header({ isCollapsed, setIsCollapsed }) {
                     <p className="text-xs font-bold text-ink truncate">{user.name}</p>
                     <p className="text-[10px] text-platinum-dark truncate">{user.role}</p>
                   </div>
-                  <button onClick={() => setShowPasswordModal(true)} className="w-full text-left px-4 py-2 text-xs font-bold text-ink hover:bg-slate-50 flex items-center gap-2">
+                  <button onClick={() => setShowPasswordModal(true)} className="w-full text-left px-4 py-2 text-xs font-bold text-ink hover:bg-platinum flex items-center gap-2">
                     <Lock className="w-3.5 h-3.5" /> Ganti Password
                   </button>
                   <button onClick={handleLogout} className="w-full text-left px-4 py-2 text-xs font-bold text-danger hover:bg-red-50 flex items-center gap-2">
@@ -230,9 +230,9 @@ export default function Header({ isCollapsed, setIsCollapsed }) {
       {showPasswordModal && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm overflow-hidden animate-in zoom-in-95 duration-200">
-            <div className="px-5 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
-              <h2 className="text-sm font-bold text-slate-800 flex items-center gap-2">
-                <Lock className="w-4 h-4 text-blue-600" />
+            <div className="px-5 py-4 border-b border-slate-100 flex justify-between items-center bg-platinum">
+              <h2 className="text-sm font-bold text-ink flex items-center gap-2">
+                <Lock className="w-4 h-4 text-navy" />
                 Ganti Password
               </h2>
               <button onClick={() => setShowPasswordModal(false)} className="text-slate-400 hover:text-slate-600 text-lg font-medium">×</button>
@@ -256,7 +256,7 @@ export default function Header({ isCollapsed, setIsCollapsed }) {
                   type="password" required
                   value={passwordForm.oldPassword}
                   onChange={e => setPasswordForm(p => ({ ...p, oldPassword: e.target.value }))}
-                  className="w-full text-sm px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:border-blue-500 bg-slate-50"
+                  className="w-full text-sm px-3 py-2 border border-platinum-dark rounded-xl focus:outline-none focus:border-blue-500 bg-platinum"
                   placeholder="••••••••"
                 />
               </div>
@@ -267,7 +267,7 @@ export default function Header({ isCollapsed, setIsCollapsed }) {
                   type="password" required
                   value={passwordForm.newPassword}
                   onChange={e => setPasswordForm(p => ({ ...p, newPassword: e.target.value }))}
-                  className="w-full text-sm px-3 py-2 border border-slate-200 rounded-xl focus:outline-none focus:border-blue-500 bg-slate-50"
+                  className="w-full text-sm px-3 py-2 border border-platinum-dark rounded-xl focus:outline-none focus:border-blue-500 bg-platinum"
                   placeholder="Minimal 6 karakter"
                 />
               </div>
@@ -275,7 +275,7 @@ export default function Header({ isCollapsed, setIsCollapsed }) {
               <div className="pt-2">
                 <button 
                   type="submit" disabled={passwordLoading}
-                  className="w-full py-2.5 bg-blue-600 text-white rounded-xl text-xs font-bold hover:bg-blue-700 transition-colors disabled:opacity-50"
+                  className="w-full py-2.5 bg-navy text-white rounded-xl text-xs font-bold hover:bg-blue-700 transition-colors disabled:opacity-50"
                 >
                   {passwordLoading ? 'Menyimpan...' : 'Simpan Password'}
                 </button>
@@ -287,3 +287,4 @@ export default function Header({ isCollapsed, setIsCollapsed }) {
     </header>
   );
 }
+

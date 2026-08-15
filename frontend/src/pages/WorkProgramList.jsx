@@ -1,17 +1,17 @@
-import React, { useState, useEffect, useContext } from 'react';
+﻿import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { Loader2, Plus, Calendar, Users, ClipboardList, ChevronRight, CheckCircle2, Clock, XCircle, AlertTriangle, Eye, Briefcase } from 'lucide-react';
 import WorkProgramForm from './WorkProgramForm';
 import WorkProgramDetail from './WorkProgramDetail';
 
 const STATUS_BADGE = {
-  'Draft': 'bg-slate-100 text-slate-600 border-slate-200',
-  'Waiting AVP Approval': 'bg-blue-50 text-blue-600 border-blue-200',
-  'Waiting VP Approval': 'bg-indigo-50 text-indigo-600 border-indigo-200',
+  'Draft': 'bg-platinum-dark text-slate-600 border-platinum-dark',
+  'Waiting AVP Approval': 'bg-blue-50 text-navy border-navy-soft',
+  'Waiting VP Approval': 'bg-indigo-50 text-navy border-indigo-200',
   'Approved': 'bg-teal-50 text-teal-600 border-teal-200',
   'Team Ready': 'bg-emerald-50 text-emerald-700 border-emerald-200',
   'Active': 'bg-green-50 text-green-700 border-green-200',
-  'Completed': 'bg-slate-100 text-slate-500 border-slate-200',
+  'Completed': 'bg-platinum-dark text-slate-500 border-platinum-dark',
   'Rejected': 'bg-red-50 text-red-600 border-red-200',
   'Revision Requested': 'bg-amber-50 text-amber-600 border-amber-200',
 };
@@ -42,7 +42,7 @@ export default function WorkProgramList() {
   const filtered = statusFilter === 'All' ? programs : programs.filter(p => p.status === statusFilter);
 
   const stats = [
-    { label: 'Total Program', value: programs.length, icon: Briefcase, color: 'text-blue-600', bg: 'bg-blue-50' },
+    { label: 'Total Program', value: programs.length, icon: Briefcase, color: 'text-navy', bg: 'bg-blue-50' },
     { label: 'Menunggu Approval', value: programs.filter(p => p.status.includes('Waiting')).length, icon: Clock, color: 'text-amber-600', bg: 'bg-amber-50' },
     { label: 'Tim Aktif', value: programs.filter(p => p.status === 'Team Ready' || p.status === 'Active').length, icon: Users, color: 'text-emerald-600', bg: 'bg-emerald-50' },
     { label: 'Perlu Perhatian', value: programs.filter(p => p.status === 'Rejected' || p.status === 'Revision Requested').length, icon: AlertTriangle, color: 'text-red-600', bg: 'bg-red-50' },
@@ -93,7 +93,7 @@ export default function WorkProgramList() {
 
       {/* List */}
       <div className="bg-white border border-platinum-dark rounded-card overflow-hidden shadow-soft-card">
-        <div className="p-4 border-b border-platinum-dark bg-slate-50">
+        <div className="p-4 border-b border-platinum-dark bg-platinum">
           <h2 className="text-sm font-semibold text-ink">Daftar Program ({filtered.length})</h2>
         </div>
 
@@ -110,7 +110,7 @@ export default function WorkProgramList() {
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
               <thead>
-                <tr className="border-b border-platinum-dark bg-slate-50/50 text-platinum-dark text-xs uppercase tracking-wide">
+                <tr className="border-b border-platinum-dark bg-platinum/50 text-platinum-dark text-xs uppercase tracking-wide">
                   <th className="px-4 py-3 font-semibold">Nama Program</th>
                   <th className="px-4 py-3 font-semibold">Plant & Area</th>
                   <th className="px-4 py-3 font-semibold">Jadwal</th>
@@ -122,7 +122,7 @@ export default function WorkProgramList() {
               </thead>
               <tbody className="divide-y divide-platinum-dark">
                 {filtered.map(p => (
-                  <tr key={p.id} className="hover:bg-slate-50 transition-colors">
+                  <tr key={p.id} className="hover:bg-platinum transition-colors">
                     <td className="px-4 py-3">
                       <p className="font-semibold text-ink">{p.title}</p>
                       <p className="text-[10px] text-platinum-dark">Oleh: {p.created_by?.name}</p>
@@ -150,7 +150,7 @@ export default function WorkProgramList() {
                       ) : <span className="text-xs text-slate-400">—</span>}
                     </td>
                     <td className="px-4 py-3">
-                      <div className="flex items-center space-x-1.5 bg-slate-100 px-2 py-1 rounded-md border border-slate-200 w-fit">
+                      <div className="flex items-center space-x-1.5 bg-platinum-dark px-2 py-1 rounded-md border border-platinum-dark w-fit">
                         <Users className="w-3.5 h-3.5 text-blue-500" />
                         <span className="text-xs font-semibold text-ink">{p.members?.length || 0}</span>
                       </div>
@@ -164,8 +164,8 @@ export default function WorkProgramList() {
                           <span className={`px-2 py-0.5 text-[9px] font-bold rounded-full border ${
                             p.priority === 'Urgent' ? 'bg-red-100 text-red-700 border-red-200' :
                             p.priority === 'High' ? 'bg-orange-100 text-orange-700 border-orange-200' :
-                            p.priority === 'Normal' ? 'bg-blue-50 text-blue-600 border-blue-200' :
-                            'bg-slate-100 text-slate-600 border-slate-200'
+                            p.priority === 'Normal' ? 'bg-blue-50 text-navy border-navy-soft' :
+                            'bg-platinum-dark text-slate-600 border-platinum-dark'
                           }`}>
                             {p.priority.toUpperCase()}
                           </span>
@@ -177,7 +177,7 @@ export default function WorkProgramList() {
                     </td>
                     <td className="px-4 py-3 text-right">
                       <button onClick={() => { setSelectedId(p.id); setView('detail'); }}
-                        className="p-1.5 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg border border-blue-200 transition-colors">
+                        className="p-1.5 bg-blue-50 text-navy hover:bg-blue-100 rounded-lg border border-navy-soft transition-colors">
                         <Eye className="w-4 h-4" />
                       </button>
                     </td>
@@ -191,3 +191,5 @@ export default function WorkProgramList() {
     </div>
   );
 }
+
+

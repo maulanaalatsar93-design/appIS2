@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { Search, Filter, Loader2, ChevronLeft, ChevronRight, Eye, X } from 'lucide-react';
 
 export default function RekomendasiList({ isEmbedded = false }) {
@@ -281,3 +281,5 @@ export default function RekomendasiList({ isEmbedded = false }) {
     </div>
   );
 }
+
+

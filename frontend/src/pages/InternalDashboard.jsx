@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import KPICard from '../components/ui/KPICard';
 import Sparkline from '../components/ui/Sparkline';
 import FloatingFilterPill from '../components/ui/FloatingFilterPill';
@@ -28,10 +28,10 @@ const MONTH_NAMES = {
 const getWoStatusColor = (status) => {
   const s = String(status || '').toUpperCase();
   if (s.includes('CNF') || s.includes('TECO')) return 'bg-emerald-100 text-emerald-700 border-emerald-200';
-  if (s.includes('REL')) return 'bg-blue-100 text-blue-700 border-blue-200';
+  if (s.includes('REL')) return 'bg-blue-100 text-blue-700 border-navy-soft';
   if (s.includes('CRTD')) return 'bg-amber-100 text-amber-700 border-amber-200';
   if (s.includes('CAN')) return 'bg-red-100 text-red-700 border-red-200';
-  return 'bg-slate-100 text-slate-700 border-slate-200';
+  return 'bg-platinum-dark text-slate-700 border-platinum-dark';
 };
 
 const generateWAMessage = (wc) => {
@@ -458,7 +458,7 @@ export default function InternalDashboard() {
     return (
       <div className="relative w-full">
         {/* Bar track */}
-        <div className="w-full h-4 bg-slate-100 rounded-full overflow-hidden border border-slate-200 relative">
+        <div className="w-full h-4 bg-platinum-dark rounded-full overflow-hidden border border-platinum-dark relative">
           {/* Fill */}
           <div
             className={`h-full rounded-full transition-all duration-700 ${meetsTarget ? color : (capped >= 75 ? 'bg-amber-500' : 'bg-red-500')}`}
@@ -501,12 +501,12 @@ export default function InternalDashboard() {
         position="bottom-14 right-3"
       >
         {/* WorkCenter Filter */}
-        <div className="flex items-center gap-1 bg-white border border-slate-200 rounded-full px-3 py-1 text-[11px] shadow-xs">
+        <div className="flex items-center gap-1 bg-white border border-platinum-dark rounded-full px-3 py-1 text-[11px] shadow-xs">
           <span className="text-slate-400 font-medium">Bagian:</span>
           <select
             value={workCenter}
             onChange={(e) => setWorkCenter(e.target.value)}
-            className="bg-transparent font-bold text-[#0F172A] outline-none cursor-pointer text-[11px]"
+            className="bg-transparent font-bold text-ink outline-none cursor-pointer text-[11px]"
           >
             <option value="Semua Bagian">Semua Bagian</option>
             {(summary?.availableFilters?.workCenters || []).map((wc) => (
@@ -518,12 +518,12 @@ export default function InternalDashboard() {
         </div>
 
         {/* Month Filter */}
-        <div className="flex items-center gap-1 bg-white border border-slate-200 rounded-full px-3 py-1 text-[11px] shadow-xs">
+        <div className="flex items-center gap-1 bg-white border border-platinum-dark rounded-full px-3 py-1 text-[11px] shadow-xs">
           <span className="text-slate-400 font-medium">Bulan:</span>
           <select
             value={month}
             onChange={(e) => setMonth(e.target.value)}
-            className="bg-transparent font-bold text-[#0F172A] outline-none cursor-pointer text-[11px]"
+            className="bg-transparent font-bold text-ink outline-none cursor-pointer text-[11px]"
           >
             <option value="Semua Bulan">Semua Bulan</option>
             {(summary?.availableFilters?.months || []).map((m) => (
@@ -535,12 +535,12 @@ export default function InternalDashboard() {
         </div>
 
         {/* Year Filter */}
-        <div className="flex items-center gap-1 bg-white border border-slate-200 rounded-full px-3 py-1 text-[11px] shadow-xs">
+        <div className="flex items-center gap-1 bg-white border border-platinum-dark rounded-full px-3 py-1 text-[11px] shadow-xs">
           <span className="text-slate-400 font-medium">Tahun:</span>
           <select
             value={year}
             onChange={(e) => setYear(e.target.value)}
-            className="bg-transparent font-bold text-[#0F172A] outline-none cursor-pointer text-[11px]"
+            className="bg-transparent font-bold text-ink outline-none cursor-pointer text-[11px]"
           >
             <option value="Semua">Semua Tahun</option>
             {(summary?.availableFilters?.years || []).map((y) => (
@@ -744,7 +744,7 @@ export default function InternalDashboard() {
               </div>
 
               {/* --- Divider --- */}
-              <div className="border-t border-dashed border-slate-200" />
+              <div className="border-t border-dashed border-platinum-dark" />
 
               {/* --- Section 2: Penugasan & Pengembangan --- */}
               <div>
@@ -816,7 +816,7 @@ export default function InternalDashboard() {
           </div>
 
           {/* Visualisasi & Perbandingan per Pabrik (7 Pabrik) */}
-          <div className="bg-white border border-platinum-dark rounded-[14px] p-5 shadow-[0_4px_16px_0_rgba(0,0,0,0.02)] flex flex-col">
+          <div className="bg-white border border-platinum-dark rounded-card p-5 shadow-sm-subtle flex flex-col">
             <div className="flex items-center justify-between mb-4">
               <div>
                 <h3 className="text-[14.5px] font-bold text-ink">Perbandingan Work Order vs Rekomendasi per Pabrik (P1A - P7)</h3>
@@ -840,7 +840,7 @@ export default function InternalDashboard() {
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-xs text-left border-collapse">
-                <thead className="bg-slate-50 text-slate-700 font-bold text-center border-b border-slate-300">
+                <thead className="bg-platinum text-slate-700 font-bold text-center border-b border-slate-300">
                   <tr>
                     <th rowSpan="2" className="py-2 px-3 border border-slate-300 bg-slate-200 w-12">No</th>
                     <th rowSpan="2" className="py-2 px-3 border border-slate-300 bg-slate-200 text-left">Bagian</th>
@@ -864,16 +864,16 @@ export default function InternalDashboard() {
                 </thead>
                 <tbody className="divide-y divide-slate-200 text-center text-[11px] font-medium text-slate-700">
                   {(summary?.kpi?.rekomendasiTindakLanjut || []).map((row, idx) => (
-                    <tr key={idx} className="hover:bg-slate-50 transition-colors">
-                      <td className="py-2 px-3 border border-slate-200 bg-slate-50/50">{idx + 1}</td>
-                      <td className="py-2 px-3 border border-slate-200 text-left font-bold whitespace-nowrap">{row.name}</td>
-                      <td className="py-2 px-3 border border-slate-200">{row.userStatusCount ?? row.total}</td>
-                      <td className="py-2 px-3 border border-slate-200">{row.pending}</td>
-                      <td className="py-2 px-3 border border-slate-200">{row.ip}</td>
-                      <td className="py-2 px-3 border border-slate-200">{row.selesai}</td>
+                    <tr key={idx} className="hover:bg-platinum transition-colors">
+                      <td className="py-2 px-3 border border-platinum-dark bg-platinum/50">{idx + 1}</td>
+                      <td className="py-2 px-3 border border-platinum-dark text-left font-bold whitespace-nowrap">{row.name}</td>
+                      <td className="py-2 px-3 border border-platinum-dark">{row.userStatusCount ?? row.total}</td>
+                      <td className="py-2 px-3 border border-platinum-dark">{row.pending}</td>
+                      <td className="py-2 px-3 border border-platinum-dark">{row.ip}</td>
+                      <td className="py-2 px-3 border border-platinum-dark">{row.selesai}</td>
                     </tr>
                   ))}
-                  <tr className="bg-slate-100 font-bold text-slate-800">
+                  <tr className="bg-platinum-dark font-bold text-ink">
                     <td colSpan="2" className="py-2.5 px-3 border border-slate-300 text-center">Jumlah Rekomendasi</td>
                     <td className="py-2.5 px-3 border border-slate-300 text-center text-sm">
                       {(summary?.kpi?.rekomendasiTindakLanjut || []).reduce((acc, row) => acc + (row.userStatusCount ?? row.total), 0)}
@@ -883,7 +883,7 @@ export default function InternalDashboard() {
                 </tbody>
               </table>
             </div>
-            <div className="px-4 py-3 bg-slate-50 text-[10px] text-slate-600 border-t border-slate-200 leading-relaxed">
+            <div className="px-4 py-3 bg-platinum text-[10px] text-slate-600 border-t border-platinum-dark leading-relaxed">
               Rekomendasi status Pending (OSNO/NOPR) telah ditindaklanjuti dengan submit surat dof ke Departemen Rendalhar 1 dan 2 serta ke Dept. Keandalan untuk ditindaklanjuti secara system ke eksekutor.
             </div>
           </div>
@@ -910,11 +910,11 @@ export default function InternalDashboard() {
 
             <div className="p-4 space-y-6 max-h-[600px] overflow-y-auto">
               {(summary?.jobLoadDetails?.pm02PlusProgress || []).map((wc, idx) => (
-                <div key={idx} className="border border-slate-200 rounded-lg overflow-hidden shadow-sm">
-                  <div className="bg-slate-100 px-4 py-2 border-b border-slate-200 flex justify-between items-center">
-                    <h5 className="font-bold text-slate-800 text-xs uppercase">{wc.name}</h5>
+                <div key={idx} className="border border-platinum-dark rounded-lg overflow-hidden shadow-sm">
+                  <div className="bg-platinum-dark px-4 py-2 border-b border-platinum-dark flex justify-between items-center">
+                    <h5 className="font-bold text-ink text-xs uppercase">{wc.name}</h5>
                     <div className="flex items-center gap-2">
-                      <span className="text-[10px] bg-white border border-slate-200 px-2 py-0.5 rounded text-slate-600 font-bold">{wc.totalWO} WO</span>
+                      <span className="text-[10px] bg-white border border-platinum-dark px-2 py-0.5 rounded text-slate-600 font-bold">{wc.totalWO} WO</span>
                       <a
                         href={generateWAMessage(wc)}
                         target="_blank"
@@ -931,7 +931,7 @@ export default function InternalDashboard() {
                   </div>
                   <div className="overflow-x-auto">
                     <table className="w-full text-xs text-left">
-                      <thead className="bg-slate-50 text-slate-500 font-bold uppercase text-[10px] border-b border-slate-200">
+                      <thead className="bg-platinum text-slate-500 font-bold uppercase text-[10px] border-b border-platinum-dark">
                         <tr>
                           <th className="py-2.5 px-4 whitespace-nowrap">Order</th>
                           <th className="py-2.5 px-4 min-w-[200px]">Description</th>
@@ -985,7 +985,7 @@ export default function InternalDashboard() {
               ))}
 
               {(!summary?.jobLoadDetails?.pm02PlusProgress || summary.jobLoadDetails.pm02PlusProgress.length === 0) && (
-                <div className="text-center text-slate-500 py-6 italic text-sm border-2 border-dashed border-slate-200 rounded-xl">Belum ada data PM 02+ untuk bulan berjalan.</div>
+                <div className="text-center text-slate-500 py-6 italic text-sm border-2 border-dashed border-platinum-dark rounded-xl">Belum ada data PM 02+ untuk bulan berjalan.</div>
               )}
             </div>
           </div>
@@ -996,11 +996,11 @@ export default function InternalDashboard() {
       {activeTab === 'jobload' && (
         <div className="space-y-6">
           {/* Section Header */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white px-5 py-4 rounded-t-2xl shadow-sm text-slate-800 border border-slate-200">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white px-5 py-4 rounded-t-2xl shadow-sm text-ink border border-platinum-dark">
             <div>
-              <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
+              <h3 className="text-lg font-bold text-ink flex items-center gap-2">
                 <span>Job Load & Progress Inspeksi Work Order</span>
-                <span className="text-[11px] font-semibold bg-blue-50 text-blue-700 border border-blue-200 px-2.5 py-0.5 rounded-full">
+                <span className="text-[11px] font-semibold bg-blue-50 text-blue-700 border border-navy-soft px-2.5 py-0.5 rounded-full">
                   Real Time Data
                 </span>
               </h3>
@@ -1013,7 +1013,7 @@ export default function InternalDashboard() {
             <div className="relative group shrink-0">
               <button
                 type="button"
-                className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-navy border border-blue-200 rounded-full text-xs font-bold transition-all shadow-xs cursor-pointer"
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-navy border border-navy-soft rounded-full text-xs font-bold transition-all shadow-xs cursor-pointer"
               >
                 <Info size={14} className="text-navy" />
                 <span>Petunjuk Rumus & Status CNF</span>
@@ -1335,7 +1335,7 @@ export default function InternalDashboard() {
           {/* Side-by-Side Distribution Bar Charts with Background Color Headers */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-6">
             {/* Distribusi Status WO per Bagian */}
-            <div className="bg-white border border-platinum-dark rounded-[14px] p-5 shadow-[0_4px_16px_0_rgba(0,0,0,0.02)] flex flex-col">
+            <div className="bg-white border border-platinum-dark rounded-card p-5 shadow-sm-subtle flex flex-col">
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <h3 className="text-[14.5px] font-bold text-ink">Distribusi Work Order (Berdasarkan Status WO)</h3>
@@ -1355,7 +1355,7 @@ export default function InternalDashboard() {
             </div>
 
             {/* Distribusi Tipe PM per Bagian */}
-            <div className="bg-white border border-platinum-dark rounded-[14px] p-5 shadow-[0_4px_16px_0_rgba(0,0,0,0.02)] flex flex-col">
+            <div className="bg-white border border-platinum-dark rounded-card p-5 shadow-sm-subtle flex flex-col">
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <h3 className="text-[14.5px] font-bold text-ink">Distribusi Work Order (Berdasarkan Tipe WO)</h3>
@@ -1385,7 +1385,7 @@ export default function InternalDashboard() {
           onClick={() => setSelectedSegment(null)}
         >
           <div
-            className="bg-white border border-slate-200 rounded-2xl shadow-2xl w-full max-w-xl overflow-hidden animate-in zoom-in-95 duration-200"
+            className="bg-white border border-platinum-dark rounded-2xl shadow-2xl w-full max-w-xl overflow-hidden animate-in zoom-in-95 duration-200"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
@@ -1415,7 +1415,7 @@ export default function InternalDashboard() {
                 <div className="bg-blue-50 border border-blue-100 rounded-xl p-3.5 text-center">
                   <div className="text-[11px] font-semibold text-slate-500">Jumlah {selectedSegment.seriesName}</div>
                   <div className="text-2xl font-extrabold text-navy mt-1">{selectedSegment.value.toLocaleString('id-ID')}</div>
-                  <div className="text-[10px] text-blue-600 font-medium mt-0.5">Bar Segment Terpilih</div>
+                  <div className="text-[10px] text-navy font-medium mt-0.5">Bar Segment Terpilih</div>
                 </div>
 
                 <div className="bg-emerald-50 border border-emerald-100 rounded-xl p-3.5 text-center">
@@ -1434,15 +1434,15 @@ export default function InternalDashboard() {
               {/* Full Breakdown Table for the Selected Category */}
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider">
+                  <h4 className="text-xs font-bold text-ink uppercase tracking-wider">
                     Komposisi Lengkap pada "{selectedSegment.category}"
                   </h4>
                   <span className="text-[11px] text-slate-500 font-medium">Total: {selectedSegment.totalCategory} Item</span>
                 </div>
 
-                <div className="border border-slate-200 rounded-xl overflow-hidden shadow-xs">
+                <div className="border border-platinum-dark rounded-xl overflow-hidden shadow-xs">
                   <table className="w-full text-xs text-left">
-                    <thead className="bg-slate-50 text-slate-600 font-bold uppercase text-[10px] border-b border-slate-200">
+                    <thead className="bg-platinum text-slate-600 font-bold uppercase text-[10px] border-b border-platinum-dark">
                       <tr>
                         <th className="py-2.5 px-3">Kategori</th>
                         <th className="py-2.5 px-3 text-right">Jumlah (Count)</th>
@@ -1454,7 +1454,7 @@ export default function InternalDashboard() {
                       {selectedSegment.breakdown.map((item, idx) => {
                         const isSelected = item.label === selectedSegment.seriesName;
                         return (
-                          <tr key={idx} className={isSelected ? "bg-blue-50/70 font-bold text-navy" : "hover:bg-slate-50 text-slate-700"}>
+                          <tr key={idx} className={isSelected ? "bg-blue-50/70 font-bold text-navy" : "hover:bg-platinum text-slate-700"}>
                             <td className="py-2.5 px-3 flex items-center gap-2">
                               {isSelected && <span className="w-2 h-2 rounded-full bg-navy"></span>}
                               <span>{item.label}</span>
@@ -1462,7 +1462,7 @@ export default function InternalDashboard() {
                             <td className="py-2.5 px-3 text-right font-bold">{item.count.toLocaleString('id-ID')}</td>
                             <td className="py-2.5 px-3 text-right font-bold">{item.percentage}%</td>
                             <td className="py-2.5 px-3 text-center">
-                              <div className="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                              <div className="w-full bg-platinum-dark rounded-full h-2 overflow-hidden">
                                 <div
                                   className={`h-full rounded-full ${isSelected ? 'bg-navy' : 'bg-slate-400'}`}
                                   style={{ width: `${Math.min(item.percentage, 100)}%` }}
@@ -1480,7 +1480,7 @@ export default function InternalDashboard() {
             </div>
 
             {/* Modal Footer */}
-            <div className="bg-slate-50 border-t border-slate-200 px-6 py-3 flex items-center justify-between">
+            <div className="bg-platinum border-t border-platinum-dark px-6 py-3 flex items-center justify-between">
               <span className="text-[11px] text-slate-500">Klik di luar modal untuk menutup.</span>
               <button
                 onClick={() => setSelectedSegment(null)}
@@ -1501,14 +1501,14 @@ export default function InternalDashboard() {
           onClick={() => setSelectedManpowerType(null)}
         >
           <div
-            className="bg-white border border-slate-200 rounded-2xl shadow-2xl w-full max-w-4xl overflow-hidden flex flex-col max-h-[85vh] animate-in zoom-in-95 duration-200"
+            className="bg-white border border-platinum-dark rounded-2xl shadow-2xl w-full max-w-4xl overflow-hidden flex flex-col max-h-[85vh] animate-in zoom-in-95 duration-200"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
             <div className={`px-6 py-4 text-white flex items-center justify-between shrink-0 ${selectedManpowerType === 'Organik' ? 'bg-slate-900' : selectedManpowerType === 'Non Organik' ? 'bg-emerald-800' : 'bg-navy'
               }`}>
               <div className="flex items-center gap-3">
-                <div className={`p-2.5 rounded-xl text-white ${selectedManpowerType === 'Organik' ? 'bg-slate-800 border border-slate-700' : selectedManpowerType === 'Non Organik' ? 'bg-emerald-700 border border-emerald-600' : 'bg-blue-600'
+                <div className={`p-2.5 rounded-xl text-white ${selectedManpowerType === 'Organik' ? 'bg-slate-800 border border-slate-700' : selectedManpowerType === 'Non Organik' ? 'bg-emerald-700 border border-emerald-600' : 'bg-navy'
                   }`}>
                   <HardHat size={22} className={selectedManpowerType === 'Non Organik' ? 'text-emerald-300' : 'text-white'} />
                 </div>
@@ -1535,7 +1535,7 @@ export default function InternalDashboard() {
             </div>
 
             {/* Filter Toolbar */}
-            <div className="p-4 bg-slate-50 border-b border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
+            <div className="p-4 bg-platinum border-b border-platinum-dark flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
               <div className="relative w-full sm:w-72">
                 <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                 <input
@@ -1583,9 +1583,9 @@ export default function InternalDashboard() {
                   Tidak ada personil yang sesuai dengan kriteria pencarian/filter.
                 </div>
               ) : (
-                <div className="border border-slate-200 rounded-xl overflow-hidden shadow-xs">
+                <div className="border border-platinum-dark rounded-xl overflow-hidden shadow-xs">
                   <table className="w-full text-xs text-left">
-                    <thead className="bg-slate-100 text-slate-700 font-bold uppercase text-[10px] border-b border-slate-200">
+                    <thead className="bg-platinum-dark text-slate-700 font-bold uppercase text-[10px] border-b border-platinum-dark">
                       <tr>
                         <th className="py-3 px-4">NPK</th>
                         <th className="py-3 px-4">Nama Personil</th>
@@ -1600,10 +1600,10 @@ export default function InternalDashboard() {
                         const isHadir = p.statusToday === 'Hadir';
                         const rank = getRoleRank(p);
 
-                        let rowBg = 'hover:bg-slate-50';
+                        let rowBg = 'hover:bg-platinum';
                         if (rank === 1) rowBg = 'bg-amber-200/40 hover:bg-amber-300/40'; // Manager Level
                         else if (rank === 2) rowBg = 'bg-yellow-100/80 hover:bg-yellow-200/60'; // AVP Level
-                        else if (rank === 3) rowBg = 'bg-slate-100/70 hover:bg-slate-200/70'; // Organik
+                        else if (rank === 3) rowBg = 'bg-platinum-dark/70 hover:bg-slate-200/70'; // Organik
                         else if (rank === 4) rowBg = 'bg-blue-50/70 hover:bg-blue-100/70'; // Non Organik
 
                         return (
@@ -1639,7 +1639,7 @@ export default function InternalDashboard() {
             </div>
 
             {/* Modal Footer */}
-            <div className="p-4 bg-slate-50 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs shrink-0">
+            <div className="p-4 bg-platinum border-t border-platinum-dark flex flex-col sm:flex-row items-center justify-between gap-3 text-xs shrink-0">
               <div className="flex items-center gap-4 text-slate-600 font-medium text-[11px]">
                 <span>Total: <strong className="text-slate-900">{typeFilteredManpower.length}</strong> Personil</span>
                 <span>Hadir: <strong className="text-emerald-700">{typeFilteredManpower.filter(p => p.statusToday === 'Hadir').length}</strong></span>
@@ -1663,7 +1663,7 @@ export default function InternalDashboard() {
           onClick={() => setShowPm02PlusModal(false)}
         >
           <div
-            className="bg-white border border-slate-200 rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[85vh] animate-in zoom-in-95 duration-200"
+            className="bg-white border border-platinum-dark rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[85vh] animate-in zoom-in-95 duration-200"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
@@ -1737,7 +1737,7 @@ export default function InternalDashboard() {
                     return (
                       <div
                         key={pmType}
-                        className={`p-3.5 rounded-xl border transition-all ${hasData ? 'bg-white border-slate-200 shadow-xs hover:border-emerald-300' : 'bg-slate-50/60 border-slate-100 opacity-60'
+                        className={`p-3.5 rounded-xl border transition-all ${hasData ? 'bg-white border-platinum-dark shadow-xs hover:border-emerald-300' : 'bg-platinum/60 border-slate-100 opacity-60'
                           }`}
                       >
                         <div className="flex items-center justify-between mb-2">
@@ -1758,7 +1758,7 @@ export default function InternalDashboard() {
                         </div>
 
                         {/* Progress Bar Mini */}
-                        <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
+                        <div className="w-full h-2 bg-platinum-dark rounded-full overflow-hidden border border-platinum-dark">
                           <div
                             className={`h-full rounded-full transition-all duration-500 ${hasData ? 'bg-emerald-500' : 'bg-slate-300'}`}
                             style={{ width: `${Math.min(parseFloat(percent), 100)}%` }}
@@ -1771,7 +1771,7 @@ export default function InternalDashboard() {
             </div>
 
             {/* Modal Footer */}
-            <div className="p-4 bg-slate-50 border-t border-slate-200 flex items-center justify-between text-xs shrink-0">
+            <div className="p-4 bg-platinum border-t border-platinum-dark flex items-center justify-between text-xs shrink-0">
               <span className="text-[11px] text-slate-500">
                 Total Kategori Terdata: <strong className="text-slate-900">9 Tipe PM (PM01-PM10 eksklusif PM04)</strong>
               </span>
@@ -1901,7 +1901,7 @@ export default function InternalDashboard() {
                   <AlertTriangle size={18} />
                   <span>Daftar Detail Performance Killer</span>
                 </h4>
-                <Link to="/performance-killer" className="flex items-center gap-2 px-4 py-2 bg-white text-[#8B0000] font-bold rounded-lg hover:bg-slate-100 transition-colors shadow-sm text-sm">
+                <Link to="/performance-killer" className="flex items-center gap-2 px-4 py-2 bg-white text-[#8B0000] font-bold rounded-lg hover:bg-platinum-dark transition-colors shadow-sm text-sm">
                   <Edit size={16} />
                   <span>Akses Edit (CRUD)</span>
                 </Link>
@@ -1909,30 +1909,30 @@ export default function InternalDashboard() {
 
               <div className="p-0 overflow-x-auto">
                 <table className="w-full text-xs text-left border-collapse">
-                  <thead className="bg-slate-50 text-slate-700 font-bold border-b border-slate-300">
+                  <thead className="bg-platinum text-slate-700 font-bold border-b border-slate-300">
                     <tr>
-                      <th className="py-3 px-4 border border-slate-200 bg-slate-100 w-12 text-center">No</th>
-                      <th className="py-3 px-4 border border-slate-200 bg-slate-100 uppercase tracking-wider text-[10px]">Item</th>
-                      <th className="py-3 px-4 border border-slate-200 bg-slate-100 uppercase tracking-wider text-[10px]">Plant</th>
-                      <th className="py-3 px-4 border border-slate-200 bg-slate-100 uppercase tracking-wider text-[10px]">Masalah (Problem)</th>
-                      <th className="py-3 px-4 border border-slate-200 bg-slate-100 uppercase tracking-wider text-[10px]">Tindak Lanjut (Mitigation)</th>
+                      <th className="py-3 px-4 border border-platinum-dark bg-platinum-dark w-12 text-center">No</th>
+                      <th className="py-3 px-4 border border-platinum-dark bg-platinum-dark uppercase tracking-wider text-[10px]">Item</th>
+                      <th className="py-3 px-4 border border-platinum-dark bg-platinum-dark uppercase tracking-wider text-[10px]">Plant</th>
+                      <th className="py-3 px-4 border border-platinum-dark bg-platinum-dark uppercase tracking-wider text-[10px]">Masalah (Problem)</th>
+                      <th className="py-3 px-4 border border-platinum-dark bg-platinum-dark uppercase tracking-wider text-[10px]">Tindak Lanjut (Mitigation)</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-200 text-[11px] font-medium text-slate-700">
                     {performanceKillers.length > 0 ? (
                       performanceKillers.map((pk, idx) => (
-                        <tr key={pk.id} className="hover:bg-slate-50 transition-colors">
-                          <td className="py-3 px-4 border border-slate-200 bg-slate-50/50 text-center font-bold text-slate-600">{idx + 1}</td>
-                          <td className="py-3 px-4 border border-slate-200 font-bold text-navy">{pk.item}</td>
-                          <td className="py-3 px-4 border border-slate-200">
-                            <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 text-slate-700 border border-slate-200">
+                        <tr key={pk.id} className="hover:bg-platinum transition-colors">
+                          <td className="py-3 px-4 border border-platinum-dark bg-platinum/50 text-center font-bold text-slate-600">{idx + 1}</td>
+                          <td className="py-3 px-4 border border-platinum-dark font-bold text-navy">{pk.item}</td>
+                          <td className="py-3 px-4 border border-platinum-dark">
+                            <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-platinum-dark text-slate-700 border border-platinum-dark">
                               {pk.area_plant}
                             </span>
                           </td>
-                          <td className="py-3 px-4 border border-slate-200 min-w-[280px] max-w-sm whitespace-normal leading-relaxed text-slate-700">
+                          <td className="py-3 px-4 border border-platinum-dark min-w-[280px] max-w-sm whitespace-normal leading-relaxed text-slate-700">
                             <div dangerouslySetInnerHTML={{ __html: pk.masalah }} className="prose prose-sm prose-slate max-w-none" />
                           </td>
-                          <td className="py-3 px-4 border border-slate-200 min-w-[280px] max-w-sm whitespace-normal leading-relaxed text-slate-700">
+                          <td className="py-3 px-4 border border-platinum-dark min-w-[280px] max-w-sm whitespace-normal leading-relaxed text-slate-700">
                             <div dangerouslySetInnerHTML={{ __html: pk.tindak_lanjut }} className="prose prose-sm prose-slate max-w-none" />
                           </td>
                         </tr>
@@ -1955,7 +1955,7 @@ export default function InternalDashboard() {
                     <Chart options={pkBarChart.options} series={pkBarChart.series} type="bar" height="100%" />
                   </div>
                 ) : (
-                  <div className="h-[350px] flex items-center justify-center text-slate-500 italic text-sm bg-slate-50 rounded-xl border border-dashed border-slate-200">
+                  <div className="h-[350px] flex items-center justify-center text-slate-500 italic text-sm bg-platinum rounded-xl border border-dashed border-platinum-dark">
                     Belum ada data untuk ditampilkan.
                   </div>
                 )}
@@ -1967,7 +1967,7 @@ export default function InternalDashboard() {
                     <Chart options={pkDonutChart.options} series={pkDonutChart.series} type="donut" height="100%" />
                   </div>
                 ) : (
-                  <div className="h-[350px] w-full flex items-center justify-center text-slate-500 italic text-sm bg-slate-50 rounded-xl border border-dashed border-slate-200">
+                  <div className="h-[350px] w-full flex items-center justify-center text-slate-500 italic text-sm bg-platinum rounded-xl border border-dashed border-platinum-dark">
                     Belum ada data untuk ditampilkan.
                   </div>
                 )}
@@ -1998,7 +1998,7 @@ export default function InternalDashboard() {
             onClick={() => setShowCategoryModal(false)}
           >
             <div
-              className="bg-white rounded-2xl shadow-2xl w-full max-w-lg border border-slate-200 flex flex-col max-h-[85vh] overflow-hidden"
+              className="bg-white rounded-2xl shadow-2xl w-full max-w-lg border border-platinum-dark flex flex-col max-h-[85vh] overflow-hidden"
               onClick={e => e.stopPropagation()}
             >
               {/* Header */}
@@ -2046,7 +2046,7 @@ export default function InternalDashboard() {
               </div>
 
               {/* Footer */}
-              <div className="px-5 py-3 bg-slate-50 border-t border-slate-200 flex justify-end">
+              <div className="px-5 py-3 bg-platinum border-t border-platinum-dark flex justify-end">
                 <button
                   onClick={() => setShowCategoryModal(false)}
                   className="px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold rounded-lg transition-colors"
@@ -2062,14 +2062,14 @@ export default function InternalDashboard() {
       {/* Expired Certifications Modal */}
       {showExpiredCertsModal && (
         <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm animate-in fade-in">
-          <div className="bg-white rounded-2xl shadow-xl w-full max-w-3xl overflow-hidden border border-slate-200">
-            <div className="p-4 border-b border-slate-200 flex justify-between items-center bg-slate-50">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-3xl overflow-hidden border border-platinum-dark">
+            <div className="p-4 border-b border-platinum-dark flex justify-between items-center bg-platinum">
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center">
                   <AlertTriangle className="w-4 h-4 text-red-600" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-slate-800 text-sm">Sertifikasi Personil Expired</h3>
+                  <h3 className="font-bold text-ink text-sm">Sertifikasi Personil Expired</h3>
                   <p className="text-[11px] text-slate-500">Daftar sertifikat yang masa berlakunya telah habis</p>
                 </div>
               </div>
@@ -2084,7 +2084,7 @@ export default function InternalDashboard() {
             <div className="p-0 max-h-[60vh] overflow-y-auto">
               {summary?.expiredCertifications && summary.expiredCertifications.length > 0 ? (
                 <table className="w-full text-left text-xs text-slate-600">
-                  <thead className="bg-slate-50 border-b border-slate-200 sticky top-0">
+                  <thead className="bg-platinum border-b border-platinum-dark sticky top-0">
                     <tr>
                       <th className="px-4 py-3 font-semibold">Nama Personil</th>
                       <th className="px-4 py-3 font-semibold">NPK</th>
@@ -2094,8 +2094,8 @@ export default function InternalDashboard() {
                   </thead>
                   <tbody className="divide-y divide-slate-100">
                     {summary.expiredCertifications.map(cert => (
-                      <tr key={cert.id} className="hover:bg-slate-50 transition-colors">
-                        <td className="px-4 py-3 font-medium text-slate-800">{cert.man_power_name}</td>
+                      <tr key={cert.id} className="hover:bg-platinum transition-colors">
+                        <td className="px-4 py-3 font-medium text-ink">{cert.man_power_name}</td>
                         <td className="px-4 py-3 text-slate-500">{cert.man_power_npk}</td>
                         <td className="px-4 py-3 text-slate-700">{cert.nama_sertifikat}</td>
                         <td className="px-4 py-3">
@@ -2118,10 +2118,10 @@ export default function InternalDashboard() {
               )}
             </div>
 
-            <div className="p-4 border-t border-slate-200 bg-slate-50 flex justify-end">
+            <div className="p-4 border-t border-platinum-dark bg-platinum flex justify-end">
               <button
                 onClick={() => setShowExpiredCertsModal(false)}
-                className="px-4 py-2 bg-white border border-slate-300 text-slate-700 rounded-lg text-xs font-bold hover:bg-slate-50 transition-colors"
+                className="px-4 py-2 bg-white border border-slate-300 text-slate-700 rounded-lg text-xs font-bold hover:bg-platinum transition-colors"
               >
                 Tutup
               </button>
@@ -2133,3 +2133,5 @@ export default function InternalDashboard() {
     </div>
   );
 }
+
+

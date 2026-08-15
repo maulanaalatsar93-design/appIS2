@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
 
 export default function KPICard({ 
@@ -78,3 +78,4 @@ export default function KPICard({
     </div>
   );
 }
+

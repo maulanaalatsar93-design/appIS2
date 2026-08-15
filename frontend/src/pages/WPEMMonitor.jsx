@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+﻿import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import {
   Loader2, BarChart3, Users, Briefcase, ClipboardList,
@@ -118,7 +118,7 @@ export default function WPEMMonitor() {
         <div className="flex items-center space-x-3">
           {lastUpdated && <p className="text-xs text-platinum-dark">Update: {lastUpdated.toLocaleTimeString('id-ID')}</p>}
           <button onClick={fetchKPI} disabled={loading}
-            className="flex items-center space-x-2 bg-white border border-platinum-dark hover:bg-slate-50 text-ink px-4 py-2 rounded-xl text-sm font-medium shadow-sm-subtle">
+            className="flex items-center space-x-2 bg-white border border-platinum-dark hover:bg-platinum text-ink px-4 py-2 rounded-xl text-sm font-medium shadow-sm-subtle">
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
             <span>Refresh</span>
           </button>
@@ -142,7 +142,7 @@ export default function WPEMMonitor() {
       {/* Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Programs Progress (wide) */}
-        <div className="lg:col-span-2 bg-white border border-platinum-dark rounded-card p-5 shadow-soft-card">
+        <div className="lg:col-span-2 bg-white border border-platinum-dark rounded-card p-5 shadow-sm-subtle">
           <h3 className="font-semibold text-ink mb-4">Progress Program Aktif</h3>
           {kpi?.programsProgress?.length > 0 ? (
             <ReactApexChart
@@ -156,22 +156,22 @@ export default function WPEMMonitor() {
 
         {/* Utilization Gauge + Item Status Donut */}
         <div className="space-y-5">
-          <div className="bg-white border border-platinum-dark rounded-card p-5 shadow-soft-card">
+          <div className="bg-white border border-platinum-dark rounded-card p-5 shadow-sm-subtle">
             <h3 className="font-semibold text-ink mb-2">Utilisasi Manpower</h3>
             <ReactApexChart options={utilizationGauge.options} series={utilizationGauge.series} type="radialBar" height={220} />
             <div className="grid grid-cols-2 gap-2 mt-2">
-              <div className="bg-slate-50 rounded-xl p-2.5 text-center border border-slate-200">
+              <div className="bg-platinum rounded-xl p-2.5 text-center border border-platinum-dark">
                 <p className="text-lg font-bold text-emerald-600">{s.availableManpower || 0}</p>
                 <p className="text-[10px] text-slate-500 font-medium">Tersedia</p>
               </div>
-              <div className="bg-slate-50 rounded-xl p-2.5 text-center border border-slate-200">
-                <p className="text-lg font-bold text-blue-600">{s.busyManpower || 0}</p>
+              <div className="bg-platinum rounded-xl p-2.5 text-center border border-platinum-dark">
+                <p className="text-lg font-bold text-navy">{s.busyManpower || 0}</p>
                 <p className="text-[10px] text-slate-500 font-medium">Bertugas</p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white border border-platinum-dark rounded-card p-5 shadow-soft-card">
+          <div className="bg-white border border-platinum-dark rounded-card p-5 shadow-sm-subtle">
             <h3 className="font-semibold text-ink mb-2">Distribusi Status Item</h3>
             {s.totalItems > 0 ? (
               <ReactApexChart options={itemStatusChart.options} series={itemStatusChart.series} type="donut" height={200} />
@@ -182,7 +182,7 @@ export default function WPEMMonitor() {
 
       {/* Recent Activities Feed */}
       <div className="bg-white border border-platinum-dark rounded-card overflow-hidden shadow-soft-card">
-        <div className="p-4 border-b border-platinum-dark bg-slate-50 flex items-center">
+        <div className="p-4 border-b border-platinum-dark bg-platinum flex items-center">
           <Activity className="w-4 h-4 mr-2 text-navy" />
           <h3 className="font-semibold text-ink">Aktivitas Terbaru (10 Terakhir)</h3>
         </div>
@@ -190,7 +190,7 @@ export default function WPEMMonitor() {
           {kpi?.recentActivities?.length === 0 ? (
             <p className="text-sm text-center text-slate-400 py-8">Belum ada aktivitas.</p>
           ) : kpi?.recentActivities?.map(a => (
-            <div key={a.id} className="px-5 py-3 flex items-start space-x-3 hover:bg-slate-50">
+            <div key={a.id} className="px-5 py-3 flex items-start space-x-3 hover:bg-platinum">
               <div className="w-7 h-7 rounded-full bg-navy/10 border border-navy/20 flex items-center justify-center shrink-0 mt-0.5">
                 <span className="text-[10px] font-bold text-navy">{a.actor?.name?.charAt(0) || '?'}</span>
               </div>
@@ -210,3 +210,5 @@ export default function WPEMMonitor() {
     </div>
   );
 }
+
+

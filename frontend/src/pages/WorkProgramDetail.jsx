@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+﻿import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import {
   Loader2, ArrowLeft, Calendar, Users, Check, CheckCircle2,
@@ -9,13 +9,13 @@ import AssignmentDesk from './AssignmentDesk';
 
 const STATUS_PIPELINE = ['Draft', 'Waiting AVP Approval', 'Waiting VP Approval', 'Approved', 'Team Ready', 'Active', 'Completed'];
 const STATUS_BADGE = {
-  'Draft': 'bg-slate-100 text-slate-600 border-slate-200',
-  'Waiting AVP Approval': 'bg-blue-50 text-blue-600 border-blue-200',
-  'Waiting VP Approval': 'bg-indigo-50 text-indigo-600 border-indigo-200',
+  'Draft': 'bg-platinum-dark text-slate-600 border-platinum-dark',
+  'Waiting AVP Approval': 'bg-blue-50 text-navy border-navy-soft',
+  'Waiting VP Approval': 'bg-indigo-50 text-navy border-indigo-200',
   'Approved': 'bg-teal-50 text-teal-600 border-teal-200',
   'Team Ready': 'bg-emerald-50 text-emerald-700 border-emerald-200',
   'Active': 'bg-green-50 text-green-700 border-green-200',
-  'Completed': 'bg-slate-100 text-slate-500 border-slate-200',
+  'Completed': 'bg-platinum-dark text-slate-500 border-platinum-dark',
   'Rejected': 'bg-red-50 text-red-600 border-red-200',
   'Revision Requested': 'bg-amber-50 text-amber-600 border-amber-200',
 };
@@ -122,7 +122,7 @@ export default function WorkProgramDetail({ programId, onBack, onUpdated }) {
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div className="flex items-center space-x-4">
-          <button onClick={onBack} className="p-2 bg-white border border-platinum-dark rounded-lg shadow-sm-subtle hover:bg-slate-50">
+          <button onClick={onBack} className="p-2 bg-white border border-platinum-dark rounded-lg shadow-sm-subtle hover:bg-platinum">
             <ArrowLeft className="w-5 h-5 text-slate-600" />
           </button>
           <div>
@@ -133,8 +133,8 @@ export default function WorkProgramDetail({ programId, onBack, onUpdated }) {
                 <span className={`px-2 py-0.5 text-[10px] font-bold rounded-full border ${
                   program.priority === 'Urgent' ? 'bg-red-100 text-red-700 border-red-200' :
                   program.priority === 'High' ? 'bg-orange-100 text-orange-700 border-orange-200' :
-                  program.priority === 'Normal' ? 'bg-blue-50 text-blue-600 border-blue-200' :
-                  'bg-slate-100 text-slate-600 border-slate-200'
+                  program.priority === 'Normal' ? 'bg-blue-50 text-navy border-navy-soft' :
+                  'bg-platinum-dark text-slate-600 border-platinum-dark'
                 }`}>
                   {program.priority.toUpperCase()}
                 </span>
@@ -177,7 +177,7 @@ export default function WorkProgramDetail({ programId, onBack, onUpdated }) {
             const isPast = STATUS_PIPELINE.indexOf(program.status) > i;
             return (
               <React.Fragment key={s}>
-                <div className={`flex flex-col items-center px-3 py-2 rounded-xl text-center ${isActive ? 'bg-navy text-white' : isPast ? 'bg-emerald-50 text-emerald-600 border border-emerald-200' : 'bg-slate-50 text-slate-400 border border-slate-200'}`}>
+                <div className={`flex flex-col items-center px-3 py-2 rounded-xl text-center ${isActive ? 'bg-navy text-white' : isPast ? 'bg-emerald-50 text-emerald-600 border border-emerald-200' : 'bg-platinum text-slate-400 border border-platinum-dark'}`}>
                   {isPast && <CheckCircle2 className="w-4 h-4 mb-0.5" />}
                   <span className="text-[10px] font-bold whitespace-nowrap">{s}</span>
                 </div>
@@ -193,7 +193,7 @@ export default function WorkProgramDetail({ programId, onBack, onUpdated }) {
         <div className="lg:col-span-2 space-y-5">
           {/* Program Details */}
           <div className="bg-white border border-platinum-dark rounded-card overflow-hidden shadow-soft-card">
-            <div className="p-4 border-b border-platinum-dark bg-slate-50">
+            <div className="p-4 border-b border-platinum-dark bg-platinum">
               <h3 className="font-semibold text-ink">Detail Program</h3>
             </div>
             <div className="p-5 grid grid-cols-2 md:grid-cols-3 gap-5">
@@ -215,12 +215,12 @@ export default function WorkProgramDetail({ programId, onBack, onUpdated }) {
 
           {/* Team Members */}
           <div className="bg-white border border-platinum-dark rounded-card overflow-hidden shadow-soft-card">
-            <div className="p-4 border-b border-platinum-dark bg-slate-50">
+            <div className="p-4 border-b border-platinum-dark bg-platinum">
               <h3 className="font-semibold text-ink">Tim Program ({program.members.length} orang)</h3>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-sm text-left">
-                <thead className="text-platinum-dark text-xs uppercase tracking-wide bg-slate-50/50 border-b border-platinum-dark">
+                <thead className="text-platinum-dark text-xs uppercase tracking-wide bg-platinum/50 border-b border-platinum-dark">
                   <tr>
                     <th className="px-4 py-3 font-semibold">Nama</th>
                     <th className="px-4 py-3 font-semibold">Jabatan</th>
@@ -230,7 +230,7 @@ export default function WorkProgramDetail({ programId, onBack, onUpdated }) {
                 </thead>
                 <tbody className="divide-y divide-platinum-dark">
                   {program.members.map(m => (
-                    <tr key={m.id} className="hover:bg-slate-50">
+                    <tr key={m.id} className="hover:bg-platinum">
                       <td className="px-4 py-3 font-semibold text-ink">{m.man_power?.name}</td>
                       <td className="px-4 py-3 text-platinum-dark text-xs">{m.man_power?.position}</td>
                       <td className="px-4 py-3 text-platinum-dark text-xs">{m.man_power?.divisi?.nama_divisi}</td>
@@ -247,12 +247,12 @@ export default function WorkProgramDetail({ programId, onBack, onUpdated }) {
           {/* Work Items Summary */}
           {program.items && program.items.length > 0 && (
             <div className="bg-white border border-platinum-dark rounded-card overflow-hidden shadow-soft-card">
-              <div className="p-4 border-b border-platinum-dark bg-slate-50">
+              <div className="p-4 border-b border-platinum-dark bg-platinum">
                 <h3 className="font-semibold text-ink">Work Items ({program.items.length})</h3>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full text-sm text-left">
-                  <thead className="text-platinum-dark text-xs uppercase bg-slate-50/50 border-b border-platinum-dark">
+                  <thead className="text-platinum-dark text-xs uppercase bg-platinum/50 border-b border-platinum-dark">
                     <tr>
                       <th className="px-4 py-3">No</th>
                       <th className="px-4 py-3">Pekerjaan</th>
@@ -264,19 +264,19 @@ export default function WorkProgramDetail({ programId, onBack, onUpdated }) {
                   </thead>
                   <tbody className="divide-y divide-platinum-dark">
                     {program.items.map(item => (
-                      <tr key={item.id} className="hover:bg-slate-50">
+                      <tr key={item.id} className="hover:bg-platinum">
                         <td className="px-4 py-3 font-mono text-xs text-platinum-dark">{item.item_no || '—'}</td>
                         <td className="px-4 py-3 font-semibold text-ink">{item.title}</td>
                         <td className="px-4 py-3 text-xs text-platinum-dark">{item.equipment || '—'}</td>
                         <td className="px-4 py-3 text-xs text-ink">{item.pic?.name || '—'}</td>
                         <td className="px-4 py-3">
-                          <span className={`px-2 py-0.5 text-[10px] font-semibold rounded-full border ${item.status === 'Done' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : item.status === 'In Progress' ? 'bg-blue-50 text-blue-700 border-blue-200' : item.status === 'Ready For Review' ? 'bg-amber-50 text-amber-700 border-amber-200' : item.status === 'Hold' ? 'bg-red-50 text-red-600 border-red-200' : 'bg-slate-100 text-slate-500 border-slate-200'}`}>
+                          <span className={`px-2 py-0.5 text-[10px] font-semibold rounded-full border ${item.status === 'Done' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : item.status === 'In Progress' ? 'bg-blue-50 text-blue-700 border-navy-soft' : item.status === 'Ready For Review' ? 'bg-amber-50 text-amber-700 border-amber-200' : item.status === 'Hold' ? 'bg-red-50 text-red-600 border-red-200' : 'bg-platinum-dark text-slate-500 border-platinum-dark'}`}>
                             {item.status}
                           </span>
                         </td>
                         <td className="px-4 py-3">
                           <div className="flex items-center space-x-2">
-                            <div className="flex-1 bg-slate-100 rounded-full h-1.5 w-20">
+                            <div className="flex-1 bg-platinum-dark rounded-full h-1.5 w-20">
                               <div className="bg-navy h-1.5 rounded-full" style={{ width: `${item.progress_pct}%` }} />
                             </div>
                             <span className="text-[10px] font-semibold text-platinum-dark">{item.progress_pct}%</span>
@@ -306,7 +306,7 @@ export default function WorkProgramDetail({ programId, onBack, onUpdated }) {
                 <select 
                   value={program.priority || 'Normal'} 
                   onChange={(e) => handlePriorityChange(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-sm font-semibold text-ink focus:outline-none focus:border-navy"
+                  className="w-full bg-platinum border border-platinum-dark rounded-lg p-2 text-sm font-semibold text-ink focus:outline-none focus:border-navy"
                 >
                   <option value="Low">Low (Rendah)</option>
                   <option value="Normal">Normal</option>
@@ -322,7 +322,7 @@ export default function WorkProgramDetail({ programId, onBack, onUpdated }) {
                   onChange={e => setFeedbackNotes(e.target.value)} 
                   rows={2}
                   placeholder="Ketik masukan untuk tim disini..."
-                  className="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-xs text-ink focus:outline-none focus:border-navy mb-2" 
+                  className="w-full bg-platinum border border-platinum-dark rounded-lg p-2.5 text-xs text-ink focus:outline-none focus:border-navy mb-2" 
                 />
                 <button 
                   onClick={handleAddFeedback} 
@@ -343,7 +343,7 @@ export default function WorkProgramDetail({ programId, onBack, onUpdated }) {
                 <AlertTriangle className="w-4 h-4 mr-1.5" />
                 VP / Admin Override Approval
               </h3>
-              <p className="text-xs text-indigo-600 mb-3 font-medium">
+              <p className="text-xs text-navy mb-3 font-medium">
                 Anda memiliki hak akses untuk memberikan persetujuan (bypass) pada program ini.
               </p>
               <textarea value={approvalNotes} onChange={e => setApprovalNotes(e.target.value)} rows={2}
@@ -368,12 +368,12 @@ export default function WorkProgramDetail({ programId, onBack, onUpdated }) {
 
           {/* Approval Panel */}
           {pendingApprovals.length > 0 && (
-            <div className="bg-blue-50 border border-blue-200 rounded-card p-4 shadow-sm-subtle">
+            <div className="bg-blue-50 border border-navy-soft rounded-card p-4 shadow-sm-subtle">
               <h3 className="font-semibold text-blue-800 mb-3 text-sm">Proses Approval</h3>
               <div className="space-y-2 mb-3">
                 <label className="block text-xs font-semibold text-blue-700">Sebagai Approver:</label>
                 {pendingApprovals.map(a => (
-                  <label key={a.id} className={`flex items-center justify-between p-2 rounded-xl border cursor-pointer ${selectedApproverId === a.approver_mp_id ? 'bg-blue-100 border-blue-400' : 'bg-white border-blue-200'}`}>
+                  <label key={a.id} className={`flex items-center justify-between p-2 rounded-xl border cursor-pointer ${selectedApproverId === a.approver_mp_id ? 'bg-blue-100 border-blue-400' : 'bg-white border-navy-soft'}`}>
                     <div>
                       <p className="text-xs font-semibold text-ink">{a.approver?.name}</p>
                       <p className="text-[10px] text-platinum-dark">{a.approver?.position} ({a.level})</p>
@@ -386,7 +386,7 @@ export default function WorkProgramDetail({ programId, onBack, onUpdated }) {
               </div>
               <textarea value={approvalNotes} onChange={e => setApprovalNotes(e.target.value)} rows={2}
                 placeholder="Catatan (wajib untuk Revision/Reject)..."
-                className="w-full bg-white border border-blue-200 rounded-xl p-2.5 text-xs text-ink focus:outline-none mb-3" />
+                className="w-full bg-white border border-navy-soft rounded-xl p-2.5 text-xs text-ink focus:outline-none mb-3" />
               <div className="flex space-x-2">
                 <button onClick={() => handleApproval('Approved')} disabled={processing}
                   className="flex-1 py-2 bg-emerald-600 text-white text-xs font-semibold rounded-xl hover:bg-emerald-500 flex items-center justify-center">
@@ -411,13 +411,13 @@ export default function WorkProgramDetail({ programId, onBack, onUpdated }) {
               {program.approvals.length === 0 ? (
                 <p className="text-xs text-slate-400 italic">Tidak ada approver (Bypass VP otomatis).</p>
               ) : program.approvals.map(a => (
-                <div key={a.id} className="bg-slate-50 border border-slate-200 rounded-xl p-3">
+                <div key={a.id} className="bg-platinum border border-platinum-dark rounded-xl p-3">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-xs font-bold text-ink">{a.approver?.name}</p>
                       <p className="text-[10px] text-platinum-dark">{a.approver?.position} • {a.level}</p>
                     </div>
-                    <span className={`px-2 py-0.5 text-[10px] font-bold rounded border ${a.status === 'Approved' ? 'bg-emerald-50 text-emerald-600 border-emerald-200' : a.status === 'Rejected' ? 'bg-red-50 text-red-600 border-red-200' : a.status === 'Revision' ? 'bg-amber-50 text-amber-600 border-amber-200' : 'bg-slate-100 text-slate-500 border-slate-200'}`}>
+                    <span className={`px-2 py-0.5 text-[10px] font-bold rounded border ${a.status === 'Approved' ? 'bg-emerald-50 text-emerald-600 border-emerald-200' : a.status === 'Rejected' ? 'bg-red-50 text-red-600 border-red-200' : a.status === 'Revision' ? 'bg-amber-50 text-amber-600 border-amber-200' : 'bg-platinum-dark text-slate-500 border-platinum-dark'}`}>
                       {a.status}
                     </span>
                   </div>
@@ -432,11 +432,11 @@ export default function WorkProgramDetail({ programId, onBack, onUpdated }) {
             <h3 className="font-semibold text-ink mb-3">Jejak Aktivitas</h3>
             <div className="flex-1 overflow-y-auto space-y-4 pr-1">
               {program.audits.map(a => (
-                <div key={a.id} className="relative pl-5 border-l-2 border-slate-200">
+                <div key={a.id} className="relative pl-5 border-l-2 border-platinum-dark">
                   <div className={`absolute -left-[9px] top-1 w-4 h-4 rounded-full border-2 border-white ${a.action === 'Created' ? 'bg-slate-400' : a.action === 'Submitted' || a.action === 'Bypassed' ? 'bg-blue-400' : a.action === 'Approved' || a.action === 'TeamFormed' ? 'bg-emerald-400' : a.action === 'Rejected' ? 'bg-red-400' : 'bg-amber-400'}`} />
                   <p className="text-xs font-bold text-ink">{a.action}</p>
                   <p className="text-[10px] text-platinum-dark">{new Date(a.createdAt).toLocaleString('id-ID')} • {a.actor?.name}</p>
-                  {a.details && <p className="text-[10px] text-slate-500 mt-0.5 bg-slate-50 p-1.5 rounded">{a.details}</p>}
+                  {a.details && <p className="text-[10px] text-slate-500 mt-0.5 bg-platinum p-1.5 rounded">{a.details}</p>}
                 </div>
               ))}
             </div>
@@ -446,3 +446,5 @@ export default function WorkProgramDetail({ programId, onBack, onUpdated }) {
     </div>
   );
 }
+
+

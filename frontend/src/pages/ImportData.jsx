@@ -1,4 +1,4 @@
-import React, { useRef, useContext, useState, useEffect } from 'react';
+﻿import React, { useRef, useContext, useState, useEffect } from 'react';
 import {
   UploadCloud, CheckCircle2, XCircle, Loader2, FileText, Trash2,
   FileSpreadsheet, Database, TrendingUp,
@@ -79,8 +79,8 @@ function SuccessReview({ result, activeTab, resetUpload, setViewMode }) {
 
   const cards = [
     { label: 'Data Baru', value: inserted, icon: <Plus className="w-5 h-5" />, bg: 'from-emerald-500 to-teal-600', badge: 'INSERTED', badgeClass: 'text-emerald-700 bg-emerald-50 border-emerald-200', delay: 0 },
-    { label: 'Diperbarui', value: updated, icon: <RotateCcw className="w-5 h-5" />, bg: 'from-blue-500 to-indigo-600', badge: 'UPDATED', badgeClass: 'text-blue-700 bg-blue-50 border-blue-200', delay: 80 },
-    { label: 'Baris Kosong', value: skipped, icon: <Eye className="w-5 h-5" />, bg: 'from-slate-400 to-slate-500', badge: 'SKIPPED', badgeClass: 'text-slate-500 bg-slate-50 border-slate-200', delay: 160 },
+    { label: 'Diperbarui', value: updated, icon: <RotateCcw className="w-5 h-5" />, bg: 'from-blue-500 to-indigo-600', badge: 'UPDATED', badgeClass: 'text-blue-700 bg-blue-50 border-navy-soft', delay: 80 },
+    { label: 'Baris Kosong', value: skipped, icon: <Eye className="w-5 h-5" />, bg: 'from-slate-400 to-slate-500', badge: 'SKIPPED', badgeClass: 'text-slate-500 bg-platinum border-platinum-dark', delay: 160 },
     { label: 'Format Gagal', value: failed, icon: <AlertTriangle className="w-5 h-5" />, bg: 'from-amber-500 to-orange-500', badge: 'FAILED', badgeClass: 'text-amber-700 bg-amber-50 border-amber-200', delay: 240 },
   ];
 
@@ -136,7 +136,7 @@ function SuccessReview({ result, activeTab, resetUpload, setViewMode }) {
         {cards.map((card) => (
           <div
             key={card.badge}
-            className={`relative overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+            className={`relative overflow-hidden rounded-xl border border-platinum-dark bg-white shadow-sm transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
             style={{ transitionDelay: `${150 + card.delay}ms` }}
           >
             <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${card.bg}`} />
@@ -153,7 +153,7 @@ function SuccessReview({ result, activeTab, resetUpload, setViewMode }) {
                 <AnimatedCounter value={card.value} duration={900 + card.delay} />
               </div>
               <div className="text-xs text-slate-500 font-medium">{card.label}</div>
-              <div className="mt-3 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+              <div className="mt-3 h-1.5 bg-platinum-dark rounded-full overflow-hidden">
                 <div
                   className={`h-full rounded-full bg-gradient-to-r ${card.bg} transition-all duration-1000 ease-out`}
                   style={{ width: visible && total > 0 ? `${(card.value / total) * 100}%` : '0%', transitionDelay: `${300 + card.delay}ms` }}
@@ -169,10 +169,10 @@ function SuccessReview({ result, activeTab, resetUpload, setViewMode }) {
 
       {/* ─── DETAIL PANELS ─── */}
       <div className="grid md:grid-cols-2 gap-4 mb-6">
-        <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+        <div className="bg-white border border-platinum-dark rounded-card p-5 shadow-sm-subtle">
           <div className="flex items-center gap-2 mb-4">
             <BarChart3 className="w-4 h-4 text-slate-500" />
-            <h3 className="text-sm font-bold text-slate-800">Rincian Proses Import</h3>
+            <h3 className="text-sm font-bold text-ink">Rincian Proses Import</h3>
           </div>
           <div className="space-y-3">
             {[
@@ -184,9 +184,9 @@ function SuccessReview({ result, activeTab, resetUpload, setViewMode }) {
               <div key={item.label}>
                 <div className="flex justify-between text-xs mb-1">
                   <span className="text-slate-600 font-medium">{item.label}</span>
-                  <span className="font-bold text-slate-800 tabular-nums">{item.value.toLocaleString()}</span>
+                  <span className="font-bold text-ink tabular-nums">{item.value.toLocaleString()}</span>
                 </div>
-                <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
+                <div className="h-2 bg-platinum-dark rounded-full overflow-hidden">
                   <div
                     className={`h-full ${item.color} rounded-full transition-all duration-1000 ease-out`}
                     style={{ width: visible && total > 0 ? `${(item.value / total) * 100}%` : '0%', transitionDelay: '400ms' }}
@@ -198,8 +198,8 @@ function SuccessReview({ result, activeTab, resetUpload, setViewMode }) {
         </div>
 
         <div className="space-y-3">
-          <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 flex items-start gap-3">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
+          <div className="bg-blue-50 border border-navy-soft rounded-xl p-4 flex items-start gap-3">
+            <div className="w-8 h-8 bg-navy rounded-lg flex items-center justify-center flex-shrink-0">
               <Database className="w-4 h-4 text-white" />
             </div>
             <div>
@@ -220,7 +220,7 @@ function SuccessReview({ result, activeTab, resetUpload, setViewMode }) {
               </div>
             </div>
           </div>
-          <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 flex items-start gap-3">
+          <div className="bg-platinum border border-platinum-dark rounded-xl p-4 flex items-start gap-3">
             <div className="w-8 h-8 bg-slate-700 rounded-lg flex items-center justify-center flex-shrink-0">
               <Clock className="w-4 h-4 text-white" />
             </div>
@@ -246,7 +246,7 @@ function SuccessReview({ result, activeTab, resetUpload, setViewMode }) {
         </button>
         <button
           onClick={resetUpload}
-          className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-white border border-slate-300 text-slate-700 text-sm font-bold rounded-xl hover:bg-slate-50 transition-all shadow-sm cursor-pointer"
+          className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-white border border-slate-300 text-slate-700 text-sm font-bold rounded-xl hover:bg-platinum transition-all shadow-sm cursor-pointer"
         >
           <RotateCcw className="w-4 h-4" />
           Upload File Lain
@@ -420,14 +420,14 @@ export default function ImportData() {
               <div className="p-6 md:px-10 md:pt-8 md:pb-0">
                 <div className="mb-2 text-sm font-bold text-ink">1. Pilih Jenis Data SAP:</div>
                 <div className="flex gap-4">
-                  <label className={`flex-1 flex items-center gap-3 p-4 border rounded-xl cursor-pointer transition-all ${activeTab === 'workorders' ? 'border-navy bg-navy/5 shadow-sm' : 'border-slate-200 hover:border-navy/50'}`}>
+                  <label className={`flex-1 flex items-center gap-3 p-4 border rounded-xl cursor-pointer transition-all ${activeTab === 'workorders' ? 'border-navy bg-navy/5 shadow-sm' : 'border-platinum-dark hover:border-navy/50'}`}>
                     <input type="radio" name="uploadType" className="w-4 h-4 text-navy accent-navy" checked={activeTab === 'workorders'} onChange={() => { setActiveTab('workorders'); resetUpload(); }} />
                     <div>
                       <div className="text-sm font-bold text-ink">Data Work Order</div>
                       <div className="text-xs text-slate-500">Upload list Work Order (PM01-PM10)</div>
                     </div>
                   </label>
-                  <label className={`flex-1 flex items-center gap-3 p-4 border rounded-xl cursor-pointer transition-all ${activeTab === 'recommendations' ? 'border-navy bg-navy/5 shadow-sm' : 'border-slate-200 hover:border-navy/50'}`}>
+                  <label className={`flex-1 flex items-center gap-3 p-4 border rounded-xl cursor-pointer transition-all ${activeTab === 'recommendations' ? 'border-navy bg-navy/5 shadow-sm' : 'border-platinum-dark hover:border-navy/50'}`}>
                     <input type="radio" name="uploadType" className="w-4 h-4 text-navy accent-navy" checked={activeTab === 'recommendations'} onChange={() => { setActiveTab('recommendations'); resetUpload(); }} />
                     <div>
                       <div className="text-sm font-bold text-ink">Data Rekomendasi</div>
@@ -473,7 +473,7 @@ export default function ImportData() {
                             </span>
                             <span className="font-mono text-navy font-bold text-sm">{uploadProgress}%</span>
                           </div>
-                          <div className="w-full h-3 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
+                          <div className="w-full h-3 bg-platinum-dark rounded-full overflow-hidden border border-platinum-dark">
                             <div className="h-full bg-navy transition-all duration-300 rounded-full" style={{ width: `${uploadProgress}%` }} />
                           </div>
                           <p className="text-[10px] text-platinum-dark text-center italic">
@@ -544,3 +544,5 @@ export default function ImportData() {
     </div>
   );
 }
+
+

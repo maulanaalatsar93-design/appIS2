@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+﻿import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import {
   Loader2, ClipboardList, CheckCircle2, Clock, AlertTriangle,
@@ -7,8 +7,8 @@ import {
 import WorkItemDetail from './WorkItemDetail';
 
 const STATUS_CONFIG = {
-  'Waiting':          { cls: 'bg-slate-100 text-slate-600 border-slate-200', dot: 'bg-slate-400', label: 'Menunggu' },
-  'In Progress':      { cls: 'bg-blue-50 text-blue-700 border-blue-200',     dot: 'bg-blue-500',  label: 'Dikerjakan' },
+  'Waiting':          { cls: 'bg-platinum-dark text-slate-600 border-platinum-dark', dot: 'bg-slate-400', label: 'Menunggu' },
+  'In Progress':      { cls: 'bg-blue-50 text-blue-700 border-navy-soft',     dot: 'bg-blue-500',  label: 'Dikerjakan' },
   'Ready For Review': { cls: 'bg-amber-50 text-amber-700 border-amber-200',  dot: 'bg-amber-400', label: 'Siap Review' },
   'Done':             { cls: 'bg-emerald-50 text-emerald-700 border-emerald-200', dot: 'bg-emerald-500', label: 'Selesai' },
   'Hold':             { cls: 'bg-red-50 text-red-600 border-red-200',         dot: 'bg-red-500',   label: 'Hold' },
@@ -57,7 +57,7 @@ export default function WorkCube() {
           <h1 className="text-2xl font-bold text-ink">Work Cube — My Tasks</h1>
           <p className="text-platinum-dark text-sm mt-1">Pekerjaan yang menjadi tanggung jawab Anda. Update progress dan checklist di sini.</p>
         </div>
-        <button onClick={fetchMyCube} className="flex items-center space-x-2 bg-white border border-platinum-dark hover:bg-slate-50 text-ink px-4 py-2 rounded-xl text-sm font-medium shadow-sm-subtle">
+        <button onClick={fetchMyCube} className="flex items-center space-x-2 bg-white border border-platinum-dark hover:bg-platinum text-ink px-4 py-2 rounded-xl text-sm font-medium shadow-sm-subtle">
           <RefreshCw className="w-4 h-4" />
           <span>Refresh</span>
         </button>
@@ -90,13 +90,13 @@ export default function WorkCube() {
 
                 {/* Cards */}
                 {statusItems.length === 0 ? (
-                  <div className="bg-white border border-dashed border-slate-200 rounded-xl p-4 text-center">
+                  <div className="bg-white border border-dashed border-platinum-dark rounded-xl p-4 text-center">
                     <p className="text-[10px] text-slate-400">Tidak ada tugas</p>
                   </div>
                 ) : statusItems.map(item => (
                   <div key={item.id} className={`bg-white border rounded-xl overflow-hidden shadow-sm-subtle ${item.status === 'Ready For Review' ? 'ring-2 ring-amber-300' : 'border-platinum-dark'}`}>
                     {/* Card Header */}
-                    <div className={`px-3 py-2 flex items-center justify-between ${item.status === 'Ready For Review' ? 'bg-amber-50' : 'bg-slate-50'} border-b border-platinum-dark`}>
+                    <div className={`px-3 py-2 flex items-center justify-between ${item.status === 'Ready For Review' ? 'bg-amber-50' : 'bg-platinum'} border-b border-platinum-dark`}>
                       <span className="font-mono text-[10px] font-bold text-platinum-dark">{item.item_no || `#${item.id}`}</span>
                       <span className="text-[10px] font-semibold text-platinum-dark">{item.program?.title}</span>
                     </div>
@@ -112,7 +112,7 @@ export default function WorkCube() {
                           <span className="text-[10px] text-platinum-dark">Progress</span>
                           <span className="text-[10px] font-bold text-navy">{item.progress_pct}%</span>
                         </div>
-                        <div className="w-full bg-slate-100 rounded-full h-1.5">
+                        <div className="w-full bg-platinum-dark rounded-full h-1.5">
                           <div className={`h-1.5 rounded-full transition-all ${item.progress_pct === 100 ? 'bg-emerald-500' : 'bg-navy'}`}
                             style={{ width: `${item.progress_pct}%` }} />
                         </div>
@@ -121,14 +121,14 @@ export default function WorkCube() {
                       {/* Actions */}
                       <div className="space-y-1.5">
                         <button onClick={() => setSelectedItemId(item.id)}
-                          className="w-full flex items-center justify-center space-x-2 py-1.5 bg-slate-50 hover:bg-blue-50 border border-slate-200 hover:border-blue-200 text-slate-600 hover:text-blue-600 rounded-lg text-xs font-semibold transition-colors">
+                          className="w-full flex items-center justify-center space-x-2 py-1.5 bg-platinum hover:bg-blue-50 border border-platinum-dark hover:border-navy-soft text-slate-600 hover:text-navy rounded-lg text-xs font-semibold transition-colors">
                           <Eye className="w-3.5 h-3.5" />
                           <span>Detail & Update</span>
                         </button>
 
                         {item.status === 'Waiting' && (
                           <button onClick={() => handleStatusChange(item.id, 'In Progress')}
-                            className="w-full flex items-center justify-center space-x-2 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs font-semibold transition-colors">
+                            className="w-full flex items-center justify-center space-x-2 py-1.5 bg-navy hover:bg-blue-500 text-white rounded-lg text-xs font-semibold transition-colors">
                             <Play className="w-3.5 h-3.5" />
                             <span>Mulai Kerjakan</span>
                           </button>
@@ -153,7 +153,7 @@ export default function WorkCube() {
 
                         {item.status === 'Hold' && (
                           <button onClick={() => handleStatusChange(item.id, 'In Progress')}
-                            className="w-full flex items-center justify-center space-x-2 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs font-semibold transition-colors">
+                            className="w-full flex items-center justify-center space-x-2 py-1.5 bg-navy hover:bg-blue-500 text-white rounded-lg text-xs font-semibold transition-colors">
                             <Play className="w-3.5 h-3.5" />
                             <span>Lanjutkan</span>
                           </button>
@@ -176,3 +176,5 @@ export default function WorkCube() {
     </div>
   );
 }
+
+

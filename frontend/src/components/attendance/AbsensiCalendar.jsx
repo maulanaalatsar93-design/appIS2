@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+﻿import React, { useState, useRef, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { INDONESIA_HOLIDAYS, MOCK_STATUSES } from '../../constants/holidays';
 
@@ -77,7 +77,7 @@ export default function AbsensiCalendar({ employees = [], attendanceChanges = []
     const absentList = absenceMap[dateStr] || [];
     const absentCount = absentList.length;
 
-    let bgClass = 'bg-white hover:bg-slate-50';
+    let bgClass = 'bg-white hover:bg-platinum';
     let textClass = 'text-slate-700';
     let borderClass = 'border-slate-100';
 
@@ -90,7 +90,7 @@ export default function AbsensiCalendar({ employees = [], attendanceChanges = []
       textClass = 'text-amber-700';
       borderClass = 'border-amber-200';
     } else if (isWeekend) {
-      bgClass = 'bg-slate-50 hover:bg-slate-100';
+      bgClass = 'bg-platinum hover:bg-platinum-dark';
       textClass = 'text-slate-400';
       borderClass = 'border-slate-100';
     }
@@ -113,7 +113,7 @@ export default function AbsensiCalendar({ employees = [], attendanceChanges = []
         {/* Render up to 2 person badges directly in calendar */}
         <div className="mt-auto space-y-1 w-full overflow-hidden">
           {absentList.slice(0, 2).map((a, idx) => (
-            <div key={idx} className={`text-[9px] font-medium px-1.5 py-0.5 rounded truncate ${a.status?.bg || 'bg-slate-100'} ${a.status?.color || 'text-slate-600'}`}>
+            <div key={idx} className={`text-[9px] font-medium px-1.5 py-0.5 rounded truncate ${a.status?.bg || 'bg-platinum-dark'} ${a.status?.color || 'text-slate-600'}`}>
               {a.emp?.name.split(' ')[0]} - {a.status?.name}
             </div>
           ))}
@@ -137,7 +137,7 @@ export default function AbsensiCalendar({ employees = [], attendanceChanges = []
         <div className="flex items-center gap-3">
           <button
             onClick={prevMonth}
-            className="w-8 h-8 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 flex items-center justify-center transition-colors shadow-sm"
+            className="w-8 h-8 rounded-lg bg-white border border-platinum-dark hover:bg-platinum flex items-center justify-center transition-colors shadow-sm"
           >
             <ChevronLeft size={16} className="text-slate-600" />
           </button>
@@ -146,14 +146,14 @@ export default function AbsensiCalendar({ employees = [], attendanceChanges = []
           </h3>
           <button
             onClick={nextMonth}
-            className="w-8 h-8 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 flex items-center justify-center transition-colors shadow-sm"
+            className="w-8 h-8 rounded-lg bg-white border border-platinum-dark hover:bg-platinum flex items-center justify-center transition-colors shadow-sm"
           >
             <ChevronRight size={16} className="text-slate-600" />
           </button>
         </div>
         <button
           onClick={goToToday}
-          className="text-[12px] font-semibold text-navy hover:text-navy bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-lg transition-colors border border-blue-200"
+          className="text-[12px] font-semibold text-navy hover:text-navy bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-lg transition-colors border border-navy-soft"
         >
           Hari Ini
         </button>
@@ -170,7 +170,7 @@ export default function AbsensiCalendar({ employees = [], attendanceChanges = []
           <span className="text-slate-500">Hari Libur Nasional</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <div className="w-3 h-3 rounded-md bg-slate-50 border border-slate-200"></div>
+          <div className="w-3 h-3 rounded-md bg-platinum border border-platinum-dark"></div>
           <span className="text-slate-500">Weekend</span>
         </div>
         <div className="flex items-center gap-1.5">
@@ -197,7 +197,7 @@ export default function AbsensiCalendar({ employees = [], attendanceChanges = []
       <div className="grid grid-cols-7 gap-1">{days}</div>
 
       {/* Summary for month */}
-      <div className="bg-slate-50 rounded-xl p-3 border border-slate-100">
+      <div className="bg-platinum rounded-xl p-3 border border-slate-100">
         <div className="text-[12px] font-semibold text-slate-600 mb-1.5">Ringkasan Bulan Ini</div>
         <div className="flex flex-wrap gap-3">
           <div className="text-[11px] text-slate-500">
@@ -277,7 +277,7 @@ export default function AbsensiCalendar({ employees = [], attendanceChanges = []
                 </div>
               ))}
             </div>
-            <div className="px-5 py-3 bg-slate-50 border-t border-slate-100">
+            <div className="px-5 py-3 bg-platinum border-t border-slate-100">
               <button
                 onClick={() => setSelectedDay(null)}
                 className="w-full py-2 bg-navy text-white text-[13px] font-semibold rounded-xl hover:bg-ink transition-colors"
@@ -291,3 +291,4 @@ export default function AbsensiCalendar({ employees = [], attendanceChanges = []
     </div>
   );
 }
+

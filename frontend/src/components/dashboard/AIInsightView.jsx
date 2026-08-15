@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import Chart from 'react-apexcharts';
 import { 
   Sparkles, AlertTriangle, ShieldCheck, Activity, 
@@ -490,11 +490,11 @@ export default function AIInsightView() {
 
               <div className="bg-blue-50 border border-blue-100 p-3 rounded-xl flex items-center justify-between">
                 <div>
-                  <div className="text-[10px] font-bold text-blue-600 uppercase tracking-wider">Kesimpulan Dominan</div>
+                  <div className="text-[10px] font-bold text-navy uppercase tracking-wider">Kesimpulan Dominan</div>
                   <div className="text-sm font-bold text-ink mt-0.5">{selectedExplainable.dominantRootCause}</div>
                 </div>
                 <div className="text-right">
-                  <div className="text-[10px] font-bold text-blue-600 uppercase tracking-wider">Confidence Score</div>
+                  <div className="text-[10px] font-bold text-navy uppercase tracking-wider">Confidence Score</div>
                   <div className="text-lg font-bold text-navy font-poppins">{selectedExplainable.confidenceScore}%</div>
                 </div>
               </div>
@@ -547,3 +547,4 @@ export default function AIInsightView() {
     </div>
   );
 }
+

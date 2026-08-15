@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useContext } from 'react';
+﻿import React, { useState, useMemo, useContext } from 'react';
 import {
   Activity, Download, FileText, Printer, PlusCircle, Search, Trash2, Calendar, UserPlus,
   X, Users, Filter, Edit, MapPin
@@ -301,7 +301,7 @@ export default function ManPowerPage({ initialView = 'availability' }) {
         >
           <button
             onClick={() => setIsFilterCollapsed(!isFilterCollapsed)}
-            className="relative flex items-center justify-center shrink-0 w-8 h-8 rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200"
+            className="relative flex items-center justify-center shrink-0 w-8 h-8 rounded-full bg-platinum-dark text-slate-600 hover:bg-slate-200"
             title={isFilterCollapsed ? 'Buka Filter' : 'Tutup Filter'}
           >
             {isFilterCollapsed ? <Filter size={14} /> : <X size={14} />}
@@ -309,7 +309,7 @@ export default function ManPowerPage({ initialView = 'availability' }) {
 
           {!isFilterCollapsed && (
             <>
-              <div className="flex items-center gap-1 bg-white border border-slate-200 rounded-full px-2 py-1">
+              <div className="flex items-center gap-1 bg-white border border-platinum-dark rounded-full px-2 py-1">
                 <Calendar size={12} className="text-slate-400" />
                 <select
                   value={filterMonth}
@@ -325,7 +325,7 @@ export default function ManPowerPage({ initialView = 'availability' }) {
                 </select>
               </div>
 
-              <div className="flex items-center gap-1 bg-white border border-slate-200 rounded-full px-2 py-1 w-[140px]">
+              <div className="flex items-center gap-1 bg-white border border-platinum-dark rounded-full px-2 py-1 w-[140px]">
                 <Search size={12} className="text-slate-400" />
                 <input
                   value={searchTerm}
@@ -388,7 +388,7 @@ export default function ManPowerPage({ initialView = 'availability' }) {
               {viewMode === 'calendar' ? 'Kalender Presensi' : viewMode === 'recap' ? 'Rekap Izin & Anggota' : 'Riwayat Perubahan Status'}
             </h3>
             <div className="flex items-center gap-2">
-              <div className="flex items-center bg-slate-100 p-0.5 rounded-lg">
+              <div className="flex items-center bg-platinum-dark p-0.5 rounded-lg">
                 <button
                   onClick={() => setViewMode('availability')}
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${viewMode === 'availability' ? 'bg-navy text-white shadow-sm' : 'text-slate-500'
@@ -422,16 +422,16 @@ export default function ManPowerPage({ initialView = 'availability' }) {
               <div className="relative">
                 <button
                   onClick={() => setShowExportMenu(!showExportMenu)}
-                  className="flex items-center gap-1 bg-white border border-platinum-dark px-3 py-1.5 rounded-lg text-xs font-medium hover:bg-slate-50"
+                  className="flex items-center gap-1 bg-white border border-platinum-dark px-3 py-1.5 rounded-lg text-xs font-medium hover:bg-platinum"
                 >
                   <Download size={13} /> Export
                 </button>
                 {showExportMenu && (
                   <div className="absolute right-0 mt-2 w-44 bg-white rounded-xl shadow-lg border border-platinum-dark py-1 z-10">
-                    <button onClick={() => handleExport('pdf')} className="w-full text-left px-4 py-2 text-xs text-slate-700 hover:bg-slate-50 flex items-center gap-2">
+                    <button onClick={() => handleExport('pdf')} className="w-full text-left px-4 py-2 text-xs text-slate-700 hover:bg-platinum flex items-center gap-2">
                       <Printer size={13} /> Print / Export PDF
                     </button>
-                    <button onClick={() => handleExport('csv')} className="w-full text-left px-4 py-2 text-xs text-slate-700 hover:bg-slate-50 flex items-center gap-2">
+                    <button onClick={() => handleExport('csv')} className="w-full text-left px-4 py-2 text-xs text-slate-700 hover:bg-platinum flex items-center gap-2">
                       <FileText size={13} /> Export CSV
                     </button>
                   </div>
@@ -563,7 +563,7 @@ export default function ManPowerPage({ initialView = 'availability' }) {
                 </div>
 
                 <div className="flex justify-end gap-2 pt-2">
-                  <button type="button" onClick={() => setIsFormOpen(false)} className="px-4 py-2 rounded-lg bg-slate-100 text-slate-600">Batal</button>
+                  <button type="button" onClick={() => setIsFormOpen(false)} className="px-4 py-2 rounded-lg bg-platinum-dark text-slate-600">Batal</button>
                   <button type="submit" className="px-4 py-2 rounded-lg bg-navy text-white font-semibold">Simpan</button>
                 </div>
               </form>
@@ -620,7 +620,7 @@ export default function ManPowerPage({ initialView = 'availability' }) {
                 </div>
 
                 <div className="flex justify-end gap-2 pt-2">
-                  <button type="button" onClick={() => setIsAddEmpOpen(false)} className="px-4 py-2 rounded-lg bg-slate-100 text-slate-600">Batal</button>
+                  <button type="button" onClick={() => setIsAddEmpOpen(false)} className="px-4 py-2 rounded-lg bg-platinum-dark text-slate-600">Batal</button>
                   <button type="submit" className="px-4 py-2 rounded-lg bg-emerald-600 text-white font-semibold">Simpan Karyawan</button>
                 </div>
               </form>
@@ -657,7 +657,7 @@ export default function ManPowerPage({ initialView = 'availability' }) {
           </div>
 
           <div className="text-left mb-6">
-            <h2 className="text-sm font-bold text-slate-800 tracking-wide mb-1">
+            <h2 className="text-sm font-bold text-ink tracking-wide mb-1">
               REKAPITULASI KEHADIRAN (PERJALANAN DINAS, TRAINING, CUTI, IJIN, SAKIT)
             </h2>
             <p className="text-xs font-semibold text-slate-600">
@@ -667,11 +667,11 @@ export default function ManPowerPage({ initialView = 'availability' }) {
 
           {/* 1.2.1 Perjalanan Dinas / Training */}
           <div className="mb-6 print-break-avoid">
-            <h3 className="text-xs font-bold text-slate-800 mb-1">1.2.1 Perjalanan Dinas / Training</h3>
+            <h3 className="text-xs font-bold text-ink mb-1">1.2.1 Perjalanan Dinas / Training</h3>
             <p className="text-[10px] text-slate-600 mb-2">Realisasi perjalanan dinas & training untuk periode ini ditunjukkan pada tabel berikut.</p>
             <table className="w-full text-[10px] text-left border-collapse border border-slate-400">
               <thead>
-                <tr className="bg-slate-100">
+                <tr className="bg-platinum-dark">
                   <th className="border border-slate-400 p-1.5 text-center w-8">No</th>
                   <th className="border border-slate-400 p-1.5">Nama</th>
                   <th className="border border-slate-400 p-1.5">Jabatan</th>
@@ -695,7 +695,7 @@ export default function ManPowerPage({ initialView = 'availability' }) {
                   )
                 })}
                 {dinasData.length > 0 && (
-                  <tr className="bg-slate-50 font-bold">
+                  <tr className="bg-platinum font-bold">
                     <td colSpan="3" className="border border-slate-400 p-1.5 text-center">Jumlah Karyawan Dinas/Training</td>
                     <td className="border border-slate-400 p-1.5 text-center">{dinasData.length}</td>
                     <td className="border border-slate-400 p-1.5 text-center">{dinasData.reduce((acc, curr) => acc + curr.duration, 0)}</td>
@@ -707,7 +707,7 @@ export default function ManPowerPage({ initialView = 'availability' }) {
 
           {/* 1.2.2 Cuti */}
           <div className="mb-6 print-break-avoid">
-            <h3 className="text-xs font-bold text-slate-800 mb-1">1.2.2 Cuti</h3>
+            <h3 className="text-xs font-bold text-ink mb-1">1.2.2 Cuti</h3>
             <p className="text-[10px] text-slate-600 mb-2">Realisasi cuti untuk periode ini ditunjukkan pada tabel berikut.</p>
             <table className="w-full text-[10px] text-left border-collapse border border-slate-400">
               <thead>
@@ -747,11 +747,11 @@ export default function ManPowerPage({ initialView = 'availability' }) {
 
           {/* 1.2.3 Ijin */}
           <div className="mb-6 print-break-avoid">
-            <h3 className="text-xs font-bold text-slate-800 mb-1">1.2.3 Ijin</h3>
+            <h3 className="text-xs font-bold text-ink mb-1">1.2.3 Ijin</h3>
             <p className="text-[10px] text-slate-600 mb-2">Daftar karyawan yang mengajukan permohonan izin meninggalkan pekerjaan.</p>
             <table className="w-full text-[10px] text-left border-collapse border border-slate-400">
               <thead>
-                <tr className="bg-slate-100">
+                <tr className="bg-platinum-dark">
                   <th className="border border-slate-400 p-1.5 text-center w-8">No</th>
                   <th className="border border-slate-400 p-1.5">Nama</th>
                   <th className="border border-slate-400 p-1.5">Jabatan</th>
@@ -775,7 +775,7 @@ export default function ManPowerPage({ initialView = 'availability' }) {
                   )
                 })}
                 {ijinData.length > 0 && (
-                  <tr className="bg-slate-50 font-bold">
+                  <tr className="bg-platinum font-bold">
                     <td colSpan="3" className="border border-slate-400 p-1.5 text-center">Jumlah Karyawan Izin</td>
                     <td className="border border-slate-400 p-1.5 text-center">{ijinData.length}</td>
                     <td className="border border-slate-400 p-1.5 text-center">{ijinData.reduce((acc, curr) => acc + curr.duration, 0)}</td>
@@ -787,11 +787,11 @@ export default function ManPowerPage({ initialView = 'availability' }) {
 
           {/* 1.2.4 Sakit */}
           <div className="mb-6 print-break-avoid">
-            <h3 className="text-xs font-bold text-slate-800 mb-1">1.2.4 Sakit</h3>
+            <h3 className="text-xs font-bold text-ink mb-1">1.2.4 Sakit</h3>
             <p className="text-[10px] text-slate-600 mb-2">Daftar karyawan yang sakit.</p>
             <table className="w-full text-[10px] text-left border-collapse border border-slate-400">
               <thead>
-                <tr className="bg-slate-100">
+                <tr className="bg-platinum-dark">
                   <th className="border border-slate-400 p-1.5 text-center w-8">No</th>
                   <th className="border border-slate-400 p-1.5">Nama</th>
                   <th className="border border-slate-400 p-1.5">Jabatan</th>
@@ -815,7 +815,7 @@ export default function ManPowerPage({ initialView = 'availability' }) {
                   )
                 })}
                 {sakitData.length > 0 && (
-                  <tr className="bg-slate-50 font-bold">
+                  <tr className="bg-platinum font-bold">
                     <td colSpan="3" className="border border-slate-400 p-1.5 text-center">Jumlah Karyawan Sakit</td>
                     <td className="border border-slate-400 p-1.5 text-center">{sakitData.length}</td>
                     <td className="border border-slate-400 p-1.5 text-center">{sakitData.reduce((acc, curr) => acc + curr.duration, 0)}</td>
@@ -827,10 +827,10 @@ export default function ManPowerPage({ initialView = 'availability' }) {
 
           {/* 1.2.5 Resume Personalia */}
           <div className="mb-6 print-break-avoid">
-            <h3 className="text-xs font-bold text-slate-800 mb-1">1.2.5 Resume Personalia</h3>
+            <h3 className="text-xs font-bold text-ink mb-1">1.2.5 Resume Personalia</h3>
             <table className="w-1/2 text-[10px] text-left border-collapse border border-slate-400">
               <thead>
-                <tr className="bg-slate-100">
+                <tr className="bg-platinum-dark">
                   <th className="border border-slate-400 p-1.5 text-center w-8">No</th>
                   <th className="border border-slate-400 p-1.5">Keterangan</th>
                   <th className="border border-slate-400 p-1.5 text-center">Jumlah Karyawan</th>
@@ -871,3 +871,5 @@ export default function ManPowerPage({ initialView = 'availability' }) {
     </div>
   );
 }
+
+

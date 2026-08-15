@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+﻿import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import {
   Loader2, Search, Filter, RefreshCw, Users,
@@ -9,7 +9,7 @@ import {
 
 const STATUS_CONFIG = {
   'Tersedia': { label: 'Tersedia', category: 'Utama', color: 'bg-emerald-100 text-emerald-700 border-emerald-200', dot: 'bg-emerald-500', icon: CheckCircle2, gradient: 'bg-gradient-to-br from-emerald-50 to-emerald-100/50' },
-  'Bertugas': { label: 'Sedang Bertugas', category: 'Utama', color: 'bg-blue-100 text-blue-700 border-blue-200', dot: 'bg-blue-500', icon: Activity, gradient: 'bg-gradient-to-br from-blue-50 to-blue-100/50' },
+  'Bertugas': { label: 'Sedang Bertugas', category: 'Utama', color: 'bg-blue-100 text-blue-700 border-navy-soft', dot: 'bg-blue-500', icon: Activity, gradient: 'bg-gradient-to-br from-blue-50 to-blue-100/50' },
   'Training': { label: 'Training', category: 'Penugasan', color: 'bg-purple-100 text-purple-700 border-purple-200', dot: 'bg-purple-500', icon: BookOpen, gradient: 'bg-gradient-to-br from-purple-50 to-purple-100/50' },
   'DinasDalamNegeri': { label: 'Dinas Dalam Negeri', category: 'Penugasan', color: 'bg-sky-100 text-sky-700 border-sky-200', dot: 'bg-sky-500', icon: PlaneTakeoff, gradient: 'bg-gradient-to-br from-sky-50 to-sky-100/50' },
   'DinasLuarNegeri': { label: 'Dinas Luar Negeri', category: 'Penugasan', color: 'bg-indigo-100 text-indigo-700 border-indigo-200', dot: 'bg-indigo-500', icon: Globe, gradient: 'bg-gradient-to-br from-indigo-50 to-indigo-100/50' },
@@ -18,8 +18,8 @@ const STATUS_CONFIG = {
   'Sakit': { label: 'Sakit', category: 'Absen', color: 'bg-rose-100 text-rose-700 border-rose-200', dot: 'bg-rose-500', icon: Stethoscope, gradient: 'bg-gradient-to-br from-rose-50 to-rose-100/50' },
   'Referral': { label: 'Referral', category: 'Absen', color: 'bg-fuchsia-100 text-fuchsia-700 border-fuchsia-200', dot: 'bg-fuchsia-500', icon: UserCheck, gradient: 'bg-gradient-to-br from-fuchsia-50 to-fuchsia-100/50' },
   'Alpha': { label: 'Alpha/Tanpa Keterangan', category: 'Absen', color: 'bg-slate-200 text-slate-700 border-slate-300', dot: 'bg-slate-600', icon: XCircle, gradient: 'bg-gradient-to-br from-slate-100 to-slate-200/50' },
-  'Libur': { label: 'Libur / Off', category: 'Hide', color: 'bg-slate-100 text-slate-600 border-slate-200', dot: 'bg-slate-400', icon: Clock, gradient: 'bg-gradient-to-br from-slate-50 to-slate-100/50' },
-  'Inactive': { label: 'Tidak Aktif', category: 'Hide', color: 'bg-gray-100 text-gray-500 border-gray-200', dot: 'bg-gray-400', icon: AlertCircle, gradient: 'bg-gradient-to-br from-gray-50 to-gray-100/50' },
+  'Libur': { label: 'Libur / Off', category: 'Hide', color: 'bg-platinum-dark text-slate-600 border-platinum-dark', dot: 'bg-slate-400', icon: Clock, gradient: 'bg-gradient-to-br from-slate-50 to-slate-100/50' },
+  'Inactive': { label: 'Tidak Aktif', category: 'Hide', color: 'bg-gray-100 text-gray-500 border-platinum-dark', dot: 'bg-gray-400', icon: AlertCircle, gradient: 'bg-gradient-to-br from-gray-50 to-gray-100/50' },
 };
 
 const DIVISI_LIST = [
@@ -202,7 +202,7 @@ export default function ManpowerAvailabilityBoard() {
         className={`${gradient} border rounded-xl p-3.5 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ${filters.status === s.key ? 'ring-2 ring-navy shadow-md border-transparent' : 'border-platinum-dark/60 shadow-sm-subtle'}`}
       >
         <div className="flex items-center justify-between mb-3">
-          <div className={`p-1.5 rounded-lg ${STATUS_CONFIG[s.key]?.color.split(' ')[0] || 'bg-slate-100'}`}>
+          <div className={`p-1.5 rounded-lg ${STATUS_CONFIG[s.key]?.color.split(' ')[0] || 'bg-platinum-dark'}`}>
             <StatusIcon className={`w-4 h-4 ${STATUS_CONFIG[s.key]?.color.split(' ')[1] || 'text-slate-500'}`} />
           </div>
           <span className="text-2xl font-black text-ink tracking-tight">{s.count}</span>
@@ -223,23 +223,23 @@ export default function ManpowerAvailabilityBoard() {
           <h1 className="text-2xl font-bold text-ink">Availability Board</h1>
           <p className="text-platinum-dark text-sm mt-1">Pantau status ketersediaan seluruh personel secara real-time sebelum menyusun rencana manpower.</p>
         </div>
-        <button onClick={fetchData} className="flex items-center space-x-2 bg-white border border-platinum-dark hover:bg-slate-50 text-ink px-4 py-2 rounded-xl text-sm font-medium transition-all shadow-sm-subtle">
+        <button onClick={fetchData} className="flex items-center space-x-2 bg-white border border-platinum-dark hover:bg-platinum text-ink px-4 py-2 rounded-xl text-sm font-medium transition-all shadow-sm-subtle">
           <RefreshCw className="w-4 h-4" />
           <span>Refresh</span>
         </button>
       </div>
 
       {/* Info Banner */}
-      <div className="bg-blue-50 border border-blue-200 rounded-xl overflow-hidden shadow-sm">
+      <div className="bg-blue-50 border border-navy-soft rounded-xl overflow-hidden shadow-sm">
         <button
           onClick={() => setShowInfoBox(!showInfoBox)}
           className="w-full flex items-center justify-between px-4 py-3 bg-blue-100/50 hover:bg-blue-100 transition-colors text-blue-900 focus:outline-none"
         >
           <div className="flex items-center space-x-2 font-semibold text-sm">
-            <Info className="w-4 h-4 text-blue-600" />
+            <Info className="w-4 h-4 text-navy" />
             <span>Info: Perbedaan Status Kehadiran dan Ketersediaan</span>
           </div>
-          {showInfoBox ? <ChevronUp className="w-4 h-4 text-blue-600" /> : <ChevronDown className="w-4 h-4 text-blue-600" />}
+          {showInfoBox ? <ChevronUp className="w-4 h-4 text-navy" /> : <ChevronDown className="w-4 h-4 text-navy" />}
         </button>
 
         {showInfoBox && (
@@ -299,7 +299,7 @@ export default function ManpowerAvailabilityBoard() {
               placeholder="Cari nama, NIK, atau jabatan..."
               value={filters.search}
               onChange={e => handleFilterChange('search', e.target.value)}
-              className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm text-ink focus:outline-none focus:border-navy"
+              className="w-full pl-9 pr-3 py-2 bg-platinum border border-platinum-dark rounded-lg text-sm text-ink focus:outline-none focus:border-navy"
             />
           </div>
 
@@ -309,7 +309,7 @@ export default function ManpowerAvailabilityBoard() {
             <button
               type="button"
               onClick={() => setIsDivDropdownOpen(!isDivDropdownOpen)}
-              className="w-full flex items-center justify-between bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm text-ink focus:outline-none focus:border-navy shadow-sm"
+              className="w-full flex items-center justify-between bg-white border border-platinum-dark rounded-lg px-3 py-2 text-sm text-ink focus:outline-none focus:border-navy shadow-sm"
             >
               <span className="truncate font-medium text-xs">
                 {filters.selectedDivisions.length === 0
@@ -338,7 +338,7 @@ export default function ManpowerAvailabilityBoard() {
                     return (
                       <label
                         key={d.id}
-                        className="flex items-center space-x-2.5 px-2 py-1.5 hover:bg-slate-50 rounded-lg cursor-pointer text-xs font-medium text-ink"
+                        className="flex items-center space-x-2.5 px-2 py-1.5 hover:bg-platinum rounded-lg cursor-pointer text-xs font-medium text-ink"
                       >
                         <input
                           type="checkbox"
@@ -369,10 +369,10 @@ export default function ManpowerAvailabilityBoard() {
             <label className="text-xs font-semibold text-ink mb-1 block">Periode (Cek Ketersediaan)</label>
             <div className="flex items-center space-x-2">
               <input type="date" value={filters.startDate} onChange={e => handleFilterChange('startDate', e.target.value)}
-                className="bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm text-ink focus:outline-none focus:border-navy" />
+                className="bg-white border border-platinum-dark rounded-lg px-3 py-2 text-sm text-ink focus:outline-none focus:border-navy" />
               <span className="text-slate-400 text-sm">–</span>
               <input type="date" value={filters.endDate} onChange={e => handleFilterChange('endDate', e.target.value)}
-                className="bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm text-ink focus:outline-none focus:border-navy" />
+                className="bg-white border border-platinum-dark rounded-lg px-3 py-2 text-sm text-ink focus:outline-none focus:border-navy" />
             </div>
           </div>
 
@@ -392,7 +392,7 @@ export default function ManpowerAvailabilityBoard() {
             {filters.selectedDivisions.map(id => {
               const d = DIVISI_LIST.find(item => item.id === id);
               return (
-                <span key={id} className="inline-flex items-center space-x-1 px-2 py-0.5 bg-blue-50 text-blue-700 border border-blue-200 text-[11px] font-semibold rounded-md">
+                <span key={id} className="inline-flex items-center space-x-1 px-2 py-0.5 bg-blue-50 text-blue-700 border border-navy-soft text-[11px] font-semibold rounded-md">
                   <span>{d?.nama}</span>
                   <button type="button" onClick={() => toggleDivision(id)} className="hover:text-red-500 font-bold ml-1">×</button>
                 </span>
@@ -408,7 +408,7 @@ export default function ManpowerAvailabilityBoard() {
 
       {/* Table */}
       <div className="bg-white border border-platinum-dark rounded-card overflow-hidden shadow-soft-card">
-        <div className="p-4 border-b border-platinum-dark bg-slate-50 flex items-center justify-between">
+        <div className="p-4 border-b border-platinum-dark bg-platinum flex items-center justify-between">
           <h2 className="text-sm font-semibold text-ink flex items-center">
             <Users className="w-4 h-4 mr-2 text-navy" />
             Daftar Personel ({filtered.length} dari {data.length})
@@ -429,7 +429,7 @@ export default function ManpowerAvailabilityBoard() {
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
               <thead>
-                <tr className="border-b border-platinum-dark bg-slate-50/50 text-platinum-dark text-xs uppercase tracking-wide">
+                <tr className="border-b border-platinum-dark bg-platinum/50 text-platinum-dark text-xs uppercase tracking-wide">
                   <th className="px-4 py-3 font-semibold">Personel</th>
                   <th className="px-4 py-3 font-semibold">NPK</th>
                   <th className="px-4 py-3 font-semibold">Jabatan</th>
@@ -457,10 +457,10 @@ export default function ManpowerAvailabilityBoard() {
                   const StatusIcon = statusCfg.icon;
                   const rank = getRoleRank(mp);
 
-                  let rowBg = 'hover:bg-slate-50';
+                  let rowBg = 'hover:bg-platinum';
                   if (rank === 1) rowBg = 'bg-amber-200/40 hover:bg-amber-300/40'; // Manager Level
                   else if (rank === 2) rowBg = 'bg-yellow-100/80 hover:bg-yellow-200/60'; // AVP Level
-                  else if (rank === 3) rowBg = 'bg-slate-100/70 hover:bg-slate-200/70'; // Organik
+                  else if (rank === 3) rowBg = 'bg-platinum-dark/70 hover:bg-slate-200/70'; // Organik
                   else if (rank === 4) rowBg = 'bg-blue-50/70 hover:bg-blue-100/70'; // Non Organik
 
                   return (
@@ -483,7 +483,7 @@ export default function ManpowerAvailabilityBoard() {
                                         <span className="font-semibold truncate max-w-[150px]" title={cert.nama_sertifikat}>{cert.nama_sertifikat}</span>
                                         <button 
                                           onClick={() => handleIgnoreCert(cert.id)}
-                                          className="text-[9px] font-bold bg-white text-slate-500 px-1.5 py-0.5 rounded shadow-sm hover:bg-slate-100 transition-colors"
+                                          className="text-[9px] font-bold bg-white text-slate-500 px-1.5 py-0.5 rounded shadow-sm hover:bg-platinum-dark transition-colors"
                                         >
                                           Abaikan
                                         </button>
@@ -512,7 +512,7 @@ export default function ManpowerAvailabilityBoard() {
                         </div>
                       </td>
                       <td className="px-4 py-3">
-                        <span className={`text-[10px] font-semibold px-2 py-0.5 rounded border ${mp.employee_type === 'Organik' ? 'bg-blue-50 text-blue-600 border-blue-200' : 'bg-purple-50 text-purple-600 border-purple-200'}`}>
+                        <span className={`text-[10px] font-semibold px-2 py-0.5 rounded border ${mp.employee_type === 'Organik' ? 'bg-blue-50 text-navy border-navy-soft' : 'bg-purple-50 text-purple-600 border-purple-200'}`}>
                           {mp.employee_type}
                         </span>
                       </td>
@@ -523,7 +523,7 @@ export default function ManpowerAvailabilityBoard() {
                         </span>
                       </td>
                       <td className="px-4 py-3">
-                        <span className={`inline-flex items-center space-x-1.5 text-xs font-semibold px-2.5 py-1 rounded-full border ${mp.attendance_status === 'Hadir' ? 'bg-emerald-100 text-emerald-700 border-emerald-200' : mp.attendance_status === 'Tidak Hadir' ? 'bg-slate-100 text-slate-600 border-slate-200' : 'bg-amber-100 text-amber-700 border-amber-200'}`}>
+                        <span className={`inline-flex items-center space-x-1.5 text-xs font-semibold px-2.5 py-1 rounded-full border ${mp.attendance_status === 'Hadir' ? 'bg-emerald-100 text-emerald-700 border-emerald-200' : mp.attendance_status === 'Tidak Hadir' ? 'bg-platinum-dark text-slate-600 border-platinum-dark' : 'bg-amber-100 text-amber-700 border-amber-200'}`}>
                           <div className={`w-1.5 h-1.5 rounded-full ${mp.attendance_status === 'Hadir' ? 'bg-emerald-500' : mp.attendance_status === 'Tidak Hadir' ? 'bg-slate-400' : 'bg-amber-500'}`} />
                           <span>{mp.attendance_status}</span>
                         </span>
@@ -532,7 +532,7 @@ export default function ManpowerAvailabilityBoard() {
                         {mp.active_programs.length > 0 && (
                           <div className="space-y-1">
                             {mp.active_programs.slice(0, 2).map(p => (
-                              <div key={p.id} className="flex items-center text-[10px] text-blue-600 bg-blue-50 px-2 py-0.5 rounded border border-blue-100">
+                              <div key={p.id} className="flex items-center text-[10px] text-navy bg-blue-50 px-2 py-0.5 rounded border border-blue-100">
                                 <MapPin className="w-3 h-3 mr-1 shrink-0" />
                                 <span className="truncate max-w-[120px]">{p.title}</span>
                               </div>
@@ -593,7 +593,7 @@ export default function ManpowerAvailabilityBoard() {
                 />
               </div>
               <div className="flex justify-end gap-2 pt-2">
-                <button type="button" onClick={() => setEditingSubArea(null)} className="px-4 py-2 rounded-lg bg-slate-100 text-slate-600">Batal</button>
+                <button type="button" onClick={() => setEditingSubArea(null)} className="px-4 py-2 rounded-lg bg-platinum-dark text-slate-600">Batal</button>
                 <button type="submit" className="px-4 py-2 rounded-lg bg-navy text-white font-semibold hover:bg-slate-800">Simpan</button>
               </div>
             </form>
@@ -603,3 +603,5 @@ export default function ManpowerAvailabilityBoard() {
     </div>
   );
 }
+
+

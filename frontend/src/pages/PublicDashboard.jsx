@@ -229,7 +229,7 @@ export default function PublicDashboard({ onBack }) {
           position="bottom-14 right-3"
         >
           {/* WorkCenter Filter */}
-          <div className="flex items-center gap-1 bg-white border border-slate-200 rounded-full px-3 py-1 text-[11px] shadow-xs">
+          <div className="flex items-center gap-1 bg-white border border-platinum-dark rounded-full px-3 py-1 text-[11px] shadow-xs">
             <span className="text-slate-400 font-medium">Bagian:</span>
             <select
               value={workCenter}
@@ -246,7 +246,7 @@ export default function PublicDashboard({ onBack }) {
           </div>
 
           {/* Month Filter */}
-          <div className="flex items-center gap-1 bg-white border border-slate-200 rounded-full px-3 py-1 text-[11px] shadow-xs">
+          <div className="flex items-center gap-1 bg-white border border-platinum-dark rounded-full px-3 py-1 text-[11px] shadow-xs">
             <span className="text-slate-400 font-medium">Bulan:</span>
             <select
               value={month}
@@ -263,7 +263,7 @@ export default function PublicDashboard({ onBack }) {
           </div>
 
           {/* Year Filter */}
-          <div className="flex items-center gap-1 bg-white border border-slate-200 rounded-full px-3 py-1 text-[11px] shadow-xs">
+          <div className="flex items-center gap-1 bg-white border border-platinum-dark rounded-full px-3 py-1 text-[11px] shadow-xs">
             <span className="text-slate-400 font-medium">Tahun:</span>
             <select
               value={year}
@@ -309,7 +309,7 @@ export default function PublicDashboard({ onBack }) {
           {/* Executive Report Toolbar */}
           <button
             onClick={() => { setIsExporting(true); setToastMsg({ type: 'info', text: 'Generating Dashboard PDF...' }); exportDashboardPDF().finally(() => { setIsExporting(false); setToastMsg({ type: 'success', text: 'Laporan berhasil diunduh' }); setTimeout(() => setToastMsg(null), 3000); }); }}
-            className="bg-white px-4 py-2.5 rounded-xl shadow-sm border border-platinum-dark flex items-center gap-2 hover:bg-slate-50 transition-colors focus:outline-none"
+            className="bg-white px-4 py-2.5 rounded-xl shadow-sm border border-platinum-dark flex items-center gap-2 hover:bg-platinum transition-colors focus:outline-none"
             title="Export PDF"
           >
             <Download size={16} className="text-navy" />
@@ -407,21 +407,21 @@ export default function PublicDashboard({ onBack }) {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 print:hidden">
 
         {/* Symmetrical Bar Chart 1: Work Order per Pabrik */}
-        <div className="bg-white border border-platinum-dark rounded-[14px] p-5 shadow-[0_4px_16px_0_rgba(0,0,0,0.02)] flex flex-col"><div className="flex items-center justify-between mb-4"><h3 className="text-[14.5px] font-bold text-ink">Work Order per Pabrik</h3><div className="text-[11px] text-slate-500 bg-platinum px-2.5 py-1 rounded-[6px]">BAR CHART</div></div>
+        <div className="bg-white border border-platinum-dark rounded-card p-5 shadow-sm-subtle flex flex-col"><div className="flex items-center justify-between mb-4"><h3 className="text-[14.5px] font-bold text-ink">Work Order per Pabrik</h3><div className="text-[11px] text-slate-500 bg-platinum px-2.5 py-1 rounded-[6px]">BAR CHART</div></div>
           <div className="flex-1 min-h-[250px]">
             <Chart options={chart2Options} series={chart2Series} type="bar" width="100%" height="250" />
           </div>
         </div>
 
         {/* Symmetrical Bar Chart 2: Rilis Rekomendasi per Pabrik */}
-        <div className="bg-white border border-platinum-dark rounded-[14px] p-5 shadow-[0_4px_16px_0_rgba(0,0,0,0.02)] flex flex-col"><div className="flex items-center justify-between mb-4"><h3 className="text-[14.5px] font-bold text-ink">Rilis Rekomendasi per Pabrik</h3><div className="text-[11px] text-slate-500 bg-platinum px-2.5 py-1 rounded-[6px]">BAR CHART</div></div>
+        <div className="bg-white border border-platinum-dark rounded-card p-5 shadow-sm-subtle flex flex-col"><div className="flex items-center justify-between mb-4"><h3 className="text-[14.5px] font-bold text-ink">Rilis Rekomendasi per Pabrik</h3><div className="text-[11px] text-slate-500 bg-platinum px-2.5 py-1 rounded-[6px]">BAR CHART</div></div>
           <div className="flex-1 min-h-[250px]">
             <Chart options={chart5Options} series={chart5Series} type="bar" width="100%" height="250" />
           </div>
         </div>
 
         {/* Symmetrical Donut Chart 1: Distribusi Tipe Order */}
-        <div className="bg-white border border-platinum-dark rounded-[14px] p-5 shadow-[0_4px_16px_0_rgba(0,0,0,0.02)] flex flex-col"><div className="flex items-center justify-between mb-4"><h3 className="text-[14.5px] font-bold text-ink">Distribusi Tipe Order</h3><div className="text-[11px] text-slate-500 bg-platinum px-2.5 py-1 rounded-[6px]">DONUT CHART</div></div>
+        <div className="bg-white border border-platinum-dark rounded-card p-5 shadow-sm-subtle flex flex-col"><div className="flex items-center justify-between mb-4"><h3 className="text-[14.5px] font-bold text-ink">Distribusi Tipe Order</h3><div className="text-[11px] text-slate-500 bg-platinum px-2.5 py-1 rounded-[6px]">DONUT CHART</div></div>
           <div className="flex-1 flex items-center justify-center min-h-[250px]">
             {chart1Series.reduce((a, b) => a + b, 0) === 0 ? (
               <p className="text-xs text-platinum-dark">Tidak ada data tipe order</p>
@@ -432,7 +432,7 @@ export default function PublicDashboard({ onBack }) {
         </div>
 
         {/* Symmetrical Donut Chart 2: Rekomendasi (M4 & M7) */}
-        <div className="bg-white border border-platinum-dark rounded-[14px] p-5 shadow-[0_4px_16px_0_rgba(0,0,0,0.02)] flex flex-col"><div className="flex items-center justify-between mb-4"><h3 className="text-[14.5px] font-bold text-ink">Rekomendasi (M4 & M7)</h3><div className="text-[11px] text-slate-500 bg-platinum px-2.5 py-1 rounded-[6px]">DONUT CHART</div></div>
+        <div className="bg-white border border-platinum-dark rounded-card p-5 shadow-sm-subtle flex flex-col"><div className="flex items-center justify-between mb-4"><h3 className="text-[14.5px] font-bold text-ink">Rekomendasi (M4 & M7)</h3><div className="text-[11px] text-slate-500 bg-platinum px-2.5 py-1 rounded-[6px]">DONUT CHART</div></div>
           <div className="flex-1 flex items-center justify-center min-h-[250px]">
             {chart4Series.reduce((a, b) => a + b, 0) === 0 ? (
               <p className="text-xs text-platinum-dark">Tidak ada data rekomendasi</p>
@@ -443,8 +443,8 @@ export default function PublicDashboard({ onBack }) {
         </div>
 
         {/* Full Width Bottom Chart: Job Load & Output */}
-        <div className="bg-white border border-platinum-dark rounded-[14px] p-[20px] shadow-[0_4px_16px_0_rgba(0,0,0,0.02)] lg:col-span-2 flex flex-col">
-          <h3 className="text-center text-lg font-bold text-slate-800 tracking-tight mb-6">Job Load & Output (12 Bulan Terakhir)</h3>
+        <div className="bg-white border border-platinum-dark rounded-card p-[20px] shadow-sm-subtle lg:col-span-2 flex flex-col">
+          <h3 className="text-center text-lg font-bold text-ink tracking-tight mb-6">Job Load & Output (12 Bulan Terakhir)</h3>
           <div className="flex-1 min-h-[320px]">
             {chart3Series[0]?.data?.length > 0 ? (
               <Chart options={chart3Options} series={chart3Series} type="area" width="100%" height="320" />
@@ -488,7 +488,7 @@ export default function PublicDashboard({ onBack }) {
             <div className="p-4 space-y-3 max-h-[70vh] overflow-y-auto">
               <div className="grid grid-cols-2 gap-2 mb-2">
                 <div className="bg-blue-50 p-2.5 rounded-xl border border-blue-100 text-blue-800">
-                  <div className="text-[10px] font-bold uppercase tracking-wider text-blue-600">Total PM04</div>
+                  <div className="text-[10px] font-bold uppercase tracking-wider text-navy">Total PM04</div>
                   <div className="text-lg font-bold font-poppins mt-0.5">{summary.kpi.pm04Count.toLocaleString('id-ID')}</div>
                 </div>
                 <div className="bg-orange-50 p-2.5 rounded-xl border border-orange-100 text-orange-800">
@@ -507,7 +507,7 @@ export default function PublicDashboard({ onBack }) {
                   const baseTotal = pmModalMode === 'pm02plus' ? (summary.kpi.pm02PlusCount || 1) : (summary.kpi.totalWO || 1);
                   const pct = ((count / baseTotal) * 100).toFixed(1);
                   return (
-                    <div key={pm.code} className="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
+                    <div key={pm.code} className="p-2.5 rounded-xl bg-platinum border border-slate-100">
                       <div className="flex items-center justify-between text-xs mb-1">
                         <div className="flex items-center gap-2">
                           <span className="px-2 py-0.5 text-[10px] font-bold text-white rounded-md" style={{ backgroundColor: pm.color }}>
@@ -529,10 +529,10 @@ export default function PublicDashboard({ onBack }) {
               </div>
             </div>
 
-            <div className="p-3 bg-slate-50 border-t border-slate-100 flex justify-between items-center text-xs">
+            <div className="p-3 bg-platinum border-t border-slate-100 flex justify-between items-center text-xs">
               <span className="text-[11px] text-slate-500 font-medium">
                 {pmModalMode === 'pm02plus' ? 'Total PM02+: ' : 'Total Akumulasi: '}
-                <strong className="text-slate-800">
+                <strong className="text-ink">
                   {pmModalMode === 'pm02plus' ? summary.kpi.pm02PlusCount.toLocaleString('id-ID') : summary.kpi.totalWO.toLocaleString('id-ID')} WO
                 </strong>
               </span>
@@ -575,7 +575,7 @@ export default function PublicDashboard({ onBack }) {
         </div>
 
         <div className="text-center mb-10">
-          <h2 className="text-2xl font-black text-slate-800 uppercase tracking-widest border-b-[3px] border-slate-300 inline-block pb-2">
+          <h2 className="text-2xl font-black text-ink uppercase tracking-widest border-b-[3px] border-slate-300 inline-block pb-2">
             LAPORAN KINERJA KEANDALAN OPERASIONAL
           </h2>
           <p className="text-base font-semibold text-slate-600 mt-3">
@@ -585,14 +585,14 @@ export default function PublicDashboard({ onBack }) {
 
         {/* KPI Table */}
         <div className="mb-10">
-          <h3 className="text-base font-bold text-slate-800 mb-3 border-l-4 border-blue-600 pl-3">1. RINGKASAN EKSEKUTIF (KPI)</h3>
+          <h3 className="text-base font-bold text-ink mb-3 border-l-4 border-blue-600 pl-3">1. RINGKASAN EKSEKUTIF (KPI)</h3>
           <table className="w-full text-sm text-left border-collapse border border-slate-300 shadow-sm">
             <thead>
-              <tr className="bg-slate-100">
+              <tr className="bg-platinum-dark">
                 <th className="border border-slate-300 p-3 w-1/2" colSpan="3">Work Order (WO)</th>
                 <th className="border border-slate-300 p-3 w-1/2" colSpan="3">Rekomendasi SAP</th>
               </tr>
-              <tr className="bg-slate-50">
+              <tr className="bg-platinum">
                 <th className="border border-slate-300 p-3 text-center text-blue-800 font-bold">Total Semua PM</th>
                 <th className="border border-slate-300 p-3 text-center text-blue-800 font-bold">Total PM 04</th>
                 <th className="border border-slate-300 p-3 text-center text-blue-800 font-bold">Total PM 02+</th>
@@ -616,11 +616,11 @@ export default function PublicDashboard({ onBack }) {
 
         {/* Data Tables for Print */}
         <div className="mb-8 print-break-avoid">
-          <h3 className="text-base font-bold text-slate-800 mb-3 border-l-4 border-blue-600 pl-3">2. KINERJA PER PABRIK</h3>
+          <h3 className="text-base font-bold text-ink mb-3 border-l-4 border-blue-600 pl-3">2. KINERJA PER PABRIK</h3>
           <table className="w-full text-sm text-left border-collapse border border-slate-300 shadow-sm">
             <thead>
-              <tr className="bg-slate-100">
-                <th className="border border-slate-300 p-3 text-slate-800 w-1/3">Pabrik</th>
+              <tr className="bg-platinum-dark">
+                <th className="border border-slate-300 p-3 text-ink w-1/3">Pabrik</th>
                 <th className="border border-slate-300 p-3 text-blue-800 w-1/3 text-center">Total Work Order</th>
                 <th className="border border-slate-300 p-3 text-teal-800 w-1/3 text-center">Rilis Rekomendasi</th>
               </tr>
@@ -633,7 +633,7 @@ export default function PublicDashboard({ onBack }) {
                 if (workCenter !== 'Semua Bagian' && wo === 0 && rek === 0) return null;
 
                 return (
-                  <tr key={factory} className="border-b border-slate-200 even:bg-slate-50">
+                  <tr key={factory} className="border-b border-platinum-dark even:bg-platinum">
                     <td className="border border-slate-300 p-3 font-semibold text-slate-700">{factory}</td>
                     <td className="border border-slate-300 p-3 text-center font-medium">{wo.toLocaleString('id-ID')}</td>
                     <td className="border border-slate-300 p-3 text-center font-medium">{rek.toLocaleString('id-ID')}</td>
@@ -645,13 +645,13 @@ export default function PublicDashboard({ onBack }) {
         </div>
 
         <div className="mb-8 print-break-avoid">
-          <h3 className="text-base font-bold text-slate-800 mb-3 border-l-4 border-blue-600 pl-3">
+          <h3 className="text-base font-bold text-ink mb-3 border-l-4 border-blue-600 pl-3">
             3. TREN KINERJA {month !== 'Semua Bulan' ? `BULAN ${MONTH_NAMES[month]?.toUpperCase()}` : 'BULANAN'}
           </h3>
           <table className="w-full text-sm text-left border-collapse border border-slate-300 shadow-sm">
             <thead>
-              <tr className="bg-slate-100">
-                <th className="border border-slate-300 p-3 text-slate-800 w-1/3">Bulan</th>
+              <tr className="bg-platinum-dark">
+                <th className="border border-slate-300 p-3 text-ink w-1/3">Bulan</th>
                 <th className="border border-slate-300 p-3 text-blue-800 w-1/3 text-center">Total Work Order</th>
                 <th className="border border-slate-300 p-3 text-teal-800 w-1/3 text-center">Total Rekomendasi</th>
               </tr>
@@ -665,7 +665,7 @@ export default function PublicDashboard({ onBack }) {
                 const rek = summary.jobLoadTrend?.rekSeries?.[idx] || 0;
 
                 return (
-                  <tr key={monthName} className={`border-b border-slate-200 ${isSelectedMonth ? 'bg-blue-50/50' : 'even:bg-slate-50'}`}>
+                  <tr key={monthName} className={`border-b border-platinum-dark ${isSelectedMonth ? 'bg-blue-50/50' : 'even:bg-platinum'}`}>
                     <td className="border border-slate-300 p-3 font-semibold text-slate-700">{monthName}</td>
                     <td className="border border-slate-300 p-3 text-center font-medium">{wo.toLocaleString('id-ID')}</td>
                     <td className="border border-slate-300 p-3 text-center font-medium">{rek.toLocaleString('id-ID')}</td>
@@ -677,17 +677,17 @@ export default function PublicDashboard({ onBack }) {
         </div>
 
         <div className="mb-6 print-break-avoid">
-          <h3 className="text-base font-bold text-slate-800 mb-3 border-l-4 border-blue-600 pl-3">4. DISTRIBUSI TIPE ORDER & REKOMENDASI</h3>
+          <h3 className="text-base font-bold text-ink mb-3 border-l-4 border-blue-600 pl-3">4. DISTRIBUSI TIPE ORDER & REKOMENDASI</h3>
           <div className="flex gap-8">
             <table className="w-1/2 text-sm text-left border-collapse border border-slate-300 shadow-sm">
               <thead>
-                <tr className="bg-slate-100">
-                  <th className="border border-slate-300 p-3 text-slate-800">Tipe Work Order</th>
+                <tr className="bg-platinum-dark">
+                  <th className="border border-slate-300 p-3 text-ink">Tipe Work Order</th>
                   <th className="border border-slate-300 p-3 text-blue-800 text-center">Jumlah</th>
                 </tr>
               </thead>
               <tbody>
-                <tr className="border-b border-slate-200">
+                <tr className="border-b border-platinum-dark">
                   <td className="border border-slate-300 p-3 font-semibold text-slate-700">PM 04 (Predictive)</td>
                   <td className="border border-slate-300 p-3 text-center font-medium">{summary.kpi?.pm04Count?.toLocaleString('id-ID') || 0}</td>
                 </tr>
@@ -699,13 +699,13 @@ export default function PublicDashboard({ onBack }) {
             </table>
             <table className="w-1/2 text-sm text-left border-collapse border border-slate-300 shadow-sm">
               <thead>
-                <tr className="bg-slate-100">
-                  <th className="border border-slate-300 p-3 text-slate-800">Tipe Rekomendasi</th>
+                <tr className="bg-platinum-dark">
+                  <th className="border border-slate-300 p-3 text-ink">Tipe Rekomendasi</th>
                   <th className="border border-slate-300 p-3 text-teal-800 text-center">Jumlah</th>
                 </tr>
               </thead>
               <tbody>
-                <tr className="border-b border-slate-200">
+                <tr className="border-b border-platinum-dark">
                   <td className="border border-slate-300 p-3 font-semibold text-slate-700">M04</td>
                   <td className="border border-slate-300 p-3 text-center font-medium">{summary.kpi?.m04Count?.toLocaleString('id-ID') || 0}</td>
                 </tr>
@@ -739,5 +739,7 @@ export default function PublicDashboard({ onBack }) {
     </div>
   );
 }
+
+
 
 

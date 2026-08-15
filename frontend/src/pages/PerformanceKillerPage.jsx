@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+﻿import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { 
   Plus, Edit, Trash2, Search, X, Loader2, Save, FileText 
@@ -148,7 +148,7 @@ export default function PerformanceKillerPage() {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <div>
           <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
-            <FileText className="h-8 w-8 text-blue-600" />
+            <FileText className="h-8 w-8 text-navy" />
             Performance Killer
           </h1>
           <p className="text-slate-500 mt-1">Kelola data peralatan penyumbang masalah performa / reliability pabrik.</p>
@@ -157,7 +157,7 @@ export default function PerformanceKillerPage() {
         {user && ['vp', 'avp', 'manager', 'administrator', 'admin', 'supervisor', 'staff'].includes(user.role?.toLowerCase() || '') && (
             <button 
               onClick={() => openModal()}
-              className="flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-all shadow-sm shadow-blue-600/20 font-medium"
+              className="flex items-center gap-2 px-5 py-2.5 bg-navy hover:bg-blue-700 text-white rounded-xl transition-all shadow-sm shadow-blue-600/20 font-medium"
             >
               <Plus className="h-5 w-5" />
               <span>Tambah Data</span>
@@ -165,8 +165,8 @@ export default function PerformanceKillerPage() {
         )}
       </div>
 
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-        <div className="p-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+      <div className="bg-white rounded-2xl shadow-sm border border-platinum-dark overflow-hidden">
+        <div className="p-4 border-b border-slate-100 flex justify-between items-center bg-platinum/50">
           <div className="relative w-full max-w-md">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
             <input 
@@ -174,14 +174,14 @@ export default function PerformanceKillerPage() {
               placeholder="Cari item, area, atau masalah..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-sm"
+              className="w-full pl-10 pr-4 py-2 border border-platinum-dark rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-sm"
             />
           </div>
         </div>
 
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm whitespace-nowrap">
-            <thead className="bg-slate-50 text-slate-600 font-semibold border-b border-slate-200">
+            <thead className="bg-platinum text-slate-600 font-semibold border-b border-platinum-dark">
               <tr>
                 <th className="px-6 py-4">No</th>
                 <th className="px-6 py-4">Item</th>
@@ -209,9 +209,9 @@ export default function PerformanceKillerPage() {
                 filteredData.map((row, index) => (
                   <tr key={row.id} className="hover:bg-blue-50/50 transition-colors">
                     <td className="px-6 py-4 text-slate-500">{index + 1}</td>
-                    <td className="px-6 py-4 font-medium text-slate-800">{row.item}</td>
+                    <td className="px-6 py-4 font-medium text-ink">{row.item}</td>
                     <td className="px-6 py-4 text-slate-600">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800">
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-platinum-dark text-ink">
                         {row.area_plant}
                       </span>
                     </td>
@@ -226,7 +226,7 @@ export default function PerformanceKillerPage() {
                         <div className="flex justify-end gap-2">
                           <button 
                             onClick={() => openModal(row)}
-                            className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                            className="p-1.5 text-navy hover:bg-blue-50 rounded-lg transition-colors"
                             title="Edit"
                           >
                             <Edit className="h-4 w-4" />
@@ -258,11 +258,11 @@ export default function PerformanceKillerPage() {
           <div 
             className="relative w-full max-w-lg bg-white rounded-2xl shadow-2xl border border-slate-100 overflow-hidden transform transition-all"
           >
-              <div className="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
-                <h2 className="text-lg font-bold text-slate-800">
+              <div className="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-platinum/50">
+                <h2 className="text-lg font-bold text-ink">
                   {isEditing ? 'Edit Data' : 'Tambah Data'}
                 </h2>
-                <button onClick={closeModal} className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-xl transition-colors">
+                <button onClick={closeModal} className="p-2 text-slate-400 hover:text-slate-600 hover:bg-platinum-dark rounded-xl transition-colors">
                   <X className="h-5 w-5" />
                 </button>
               </div>
@@ -276,7 +276,7 @@ export default function PerformanceKillerPage() {
                     value={formData.item}
                     onChange={(e) => setFormData({...formData, item: e.target.value})}
                     placeholder="Contoh: Three way valve 309-J/JA"
-                    className="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-sm"
+                    className="w-full px-4 py-2 bg-white border border-platinum-dark rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-sm"
                   />
                 </div>
                 <div>
@@ -285,7 +285,7 @@ export default function PerformanceKillerPage() {
                     required
                     value={formData.area_plant}
                     onChange={(e) => setFormData({...formData, area_plant: e.target.value})}
-                    className="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-sm"
+                    className="w-full px-4 py-2 bg-white border border-platinum-dark rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-sm"
                   >
                     <option value="" disabled>Pilih Plant</option>
                     {pabrikList.map((pabrik) => (
@@ -297,7 +297,7 @@ export default function PerformanceKillerPage() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">Masalah (Problem)</label>
-                  <div className="bg-white rounded-xl overflow-hidden border border-slate-200 focus-within:ring-2 focus-within:ring-blue-500/20 focus-within:border-blue-500 transition-all">
+                  <div className="bg-white rounded-xl overflow-hidden border border-platinum-dark focus-within:ring-2 focus-within:ring-blue-500/20 focus-within:border-blue-500 transition-all">
                     <ReactQuill 
                       theme="snow"
                       value={formData.masalah}
@@ -320,7 +320,7 @@ export default function PerformanceKillerPage() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-slate-700 mb-1">Tindak Lanjut (Mitigation)</label>
-                  <div className="bg-white rounded-xl overflow-hidden border border-slate-200 focus-within:ring-2 focus-within:ring-blue-500/20 focus-within:border-blue-500 transition-all">
+                  <div className="bg-white rounded-xl overflow-hidden border border-platinum-dark focus-within:ring-2 focus-within:ring-blue-500/20 focus-within:border-blue-500 transition-all">
                     <ReactQuill 
                       theme="snow"
                       value={formData.tindak_lanjut}
@@ -346,13 +346,13 @@ export default function PerformanceKillerPage() {
                   <button 
                     type="button" 
                     onClick={closeModal}
-                    className="px-5 py-2.5 text-sm font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors"
+                    className="px-5 py-2.5 text-sm font-medium text-slate-600 bg-platinum-dark hover:bg-slate-200 rounded-xl transition-colors"
                   >
                     Batal
                   </button>
                   <button 
                     type="submit"
-                    className="px-5 py-2.5 flex items-center gap-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-xl shadow-lg shadow-blue-600/20 transition-colors"
+                    className="px-5 py-2.5 flex items-center gap-2 text-sm font-medium text-white bg-navy hover:bg-blue-700 rounded-xl shadow-lg shadow-blue-600/20 transition-colors"
                   >
                     <Save className="h-4 w-4" />
                     Simpan
@@ -365,3 +365,5 @@ export default function PerformanceKillerPage() {
     </div>
   );
 }
+
+

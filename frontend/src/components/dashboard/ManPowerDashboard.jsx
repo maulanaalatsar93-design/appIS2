@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import Chart from 'react-apexcharts';
 import { differenceInDays, format, parseISO, addDays } from 'date-fns';
 import { getManpowerList } from '../../services/dashboardService';
@@ -148,10 +148,10 @@ export default function ManPowerDashboard() {
 
       return (
         <div className="flex flex-col text-center mt-1">
-          <span className="text-xs font-bold text-slate-800">{diffDays} Hari</span>
+          <span className="text-xs font-bold text-ink">{diffDays} Hari</span>
           <span className="text-[10px] text-slate-500">{dateRange}</span>
           <div className="mt-1.5 pt-1.5 border-t border-slate-100">
-            <span className="text-[10px] font-bold text-blue-600">Masuk: {tKembaliStr}</span>
+            <span className="text-[10px] font-bold text-navy">Masuk: {tKembaliStr}</span>
           </div>
         </div>
       );
@@ -165,8 +165,8 @@ export default function ManPowerDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
         {/* Filters */}
         <div className="col-span-1 lg:col-span-2 space-y-4">
-          <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 h-full">
-            <h3 className="text-sm font-bold text-slate-800 flex items-center gap-2 mb-4">
+          <div className="bg-white p-5 rounded-2xl shadow-sm border border-platinum-dark h-full">
+            <h3 className="text-sm font-bold text-ink flex items-center gap-2 mb-4">
               <Calendar className="h-4 w-4 text-[#1A4BC4]" /> Filter
             </h3>
             <div className="space-y-4">
@@ -176,7 +176,7 @@ export default function ManPowerDashboard() {
                   type="date"
                   value={selectedDate}
                   onChange={(e) => setSelectedDate(e.target.value)}
-                  className="w-full text-sm font-medium border border-slate-200 rounded-xl px-3 py-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-[#1A4BC4]/30"
+                  className="w-full text-sm font-medium border border-platinum-dark rounded-xl px-3 py-2 bg-platinum focus:outline-none focus:ring-2 focus:ring-[#1A4BC4]/30"
                 />
               </div>
               <div>
@@ -186,7 +186,7 @@ export default function ManPowerDashboard() {
                   placeholder="Ketik Nama..."
                   value={nameFilter}
                   onChange={(e) => setNameFilter(e.target.value)}
-                  className="w-full text-sm font-medium border border-slate-200 rounded-xl px-3 py-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-[#1A4BC4]/30"
+                  className="w-full text-sm font-medium border border-platinum-dark rounded-xl px-3 py-2 bg-platinum focus:outline-none focus:ring-2 focus:ring-[#1A4BC4]/30"
                 />
               </div>
             </div>
@@ -195,7 +195,7 @@ export default function ManPowerDashboard() {
 
         {/* Charts */}
         <div className="col-span-1 lg:col-span-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden pt-4 pb-2 relative flex flex-col items-center justify-center">
+          <div className="bg-white rounded-2xl shadow-sm border border-platinum-dark overflow-hidden pt-4 pb-2 relative flex flex-col items-center justify-center">
             <div className="absolute top-0 left-0 right-0 bg-[#0f172a] text-white text-xs font-bold px-4 py-2 z-10 shadow-sm flex items-center gap-2">
               <span className="w-1.5 h-1.5 bg-blue-400 rounded-full"></span> Overall
             </div>
@@ -206,11 +206,11 @@ export default function ManPowerDashboard() {
                 <div className="h-[200px] flex items-center justify-center"><Loader2 className="w-5 h-5 text-blue-500 animate-spin" /></div>
               )}
             </div>
-            <div className="absolute bottom-3 right-4 text-sm font-bold text-blue-800 bg-blue-100 px-3 py-1 rounded-xl shadow-sm border border-blue-200">
+            <div className="absolute bottom-3 right-4 text-sm font-bold text-blue-800 bg-blue-100 px-3 py-1 rounded-xl shadow-sm border border-navy-soft">
               {overallStats.percentage}%
             </div>
           </div>
-          <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden pt-4 pb-2 relative flex flex-col items-center justify-center">
+          <div className="bg-white rounded-2xl shadow-sm border border-platinum-dark overflow-hidden pt-4 pb-2 relative flex flex-col items-center justify-center">
             <div className="absolute top-0 left-0 right-0 bg-[#0f172a] text-white text-xs font-bold px-4 py-2 z-10 shadow-sm flex items-center gap-2">
               <span className="w-1.5 h-1.5 bg-green-400 rounded-full"></span> TKO
             </div>
@@ -221,11 +221,11 @@ export default function ManPowerDashboard() {
                 <div className="h-[200px] flex items-center justify-center text-xs text-slate-400">Belum ada data</div>
               )}
             </div>
-            <div className="absolute bottom-3 right-4 text-sm font-bold text-blue-800 bg-blue-100 px-3 py-1 rounded-xl shadow-sm border border-blue-200">
+            <div className="absolute bottom-3 right-4 text-sm font-bold text-blue-800 bg-blue-100 px-3 py-1 rounded-xl shadow-sm border border-navy-soft">
               {tkoStats.percentage}%
             </div>
           </div>
-          <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden pt-4 pb-2 relative flex flex-col items-center justify-center">
+          <div className="bg-white rounded-2xl shadow-sm border border-platinum-dark overflow-hidden pt-4 pb-2 relative flex flex-col items-center justify-center">
             <div className="absolute top-0 left-0 right-0 bg-[#0f172a] text-white text-xs font-bold px-4 py-2 z-10 shadow-sm flex items-center gap-2">
               <span className="w-1.5 h-1.5 bg-orange-400 rounded-full"></span> TKNO
             </div>
@@ -236,14 +236,14 @@ export default function ManPowerDashboard() {
                 <div className="h-[200px] flex items-center justify-center text-xs text-slate-400">Belum ada data</div>
               )}
             </div>
-            <div className="absolute bottom-3 right-4 text-sm font-bold text-blue-800 bg-blue-100 px-3 py-1 rounded-xl shadow-sm border border-blue-200">
+            <div className="absolute bottom-3 right-4 text-sm font-bold text-blue-800 bg-blue-100 px-3 py-1 rounded-xl shadow-sm border border-navy-soft">
               {tknoStats.percentage}%
             </div>
           </div>
         </div>
 
         {/* Scorecard full grid */}
-        <div className="col-span-1 lg:col-span-4 bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden relative">
+        <div className="col-span-1 lg:col-span-4 bg-white rounded-2xl shadow-sm border border-platinum-dark overflow-hidden relative">
           <div className="absolute top-0 left-0 right-0 bg-[#0f172a] text-white text-xs font-bold px-4 py-2 z-10 shadow-sm flex justify-between items-center">
             <div className="flex items-center gap-2">
               <Info className="w-4 h-4 text-blue-300" /> Rekapitulasi Kehadiran
@@ -252,49 +252,49 @@ export default function ManPowerDashboard() {
           </div>
           
           <div className="grid grid-cols-3 gap-3 p-4 mt-8">
-            <div className="flex flex-col items-center justify-center p-2 rounded-xl bg-slate-50 border border-slate-100">
-              <CheckCircle2 className="w-5 h-5 text-blue-600 mb-1" />
-              <span className="text-xl font-black text-slate-800 leading-none">{scoreCounts.Hadir}</span>
+            <div className="flex flex-col items-center justify-center p-2 rounded-xl bg-platinum border border-slate-100">
+              <CheckCircle2 className="w-5 h-5 text-navy mb-1" />
+              <span className="text-xl font-black text-ink leading-none">{scoreCounts.Hadir}</span>
               <span className="text-[10px] text-slate-500 font-bold uppercase mt-1">Hadir</span>
             </div>
-            <div className="flex flex-col items-center justify-center p-2 rounded-xl bg-slate-50 border border-slate-100">
+            <div className="flex flex-col items-center justify-center p-2 rounded-xl bg-platinum border border-slate-100">
               <UserX className="w-5 h-5 text-red-500 mb-1" />
-              <span className="text-xl font-black text-slate-800 leading-none">{scoreCounts.Off}</span>
+              <span className="text-xl font-black text-ink leading-none">{scoreCounts.Off}</span>
               <span className="text-[10px] text-slate-500 font-bold uppercase mt-1">Off</span>
             </div>
-            <div className="flex flex-col items-center justify-center p-2 rounded-xl bg-slate-50 border border-slate-100">
+            <div className="flex flex-col items-center justify-center p-2 rounded-xl bg-platinum border border-slate-100">
               <GraduationCap className="w-5 h-5 text-green-500 mb-1" />
-              <span className="text-xl font-black text-slate-800 leading-none">{scoreCounts.Training}</span>
+              <span className="text-xl font-black text-ink leading-none">{scoreCounts.Training}</span>
               <span className="text-[10px] text-slate-500 font-bold uppercase mt-1">Training</span>
             </div>
-            <div className="flex flex-col items-center justify-center p-2 rounded-xl bg-slate-50 border border-slate-100">
+            <div className="flex flex-col items-center justify-center p-2 rounded-xl bg-platinum border border-slate-100">
               <Calendar className="w-5 h-5 text-yellow-500 mb-1" />
-              <span className="text-xl font-black text-slate-800 leading-none">{scoreCounts.Cuti}</span>
+              <span className="text-xl font-black text-ink leading-none">{scoreCounts.Cuti}</span>
               <span className="text-[10px] text-slate-500 font-bold uppercase mt-1">Cuti</span>
             </div>
-            <div className="flex flex-col items-center justify-center p-2 rounded-xl bg-slate-50 border border-slate-100">
+            <div className="flex flex-col items-center justify-center p-2 rounded-xl bg-platinum border border-slate-100">
               <Info className="w-5 h-5 text-amber-700 mb-1" />
-              <span className="text-xl font-black text-slate-800 leading-none">{scoreCounts.Izin}</span>
+              <span className="text-xl font-black text-ink leading-none">{scoreCounts.Izin}</span>
               <span className="text-[10px] text-slate-500 font-bold uppercase mt-1">Izin</span>
             </div>
-            <div className="flex flex-col items-center justify-center p-2 rounded-xl bg-slate-50 border border-slate-100">
+            <div className="flex flex-col items-center justify-center p-2 rounded-xl bg-platinum border border-slate-100">
               <Stethoscope className="w-5 h-5 text-slate-500 mb-1" />
-              <span className="text-xl font-black text-slate-800 leading-none">{scoreCounts.Sakit}</span>
+              <span className="text-xl font-black text-ink leading-none">{scoreCounts.Sakit}</span>
               <span className="text-[10px] text-slate-500 font-bold uppercase mt-1">Sakit</span>
             </div>
-            <div className="flex flex-col items-center justify-center p-2 rounded-xl bg-slate-50 border border-slate-100">
+            <div className="flex flex-col items-center justify-center p-2 rounded-xl bg-platinum border border-slate-100">
               <Hospital className="w-5 h-5 text-purple-500 mb-1" />
-              <span className="text-xl font-black text-slate-800 leading-none">{scoreCounts.Referral}</span>
+              <span className="text-xl font-black text-ink leading-none">{scoreCounts.Referral}</span>
               <span className="text-[10px] text-slate-500 font-bold uppercase mt-1">Referral</span>
             </div>
-            <div className="flex flex-col items-center justify-center p-2 rounded-xl bg-slate-50 border border-slate-100 text-center">
+            <div className="flex flex-col items-center justify-center p-2 rounded-xl bg-platinum border border-slate-100 text-center">
               <PlaneTakeoff className="w-5 h-5 text-orange-500 mb-1" />
-              <span className="text-xl font-black text-slate-800 leading-none">{scoreCounts['Dinas Dalam Negeri']}</span>
+              <span className="text-xl font-black text-ink leading-none">{scoreCounts['Dinas Dalam Negeri']}</span>
               <span className="text-[9px] text-slate-500 font-bold uppercase mt-1 leading-tight">Dinas<br/>Dalam</span>
             </div>
-            <div className="flex flex-col items-center justify-center p-2 rounded-xl bg-slate-50 border border-slate-100 text-center">
+            <div className="flex flex-col items-center justify-center p-2 rounded-xl bg-platinum border border-slate-100 text-center">
               <Globe className="w-5 h-5 text-black mb-1" />
-              <span className="text-xl font-black text-slate-800 leading-none">{scoreCounts['Dinas Luar Negeri']}</span>
+              <span className="text-xl font-black text-ink leading-none">{scoreCounts['Dinas Luar Negeri']}</span>
               <span className="text-[9px] text-slate-500 font-bold uppercase mt-1 leading-tight">Dinas<br/>Luar</span>
             </div>
           </div>
@@ -304,14 +304,14 @@ export default function ManPowerDashboard() {
       {/* BOTTOM ROW: Tables */}
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
         {/* Table Organik */}
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
+        <div className="bg-white rounded-2xl shadow-sm border border-platinum-dark overflow-hidden flex flex-col">
           <div className="bg-[#0f172a] text-white text-sm font-bold px-5 py-3 shadow-sm">
             Tenaga Kerja Organik (TKO)
           </div>
           <div className="overflow-auto max-h-[350px]">
             <table className="w-full text-sm text-left">
-              <thead className="sticky top-0 bg-slate-50 z-10">
-                <tr className="border-b border-slate-200 text-slate-600">
+              <thead className="sticky top-0 bg-platinum z-10">
+                <tr className="border-b border-platinum-dark text-slate-600">
                   <th className="py-3 px-4 font-bold w-12 text-center">No.</th>
                   <th className="py-3 px-4 font-bold">Nama</th>
                   <th className="py-3 px-4 font-bold">Bagian</th>
@@ -321,9 +321,9 @@ export default function ManPowerDashboard() {
               <tbody>
                 {loading ? <tr><td colSpan="4" className="text-center py-8 text-slate-400"><Loader2 className="w-6 h-6 animate-spin mx-auto mb-2" /> Memuat Data...</td></tr> : 
                   organikData.map((p, i) => (
-                  <tr key={p.id} className="border-b border-slate-100 last:border-0 hover:bg-slate-50 transition-colors">
+                  <tr key={p.id} className="border-b border-slate-100 last:border-0 hover:bg-platinum transition-colors">
                     <td className="py-3 px-4 text-center text-slate-500 font-medium">{i + 1}.</td>
-                    <td className="py-3 px-4 font-bold text-slate-800">{p.name}</td>
+                    <td className="py-3 px-4 font-bold text-ink">{p.name}</td>
                     <td className="py-3 px-4 text-slate-600 text-xs font-semibold">{getBagian(p)}</td>
                     <td className="py-2 px-4">
                       {renderStatusBadge(p)}
@@ -339,14 +339,14 @@ export default function ManPowerDashboard() {
         </div>
 
         {/* Table Non Organik */}
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
+        <div className="bg-white rounded-2xl shadow-sm border border-platinum-dark overflow-hidden flex flex-col">
           <div className="bg-[#1E293B] text-white text-sm font-bold px-5 py-3 shadow-sm">
             Tenaga Kerja Non Organik (TKNO)
           </div>
           <div className="overflow-auto max-h-[350px]">
             <table className="w-full text-sm text-left">
-              <thead className="sticky top-0 bg-slate-50 z-10">
-                <tr className="border-b border-slate-200 text-slate-600">
+              <thead className="sticky top-0 bg-platinum z-10">
+                <tr className="border-b border-platinum-dark text-slate-600">
                   <th className="py-3 px-4 font-bold w-12 text-center">No.</th>
                   <th className="py-3 px-4 font-bold">Nama</th>
                   <th className="py-3 px-4 font-bold">Bagian</th>
@@ -356,9 +356,9 @@ export default function ManPowerDashboard() {
               <tbody>
                 {loading ? <tr><td colSpan="4" className="text-center py-8 text-slate-400"><Loader2 className="w-6 h-6 animate-spin mx-auto mb-2" /> Memuat Data...</td></tr> : 
                   nonOrganikData.map((p, i) => (
-                  <tr key={p.id} className="border-b border-slate-100 last:border-0 hover:bg-slate-50 transition-colors">
+                  <tr key={p.id} className="border-b border-slate-100 last:border-0 hover:bg-platinum transition-colors">
                     <td className="py-3 px-4 text-center text-slate-500 font-medium">{i + 1}.</td>
-                    <td className="py-3 px-4 font-bold text-slate-800">{p.name}</td>
+                    <td className="py-3 px-4 font-bold text-ink">{p.name}</td>
                     <td className="py-3 px-4 text-slate-600 text-xs font-semibold">{getBagian(p)}</td>
                     <td className="py-2 px-4">
                       {renderStatusBadge(p)}
@@ -374,14 +374,14 @@ export default function ManPowerDashboard() {
         </div>
 
         {/* Table Ketidakhadiran */}
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
+        <div className="bg-white rounded-2xl shadow-sm border border-platinum-dark overflow-hidden flex flex-col">
           <div className="bg-[#EAB308] text-white text-sm font-bold px-5 py-3 shadow-sm flex items-center gap-2">
             <Calendar className="w-4 h-4" /> Ketidakhadiran (Cuti, Izin, Sakit, Referral)
           </div>
           <div className="overflow-auto max-h-[350px]">
             <table className="w-full text-sm text-left">
-              <thead className="sticky top-0 bg-slate-50 z-10">
-                <tr className="border-b border-slate-200 text-slate-600">
+              <thead className="sticky top-0 bg-platinum z-10">
+                <tr className="border-b border-platinum-dark text-slate-600">
                   <th className="py-3 px-4 font-bold w-12 text-center">No.</th>
                   <th className="py-3 px-4 font-bold">Nama</th>
                   <th className="py-3 px-4 font-bold">Bagian</th>
@@ -392,9 +392,9 @@ export default function ManPowerDashboard() {
               <tbody>
                 {loading ? <tr><td colSpan="5" className="text-center py-8 text-slate-400">Memuat Data...</td></tr> : 
                   ketidakhadiranData.map((p, i) => (
-                  <tr key={p.id} className="border-b border-slate-100 hover:bg-slate-50 last:border-0 transition-colors">
+                  <tr key={p.id} className="border-b border-slate-100 hover:bg-platinum last:border-0 transition-colors">
                     <td className="py-3 px-4 text-center text-slate-500 font-medium">{i + 1}.</td>
-                    <td className="py-3 px-4 font-bold text-slate-800">{p.name}</td>
+                    <td className="py-3 px-4 font-bold text-ink">{p.name}</td>
                     <td className="py-3 px-4 text-slate-600 text-xs font-semibold">{getBagian(p)}</td>
                     <td className="py-2 px-4">
                       {renderStatusBadge(p)}
@@ -413,14 +413,14 @@ export default function ManPowerDashboard() {
         </div>
 
         {/* Table Penugasan */}
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
+        <div className="bg-white rounded-2xl shadow-sm border border-platinum-dark overflow-hidden flex flex-col">
           <div className="bg-[#EA580C] text-white text-sm font-bold px-5 py-3 shadow-sm flex items-center gap-2">
             <PlaneTakeoff className="w-4 h-4" /> Penugasan Dinas (Dalam/Luar Negeri)
           </div>
           <div className="overflow-auto max-h-[350px]">
             <table className="w-full text-sm text-left">
-              <thead className="sticky top-0 bg-slate-50 z-10">
-                <tr className="border-b border-slate-200 text-slate-600">
+              <thead className="sticky top-0 bg-platinum z-10">
+                <tr className="border-b border-platinum-dark text-slate-600">
                   <th className="py-3 px-4 font-bold w-12 text-center">No.</th>
                   <th className="py-3 px-4 font-bold">Nama</th>
                   <th className="py-3 px-4 font-bold">Bagian</th>
@@ -430,9 +430,9 @@ export default function ManPowerDashboard() {
               <tbody>
                 {loading ? <tr><td colSpan="4" className="text-center py-8 text-slate-400">Memuat Data...</td></tr> : 
                   penugasanData.map((p, i) => (
-                  <tr key={p.id} className="border-b border-slate-100 hover:bg-slate-50 last:border-0 transition-colors">
+                  <tr key={p.id} className="border-b border-slate-100 hover:bg-platinum last:border-0 transition-colors">
                     <td className="py-3 px-4 text-center text-slate-500 font-medium">{i + 1}.</td>
-                    <td className="py-3 px-4 font-bold text-slate-800">{p.name}</td>
+                    <td className="py-3 px-4 font-bold text-ink">{p.name}</td>
                     <td className="py-3 px-4 text-slate-600 text-xs font-semibold">{getBagian(p)}</td>
                     <td className="py-2 px-4">
                       {renderDurasiCell(p)}
@@ -451,3 +451,4 @@ export default function ManPowerDashboard() {
     </div>
   );
 }
+

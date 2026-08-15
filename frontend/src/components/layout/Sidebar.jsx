@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+﻿import React, { useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import {
@@ -145,3 +145,4 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
     </aside>
   );
 }
+

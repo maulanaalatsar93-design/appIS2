@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+﻿import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import {
   Loader2, ArrowLeft, Save, AlertCircle, Users, Search,
@@ -148,7 +148,7 @@ export default function WorkProgramForm({ onBack, onSaved }) {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
-          <button onClick={onBack} className="p-2 bg-white border border-platinum-dark rounded-lg shadow-sm-subtle hover:bg-slate-50">
+          <button onClick={onBack} className="p-2 bg-white border border-platinum-dark rounded-lg shadow-sm-subtle hover:bg-platinum">
             <ArrowLeft className="w-5 h-5 text-slate-600" />
           </button>
           <div>
@@ -240,7 +240,7 @@ export default function WorkProgramForm({ onBack, onSaved }) {
                     {avpList.map(avp => {
                       const selected = selectedApprovers.find(a => a.man_power_id === avp.id);
                       return (
-                        <label key={avp.id} className={`flex items-center justify-between p-2.5 rounded-xl border cursor-pointer transition-colors ${selected ? 'bg-blue-50 border-blue-300' : 'border-platinum-dark hover:bg-slate-50'}`}>
+                        <label key={avp.id} className={`flex items-center justify-between p-2.5 rounded-xl border cursor-pointer transition-colors ${selected ? 'bg-blue-50 border-blue-300' : 'border-platinum-dark hover:bg-platinum'}`}>
                           <div>
                             <p className="text-xs font-semibold text-ink">{avp.name}</p>
                             <p className="text-[10px] text-platinum-dark">{avp.position} — {avp.divisi?.nama_divisi}</p>
@@ -260,7 +260,7 @@ export default function WorkProgramForm({ onBack, onSaved }) {
         <div className="lg:col-span-2 space-y-5">
           {/* Selected Members */}
           <div className="bg-white border border-platinum-dark rounded-card overflow-hidden shadow-soft-card h-[320px] flex flex-col">
-            <div className="p-4 border-b border-platinum-dark bg-slate-50 flex items-center justify-between">
+            <div className="p-4 border-b border-platinum-dark bg-platinum flex items-center justify-between">
               <div className="flex items-center space-x-2">
                 <h3 className="font-semibold text-ink text-sm">Personel yang Ditugaskan ({selectedMembers.length})</h3>
                 {selectedMembers.length > 0 && (
@@ -277,7 +277,7 @@ export default function WorkProgramForm({ onBack, onSaved }) {
                 <div className="flex items-center space-x-2">
                   <label className="text-xs font-semibold text-ink">Koordinator:</label>
                   <select value={coordinatorId} onChange={e => setCoordinatorId(e.target.value)}
-                    className="bg-white border border-slate-200 rounded-lg px-2 py-1 text-xs focus:outline-none focus:border-navy">
+                    className="bg-white border border-platinum-dark rounded-lg px-2 py-1 text-xs focus:outline-none focus:border-navy">
                     <option value="">— Pilih Koordinator —</option>
                     {selectedMembers.map(m => <option key={m.man_power_id} value={m.man_power_id}>{m.name}</option>)}
                   </select>
@@ -309,8 +309,8 @@ export default function WorkProgramForm({ onBack, onSaved }) {
                   </div>
                   <div className="flex items-center space-x-2">
                     <input type="text" value={m.role} onChange={e => updateMemberRole(m.man_power_id, e.target.value)} placeholder="Peran"
-                      className="w-32 bg-slate-50 border border-slate-200 rounded-lg px-2 py-1 text-xs focus:outline-none focus:border-navy" />
-                    <button onClick={() => removeMember(m.man_power_id)} className="p-1.5 text-slate-400 hover:text-red-500 hover:bg-red-50 border border-slate-200 rounded-lg transition-colors">
+                      className="w-32 bg-platinum border border-platinum-dark rounded-lg px-2 py-1 text-xs focus:outline-none focus:border-navy" />
+                    <button onClick={() => removeMember(m.man_power_id)} className="p-1.5 text-slate-400 hover:text-red-500 hover:bg-red-50 border border-platinum-dark rounded-lg transition-colors">
                       <Trash2 className="w-4 h-4" />
                     </button>
                   </div>
@@ -321,7 +321,7 @@ export default function WorkProgramForm({ onBack, onSaved }) {
 
           {/* Availability Pool */}
           <div className="bg-white border border-platinum-dark rounded-card overflow-hidden shadow-soft-card">
-            <div className="p-4 border-b border-platinum-dark bg-slate-50 flex items-center justify-between">
+            <div className="p-4 border-b border-platinum-dark bg-platinum flex items-center justify-between">
               <div>
                 <h3 className="font-semibold text-ink text-sm flex items-center">
                   <Users className="w-4 h-4 mr-1.5 text-navy" /> Database Ketersediaan Personel
@@ -353,13 +353,13 @@ export default function WorkProgramForm({ onBack, onSaved }) {
                   <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                   <input type="text" placeholder="Cari nama atau jabatan..." value={searchQuery}
                     onChange={e => setSearchQuery(e.target.value)}
-                    className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs focus:outline-none focus:border-navy" />
+                    className="w-full pl-9 pr-3 py-2 bg-platinum border border-platinum-dark rounded-lg text-xs focus:outline-none focus:border-navy" />
                 </div>
                 <div className="relative">
                   <button
                     type="button"
                     onClick={() => setIsDivDropdownOpen(!isDivDropdownOpen)}
-                    className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-ink font-medium flex items-center justify-between min-w-[130px]"
+                    className="bg-platinum border border-platinum-dark rounded-lg px-3 py-2 text-xs text-ink font-medium flex items-center justify-between min-w-[130px]"
                   >
                     <span className="truncate">
                       {selectedDivisions.length === 0
@@ -381,7 +381,7 @@ export default function WorkProgramForm({ onBack, onSaved }) {
                       </div>
                       <div className="max-h-40 overflow-y-auto space-y-0.5">
                         {divisions.map(d => (
-                          <label key={d} className="flex items-center space-x-2 px-2 py-1 hover:bg-slate-50 rounded cursor-pointer text-xs">
+                          <label key={d} className="flex items-center space-x-2 px-2 py-1 hover:bg-platinum rounded cursor-pointer text-xs">
                             <input
                               type="checkbox"
                               checked={selectedDivisions.includes(d)}
@@ -407,7 +407,7 @@ export default function WorkProgramForm({ onBack, onSaved }) {
               </div>
             )}
 
-            <div className="p-4 max-h-[600px] min-h-[400px] overflow-y-auto bg-slate-50/80 inner-shadow-sm">
+            <div className="p-4 max-h-[600px] min-h-[400px] overflow-y-auto bg-platinum/80 inner-shadow-sm">
               {loadingMp ? (
                 <div className="flex justify-center py-12"><Loader2 className="w-8 h-8 animate-spin text-navy" /></div>
               ) : availableManpower.length === 0 ? (
@@ -421,14 +421,14 @@ export default function WorkProgramForm({ onBack, onSaved }) {
                     const isSelected = selectedMembers.some(m => m.man_power_id === mp.id);
                     const hasConflict = mp.availability_status !== 'Tersedia';
                     
-                    let bgConfig = 'bg-white border-slate-200 hover:border-navy';
+                    let bgConfig = 'bg-white border-platinum-dark hover:border-navy';
                     let alertColor = 'text-amber-700';
                     let alertBg = 'bg-amber-50';
 
                     if (mp.availability_status === 'Tersedia') {
                       bgConfig = 'bg-white border-emerald-200 hover:border-emerald-400 shadow-sm';
                     } else if (mp.availability_status === 'Bertugas') {
-                      bgConfig = 'bg-blue-50/60 border-blue-200 hover:bg-blue-100/60 shadow-sm';
+                      bgConfig = 'bg-blue-50/60 border-navy-soft hover:bg-blue-100/60 shadow-sm';
                       alertColor = 'text-blue-700';
                       alertBg = 'bg-blue-100';
                     } else if (['Cuti', 'Sakit', 'Izin'].includes(mp.availability_status)) {
@@ -441,7 +441,7 @@ export default function WorkProgramForm({ onBack, onSaved }) {
                       alertBg = 'bg-purple-100';
                     }
 
-                    const cardColor = isSelected ? 'bg-slate-100 border-slate-300 opacity-60 cursor-not-allowed' : bgConfig;
+                    const cardColor = isSelected ? 'bg-platinum-dark border-slate-300 opacity-60 cursor-not-allowed' : bgConfig;
 
                     return (
                       <div key={mp.id} onClick={() => !isSelected && addMember(mp)}
@@ -464,7 +464,7 @@ export default function WorkProgramForm({ onBack, onSaved }) {
                             </div>
                           )}
                         </div>
-                        <div className={`w-8 h-8 shrink-0 rounded-full flex items-center justify-center border transition-colors ml-2 shadow-sm ${isSelected ? 'bg-slate-200 border-slate-300 text-slate-500' : 'bg-white border-slate-200 hover:bg-navy hover:border-navy hover:text-white text-slate-400'}`}>
+                        <div className={`w-8 h-8 shrink-0 rounded-full flex items-center justify-center border transition-colors ml-2 shadow-sm ${isSelected ? 'bg-slate-200 border-slate-300 text-slate-500' : 'bg-white border-platinum-dark hover:bg-navy hover:border-navy hover:text-white text-slate-400'}`}>
                           {isSelected ? <Check className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
                         </div>
                       </div>
@@ -479,3 +479,5 @@ export default function WorkProgramForm({ onBack, onSaved }) {
     </div>
   );
 }
+
+
