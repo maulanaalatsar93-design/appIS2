@@ -292,11 +292,11 @@ export default function ManPowerPage({ initialView = 'availability' }) {
   const sakitData = filteredChanges.filter(r => (r.jenis || MOCK_STATUSES.find(s => s.id === r.status_id)?.name) === 'Sakit');
 
   return (
-    <div className="p-6 space-y-6 bg-industrial-background min-h-screen relative print:bg-white print:p-0 print:space-y-4">
+    <div className="p-6 space-y-6 bg-platinum min-h-screen relative print:bg-white print:p-0 print:space-y-4">
       <div className="print:hidden space-y-6">
         {/* FLOATING FILTER */}
         <div
-          className={`fixed bottom-14 right-3 z-[9998] flex items-center gap-1 bg-white/90 backdrop-blur-md border border-industrial-border shadow-lg rounded-full p-1 transition-all duration-300 ${isFilterCollapsed ? 'scale-95 opacity-90' : 'scale-100 opacity-100'
+          className={`fixed bottom-14 right-3 z-[9998] flex items-center gap-1 bg-white/90 backdrop-blur-md border border-platinum-dark shadow-lg rounded-full p-1 transition-all duration-300 ${isFilterCollapsed ? 'scale-95 opacity-90' : 'scale-100 opacity-100'
             }`}
         >
           <button
@@ -341,12 +341,12 @@ export default function ManPowerPage({ initialView = 'availability' }) {
         {/* HEADER */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-industrial-blue/10 text-industrial-blue flex items-center justify-center shrink-0">
+            <div className="w-10 h-10 rounded-xl bg-navy/10 text-navy flex items-center justify-center shrink-0">
               <Users size={22} />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-industrial-text tracking-tight">Man Power Control</h1>
-              <p className="text-xs text-industrial-muted">Kelola personil dan status presensi.</p>
+              <h1 className="text-xl font-bold text-ink tracking-tight">Man Power Control</h1>
+              <p className="text-xs text-platinum-dark">Kelola personil dan status presensi.</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -358,7 +358,7 @@ export default function ManPowerPage({ initialView = 'availability' }) {
             </button>
             <button
               onClick={() => setIsFormOpen(true)}
-              className="flex items-center gap-1.5 bg-industrial-navy text-white px-3.5 py-2 rounded-lg text-xs font-semibold hover:bg-industrial-text transition-colors shadow-sm"
+              className="flex items-center gap-1.5 bg-navy text-white px-3.5 py-2 rounded-lg text-xs font-semibold hover:bg-ink transition-colors shadow-sm"
             >
               <PlusCircle size={16} /> Catat Status Presensi
             </button>
@@ -367,52 +367,52 @@ export default function ManPowerPage({ initialView = 'availability' }) {
 
         {/* KPI Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="bg-white rounded-card p-4 border border-industrial-border shadow-sm-subtle">
-            <div className="text-xs text-industrial-muted font-medium mb-1">Total Personel</div>
-            <div className="text-2xl font-bold text-industrial-text">{employees.length} Personil</div>
+          <div className="bg-white rounded-card p-4 border border-platinum-dark shadow-sm-subtle">
+            <div className="text-xs text-platinum-dark font-medium mb-1">Total Personel</div>
+            <div className="text-2xl font-bold text-ink">{employees.length} Personil</div>
           </div>
-          <div className="bg-white rounded-card p-4 border border-industrial-border shadow-sm-subtle">
-            <div className="text-xs text-industrial-muted font-medium mb-1">Catatan Aktif / Akan Datang</div>
-            <div className="text-2xl font-bold text-industrial-blue">{activeOrUpcomingCount} Catatan</div>
+          <div className="bg-white rounded-card p-4 border border-platinum-dark shadow-sm-subtle">
+            <div className="text-xs text-platinum-dark font-medium mb-1">Catatan Aktif / Akan Datang</div>
+            <div className="text-2xl font-bold text-navy">{activeOrUpcomingCount} Catatan</div>
           </div>
-          <div className="bg-white rounded-card p-4 border border-industrial-border shadow-sm-subtle">
-            <div className="text-xs text-industrial-muted font-medium mb-1">Total Riwayat Presensi</div>
-            <div className="text-2xl font-bold text-industrial-text">{attendanceChanges.length} Riwayat</div>
+          <div className="bg-white rounded-card p-4 border border-platinum-dark shadow-sm-subtle">
+            <div className="text-xs text-platinum-dark font-medium mb-1">Total Riwayat Presensi</div>
+            <div className="text-2xl font-bold text-ink">{attendanceChanges.length} Riwayat</div>
           </div>
         </div>
 
         {/* Main Table / Calendar Container */}
-        <div className="bg-white rounded-card border border-industrial-border shadow-sm-subtle overflow-hidden">
-          <div className="p-4 border-b border-industrial-border flex flex-col sm:flex-row justify-between sm:items-center gap-3">
-            <h3 className="font-semibold text-sm md:text-base text-industrial-text">
+        <div className="bg-white rounded-card border border-platinum-dark shadow-sm-subtle overflow-hidden">
+          <div className="p-4 border-b border-platinum-dark flex flex-col sm:flex-row justify-between sm:items-center gap-3">
+            <h3 className="font-semibold text-sm md:text-base text-ink">
               {viewMode === 'calendar' ? 'Kalender Presensi' : viewMode === 'recap' ? 'Rekap Izin & Anggota' : 'Riwayat Perubahan Status'}
             </h3>
             <div className="flex items-center gap-2">
               <div className="flex items-center bg-slate-100 p-0.5 rounded-lg">
                 <button
                   onClick={() => setViewMode('availability')}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${viewMode === 'availability' ? 'bg-industrial-navy text-white shadow-sm' : 'text-slate-500'
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${viewMode === 'availability' ? 'bg-navy text-white shadow-sm' : 'text-slate-500'
                     }`}
                 >
                   <MapPin size={13} /> Availability Board
                 </button>
                 <button
                   onClick={() => setViewMode('table')}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${viewMode === 'table' ? 'bg-white text-industrial-navy shadow-sm' : 'text-slate-500'
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${viewMode === 'table' ? 'bg-white text-navy shadow-sm' : 'text-slate-500'
                     }`}
                 >
                   <Activity size={13} /> Tabel Riwayat
                 </button>
                 <button
                   onClick={() => setViewMode('calendar')}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${viewMode === 'calendar' ? 'bg-industrial-navy text-white shadow-sm' : 'text-slate-500'
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${viewMode === 'calendar' ? 'bg-navy text-white shadow-sm' : 'text-slate-500'
                     }`}
                 >
                   <Calendar size={13} /> Kalender
                 </button>
                 <button
                   onClick={() => setViewMode('recap')}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${viewMode === 'recap' ? 'bg-white text-industrial-navy shadow-sm' : 'text-slate-500'
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${viewMode === 'recap' ? 'bg-white text-navy shadow-sm' : 'text-slate-500'
                     }`}
                 >
                   <Users size={13} /> Rekap Izin
@@ -422,12 +422,12 @@ export default function ManPowerPage({ initialView = 'availability' }) {
               <div className="relative">
                 <button
                   onClick={() => setShowExportMenu(!showExportMenu)}
-                  className="flex items-center gap-1 bg-white border border-industrial-border px-3 py-1.5 rounded-lg text-xs font-medium hover:bg-slate-50"
+                  className="flex items-center gap-1 bg-white border border-platinum-dark px-3 py-1.5 rounded-lg text-xs font-medium hover:bg-slate-50"
                 >
                   <Download size={13} /> Export
                 </button>
                 {showExportMenu && (
-                  <div className="absolute right-0 mt-2 w-44 bg-white rounded-xl shadow-lg border border-industrial-border py-1 z-10">
+                  <div className="absolute right-0 mt-2 w-44 bg-white rounded-xl shadow-lg border border-platinum-dark py-1 z-10">
                     <button onClick={() => handleExport('pdf')} className="w-full text-left px-4 py-2 text-xs text-slate-700 hover:bg-slate-50 flex items-center gap-2">
                       <Printer size={13} /> Print / Export PDF
                     </button>
@@ -447,14 +447,14 @@ export default function ManPowerPage({ initialView = 'availability' }) {
                   const status = MOCK_STATUSES.find((s) => s.id === row.status_id);
                   const emp = getEmployee(row.employee_id);
                   return (
-                    <div key={row.id} className="bg-white p-3.5 rounded-xl border border-industrial-border hover:border-industrial-blue/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                    <div key={row.id} className="bg-white p-3.5 rounded-xl border border-platinum-dark hover:border-navy/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                       <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-full bg-industrial-blue/10 text-industrial-blue font-bold text-xs flex items-center justify-center">
+                        <div className="w-9 h-9 rounded-full bg-navy/10 text-navy font-bold text-xs flex items-center justify-center">
                           {emp?.name?.charAt(0) || '?'}
                         </div>
                         <div>
-                          <p className="font-semibold text-xs text-industrial-text">{emp?.name || 'Unknown'}</p>
-                          <p className="text-[11px] text-industrial-muted">NPK: {emp?.npk} &bull; {emp?.division}</p>
+                          <p className="font-semibold text-xs text-ink">{emp?.name || 'Unknown'}</p>
+                          <p className="text-[11px] text-platinum-dark">NPK: {emp?.npk} &bull; {emp?.division}</p>
                         </div>
                       </div>
 
@@ -494,9 +494,9 @@ export default function ManPowerPage({ initialView = 'availability' }) {
         {/* Modal Catat Status Presensi */}
         {isFormOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
-            <div className="bg-white rounded-2xl p-6 border border-industrial-border max-w-md w-full shadow-2xl space-y-4">
-              <div className="flex justify-between items-center pb-2 border-b border-industrial-border">
-                <h3 className="font-bold text-base text-industrial-text">Catat Perubahan Status Presensi</h3>
+            <div className="bg-white rounded-2xl p-6 border border-platinum-dark max-w-md w-full shadow-2xl space-y-4">
+              <div className="flex justify-between items-center pb-2 border-b border-platinum-dark">
+                <h3 className="font-bold text-base text-ink">Catat Perubahan Status Presensi</h3>
                 <button onClick={() => setIsFormOpen(false)} className="text-slate-400 hover:text-slate-600"><X size={18} /></button>
               </div>
               <form onSubmit={handleSubmitAttendance} className="space-y-3 text-xs">
@@ -506,7 +506,7 @@ export default function ManPowerPage({ initialView = 'availability' }) {
                     required
                     value={formData.employee_id}
                     onChange={(e) => setFormData({ ...formData, employee_id: e.target.value })}
-                    className="w-full border border-industrial-border rounded-lg p-2 bg-industrial-background"
+                    className="w-full border border-platinum-dark rounded-lg p-2 bg-platinum"
                   >
                     <option value="">Pilih Karyawan</option>
                     {employees.map((emp) => (
@@ -521,7 +521,7 @@ export default function ManPowerPage({ initialView = 'availability' }) {
                     required
                     value={formData.status_id}
                     onChange={(e) => setFormData({ ...formData, status_id: e.target.value })}
-                    className="w-full border border-industrial-border rounded-lg p-2 bg-industrial-background"
+                    className="w-full border border-platinum-dark rounded-lg p-2 bg-platinum"
                   >
                     {MOCK_STATUSES.map((s) => (
                       <option key={s.id} value={s.id}>{s.name}</option>
@@ -537,7 +537,7 @@ export default function ManPowerPage({ initialView = 'availability' }) {
                       type="date"
                       value={formData.start_date}
                       onChange={(e) => setFormData({ ...formData, start_date: e.target.value })}
-                      className="w-full border border-industrial-border rounded-lg p-2 bg-industrial-background"
+                      className="w-full border border-platinum-dark rounded-lg p-2 bg-platinum"
                     />
                   </div>
                   <div>
@@ -547,7 +547,7 @@ export default function ManPowerPage({ initialView = 'availability' }) {
                       type="date"
                       value={formData.end_date}
                       onChange={(e) => setFormData({ ...formData, end_date: e.target.value })}
-                      className="w-full border border-industrial-border rounded-lg p-2 bg-industrial-background"
+                      className="w-full border border-platinum-dark rounded-lg p-2 bg-platinum"
                     />
                   </div>
                 </div>
@@ -558,13 +558,13 @@ export default function ManPowerPage({ initialView = 'availability' }) {
                     value={formData.note}
                     onChange={(e) => setFormData({ ...formData, note: e.target.value })}
                     rows={2}
-                    className="w-full border border-industrial-border rounded-lg p-2 bg-industrial-background"
+                    className="w-full border border-platinum-dark rounded-lg p-2 bg-platinum"
                   />
                 </div>
 
                 <div className="flex justify-end gap-2 pt-2">
                   <button type="button" onClick={() => setIsFormOpen(false)} className="px-4 py-2 rounded-lg bg-slate-100 text-slate-600">Batal</button>
-                  <button type="submit" className="px-4 py-2 rounded-lg bg-industrial-navy text-white font-semibold">Simpan</button>
+                  <button type="submit" className="px-4 py-2 rounded-lg bg-navy text-white font-semibold">Simpan</button>
                 </div>
               </form>
             </div>
@@ -574,9 +574,9 @@ export default function ManPowerPage({ initialView = 'availability' }) {
         {/* Modal Tambah Karyawan */}
         {isAddEmpOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
-            <div className="bg-white rounded-2xl p-6 border border-industrial-border max-w-md w-full shadow-2xl space-y-4">
-              <div className="flex justify-between items-center pb-2 border-b border-industrial-border">
-                <h3 className="font-bold text-base text-industrial-text">Tambah Data Karyawan Baru</h3>
+            <div className="bg-white rounded-2xl p-6 border border-platinum-dark max-w-md w-full shadow-2xl space-y-4">
+              <div className="flex justify-between items-center pb-2 border-b border-platinum-dark">
+                <h3 className="font-bold text-base text-ink">Tambah Data Karyawan Baru</h3>
                 <button onClick={() => setIsAddEmpOpen(false)} className="text-slate-400 hover:text-slate-600"><X size={18} /></button>
               </div>
               <form onSubmit={handleAddEmployeeSubmit} className="space-y-3 text-xs">
@@ -588,7 +588,7 @@ export default function ManPowerPage({ initialView = 'availability' }) {
                     placeholder="Contoh: 4254883 / K225716"
                     value={newEmpData.npk}
                     onChange={(e) => setNewEmpData({ ...newEmpData, npk: e.target.value })}
-                    className="w-full border border-industrial-border rounded-lg p-2 bg-industrial-background"
+                    className="w-full border border-platinum-dark rounded-lg p-2 bg-platinum"
                   />
                 </div>
                 <div>
@@ -599,7 +599,7 @@ export default function ManPowerPage({ initialView = 'availability' }) {
                     placeholder="Nama Karyawan"
                     value={newEmpData.name}
                     onChange={(e) => setNewEmpData({ ...newEmpData, name: e.target.value })}
-                    className="w-full border border-industrial-border rounded-lg p-2 bg-industrial-background"
+                    className="w-full border border-platinum-dark rounded-lg p-2 bg-platinum"
                   />
                 </div>
                 <div>
@@ -607,7 +607,7 @@ export default function ManPowerPage({ initialView = 'availability' }) {
                   <select
                     value={newEmpData.division}
                     onChange={(e) => setNewEmpData({ ...newEmpData, division: e.target.value })}
-                    className="w-full border border-industrial-border rounded-lg p-2 bg-industrial-background"
+                    className="w-full border border-platinum-dark rounded-lg p-2 bg-platinum"
                   >
                     <option value="Rotating 1">Rotating 1</option>
                     <option value="Rotating 2">Rotating 2</option>

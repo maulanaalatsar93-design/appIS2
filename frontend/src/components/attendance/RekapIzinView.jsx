@@ -126,7 +126,7 @@ export default function RekapIzinView({
             value={searchEmp}
             onChange={(e) => setSearchEmp(e.target.value)}
             placeholder="Cari NPK, nama, divisi..."
-            className="w-full pl-9 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg outline-none focus:bg-white focus:border-industrial-blue"
+            className="w-full pl-9 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg outline-none focus:bg-white focus:border-navy"
           />
         </div>
         <div className="text-xs text-slate-500 font-medium">

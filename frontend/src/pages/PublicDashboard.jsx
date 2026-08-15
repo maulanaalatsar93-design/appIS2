@@ -108,7 +108,7 @@ export default function PublicDashboard({ onBack }) {
   const chart1Options = {
     chart: { type: 'donut', fontFamily: 'Plus Jakarta Sans, sans-serif' },
     labels: ['PM 04', 'PM 02+'],
-    colors: ['#1A4BC4', '#D9650F'],
+    colors: ['#14131D', '#FCA311'],
     legend: { position: 'bottom' },
     dataLabels: { enabled: false },
     stroke: { width: 0 },
@@ -120,7 +120,7 @@ export default function PublicDashboard({ onBack }) {
   const chart2Options = {
     chart: { type: 'bar', toolbar: { show: false }, fontFamily: 'Plus Jakarta Sans, sans-serif' },
     plotOptions: { bar: { borderRadius: 4, columnWidth: '60%' } },
-    colors: ['#193B8F'],
+    colors: ['#14131D'],
     xaxis: { categories: summary.factoryComparison.categories },
     dataLabels: { enabled: false },
     noData: noDataConfig
@@ -140,7 +140,7 @@ export default function PublicDashboard({ onBack }) {
       fontFamily: 'Plus Jakarta Sans, sans-serif'
     },
     stroke: { curve: 'smooth', width: 2.5 },
-    colors: ['#4285F4', '#FF7A45'], // Exact Blue and Orange from image
+    colors: ['#14131D', '#FCA311'], // Exact colors from design system
     fill: {
       type: 'gradient',
       gradient: {
@@ -152,7 +152,7 @@ export default function PublicDashboard({ onBack }) {
     },
     markers: {
       size: 3.5,
-      colors: ['#4285F4', '#FF7A45'],
+      colors: ['#14131D', '#FCA311'],
       strokeColors: '#ffffff',
       strokeWidth: 1.5,
       hover: { size: 5 }
@@ -164,7 +164,7 @@ export default function PublicDashboard({ onBack }) {
       style: {
         fontSize: '11px',
         fontWeight: '700',
-        colors: ['#4285F4', '#FF7A45']
+        colors: ['#14131D', '#FCA311']
       },
       formatter: (val) => (val && val > 0 ? val.toLocaleString('en-US') : '')
     },
@@ -198,7 +198,7 @@ export default function PublicDashboard({ onBack }) {
   const chart4Options = {
     chart: { type: 'donut', fontFamily: 'Plus Jakarta Sans, sans-serif' },
     labels: ['M4', 'M7'],
-    colors: ['#059669', '#D97706'],
+    colors: ['#2E7D32', '#D32F2F'],
     legend: { position: 'bottom' },
     dataLabels: { enabled: false },
     stroke: { width: 0 },
@@ -210,7 +210,7 @@ export default function PublicDashboard({ onBack }) {
   const chart5Options = {
     chart: { type: 'bar', toolbar: { show: false }, fontFamily: 'Plus Jakarta Sans, sans-serif' },
     plotOptions: { bar: { borderRadius: 4, columnWidth: '60%' } },
-    colors: ['#168477'],
+    colors: ['#FCA311'],
     xaxis: { categories: summary.factoryComparison.categories },
     dataLabels: { enabled: false },
     noData: noDataConfig
@@ -407,7 +407,7 @@ export default function PublicDashboard({ onBack }) {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 print:hidden">
 
         {/* Symmetrical Bar Chart 1: Work Order per Pabrik */}
-        <div className="bg-white border border-industrial-border rounded-card shadow-sm-subtle overflow-hidden flex flex-col">
+        <div className="bg-white border border-platinum-dark rounded-card shadow-sm-subtle overflow-hidden flex flex-col">
           <div className="px-5 py-3.5 bg-[#13254F] text-white">
             <h4 className="text-sm font-bold text-white tracking-tight">Work Order per Pabrik</h4>
             <p className="text-[11px] text-slate-200 mt-0.5">Total perbandingan WO berdasarkan area pabrik.</p>
@@ -418,7 +418,7 @@ export default function PublicDashboard({ onBack }) {
         </div>
 
         {/* Symmetrical Bar Chart 2: Rilis Rekomendasi per Pabrik */}
-        <div className="bg-white border border-industrial-border rounded-card shadow-sm-subtle overflow-hidden flex flex-col">
+        <div className="bg-white border border-platinum-dark rounded-card shadow-sm-subtle overflow-hidden flex flex-col">
           <div className="px-5 py-3.5 bg-[#168477] text-white">
             <h4 className="text-sm font-bold text-white tracking-tight">Rilis Rekomendasi per Pabrik</h4>
             <p className="text-[11px] text-teal-100 mt-0.5">Perbandingan rilis rekomendasi berdasarkan area pabrik.</p>
@@ -429,14 +429,14 @@ export default function PublicDashboard({ onBack }) {
         </div>
 
         {/* Symmetrical Donut Chart 1: Distribusi Tipe Order */}
-        <div className="bg-white border border-industrial-border rounded-card shadow-sm-subtle overflow-hidden flex flex-col">
+        <div className="bg-white border border-platinum-dark rounded-card shadow-sm-subtle overflow-hidden flex flex-col">
           <div className="px-5 py-3.5 bg-[#13254F] text-white">
             <h4 className="text-sm font-bold text-white tracking-tight">Distribusi Tipe Order</h4>
             <p className="text-[11px] text-slate-200 mt-0.5">Proporsi Work Order berdasarkan tipe (PM04 vs PM02+).</p>
           </div>
           <div className="p-5 flex-1 flex items-center justify-center min-h-[250px]">
             {chart1Series.reduce((a, b) => a + b, 0) === 0 ? (
-              <p className="text-xs text-industrial-muted">Tidak ada data tipe order</p>
+              <p className="text-xs text-platinum-dark">Tidak ada data tipe order</p>
             ) : (
               <Chart options={chart1Options} series={chart1Series} type="donut" width="100%" height="250" />
             )}
@@ -444,14 +444,14 @@ export default function PublicDashboard({ onBack }) {
         </div>
 
         {/* Symmetrical Donut Chart 2: Rekomendasi (M4 & M7) */}
-        <div className="bg-white border border-industrial-border rounded-card shadow-sm-subtle overflow-hidden flex flex-col">
+        <div className="bg-white border border-platinum-dark rounded-card shadow-sm-subtle overflow-hidden flex flex-col">
           <div className="px-5 py-3.5 bg-[#168477] text-white">
             <h4 className="text-sm font-bold text-white tracking-tight">Rekomendasi (M4 & M7)</h4>
             <p className="text-[11px] text-teal-100 mt-0.5">Proporsi rekomendasi berdasarkan status rilis.</p>
           </div>
           <div className="p-5 flex-1 flex items-center justify-center min-h-[250px]">
             {chart4Series.reduce((a, b) => a + b, 0) === 0 ? (
-              <p className="text-xs text-industrial-muted">Tidak ada data rekomendasi</p>
+              <p className="text-xs text-platinum-dark">Tidak ada data rekomendasi</p>
             ) : (
               <Chart options={chart4Options} series={chart4Series} type="donut" width="100%" height="250" />
             )}
@@ -466,7 +466,7 @@ export default function PublicDashboard({ onBack }) {
               <Chart options={chart3Options} series={chart3Series} type="area" width="100%" height="320" />
             ) : (
               <div className="h-full flex items-center justify-center">
-                <p className="text-industrial-muted text-sm flex items-center gap-2">
+                <p className="text-platinum-dark text-sm flex items-center gap-2">
                   <AlertCircle className="w-4 h-4" /> Tidak ada data Job Load
                 </p>
               </div>
@@ -479,7 +479,7 @@ export default function PublicDashboard({ onBack }) {
       {showPMModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
           <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden border border-slate-100">
-            <div className="p-4 bg-industrial-text text-white flex items-center justify-between">
+            <div className="p-4 bg-ink text-white flex items-center justify-between">
               <div className="flex items-center gap-2.5">
                 <div className="p-2 bg-blue-500/20 text-blue-400 rounded-xl">
                   <Info size={18} />
@@ -554,7 +554,7 @@ export default function PublicDashboard({ onBack }) {
               </span>
               <button
                 onClick={() => setShowPMModal(false)}
-                className="px-4 py-1.5 bg-industrial-text hover:bg-slate-900 text-white text-xs font-semibold rounded-lg transition-colors"
+                className="px-4 py-1.5 bg-ink hover:bg-slate-900 text-white text-xs font-semibold rounded-lg transition-colors"
               >
                 Tutup
               </button>
@@ -737,7 +737,7 @@ export default function PublicDashboard({ onBack }) {
 
       {/* TOAST NOTIFICATION */}
       {toastMsg && (
-        <div className={`fixed top-6 right-6 z-[200] flex items-center gap-3 px-4 py-3 rounded-lg shadow-xl text-white text-sm font-semibold animate-in slide-in-from-top-2 fade-in ${toastMsg.type === 'success' ? 'bg-emerald-600' : toastMsg.type === 'error' ? 'bg-red-600' : 'bg-industrial-blue'
+        <div className={`fixed top-6 right-6 z-[200] flex items-center gap-3 px-4 py-3 rounded-lg shadow-xl text-white text-sm font-semibold animate-in slide-in-from-top-2 fade-in ${toastMsg.type === 'success' ? 'bg-emerald-600' : toastMsg.type === 'error' ? 'bg-red-600' : 'bg-navy'
           }`}>
           {toastMsg.type === 'success' && <CheckCircle2 size={18} />}
           {toastMsg.type === 'error' && <AlertCircle size={18} />}

@@ -54,10 +54,10 @@ export default function WorkCube() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-industrial-text">Work Cube — My Tasks</h1>
-          <p className="text-industrial-muted text-sm mt-1">Pekerjaan yang menjadi tanggung jawab Anda. Update progress dan checklist di sini.</p>
+          <h1 className="text-2xl font-bold text-ink">Work Cube — My Tasks</h1>
+          <p className="text-platinum-dark text-sm mt-1">Pekerjaan yang menjadi tanggung jawab Anda. Update progress dan checklist di sini.</p>
         </div>
-        <button onClick={fetchMyCube} className="flex items-center space-x-2 bg-white border border-industrial-border hover:bg-slate-50 text-industrial-text px-4 py-2 rounded-xl text-sm font-medium shadow-sm-subtle">
+        <button onClick={fetchMyCube} className="flex items-center space-x-2 bg-white border border-platinum-dark hover:bg-slate-50 text-ink px-4 py-2 rounded-xl text-sm font-medium shadow-sm-subtle">
           <RefreshCw className="w-4 h-4" />
           <span>Refresh</span>
         </button>
@@ -65,10 +65,10 @@ export default function WorkCube() {
 
       {loading ? (
         <div className="flex items-center justify-center h-48">
-          <Loader2 className="w-8 h-8 animate-spin text-industrial-blue" />
+          <Loader2 className="w-8 h-8 animate-spin text-navy" />
         </div>
       ) : items.length === 0 ? (
-        <div className="flex flex-col items-center justify-center h-64 text-slate-400 bg-white border border-industrial-border rounded-card">
+        <div className="flex flex-col items-center justify-center h-64 text-slate-400 bg-white border border-platinum-dark rounded-card">
           <ClipboardList className="w-16 h-16 opacity-15 mb-4" />
           <p className="font-semibold text-slate-500 text-lg">Tidak ada tugas aktif.</p>
           <p className="text-sm mt-1 text-slate-400">Akun Anda belum terhubung ke data ManPower, atau belum ada item yang ditugaskan ke Anda.</p>
@@ -94,26 +94,26 @@ export default function WorkCube() {
                     <p className="text-[10px] text-slate-400">Tidak ada tugas</p>
                   </div>
                 ) : statusItems.map(item => (
-                  <div key={item.id} className={`bg-white border rounded-xl overflow-hidden shadow-sm-subtle ${item.status === 'Ready For Review' ? 'ring-2 ring-amber-300' : 'border-industrial-border'}`}>
+                  <div key={item.id} className={`bg-white border rounded-xl overflow-hidden shadow-sm-subtle ${item.status === 'Ready For Review' ? 'ring-2 ring-amber-300' : 'border-platinum-dark'}`}>
                     {/* Card Header */}
-                    <div className={`px-3 py-2 flex items-center justify-between ${item.status === 'Ready For Review' ? 'bg-amber-50' : 'bg-slate-50'} border-b border-industrial-border`}>
-                      <span className="font-mono text-[10px] font-bold text-industrial-muted">{item.item_no || `#${item.id}`}</span>
-                      <span className="text-[10px] font-semibold text-industrial-muted">{item.program?.title}</span>
+                    <div className={`px-3 py-2 flex items-center justify-between ${item.status === 'Ready For Review' ? 'bg-amber-50' : 'bg-slate-50'} border-b border-platinum-dark`}>
+                      <span className="font-mono text-[10px] font-bold text-platinum-dark">{item.item_no || `#${item.id}`}</span>
+                      <span className="text-[10px] font-semibold text-platinum-dark">{item.program?.title}</span>
                     </div>
 
                     {/* Card Body */}
                     <div className="p-3 space-y-3">
-                      <p className="font-bold text-sm text-industrial-text leading-tight">{item.title}</p>
-                      {item.equipment && <p className="text-[10px] text-industrial-muted">🔧 {item.equipment}</p>}
+                      <p className="font-bold text-sm text-ink leading-tight">{item.title}</p>
+                      {item.equipment && <p className="text-[10px] text-platinum-dark">🔧 {item.equipment}</p>}
 
                       {/* Progress Bar */}
                       <div>
                         <div className="flex items-center justify-between mb-1">
-                          <span className="text-[10px] text-industrial-muted">Progress</span>
-                          <span className="text-[10px] font-bold text-industrial-blue">{item.progress_pct}%</span>
+                          <span className="text-[10px] text-platinum-dark">Progress</span>
+                          <span className="text-[10px] font-bold text-navy">{item.progress_pct}%</span>
                         </div>
                         <div className="w-full bg-slate-100 rounded-full h-1.5">
-                          <div className={`h-1.5 rounded-full transition-all ${item.progress_pct === 100 ? 'bg-emerald-500' : 'bg-industrial-blue'}`}
+                          <div className={`h-1.5 rounded-full transition-all ${item.progress_pct === 100 ? 'bg-emerald-500' : 'bg-navy'}`}
                             style={{ width: `${item.progress_pct}%` }} />
                         </div>
                       </div>

@@ -34,7 +34,7 @@ export default function ScorecardGroup({ title, items = [] }) {
                   {item.onInfoClick && (
                     <button
                       onClick={item.onInfoClick}
-                      className={`p-1 rounded-full ${isDark ? 'bg-white/20 text-white hover:bg-white hover:text-industrial-text' : 'bg-white/80 text-slate-500 hover:text-[#FF5722] hover:bg-white'} transition-all shadow-xs`}
+                      className={`p-1 rounded-full ${isDark ? 'bg-white/20 text-white hover:bg-white hover:text-ink' : 'bg-white/80 text-slate-500 hover:text-[#FF5722] hover:bg-white'} transition-all shadow-xs`}
                       title="Klik untuk detail"
                     >
                       <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

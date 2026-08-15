@@ -199,17 +199,17 @@ export default function ManpowerAvailabilityBoard() {
     return (
       <div key={s.key}
         onClick={() => handleFilterChange('status', filters.status === s.key ? 'All' : s.key)}
-        className={`${gradient} border rounded-xl p-3.5 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ${filters.status === s.key ? 'ring-2 ring-industrial-blue shadow-md border-transparent' : 'border-industrial-border/60 shadow-sm-subtle'}`}
+        className={`${gradient} border rounded-xl p-3.5 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ${filters.status === s.key ? 'ring-2 ring-navy shadow-md border-transparent' : 'border-platinum-dark/60 shadow-sm-subtle'}`}
       >
         <div className="flex items-center justify-between mb-3">
           <div className={`p-1.5 rounded-lg ${STATUS_CONFIG[s.key]?.color.split(' ')[0] || 'bg-slate-100'}`}>
             <StatusIcon className={`w-4 h-4 ${STATUS_CONFIG[s.key]?.color.split(' ')[1] || 'text-slate-500'}`} />
           </div>
-          <span className="text-2xl font-black text-industrial-text tracking-tight">{s.count}</span>
+          <span className="text-2xl font-black text-ink tracking-tight">{s.count}</span>
         </div>
         <div className="flex items-center space-x-1.5">
           <div className={`w-2 h-2 rounded-full ${s.dot} shadow-sm`} />
-          <p className="text-[11px] font-bold text-industrial-muted uppercase tracking-wider">{s.label}</p>
+          <p className="text-[11px] font-bold text-platinum-dark uppercase tracking-wider">{s.label}</p>
         </div>
       </div>
     );
@@ -220,10 +220,10 @@ export default function ManpowerAvailabilityBoard() {
       {/* Header */}
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-industrial-text">Availability Board</h1>
-          <p className="text-industrial-muted text-sm mt-1">Pantau status ketersediaan seluruh personel secara real-time sebelum menyusun rencana manpower.</p>
+          <h1 className="text-2xl font-bold text-ink">Availability Board</h1>
+          <p className="text-platinum-dark text-sm mt-1">Pantau status ketersediaan seluruh personel secara real-time sebelum menyusun rencana manpower.</p>
         </div>
-        <button onClick={fetchData} className="flex items-center space-x-2 bg-white border border-industrial-border hover:bg-slate-50 text-industrial-text px-4 py-2 rounded-xl text-sm font-medium transition-all shadow-sm-subtle">
+        <button onClick={fetchData} className="flex items-center space-x-2 bg-white border border-platinum-dark hover:bg-slate-50 text-ink px-4 py-2 rounded-xl text-sm font-medium transition-all shadow-sm-subtle">
           <RefreshCw className="w-4 h-4" />
           <span>Refresh</span>
         </button>
@@ -289,7 +289,7 @@ export default function ManpowerAvailabilityBoard() {
       </div>
 
       {/* Filters Row */}
-      <div className="bg-white border border-industrial-border rounded-card p-4 shadow-sm-subtle">
+      <div className="bg-white border border-platinum-dark rounded-card p-4 shadow-sm-subtle">
         <div className="flex flex-wrap gap-3 items-end">
           {/* Search */}
           <div className="relative flex-1 min-w-[200px]">
@@ -299,17 +299,17 @@ export default function ManpowerAvailabilityBoard() {
               placeholder="Cari nama, NIK, atau jabatan..."
               value={filters.search}
               onChange={e => handleFilterChange('search', e.target.value)}
-              className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm text-industrial-text focus:outline-none focus:border-industrial-blue"
+              className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm text-ink focus:outline-none focus:border-navy"
             />
           </div>
 
           {/* Multi-Select Division Filter */}
           <div className="relative min-w-[200px]">
-            <label className="text-xs font-semibold text-industrial-text mb-1 block">Bagian / Divisi (Bisa Multi-Select)</label>
+            <label className="text-xs font-semibold text-ink mb-1 block">Bagian / Divisi (Bisa Multi-Select)</label>
             <button
               type="button"
               onClick={() => setIsDivDropdownOpen(!isDivDropdownOpen)}
-              className="w-full flex items-center justify-between bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm text-industrial-text focus:outline-none focus:border-industrial-blue shadow-sm"
+              className="w-full flex items-center justify-between bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm text-ink focus:outline-none focus:border-navy shadow-sm"
             >
               <span className="truncate font-medium text-xs">
                 {filters.selectedDivisions.length === 0
@@ -321,13 +321,13 @@ export default function ManpowerAvailabilityBoard() {
 
             {/* Popover Dropdown */}
             {isDivDropdownOpen && (
-              <div className="absolute left-0 right-0 mt-1 bg-white border border-industrial-border rounded-xl shadow-xl z-30 p-2 space-y-1 w-64">
+              <div className="absolute left-0 right-0 mt-1 bg-white border border-platinum-dark rounded-xl shadow-xl z-30 p-2 space-y-1 w-64">
                 <div className="flex items-center justify-between px-2 py-1 border-b border-slate-100 mb-1">
-                  <span className="text-[11px] font-bold text-industrial-muted">Pilih Bagian:</span>
+                  <span className="text-[11px] font-bold text-platinum-dark">Pilih Bagian:</span>
                   <button
                     type="button"
                     onClick={selectAllDivisions}
-                    className="text-[11px] text-industrial-blue font-semibold hover:underline"
+                    className="text-[11px] text-navy font-semibold hover:underline"
                   >
                     Reset (Semua)
                   </button>
@@ -338,13 +338,13 @@ export default function ManpowerAvailabilityBoard() {
                     return (
                       <label
                         key={d.id}
-                        className="flex items-center space-x-2.5 px-2 py-1.5 hover:bg-slate-50 rounded-lg cursor-pointer text-xs font-medium text-industrial-text"
+                        className="flex items-center space-x-2.5 px-2 py-1.5 hover:bg-slate-50 rounded-lg cursor-pointer text-xs font-medium text-ink"
                       >
                         <input
                           type="checkbox"
                           checked={isChecked}
                           onChange={() => toggleDivision(d.id)}
-                          className="w-4 h-4 rounded text-industrial-blue focus:ring-industrial-blue border-slate-300"
+                          className="w-4 h-4 rounded text-navy focus:ring-navy border-slate-300"
                         />
                         <span>{d.nama}</span>
                       </label>
@@ -355,7 +355,7 @@ export default function ManpowerAvailabilityBoard() {
                   <button
                     type="button"
                     onClick={() => setIsDivDropdownOpen(false)}
-                    className="px-3 py-1 bg-industrial-blue text-white text-xs font-semibold rounded-md shadow-sm hover:bg-blue-700"
+                    className="px-3 py-1 bg-navy text-white text-xs font-semibold rounded-md shadow-sm hover:bg-blue-700"
                   >
                     Selesai
                   </button>
@@ -366,20 +366,20 @@ export default function ManpowerAvailabilityBoard() {
 
           {/* Date Range */}
           <div>
-            <label className="text-xs font-semibold text-industrial-text mb-1 block">Periode (Cek Ketersediaan)</label>
+            <label className="text-xs font-semibold text-ink mb-1 block">Periode (Cek Ketersediaan)</label>
             <div className="flex items-center space-x-2">
               <input type="date" value={filters.startDate} onChange={e => handleFilterChange('startDate', e.target.value)}
-                className="bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm text-industrial-text focus:outline-none focus:border-industrial-blue" />
+                className="bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm text-ink focus:outline-none focus:border-navy" />
               <span className="text-slate-400 text-sm">–</span>
               <input type="date" value={filters.endDate} onChange={e => handleFilterChange('endDate', e.target.value)}
-                className="bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm text-industrial-text focus:outline-none focus:border-industrial-blue" />
+                className="bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm text-ink focus:outline-none focus:border-navy" />
             </div>
           </div>
 
           {/* Reset */}
           {(filters.search || filters.selectedDivisions.length > 0 || filters.status !== 'All') && (
             <button onClick={() => setFilters({ search: '', selectedDivisions: [], status: 'All', startDate: '', endDate: '' })}
-              className="text-xs text-industrial-blue hover:underline font-medium self-end pb-2">
+              className="text-xs text-navy hover:underline font-medium self-end pb-2">
               Reset Filter
             </button>
           )}
@@ -388,7 +388,7 @@ export default function ManpowerAvailabilityBoard() {
         {/* Selected Badges */}
         {filters.selectedDivisions.length > 0 && (
           <div className="flex flex-wrap items-center gap-1.5 mt-3 pt-2 border-t border-slate-100">
-            <span className="text-[11px] font-semibold text-industrial-muted mr-1">Filter Divisi:</span>
+            <span className="text-[11px] font-semibold text-platinum-dark mr-1">Filter Divisi:</span>
             {filters.selectedDivisions.map(id => {
               const d = DIVISI_LIST.find(item => item.id === id);
               return (
@@ -402,23 +402,23 @@ export default function ManpowerAvailabilityBoard() {
         )}
 
         {lastUpdated && (
-          <p className="text-[10px] text-industrial-muted mt-2">Terakhir diperbarui: {lastUpdated.toLocaleTimeString('id-ID')}</p>
+          <p className="text-[10px] text-platinum-dark mt-2">Terakhir diperbarui: {lastUpdated.toLocaleTimeString('id-ID')}</p>
         )}
       </div>
 
       {/* Table */}
-      <div className="bg-white border border-industrial-border rounded-card overflow-hidden shadow-soft-card">
-        <div className="p-4 border-b border-industrial-border bg-slate-50 flex items-center justify-between">
-          <h2 className="text-sm font-semibold text-industrial-text flex items-center">
-            <Users className="w-4 h-4 mr-2 text-industrial-blue" />
+      <div className="bg-white border border-platinum-dark rounded-card overflow-hidden shadow-soft-card">
+        <div className="p-4 border-b border-platinum-dark bg-slate-50 flex items-center justify-between">
+          <h2 className="text-sm font-semibold text-ink flex items-center">
+            <Users className="w-4 h-4 mr-2 text-navy" />
             Daftar Personel ({filtered.length} dari {data.length})
           </h2>
         </div>
 
         {loading ? (
           <div className="flex flex-col items-center justify-center p-16">
-            <Loader2 className="w-8 h-8 animate-spin text-industrial-blue mb-3" />
-            <p className="text-sm text-industrial-muted">Memuat data personel...</p>
+            <Loader2 className="w-8 h-8 animate-spin text-navy mb-3" />
+            <p className="text-sm text-platinum-dark">Memuat data personel...</p>
           </div>
         ) : filtered.length === 0 ? (
           <div className="flex flex-col items-center justify-center p-12 text-slate-400">
@@ -429,7 +429,7 @@ export default function ManpowerAvailabilityBoard() {
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
               <thead>
-                <tr className="border-b border-industrial-border bg-slate-50/50 text-industrial-muted text-xs uppercase tracking-wide">
+                <tr className="border-b border-platinum-dark bg-slate-50/50 text-platinum-dark text-xs uppercase tracking-wide">
                   <th className="px-4 py-3 font-semibold">Personel</th>
                   <th className="px-4 py-3 font-semibold">NPK</th>
                   <th className="px-4 py-3 font-semibold">Jabatan</th>
@@ -438,20 +438,20 @@ export default function ManpowerAvailabilityBoard() {
                   <th className="px-4 py-3 font-semibold">
                     <div className="flex items-center space-x-1.5 cursor-help" title="Status Ketersediaan: Menunjukkan ketersediaan fisik personel untuk ditugaskan, terlepas dari apakah hari ini libur atau tidak. Jika tidak ada tugas atau absen, statusnya Tersedia.">
                       <span>Status Ketersediaan</span>
-                      <Info className="w-3.5 h-3.5 text-industrial-muted" />
+                      <Info className="w-3.5 h-3.5 text-platinum-dark" />
                     </div>
                   </th>
                   <th className="px-4 py-3 font-semibold">
                     <div className="flex items-center space-x-1.5 cursor-help" title="Status Kehadiran: Menunjukkan kewajiban hadir kerja hari ini berdasarkan kalender. Pada akhir pekan/libur, meskipun tersedia, status ini menjadi Tidak Hadir.">
                       <span>Status Kehadiran</span>
-                      <Info className="w-3.5 h-3.5 text-industrial-muted" />
+                      <Info className="w-3.5 h-3.5 text-platinum-dark" />
                     </div>
                   </th>
                   <th className="px-4 py-3 font-semibold">Program / Keterangan</th>
                   <th className="px-4 py-3 font-semibold">Tersedia Kembali</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-industrial-border">
+              <tbody className="divide-y divide-platinum-dark">
                 {filtered.map(mp => {
                   const statusCfg = STATUS_CONFIG[mp.availability_status] || STATUS_CONFIG['Tersedia'];
                   const StatusIcon = statusCfg.icon;
@@ -464,13 +464,13 @@ export default function ManpowerAvailabilityBoard() {
                   else if (rank === 4) rowBg = 'bg-blue-50/70 hover:bg-blue-100/70'; // Non Organik
 
                   return (
-                    <tr key={mp.id} className={`transition-colors border-b border-industrial-border/50 ${rowBg}`}>
+                    <tr key={mp.id} className={`transition-colors border-b border-platinum-dark/50 ${rowBg}`}>
                       <td className="px-4 py-3">
                         <div className="flex items-center space-x-3">
-                          <div className="w-8 h-8 rounded-full bg-industrial-blue/10 border border-industrial-blue/20 flex items-center justify-center shrink-0">
-                            <span className="text-[10px] font-bold text-industrial-blue">{mp.name.charAt(0)}</span>
+                          <div className="w-8 h-8 rounded-full bg-navy/10 border border-navy/20 flex items-center justify-center shrink-0">
+                            <span className="text-[10px] font-bold text-navy">{mp.name.charAt(0)}</span>
                           </div>
-                          <span className="font-semibold text-industrial-text text-sm">{mp.name}</span>
+                          <span className="font-semibold text-ink text-sm">{mp.name}</span>
                           {mp.sertifikasi && mp.sertifikasi.length > 0 && (
                             <div className="relative group flex items-center">
                               <AlertCircle className="w-4 h-4 text-red-500 cursor-pointer animate-pulse" />
@@ -497,15 +497,15 @@ export default function ManpowerAvailabilityBoard() {
                           )}
                         </div>
                       </td>
-                      <td className="px-4 py-3 text-xs font-mono text-industrial-muted">{mp.npk}</td>
+                      <td className="px-4 py-3 text-xs font-mono text-platinum-dark">{mp.npk}</td>
                       <td className="px-4 py-3">
-                        <p className="font-medium text-industrial-text text-xs">{mp.position}</p>
+                        <p className="font-medium text-ink text-xs">{mp.position}</p>
                       </td>
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-2">
-                          <p className="font-medium text-industrial-text text-xs">{mp.sub_area || '-'}</p>
+                          <p className="font-medium text-ink text-xs">{mp.sub_area || '-'}</p>
                           {(user?.role === 'Admin' || user?.role === 'Manager') && (
-                            <button onClick={() => { setEditingSubArea(mp); setNewSubArea(mp.sub_area || ''); }} className="text-industrial-blue hover:text-blue-700 p-1 bg-blue-50 rounded hover:bg-blue-100">
+                            <button onClick={() => { setEditingSubArea(mp); setNewSubArea(mp.sub_area || ''); }} className="text-navy hover:text-blue-700 p-1 bg-blue-50 rounded hover:bg-blue-100">
                               <Edit className="w-3 h-3" />
                             </button>
                           )}
@@ -555,7 +555,7 @@ export default function ManpowerAvailabilityBoard() {
                       </td>
                       <td className="px-4 py-3">
                         {mp.next_available ? (
-                          <span className="text-xs font-medium text-industrial-text">
+                          <span className="text-xs font-medium text-ink">
                             {new Date(mp.next_available).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' })}
                           </span>
                         ) : (
@@ -574,9 +574,9 @@ export default function ManpowerAvailabilityBoard() {
       {/* Edit Sub Area Modal */}
       {editingSubArea && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
-          <div className="bg-white rounded-2xl p-6 border border-industrial-border max-w-sm w-full shadow-2xl space-y-4">
-            <div className="flex justify-between items-center pb-2 border-b border-industrial-border">
-              <h3 className="font-bold text-base text-industrial-text">Edit Area Karyawan</h3>
+          <div className="bg-white rounded-2xl p-6 border border-platinum-dark max-w-sm w-full shadow-2xl space-y-4">
+            <div className="flex justify-between items-center pb-2 border-b border-platinum-dark">
+              <h3 className="font-bold text-base text-ink">Edit Area Karyawan</h3>
               <button onClick={() => setEditingSubArea(null)} className="text-slate-400 hover:text-slate-600"><XCircle size={18} /></button>
             </div>
             <p className="text-xs text-gray-500">Edit area kerja untuk {editingSubArea.name} (NPK: {editingSubArea.npk})</p>
@@ -589,12 +589,12 @@ export default function ManpowerAvailabilityBoard() {
                   placeholder="Contoh: PPHS & OSBL"
                   value={newSubArea}
                   onChange={(e) => setNewSubArea(e.target.value)}
-                  className="w-full border border-industrial-border rounded-lg p-2 bg-industrial-background"
+                  className="w-full border border-platinum-dark rounded-lg p-2 bg-platinum"
                 />
               </div>
               <div className="flex justify-end gap-2 pt-2">
                 <button type="button" onClick={() => setEditingSubArea(null)} className="px-4 py-2 rounded-lg bg-slate-100 text-slate-600">Batal</button>
-                <button type="submit" className="px-4 py-2 rounded-lg bg-industrial-navy text-white font-semibold hover:bg-slate-800">Simpan</button>
+                <button type="submit" className="px-4 py-2 rounded-lg bg-navy text-white font-semibold hover:bg-slate-800">Simpan</button>
               </div>
             </form>
           </div>

@@ -111,20 +111,20 @@ export default function Header({ isCollapsed, setIsCollapsed }) {
 
   const getRoleBadgeColor = (role) => {
     switch (role) {
-      case 'admin': return 'bg-industrial-navy/10 text-industrial-navy border-industrial-navy/20';
-      case 'vp': return 'bg-industrial-orange/10 text-industrial-orange border-industrial-orange/20';
-      case 'avp': return 'bg-industrial-amber/10 text-industrial-amber border-industrial-amber/20';
-      default: return 'bg-industrial-blue/10 text-industrial-blue border-industrial-blue/20';
+      case 'admin': return 'bg-navy/10 text-navy border-navy/20';
+      case 'vp': return 'bg-accent/10 text-accent border-accent/20';
+      case 'avp': return 'bg-accent/10 text-accent border-accent/20';
+      default: return 'bg-navy/10 text-navy border-navy/20';
     }
   };
 
   return (
-    <header className="h-20 bg-transparent px-4 lg:px-8 flex items-center justify-between sticky top-0 z-30 pt-4 pb-2 print:hidden">
+    <header className="h-[60px] bg-white border-b border-platinum-dark px-4 lg:px-8 flex items-center justify-between sticky top-0 z-30 print:hidden shadow-sm">
       <div className="flex items-center">
         {/* Hamburger menu for mobile */}
         <button
           onClick={() => setIsCollapsed(!isCollapsed)}
-          className="lg:hidden p-2 text-industrial-text hover:bg-slate-100 rounded-md transition-colors mr-2"
+          className="lg:hidden p-2 text-ink hover:bg-slate-100 rounded-md transition-colors mr-2"
         >
           <Menu className="w-5 h-5" />
         </button>
@@ -133,18 +133,18 @@ export default function Header({ isCollapsed, setIsCollapsed }) {
       <div className="flex items-center">
         {/* Right: Actions */}
         <div className="flex items-center space-x-4 relative justify-end flex-1">
-          <button className="p-2.5 bg-white border border-industrial-border text-industrial-text hover:bg-slate-50 rounded-full transition-colors hidden sm:block">
+          <button className="p-2.5 bg-platinum border border-platinum-dark text-ink hover:bg-platinum-dark/20 rounded-full transition-colors hidden sm:block">
             <Settings className="w-4 h-4" />
           </button>
           
           <button
             onClick={() => setIsNotifOpen(!isNotifOpen)}
-            className="p-2.5 bg-white border border-industrial-border text-industrial-text hover:bg-slate-50 rounded-full transition-colors relative"
+            className="p-2.5 bg-platinum border border-platinum-dark text-ink hover:bg-platinum-dark/20 rounded-full transition-colors relative"
             title="Notifikasi Sistem"
           >
             <Bell className="w-4 h-4" />
             {unreadCount > 0 && (
-              <span className="absolute top-0 right-0 w-3 h-3 bg-industrial-red text-white text-[8px] font-bold rounded-full border border-white flex items-center justify-center animate-pulse">
+              <span className="absolute top-0 right-0 w-3 h-3 bg-danger text-white text-[8px] font-bold rounded-full border border-white flex items-center justify-center animate-pulse">
               </span>
             )}
           </button>
@@ -193,22 +193,22 @@ export default function Header({ isCollapsed, setIsCollapsed }) {
           )}
 
           {/* User Profile */}
-          <div className="flex items-center space-x-3 pl-3 ml-2 border-l border-industrial-border">
+          <div className="flex items-center space-x-3 pl-3 ml-2 border-l border-platinum-dark">
             {user ? (
               <div className="flex items-center gap-2 relative group cursor-pointer ml-2">
-                <div className="w-9 h-9 rounded-full bg-[#0a0a0a] text-white flex items-center justify-center text-xs font-extrabold uppercase shadow-sm">
+                <div className="w-8 h-8 rounded-full bg-navy text-white flex items-center justify-center text-[11px] font-extrabold uppercase shadow-sm">
                   {user.name ? user.name.charAt(0) : 'U'}
                 </div>
                 {/* Minimal dropdown on hover for auth actions */}
-                <div className="absolute right-0 top-10 mt-2 w-48 bg-white rounded-xl shadow-soft-card border border-industrial-border opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 overflow-hidden">
-                  <div className="p-3 border-b border-industrial-border bg-slate-50">
-                    <p className="text-xs font-bold text-industrial-text truncate">{user.name}</p>
-                    <p className="text-[10px] text-industrial-muted truncate">{user.role}</p>
+                <div className="absolute right-0 top-10 mt-2 w-48 bg-white rounded-xl shadow-soft border border-platinum-dark opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 overflow-hidden">
+                  <div className="p-3 border-b border-platinum-dark bg-platinum/30">
+                    <p className="text-xs font-bold text-ink truncate">{user.name}</p>
+                    <p className="text-[10px] text-platinum-dark truncate">{user.role}</p>
                   </div>
-                  <button onClick={() => setShowPasswordModal(true)} className="w-full text-left px-4 py-2 text-xs font-bold text-industrial-text hover:bg-slate-50 flex items-center gap-2">
+                  <button onClick={() => setShowPasswordModal(true)} className="w-full text-left px-4 py-2 text-xs font-bold text-ink hover:bg-slate-50 flex items-center gap-2">
                     <Lock className="w-3.5 h-3.5" /> Ganti Password
                   </button>
-                  <button onClick={handleLogout} className="w-full text-left px-4 py-2 text-xs font-bold text-industrial-red hover:bg-red-50 flex items-center gap-2">
+                  <button onClick={handleLogout} className="w-full text-left px-4 py-2 text-xs font-bold text-danger hover:bg-red-50 flex items-center gap-2">
                     <LogOut className="w-3.5 h-3.5" /> Logout
                   </button>
                 </div>
@@ -216,7 +216,7 @@ export default function Header({ isCollapsed, setIsCollapsed }) {
             ) : (
               <button
                 onClick={() => navigate('/login')}
-                className="group relative flex items-center gap-2 px-5 py-2 text-xs font-bold text-white rounded-full overflow-hidden shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg bg-[#0a0a0a]"
+                className="group relative flex items-center gap-2 px-5 py-2 text-xs font-bold text-white rounded-full overflow-hidden shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg bg-navy"
               >
                 <User className="w-3.5 h-3.5 relative z-10" />
                 <span className="relative z-10">Login</span>

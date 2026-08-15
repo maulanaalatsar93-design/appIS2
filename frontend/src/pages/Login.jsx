@@ -55,17 +55,17 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex bg-industrial-bgEggshell font-sans overflow-hidden">
+    <div className="min-h-screen flex bg-platinum font-sans overflow-hidden">
 
       {/* === LEFT: Animated Branding Panel === */}
       <div className="hidden lg:flex lg:w-[55%] relative flex-col justify-between p-14 overflow-hidden">
         {/* Subtle background radial glow */}
-        <div className="absolute inset-0 bg-gradient-to-br from-industrial-bgEggshell via-[#EAE5C9] to-industrial-bgEggshell" />
+        <div className="absolute inset-0 bg-gradient-to-br from-platinum via-[#EAE5C9] to-platinum" />
 
         {/* Glowing orbs */}
-        <div className="absolute top-[-15%] left-[-10%] w-[55%] h-[55%] rounded-full bg-industrial-primaryBase/10 blur-[90px] pointer-events-none" />
-        <div className="absolute bottom-[-10%] right-[-5%] w-[45%] h-[45%] rounded-full bg-industrial-primaryAccent/10 blur-[80px] pointer-events-none" />
-        <div className="absolute top-[40%] left-[30%] w-[30%] h-[30%] rounded-full bg-industrial-accentGreen/10 blur-[60px] pointer-events-none" />
+        <div className="absolute top-[-15%] left-[-10%] w-[55%] h-[55%] rounded-full bg-navy/10 blur-[90px] pointer-events-none" />
+        <div className="absolute bottom-[-10%] right-[-5%] w-[45%] h-[45%] rounded-full bg-accent/10 blur-[80px] pointer-events-none" />
+        <div className="absolute top-[40%] left-[30%] w-[30%] h-[30%] rounded-full bg-success/10 blur-[60px] pointer-events-none" />
 
         {/* Grid lines overlay */}
         <div
@@ -78,7 +78,7 @@ export default function Login() {
 
         {/* Brand header */}
         <div className="relative z-10 flex items-center gap-3">
-          <div className="w-11 h-11 bg-white border border-industrial-border rounded-xl flex items-center justify-center overflow-hidden shadow-sm">
+          <div className="w-11 h-11 bg-white border border-platinum-dark rounded-xl flex items-center justify-center overflow-hidden shadow-sm">
             <img
               src={logoImg}
               alt="Logo"
@@ -87,23 +87,23 @@ export default function Login() {
             />
           </div>
           <div>
-            <p className="text-industrial-primaryBase font-bold text-sm tracking-tight font-display">ISTEK 2 Dashboard</p>
-            <p className="text-industrial-muted text-[10px] font-medium">Sistem Monitoring</p>
+            <p className="text-navy font-bold text-sm tracking-tight font-display">ISTEK 2 Dashboard</p>
+            <p className="text-platinum-dark text-[10px] font-medium">Sistem Monitoring</p>
           </div>
         </div>
 
         {/* Main hero text */}
         <div className="relative z-10 space-y-6">
           <div className="inline-flex items-center gap-2 bg-white/60 border border-white rounded-full px-4 py-1.5 mb-2 shadow-sm">
-            <span className="w-1.5 h-1.5 rounded-full bg-industrial-accentGreen animate-pulse" />
-            <span className="text-industrial-accentGreen text-xs font-semibold tracking-wider uppercase">Sistem Online</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
+            <span className="text-success text-xs font-semibold tracking-wider uppercase">Sistem Online</span>
           </div>
 
-          <h1 className="text-5xl font-extrabold text-industrial-primaryBase leading-[1.1] tracking-tight font-display">
-            Platform <span className="text-industrial-primaryAccent">Monitoring</span><br />
+          <h1 className="text-5xl font-extrabold text-navy leading-[1.1] tracking-tight font-display">
+            Platform <span className="text-accent">Monitoring</span><br />
             Inspeksi Teknik 2
           </h1>
-          <p className="text-industrial-muted text-base leading-relaxed max-w-sm">
+          <p className="text-platinum-dark text-base leading-relaxed max-w-sm">
             Monitoring Work Order, Rekomendasi SAP, dan Manpower dari satu dasbor.
           </p>
 
@@ -115,8 +115,8 @@ export default function Login() {
               { icon: Cpu, label: 'Data SAP' },
             ].map(({ icon: Icon, label }) => (
               <div key={label} className="flex items-center gap-1.5 bg-white/60 border border-white rounded-full px-3 py-1.5 shadow-sm">
-                <Icon className="w-3 h-3 text-industrial-primaryBase" />
-                <span className="text-industrial-primaryBase text-[11px] font-medium">{label}</span>
+                <Icon className="w-3 h-3 text-navy" />
+                <span className="text-navy text-[11px] font-medium">{label}</span>
               </div>
             ))}
           </div>
@@ -128,28 +128,28 @@ export default function Login() {
             {/* Top bar */}
             <div className="flex items-center justify-between mb-4">
               <div className="flex gap-1.5">
-                <div className="w-2 h-2 rounded-full bg-industrial-primaryAccent/60" />
-                <div className="w-2 h-2 rounded-full bg-industrial-accentChampagne/60" />
-                <div className="w-2 h-2 rounded-full bg-industrial-accentGreen/60" />
+                <div className="w-2 h-2 rounded-full bg-accent/60" />
+                <div className="w-2 h-2 rounded-full bg-accent-soft/60" />
+                <div className="w-2 h-2 rounded-full bg-success/60" />
               </div>
-              <div className="h-2 w-24 bg-industrial-border rounded-full" />
+              <div className="h-2 w-24 bg-platinum-dark rounded-full" />
             </div>
             {/* KPI cards row */}
             <div className="grid grid-cols-3 gap-2.5 mb-3">
               {['Work Order', 'Rekomendasi', 'Man Power'].map((label, i) => (
-                <div key={label} className="bg-white border border-industrial-border rounded-xl p-3 shadow-sm">
-                  <div className="h-1.5 w-8 bg-industrial-primaryBase/40 rounded mb-2" />
-                  <div className="h-5 w-12 bg-industrial-primaryBase/10 rounded font-bold" />
-                  <div className="h-1.5 w-10 bg-industrial-border rounded mt-1.5" />
+                <div key={label} className="bg-white border border-platinum-dark rounded-xl p-3 shadow-sm">
+                  <div className="h-1.5 w-8 bg-navy/40 rounded mb-2" />
+                  <div className="h-5 w-12 bg-navy/10 rounded font-bold" />
+                  <div className="h-1.5 w-10 bg-platinum-dark rounded mt-1.5" />
                 </div>
               ))}
             </div>
             {/* Chart area */}
-            <div className="bg-white border border-industrial-border rounded-xl p-3 flex items-end gap-1.5 h-16 shadow-sm">
+            <div className="bg-white border border-platinum-dark rounded-xl p-3 flex items-end gap-1.5 h-16 shadow-sm">
               {[40, 65, 45, 80, 55, 90, 70, 85, 60, 75, 50, 88].map((h, i) => (
                 <div
                   key={i}
-                  className="flex-1 rounded-sm bg-gradient-to-t from-industrial-primaryBase/60 to-industrial-primaryBase/20"
+                  className="flex-1 rounded-sm bg-gradient-to-t from-navy/60 to-navy/20"
                   style={{ height: `${h}%` }}
                 />
               ))}
@@ -159,31 +159,31 @@ export default function Login() {
       </div>
 
       {/* === RIGHT: Login Form Panel === */}
-      <div className="w-full lg:w-[45%] flex flex-col justify-center px-8 sm:px-12 md:px-16 relative bg-industrial-bgEggshell lg:bg-transparent">
+      <div className="w-full lg:w-[45%] flex flex-col justify-center px-8 sm:px-12 md:px-16 relative bg-platinum lg:bg-transparent">
         {/* Subtle top accent line */}
-        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-industrial-primaryBase via-industrial-primaryAccent to-industrial-accentChampagne lg:hidden" />
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-navy via-accent to-accent-soft lg:hidden" />
 
-        <div className="w-full max-w-sm mx-auto bg-industrial-surfaceWhite p-8 rounded-3xl shadow-xl border border-white/50">
+        <div className="w-full max-w-sm mx-auto bg-white p-8 rounded-3xl shadow-xl border border-white/50">
           {/* Mobile logo */}
           <div className="flex items-center gap-3 mb-8 lg:hidden">
-            <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center overflow-hidden border border-industrial-border shadow-sm">
+            <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center overflow-hidden border border-platinum-dark shadow-sm">
               <img src={logoImg} alt="Logo" className="w-8 h-8 object-contain"
                 onError={(e) => { e.target.onerror = null; e.target.src = brandIconImg; }} />
             </div>
             <div>
-              <p className="font-bold text-industrial-primaryBase text-sm font-display">Departemen Inspeksi Teknik 2</p>
-              <p className="text-industrial-muted text-[10px]">Sistem Keandalan Operasional</p>
+              <p className="font-bold text-navy text-sm font-display">Departemen Inspeksi Teknik 2</p>
+              <p className="text-platinum-dark text-[10px]">Sistem Keandalan Operasional</p>
             </div>
           </div>
 
           {/* Header text */}
           <div className="mb-8">
-            <div className="inline-flex items-center gap-1.5 bg-industrial-primaryBase/5 border border-industrial-primaryBase/10 rounded-full px-3 py-1 mb-4">
-              <ShieldCheck className="w-3 h-3 text-industrial-primaryBase" />
-              <span className="text-industrial-primaryBase text-[10px] font-bold uppercase tracking-wider">Akses Departemen ISTEK 2</span>
+            <div className="inline-flex items-center gap-1.5 bg-navy/5 border border-navy/10 rounded-full px-3 py-1 mb-4">
+              <ShieldCheck className="w-3 h-3 text-navy" />
+              <span className="text-navy text-[10px] font-bold uppercase tracking-wider">Akses Departemen ISTEK 2</span>
             </div>
-            <h2 className="text-2xl font-extrabold text-industrial-primaryBase tracking-tight mb-1 font-display">Masuk ke Akun Anda</h2>
-            <p className="text-industrial-muted text-sm">Gunakan NPK & password yang terdaftar di sistem.</p>
+            <h2 className="text-2xl font-extrabold text-navy tracking-tight mb-1 font-display">Masuk ke Akun Anda</h2>
+            <p className="text-platinum-dark text-sm">Gunakan NPK & password yang terdaftar di sistem.</p>
           </div>
 
           {/* Error */}
@@ -259,7 +259,7 @@ export default function Login() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full mt-2 relative overflow-hidden flex items-center justify-center gap-2 py-3 px-6 rounded-xl text-sm font-bold text-white transition-all duration-300 bg-industrial-primaryAccent hover:shadow-[0_4px_20px_rgba(228,59,0,0.3)] hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-60 disabled:cursor-not-allowed shadow-md"
+              className="w-full mt-2 relative overflow-hidden flex items-center justify-center gap-2 py-3 px-6 rounded-xl text-sm font-bold text-white transition-all duration-300 bg-accent hover:shadow-[0_4px_20px_rgba(228,59,0,0.3)] hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-60 disabled:cursor-not-allowed shadow-md"
             >
               <span className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 translate-x-[-100%] hover:translate-x-[100%] transition-transform duration-700" />
               {loading ? (

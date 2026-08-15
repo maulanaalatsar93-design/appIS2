@@ -141,7 +141,7 @@ export default function AbsensiCalendar({ employees = [], attendanceChanges = []
           >
             <ChevronLeft size={16} className="text-slate-600" />
           </button>
-          <h3 className="text-[15px] font-bold text-industrial-text capitalize min-w-[160px] text-center">
+          <h3 className="text-[15px] font-bold text-ink capitalize min-w-[160px] text-center">
             {monthName}
           </h3>
           <button
@@ -153,7 +153,7 @@ export default function AbsensiCalendar({ employees = [], attendanceChanges = []
         </div>
         <button
           onClick={goToToday}
-          className="text-[12px] font-semibold text-industrial-blue hover:text-industrial-navy bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-lg transition-colors border border-blue-200"
+          className="text-[12px] font-semibold text-navy hover:text-navy bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-lg transition-colors border border-blue-200"
         >
           Hari Ini
         </button>
@@ -162,7 +162,7 @@ export default function AbsensiCalendar({ employees = [], attendanceChanges = []
       {/* Legend */}
       <div className="flex flex-wrap items-center gap-3 text-[11px] font-medium">
         <div className="flex items-center gap-1.5">
-          <div className="w-3 h-3 rounded-full bg-industrial-navy"></div>
+          <div className="w-3 h-3 rounded-full bg-navy"></div>
           <span className="text-slate-500">Hari Ini</span>
         </div>
         <div className="flex items-center gap-1.5">
@@ -258,7 +258,7 @@ export default function AbsensiCalendar({ employees = [], attendanceChanges = []
                     {rec.emp?.name?.charAt(0) || '?'}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="text-[13px] font-semibold text-industrial-text truncate">
+                    <div className="text-[13px] font-semibold text-ink truncate">
                       {rec.emp?.name || 'Unknown'}
                     </div>
                     <div className="text-[11px] text-slate-500">{rec.emp?.division || '-'}</div>
@@ -280,7 +280,7 @@ export default function AbsensiCalendar({ employees = [], attendanceChanges = []
             <div className="px-5 py-3 bg-slate-50 border-t border-slate-100">
               <button
                 onClick={() => setSelectedDay(null)}
-                className="w-full py-2 bg-industrial-navy text-white text-[13px] font-semibold rounded-xl hover:bg-industrial-text transition-colors"
+                className="w-full py-2 bg-navy text-white text-[13px] font-semibold rounded-xl hover:bg-ink transition-colors"
               >
                 Tutup
               </button>

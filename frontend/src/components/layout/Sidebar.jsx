@@ -56,10 +56,10 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
 
   return (
     <aside
-      className={`bg-industrial-primaryBase flex flex-col justify-between shrink-0 transition-all duration-300 ease-in-out z-50 overflow-y-auto print:hidden lg:my-4 lg:ml-4 lg:rounded-2xl lg:shadow-xl ${
+      className={`bg-navy flex flex-col justify-between shrink-0 transition-all duration-300 ease-in-out z-50 overflow-y-auto print:hidden lg:h-screen ${
         isCollapsed 
-          ? 'w-0 -translate-x-full lg:translate-x-0 lg:w-20 fixed lg:relative inset-y-0 left-0 opacity-0 lg:opacity-100 h-full lg:h-[calc(100vh-2rem)]' 
-          : 'w-full translate-x-0 lg:w-64 fixed lg:relative inset-y-0 left-0 opacity-100 h-full lg:h-[calc(100vh-2rem)]'
+          ? 'w-0 -translate-x-full lg:translate-x-0 lg:w-20 fixed lg:relative inset-y-0 left-0 opacity-0 lg:opacity-100' 
+          : 'w-full translate-x-0 lg:w-[240px] fixed lg:relative inset-y-0 left-0 opacity-100'
       }`}
     >
 
@@ -72,7 +72,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
               className={`flex items-center ${isCollapsed ? 'justify-center w-full cursor-pointer' : 'gap-3'}`}
               title={isCollapsed ? 'Perluas Sidebar' : undefined}
             >
-              <div className="w-10 h-10 bg-industrial-primaryAccent text-white rounded-xl flex items-center justify-center overflow-hidden shrink-0 transition-transform duration-300 hover:scale-105">
+              <div className="w-10 h-10 bg-accent text-white rounded-xl flex items-center justify-center overflow-hidden shrink-0 transition-transform duration-300 hover:scale-105">
                 <img
                   alt="Logo ISTEK 2"
                   className="w-7 h-7 object-contain"
@@ -85,7 +85,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
               {!isCollapsed && (
                 <div className="flex flex-col justify-center overflow-hidden">
                   <p className="text-white font-bold text-xs tracking-tight leading-tight truncate">Inspeksi Teknik 2</p>
-                  <p className="text-industrial-muted text-[9px] font-medium mt-0.5 truncate">Sistem Monitoring</p>
+                  <p className="text-platinum-dark text-[9px] font-medium mt-0.5 truncate">Sistem Monitoring</p>
                 </div>
               )}
             </div>
@@ -121,14 +121,14 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
                           if (window.innerWidth < 1024) setIsCollapsed(true);
                         }}
                         title={isCollapsed ? item.label : undefined}
-                        className={`w-full flex items-center ${isCollapsed ? 'justify-center py-3' : 'space-x-3 px-4 py-3'
-                          } rounded-none text-xs font-bold transition-all duration-300 ease-out border-l-4 ${isActive
-                            ? 'bg-white/5 border-industrial-primaryAccent text-white'
-                            : 'border-transparent text-industrial-muted hover:text-white hover:bg-white/5'
+                        className={`w-full flex items-center ${isCollapsed ? 'justify-center py-2.5' : 'gap-2.5 px-3.5 py-2.5'
+                          } rounded-lg text-sm transition-all duration-200 ease-out border-l-[3px] mb-2 ${isActive
+                            ? 'bg-accent/10 border-accent text-accent font-bold'
+                            : 'border-transparent text-platinum-dark hover:bg-white/5 font-medium'
                           }`}
                       >
                         <div className="shrink-0 flex items-center justify-center">
-                          <Icon className={`w-5 h-5 transition-colors duration-300 ease-out ${isActive ? 'text-industrial-primaryAccent' : 'text-industrial-muted'}`} />
+                          <Icon className={`w-5 h-5 transition-colors duration-200 ease-out ${isActive ? 'text-accent' : 'text-platinum-dark'}`} />
                         </div>
                         {!isCollapsed && <span className="truncate">{item.label}</span>}
                       </button>

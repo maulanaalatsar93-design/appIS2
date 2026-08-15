@@ -27,8 +27,8 @@ const ProtectedRoute = ({ children }) => {
   const { user, loading } = useContext(AuthContext);
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-industrial-background">
-        <Loader2 className="w-8 h-8 animate-spin text-industrial-blue" />
+      <div className="min-h-screen flex items-center justify-center bg-platinum">
+        <Loader2 className="w-8 h-8 animate-spin text-navy" />
       </div>
     );
   }
@@ -41,8 +41,8 @@ const GuestRoute = ({ children }) => {
   const { user, loading } = useContext(AuthContext);
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-industrial-background">
-        <Loader2 className="w-8 h-8 animate-spin text-industrial-blue" />
+      <div className="min-h-screen flex items-center justify-center bg-platinum">
+        <Loader2 className="w-8 h-8 animate-spin text-navy" />
       </div>
     );
   }

@@ -240,7 +240,7 @@ export default function SertifikasiPersonel() {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-slate-800 flex items-center gap-2">
-            <Shield className="w-6 h-6 text-industrial-blue" />
+            <Shield className="w-6 h-6 text-navy" />
             Monitoring Sertifikasi Personel
           </h1>
           <p className="text-slate-500 text-sm mt-1">
@@ -249,7 +249,7 @@ export default function SertifikasiPersonel() {
         </div>
         <button
           onClick={() => openModal()}
-          className="flex items-center gap-2 px-4 py-2 bg-industrial-blue hover:bg-blue-700 text-white rounded-lg font-medium transition-colors shadow-sm"
+          className="flex items-center gap-2 px-4 py-2 bg-navy hover:bg-blue-700 text-white rounded-lg font-medium transition-colors shadow-sm"
         >
           <Plus size={18} />
           <span>Tambah Data</span>
@@ -261,19 +261,19 @@ export default function SertifikasiPersonel() {
           <div className="flex space-x-6">
             <button
               onClick={() => setActiveTab('sertifikasi')}
-              className={`pb-3 text-sm font-medium border-b-2 transition-colors ${activeTab === 'sertifikasi' ? 'border-industrial-blue text-industrial-blue' : 'border-transparent text-slate-500 hover:text-slate-700'}`}
+              className={`pb-3 text-sm font-medium border-b-2 transition-colors ${activeTab === 'sertifikasi' ? 'border-navy text-navy' : 'border-transparent text-slate-500 hover:text-slate-700'}`}
             >
               Daftar Sertifikasi
             </button>
             <button
               onClick={() => setActiveTab('tanpa_kedaluwarsa')}
-              className={`pb-3 text-sm font-medium border-b-2 transition-colors ${activeTab === 'tanpa_kedaluwarsa' ? 'border-industrial-blue text-industrial-blue' : 'border-transparent text-slate-500 hover:text-slate-700'}`}
+              className={`pb-3 text-sm font-medium border-b-2 transition-colors ${activeTab === 'tanpa_kedaluwarsa' ? 'border-navy text-navy' : 'border-transparent text-slate-500 hover:text-slate-700'}`}
             >
               Tanpa Kedaluwarsa
             </button>
             <button
               onClick={() => setActiveTab('rencana')}
-              className={`pb-3 text-sm font-medium border-b-2 transition-colors ${activeTab === 'rencana' ? 'border-industrial-blue text-industrial-blue' : 'border-transparent text-slate-500 hover:text-slate-700'}`}
+              className={`pb-3 text-sm font-medium border-b-2 transition-colors ${activeTab === 'rencana' ? 'border-navy text-navy' : 'border-transparent text-slate-500 hover:text-slate-700'}`}
             >
               Rencana Pelatihan
             </button>
@@ -286,7 +286,7 @@ export default function SertifikasiPersonel() {
                 placeholder="Cari nama, NPK..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-9 pr-3 py-1.5 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-industrial-blue/20 focus:border-industrial-blue text-sm"
+                className="w-full pl-9 pr-3 py-1.5 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-navy/20 focus:border-navy text-sm"
               />
             </div>
             <button className="flex items-center gap-2 px-3 py-1.5 text-slate-600 bg-white border border-slate-200 hover:bg-slate-50 rounded-lg text-sm font-medium transition-colors">
@@ -409,7 +409,7 @@ export default function SertifikasiPersonel() {
                             <>
                               <button
                                 onClick={() => openModal(item)}
-                                className="p-1.5 text-slate-400 hover:text-industrial-blue hover:bg-blue-50 rounded-lg transition-colors"
+                                className="p-1.5 text-slate-400 hover:text-navy hover:bg-blue-50 rounded-lg transition-colors"
                                 title="Edit"
                               >
                                 <Edit2 size={16} />
@@ -457,7 +457,7 @@ export default function SertifikasiPersonel() {
                     value={formData.man_power_id}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-industrial-blue/20 focus:border-industrial-blue text-sm"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-navy/20 focus:border-navy text-sm"
                   >
                     <option value="">-- Pilih Personel --</option>
                     {manpowerList.map(mp => (
@@ -475,7 +475,7 @@ export default function SertifikasiPersonel() {
                     onChange={handleInputChange}
                     required
                     placeholder="Contoh: SIO Forklift"
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-industrial-blue/20 focus:border-industrial-blue text-sm"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-navy/20 focus:border-navy text-sm"
                   />
                 </div>
 
@@ -486,7 +486,7 @@ export default function SertifikasiPersonel() {
                     name="is_rencana"
                     checked={formData.is_rencana}
                     onChange={handleInputChange}
-                    className="w-4 h-4 text-industrial-blue rounded border-slate-300 focus:ring-industrial-blue"
+                    className="w-4 h-4 text-navy rounded border-slate-300 focus:ring-navy"
                   />
                   <label htmlFor="is_rencana" className="text-sm font-medium text-slate-700 cursor-pointer">
                     Tandai sebagai Rencana Pelatihan
@@ -501,7 +501,7 @@ export default function SertifikasiPersonel() {
                     value={formData.no_sertifikat}
                     onChange={handleInputChange}
                     placeholder="Contoh: 12345/SIO/2023"
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-industrial-blue/20 focus:border-industrial-blue text-sm"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-navy/20 focus:border-navy text-sm"
                   />
                 </div>
 
@@ -513,7 +513,7 @@ export default function SertifikasiPersonel() {
                       name="tanggal_sertifikasi"
                       value={formData.tanggal_sertifikasi}
                       onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-industrial-blue/20 focus:border-industrial-blue text-sm"
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-navy/20 focus:border-navy text-sm"
                     />
                   </div>
                   <div className="space-y-1">
@@ -523,7 +523,7 @@ export default function SertifikasiPersonel() {
                       name="tanggal_berakhir"
                       value={formData.tanggal_berakhir}
                       onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-industrial-blue/20 focus:border-industrial-blue text-sm"
+                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-navy/20 focus:border-navy text-sm"
                     />
                   </div>
                 </div>
@@ -536,7 +536,7 @@ export default function SertifikasiPersonel() {
                     onChange={handleInputChange}
                     rows="3"
                     placeholder="Catatan tambahan..."
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-industrial-blue/20 focus:border-industrial-blue text-sm resize-none"
+                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-navy/20 focus:border-navy text-sm resize-none"
                   ></textarea>
                 </div>
 
@@ -551,7 +551,7 @@ export default function SertifikasiPersonel() {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 text-sm font-medium text-white bg-industrial-blue hover:bg-blue-700 rounded-lg transition-colors shadow-sm"
+                  className="px-4 py-2 text-sm font-medium text-white bg-navy hover:bg-blue-700 rounded-lg transition-colors shadow-sm"
                 >
                   Simpan Data
                 </button>
