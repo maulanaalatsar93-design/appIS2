@@ -191,7 +191,7 @@ export function UploadProvider({ children }) {
 
       {/* MINI BACKGROUND FLOATING INDICATOR WHEN NAVIGATED AWAY WHILE UPLOADING */}
       {status === 'uploading' && (
-        <div className="fixed bottom-5 left-5 z-[9999] bg-navy text-white px-4 py-2.5 rounded-xl shadow-xl border border-blue-400/30 flex items-center gap-3 animate-pulse">
+        <div className="fixed bottom-5 left-5 z-[9999] bg-industrial-navy text-white px-4 py-2.5 rounded-xl shadow-xl border border-blue-400/30 flex items-center gap-3 animate-pulse">
           <Loader2 className="w-4 h-4 animate-spin text-blue-400 shrink-0" />
           <div className="text-xs">
             <div className="font-bold text-blue-100">Memproses Data SAP ({uploadProgress}%)</div>

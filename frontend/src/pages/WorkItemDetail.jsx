@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import {
   ArrowLeft, Loader2, Send, Image, Paperclip, CheckSquare,
@@ -8,10 +8,10 @@ import {
 
 const CHECKLIST_STATUS_CYCLE = ['Belum', 'Proses', 'Selesai', 'Tidak Berlaku'];
 const CHECKLIST_STYLE = {
-  'Belum': 'bg-platinum border-platinum-dark text-slate-500',
-  'Proses': 'bg-blue-50 border-navy-soft text-blue-700',
+  'Belum': 'bg-slate-50 border-slate-200 text-slate-500',
+  'Proses': 'bg-blue-50 border-blue-200 text-blue-700',
   'Selesai': 'bg-emerald-50 border-emerald-200 text-emerald-700',
-  'Tidak Berlaku': 'bg-gray-100 border-platinum-dark text-gray-400 line-through',
+  'Tidak Berlaku': 'bg-gray-100 border-gray-200 text-gray-400 line-through',
 };
 
 export default function WorkItemDetail({ itemId, onBack }) {
@@ -129,7 +129,7 @@ export default function WorkItemDetail({ itemId, onBack }) {
     setAssigningPlt(false);
   };
 
-  if (loading) return <div className="flex items-center justify-center h-64"><Loader2 className="w-8 h-8 animate-spin text-navy" /></div>;
+  if (loading) return <div className="flex items-center justify-center h-64"><Loader2 className="w-8 h-8 animate-spin text-industrial-blue" /></div>;
   if (!item) return <div className="p-6 text-center text-red-500">Item tidak ditemukan.</div>;
 
   const checklistDone = item.checklists.filter(c => c.status === 'Selesai' || c.status === 'Tidak Berlaku').length;
@@ -139,18 +139,18 @@ export default function WorkItemDetail({ itemId, onBack }) {
     <div className="p-6 max-w-6xl mx-auto space-y-6 pb-20">
       {/* Header */}
       <div className="flex items-center space-x-4">
-        <button onClick={onBack} className="p-2 bg-white border border-platinum-dark rounded-lg shadow-sm-subtle hover:bg-platinum">
+        <button onClick={onBack} className="p-2 bg-white border border-industrial-border rounded-lg shadow-sm-subtle hover:bg-slate-50">
           <ArrowLeft className="w-5 h-5 text-slate-600" />
         </button>
         <div>
           <div className="flex items-center space-x-3">
-            <h1 className="text-xl font-bold text-ink">{item.title}</h1>
-            <span className="text-xs font-mono text-platinum-dark bg-platinum-dark px-2 py-0.5 rounded border">#{item.item_no || item.id}</span>
-            <span className={`px-2.5 py-1 text-xs font-bold rounded-full border ${item.status === 'Done' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : item.status === 'In Progress' ? 'bg-blue-50 text-blue-700 border-navy-soft' : item.status === 'Ready For Review' ? 'bg-amber-50 text-amber-700 border-amber-200' : 'bg-platinum-dark text-slate-600 border-platinum-dark'}`}>
+            <h1 className="text-xl font-bold text-industrial-text">{item.title}</h1>
+            <span className="text-xs font-mono text-industrial-muted bg-slate-100 px-2 py-0.5 rounded border">#{item.item_no || item.id}</span>
+            <span className={`px-2.5 py-1 text-xs font-bold rounded-full border ${item.status === 'Done' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : item.status === 'In Progress' ? 'bg-blue-50 text-blue-700 border-blue-200' : item.status === 'Ready For Review' ? 'bg-amber-50 text-amber-700 border-amber-200' : 'bg-slate-100 text-slate-600 border-slate-200'}`}>
               {item.status}
             </span>
           </div>
-          <p className="text-platinum-dark text-xs mt-1">Program: <span className="font-semibold">{item.program?.title}</span> {item.equipment && `• ${item.equipment}`}</p>
+          <p className="text-industrial-muted text-xs mt-1">Program: <span className="font-semibold">{item.program?.title}</span> {item.equipment && `• ${item.equipment}`}</p>
         </div>
       </div>
 
@@ -165,16 +165,16 @@ export default function WorkItemDetail({ itemId, onBack }) {
         <div className="lg:col-span-2 space-y-5">
           {/* Add Progress Update */}
           {item.status === 'In Progress' && (
-            <div className="bg-white border border-platinum-dark rounded-card p-4 shadow-sm-subtle">
-              <h3 className="font-semibold text-ink text-sm mb-3 flex items-center">
-                <Activity className="w-4 h-4 mr-2 text-navy" /> Update Progress
+            <div className="bg-white border border-industrial-border rounded-card p-4 shadow-sm-subtle">
+              <h3 className="font-semibold text-industrial-text text-sm mb-3 flex items-center">
+                <Activity className="w-4 h-4 mr-2 text-industrial-blue" /> Update Progress
               </h3>
               <div className="flex space-x-3">
                 <textarea value={activityText} onChange={e => setActivityText(e.target.value)} rows={2}
                   placeholder="Tulis update pekerjaan... (contoh: Rotor berhasil dilepas, Run Out Measurement selesai)"
-                  className="flex-1 bg-platinum border border-platinum-dark rounded-xl p-3 text-sm focus:outline-none focus:border-navy resize-none" />
+                  className="flex-1 bg-slate-50 border border-industrial-border rounded-xl p-3 text-sm focus:outline-none focus:border-industrial-blue resize-none" />
                 <button onClick={addActivity} disabled={addingActivity || !activityText.trim()}
-                  className="px-4 bg-navy hover:bg-blue-700 text-white rounded-xl font-semibold text-sm disabled:opacity-50 flex items-center">
+                  className="px-4 bg-industrial-blue hover:bg-blue-700 text-white rounded-xl font-semibold text-sm disabled:opacity-50 flex items-center">
                   {addingActivity ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
                 </button>
               </div>
@@ -204,8 +204,8 @@ export default function WorkItemDetail({ itemId, onBack }) {
           )}
 
           {/* Activity Timeline */}
-          <div className="bg-white border border-platinum-dark rounded-card p-5 shadow-sm-subtle">
-            <h3 className="font-semibold text-ink mb-4 flex items-center">
+          <div className="bg-white border border-industrial-border rounded-card p-5 shadow-soft-card">
+            <h3 className="font-semibold text-industrial-text mb-4 flex items-center">
               <Clock className="w-4 h-4 mr-2 text-slate-400" /> Timeline Aktivitas
             </h3>
             {item.activities.length === 0 ? (
@@ -213,12 +213,12 @@ export default function WorkItemDetail({ itemId, onBack }) {
             ) : (
               <div className="space-y-4">
                 {item.activities.map(a => (
-                  <div key={a.id} className="relative pl-5 border-l-2 border-platinum-dark">
-                    <div className="absolute -left-[7px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-navy" />
+                  <div key={a.id} className="relative pl-5 border-l-2 border-slate-200">
+                    <div className="absolute -left-[7px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-white bg-industrial-blue" />
                     <div className="flex items-start justify-between">
-                      <p className="text-xs font-semibold text-ink">{a.description}</p>
+                      <p className="text-xs font-semibold text-industrial-text">{a.description}</p>
                     </div>
-                    <p className="text-[10px] text-platinum-dark mt-0.5">
+                    <p className="text-[10px] text-industrial-muted mt-0.5">
                       {new Date(a.logged_at).toLocaleString('id-ID', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}
                       {a.actor && ` • ${a.actor.name}`}
                     </p>
@@ -230,16 +230,16 @@ export default function WorkItemDetail({ itemId, onBack }) {
 
           {/* Review History */}
           {item.reviews.length > 0 && (
-            <div className="bg-white border border-platinum-dark rounded-card p-4 shadow-sm-subtle">
-              <h3 className="font-semibold text-ink mb-3 text-sm">Riwayat Review</h3>
+            <div className="bg-white border border-industrial-border rounded-card p-4 shadow-sm-subtle">
+              <h3 className="font-semibold text-industrial-text mb-3 text-sm">Riwayat Review</h3>
               {item.reviews.map(r => (
                 <div key={r.id} className={`p-3 rounded-xl border text-xs ${r.decision === 'Approved' ? 'bg-emerald-50 border-emerald-200' : 'bg-amber-50 border-amber-200'}`}>
                   <div className="flex items-center justify-between mb-1">
-                    <span className="font-bold text-ink">{r.reviewer?.name}</span>
+                    <span className="font-bold text-industrial-text">{r.reviewer?.name}</span>
                     <span className={`font-bold ${r.decision === 'Approved' ? 'text-emerald-700' : 'text-amber-700'}`}>{r.decision}</span>
                   </div>
-                  {r.notes && <p className="text-platinum-dark italic">{r.notes}</p>}
-                  <p className="text-platinum-dark mt-0.5">{new Date(r.reviewed_at).toLocaleString('id-ID')}</p>
+                  {r.notes && <p className="text-industrial-muted italic">{r.notes}</p>}
+                  <p className="text-industrial-muted mt-0.5">{new Date(r.reviewed_at).toLocaleString('id-ID')}</p>
                 </div>
               ))}
             </div>
@@ -248,20 +248,20 @@ export default function WorkItemDetail({ itemId, onBack }) {
 
         {/* Right: Checklist */}
         <div className="space-y-5">
-          <div className="bg-white border border-platinum-dark rounded-card overflow-hidden shadow-soft-card">
-            <div className="p-4 border-b border-platinum-dark bg-platinum flex items-center justify-between">
+          <div className="bg-white border border-industrial-border rounded-card overflow-hidden shadow-soft-card">
+            <div className="p-4 border-b border-industrial-border bg-slate-50 flex items-center justify-between">
               <div>
-                <h3 className="font-semibold text-ink text-sm">Checklist Inspeksi</h3>
-                <p className="text-[10px] text-platinum-dark mt-0.5">{checklistDone}/{checklistTotal} selesai</p>
+                <h3 className="font-semibold text-industrial-text text-sm">Checklist Inspeksi</h3>
+                <p className="text-[10px] text-industrial-muted mt-0.5">{checklistDone}/{checklistTotal} selesai</p>
               </div>
               {checklistTotal > 0 && (
-                <span className="text-sm font-bold text-navy">{item.progress_pct}%</span>
+                <span className="text-sm font-bold text-industrial-blue">{item.progress_pct}%</span>
               )}
             </div>
 
             {checklistTotal > 0 && (
-              <div className="h-1.5 bg-platinum-dark">
-                <div className="h-full bg-navy rounded-r-full transition-all" style={{ width: `${item.progress_pct}%` }} />
+              <div className="h-1.5 bg-slate-100">
+                <div className="h-full bg-industrial-blue rounded-r-full transition-all" style={{ width: `${item.progress_pct}%` }} />
               </div>
             )}
 
@@ -283,21 +283,21 @@ export default function WorkItemDetail({ itemId, onBack }) {
               ))}
             </div>
 
-            <div className="p-3 border-t border-platinum-dark">
+            <div className="p-3 border-t border-industrial-border">
               {showChecklistForm ? (
                 <div className="space-y-2">
                   <input type="text" value={newChecklist} onChange={e => setNewChecklist(e.target.value)}
                     placeholder="Nama item checklist..." autoFocus
                     onKeyDown={e => e.key === 'Enter' && addChecklist()}
-                    className="w-full bg-white border border-platinum-dark rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-navy" />
+                    className="w-full bg-white border border-industrial-border rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-industrial-blue" />
                   <div className="flex space-x-2">
-                    <button onClick={addChecklist} className="flex-1 py-1.5 bg-navy text-white text-xs rounded-lg font-semibold">Tambah</button>
-                    <button onClick={() => setShowChecklistForm(false)} className="flex-1 py-1.5 bg-platinum-dark text-slate-600 text-xs rounded-lg">Batal</button>
+                    <button onClick={addChecklist} className="flex-1 py-1.5 bg-industrial-blue text-white text-xs rounded-lg font-semibold">Tambah</button>
+                    <button onClick={() => setShowChecklistForm(false)} className="flex-1 py-1.5 bg-slate-100 text-slate-600 text-xs rounded-lg">Batal</button>
                   </div>
                 </div>
               ) : (
                 <button onClick={() => setShowChecklistForm(true)}
-                  className="w-full py-2 text-xs font-semibold text-navy hover:bg-blue-50 border border-dashed border-navy-soft rounded-xl transition-colors">
+                  className="w-full py-2 text-xs font-semibold text-industrial-blue hover:bg-blue-50 border border-dashed border-blue-200 rounded-xl transition-colors">
                   + Tambah Item Checklist
                 </button>
               )}
@@ -305,16 +305,16 @@ export default function WorkItemDetail({ itemId, onBack }) {
           </div>
 
           {/* Item Info */}
-          <div className="bg-white border border-platinum-dark rounded-card p-4 shadow-sm-subtle space-y-3">
-            <h3 className="font-semibold text-ink text-sm">Info Item</h3>
+          <div className="bg-white border border-industrial-border rounded-card p-4 shadow-sm-subtle space-y-3">
+            <h3 className="font-semibold text-industrial-text text-sm">Info Item</h3>
             <div className="flex justify-between">
-              <span className="text-[10px] font-bold text-platinum-dark uppercase">PIC</span>
-              <span className="text-xs text-ink font-medium">{item.pic?.name || '—'}</span>
+              <span className="text-[10px] font-bold text-industrial-muted uppercase">PIC</span>
+              <span className="text-xs text-industrial-text font-medium">{item.pic?.name || '—'}</span>
             </div>
             
             {/* Display Plt Info */}
             {(item.plt || showPltModal || true) && (
-              <div className="mt-2 pt-2 border-t border-dashed border-platinum-dark">
+              <div className="mt-2 pt-2 border-t border-dashed border-slate-200">
                 <div className="flex justify-between items-center mb-1">
                   <span className="text-[10px] font-bold text-amber-600 uppercase flex items-center">
                     <AlertCircle className="w-3 h-3 mr-1" /> Plt Sementara
@@ -326,12 +326,12 @@ export default function WorkItemDetail({ itemId, onBack }) {
                     </button>
                   ) : (
                     <button onClick={() => setShowPltModal(true)} 
-                      className="text-[9px] text-navy hover:text-blue-700 underline font-semibold">
+                      className="text-[9px] text-industrial-blue hover:text-blue-700 underline font-semibold">
                       Set Plt
                     </button>
                   )}
                 </div>
-                <div className="text-xs font-semibold text-ink mb-2">
+                <div className="text-xs font-semibold text-industrial-text mb-2">
                   {item.plt ? `${item.plt.name} (${item.plt.position})` : <span className="text-slate-400 italic">Belum ada Plt ditunjuk</span>}
                 </div>
               </div>
@@ -344,8 +344,8 @@ export default function WorkItemDetail({ itemId, onBack }) {
               { label: 'Selesai', value: item.completed_at ? new Date(item.completed_at).toLocaleString('id-ID') : '—' },
             ].map(f => (
               <div key={f.label} className="flex justify-between">
-                <span className="text-[10px] font-bold text-platinum-dark uppercase">{f.label}</span>
-                <span className="text-xs text-ink font-medium">{f.value}</span>
+                <span className="text-[10px] font-bold text-industrial-muted uppercase">{f.label}</span>
+                <span className="text-xs text-industrial-text font-medium">{f.value}</span>
               </div>
             ))}
           </div>
@@ -355,19 +355,19 @@ export default function WorkItemDetail({ itemId, onBack }) {
       {/* Plt Modal */}
       {showPltModal && (
         <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl w-full max-w-sm shadow-xl p-5 border border-platinum-dark">
-            <h3 className="text-lg font-bold text-ink mb-4 flex items-center">
+          <div className="bg-white rounded-2xl w-full max-w-sm shadow-xl p-5 border border-industrial-border">
+            <h3 className="text-lg font-bold text-industrial-text mb-4 flex items-center">
               <AlertCircle className="w-5 h-5 mr-2 text-amber-500" /> Tunjuk Plt Sementara
             </h3>
-            <p className="text-xs text-platinum-dark mb-4">
+            <p className="text-xs text-industrial-muted mb-4">
               Pilih anggota tim untuk menjadi Pelaksana Tugas (Plt) sementara jika PIC utama berhalangan.
             </p>
             <div className="mb-4">
-              <label className="block text-xs font-bold text-platinum-dark uppercase mb-1">Pilih Plt</label>
+              <label className="block text-xs font-bold text-industrial-muted uppercase mb-1">Pilih Plt</label>
               <select 
                 value={selectedPltId} 
                 onChange={(e) => setSelectedPltId(e.target.value)}
-                className="w-full bg-platinum border border-platinum-dark rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-navy"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-industrial-blue"
               >
                 <option value="">-- Pilih Anggota --</option>
                 {manpowerList.map(mp => (
@@ -378,14 +378,14 @@ export default function WorkItemDetail({ itemId, onBack }) {
             <div className="flex space-x-3">
               <button 
                 onClick={() => setShowPltModal(false)}
-                className="flex-1 py-2 bg-platinum-dark text-slate-700 text-sm font-semibold rounded-xl hover:bg-slate-200"
+                className="flex-1 py-2 bg-slate-100 text-slate-700 text-sm font-semibold rounded-xl hover:bg-slate-200"
               >
                 Batal
               </button>
               <button 
                 onClick={() => handleAssignPlt(false)}
                 disabled={!selectedPltId || assigningPlt}
-                className="flex-1 py-2 bg-navy text-white text-sm font-semibold rounded-xl hover:bg-blue-700 disabled:opacity-50 flex justify-center items-center"
+                className="flex-1 py-2 bg-industrial-blue text-white text-sm font-semibold rounded-xl hover:bg-blue-700 disabled:opacity-50 flex justify-center items-center"
               >
                 {assigningPlt ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Simpan'}
               </button>
@@ -396,5 +396,3 @@ export default function WorkItemDetail({ itemId, onBack }) {
     </div>
   );
 }
-
-

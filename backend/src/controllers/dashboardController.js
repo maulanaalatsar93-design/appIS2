@@ -513,29 +513,29 @@ export const getDashboardSummary = async (req, res) => {
       return wcVal.includes(codeVal) || wcVal.includes(nameVal) || (codeVal === 'D0225' && (wcVal.includes('PPHS') || wcVal.includes('OSBL') || wcVal.includes('P&O')));
     };
 
-    // Filter out Pabrik that have 0 Work Orders in woTrendData
-    const activePabriks = pabriks.filter(p => {
-      return woTrendData.some(w => w.pabrik_id === p.id);
+    // Filter out Work Centers that have 0 Work Orders in woTrendData (Hide empty Work Centers like QC)
+    const activeWorkCenters = WORK_CENTER_MAP.filter(wc => {
+      return woTrendData.some(w => matchWC(w, wc));
     });
 
-    const targetPabriks = activePabriks.length > 0 ? activePabriks : pabriks;
+    const targetWCs = activeWorkCenters.length > 0 ? activeWorkCenters : WORK_CENTER_MAP;
 
-    const pm04Progress = targetPabriks.map(pabrik => {
-      const wos = pm04WOs.filter(w => w.pabrik_id === pabrik.id);
+    const pm04Progress = targetWCs.map(wc => {
+      const wos = pm04WOs.filter(w => matchWC(w, wc));
       const valid = wos.filter(isValidWO);
       const cnf = valid.filter(isCnfWO);
       const capaianCNF = valid.length > 0 ? Number(((cnf.length / valid.length) * 100).toFixed(2)) : 0;
       return {
-        code: `PABRIK_${pabrik.id}`,
-        name: pabrik.nama_pabrik,
+        code: wc.code,
+        name: wc.name,
         tipe: 'PM04',
         totalWO: wos.length,
         capaianCNF
       };
     }).filter(row => row.totalWO > 0);
 
-    const pm02PlusProgress = targetPabriks.map(pabrik => {
-      const wos = pm02PlusWOs.filter(w => w.pabrik_id === pabrik.id);
+    const pm02PlusProgress = targetWCs.map(wc => {
+      const wos = pm02PlusWOs.filter(w => matchWC(w, wc));
       const valid = wos.filter(isValidWO);
       const cnf = valid.filter(isCnfWO);
       const capaianCNF = valid.length > 0 ? Number(((cnf.length / valid.length) * 100).toFixed(2)) : 0;
@@ -546,12 +546,20 @@ export const getDashboardSummary = async (req, res) => {
         tanggal_dibuat: w.tanggal_dibuat,
         status: w.status,
         equipment: w.equipment,
-        pabrik_name: pabrik.nama_pabrik
-      })); // Sorting removed here since they belong to a single factory
+        pabrik_name: pabriks.find(p => p.id === w.pabrik_id)?.nama_pabrik || '-'
+      })).sort((a, b) => {
+        const PABRIK_ORDER = ['P1A', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7'];
+        const idxA = PABRIK_ORDER.indexOf(a.pabrik_name);
+        const idxB = PABRIK_ORDER.indexOf(b.pabrik_name);
+        const orderA = idxA === -1 ? 999 : idxA;
+        const orderB = idxB === -1 ? 999 : idxB;
+        if (orderA !== orderB) return orderA - orderB;
+        return a.pabrik_name.localeCompare(b.pabrik_name);
+      });
 
       return {
-        code: `PABRIK_${pabrik.id}`,
-        name: pabrik.nama_pabrik,
+        code: wc.code,
+        name: wc.name,
         tipe: 'PM02+',
         totalWO: wos.length,
         capaianCNF,
@@ -559,8 +567,8 @@ export const getDashboardSummary = async (req, res) => {
       };
     }).filter(row => row.totalWO > 0);
 
-    // Distribution by Status per Pabrik
-    const statusCategories = targetPabriks.map(p => p.nama_pabrik);
+    // Distribution by Status per Work Center
+    const statusCategories = targetWCs.map(wc => wc.name);
     const statuses = ['CNF TECO', 'CNF REL', 'TECO', 'CRTD', 'REL'];
 
     const getMappedStatus = (rawStatus) => {
@@ -579,19 +587,19 @@ export const getDashboardSummary = async (req, res) => {
     const statusDistributionSeries = statuses.map(st => {
       return {
         name: st,
-        data: targetPabriks.map(pabrik => {
-          return woTrendData.filter(w => w.pabrik_id === pabrik.id && getMappedStatus(w.status) === st).length;
+        data: targetWCs.map(wc => {
+          return woTrendData.filter(w => matchWC(w, wc) && getMappedStatus(w.status) === st).length;
         })
       };
     });
 
-    // Distribution by PM Type per Pabrik
+    // Distribution by PM Type per Work Center
     const targetPmTypes = ['PM04', 'PM02', 'PM03', 'PM09', 'PM01', 'PM05'];
     const pmTypeDistributionSeries = targetPmTypes.map(pt => {
       return {
         name: pt,
-        data: targetPabriks.map(pabrik => {
-          return woTrendData.filter(w => w.pabrik_id === pabrik.id && (w.tipe_pm || '').toUpperCase() === pt).length;
+        data: targetWCs.map(wc => {
+          return woTrendData.filter(w => matchWC(w, wc) && (w.tipe_pm || '').toUpperCase() === pt).length;
         })
       };
     });

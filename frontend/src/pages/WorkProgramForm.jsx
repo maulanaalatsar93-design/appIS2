@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import {
   Loader2, ArrowLeft, Save, AlertCircle, Users, Search,
@@ -148,16 +148,16 @@ export default function WorkProgramForm({ onBack, onSaved }) {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
-          <button onClick={onBack} className="p-2 bg-white border border-platinum-dark rounded-lg shadow-sm-subtle hover:bg-platinum">
+          <button onClick={onBack} className="p-2 bg-white border border-industrial-border rounded-lg shadow-sm-subtle hover:bg-slate-50">
             <ArrowLeft className="w-5 h-5 text-slate-600" />
           </button>
           <div>
-            <h1 className="text-xl font-bold text-ink">Buat Work Program</h1>
-            <p className="text-sm text-platinum-dark">Rencanakan program, pilih tim & approver dari database personel</p>
+            <h1 className="text-xl font-bold text-industrial-text">Buat Work Program</h1>
+            <p className="text-sm text-industrial-muted">Rencanakan program, pilih tim & approver dari database personel</p>
           </div>
         </div>
         <button onClick={handleSubmit} disabled={saving}
-          className="flex items-center space-x-2 bg-success hover:bg-emerald-600 text-white px-5 py-2.5 rounded-xl text-sm font-semibold shadow-sm disabled:opacity-50">
+          className="flex items-center space-x-2 bg-industrial-green hover:bg-emerald-600 text-white px-5 py-2.5 rounded-xl text-sm font-semibold shadow-sm disabled:opacity-50">
           {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
           <span>Simpan Program</span>
         </button>
@@ -174,47 +174,47 @@ export default function WorkProgramForm({ onBack, onSaved }) {
         {/* Left: Form Info */}
         <div className="lg:col-span-1 space-y-5">
           {/* Program Info */}
-          <div className="bg-white border border-platinum-dark rounded-card p-5 space-y-4 shadow-sm-subtle">
-            <h3 className="font-semibold text-ink border-b border-platinum-dark pb-2">Informasi Program</h3>
+          <div className="bg-white border border-industrial-border rounded-card p-5 space-y-4 shadow-sm-subtle">
+            <h3 className="font-semibold text-industrial-text border-b border-industrial-border pb-2">Informasi Program</h3>
             {[
               { label: 'Nama Program / Turn Around', name: 'title', placeholder: 'Contoh: TA Compressor TS-441' },
               { label: 'Plant', name: 'plant', placeholder: 'Contoh: Pabrik 1 / P1' },
               { label: 'Area / Lokasi', name: 'area', placeholder: 'Contoh: Amonia P-1B' },
             ].map(f => (
               <div key={f.name}>
-                <label className="block text-xs font-semibold text-ink mb-1.5">{f.label}</label>
+                <label className="block text-xs font-semibold text-industrial-text mb-1.5">{f.label}</label>
                 <input type="text" name={f.name} value={form[f.name]} onChange={handleChange} placeholder={f.placeholder}
-                  className="w-full bg-white border border-platinum-dark rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-navy" />
+                  className="w-full bg-white border border-industrial-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-industrial-blue" />
               </div>
             ))}
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-semibold text-ink mb-1.5">Tgl Mulai</label>
+                <label className="block text-xs font-semibold text-industrial-text mb-1.5">Tgl Mulai</label>
                 <input type="date" name="start_date" value={form.start_date} onChange={handleChange}
-                  className="w-full bg-white border border-platinum-dark rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-navy" />
+                  className="w-full bg-white border border-industrial-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-industrial-blue" />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-ink mb-1.5">Tgl Selesai</label>
+                <label className="block text-xs font-semibold text-industrial-text mb-1.5">Tgl Selesai</label>
                 <input type="date" name="end_date" value={form.end_date} onChange={handleChange}
-                  className="w-full bg-white border border-platinum-dark rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-navy" />
+                  className="w-full bg-white border border-industrial-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-industrial-blue" />
               </div>
             </div>
             <div>
-              <label className="block text-xs font-semibold text-ink mb-1.5">Estimasi Durasi (hari)</label>
+              <label className="block text-xs font-semibold text-industrial-text mb-1.5">Estimasi Durasi (hari)</label>
               <input type="number" name="estimated_duration" value={form.estimated_duration} onChange={handleChange} placeholder="Opsional"
-                className="w-full bg-white border border-platinum-dark rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-navy" />
+                className="w-full bg-white border border-industrial-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-industrial-blue" />
             </div>
             <div>
-              <label className="block text-xs font-semibold text-ink mb-1.5">Keterangan</label>
+              <label className="block text-xs font-semibold text-industrial-text mb-1.5">Keterangan</label>
               <textarea name="notes" value={form.notes} onChange={handleChange} rows={3} placeholder="Catatan tambahan..."
-                className="w-full bg-white border border-platinum-dark rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-navy resize-none" />
+                className="w-full bg-white border border-industrial-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-industrial-blue resize-none" />
             </div>
           </div>
 
           {/* Approval Section */}
-          <div className="bg-white border border-platinum-dark rounded-card p-5 space-y-4 shadow-sm-subtle">
-            <div className="flex items-center justify-between border-b border-platinum-dark pb-2">
-              <h3 className="font-semibold text-ink">Alur Persetujuan</h3>
+          <div className="bg-white border border-industrial-border rounded-card p-5 space-y-4 shadow-sm-subtle">
+            <div className="flex items-center justify-between border-b border-industrial-border pb-2">
+              <h3 className="font-semibold text-industrial-text">Alur Persetujuan</h3>
               <label className="flex items-center space-x-2 cursor-pointer">
                 <input type="checkbox" name="is_urgent_bypass" checked={form.is_urgent_bypass} onChange={handleChange}
                   className="w-4 h-4 rounded text-red-500" />
@@ -235,17 +235,17 @@ export default function WorkProgramForm({ onBack, onSaved }) {
             {!form.is_urgent_bypass && (
               <>
                 <div>
-                  <p className="text-xs font-semibold text-ink mb-2">Pilih AVP Approver</p>
+                  <p className="text-xs font-semibold text-industrial-text mb-2">Pilih AVP Approver</p>
                   <div className="space-y-2">
                     {avpList.map(avp => {
                       const selected = selectedApprovers.find(a => a.man_power_id === avp.id);
                       return (
-                        <label key={avp.id} className={`flex items-center justify-between p-2.5 rounded-xl border cursor-pointer transition-colors ${selected ? 'bg-blue-50 border-blue-300' : 'border-platinum-dark hover:bg-platinum'}`}>
+                        <label key={avp.id} className={`flex items-center justify-between p-2.5 rounded-xl border cursor-pointer transition-colors ${selected ? 'bg-blue-50 border-blue-300' : 'border-industrial-border hover:bg-slate-50'}`}>
                           <div>
-                            <p className="text-xs font-semibold text-ink">{avp.name}</p>
-                            <p className="text-[10px] text-platinum-dark">{avp.position} — {avp.divisi?.nama_divisi}</p>
+                            <p className="text-xs font-semibold text-industrial-text">{avp.name}</p>
+                            <p className="text-[10px] text-industrial-muted">{avp.position} — {avp.divisi?.nama_divisi}</p>
                           </div>
-                          <input type="checkbox" checked={!!selected} onChange={() => toggleApprover(avp)} className="w-4 h-4 rounded text-navy" />
+                          <input type="checkbox" checked={!!selected} onChange={() => toggleApprover(avp)} className="w-4 h-4 rounded text-industrial-blue" />
                         </label>
                       );
                     })}
@@ -259,10 +259,10 @@ export default function WorkProgramForm({ onBack, onSaved }) {
         {/* Right: Member Selection */}
         <div className="lg:col-span-2 space-y-5">
           {/* Selected Members */}
-          <div className="bg-white border border-platinum-dark rounded-card overflow-hidden shadow-soft-card h-[320px] flex flex-col">
-            <div className="p-4 border-b border-platinum-dark bg-platinum flex items-center justify-between">
+          <div className="bg-white border border-industrial-border rounded-card overflow-hidden shadow-soft-card h-[320px] flex flex-col">
+            <div className="p-4 border-b border-industrial-border bg-slate-50 flex items-center justify-between">
               <div className="flex items-center space-x-2">
-                <h3 className="font-semibold text-ink text-sm">Personel yang Ditugaskan ({selectedMembers.length})</h3>
+                <h3 className="font-semibold text-industrial-text text-sm">Personel yang Ditugaskan ({selectedMembers.length})</h3>
                 {selectedMembers.length > 0 && (
                   <button
                     type="button"
@@ -275,16 +275,16 @@ export default function WorkProgramForm({ onBack, onSaved }) {
               </div>
               {selectedMembers.length > 0 && (
                 <div className="flex items-center space-x-2">
-                  <label className="text-xs font-semibold text-ink">Koordinator:</label>
+                  <label className="text-xs font-semibold text-industrial-text">Koordinator:</label>
                   <select value={coordinatorId} onChange={e => setCoordinatorId(e.target.value)}
-                    className="bg-white border border-platinum-dark rounded-lg px-2 py-1 text-xs focus:outline-none focus:border-navy">
+                    className="bg-white border border-slate-200 rounded-lg px-2 py-1 text-xs focus:outline-none focus:border-industrial-blue">
                     <option value="">— Pilih Koordinator —</option>
                     {selectedMembers.map(m => <option key={m.man_power_id} value={m.man_power_id}>{m.name}</option>)}
                   </select>
                 </div>
               )}
             </div>
-            <div className="p-3 flex-1 overflow-y-auto space-y-2 bg-platinum/20">
+            <div className="p-3 flex-1 overflow-y-auto space-y-2 bg-industrial-background/20">
               {selectedMembers.length === 0 ? (
                 <div className="h-full flex flex-col items-center justify-center text-slate-400">
                   <Users className="w-10 h-10 opacity-20 mb-2" />
@@ -292,25 +292,25 @@ export default function WorkProgramForm({ onBack, onSaved }) {
                   <p className="text-xs mt-1">Pilih dari daftar di bawah.</p>
                 </div>
               ) : selectedMembers.map(m => (
-                <div key={m.man_power_id} className="flex items-center justify-between bg-white border border-platinum-dark rounded-xl p-3 shadow-sm-subtle">
+                <div key={m.man_power_id} className="flex items-center justify-between bg-white border border-industrial-border rounded-xl p-3 shadow-sm-subtle">
                   <div className="flex items-center space-x-2 flex-1">
                     <div>
                       <div className="flex items-center space-x-2">
-                        <p className="font-semibold text-sm text-ink">{m.name}</p>
+                        <p className="font-semibold text-sm text-industrial-text">{m.name}</p>
                         {coordinatorId == m.man_power_id && (
-                          <span className="px-1.5 py-0.5 bg-navy text-white text-[9px] font-bold rounded">KOORDINATOR</span>
+                          <span className="px-1.5 py-0.5 bg-industrial-blue text-white text-[9px] font-bold rounded">KOORDINATOR</span>
                         )}
                         {m.hasConflict && (
                           <span className="px-1.5 py-0.5 bg-amber-100 text-amber-700 text-[9px] font-bold rounded border border-amber-200">⚠ Konflik</span>
                         )}
                       </div>
-                      <p className="text-[10px] text-platinum-dark">{m.position}</p>
+                      <p className="text-[10px] text-industrial-muted">{m.position}</p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-2">
                     <input type="text" value={m.role} onChange={e => updateMemberRole(m.man_power_id, e.target.value)} placeholder="Peran"
-                      className="w-32 bg-platinum border border-platinum-dark rounded-lg px-2 py-1 text-xs focus:outline-none focus:border-navy" />
-                    <button onClick={() => removeMember(m.man_power_id)} className="p-1.5 text-slate-400 hover:text-red-500 hover:bg-red-50 border border-platinum-dark rounded-lg transition-colors">
+                      className="w-32 bg-slate-50 border border-slate-200 rounded-lg px-2 py-1 text-xs focus:outline-none focus:border-industrial-blue" />
+                    <button onClick={() => removeMember(m.man_power_id)} className="p-1.5 text-slate-400 hover:text-red-500 hover:bg-red-50 border border-slate-200 rounded-lg transition-colors">
                       <Trash2 className="w-4 h-4" />
                     </button>
                   </div>
@@ -320,20 +320,20 @@ export default function WorkProgramForm({ onBack, onSaved }) {
           </div>
 
           {/* Availability Pool */}
-          <div className="bg-white border border-platinum-dark rounded-card overflow-hidden shadow-soft-card">
-            <div className="p-4 border-b border-platinum-dark bg-platinum flex items-center justify-between">
+          <div className="bg-white border border-industrial-border rounded-card overflow-hidden shadow-soft-card">
+            <div className="p-4 border-b border-industrial-border bg-slate-50 flex items-center justify-between">
               <div>
-                <h3 className="font-semibold text-ink text-sm flex items-center">
-                  <Users className="w-4 h-4 mr-1.5 text-navy" /> Database Ketersediaan Personel
+                <h3 className="font-semibold text-industrial-text text-sm flex items-center">
+                  <Users className="w-4 h-4 mr-1.5 text-industrial-blue" /> Database Ketersediaan Personel
                 </h3>
-                <p className="text-[10px] text-platinum-dark mt-0.5">Data ditarik dari database ManPower. Status cuti/sakit otomatis terdeteksi.</p>
+                <p className="text-[10px] text-industrial-muted mt-0.5">Data ditarik dari database ManPower. Status cuti/sakit otomatis terdeteksi.</p>
               </div>
               <div className="flex items-center space-x-2">
                 {form.start_date && form.end_date && filteredMp.length > 0 && (
                   <button
                     type="button"
                     onClick={addAllMembers}
-                    className="px-3 py-1.5 bg-navy hover:bg-blue-700 text-white rounded-lg text-xs font-semibold flex items-center space-x-1 shadow-sm transition-all"
+                    className="px-3 py-1.5 bg-industrial-blue hover:bg-blue-700 text-white rounded-lg text-xs font-semibold flex items-center space-x-1 shadow-sm transition-all"
                   >
                     <Check className="w-3.5 h-3.5 mr-1" />
                     <span>Pilih Semua Personel ({filteredMp.length})</span>
@@ -348,18 +348,18 @@ export default function WorkProgramForm({ onBack, onSaved }) {
             </div>
 
             {availableManpower.length > 0 && (
-              <div className="p-3 bg-white border-b border-platinum-dark flex gap-3 items-center">
+              <div className="p-3 bg-white border-b border-industrial-border flex gap-3 items-center">
                 <div className="relative flex-1">
                   <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                   <input type="text" placeholder="Cari nama atau jabatan..." value={searchQuery}
                     onChange={e => setSearchQuery(e.target.value)}
-                    className="w-full pl-9 pr-3 py-2 bg-platinum border border-platinum-dark rounded-lg text-xs focus:outline-none focus:border-navy" />
+                    className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs focus:outline-none focus:border-industrial-blue" />
                 </div>
                 <div className="relative">
                   <button
                     type="button"
                     onClick={() => setIsDivDropdownOpen(!isDivDropdownOpen)}
-                    className="bg-platinum border border-platinum-dark rounded-lg px-3 py-2 text-xs text-ink font-medium flex items-center justify-between min-w-[130px]"
+                    className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-industrial-text font-medium flex items-center justify-between min-w-[130px]"
                   >
                     <span className="truncate">
                       {selectedDivisions.length === 0
@@ -368,25 +368,25 @@ export default function WorkProgramForm({ onBack, onSaved }) {
                     </span>
                   </button>
                   {isDivDropdownOpen && (
-                    <div className="absolute right-0 mt-1 bg-white border border-platinum-dark rounded-xl shadow-xl z-30 p-2 space-y-1 w-56">
+                    <div className="absolute right-0 mt-1 bg-white border border-industrial-border rounded-xl shadow-xl z-30 p-2 space-y-1 w-56">
                       <div className="flex items-center justify-between px-2 py-1 border-b border-slate-100 mb-1">
-                        <span className="text-[10px] font-bold text-platinum-dark">Bagian / Divisi:</span>
+                        <span className="text-[10px] font-bold text-industrial-muted">Bagian / Divisi:</span>
                         <button
                           type="button"
                           onClick={() => setSelectedDivisions([])}
-                          className="text-[10px] text-navy font-semibold hover:underline"
+                          className="text-[10px] text-industrial-blue font-semibold hover:underline"
                         >
                           Reset
                         </button>
                       </div>
                       <div className="max-h-40 overflow-y-auto space-y-0.5">
                         {divisions.map(d => (
-                          <label key={d} className="flex items-center space-x-2 px-2 py-1 hover:bg-platinum rounded cursor-pointer text-xs">
+                          <label key={d} className="flex items-center space-x-2 px-2 py-1 hover:bg-slate-50 rounded cursor-pointer text-xs">
                             <input
                               type="checkbox"
                               checked={selectedDivisions.includes(d)}
                               onChange={() => toggleDivision(d)}
-                              className="w-3.5 h-3.5 rounded text-navy"
+                              className="w-3.5 h-3.5 rounded text-industrial-blue"
                             />
                             <span className="truncate">{d}</span>
                           </label>
@@ -396,7 +396,7 @@ export default function WorkProgramForm({ onBack, onSaved }) {
                         <button
                           type="button"
                           onClick={() => setIsDivDropdownOpen(false)}
-                          className="px-2.5 py-0.5 bg-navy text-white text-[11px] font-semibold rounded"
+                          className="px-2.5 py-0.5 bg-industrial-blue text-white text-[11px] font-semibold rounded"
                         >
                           Tutup
                         </button>
@@ -407,9 +407,9 @@ export default function WorkProgramForm({ onBack, onSaved }) {
               </div>
             )}
 
-            <div className="p-4 max-h-[600px] min-h-[400px] overflow-y-auto bg-platinum/80 inner-shadow-sm">
+            <div className="p-4 max-h-[600px] min-h-[400px] overflow-y-auto bg-slate-50/80 inner-shadow-sm">
               {loadingMp ? (
-                <div className="flex justify-center py-12"><Loader2 className="w-8 h-8 animate-spin text-navy" /></div>
+                <div className="flex justify-center py-12"><Loader2 className="w-8 h-8 animate-spin text-industrial-blue" /></div>
               ) : availableManpower.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-12 text-slate-400">
                   <Calendar className="w-12 h-12 mb-3 opacity-20" />
@@ -421,14 +421,14 @@ export default function WorkProgramForm({ onBack, onSaved }) {
                     const isSelected = selectedMembers.some(m => m.man_power_id === mp.id);
                     const hasConflict = mp.availability_status !== 'Tersedia';
                     
-                    let bgConfig = 'bg-white border-platinum-dark hover:border-navy';
+                    let bgConfig = 'bg-white border-slate-200 hover:border-industrial-blue';
                     let alertColor = 'text-amber-700';
                     let alertBg = 'bg-amber-50';
 
                     if (mp.availability_status === 'Tersedia') {
                       bgConfig = 'bg-white border-emerald-200 hover:border-emerald-400 shadow-sm';
                     } else if (mp.availability_status === 'Bertugas') {
-                      bgConfig = 'bg-blue-50/60 border-navy-soft hover:bg-blue-100/60 shadow-sm';
+                      bgConfig = 'bg-blue-50/60 border-blue-200 hover:bg-blue-100/60 shadow-sm';
                       alertColor = 'text-blue-700';
                       alertBg = 'bg-blue-100';
                     } else if (['Cuti', 'Sakit', 'Izin'].includes(mp.availability_status)) {
@@ -441,14 +441,14 @@ export default function WorkProgramForm({ onBack, onSaved }) {
                       alertBg = 'bg-purple-100';
                     }
 
-                    const cardColor = isSelected ? 'bg-platinum-dark border-slate-300 opacity-60 cursor-not-allowed' : bgConfig;
+                    const cardColor = isSelected ? 'bg-slate-100 border-slate-300 opacity-60 cursor-not-allowed' : bgConfig;
 
                     return (
                       <div key={mp.id} onClick={() => !isSelected && addMember(mp)}
                         className={`p-3 border rounded-xl flex items-start justify-between cursor-pointer transition-all duration-200 ${cardColor}`}>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center space-x-2 flex-wrap gap-1">
-                            <p className={`font-bold text-[13px] ${isSelected ? 'text-slate-600' : 'text-ink'}`}>{mp.name}</p>
+                            <p className={`font-bold text-[13px] ${isSelected ? 'text-slate-600' : 'text-industrial-text'}`}>{mp.name}</p>
                             {!hasConflict && !isSelected && (
                               <span className="px-2 py-0.5 bg-emerald-100 text-emerald-700 text-[9px] font-black rounded border border-emerald-200 uppercase tracking-wide">Tersedia</span>
                             )}
@@ -464,7 +464,7 @@ export default function WorkProgramForm({ onBack, onSaved }) {
                             </div>
                           )}
                         </div>
-                        <div className={`w-8 h-8 shrink-0 rounded-full flex items-center justify-center border transition-colors ml-2 shadow-sm ${isSelected ? 'bg-slate-200 border-slate-300 text-slate-500' : 'bg-white border-platinum-dark hover:bg-navy hover:border-navy hover:text-white text-slate-400'}`}>
+                        <div className={`w-8 h-8 shrink-0 rounded-full flex items-center justify-center border transition-colors ml-2 shadow-sm ${isSelected ? 'bg-slate-200 border-slate-300 text-slate-500' : 'bg-white border-slate-200 hover:bg-industrial-blue hover:border-industrial-blue hover:text-white text-slate-400'}`}>
                           {isSelected ? <Check className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
                         </div>
                       </div>
@@ -479,5 +479,3 @@ export default function WorkProgramForm({ onBack, onSaved }) {
     </div>
   );
 }
-
-

@@ -1,193 +1,608 @@
-# Design System — Dashboard Enterprise (PKT-Inspired Palette)
+# DESIGN SYSTEM
+## Industrial Operations & Reliability Dashboard
 
-Dokumen ini adalah panduan desain (design system) berbasis palet warna Black, Oxford Blue, Orange, Platinum, White. Tujuannya agar seluruh routes/halaman pada dashboard punya tampilan yang konsisten, clean, dan terasa enterprise — bukan default AI-generated look.
+> Palet warna (Navy + Orange) terinspirasi dari identitas korporat
+> PKT (Pupuk Kaltim) — biru & jingga. Ini SENGAJA, bukan kebetulan.
+> Jangan ganti warna dasar ini ke skema lain.
+
+> Dokumen ini menjadi pedoman visual/UI aplikasi.
+> Tujuannya menjaga konsistensi tampilan antar halaman dan mencegah
+> setiap menu memiliki gaya visual yang berbeda.
 
 ---
 
-## 1. Color Tokens
+# 1. DESIGN PRINCIPLES
 
-| Token | Hex | Peran |
+Aplikasi harus terlihat:
+
+- Professional
+- Industrial
+- Clean
+- Operational
+- Informative
+- Compact
+- Easy to scan
+- Human-designed
+- Tidak terlalu dekoratif
+- Tidak terlihat seperti template AI/SaaS generik
+
+Prioritas:
+
+1. Readability
+2. Information hierarchy
+3. Consistency
+4. Business usefulness
+5. Visual aesthetics
+
+Jangan mengorbankan keterbacaan hanya demi tampilan visual.
+
+---
+
+# 2. EXISTING VISUAL BASELINE
+
+Visual baseline aplikasi saat ini:
+
+- Navy primary KPI card
+- Blue / indigo PM04 card
+- Orange PM02+ card
+- White content panels
+- Subtle gray border
+- Compact tables
+- Horizontal progress bars
+- Small status indicators
+- Restrained chart colors
+- Clear operational labels
+
+Perubahan visual di masa depan harus memperhalus visual identity ini,
+bukan menggantinya dengan design system yang sama sekali berbeda.
+
+---
+
+# 3. TYPOGRAPHY
+
+## Primary Font
+
+Gunakan:
+
+Plus Jakarta Sans
+
+Fallback:
+
+Plus Jakarta Sans, sans-serif
+
+Gunakan satu keluarga font secara konsisten di seluruh aplikasi.
+
+Jangan menggunakan font berbeda pada setiap menu.
+
+---
+
+## 3.1 Typography Hierarchy
+
+### Page Title
+
+- Font: Plus Jakarta Sans
+- Size: 22–28px
+- Weight: 700
+
+### Section Title
+
+- Font: Plus Jakarta Sans
+- Size: 16–18px
+- Weight: 600
+
+### Chart Title
+
+- Font: Plus Jakarta Sans
+- Size: 14–16px
+- Weight: 600
+
+### Subtitle / Description
+
+- Font: Plus Jakarta Sans
+- Size: 12–13px
+- Weight: 400–500
+
+### Body
+
+- Font: Plus Jakarta Sans
+- Size: 13–14px
+- Weight: 400–500
+
+### Table Header
+
+- Font: Plus Jakarta Sans
+- Size: 11–12px
+- Weight: 600
+
+### Table Body
+
+- Font: Plus Jakarta Sans
+- Size: 12–13px
+- Weight: 400–500
+
+### KPI Number
+
+- Font: Plus Jakarta Sans
+- Weight: 700
+
+---
+
+# 4. COLOR SYSTEM
+
+## 4.1 General UI Colors
+
+| Purpose | Color |
+|---|---|
+| Primary Navy | `#193B8F` |
+| Primary Blue / Indigo | `#3047D8` |
+| Orange | `#FF7410` |
+| Green | `#168477` |
+| Red | `#D92D20` |
+| Amber | `#F2B705` |
+| White | `#FFFFFF` |
+| Light Background | `#F8FAFC` |
+| Border | `#E5E7EB` |
+| Dark Text | `#172033` |
+| Muted Text | `#64748B` |
+
+---
+
+# 5. CHART COLOR SYSTEM
+
+Chart colors harus menggunakan semantic color mapping yang konsisten.
+
+JANGAN membuat warna chart secara random.
+
+---
+
+## 5.1 Work Order Status Colors
+
+| Status | Meaning | Hex |
 |---|---|---|
-| `--color-black` | `#000000` | Teks utama (heading berat), aksen gelap, ikon kontras tinggi |
-| `--color-navy` (Oxford Blue) | `#14131D` | Warna utama brand (primary) — sidebar, header, tombol primary, elemen navigasi |
-| `--color-orange` | `#FCA311` | Warna aksen (accent) — CTA penting, badge status, highlight data, angka kritikal |
-| `--color-platinum` | `#E5E5E5` | Background section, border, divider, elemen non-aktif |
-| `--color-white` | `#FFFFFF` | Background utama (card, page), teks di atas navy/orange |
+| CNF TECO | Confirmed / Technically Completed | `#193B8F` |
+| CNF REL | Confirmed / Released | `#FF7410` |
+| REL | Released | `#263238` |
+| CRTD | Created | `#168477` |
+| TECO | Technically Completed | `#F2B705` |
 
-### Implementasi sebagai CSS variables (Tailwind-ready)
+Warna harus konsisten pada:
 
-```css
-:root {
-  --color-black: #000000;
-  --color-navy: #14131D;
-  --color-orange: #FCA311;
-  --color-platinum: #E5E5E5;
-  --color-white: #FFFFFF;
+- Bar chart
+- Column chart
+- Legend
+- Status badge
+- Table
+- KPI
+- Tooltip
 
-  /* Derivasi untuk kebutuhan UI (state, feedback) */
-  --color-navy-soft: #1F1E2E;     /* hover state di atas navy */
-  --color-orange-soft: #FFD98F;   /* background badge/alert ringan */
-  --color-platinum-dark: #C9C9C9; /* border lebih tegas */
-  --color-success: #2E7D32;
-  --color-warning: #FCA311;       /* reuse accent untuk warning */
-  --color-danger: #D32F2F;
-  --color-info: #14131D;
-}
-```
-
-### Tailwind config (opsional, jika pakai Tailwind CSS)
-
-```js
-// tailwind.config.js
-theme: {
-  extend: {
-    colors: {
-      navy: { DEFAULT: '#14131D', soft: '#1F1E2E' },
-      accent: { DEFAULT: '#FCA311', soft: '#FFD98F' },
-      platinum: { DEFAULT: '#E5E5E5', dark: '#C9C9C9' },
-      ink: '#000000',
-    },
-  },
-},
-```
+Satu warna tidak boleh memiliki arti berbeda di halaman lain.
 
 ---
 
-## 2. Prinsip Penggunaan Warna
+# 5.2 PM Type Colors
 
-1. **Navy = identitas, bukan dekorasi.** Dipakai konsisten di sidebar, top navbar, tombol primary, dan judul halaman/section penting. Jangan dipakai untuk background body — terlalu berat untuk halaman data-dense.
-2. **Orange = perhatian, bukan hiasan.** Maksimal dipakai untuk: CTA utama, status "perlu tindakan" (overdue, pending approval), angka KPI penting, aksen chart. Jangan dipakai untuk teks panjang atau background luas — silau dan melelahkan mata untuk halaman yang dibuka berjam-jam (dashboard internal).
-3. **Platinum & White = ruang bernapas.** Background utama page = white. Background card/section sekunder (misal filter panel, table header) = platinum. Ini yang membuat UI terasa "clean" dan tidak padat.
-4. **Black hanya untuk teks berat**, bukan background besar (background besar pakai navy).
-5. **Rasio penggunaan disarankan (per halaman):** ~60% white/platinum (ruang & struktur), ~30% navy (navigasi & heading), ~10% orange (aksen & CTA). Jangan biarkan orange mendominasi.
-
----
-
-## 3. Layout & Struktur Halaman (berlaku di semua routes)
-
-```
-┌─────────────────────────────────────────────┐
-│ Topbar (navy, h-16, logo + user menu)        │
-├───────────┬─────────────────────────────────┤
-│ Sidebar   │  Page Header                     │
-│ (navy,    │  (judul halaman + breadcrumb,    │
-│ w-64,     │   background white/platinum)     │
-│ collapse  ├─────────────────────────────────┤
-│ pada      │  Content Area (white bg)         │
-│ mobile)   │  - Cards: white, border platinum,│
-│           │    shadow tipis, radius 8-12px   │
-│           │  - Table: header platinum,       │
-│           │    row hover platinum/50%        │
-│           │  - KPI angka penting: orange     │
-└───────────┴─────────────────────────────────┘
-```
-
-- **Konsistensi wajib**: sidebar, topbar, dan struktur breadcrumb harus sama persis di semua routes (pakai shared layout component, bukan copy-paste per halaman).
-- **Card**: `bg-white border border-platinum-dark rounded-xl shadow-sm p-6`
-- **Spacing**: gunakan skala 4px (4, 8, 12, 16, 24, 32, 48) — jangan angka acak.
+| PM Type | Name | Hex |
+|---|---|---|
+| PM01 | Breakdown Maintenance | `#D92D20` |
+| PM02 | Corrective Maintenance | `#FF7410` |
+| PM03 | Preventive Maintenance | `#168477` |
+| PM04 | Predictive Maintenance | `#3047D8` |
+| PM05 | Improvement/Modification | `#8B3FC7` |
+| PM06 | Refurbishment Order | `#008C95` |
+| PM07 | Calibration Order | `#1597C8` |
+| PM08 | Standing Order | `#64748B` |
+| PM09 | Turn Around Order | `#F2B705` |
+| PM10 | General Maintenance | `#374151` |
 
 ---
 
-## 4. Tipografi
+# 6. MODULE ACCENT COLORS
 
-- **Font pairing (2 font, bukan 1)**: **Plus Jakarta Sans** untuk UI/heading/body, dan **IBM Plex Mono** khusus untuk data numerik (angka KPI, kode Work Order/Rekomendasi, tanggal, NPK). Pemisahan ini penting — mono font memberi kesan "presisi teknikal" yang cocok untuk dashboard inspeksi/engineering, dan membedakan "data" dari "label" secara visual tanpa perlu warna tambahan.
-- **Skala**:
-  | Elemen | Size | Weight | Warna |
-  |---|---|---|---|
-  | Page title (H1) | 24–28px | 600–700 | navy / black |
-  | Section title (H2) | 18–20px | 600 | navy |
-  | Card title (H3) | 15–16px | 600 | black |
-  | Body text | 14px | 400 | black/80% |
-  | Label/caption | 12px | 500 | platinum-dark/60% |
-  | Angka KPI besar | 28–32px | 700 | orange (jika perlu perhatian) atau navy (netral) |
+Module accent berbeda dengan semantic status color.
 
----
+| Module | Accent |
+|---|---|
+| Overview | Purple |
+| Monitoring | Blue |
+| Work Order | Orange |
+| Man Power | Green |
 
-## 5. Komponen Kunci
+Module accent hanya digunakan sebagai aksen.
 
-- **Tombol Primary**: `bg-navy text-white hover:bg-navy-soft` — untuk aksi utama (Simpan, Submit).
-- **Tombol Secondary**: `bg-white text-navy border border-platinum-dark hover:bg-platinum` — untuk aksi sekunder (Batal, Filter).
-- **Tombol Accent/CTA khusus**: `bg-orange text-black hover:brightness-95` — dipakai terbatas, misal "Export Report", "Ajukan Approval".
-- **Badge status**:
-  - Hadir/Selesai/Approved → hijau (`--color-success`)
-  - Pending/Menunggu → orange (`--color-orange`)
-  - Overdue/Ditolak → merah (`--color-danger`)
-  - Netral/Info → navy
-- **Table**: header row `bg-platinum text-navy font-semibold text-xs uppercase`, body row `hover:bg-platinum/40`, border `border-platinum-dark`.
-- **Chart (ApexCharts)**: palet chart = `[navy, orange, platinum-dark, success, danger]` — konsisten di semua chart across routes.
-- **Sidebar active state**: item aktif → `bg-orange/10 text-orange border-l-4 border-orange` di atas background navy, agar tetap kontras dan jelas tanpa mendominasi.
+Jangan mewarnai seluruh halaman berdasarkan warna module.
 
 ---
 
-## 6. Aksesibilitas & Kontras
+# 7. CHART DESIGN
 
-- Orange (`#FCA311`) di atas putih **cukup kontras untuk elemen besar** (tombol, badge) tapi **hindari untuk teks kecil** — gunakan navy/black untuk teks kecil di atas orange (misal tombol accent pakai teks hitam, bukan putih).
-- Navy di atas white/platinum: kontras sangat baik, aman untuk teks di semua ukuran.
-- Selalu pastikan rasio kontras teks ≥ 4.5:1 (WCAG AA) untuk body text.
+Chart harus mengikuti visual language aplikasi.
 
----
+## Distribusi Status WO
 
-## 7. Logo & Branding
+Gunakan:
 
-Logo (ikon siklus panah orange–biru dengan bentuk pulse/heartbeat di tengah) sangat cocok dengan palet ini — warna orange di logo selaras dengan `--color-orange`, dan biru di logo selaras secara konsep dengan `--color-navy` (meski secara hex logo memakai medium blue, bukan navy gelap; ini tetap harmonis karena orange tetap jadi titik kontras utama). Bentuk pulse di tengah cocok secara makna untuk konteks monitoring/PdM (predictive maintenance) — kesan "sistem yang hidup/terus dipantau".
+- CNF TECO → Deep Navy
+- CNF REL → Orange
+- REL → Dark Charcoal
+- CRTD → Teal
+- TECO → Amber
 
-### Penempatan yang elegan
+## Distribusi Tipe Order
 
-1. **Topbar (utama, semua routes)** — logo di kiri atas, ukuran kecil (32–40px), didampingi nama aplikasi dalam teks navy di sebelahnya. Background topbar tetap navy solid; karena logo punya banyak warna & shading, beri sedikit ruang (padding 8–12px) dan background putih/platinum berbentuk lingkaran tipis di belakang logo agar tidak "tenggelam" di atas navy gelap.
-   ```
-   [●Logo]  Nama Dashboard          ...   [notif] [avatar]
-   ```
+Gunakan:
 
-2. **Login / Auth page** — logo jadi fokus utama, ukuran besar (96–120px), diletakkan di tengah atas card login, di atas background putih polos. Ini satu-satunya tempat logo boleh tampil besar & dominan.
+- PM04 → Blue / Indigo
+- PM02 → Orange
+- PM03 → Green
+- PM09 → Amber
+- PM01 → Red
+- PM05 → Purple
 
-3. **Sidebar (collapsed state)** — saat sidebar diciutkan jadi ikon saja, logo (versi disederhanakan/tanpa teks) bisa dipakai sebagai ikon "home"/brand mark di posisi paling atas, ukuran 28–32px, dengan padding cukup dari platinum/navy background.
-
-4. **Favicon & tab browser** — crop logo jadi versi square disederhanakan (hilangkan detail kecil, sisakan bentuk pulse + lingkaran panah) agar tetap terbaca di ukuran 16–32px.
-
-5. **Empty states / loading screen** — versi outline monokrom (navy atau platinum-dark) dari logo bisa dipakai sebagai watermark halus di tengah halaman kosong (misal "belum ada data"), dengan opacity rendah (10–15%) agar tidak mengganggu.
-
-6. **Dokumen export (PDF/Excel report)** — logo full color di header dokumen, kiri atas, didampingi judul laporan — konsisten dengan identitas di web app.
-
-### Yang sebaiknya dihindari
-
-- Jangan taruh logo full-color di atas background orange — dua orange akan bertabrakan dan detail logo hilang.
-- Jangan perkecil logo di bawah ~24px untuk versi full-detail (pulse line akan pecah/tidak terbaca) — gunakan versi simplified untuk ukuran sangat kecil (favicon, sidebar collapsed).
-- Jangan taruh teks di atas logo langsung (misal overlay nama app di atas gambar logo) — sandingkan di samping, bukan menumpuk.
+Jangan menentukan warna berdasarkan posisi series.
 
 ---
 
-## 8. Referensi Implementasi Konkret (dari mockup `istek-ui-mockup.html`)
+# 8. CHART TITLES
 
-Section ini menerjemahkan mockup yang sudah dibuat menjadi spesifikasi pasti, supaya Antigravity membangun struktur yang sama persis, bukan versi tafsirannya sendiri. **Serahkan file mockup ini bersamaan dengan design-system.md** — mockup adalah acuan visual utama, dokumen ini acuan aturan/token saat membangun halaman baru yang belum ada di mockup.
+Gunakan:
 
-- **Sidebar**: lebar tetap `240px`, background navy solid, padding `22px 16px`, gap antar section `26px`. Nav item aktif: `bg-orange/10`, `text-orange`, `border-left: 3px solid orange`, `font-weight:700`. Nav item non-aktif: `text-platinum-dark`, hover `bg-white/6`.
-- **Topbar**: tinggi konten `~14px` padding vertikal, background **putih** (bukan navy) dengan `border-bottom: 1px solid platinum-dark`, sticky top. Isi: breadcrumb kiri, search box + bell + user chip kanan.
-- **Login page**: layout split 2 kolom — panel kiri `44%` lebar, background navy solid dengan logo, headline, dan aksen garis waveform tipis (opacity rendah) di background; panel kanan sisanya, background putih, form login di-center secara vertikal & horizontal, max-width card `380px`.
-- **KPI card**: padding `18px 18px 14px`, radius `14px`, border `1px solid platinum-dark`. Anatomi: label kecil uppercase (11px, text-dim) → angka besar mono (28px) → delta kecil (hijau/merah) → aksen garis pulse tipis (SVG polyline, opacity ~0.5) di pojok kanan bawah card sebagai signature motif yang echo dari bentuk logo.
-- **Chart**: bar chart grouped (navy = Work Order, orange = Rekomendasi) per pabrik, tanpa gridline berlebihan, label sumbu pakai font mono. Donut chart pakai `stroke-dasharray` pada SVG circle, bukan library berat, untuk konsistensi visual dengan bar chart.
-- **Table**: header `bg-platinum`, `text-navy`, `font-weight:700`, `uppercase`, `font-size:10.5px`; body row `padding:14px 20px`; status pakai pill/badge rounded-full dengan dot kecil di kiri teks.
-- **Signature motif**: garis pulse/waveform tipis (terinspirasi bentuk logo) dipakai berulang di 3 tempat — background login, pojok KPI card, dan bisa dipakai juga sebagai divider halus antar section. Ini elemen pembeda utama dashboard ini dari template generic.
+- Plus Jakarta Sans
+- 14–16px
+- Weight 600
 
-### Cara menyerahkan ke Antigravity
+Judul harus singkat dan operational.
 
-Berikan **kedua file sekaligus** dengan urutan prompt seperti ini (atau serupa):
-> "Ikuti struktur visual di `istek-ui-mockup.html` ini persis (sidebar, topbar, KPI card, chart, table, login page). Gunakan token warna & aturan di `design-system.md` untuk halaman-halaman lain yang belum ada di mockup, supaya seluruh routes tetap konsisten dengan pola yang sama."
+### Preferred
 
-Tanpa mockup, Antigravity hanya punya aturan warna — hasilnya bisa tetap "on-brand" tapi struktur (lebar sidebar, rasio login split, anatomi card) kemungkinan besar akan berbeda dari yang sudah kita desain.
+- Distribusi Status WO
+- Distribusi Tipe Order
+- Progress PM04
+- Progress PM02+
+- WO berdasarkan Work Center
+- Completion Trend
 
----
+### Avoid
 
-## 9. Checklist Implementasi ke Semua Routes
+- Analytics
+- Performance
+- Insights
+- Overview
+- Data Analysis
+- Smart Analytics
 
-- [ ] Definisikan CSS variables/Tailwind config di satu tempat (global), jangan hardcode hex per komponen.
-- [ ] Buat shared layout (`Sidebar`, `Topbar`, `PageHeader`) yang dipakai semua routes — jangan duplikasi.
-- [ ] Buat komponen dasar reusable: `Button`, `Card`, `Badge`, `Table`, `KPIStat` sesuai token di atas.
-- [ ] Terapkan skala tipografi yang sama di semua halaman (jangan atur font size manual per halaman).
-- [ ] Review tiap halaman baru: apakah rasio warna masih ~60/30/10 (white-platinum/navy/orange)? Jika orange terasa "ramai", kurangi.
-- [ ] Konsisten radius (`rounded-xl` untuk card, `rounded-md` untuk button/input) dan shadow (`shadow-sm`) di seluruh app.
-- [ ] Siapkan 3 versi logo: full-color (topbar, login, dokumen), simplified/monokrom (sidebar collapsed, watermark), dan favicon square.
-- [ ] Pastikan logo tidak pernah diletakkan langsung di atas background orange.
+kecuali istilah tersebut memang memiliki makna bisnis khusus.
 
 ---
 
-*Palet warna: Black `#000000`, Oxford Blue `#14131D`, Orange `#FCA311`, Platinum `#E5E5E5`, White `#FFFFFF` — terinspirasi warna korporat perusahaan.*
+# 9. CHART CONTAINER
+
+Gunakan:
+
+- Background: `#FFFFFF`
+- Border: `1px solid #E5E7EB`
+- Border Radius: `10–12px`
+- Shadow: none atau sangat subtle
+- Padding: `16–20px`
+
+Chart harus terasa sebagai bagian dari sistem UI yang sama
+dengan KPI card, table, filter, dan detail panel.
+
+---
+
+# 10. CHART LEGEND
+
+Legend harus:
+
+- Compact
+- Easy to scan
+- Consistent
+- Dekat dengan chart
+- Logical ordering
+
+Jangan menggunakan icon legend yang terlalu besar.
+
+Warna legend harus sama dengan series chart.
+
+---
+
+# 11. PROGRESS BAR
+
+Gunakan semantic meaning:
+
+| Kondisi | Warna |
+|---|---|
+| 100% / Completed | Green |
+| Normal Progress | Primary Blue |
+| Attention / Low Completion | Orange |
+| Critical / Overdue | Red |
+
+Hindari gradient yang tidak diperlukan.
+
+---
+
+# 12. KPI CARD
+
+Hierarchy:
+
+1. Icon / Label
+2. Main KPI Number
+3. Unit
+4. Comparison / Trend
+5. Optional Sparkline
+
+KPI number harus tetap menjadi elemen paling dominan.
+
+---
+
+# 13. KPI SPARKLINE
+
+Sparkline harus subtle.
+
+Tujuannya memberikan context,
+bukan menjadi dekorasi.
+
+---
+
+# 14. TABLE
+
+Table harus compact dan readable.
+
+### Header
+
+- Font size: 11–12px
+- Weight: 600
+
+### Body
+
+- Font size: 12–13px
+- Weight: 400–500
+
+### Row Height
+
+- 40–48px
+
+Jangan membuat row terlalu tinggi tanpa kebutuhan.
+
+---
+
+# 15. STATUS BADGES
+
+Status badge harus:
+
+- Compact
+- Semantic
+- Readable
+- Tidak berlebihan menggunakan pill shape
+
+Gunakan semantic color dari dokumen ini.
+
+---
+
+# 16. BORDER RADIUS
+
+| Component | Radius |
+|---|---|
+| Card | 10–12px |
+| Button | 8px |
+| Input | 8px |
+| Badge | 6–8px |
+
+Gunakan radius secara konsisten.
+
+---
+
+# 17. SHADOW
+
+Gunakan:
+
+- No shadow
+- atau very subtle shadow
+
+Hindari:
+
+- Strong floating shadow
+- Neon glow
+- Glassmorphism berlebihan
+- Excessive elevation
+
+Dashboard harus terasa seperti professional industrial application.
+
+---
+
+# 18. SPACING
+
+Gunakan spacing scale:
+
+- 4px
+- 8px
+- 12px
+- 16px
+- 20px
+- 24px
+- 32px
+
+Hindari arbitrary spacing jika tidak diperlukan.
+
+---
+
+# 19. AI / DEVELOPER RULE
+
+Saat membuat component baru:
+
+1. Cek component yang sudah ada.
+2. Reuse style yang sudah ada.
+3. Cek color system.
+4. Cek typography.
+5. Cek spacing.
+6. Cek border radius.
+7. Cek chart style.
+8. Jangan membuat visual pattern baru tanpa alasan.
+
+Jangan membuat setiap halaman terlihat seperti aplikasi berbeda.
+
+---
+
+# 20. NO RANDOM COLORS
+
+Jangan menentukan warna secara random untuk:
+
+- PM Type
+- Work Order Status
+- Notification Status
+- Work Center
+- Factory
+- Area
+
+Jika kategori sudah memiliki warna,
+wajib menggunakan warna yang telah ditetapkan.
+
+Jika belum ada mapping:
+gunakan neutral color sampai mapping ditetapkan secara resmi.
+
+---
+
+# 21. NO GENERIC AI DASHBOARD
+
+Hindari:
+
+- Gradient background berlebihan
+- Glassmorphism berlebihan
+- Giant rounded cards
+- Excessive decorative icons
+- Strong shadows
+- Random gradients
+- Terlalu banyak warna
+- Typography terlalu besar
+- Empty whitespace berlebihan
+- Generic "AI analytics" visual
+
+Dashboard harus memprioritaskan informasi operasional.
+
+---
+
+# 22. RESPONSIVENESS
+
+Interface harus usable pada:
+
+- Desktop
+- Laptop
+- Tablet
+
+Desktop merupakan primary environment.
+
+Jangan mengurangi information density secara berlebihan pada desktop.
+
+---
+
+# 23. SOURCE OF TRUTH
+
+Dokumen ini mengatur visual/UI.
+
+Business meaning mengikuti:
+
+- `KAMUS_SAP.md`
+- `BUSINESS_RULES.md`
+- `DATA_DICTIONARY.md`
+- `DASHBOARD_SPEC.md`
+
+Jangan memasukkan business calculation ke dalam
+`DESIGN_SYSTEM.md`.
+
+---
+
+# 24. HALAMAN LOGIN
+
+## 24.1 Layout
+
+- Split 2-panel: **55% Kiri (Branding Dark)** + **45% Kanan (Form Putih)**
+- Kiri: dark background `#050D1F`, gradient + glowing orbs + grid lines overlay
+- Kanan: background putih `#FFFFFF` dengan accent line gradient di bagian atas
+
+## 24.2 Left Panel — Dark Branding
+- Background: `linear-gradient(from #0A1A4A → #071228 → #050D1F)`
+- Glow kiri atas: `#1A4BC4/20 blur-[90px]`
+- Glow kanan bawah: `#D9650F/15 blur-[80px]`
+- Grid overlay: `rgba(255,255,255,0.04)`, grid-size 60×60px
+- Hero teks: **Plus Jakarta Sans**, font extrabold 5xl, warna putih
+- Highlight kata: gradient `from-[#4A9EFF] to-[#A78BFA]`
+- Feature pills: bg `white/5`, border `white/10`, icon biru, teks slate-300
+- Dashboard mockup abstrak: bar chart mini dari data series prosentase dummy
+- Status badge: dot emerald `animate-pulse`
+
+## 24.3 Right Panel — Form
+- Accent line atas: gradient `from-[#1A4BC4] via-[#4A9EFF] to-[#D9650F]`
+- Badge heading: biru muda, `ShieldCheck` icon
+- Label field: uppercase, `text-xs font-bold text-slate-700 tracking-wider`
+- Input border saat idle: `border-slate-200`
+- Input border saat fokus: `border-blue-500` + ring `rgba(59,130,246,0.15)`
+- Tombol submit: gradient `from-[#0F2052] via-[#1A4BC4] to-[#2563EB]`, shimmer effect, `hover:-translate-y-0.5`
+- Quick Access cards: Admin = navy gradient, VP = oranye gradient
+
+## 24.4 Quick-Access Login Cards
+- Admin: `from-[#0F2052] to-[#1A3580]`
+- VP: `from-[#D9650F] to-[#E07820]`
+
+---
+
+# 25. HEADER — TOMBOL LOGIN (GUEST MODE)
+
+Saat user belum login (public dashboard), tombol Login di header harus:
+
+- Gradient: `linear-gradient(135deg, #0F2052 0%, #1A4BC4 100%)`
+- Shape: `rounded-full`
+- Hover: `-translate-y-0.5` + shadow lebih besar
+- Efek: shimmer slide-through saat hover
+- Indikator: dot emerald `animate-pulse` di sebelah kanan teks
+
+---
+
+# 26. PUBLIC DASHBOARD — KONSISTENSI VISUAL
+
+Halaman Public Dashboard WAJIB selaras dengan Internal Dashboard dan Login:
+
+## 26.1 Header / Navbar
+
+- Menggunakan komponen Header yang sama (dari `components/layout/Header.jsx`)
+- Tombol Login terlihat jelas, menggunakan desain dari Bagian 25
+
+## 26.2 Tombol "Lihat Dashboard Publik" di Halaman Login
+
+- Ditampilkan sebagai tombol **ghost/outlined** di bawah form login
+- Label: `"Lihat Dashboard Publik tanpa login →"`
+- Style: border `#1A4BC4`, teks biru, hover background biru transparan
+- Navigasi ke: `/` (root / public dashboard)
+
+## 26.3 Warna & Font Public Dashboard
+
+- Font: **Plus Jakarta Sans** (sama dengan internal)
+- Background halaman: `#F0F3F8` (sama dengan internal layout)
+- Card background: `#FFFFFF`, border `#E2E8F0`
+- Heading warna: `#172033` (industrial-text)
+- Muted text: `#64748B`
+- Semua chart mengikuti palette dari Bagian 5.1 dan 5.2
+- Header KPI card: gunakan palet navy/biru/oranye yang sama dengan internal
+
+## 26.4 Elemen yang HARUS Selaras
+
+| Elemen | Internal Dashboard | Public Dashboard |
+|---|---|---|
+| Font | Plus Jakarta Sans | Plus Jakarta Sans |
+| Bg halaman | `#F0F3F8` | `#F0F3F8` |
+| Card bg | `#FFFFFF` | `#FFFFFF` |
+| Card border | `#E2E8F0` | `#E2E8F0` |
+| Navy accent | `#0F2052` / `#13254F` | `#0F2052` / `#13254F` |
+| Orange accent | `#D9650F` | `#D9650F` |
+| Header komponen | Sama | Sama |
+| Chart palette | Bagian 5.1 & 5.2 | Bagian 5.1 & 5.2 |
+
+---
+
+# 27. NAVIGASI GUEST (BELUM LOGIN)
+
+Pengguna yang belum login tetap bisa mengakses Public Dashboard tanpa autentikasi.
+
+- Halaman login menampilkan tombol **"Lihat Dashboard tanpa login"** di bawah form
+- Public Dashboard berjalan normal dengan data read-only
+- Header tetap menampilkan tombol Login yang prominent (lihat Bagian 25)
+- Tidak ada data internal / manpower / import yang diekspos ke guest
+

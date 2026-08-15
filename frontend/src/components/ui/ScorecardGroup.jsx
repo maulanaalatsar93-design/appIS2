@@ -1,11 +1,11 @@
-﻿import React from 'react';
+import React from 'react';
 import Sparkline from './Sparkline';
 
 export default function ScorecardGroup({ title, items = [] }) {
   return (
-    <div className="bg-white border border-platinum-dark rounded-[24px] p-6 shadow-soft-card space-y-4">
+    <div className="bg-white border border-[#E2E8F0] rounded-[24px] p-6 shadow-soft-card space-y-4">
       {/* Title */}
-      <h3 className="text-center text-lg font-extrabold text-ink tracking-tight">
+      <h3 className="text-center text-lg font-extrabold text-[#0F172A] tracking-tight">
         {title}
       </h3>
 
@@ -16,14 +16,14 @@ export default function ScorecardGroup({ title, items = [] }) {
           return (
             <div
               key={idx}
-              className={`p-5 ${item.bgGradient || 'bg-[#F8FAFC]'} border ${item.borderColor || 'border-platinum-dark'} rounded-[18px] flex flex-col justify-between relative overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1`}
+              className={`p-5 ${item.bgGradient || 'bg-[#F8FAFC]'} border ${item.borderColor || 'border-[#E2E8F0]'} rounded-[18px] flex flex-col justify-between relative overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1`}
               style={!isDark ? { borderTop: `3.5px solid ${item.color || '#0F172A'}` } : {}}
             >
               <div className="z-10 relative">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     {item.icon && (
-                      <div className={`w-6 h-6 rounded-md flex items-center justify-center ${isDark ? 'bg-white/10' : 'bg-platinum-dark'}`}>
+                      <div className={`w-6 h-6 rounded-md flex items-center justify-center ${isDark ? 'bg-white/10' : 'bg-slate-100'}`}>
                         <item.icon className={`w-3.5 h-3.5 ${isDark ? 'text-white/80' : 'text-slate-600'}`} />
                       </div>
                     )}
@@ -34,7 +34,7 @@ export default function ScorecardGroup({ title, items = [] }) {
                   {item.onInfoClick && (
                     <button
                       onClick={item.onInfoClick}
-                      className={`p-1 rounded-full ${isDark ? 'bg-white/20 text-white hover:bg-white hover:text-ink' : 'bg-white/80 text-slate-500 hover:text-[#FF5722] hover:bg-white'} transition-all shadow-xs`}
+                      className={`p-1 rounded-full ${isDark ? 'bg-white/20 text-white hover:bg-white hover:text-industrial-text' : 'bg-white/80 text-slate-500 hover:text-[#FF5722] hover:bg-white'} transition-all shadow-xs`}
                       title="Klik untuk detail"
                     >
                       <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -48,7 +48,7 @@ export default function ScorecardGroup({ title, items = [] }) {
                 )}
                 
                 <div className="flex items-baseline gap-1.5 my-2.5">
-                  <p className={`text-3xl md:text-4xl font-extrabold ${item.textColor || (isDark ? 'text-white' : 'text-ink')} tracking-tight`}>
+                  <p className={`text-3xl md:text-4xl font-extrabold ${item.textColor || (isDark ? 'text-white' : 'text-[#0F172A]')} tracking-tight`}>
                     {item.value ? Number(item.value).toLocaleString('id-ID') : '0'}
                   </p>
                   <span className={`text-sm font-bold ${isDark ? 'text-white/50' : 'text-slate-400'}`}>{item.unit || 'WO'}</span>
@@ -98,4 +98,3 @@ export default function ScorecardGroup({ title, items = [] }) {
     </div>
   );
 }
-

@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useMemo, useContext } from 'react';
+import React, { useState, useEffect, useMemo, useContext } from 'react';
 import {
   Clock, Users, MapPin, BarChart3, Download, RefreshCw, Filter,
   TrendingUp, Building2, UserCog, ChevronUp, ChevronDown, Search,
@@ -312,7 +312,7 @@ export default function ManHoursPage() {
       options: {
         chart: { type: 'bar', toolbar: { show: false }, background: 'transparent' },
         plotOptions: { bar: { horizontal: true, borderRadius: 4, barHeight: '60%' } },
-        colors: ['#14131D'],
+        colors: ['#3b82f6'],
         xaxis: { categories: top10.map(p => p.nama), labels: { style: { fontSize: '11px' } } },
         dataLabels: { enabled: true, formatter: v => `${v} jam`, style: { fontSize: '10px' } },
         grid: { borderColor: '#f1f5f9' },
@@ -328,7 +328,7 @@ export default function ManHoursPage() {
       options: {
         chart: { type: 'donut', background: 'transparent' },
         labels: summary.by_area.map(a => a.area),
-        colors: ['#14131D', '#FCA311', '#1F1E2E', '#FFD98F', '#C9C9C9', '#2E7D32', '#D32F2F'],
+        colors: ['#3b82f6','#f59e0b','#8b5cf6','#f97316','#10b981','#ef4444','#06b6d4'],
         legend: { position: 'bottom', fontSize: '11px' },
         dataLabels: { formatter: (val, opts) => `${val.toFixed(1)}%` },
         tooltip: { y: { formatter: v => `${v} jam` } }
@@ -363,7 +363,7 @@ export default function ManHoursPage() {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
-            <Clock className="w-6 h-6 text-navy" /> Man Hours (Daily Task)
+            <Clock className="w-6 h-6 text-blue-600" /> Man Hours (Daily Task)
           </h1>
           <p className="text-sm text-gray-500 mt-0.5">
             {isAnggota
@@ -371,22 +371,22 @@ export default function ManHoursPage() {
               : `Rekap jam kerja personel berdasarkan task \u2014 ${MONTH_NAMES[month-1]} ${year}`}
           </p>
           {isAnggota && (
-            <span className="inline-flex items-center gap-1 text-xs bg-blue-50 text-blue-700 border border-navy-soft rounded-full px-2.5 py-0.5 mt-1">
+            <span className="inline-flex items-center gap-1 text-xs bg-blue-50 text-blue-700 border border-blue-200 rounded-full px-2.5 py-0.5 mt-1">
               <UserCog className="w-3 h-3" /> Tampilan Personil \u2014 hanya data Anda
             </span>
           )}
         </div>
         <div className="flex items-center gap-2 flex-wrap">
           <select value={month} onChange={e => setMonth(parseInt(e.target.value))}
-            className="text-sm border border-platinum-dark rounded-lg px-3 py-2 bg-white outline-none focus:ring-2 focus:ring-blue-200">
+            className="text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white outline-none focus:ring-2 focus:ring-blue-200">
             {MONTH_NAMES.map((n, i) => <option key={i} value={i + 1}>{n}</option>)}
           </select>
           <select value={year} onChange={e => setYear(parseInt(e.target.value))}
-            className="text-sm border border-platinum-dark rounded-lg px-3 py-2 bg-white outline-none focus:ring-2 focus:ring-blue-200">
+            className="text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white outline-none focus:ring-2 focus:ring-blue-200">
             {[2024, 2025, 2026, 2027].map(y => <option key={y} value={y}>{y}</option>)}
           </select>
           <button onClick={fetchData}
-            className="flex items-center gap-1.5 px-3 py-2 bg-gray-100 text-gray-700 border border-platinum-dark rounded-lg text-sm hover:bg-gray-200 transition">
+            className="flex items-center gap-1.5 px-3 py-2 bg-gray-100 text-gray-700 border border-gray-200 rounded-lg text-sm hover:bg-gray-200 transition">
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} /> Refresh
           </button>
           <button onClick={() => setShowForm(true)}
@@ -394,7 +394,7 @@ export default function ManHoursPage() {
             <Plus className="w-3.5 h-3.5" /> Tambah Aktivitas
           </button>
           <button onClick={exportCsv}
-            className="flex items-center gap-1.5 px-3 py-2 bg-navy text-white rounded-lg text-sm hover:bg-blue-700 transition">
+            className="flex items-center gap-1.5 px-3 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700 transition">
             <Download className="w-3.5 h-3.5" /> Export CSV
           </button>
         </div>
@@ -420,17 +420,17 @@ export default function ManHoursPage() {
                   <label className="block text-xs font-semibold text-gray-600 mb-1">Tanggal <span className="text-red-500">*</span></label>
                   <input type="date" required value={form.tanggal}
                     onChange={e => setForm(f => ({ ...f, tanggal: e.target.value }))}
-                    className="w-full text-sm border border-platinum-dark rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-200" />
+                    className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-200" />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-gray-600 mb-1">Personel</label>
                   {isAnggota ? (
-                    <div className="w-full text-sm border border-gray-100 bg-platinum rounded-lg px-3 py-2 text-gray-700 font-medium">
+                    <div className="w-full text-sm border border-gray-100 bg-gray-50 rounded-lg px-3 py-2 text-gray-700 font-medium">
                       {user?.name || 'Anda'} <span className="text-xs text-gray-400">(otomatis)</span>
                     </div>
                   ) : (
                     <select value={form.man_power_id} onChange={e => setForm(f => ({ ...f, man_power_id: e.target.value }))}
-                      className="w-full text-sm border border-platinum-dark rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-200">
+                      className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-200">
                       <option value="">-- Pilih Personel --</option>
                       {manpowerList.map(mp => (
                         <option key={mp.id} value={mp.id}>{mp.name} ({mp.npk})</option>
@@ -443,7 +443,7 @@ export default function ManHoursPage() {
                 <div>
                   <label className="block text-xs font-semibold text-gray-600 mb-1">Pabrik</label>
                   <select value={form.pabrik_id} onChange={e => setForm(f => ({ ...f, pabrik_id: e.target.value }))}
-                    className="w-full text-sm border border-platinum-dark rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-200">
+                    className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-200">
                     <option value="">-- Pilih Pabrik --</option>
                     {pabrikList.map(p => (
                       <option key={p.id} value={p.id}>{p.nama_pabrik}</option>
@@ -454,14 +454,14 @@ export default function ManHoursPage() {
                   <label className="block text-xs font-semibold text-gray-600 mb-1">Area</label>
                   <input type="text" placeholder="Contoh: P6 PPHS & OSBL" value={form.area}
                     onChange={e => setForm(f => ({ ...f, area: e.target.value }))}
-                    className="w-full text-sm border border-platinum-dark rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-200" />
+                    className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-200" />
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-semibold text-gray-600 mb-1">Kategori Program <span className="text-red-500">*</span></label>
                   <select required value={form.kategori_program} onChange={e => setForm(f => ({ ...f, kategori_program: e.target.value }))}
-                    className="w-full text-sm border border-platinum-dark rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-200">
+                    className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-200">
                     <option>PdM Rotating</option>
                     <option>PM Terjadwal</option>
                     <option>Breakdown</option>
@@ -475,33 +475,33 @@ export default function ManHoursPage() {
                   <label className="block text-xs font-semibold text-gray-600 mb-1">WO / Notif SAP</label>
                   <input type="text" placeholder="Nomor WO atau Notifikasi" value={form.wo_notif}
                     onChange={e => setForm(f => ({ ...f, wo_notif: e.target.value }))}
-                    className="w-full text-sm border border-platinum-dark rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-200" />
+                    className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-200" />
                 </div>
               </div>
               <div>
                 <label className="block text-xs font-semibold text-gray-600 mb-1">Equipment / Nama Alat</label>
                 <input type="text" placeholder="Contoh: Kompresor K-2401" value={form.equipment}
                   onChange={e => setForm(f => ({ ...f, equipment: e.target.value }))}
-                  className="w-full text-sm border border-platinum-dark rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-200" />
+                  className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-200" />
               </div>
               <div>
                 <label className="block text-xs font-semibold text-gray-600 mb-1">Deskripsi Pekerjaan <span className="text-red-500">*</span></label>
                 <textarea required rows={3} placeholder="Jelaskan pekerjaan yang dilakukan..." value={form.deskripsi_pekerjaan}
                   onChange={e => setForm(f => ({ ...f, deskripsi_pekerjaan: e.target.value }))}
-                  className="w-full text-sm border border-platinum-dark rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-200 resize-none" />
+                  className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-200 resize-none" />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-semibold text-gray-600 mb-1">Waktu Mulai</label>
                   <input type="time" value={form.waktu_mulai}
                     onChange={e => setForm(f => ({ ...f, waktu_mulai: e.target.value }))}
-                    className="w-full text-sm border border-platinum-dark rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-200" />
+                    className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-200" />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-gray-600 mb-1">Waktu Selesai</label>
                   <input type="time" value={form.waktu_selesai}
                     onChange={e => setForm(f => ({ ...f, waktu_selesai: e.target.value }))}
-                    className="w-full text-sm border border-platinum-dark rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-200" />
+                    className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-200" />
                 </div>
               </div>
               {form.waktu_mulai && form.waktu_selesai && (
@@ -511,7 +511,7 @@ export default function ManHoursPage() {
               )}
               <div className="flex gap-3 pt-2">
                 <button type="button" onClick={() => { setShowForm(false); setFormError(''); }}
-                  className="flex-1 py-2.5 border border-platinum-dark rounded-xl text-sm text-gray-600 hover:bg-platinum transition">
+                  className="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition">
                   Batal
                 </button>
                 <button type="submit" disabled={formSaving}
@@ -527,7 +527,7 @@ export default function ManHoursPage() {
 
       {/* ── KPI Cards ── */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <KpiCard icon={Clock} label="Total MH Hari Ini" value={summary?.totals?.today ?? '—'} sub="Dari semua task aktif" color="border-navy-soft" />
+        <KpiCard icon={Clock} label="Total MH Hari Ini" value={summary?.totals?.today ?? '—'} sub="Dari semua task aktif" color="border-blue-200" />
         <KpiCard icon={TrendingUp} label={`Total MH ${MONTH_NAMES[month-1]}`} value={summary?.totals?.month ?? '—'} sub={`${filtered.length} aktivitas tercatat`} color="border-indigo-200" />
         <KpiCard icon={Users} label="Personel Aktif" value={summary?.by_personel?.length ?? '—'} unit="orang" sub="Memiliki aktivitas bulan ini" color="border-green-200" />
         <KpiCard icon={MapPin} label="Total MH Filtered" value={totalMhFiltered} sub={`${filtered.length} baris data`} color="border-amber-200" />
@@ -537,7 +537,7 @@ export default function ManHoursPage() {
       {isAdmin && (
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Bar: MH per Personel */}
-        <div className="bg-white rounded-2xl border border-platinum-dark shadow-sm p-4">
+        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-4">
           <h3 className="text-sm font-bold text-gray-700 mb-3 flex items-center gap-1.5">
             <BarChart3 className="w-4 h-4 text-blue-500" /> Man Hours per Personel (Top 10)
           </h3>
@@ -549,7 +549,7 @@ export default function ManHoursPage() {
         </div>
 
         {/* Donut: MH per Area */}
-        <div className="bg-white rounded-2xl border border-platinum-dark shadow-sm p-4">
+        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-4">
           <h3 className="text-sm font-bold text-gray-700 mb-3 flex items-center gap-1.5">
             <MapPin className="w-4 h-4 text-amber-500" /> Man Hours per Area
           </h3>
@@ -563,14 +563,14 @@ export default function ManHoursPage() {
       )}
 
       {/* ── Filter Bar ── */}
-      <div className="bg-white rounded-2xl border border-platinum-dark shadow-sm p-4 space-y-3">
+      <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-4 space-y-3">
         <div className="flex items-center gap-2 text-sm font-semibold text-gray-700">
           <Filter className="w-4 h-4 text-gray-400" /> Filter
         </div>
         <div className="flex flex-wrap gap-3">
           {/* Sumber */}
           <select value={filterSource} onChange={e => setFilterSource(e.target.value)}
-            className="text-sm border border-platinum-dark rounded-lg px-3 py-2 bg-white outline-none focus:ring-2 focus:ring-blue-200">
+            className="text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white outline-none focus:ring-2 focus:ring-blue-200">
             <option value="all">Semua Sumber</option>
             <option value="daily_task">Daily Task</option>
             <option value="pdm">PdM Rotating</option>
@@ -579,20 +579,20 @@ export default function ManHoursPage() {
           {/* Sub Area */}
           <input type="text" placeholder="Filter area..." value={filterSubArea}
             onChange={e => setFilterSubArea(e.target.value)}
-            className="text-sm border border-platinum-dark rounded-lg px-3 py-2 bg-white outline-none focus:ring-2 focus:ring-blue-200 w-44" />
+            className="text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white outline-none focus:ring-2 focus:ring-blue-200 w-44" />
 
           {/* Personel */}
           <div className="relative">
             <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
             <input type="text" placeholder="Cari personel / task..." value={search}
               onChange={e => setSearch(e.target.value)}
-              className="pl-8 pr-3 py-2 text-sm border border-platinum-dark rounded-lg outline-none focus:ring-2 focus:ring-blue-200 w-52" />
+              className="pl-8 pr-3 py-2 text-sm border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-200 w-52" />
           </div>
 
           {/* Jenis */}
           <input type="text" placeholder="Jenis pekerjaan..." value={filterJenis}
             onChange={e => setFilterJenis(e.target.value)}
-            className="text-sm border border-platinum-dark rounded-lg px-3 py-2 bg-white outline-none focus:ring-2 focus:ring-blue-200 w-44" />
+            className="text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white outline-none focus:ring-2 focus:ring-blue-200 w-44" />
 
           {(filterSubArea || search || filterJenis || filterSource !== 'all') && (
             <button onClick={() => { setFilterSource('all'); setFilterSubArea(''); setSearch(''); setFilterJenis(''); }}
@@ -605,7 +605,7 @@ export default function ManHoursPage() {
       </div>
 
       {/* ── Data Table ── */}
-      <div className="bg-white rounded-2xl border border-platinum-dark shadow-sm overflow-hidden">
+      <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
         {isAnggota && (
           <div className="px-4 py-2.5 bg-blue-50 border-b border-blue-100 text-xs text-blue-700 flex items-center gap-1.5">
             <Edit2 className="w-3.5 h-3.5" />
@@ -614,7 +614,7 @@ export default function ManHoursPage() {
         )}
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="bg-platinum border-b border-gray-100">
+            <thead className="bg-gray-50 border-b border-gray-100">
               <tr>
                 {[
                   { key: 'tanggal', label: 'Tanggal' },
@@ -732,19 +732,19 @@ export default function ManHoursPage() {
       {isAdmin && summary && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {/* Per Personel */}
-          <div className="bg-white rounded-2xl border border-platinum-dark shadow-sm overflow-hidden">
+          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
             <div className="px-4 py-3 border-b border-gray-100 flex items-center gap-2">
               <Users className="w-4 h-4 text-blue-500" />
               <h3 className="text-sm font-bold text-gray-700">MH per Personel</h3>
             </div>
             <div className="divide-y divide-gray-50 max-h-64 overflow-y-auto">
               {summary.by_personel.map((p, i) => (
-                <div key={i} className="px-4 py-2.5 flex items-center justify-between hover:bg-platinum">
+                <div key={i} className="px-4 py-2.5 flex items-center justify-between hover:bg-gray-50">
                   <div>
                     <p className="text-xs font-semibold text-gray-700">{p.nama}</p>
                     <p className="text-[10px] text-gray-400">{p.npk}</p>
                   </div>
-                  <span className="text-sm font-bold text-navy">{p.total} <span className="text-[10px] font-normal text-gray-400">jam</span></span>
+                  <span className="text-sm font-bold text-blue-600">{p.total} <span className="text-[10px] font-normal text-gray-400">jam</span></span>
                 </div>
               ))}
               {!summary.by_personel.length && <p className="px-4 py-3 text-xs text-gray-400 italic">Tidak ada data</p>}
@@ -752,14 +752,14 @@ export default function ManHoursPage() {
           </div>
 
           {/* Per Area */}
-          <div className="bg-white rounded-2xl border border-platinum-dark shadow-sm overflow-hidden">
+          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
             <div className="px-4 py-3 border-b border-gray-100 flex items-center gap-2">
               <MapPin className="w-4 h-4 text-amber-500" />
               <h3 className="text-sm font-bold text-gray-700">MH per Area</h3>
             </div>
             <div className="divide-y divide-gray-50 max-h-64 overflow-y-auto">
               {summary.by_area.map((a, i) => (
-                <div key={i} className="px-4 py-2.5 flex items-center justify-between hover:bg-platinum">
+                <div key={i} className="px-4 py-2.5 flex items-center justify-between hover:bg-gray-50">
                   <p className="text-xs font-semibold text-gray-700 truncate">{a.area}</p>
                   <span className="text-sm font-bold text-amber-600 ml-2 shrink-0">{a.total} <span className="text-[10px] font-normal text-gray-400">jam</span></span>
                 </div>
@@ -769,14 +769,14 @@ export default function ManHoursPage() {
           </div>
 
           {/* Per Pabrik */}
-          <div className="bg-white rounded-2xl border border-platinum-dark shadow-sm overflow-hidden">
+          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
             <div className="px-4 py-3 border-b border-gray-100 flex items-center gap-2">
               <Building2 className="w-4 h-4 text-green-500" />
               <h3 className="text-sm font-bold text-gray-700">MH per Pabrik</h3>
             </div>
             <div className="divide-y divide-gray-50 max-h-64 overflow-y-auto">
               {summary.by_pabrik.map((p, i) => (
-                <div key={i} className="px-4 py-2.5 flex items-center justify-between hover:bg-platinum">
+                <div key={i} className="px-4 py-2.5 flex items-center justify-between hover:bg-gray-50">
                   <p className="text-xs font-semibold text-gray-700 truncate">{p.pabrik}</p>
                   <span className="text-sm font-bold text-green-600 ml-2 shrink-0">{p.total} <span className="text-[10px] font-normal text-gray-400">jam</span></span>
                 </div>
@@ -789,5 +789,3 @@ export default function ManHoursPage() {
     </div>
   );
 }
-
-

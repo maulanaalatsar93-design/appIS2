@@ -1,8 +1,8 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import KPICard from '../components/ui/KPICard';
 import Sparkline from '../components/ui/Sparkline';
 import FloatingFilterPill from '../components/ui/FloatingFilterPill';
-import { Users, Factory, FileText, CheckCircle2, X, Info, HardHat, Search, UserCheck, UserX, Loader2, PlaneTakeoff, Globe, GraduationCap, Stethoscope, Calendar, AlertTriangle, TrendingUp, Edit, Activity } from 'lucide-react';
+import { Users, Factory, FileText, CheckCircle2, X, Info, HardHat, Search, UserCheck, UserX, Loader2, PlaneTakeoff, Globe, GraduationCap, Stethoscope, Calendar, AlertTriangle, TrendingUp, Edit } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Chart from 'react-apexcharts';
 import PublicDashboard from './PublicDashboard';
@@ -28,10 +28,10 @@ const MONTH_NAMES = {
 const getWoStatusColor = (status) => {
   const s = String(status || '').toUpperCase();
   if (s.includes('CNF') || s.includes('TECO')) return 'bg-emerald-100 text-emerald-700 border-emerald-200';
-  if (s.includes('REL')) return 'bg-blue-100 text-blue-700 border-navy-soft';
+  if (s.includes('REL')) return 'bg-blue-100 text-blue-700 border-blue-200';
   if (s.includes('CRTD')) return 'bg-amber-100 text-amber-700 border-amber-200';
   if (s.includes('CAN')) return 'bg-red-100 text-red-700 border-red-200';
-  return 'bg-platinum-dark text-slate-700 border-platinum-dark';
+  return 'bg-slate-100 text-slate-700 border-slate-200';
 };
 
 const generateWAMessage = (wc) => {
@@ -221,7 +221,7 @@ export default function InternalDashboard() {
     plotOptions: { bar: { horizontal: false, columnWidth: '55%', borderRadius: 4 } },
     dataLabels: { enabled: false },
     stroke: { show: true, width: 2, colors: ['transparent'] },
-    colors: ['#14131D', '#FCA311'],
+    colors: ['#193B8F', '#168477'],
     xaxis: { categories: summary?.factoryComparison?.categories || ['P1A', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7'] },
     fill: { opacity: 1 },
     legend: { position: 'top', horizontalAlign: 'right' },
@@ -273,7 +273,7 @@ export default function InternalDashboard() {
         }
       }
     },
-    colors: [color || '#14131D'],
+    colors: [color || '#4B91F7'],
     labels: [label || 'Progress CNF'],
     stroke: { lineCap: 'round' },
   });
@@ -327,7 +327,7 @@ export default function InternalDashboard() {
     plotOptions: { bar: { horizontal: false, columnWidth: '45%', borderRadius: 2 } },
     dataLabels: { enabled: false },
     stroke: { show: true, width: 1, colors: ['#ffffff'] },
-    colors: ['#14131D', '#FCA311', '#2E7D32', '#C9C9C9', '#D32F2F'],
+    colors: ['#13254F', '#1A4BC4', '#059669', '#94A3B8', '#D9650F'],
     xaxis: { categories: summary?.jobLoadDetails?.statusDistribution?.categories || ['Rotating 1', 'Rotating 2', 'Bengkel', 'Metalurgi', 'PPHS&OSBL', 'QC'] },
     fill: { opacity: 1 },
     legend: { position: 'top', horizontalAlign: 'right', fontSize: '11px' },
@@ -398,7 +398,7 @@ export default function InternalDashboard() {
     plotOptions: { bar: { horizontal: false, columnWidth: '45%', borderRadius: 2 } },
     dataLabels: { enabled: false },
     stroke: { show: true, width: 1, colors: ['#ffffff'] },
-    colors: ['#14131D', '#FCA311', '#1F1E2E', '#FFD98F', '#C9C9C9', '#000000'],
+    colors: ['#1A4BC4', '#D9650F', '#F97316', '#B45309', '#F59E0B', '#EA580C'],
     xaxis: { categories: summary?.jobLoadDetails?.pmTypeDistribution?.categories || ['Rotating 1', 'Rotating 2', 'Bengkel', 'Metalurgi', 'PPHS&OSBL', 'QC'] },
     fill: { opacity: 1 },
     legend: { position: 'top', horizontalAlign: 'right', fontSize: '11px' },
@@ -452,13 +452,13 @@ export default function InternalDashboard() {
   };
 
   // Progress bar dengan marker target 90%
-  const ProgressBarWithTarget = ({ value, color = 'bg-navy', target = CNF_TARGET }) => {
+  const ProgressBarWithTarget = ({ value, color = 'bg-industrial-blue', target = CNF_TARGET }) => {
     const capped = Math.min(value || 0, 100);
     const meetsTarget = capped >= target;
     return (
       <div className="relative w-full">
         {/* Bar track */}
-        <div className="w-full h-4 bg-platinum-dark rounded-full overflow-hidden border border-platinum-dark relative">
+        <div className="w-full h-4 bg-slate-100 rounded-full overflow-hidden border border-slate-200 relative">
           {/* Fill */}
           <div
             className={`h-full rounded-full transition-all duration-700 ${meetsTarget ? color : (capped >= 75 ? 'bg-amber-500' : 'bg-red-500')}`}
@@ -501,12 +501,12 @@ export default function InternalDashboard() {
         position="bottom-14 right-3"
       >
         {/* WorkCenter Filter */}
-        <div className="flex items-center gap-1 bg-white border border-platinum-dark rounded-full px-3 py-1 text-[11px] shadow-xs">
+        <div className="flex items-center gap-1 bg-white border border-slate-200 rounded-full px-3 py-1 text-[11px] shadow-xs">
           <span className="text-slate-400 font-medium">Bagian:</span>
           <select
             value={workCenter}
             onChange={(e) => setWorkCenter(e.target.value)}
-            className="bg-transparent font-bold text-ink outline-none cursor-pointer text-[11px]"
+            className="bg-transparent font-bold text-[#0F172A] outline-none cursor-pointer text-[11px]"
           >
             <option value="Semua Bagian">Semua Bagian</option>
             {(summary?.availableFilters?.workCenters || []).map((wc) => (
@@ -518,12 +518,12 @@ export default function InternalDashboard() {
         </div>
 
         {/* Month Filter */}
-        <div className="flex items-center gap-1 bg-white border border-platinum-dark rounded-full px-3 py-1 text-[11px] shadow-xs">
+        <div className="flex items-center gap-1 bg-white border border-slate-200 rounded-full px-3 py-1 text-[11px] shadow-xs">
           <span className="text-slate-400 font-medium">Bulan:</span>
           <select
             value={month}
             onChange={(e) => setMonth(e.target.value)}
-            className="bg-transparent font-bold text-ink outline-none cursor-pointer text-[11px]"
+            className="bg-transparent font-bold text-[#0F172A] outline-none cursor-pointer text-[11px]"
           >
             <option value="Semua Bulan">Semua Bulan</option>
             {(summary?.availableFilters?.months || []).map((m) => (
@@ -535,12 +535,12 @@ export default function InternalDashboard() {
         </div>
 
         {/* Year Filter */}
-        <div className="flex items-center gap-1 bg-white border border-platinum-dark rounded-full px-3 py-1 text-[11px] shadow-xs">
+        <div className="flex items-center gap-1 bg-white border border-slate-200 rounded-full px-3 py-1 text-[11px] shadow-xs">
           <span className="text-slate-400 font-medium">Tahun:</span>
           <select
             value={year}
             onChange={(e) => setYear(e.target.value)}
-            className="bg-transparent font-bold text-ink outline-none cursor-pointer text-[11px]"
+            className="bg-transparent font-bold text-[#0F172A] outline-none cursor-pointer text-[11px]"
           >
             <option value="Semua">Semua Tahun</option>
             {(summary?.availableFilters?.years || []).map((y) => (
@@ -568,10 +568,10 @@ export default function InternalDashboard() {
       {/* Top Controls Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl md:text-2xl font-bold text-ink tracking-tight">
+          <h2 className="text-xl md:text-2xl font-bold text-industrial-text tracking-tight">
             Internal Department Dashboard
           </h2>
-          <p className="text-platinum-dark text-xs md:text-sm mt-1">
+          <p className="text-industrial-muted text-xs md:text-sm mt-1">
             Status operasional keandalan departemen ISTEK 2 (Data Real Database).
           </p>
         </div>
@@ -636,7 +636,7 @@ export default function InternalDashboard() {
           {/* Pemisah Monitor Availability & Sertification */}
           <div className="flex items-center justify-center gap-4 mb-4">
             <div className="h-px bg-slate-300 flex-1"></div>
-            <span className="text-xs font-bold text-slate-500 uppercase tracking-widest px-2 bg-platinum">Monitor Availability & Sertification</span>
+            <span className="text-xs font-bold text-slate-500 uppercase tracking-widest px-2 bg-industrial-background">Monitor Availability & Sertification</span>
             <div className="h-px bg-slate-300 flex-1"></div>
           </div>
 
@@ -671,7 +671,7 @@ export default function InternalDashboard() {
           {/* ManPower Detailed Scorecards — Premium Redesign */}
           <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
             {/* === Header Banner === */}
-            <div className="relative bg-navyDark px-6 py-5">
+            <div className="relative bg-gradient-to-r from-[#0F2052] via-[#1A4BC4] to-[#1e56d9] px-6 py-5">
               <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='2'/%3E%3Ccircle cx='13' cy='3' r='2'/%3E%3C/g%3E%3C/svg%3E\")" }}></div>
               <div className="relative flex items-start justify-between gap-4">
                 <div>
@@ -697,7 +697,7 @@ export default function InternalDashboard() {
               <div className="relative mt-4">
                 <div className="w-full h-2.5 bg-white/20 rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-success rounded-full transition-all duration-1000"
+                    className="h-full bg-gradient-to-r from-emerald-400 to-emerald-300 rounded-full transition-all duration-1000"
                     style={{ width: `${summary?.manPower?.total > 0 ? Math.round(summary.manPower.hadir / summary.manPower.total * 100) : 0}%` }}
                   />
                 </div>
@@ -744,7 +744,7 @@ export default function InternalDashboard() {
               </div>
 
               {/* --- Divider --- */}
-              <div className="border-t border-dashed border-platinum-dark" />
+              <div className="border-t border-dashed border-slate-200" />
 
               {/* --- Section 2: Penugasan & Pengembangan --- */}
               <div>
@@ -787,7 +787,7 @@ export default function InternalDashboard() {
           {/* Pemisah Monitoring Data SAP */}
           <div className="flex items-center justify-center gap-4 mt-8 mb-4">
             <div className="h-px bg-slate-300 flex-1"></div>
-            <span className="text-xs font-bold text-slate-500 uppercase tracking-widest px-2 bg-platinum">Monitoring Data SAP</span>
+            <span className="text-xs font-bold text-slate-500 uppercase tracking-widest px-2 bg-industrial-background">Monitoring Data SAP</span>
             <div className="h-px bg-slate-300 flex-1"></div>
           </div>
 
@@ -816,22 +816,23 @@ export default function InternalDashboard() {
           </div>
 
           {/* Visualisasi & Perbandingan per Pabrik (7 Pabrik) */}
-          <div className="bg-white border border-platinum-dark rounded-card p-5 shadow-sm-subtle flex flex-col">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <h3 className="text-[14.5px] font-bold text-ink">Perbandingan Work Order vs Rekomendasi per Pabrik (P1A - P7)</h3>
-                <p className="text-[11px] text-slate-500 mt-0.5">Analisis komparatif beban pekerjaan dan notifikasi rekomendasi inspeksi pada 7 unit pabrik.</p>
-              </div>
-              <div className="text-[11px] text-slate-500 bg-platinum px-2.5 py-1 rounded-[6px]">BAR CHART</div>
+          <div className="bg-white border border-industrial-border rounded-card shadow-sm-subtle overflow-hidden">
+            <div className="px-5 py-3.5 bg-[#13254F] text-white">
+              <h3 className="text-base font-bold text-white">
+                Perbandingan Work Order vs Rekomendasi per Pabrik (P1A - P7)
+              </h3>
+              <p className="text-xs text-slate-200 mt-0.5">
+                Analisis komparatif beban pekerjaan dan notifikasi rekomendasi inspeksi pada 7 unit pabrik.
+              </p>
             </div>
 
-            <div className="min-h-[320px]">
+            <div className="p-6 min-h-[320px]">
               <Chart options={factoryChartOptions} series={factoryChartSeries} type="bar" width="100%" height="320" />
             </div>
           </div>
 
           {/* Rekomendasi Table di Overview */}
-          <div className="bg-white border border-platinum-dark rounded-card shadow-sm-subtle overflow-hidden mt-6">
+          <div className="bg-white border border-industrial-border rounded-card shadow-sm-subtle overflow-hidden mt-6">
             <div className="flex items-center justify-between px-4 py-3 bg-emerald-700">
               <h4 className="text-sm font-bold text-white flex items-center gap-2">
                 <FileText size={16} />
@@ -840,7 +841,7 @@ export default function InternalDashboard() {
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-xs text-left border-collapse">
-                <thead className="bg-platinum text-slate-700 font-bold text-center border-b border-slate-300">
+                <thead className="bg-slate-50 text-slate-700 font-bold text-center border-b border-slate-300">
                   <tr>
                     <th rowSpan="2" className="py-2 px-3 border border-slate-300 bg-slate-200 w-12">No</th>
                     <th rowSpan="2" className="py-2 px-3 border border-slate-300 bg-slate-200 text-left">Bagian</th>
@@ -864,16 +865,16 @@ export default function InternalDashboard() {
                 </thead>
                 <tbody className="divide-y divide-slate-200 text-center text-[11px] font-medium text-slate-700">
                   {(summary?.kpi?.rekomendasiTindakLanjut || []).map((row, idx) => (
-                    <tr key={idx} className="hover:bg-platinum transition-colors">
-                      <td className="py-2 px-3 border border-platinum-dark bg-platinum/50">{idx + 1}</td>
-                      <td className="py-2 px-3 border border-platinum-dark text-left font-bold whitespace-nowrap">{row.name}</td>
-                      <td className="py-2 px-3 border border-platinum-dark">{row.userStatusCount ?? row.total}</td>
-                      <td className="py-2 px-3 border border-platinum-dark">{row.pending}</td>
-                      <td className="py-2 px-3 border border-platinum-dark">{row.ip}</td>
-                      <td className="py-2 px-3 border border-platinum-dark">{row.selesai}</td>
+                    <tr key={idx} className="hover:bg-slate-50 transition-colors">
+                      <td className="py-2 px-3 border border-slate-200 bg-slate-50/50">{idx + 1}</td>
+                      <td className="py-2 px-3 border border-slate-200 text-left font-bold whitespace-nowrap">{row.name}</td>
+                      <td className="py-2 px-3 border border-slate-200">{row.userStatusCount ?? row.total}</td>
+                      <td className="py-2 px-3 border border-slate-200">{row.pending}</td>
+                      <td className="py-2 px-3 border border-slate-200">{row.ip}</td>
+                      <td className="py-2 px-3 border border-slate-200">{row.selesai}</td>
                     </tr>
                   ))}
-                  <tr className="bg-platinum-dark font-bold text-ink">
+                  <tr className="bg-slate-100 font-bold text-slate-800">
                     <td colSpan="2" className="py-2.5 px-3 border border-slate-300 text-center">Jumlah Rekomendasi</td>
                     <td className="py-2.5 px-3 border border-slate-300 text-center text-sm">
                       {(summary?.kpi?.rekomendasiTindakLanjut || []).reduce((acc, row) => acc + (row.userStatusCount ?? row.total), 0)}
@@ -883,7 +884,7 @@ export default function InternalDashboard() {
                 </tbody>
               </table>
             </div>
-            <div className="px-4 py-3 bg-platinum text-[10px] text-slate-600 border-t border-platinum-dark leading-relaxed">
+            <div className="px-4 py-3 bg-slate-50 text-[10px] text-slate-600 border-t border-slate-200 leading-relaxed">
               Rekomendasi status Pending (OSNO/NOPR) telah ditindaklanjuti dengan submit surat dof ke Departemen Rendalhar 1 dan 2 serta ke Dept. Keandalan untuk ditindaklanjuti secara system ke eksekutor.
             </div>
           </div>
@@ -891,7 +892,7 @@ export default function InternalDashboard() {
 
 
           {/* Work Order PM 02+ List (Overview) */}
-          <div className="bg-white border border-platinum-dark rounded-card shadow-sm-subtle overflow-hidden mt-6">
+          <div className="bg-white border border-industrial-border rounded-card shadow-sm-subtle overflow-hidden mt-6">
             <div className="flex items-center justify-between px-4 py-3 bg-[#D9650F]">
               <h4 className="text-sm font-bold text-white flex items-center gap-2">
                 <span>Work Order PM 02+</span>
@@ -910,11 +911,11 @@ export default function InternalDashboard() {
 
             <div className="p-4 space-y-6 max-h-[600px] overflow-y-auto">
               {(summary?.jobLoadDetails?.pm02PlusProgress || []).map((wc, idx) => (
-                <div key={idx} className="border border-platinum-dark rounded-lg overflow-hidden shadow-sm">
-                  <div className="bg-platinum-dark px-4 py-2 border-b border-platinum-dark flex justify-between items-center">
-                    <h5 className="font-bold text-ink text-xs uppercase">{wc.name}</h5>
+                <div key={idx} className="border border-slate-200 rounded-lg overflow-hidden shadow-sm">
+                  <div className="bg-slate-100 px-4 py-2 border-b border-slate-200 flex justify-between items-center">
+                    <h5 className="font-bold text-slate-800 text-xs uppercase">{wc.name}</h5>
                     <div className="flex items-center gap-2">
-                      <span className="text-[10px] bg-white border border-platinum-dark px-2 py-0.5 rounded text-slate-600 font-bold">{wc.totalWO} WO</span>
+                      <span className="text-[10px] bg-white border border-slate-200 px-2 py-0.5 rounded text-slate-600 font-bold">{wc.totalWO} WO</span>
                       <a
                         href={generateWAMessage(wc)}
                         target="_blank"
@@ -931,7 +932,7 @@ export default function InternalDashboard() {
                   </div>
                   <div className="overflow-x-auto">
                     <table className="w-full text-xs text-left">
-                      <thead className="bg-platinum text-slate-500 font-bold uppercase text-[10px] border-b border-platinum-dark">
+                      <thead className="bg-slate-50 text-slate-500 font-bold uppercase text-[10px] border-b border-slate-200">
                         <tr>
                           <th className="py-2.5 px-4 whitespace-nowrap">Order</th>
                           <th className="py-2.5 px-4 min-w-[200px]">Description</th>
@@ -962,7 +963,7 @@ export default function InternalDashboard() {
 
                           return listToRender.map((wo, woIdx) => (
                             <tr key={woIdx} className={`transition-colors text-[11px] text-slate-700 ${(wo.status || '').toUpperCase().includes('CNF') ? 'bg-green-100 hover:bg-green-200' : 'hover:bg-orange-50/40'}`}>
-                              <td className="py-2 px-4 font-mono font-bold text-navy">{wo.nomor_wo}</td>
+                              <td className="py-2 px-4 font-mono font-bold text-industrial-navy">{wo.nomor_wo}</td>
                               <td className="py-2 px-4 leading-relaxed">{wo.description || '-'}</td>
                               <td className="py-2 px-4 leading-relaxed">{wo.operation_activity || '-'}</td>
                               <td className="py-2 px-4 whitespace-nowrap">
@@ -985,7 +986,7 @@ export default function InternalDashboard() {
               ))}
 
               {(!summary?.jobLoadDetails?.pm02PlusProgress || summary.jobLoadDetails.pm02PlusProgress.length === 0) && (
-                <div className="text-center text-slate-500 py-6 italic text-sm border-2 border-dashed border-platinum-dark rounded-xl">Belum ada data PM 02+ untuk bulan berjalan.</div>
+                <div className="text-center text-slate-500 py-6 italic text-sm border-2 border-dashed border-slate-200 rounded-xl">Belum ada data PM 02+ untuk bulan berjalan.</div>
               )}
             </div>
           </div>
@@ -996,11 +997,11 @@ export default function InternalDashboard() {
       {activeTab === 'jobload' && (
         <div className="space-y-6">
           {/* Section Header */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white px-5 py-4 rounded-t-2xl shadow-sm text-ink border border-platinum-dark">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white px-5 py-4 rounded-t-2xl shadow-sm text-slate-800 border border-slate-200">
             <div>
-              <h3 className="text-lg font-bold text-ink flex items-center gap-2">
+              <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
                 <span>Job Load & Progress Inspeksi Work Order</span>
-                <span className="text-[11px] font-semibold bg-blue-50 text-blue-700 border border-navy-soft px-2.5 py-0.5 rounded-full">
+                <span className="text-[11px] font-semibold bg-blue-50 text-blue-700 border border-blue-200 px-2.5 py-0.5 rounded-full">
                   Real Time Data
                 </span>
               </h3>
@@ -1013,9 +1014,9 @@ export default function InternalDashboard() {
             <div className="relative group shrink-0">
               <button
                 type="button"
-                className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-navy border border-navy-soft rounded-full text-xs font-bold transition-all shadow-xs cursor-pointer"
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-industrial-blue border border-blue-200 rounded-full text-xs font-bold transition-all shadow-xs cursor-pointer"
               >
-                <Info size={14} className="text-navy" />
+                <Info size={14} className="text-industrial-blue" />
                 <span>Petunjuk Rumus & Status CNF</span>
               </button>
 
@@ -1064,7 +1065,7 @@ export default function InternalDashboard() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
 
             {/* SEMUA PM Card — Dark Navy */}
-            <div className="rounded-2xl overflow-hidden shadow-lg border border-navy/20 bg-navy">
+            <div className="rounded-2xl overflow-hidden shadow-lg border border-[#0A1B3F]/20 bg-[#13254F]">
               <div className="px-5 pt-5 pb-0">
                 <div className="flex items-start justify-between mb-1">
                   <div>
@@ -1118,7 +1119,7 @@ export default function InternalDashboard() {
             </div>
 
             {/* PM04 Card — Royal Blue */}
-            <div className="rounded-2xl overflow-hidden shadow-lg border border-navy/20 bg-navy">
+            <div className="rounded-2xl overflow-hidden shadow-lg border border-[#0D3299]/20 bg-[#1A4BC4]">
               <div className="px-5 pt-5 pb-0">
                 <div className="flex items-start justify-between mb-1">
                   <div>
@@ -1171,32 +1172,32 @@ export default function InternalDashboard() {
             </div>
 
             {/* PM02+ Card — Orange */}
-            <div className="rounded-2xl overflow-hidden shadow-lg border border-accent/20 bg-accent">
+            <div className="rounded-2xl overflow-hidden shadow-lg border border-[#A04508]/20 bg-[#D9650F]">
               <div className="px-5 pt-5 pb-0">
                 <div className="flex items-start justify-between mb-1">
                   <div>
                     <div className="flex items-center gap-2 mb-0.5">
-                      <div className="w-7 h-7 rounded-lg bg-black/10 flex items-center justify-center">
+                      <div className="w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center">
                         <button
                           onClick={() => setShowPm02PlusModal(true)}
-                          className="flex items-center justify-center text-industrial-ink/80 hover:text-industrial-ink transition-colors cursor-pointer"
+                          className="flex items-center justify-center text-white/80 hover:text-white transition-colors cursor-pointer"
                           title="Klik detail rincian PM01-PM10"
                         >
                           <Info className="w-3.5 h-3.5" />
                         </button>
                       </div>
-                      <div className="text-[10px] font-bold text-industrial-ink/50 uppercase tracking-widest">PM02+</div>
+                      <div className="text-[10px] font-bold text-white/50 uppercase tracking-widest">PM02+</div>
                     </div>
-                    <div className="text-[11px] text-industrial-ink/70">Total Work Order PM02+</div>
+                    <div className="text-[11px] text-white/60">Total Work Order PM02+</div>
                   </div>
                 </div>
                 <div className="flex items-end gap-2 mt-2">
-                  <div className="text-4xl font-extrabold text-industrial-ink tracking-tight">{summary?.kpi?.pm02PlusCount ? summary.kpi.pm02PlusCount.toLocaleString('id-ID') : '0'}</div>
-                  <div className="text-base text-industrial-ink/70 font-semibold mb-0.5">WO</div>
+                  <div className="text-4xl font-extrabold text-white tracking-tight">{summary?.kpi?.pm02PlusCount ? summary.kpi.pm02PlusCount.toLocaleString('id-ID') : '0'}</div>
+                  <div className="text-base text-white/50 font-semibold mb-0.5">WO</div>
                 </div>
-                <div className="mt-2 flex items-center gap-4 text-[11px] text-industrial-ink/70">
-                  <span>● CNF: <strong className="text-industrial-ink">{summary?.jobLoadDetails?.gauges?.pm02PlusCnfCount || '—'}</strong> WO</span>
-                  <span>● Total: <strong className="text-industrial-ink">{summary?.kpi?.pm02PlusCount || 0}</strong> WO</span>
+                <div className="mt-2 flex items-center gap-4 text-[11px] text-white/60">
+                  <span>● CNF: <strong className="text-white">{summary?.jobLoadDetails?.gauges?.pm02PlusCnfCount || '—'}</strong> WO</span>
+                  <span>● Total: <strong className="text-white">{summary?.kpi?.pm02PlusCount || 0}</strong> WO</span>
                 </div>
               </div>
               {/* Progress Bar Section */}
@@ -1231,119 +1232,105 @@ export default function InternalDashboard() {
 
           </div>
           {/* Middle Row: Side-by-Side Breakdown Tables — Enterprise Blue Progress Bars */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
             {/* Progress PM04 Table */}
-            {(() => {
-              const pm04Data = summary?.jobLoadDetails?.pm04Progress || [];
-              const maxWO4 = pm04Data.reduce((acc, row) => Math.max(acc, row.totalWO), 1);
-              return (
-                <div className="bg-white border border-platinum-dark rounded-[1.5rem] shadow-sm-subtle p-6 h-full flex flex-col">
-                  <h3 className="text-[15px] font-bold text-ink mb-4">Progress PM04</h3>
-                  <div className="overflow-x-auto flex-1">
-                    <table className="w-full text-left border-collapse">
-                      <thead>
-                        <tr className="border-b border-platinum-dark">
-                          <th className="pb-2 text-xs font-semibold text-ink w-[30%]">Bagian</th>
-                          <th className="pb-2 text-xs font-semibold text-ink w-[20%]">Tipe</th>
-                          <th className="pb-2 text-xs font-semibold text-ink text-center w-[25%]">Total WO</th>
-                          <th className="pb-2 text-xs font-semibold text-ink text-center w-[25%]">Capaian CNF</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {pm04Data.map((row, idx) => {
-                          const opacity = maxWO4 > 0 ? (row.totalWO / maxWO4) : 0;
-                          // If opacity > 0.45, use white text for better contrast on blue #1268B3
-                          const textColor = opacity > 0.45 ? 'text-white' : 'text-ink';
-                          return (
-                            <tr key={idx} className="last:border-0">
-                              <td className="py-2.5 pr-2 text-xs text-ink">{row.name}</td>
-                              <td className="py-2.5 px-2 text-xs text-ink">PM04</td>
-                              <td 
-                                className={`py-2.5 px-2 text-center text-xs font-medium ${textColor}`} 
-                                style={{ backgroundColor: `rgba(20, 27, 116, ${opacity || 0.05})` }}
-                              >
-                                {row.totalWO.toLocaleString('id-ID')}
-                              </td>
-                              <td 
-                                className={`py-2.5 px-2 text-center text-xs font-medium text-white ${row.capaianCNF >= 90 ? 'bg-success' : 'bg-danger'}`}
-                              >
-                                {row.capaianCNF.toFixed(2)}%
-                              </td>
-                            </tr>
-                          );
-                        })}
-                        {pm04Data.length === 0 && (
-                          <tr><td colSpan="4" className="text-center py-4 text-xs text-platinum-dark border-b border-platinum-dark">Tidak ada data</td></tr>
-                        )}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              );
-            })()}
+            <div className="bg-white border border-industrial-border rounded-card shadow-sm-subtle overflow-hidden">
+              <div className="flex items-center justify-between px-4 py-3 bg-[#13254F]">
+                <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                  <span>Progress PM04 (Per Bagian)</span>
+                </h4>
+                <span className="text-[10px] bg-white/20 text-white font-semibold px-2.5 py-0.5 rounded-full">Predictive</span>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-xs text-left">
+                  <thead className="bg-slate-50 text-slate-500 font-bold uppercase text-[10px] border-b border-slate-200">
+                    <tr>
+                      <th className="py-2.5 px-4">Bagian</th>
+                      <th className="py-2.5 px-4">Tipe</th>
+                      <th className="py-2.5 px-4 text-right">Total WO</th>
+                      <th className="py-2.5 px-4 w-32">Progress</th>
+                      <th className="py-2.5 px-4 text-center">Capaian CNF</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100">
+                    {(summary?.jobLoadDetails?.pm04Progress || []).map((row, idx) => (
+                      <tr key={idx} className="hover:bg-blue-50/40 transition-colors">
+                        <td className="py-2.5 px-4 font-semibold text-slate-800">{row.name}</td>
+                        <td className="py-2.5 px-4">
+                          <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-[#1A4BC4]/10 text-[#1A4BC4] border border-[#1A4BC4]/20">{row.tipe}</span>
+                        </td>
+                        <td className="py-2.5 px-4 text-right font-bold text-slate-900">{row.totalWO.toLocaleString('id-ID')}</td>
+                        <td className="py-2.5 px-4">
+                          <div className="w-full h-2.5 bg-slate-100 rounded-sm overflow-hidden">
+                            <div
+                              className="h-full bg-[#1E56D9] rounded-sm transition-all duration-500"
+                              style={{ width: `${Math.min(row.capaianCNF || 0, 100)}%` }}
+                            />
+                          </div>
+                        </td>
+                        <td className="py-2.5 px-4 text-center">{getCapaianBadge(row.capaianCNF)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
 
             {/* Progress PM02+ Table */}
-            {(() => {
-              const pm02Data = summary?.jobLoadDetails?.pm02PlusProgress || [];
-              const maxWO2 = pm02Data.reduce((acc, row) => Math.max(acc, row.totalWO), 1);
-              return (
-                <div className="bg-white border border-platinum-dark rounded-[1.5rem] shadow-sm-subtle p-6 h-full flex flex-col">
-                  <h3 className="text-[15px] font-bold text-ink mb-4">Progress PM02+</h3>
-                  <div className="overflow-x-auto flex-1">
-                    <table className="w-full text-left border-collapse">
-                      <thead>
-                        <tr className="border-b border-platinum-dark">
-                          <th className="pb-2 text-xs font-semibold text-ink w-[30%]">Bagian</th>
-                          <th className="pb-2 text-xs font-semibold text-ink w-[20%]">Tipe</th>
-                          <th className="pb-2 text-xs font-semibold text-ink text-center w-[25%]">Total WO</th>
-                          <th className="pb-2 text-xs font-semibold text-ink text-center w-[25%]">Capaian CNF</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {pm02Data.map((row, idx) => {
-                          const opacity = maxWO2 > 0 ? (row.totalWO / maxWO2) : 0;
-                          const textColor = opacity > 0.45 ? 'text-industrial-ink' : 'text-ink';
-                          return (
-                            <tr key={idx} className="last:border-0">
-                              <td className="py-2.5 pr-2 text-xs text-ink">{row.name}</td>
-                              <td className="py-2.5 px-2 text-xs text-ink">PM02+</td>
-                              <td 
-                                className={`py-2.5 px-2 text-center text-xs font-medium ${textColor}`} 
-                                style={{ backgroundColor: `rgba(252, 163, 17, ${opacity || 0.05})` }}
-                              >
-                                {row.totalWO.toLocaleString('id-ID')}
-                              </td>
-                              <td 
-                                className={`py-2.5 px-2 text-center text-xs font-medium text-white ${row.capaianCNF >= 90 ? 'bg-success' : 'bg-danger'}`}
-                              >
-                                {row.capaianCNF.toFixed(2)}%
-                              </td>
-                            </tr>
-                          );
-                        })}
-                        {pm02Data.length === 0 && (
-                          <tr><td colSpan="4" className="text-center py-4 text-xs text-platinum-dark border-b border-platinum-dark">Tidak ada data</td></tr>
-                        )}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              );
-            })()}
+            <div className="bg-white border border-industrial-border rounded-card shadow-sm-subtle overflow-hidden">
+              <div className="flex items-center justify-between px-4 py-3 bg-[#D9650F]">
+                <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                  <span>Progress PM02+ (Per Bagian)</span>
+                </h4>
+                <span className="text-[10px] bg-white/20 text-white font-semibold px-2.5 py-0.5 rounded-full">Corrective &amp; Other</span>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-xs text-left">
+                  <thead className="bg-slate-50 text-slate-500 font-bold uppercase text-[10px] border-b border-slate-200">
+                    <tr>
+                      <th className="py-2.5 px-4">Bagian</th>
+                      <th className="py-2.5 px-4">Tipe</th>
+                      <th className="py-2.5 px-4 text-right">Total WO</th>
+                      <th className="py-2.5 px-4 w-32">Progress</th>
+                      <th className="py-2.5 px-4 text-center">Capaian CNF</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100">
+                    {(summary?.jobLoadDetails?.pm02PlusProgress || []).map((row, idx) => (
+                      <tr key={idx} className="hover:bg-orange-50/40 transition-colors">
+                        <td className="py-2.5 px-4 align-top">
+                          <div className="font-semibold text-slate-800">{row.name}</div>
+                        </td>
+                        <td className="py-2.5 px-4 align-top">
+                          <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-[#D9650F]/10 text-[#D9650F] border border-[#D9650F]/20">{row.tipe}</span>
+                        </td>
+                        <td className="py-2.5 px-4 text-right font-bold text-slate-900 align-top">{row.totalWO.toLocaleString('id-ID')}</td>
+                        <td className="py-2.5 px-4">
+                          <div className="w-full h-2.5 bg-slate-100 rounded-sm overflow-hidden">
+                            <div
+                              className="h-full bg-[#D9650F] rounded-sm transition-all duration-500"
+                              style={{ width: `${Math.min(row.capaianCNF || 0, 100)}%` }}
+                            />
+                          </div>
+                        </td>
+                        <td className="py-2.5 px-4 text-center">{getCapaianBadge(row.capaianCNF)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
 
           {/* Side-by-Side Distribution Bar Charts with Background Color Headers */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-6">
             {/* Distribusi Status WO per Bagian */}
-            <div className="bg-white border border-platinum-dark rounded-card p-5 shadow-sm-subtle flex flex-col">
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <h3 className="text-[14.5px] font-bold text-ink">Distribusi Work Order (Berdasarkan Status WO)</h3>
-                  <p className="text-[11px] text-slate-500 mt-0.5">Perbandingan jumlah WO per status (CNF TECO, CNF REL, TECO, CRTD, REL) di tiap bagian.</p>
-                </div>
-                <div className="text-[11px] text-slate-500 bg-platinum px-2.5 py-1 rounded-[6px]">BAR CHART</div>
+            <div className="bg-white border border-industrial-border rounded-card shadow-sm-subtle overflow-hidden flex flex-col">
+              <div className="px-5 py-3.5 bg-[#13254F] text-white">
+                <h4 className="text-sm font-bold text-white tracking-tight">Distribusi Work Order (Berdasarkan Status WO)</h4>
+                <p className="text-[11px] text-slate-200 mt-0.5">Perbandingan jumlah WO per status (CNF TECO, CNF REL, TECO, CRTD, REL) di tiap bagian.</p>
               </div>
-              <div className="flex-1 min-h-[280px]">
+              <div className="p-5 flex-1 min-h-[280px]">
                 <Chart
                   options={statusDistChartOptions}
                   series={summary?.jobLoadDetails?.statusDistribution?.series || []}
@@ -1355,15 +1342,12 @@ export default function InternalDashboard() {
             </div>
 
             {/* Distribusi Tipe PM per Bagian */}
-            <div className="bg-white border border-platinum-dark rounded-card p-5 shadow-sm-subtle flex flex-col">
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <h3 className="text-[14.5px] font-bold text-ink">Distribusi Work Order (Berdasarkan Tipe WO)</h3>
-                  <p className="text-[11px] text-slate-500 mt-0.5">Perbandingan jumlah WO berdasarkan jenis PM (PM04, PM02, PM03, PM09, PM01, PM05) di tiap bagian.</p>
-                </div>
-                <div className="text-[11px] text-slate-500 bg-platinum px-2.5 py-1 rounded-[6px]">BAR CHART</div>
+            <div className="bg-white border border-industrial-border rounded-card shadow-sm-subtle overflow-hidden flex flex-col">
+              <div className="px-5 py-3.5 bg-[#D9650F] text-white">
+                <h4 className="text-sm font-bold text-white tracking-tight">Distribusi Work Order (Berdasarkan Tipe WO)</h4>
+                <p className="text-[11px] text-orange-50 mt-0.5">Perbandingan jumlah WO berdasarkan jenis PM (PM04, PM02, PM03, PM09, PM01, PM05) di tiap bagian.</p>
               </div>
-              <div className="flex-1 min-h-[280px]">
+              <div className="p-5 flex-1 min-h-[280px]">
                 <Chart
                   options={pmTypeDistChartOptions}
                   series={summary?.jobLoadDetails?.pmTypeDistribution?.series || []}
@@ -1385,11 +1369,11 @@ export default function InternalDashboard() {
           onClick={() => setSelectedSegment(null)}
         >
           <div
-            className="bg-white border border-platinum-dark rounded-2xl shadow-2xl w-full max-w-xl overflow-hidden animate-in zoom-in-95 duration-200"
+            className="bg-white border border-slate-200 rounded-2xl shadow-2xl w-full max-w-xl overflow-hidden animate-in zoom-in-95 duration-200"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
-            <div className="bg-navy text-white px-6 py-4 flex items-center justify-between">
+            <div className="bg-industrial-navy text-white px-6 py-4 flex items-center justify-between">
               <div>
                 <div className="text-[11px] uppercase tracking-wider text-blue-200 font-bold">Detail Ringkasan Segment Bar Chart</div>
                 <h3 className="text-lg font-bold flex items-center gap-2 mt-0.5">
@@ -1414,8 +1398,8 @@ export default function InternalDashboard() {
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 <div className="bg-blue-50 border border-blue-100 rounded-xl p-3.5 text-center">
                   <div className="text-[11px] font-semibold text-slate-500">Jumlah {selectedSegment.seriesName}</div>
-                  <div className="text-2xl font-extrabold text-navy mt-1">{selectedSegment.value.toLocaleString('id-ID')}</div>
-                  <div className="text-[10px] text-navy font-medium mt-0.5">Bar Segment Terpilih</div>
+                  <div className="text-2xl font-extrabold text-industrial-blue mt-1">{selectedSegment.value.toLocaleString('id-ID')}</div>
+                  <div className="text-[10px] text-blue-600 font-medium mt-0.5">Bar Segment Terpilih</div>
                 </div>
 
                 <div className="bg-emerald-50 border border-emerald-100 rounded-xl p-3.5 text-center">
@@ -1434,15 +1418,15 @@ export default function InternalDashboard() {
               {/* Full Breakdown Table for the Selected Category */}
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <h4 className="text-xs font-bold text-ink uppercase tracking-wider">
+                  <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider">
                     Komposisi Lengkap pada "{selectedSegment.category}"
                   </h4>
                   <span className="text-[11px] text-slate-500 font-medium">Total: {selectedSegment.totalCategory} Item</span>
                 </div>
 
-                <div className="border border-platinum-dark rounded-xl overflow-hidden shadow-xs">
+                <div className="border border-slate-200 rounded-xl overflow-hidden shadow-xs">
                   <table className="w-full text-xs text-left">
-                    <thead className="bg-platinum text-slate-600 font-bold uppercase text-[10px] border-b border-platinum-dark">
+                    <thead className="bg-slate-50 text-slate-600 font-bold uppercase text-[10px] border-b border-slate-200">
                       <tr>
                         <th className="py-2.5 px-3">Kategori</th>
                         <th className="py-2.5 px-3 text-right">Jumlah (Count)</th>
@@ -1454,17 +1438,17 @@ export default function InternalDashboard() {
                       {selectedSegment.breakdown.map((item, idx) => {
                         const isSelected = item.label === selectedSegment.seriesName;
                         return (
-                          <tr key={idx} className={isSelected ? "bg-blue-50/70 font-bold text-navy" : "hover:bg-platinum text-slate-700"}>
+                          <tr key={idx} className={isSelected ? "bg-blue-50/70 font-bold text-industrial-blue" : "hover:bg-slate-50 text-slate-700"}>
                             <td className="py-2.5 px-3 flex items-center gap-2">
-                              {isSelected && <span className="w-2 h-2 rounded-full bg-navy"></span>}
+                              {isSelected && <span className="w-2 h-2 rounded-full bg-industrial-blue"></span>}
                               <span>{item.label}</span>
                             </td>
                             <td className="py-2.5 px-3 text-right font-bold">{item.count.toLocaleString('id-ID')}</td>
                             <td className="py-2.5 px-3 text-right font-bold">{item.percentage}%</td>
                             <td className="py-2.5 px-3 text-center">
-                              <div className="w-full bg-platinum-dark rounded-full h-2 overflow-hidden">
+                              <div className="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
                                 <div
-                                  className={`h-full rounded-full ${isSelected ? 'bg-navy' : 'bg-slate-400'}`}
+                                  className={`h-full rounded-full ${isSelected ? 'bg-industrial-blue' : 'bg-slate-400'}`}
                                   style={{ width: `${Math.min(item.percentage, 100)}%` }}
                                 ></div>
                               </div>
@@ -1480,11 +1464,11 @@ export default function InternalDashboard() {
             </div>
 
             {/* Modal Footer */}
-            <div className="bg-platinum border-t border-platinum-dark px-6 py-3 flex items-center justify-between">
+            <div className="bg-slate-50 border-t border-slate-200 px-6 py-3 flex items-center justify-between">
               <span className="text-[11px] text-slate-500">Klik di luar modal untuk menutup.</span>
               <button
                 onClick={() => setSelectedSegment(null)}
-                className="px-4 py-2 bg-navy text-white text-xs font-bold rounded-lg shadow hover:bg-navy transition-colors cursor-pointer"
+                className="px-4 py-2 bg-industrial-blue text-white text-xs font-bold rounded-lg shadow hover:bg-industrial-navy transition-colors cursor-pointer"
               >
                 Tutup Rincian
               </button>
@@ -1501,14 +1485,14 @@ export default function InternalDashboard() {
           onClick={() => setSelectedManpowerType(null)}
         >
           <div
-            className="bg-white border border-platinum-dark rounded-2xl shadow-2xl w-full max-w-4xl overflow-hidden flex flex-col max-h-[85vh] animate-in zoom-in-95 duration-200"
+            className="bg-white border border-slate-200 rounded-2xl shadow-2xl w-full max-w-4xl overflow-hidden flex flex-col max-h-[85vh] animate-in zoom-in-95 duration-200"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
-            <div className={`px-6 py-4 text-white flex items-center justify-between shrink-0 ${selectedManpowerType === 'Organik' ? 'bg-slate-900' : selectedManpowerType === 'Non Organik' ? 'bg-emerald-800' : 'bg-navy'
+            <div className={`px-6 py-4 text-white flex items-center justify-between shrink-0 ${selectedManpowerType === 'Organik' ? 'bg-slate-900' : selectedManpowerType === 'Non Organik' ? 'bg-emerald-800' : 'bg-industrial-navy'
               }`}>
               <div className="flex items-center gap-3">
-                <div className={`p-2.5 rounded-xl text-white ${selectedManpowerType === 'Organik' ? 'bg-slate-800 border border-slate-700' : selectedManpowerType === 'Non Organik' ? 'bg-emerald-700 border border-emerald-600' : 'bg-navy'
+                <div className={`p-2.5 rounded-xl text-white ${selectedManpowerType === 'Organik' ? 'bg-slate-800 border border-slate-700' : selectedManpowerType === 'Non Organik' ? 'bg-emerald-700 border border-emerald-600' : 'bg-blue-600'
                   }`}>
                   <HardHat size={22} className={selectedManpowerType === 'Non Organik' ? 'text-emerald-300' : 'text-white'} />
                 </div>
@@ -1535,7 +1519,7 @@ export default function InternalDashboard() {
             </div>
 
             {/* Filter Toolbar */}
-            <div className="p-4 bg-platinum border-b border-platinum-dark flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
+            <div className="p-4 bg-slate-50 border-b border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
               <div className="relative w-full sm:w-72">
                 <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                 <input
@@ -1543,7 +1527,7 @@ export default function InternalDashboard() {
                   placeholder="Cari Nama, NPK, Jabatan, Divisi..."
                   value={mpSearch}
                   onChange={(e) => setMpSearch(e.target.value)}
-                  className="w-full pl-9 pr-3 py-1.5 bg-white border border-slate-300 rounded-xl text-xs focus:outline-none focus:border-navy focus:ring-1 focus:ring-navy font-medium"
+                  className="w-full pl-9 pr-3 py-1.5 bg-white border border-slate-300 rounded-xl text-xs focus:outline-none focus:border-industrial-blue focus:ring-1 focus:ring-industrial-blue font-medium"
                 />
               </div>
 
@@ -1575,7 +1559,7 @@ export default function InternalDashboard() {
             <div className="p-4 overflow-y-auto flex-1 space-y-3">
               {loadingManpower ? (
                 <div className="py-12 text-center text-slate-500 flex flex-col items-center gap-2">
-                  <Loader2 size={24} className="animate-spin text-navy" />
+                  <Loader2 size={24} className="animate-spin text-industrial-blue" />
                   <span className="text-xs font-semibold">Memuat data personil...</span>
                 </div>
               ) : filteredManpower.length === 0 ? (
@@ -1583,9 +1567,9 @@ export default function InternalDashboard() {
                   Tidak ada personil yang sesuai dengan kriteria pencarian/filter.
                 </div>
               ) : (
-                <div className="border border-platinum-dark rounded-xl overflow-hidden shadow-xs">
+                <div className="border border-slate-200 rounded-xl overflow-hidden shadow-xs">
                   <table className="w-full text-xs text-left">
-                    <thead className="bg-platinum-dark text-slate-700 font-bold uppercase text-[10px] border-b border-platinum-dark">
+                    <thead className="bg-slate-100 text-slate-700 font-bold uppercase text-[10px] border-b border-slate-200">
                       <tr>
                         <th className="py-3 px-4">NPK</th>
                         <th className="py-3 px-4">Nama Personil</th>
@@ -1600,10 +1584,10 @@ export default function InternalDashboard() {
                         const isHadir = p.statusToday === 'Hadir';
                         const rank = getRoleRank(p);
 
-                        let rowBg = 'hover:bg-platinum';
+                        let rowBg = 'hover:bg-slate-50';
                         if (rank === 1) rowBg = 'bg-amber-200/40 hover:bg-amber-300/40'; // Manager Level
                         else if (rank === 2) rowBg = 'bg-yellow-100/80 hover:bg-yellow-200/60'; // AVP Level
-                        else if (rank === 3) rowBg = 'bg-platinum-dark/70 hover:bg-slate-200/70'; // Organik
+                        else if (rank === 3) rowBg = 'bg-slate-100/70 hover:bg-slate-200/70'; // Organik
                         else if (rank === 4) rowBg = 'bg-blue-50/70 hover:bg-blue-100/70'; // Non Organik
 
                         return (
@@ -1639,7 +1623,7 @@ export default function InternalDashboard() {
             </div>
 
             {/* Modal Footer */}
-            <div className="p-4 bg-platinum border-t border-platinum-dark flex flex-col sm:flex-row items-center justify-between gap-3 text-xs shrink-0">
+            <div className="p-4 bg-slate-50 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs shrink-0">
               <div className="flex items-center gap-4 text-slate-600 font-medium text-[11px]">
                 <span>Total: <strong className="text-slate-900">{typeFilteredManpower.length}</strong> Personil</span>
                 <span>Hadir: <strong className="text-emerald-700">{typeFilteredManpower.filter(p => p.statusToday === 'Hadir').length}</strong></span>
@@ -1647,7 +1631,7 @@ export default function InternalDashboard() {
               </div>
               <button
                 onClick={() => setSelectedManpowerType(null)}
-                className="px-4 py-2 bg-navy hover:bg-slate-900 text-white text-xs font-bold rounded-lg transition-colors cursor-pointer"
+                className="px-4 py-2 bg-industrial-navy hover:bg-slate-900 text-white text-xs font-bold rounded-lg transition-colors cursor-pointer"
               >
                 Tutup Informasi
               </button>
@@ -1663,7 +1647,7 @@ export default function InternalDashboard() {
           onClick={() => setShowPm02PlusModal(false)}
         >
           <div
-            className="bg-white border border-platinum-dark rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[85vh] animate-in zoom-in-95 duration-200"
+            className="bg-white border border-slate-200 rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[85vh] animate-in zoom-in-95 duration-200"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
@@ -1737,7 +1721,7 @@ export default function InternalDashboard() {
                     return (
                       <div
                         key={pmType}
-                        className={`p-3.5 rounded-xl border transition-all ${hasData ? 'bg-white border-platinum-dark shadow-xs hover:border-emerald-300' : 'bg-platinum/60 border-slate-100 opacity-60'
+                        className={`p-3.5 rounded-xl border transition-all ${hasData ? 'bg-white border-slate-200 shadow-xs hover:border-emerald-300' : 'bg-slate-50/60 border-slate-100 opacity-60'
                           }`}
                       >
                         <div className="flex items-center justify-between mb-2">
@@ -1758,7 +1742,7 @@ export default function InternalDashboard() {
                         </div>
 
                         {/* Progress Bar Mini */}
-                        <div className="w-full h-2 bg-platinum-dark rounded-full overflow-hidden border border-platinum-dark">
+                        <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
                           <div
                             className={`h-full rounded-full transition-all duration-500 ${hasData ? 'bg-emerald-500' : 'bg-slate-300'}`}
                             style={{ width: `${Math.min(parseFloat(percent), 100)}%` }}
@@ -1771,7 +1755,7 @@ export default function InternalDashboard() {
             </div>
 
             {/* Modal Footer */}
-            <div className="p-4 bg-platinum border-t border-platinum-dark flex items-center justify-between text-xs shrink-0">
+            <div className="p-4 bg-slate-50 border-t border-slate-200 flex items-center justify-between text-xs shrink-0">
               <span className="text-[11px] text-slate-500">
                 Total Kategori Terdata: <strong className="text-slate-900">9 Tipe PM (PM01-PM10 eksklusif PM04)</strong>
               </span>
@@ -1809,7 +1793,7 @@ export default function InternalDashboard() {
             },
             dataLabels: { enabled: true, style: { fontSize: '14px', fontWeight: 'bold' }, offsetY: -20 },
             xaxis: { categories: pkCategories, labels: { style: { fontWeight: 600 } } },
-            colors: ['#14131D', '#FCA311', '#1F1E2E', '#FFD98F', '#C9C9C9', '#2E7D32', '#D32F2F', '#000000'],
+            colors: ['#8B0000', '#B91C1C', '#C2410C', '#B45309', '#1D4ED8', '#0F766E', '#4338CA', '#A21CAF'],
             title: { text: 'Distribusi per Area/Plant', style: { color: '#1E293B', fontSize: '13px', fontWeight: 'bold' } },
             legend: { show: false },
             grid: { strokeDashArray: 4 }
@@ -1821,7 +1805,7 @@ export default function InternalDashboard() {
           options: {
             chart: { type: 'donut', fontFamily: 'Plus Jakarta Sans, sans-serif' },
             labels: pkCategories,
-            colors: ['#14131D', '#FCA311', '#1F1E2E', '#FFD98F', '#C9C9C9', '#2E7D32', '#D32F2F', '#000000'],
+            colors: ['#8B0000', '#B91C1C', '#C2410C', '#B45309', '#1D4ED8', '#0F766E', '#4338CA', '#A21CAF'],
             plotOptions: {
               pie: {
                 donut: {
@@ -1895,13 +1879,13 @@ export default function InternalDashboard() {
             </div>
 
             {/* Data Table Section */}
-            <div className="bg-white border border-platinum-dark rounded-card shadow-sm-subtle overflow-hidden">
+            <div className="bg-white border border-industrial-border rounded-card shadow-sm-subtle overflow-hidden">
               <div className="flex items-center justify-between px-5 py-4 bg-[#8B0000]">
                 <h4 className="text-base font-bold text-white flex items-center gap-2">
                   <AlertTriangle size={18} />
                   <span>Daftar Detail Performance Killer</span>
                 </h4>
-                <Link to="/performance-killer" className="flex items-center gap-2 px-4 py-2 bg-white text-[#8B0000] font-bold rounded-lg hover:bg-platinum-dark transition-colors shadow-sm text-sm">
+                <Link to="/performance-killer" className="flex items-center gap-2 px-4 py-2 bg-white text-[#8B0000] font-bold rounded-lg hover:bg-slate-100 transition-colors shadow-sm text-sm">
                   <Edit size={16} />
                   <span>Akses Edit (CRUD)</span>
                 </Link>
@@ -1909,30 +1893,30 @@ export default function InternalDashboard() {
 
               <div className="p-0 overflow-x-auto">
                 <table className="w-full text-xs text-left border-collapse">
-                  <thead className="bg-platinum text-slate-700 font-bold border-b border-slate-300">
+                  <thead className="bg-slate-50 text-slate-700 font-bold border-b border-slate-300">
                     <tr>
-                      <th className="py-3 px-4 border border-platinum-dark bg-platinum-dark w-12 text-center">No</th>
-                      <th className="py-3 px-4 border border-platinum-dark bg-platinum-dark uppercase tracking-wider text-[10px]">Item</th>
-                      <th className="py-3 px-4 border border-platinum-dark bg-platinum-dark uppercase tracking-wider text-[10px]">Plant</th>
-                      <th className="py-3 px-4 border border-platinum-dark bg-platinum-dark uppercase tracking-wider text-[10px]">Masalah (Problem)</th>
-                      <th className="py-3 px-4 border border-platinum-dark bg-platinum-dark uppercase tracking-wider text-[10px]">Tindak Lanjut (Mitigation)</th>
+                      <th className="py-3 px-4 border border-slate-200 bg-slate-100 w-12 text-center">No</th>
+                      <th className="py-3 px-4 border border-slate-200 bg-slate-100 uppercase tracking-wider text-[10px]">Item</th>
+                      <th className="py-3 px-4 border border-slate-200 bg-slate-100 uppercase tracking-wider text-[10px]">Plant</th>
+                      <th className="py-3 px-4 border border-slate-200 bg-slate-100 uppercase tracking-wider text-[10px]">Masalah (Problem)</th>
+                      <th className="py-3 px-4 border border-slate-200 bg-slate-100 uppercase tracking-wider text-[10px]">Tindak Lanjut (Mitigation)</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-200 text-[11px] font-medium text-slate-700">
                     {performanceKillers.length > 0 ? (
                       performanceKillers.map((pk, idx) => (
-                        <tr key={pk.id} className="hover:bg-platinum transition-colors">
-                          <td className="py-3 px-4 border border-platinum-dark bg-platinum/50 text-center font-bold text-slate-600">{idx + 1}</td>
-                          <td className="py-3 px-4 border border-platinum-dark font-bold text-navy">{pk.item}</td>
-                          <td className="py-3 px-4 border border-platinum-dark">
-                            <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-platinum-dark text-slate-700 border border-platinum-dark">
+                        <tr key={pk.id} className="hover:bg-slate-50 transition-colors">
+                          <td className="py-3 px-4 border border-slate-200 bg-slate-50/50 text-center font-bold text-slate-600">{idx + 1}</td>
+                          <td className="py-3 px-4 border border-slate-200 font-bold text-industrial-navy">{pk.item}</td>
+                          <td className="py-3 px-4 border border-slate-200">
+                            <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 text-slate-700 border border-slate-200">
                               {pk.area_plant}
                             </span>
                           </td>
-                          <td className="py-3 px-4 border border-platinum-dark min-w-[280px] max-w-sm whitespace-normal leading-relaxed text-slate-700">
+                          <td className="py-3 px-4 border border-slate-200 min-w-[280px] max-w-sm whitespace-normal leading-relaxed text-slate-700">
                             <div dangerouslySetInnerHTML={{ __html: pk.masalah }} className="prose prose-sm prose-slate max-w-none" />
                           </td>
-                          <td className="py-3 px-4 border border-platinum-dark min-w-[280px] max-w-sm whitespace-normal leading-relaxed text-slate-700">
+                          <td className="py-3 px-4 border border-slate-200 min-w-[280px] max-w-sm whitespace-normal leading-relaxed text-slate-700">
                             <div dangerouslySetInnerHTML={{ __html: pk.tindak_lanjut }} className="prose prose-sm prose-slate max-w-none" />
                           </td>
                         </tr>
@@ -1949,25 +1933,25 @@ export default function InternalDashboard() {
 
             {/* Charts Section */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <div className="lg:col-span-2 bg-white border border-platinum-dark rounded-card shadow-sm-subtle p-5">
+              <div className="lg:col-span-2 bg-white border border-industrial-border rounded-card shadow-sm-subtle p-5">
                 {performanceKillers.length > 0 ? (
                   <div className="h-[350px]">
                     <Chart options={pkBarChart.options} series={pkBarChart.series} type="bar" height="100%" />
                   </div>
                 ) : (
-                  <div className="h-[350px] flex items-center justify-center text-slate-500 italic text-sm bg-platinum rounded-xl border border-dashed border-platinum-dark">
+                  <div className="h-[350px] flex items-center justify-center text-slate-500 italic text-sm bg-slate-50 rounded-xl border border-dashed border-slate-200">
                     Belum ada data untuk ditampilkan.
                   </div>
                 )}
               </div>
               
-              <div className="bg-white border border-platinum-dark rounded-card shadow-sm-subtle p-5 flex flex-col items-center justify-center">
+              <div className="bg-white border border-industrial-border rounded-card shadow-sm-subtle p-5 flex flex-col items-center justify-center">
                 {performanceKillers.length > 0 ? (
                   <div className="w-full h-[350px]">
                     <Chart options={pkDonutChart.options} series={pkDonutChart.series} type="donut" height="100%" />
                   </div>
                 ) : (
-                  <div className="h-[350px] w-full flex items-center justify-center text-slate-500 italic text-sm bg-platinum rounded-xl border border-dashed border-platinum-dark">
+                  <div className="h-[350px] w-full flex items-center justify-center text-slate-500 italic text-sm bg-slate-50 rounded-xl border border-dashed border-slate-200">
                     Belum ada data untuk ditampilkan.
                   </div>
                 )}
@@ -1998,7 +1982,7 @@ export default function InternalDashboard() {
             onClick={() => setShowCategoryModal(false)}
           >
             <div
-              className="bg-white rounded-2xl shadow-2xl w-full max-w-lg border border-platinum-dark flex flex-col max-h-[85vh] overflow-hidden"
+              className="bg-white rounded-2xl shadow-2xl w-full max-w-lg border border-slate-200 flex flex-col max-h-[85vh] overflow-hidden"
               onClick={e => e.stopPropagation()}
             >
               {/* Header */}
@@ -2046,7 +2030,7 @@ export default function InternalDashboard() {
               </div>
 
               {/* Footer */}
-              <div className="px-5 py-3 bg-platinum border-t border-platinum-dark flex justify-end">
+              <div className="px-5 py-3 bg-slate-50 border-t border-slate-200 flex justify-end">
                 <button
                   onClick={() => setShowCategoryModal(false)}
                   className="px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold rounded-lg transition-colors"
@@ -2062,14 +2046,14 @@ export default function InternalDashboard() {
       {/* Expired Certifications Modal */}
       {showExpiredCertsModal && (
         <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm animate-in fade-in">
-          <div className="bg-white rounded-2xl shadow-xl w-full max-w-3xl overflow-hidden border border-platinum-dark">
-            <div className="p-4 border-b border-platinum-dark flex justify-between items-center bg-platinum">
+          <div className="bg-white rounded-2xl shadow-xl w-full max-w-3xl overflow-hidden border border-slate-200">
+            <div className="p-4 border-b border-slate-200 flex justify-between items-center bg-slate-50">
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center">
                   <AlertTriangle className="w-4 h-4 text-red-600" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-ink text-sm">Sertifikasi Personil Expired</h3>
+                  <h3 className="font-bold text-slate-800 text-sm">Sertifikasi Personil Expired</h3>
                   <p className="text-[11px] text-slate-500">Daftar sertifikat yang masa berlakunya telah habis</p>
                 </div>
               </div>
@@ -2084,7 +2068,7 @@ export default function InternalDashboard() {
             <div className="p-0 max-h-[60vh] overflow-y-auto">
               {summary?.expiredCertifications && summary.expiredCertifications.length > 0 ? (
                 <table className="w-full text-left text-xs text-slate-600">
-                  <thead className="bg-platinum border-b border-platinum-dark sticky top-0">
+                  <thead className="bg-slate-50 border-b border-slate-200 sticky top-0">
                     <tr>
                       <th className="px-4 py-3 font-semibold">Nama Personil</th>
                       <th className="px-4 py-3 font-semibold">NPK</th>
@@ -2094,8 +2078,8 @@ export default function InternalDashboard() {
                   </thead>
                   <tbody className="divide-y divide-slate-100">
                     {summary.expiredCertifications.map(cert => (
-                      <tr key={cert.id} className="hover:bg-platinum transition-colors">
-                        <td className="px-4 py-3 font-medium text-ink">{cert.man_power_name}</td>
+                      <tr key={cert.id} className="hover:bg-slate-50 transition-colors">
+                        <td className="px-4 py-3 font-medium text-slate-800">{cert.man_power_name}</td>
                         <td className="px-4 py-3 text-slate-500">{cert.man_power_npk}</td>
                         <td className="px-4 py-3 text-slate-700">{cert.nama_sertifikat}</td>
                         <td className="px-4 py-3">
@@ -2118,10 +2102,10 @@ export default function InternalDashboard() {
               )}
             </div>
 
-            <div className="p-4 border-t border-platinum-dark bg-platinum flex justify-end">
+            <div className="p-4 border-t border-slate-200 bg-slate-50 flex justify-end">
               <button
                 onClick={() => setShowExpiredCertsModal(false)}
-                className="px-4 py-2 bg-white border border-slate-300 text-slate-700 rounded-lg text-xs font-bold hover:bg-platinum transition-colors"
+                className="px-4 py-2 bg-white border border-slate-300 text-slate-700 rounded-lg text-xs font-bold hover:bg-slate-50 transition-colors"
               >
                 Tutup
               </button>
@@ -2133,5 +2117,3 @@ export default function InternalDashboard() {
     </div>
   );
 }
-
-

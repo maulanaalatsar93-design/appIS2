@@ -1,4 +1,4 @@
-﻿import React, { useRef, useContext, useState, useEffect } from 'react';
+import React, { useRef, useContext, useState, useEffect } from 'react';
 import {
   UploadCloud, CheckCircle2, XCircle, Loader2, FileText, Trash2,
   FileSpreadsheet, Database, TrendingUp,
@@ -79,8 +79,8 @@ function SuccessReview({ result, activeTab, resetUpload, setViewMode }) {
 
   const cards = [
     { label: 'Data Baru', value: inserted, icon: <Plus className="w-5 h-5" />, bg: 'from-emerald-500 to-teal-600', badge: 'INSERTED', badgeClass: 'text-emerald-700 bg-emerald-50 border-emerald-200', delay: 0 },
-    { label: 'Diperbarui', value: updated, icon: <RotateCcw className="w-5 h-5" />, bg: 'from-blue-500 to-indigo-600', badge: 'UPDATED', badgeClass: 'text-blue-700 bg-blue-50 border-navy-soft', delay: 80 },
-    { label: 'Baris Kosong', value: skipped, icon: <Eye className="w-5 h-5" />, bg: 'from-slate-400 to-slate-500', badge: 'SKIPPED', badgeClass: 'text-slate-500 bg-platinum border-platinum-dark', delay: 160 },
+    { label: 'Diperbarui', value: updated, icon: <RotateCcw className="w-5 h-5" />, bg: 'from-blue-500 to-indigo-600', badge: 'UPDATED', badgeClass: 'text-blue-700 bg-blue-50 border-blue-200', delay: 80 },
+    { label: 'Baris Kosong', value: skipped, icon: <Eye className="w-5 h-5" />, bg: 'from-slate-400 to-slate-500', badge: 'SKIPPED', badgeClass: 'text-slate-500 bg-slate-50 border-slate-200', delay: 160 },
     { label: 'Format Gagal', value: failed, icon: <AlertTriangle className="w-5 h-5" />, bg: 'from-amber-500 to-orange-500', badge: 'FAILED', badgeClass: 'text-amber-700 bg-amber-50 border-amber-200', delay: 240 },
   ];
 
@@ -136,7 +136,7 @@ function SuccessReview({ result, activeTab, resetUpload, setViewMode }) {
         {cards.map((card) => (
           <div
             key={card.badge}
-            className={`relative overflow-hidden rounded-xl border border-platinum-dark bg-white shadow-sm transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+            className={`relative overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
             style={{ transitionDelay: `${150 + card.delay}ms` }}
           >
             <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${card.bg}`} />
@@ -153,7 +153,7 @@ function SuccessReview({ result, activeTab, resetUpload, setViewMode }) {
                 <AnimatedCounter value={card.value} duration={900 + card.delay} />
               </div>
               <div className="text-xs text-slate-500 font-medium">{card.label}</div>
-              <div className="mt-3 h-1.5 bg-platinum-dark rounded-full overflow-hidden">
+              <div className="mt-3 h-1.5 bg-slate-100 rounded-full overflow-hidden">
                 <div
                   className={`h-full rounded-full bg-gradient-to-r ${card.bg} transition-all duration-1000 ease-out`}
                   style={{ width: visible && total > 0 ? `${(card.value / total) * 100}%` : '0%', transitionDelay: `${300 + card.delay}ms` }}
@@ -169,10 +169,10 @@ function SuccessReview({ result, activeTab, resetUpload, setViewMode }) {
 
       {/* ─── DETAIL PANELS ─── */}
       <div className="grid md:grid-cols-2 gap-4 mb-6">
-        <div className="bg-white border border-platinum-dark rounded-card p-5 shadow-sm-subtle">
+        <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
           <div className="flex items-center gap-2 mb-4">
             <BarChart3 className="w-4 h-4 text-slate-500" />
-            <h3 className="text-sm font-bold text-ink">Rincian Proses Import</h3>
+            <h3 className="text-sm font-bold text-slate-800">Rincian Proses Import</h3>
           </div>
           <div className="space-y-3">
             {[
@@ -184,9 +184,9 @@ function SuccessReview({ result, activeTab, resetUpload, setViewMode }) {
               <div key={item.label}>
                 <div className="flex justify-between text-xs mb-1">
                   <span className="text-slate-600 font-medium">{item.label}</span>
-                  <span className="font-bold text-ink tabular-nums">{item.value.toLocaleString()}</span>
+                  <span className="font-bold text-slate-800 tabular-nums">{item.value.toLocaleString()}</span>
                 </div>
-                <div className="h-2 bg-platinum-dark rounded-full overflow-hidden">
+                <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
                   <div
                     className={`h-full ${item.color} rounded-full transition-all duration-1000 ease-out`}
                     style={{ width: visible && total > 0 ? `${(item.value / total) * 100}%` : '0%', transitionDelay: '400ms' }}
@@ -198,8 +198,8 @@ function SuccessReview({ result, activeTab, resetUpload, setViewMode }) {
         </div>
 
         <div className="space-y-3">
-          <div className="bg-blue-50 border border-navy-soft rounded-xl p-4 flex items-start gap-3">
-            <div className="w-8 h-8 bg-navy rounded-lg flex items-center justify-center flex-shrink-0">
+          <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 flex items-start gap-3">
+            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
               <Database className="w-4 h-4 text-white" />
             </div>
             <div>
@@ -220,7 +220,7 @@ function SuccessReview({ result, activeTab, resetUpload, setViewMode }) {
               </div>
             </div>
           </div>
-          <div className="bg-platinum border border-platinum-dark rounded-xl p-4 flex items-start gap-3">
+          <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 flex items-start gap-3">
             <div className="w-8 h-8 bg-slate-700 rounded-lg flex items-center justify-center flex-shrink-0">
               <Clock className="w-4 h-4 text-white" />
             </div>
@@ -246,7 +246,7 @@ function SuccessReview({ result, activeTab, resetUpload, setViewMode }) {
         </button>
         <button
           onClick={resetUpload}
-          className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-white border border-slate-300 text-slate-700 text-sm font-bold rounded-xl hover:bg-platinum transition-all shadow-sm cursor-pointer"
+          className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-white border border-slate-300 text-slate-700 text-sm font-bold rounded-xl hover:bg-slate-50 transition-all shadow-sm cursor-pointer"
         >
           <RotateCcw className="w-4 h-4" />
           Upload File Lain
@@ -390,21 +390,21 @@ export default function ImportData() {
     <div className="p-6 space-y-6">
       {/* Header */}
       <div>
-        <h2 className="text-xl md:text-2xl font-bold text-ink tracking-tight">Kelola &amp; Import Data SAP</h2>
-        <p className="text-platinum-dark text-xs md:text-sm mt-1">
+        <h2 className="text-xl md:text-2xl font-bold text-industrial-text tracking-tight">Kelola &amp; Import Data SAP</h2>
+        <p className="text-industrial-muted text-xs md:text-sm mt-1">
           Unggah file SAP (CSV/Excel), kelola pembersihan data, dan tampilkan data terupload secara real-time.
         </p>
       </div>
 
       {/* View Mode Tabs */}
-      <div className="flex border-b border-platinum-dark bg-white rounded-t-card overflow-hidden shadow-xs">
+      <div className="flex border-b border-industrial-border bg-white rounded-t-card overflow-hidden shadow-xs">
         {[
           { key: 'upload', icon: <UploadCloud className="w-4 h-4" />, label: 'Form Unggah & Kosongkan Data' },
           { key: 'workorders', icon: <FileText className="w-4 h-4" />, label: 'Display Data Work Order' },
           { key: 'recommendations', icon: <FileSpreadsheet className="w-4 h-4" />, label: 'Display Data Rekomendasi (M4/M7)' },
         ].map(tab => (
           <button key={tab.key} onClick={() => setViewMode(tab.key)}
-            className={`flex-1 py-3.5 px-4 text-xs md:text-sm font-bold flex items-center justify-center gap-2 border-b-2 transition-all cursor-pointer ${viewMode === tab.key ? 'text-navy border-navy bg-platinum/40' : 'text-platinum-dark border-transparent hover:bg-platinum/20'
+            className={`flex-1 py-3.5 px-4 text-xs md:text-sm font-bold flex items-center justify-center gap-2 border-b-2 transition-all cursor-pointer ${viewMode === tab.key ? 'text-industrial-blue border-industrial-blue bg-industrial-background/40' : 'text-industrial-muted border-transparent hover:bg-industrial-background/20'
               }`}>
             {tab.icon}<span>{tab.label}</span>
           </button>
@@ -414,23 +414,23 @@ export default function ImportData() {
       {/* Content */}
       {viewMode === 'upload' ? (
         <div className="space-y-6">
-          <div className="bg-white border border-platinum-dark rounded-b-card shadow-sm-subtle overflow-hidden">
+          <div className="bg-white border border-industrial-border rounded-b-card shadow-sm-subtle overflow-hidden">
             {/* Pilihan Jenis Data - Form Option */}
             {!isReviewing && (
               <div className="p-6 md:px-10 md:pt-8 md:pb-0">
-                <div className="mb-2 text-sm font-bold text-ink">1. Pilih Jenis Data SAP:</div>
+                <div className="mb-2 text-sm font-bold text-industrial-text">1. Pilih Jenis Data SAP:</div>
                 <div className="flex gap-4">
-                  <label className={`flex-1 flex items-center gap-3 p-4 border rounded-xl cursor-pointer transition-all ${activeTab === 'workorders' ? 'border-navy bg-navy/5 shadow-sm' : 'border-platinum-dark hover:border-navy/50'}`}>
-                    <input type="radio" name="uploadType" className="w-4 h-4 text-navy accent-navy" checked={activeTab === 'workorders'} onChange={() => { setActiveTab('workorders'); resetUpload(); }} />
+                  <label className={`flex-1 flex items-center gap-3 p-4 border rounded-xl cursor-pointer transition-all ${activeTab === 'workorders' ? 'border-industrial-blue bg-industrial-blue/5 shadow-sm' : 'border-slate-200 hover:border-industrial-blue/50'}`}>
+                    <input type="radio" name="uploadType" className="w-4 h-4 text-industrial-blue accent-industrial-blue" checked={activeTab === 'workorders'} onChange={() => { setActiveTab('workorders'); resetUpload(); }} />
                     <div>
-                      <div className="text-sm font-bold text-ink">Data Work Order</div>
+                      <div className="text-sm font-bold text-industrial-text">Data Work Order</div>
                       <div className="text-xs text-slate-500">Upload list Work Order (PM01-PM10)</div>
                     </div>
                   </label>
-                  <label className={`flex-1 flex items-center gap-3 p-4 border rounded-xl cursor-pointer transition-all ${activeTab === 'recommendations' ? 'border-navy bg-navy/5 shadow-sm' : 'border-platinum-dark hover:border-navy/50'}`}>
-                    <input type="radio" name="uploadType" className="w-4 h-4 text-navy accent-navy" checked={activeTab === 'recommendations'} onChange={() => { setActiveTab('recommendations'); resetUpload(); }} />
+                  <label className={`flex-1 flex items-center gap-3 p-4 border rounded-xl cursor-pointer transition-all ${activeTab === 'recommendations' ? 'border-industrial-blue bg-industrial-blue/5 shadow-sm' : 'border-slate-200 hover:border-industrial-blue/50'}`}>
+                    <input type="radio" name="uploadType" className="w-4 h-4 text-industrial-blue accent-industrial-blue" checked={activeTab === 'recommendations'} onChange={() => { setActiveTab('recommendations'); resetUpload(); }} />
                     <div>
-                      <div className="text-sm font-bold text-ink">Data Rekomendasi</div>
+                      <div className="text-sm font-bold text-industrial-text">Data Rekomendasi</div>
                       <div className="text-xs text-slate-500">Upload list Notification (M4/M7)</div>
                     </div>
                   </label>
@@ -440,50 +440,50 @@ export default function ImportData() {
 
             <div className="p-6 md:p-10">
               {status === 'idle' || status === 'uploading' ? (
-                <div className="max-w-xl mx-auto border-2 border-dashed border-platinum-dark rounded-xl p-8 text-center bg-platinum/30 hover:bg-platinum/80 transition-colors">
+                <div className="max-w-xl mx-auto border-2 border-dashed border-industrial-border rounded-xl p-8 text-center bg-industrial-background/30 hover:bg-industrial-background/80 transition-colors">
                   <input type="file" accept=".csv, .xlsx, .xls" className="hidden" ref={fileInputRef} onChange={e => { if (e.target.files?.length) setFile(e.target.files[0]); }} />
 
                   {!file ? (
                     <>
-                      <div className="w-16 h-16 bg-white border border-platinum-dark rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm-subtle">
-                        <UploadCloud className="w-8 h-8 text-navy" />
+                      <div className="w-16 h-16 bg-white border border-industrial-border rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm-subtle">
+                        <UploadCloud className="w-8 h-8 text-industrial-blue" />
                       </div>
-                      <h3 className="text-sm font-bold text-ink mb-1">2. Pilih File CSV / Excel SAP</h3>
-                      <p className="text-xs text-platinum-dark mb-6">
+                      <h3 className="text-sm font-bold text-industrial-text mb-1">2. Pilih File CSV / Excel SAP</h3>
+                      <p className="text-xs text-industrial-muted mb-6">
                         Pilih file ekstrak SAP berformat .csv atau .xlsx untuk memperbarui database ({activeTab === 'workorders' ? 'Work Order' : 'Rekomendasi'}).
                       </p>
-                      <button onClick={() => fileInputRef.current?.click()} className="px-5 py-2.5 bg-navy text-white text-xs font-bold rounded-lg hover:bg-navy transition-colors cursor-pointer">
+                      <button onClick={() => fileInputRef.current?.click()} className="px-5 py-2.5 bg-industrial-blue text-white text-xs font-bold rounded-lg hover:bg-industrial-navy transition-colors cursor-pointer">
                         Browse File
                       </button>
                     </>
                   ) : (
                     <>
-                      <div className="w-16 h-16 bg-navy/10 border border-navy/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <FileText className="w-8 h-8 text-navy" />
+                      <div className="w-16 h-16 bg-industrial-blue/10 border border-industrial-blue/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <FileText className="w-8 h-8 text-industrial-blue" />
                       </div>
-                      <h3 className="text-sm font-bold text-ink mb-1 truncate px-4">{file.name}</h3>
-                      <p className="text-[10px] text-platinum-dark mb-4 font-mono">{(file.size / 1024).toFixed(2)} KB</p>
+                      <h3 className="text-sm font-bold text-industrial-text mb-1 truncate px-4">{file.name}</h3>
+                      <p className="text-[10px] text-industrial-muted mb-4 font-mono">{(file.size / 1024).toFixed(2)} KB</p>
 
                       {status === 'uploading' ? (
-                        <div className="w-full max-w-md mx-auto my-4 p-4 bg-white border border-platinum-dark rounded-xl shadow-sm space-y-2">
-                          <div className="flex justify-between items-center text-xs font-semibold text-ink">
+                        <div className="w-full max-w-md mx-auto my-4 p-4 bg-white border border-industrial-border rounded-xl shadow-sm space-y-2">
+                          <div className="flex justify-between items-center text-xs font-semibold text-industrial-text">
                             <span className="flex items-center gap-1.5">
-                              <Loader2 className="w-3.5 h-3.5 animate-spin text-navy" />
+                              <Loader2 className="w-3.5 h-3.5 animate-spin text-industrial-blue" />
                               {uploadProgress < 100 ? 'Mengunggah file ke server...' : 'Memproses & Membaca Data SAP...'}
                             </span>
-                            <span className="font-mono text-navy font-bold text-sm">{uploadProgress}%</span>
+                            <span className="font-mono text-industrial-blue font-bold text-sm">{uploadProgress}%</span>
                           </div>
-                          <div className="w-full h-3 bg-platinum-dark rounded-full overflow-hidden border border-platinum-dark">
-                            <div className="h-full bg-navy transition-all duration-300 rounded-full" style={{ width: `${uploadProgress}%` }} />
+                          <div className="w-full h-3 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
+                            <div className="h-full bg-industrial-blue transition-all duration-300 rounded-full" style={{ width: `${uploadProgress}%` }} />
                           </div>
-                          <p className="text-[10px] text-platinum-dark text-center italic">
+                          <p className="text-[10px] text-industrial-muted text-center italic">
                             {uploadProgress < 100 ? 'Mohon tunggu, file sedang dikirim...' : 'Sistem sedang mencocokkan data ke database...'}
                           </p>
                         </div>
                       ) : (
                         <div className="flex space-x-3 justify-center">
-                          <button onClick={resetUpload} className="px-4 py-2 border border-platinum-dark text-ink text-xs font-bold rounded-lg hover:bg-platinum transition-colors cursor-pointer">Batal</button>
-                          <button onClick={() => startUpload(file, activeTab)} className="px-5 py-2 bg-navy text-white text-xs font-bold rounded-lg hover:bg-navy transition-colors flex items-center space-x-2 shadow-sm cursor-pointer">
+                          <button onClick={resetUpload} className="px-4 py-2 border border-industrial-border text-industrial-text text-xs font-bold rounded-lg hover:bg-industrial-background transition-colors cursor-pointer">Batal</button>
+                          <button onClick={() => startUpload(file, activeTab)} className="px-5 py-2 bg-industrial-blue text-white text-xs font-bold rounded-lg hover:bg-industrial-navy transition-colors flex items-center space-x-2 shadow-sm cursor-pointer">
                             <span>Mulai Import</span>
                           </button>
                         </div>
@@ -501,35 +501,35 @@ export default function ImportData() {
 
           {/* CLEAR DATA — hide when reviewing */}
           {!isReviewing && (
-            <div className="bg-white border border-platinum-dark rounded-card shadow-sm-subtle overflow-hidden p-6">
-              <h3 className="text-lg font-bold text-ink mb-2 flex items-center gap-2">
-                <Trash2 className="w-5 h-5 text-danger" /> Kosongkan Data
+            <div className="bg-white border border-industrial-border rounded-card shadow-sm-subtle overflow-hidden p-6">
+              <h3 className="text-lg font-bold text-industrial-text mb-2 flex items-center gap-2">
+                <Trash2 className="w-5 h-5 text-industrial-red" /> Kosongkan Data
               </h3>
-              <p className="text-sm text-platinum-dark mb-4">
+              <p className="text-sm text-industrial-muted mb-4">
                 Hapus data {activeTab === 'workorders' ? 'Work Order' : 'Rekomendasi'} berdasarkan tanggal saat data tersebut diunggah ke sistem.
               </p>
               <div className="flex flex-col md:flex-row gap-4 items-start md:items-center">
                 <div className="flex-1">
-                  <label className="block text-xs font-semibold text-ink mb-1">Pilih Tanggal Upload</label>
+                  <label className="block text-xs font-semibold text-industrial-text mb-1">Pilih Tanggal Upload</label>
                   {isLoadingDates ? (
-                    <div className="text-sm text-platinum-dark flex items-center gap-2 py-2"><Loader2 className="w-4 h-4 animate-spin" /> Memuat daftar tanggal...</div>
+                    <div className="text-sm text-industrial-muted flex items-center gap-2 py-2"><Loader2 className="w-4 h-4 animate-spin" /> Memuat daftar tanggal...</div>
                   ) : uploadDates.length === 0 ? (
-                    <div className="text-sm text-platinum-dark py-2">Belum ada data upload.</div>
+                    <div className="text-sm text-industrial-muted py-2">Belum ada data upload.</div>
                   ) : (
-                    <select className="w-full md:max-w-xs px-3 py-2 border border-platinum-dark rounded-lg text-sm focus:outline-none focus:border-navy focus:ring-1 focus:ring-navy"
+                    <select className="w-full md:max-w-xs px-3 py-2 border border-industrial-border rounded-lg text-sm focus:outline-none focus:border-industrial-blue focus:ring-1 focus:ring-industrial-blue"
                       value={clearDate} onChange={e => setClearDate(e.target.value)}>
                       {uploadDates.map(date => <option key={date} value={date}>{date}</option>)}
                     </select>
                   )}
                 </div>
                 <button onClick={handleClearData} disabled={isClearing || !clearDate}
-                  className="px-4 py-2 bg-white border border-danger text-danger text-sm font-bold rounded-lg hover:bg-danger hover:text-white transition-colors disabled:opacity-50 flex items-center gap-2 cursor-pointer mt-5 md:mt-0">
+                  className="px-4 py-2 bg-white border border-industrial-red text-industrial-red text-sm font-bold rounded-lg hover:bg-industrial-red hover:text-white transition-colors disabled:opacity-50 flex items-center gap-2 cursor-pointer mt-5 md:mt-0">
                   {isClearing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
                   Hapus Data
                 </button>
               </div>
               {clearMessage && (
-                <div className={`mt-4 p-3 rounded-lg text-sm ${clearMessage.type === 'success' ? 'bg-success/10 text-success border border-success/20' : 'bg-danger/10 text-danger border border-danger/20'}`}>
+                <div className={`mt-4 p-3 rounded-lg text-sm ${clearMessage.type === 'success' ? 'bg-industrial-green/10 text-industrial-green border border-industrial-green/20' : 'bg-industrial-red/10 text-industrial-red border border-industrial-red/20'}`}>
                   {clearMessage.text}
                 </div>
               )}
@@ -544,5 +544,3 @@ export default function ImportData() {
     </div>
   );
 }
-
-

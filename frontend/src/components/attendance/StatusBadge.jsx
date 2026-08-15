@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import {
   CheckCircle2, Coffee, Palmtree, Plane, Briefcase, GraduationCap,
   Stethoscope, FileText, Share2, HelpCircle
@@ -6,11 +6,11 @@ import {
 
 export const STATUS_CONFIG = {
   1: { id: 1, name: 'Hadir', icon: CheckCircle2, bg: 'bg-emerald-50 text-emerald-800 border-emerald-300', color: 'text-emerald-600', badgeBg: 'bg-emerald-500' },
-  2: { id: 2, name: 'Libur', icon: Coffee, bg: 'bg-platinum-dark text-slate-700 border-slate-300', color: 'text-slate-500', badgeBg: 'bg-slate-400' },
+  2: { id: 2, name: 'Libur', icon: Coffee, bg: 'bg-slate-100 text-slate-700 border-slate-300', color: 'text-slate-500', badgeBg: 'bg-slate-400' },
   3: { id: 3, name: 'Cuti', icon: Palmtree, bg: 'bg-amber-100 text-amber-900 border-amber-300', color: 'text-amber-700', badgeBg: 'bg-amber-500' },
-  4: { id: 4, name: 'Dinas Luar Negeri', icon: Plane, bg: 'bg-blue-100 text-blue-900 border-blue-300', color: 'text-blue-700', badgeBg: 'bg-navy' },
+  4: { id: 4, name: 'Dinas Luar Negeri', icon: Plane, bg: 'bg-blue-100 text-blue-900 border-blue-300', color: 'text-blue-700', badgeBg: 'bg-blue-600' },
   5: { id: 5, name: 'Dinas Dalam Negeri', icon: Briefcase, bg: 'bg-sky-100 text-sky-900 border-sky-300', color: 'text-sky-700', badgeBg: 'bg-sky-500' },
-  6: { id: 6, name: 'Training', icon: GraduationCap, bg: 'bg-indigo-100 text-indigo-900 border-indigo-300', color: 'text-indigo-700', badgeBg: 'bg-navy' },
+  6: { id: 6, name: 'Training', icon: GraduationCap, bg: 'bg-indigo-100 text-indigo-900 border-indigo-300', color: 'text-indigo-700', badgeBg: 'bg-indigo-600' },
   7: { id: 7, name: 'Sakit', icon: Stethoscope, bg: 'bg-rose-100 text-rose-900 border-rose-300', color: 'text-rose-700', badgeBg: 'bg-rose-500' },
   8: { id: 8, name: 'Izin', icon: FileText, bg: 'bg-orange-100 text-orange-900 border-orange-300', color: 'text-orange-700', badgeBg: 'bg-orange-500' },
   9: { id: 9, name: 'Referral', icon: Share2, bg: 'bg-teal-100 text-teal-900 border-teal-300', color: 'text-teal-700', badgeBg: 'bg-teal-600' },
@@ -70,4 +70,3 @@ export default function StatusBadge({ statusId, statusName, size = 'sm', showIco
     </span>
   );
 }
-

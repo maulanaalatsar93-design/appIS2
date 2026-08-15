@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { Outlet } from 'react-router-dom';
 import Header from './Header';
 import Sidebar from './Sidebar';
@@ -6,29 +6,11 @@ import { AuthContext } from '../../context/AuthContext';
 import OnlineChatWidget from '../chat/OnlineChatWidget';
 
 export default function MainLayout() {
-  const [isCollapsed, setIsCollapsed] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return window.innerWidth < 1024;
-    }
-    return false;
-  });
-  
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 1024) {
-        setIsCollapsed(true);
-      } else {
-        setIsCollapsed(false);
-      }
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
+  const [isCollapsed, setIsCollapsed] = useState(false);
   const { user } = useContext(AuthContext);
 
   return (
-    <div className="flex h-screen bg-platinum text-navy font-sans overflow-hidden">
+    <div className="flex min-h-screen bg-industrial-background text-industrial-text font-sans">
       {/* Sidebar hanya tampil bila sudah login */}
       {user && (
         <Sidebar 
@@ -36,12 +18,12 @@ export default function MainLayout() {
           setIsCollapsed={setIsCollapsed} 
         />
       )}
-      <div className="flex-1 flex flex-col min-w-0 transition-all duration-300 overflow-hidden">
+      <div className="flex-1 flex flex-col min-w-0">
         <Header 
           isCollapsed={isCollapsed} 
           setIsCollapsed={setIsCollapsed} 
         />
-        <main className="flex-1 p-6 lg:p-8 overflow-y-auto relative bg-transparent">
+        <main className="flex-1 p-4 md:p-6 lg:p-8 overflow-y-auto relative">
           <Outlet />
         </main>
       </div>
@@ -50,4 +32,3 @@ export default function MainLayout() {
     </div>
   );
 }
-

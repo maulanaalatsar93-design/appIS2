@@ -1,4 +1,4 @@
-﻿import React, { useContext } from 'react';
+import React, { useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import {
@@ -56,12 +56,17 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
 
   return (
     <aside
-      className={`bg-navy flex flex-col justify-between shrink-0 transition-all duration-300 ease-in-out z-50 overflow-y-auto print:hidden lg:h-screen ${
-        isCollapsed 
-          ? 'w-0 -translate-x-full lg:translate-x-0 lg:w-20 fixed lg:relative inset-y-0 left-0 opacity-0 lg:opacity-100' 
-          : 'w-full translate-x-0 lg:w-[240px] fixed lg:relative inset-y-0 left-0 opacity-100'
-      }`}
+      className={`${isCollapsed ? 'w-16' : 'w-64'
+        } bg-[#050D1F]/95 backdrop-blur-xl bg-gradient-to-b from-[#0A1A4A] to-[#050D1F] border border-white/10 shadow-2xl flex flex-col justify-between shrink-0 h-[calc(100vh-1.5rem)] my-3 ml-3 rounded-2xl sticky top-3 transition-all duration-300 ease-in-out z-40 relative overflow-hidden print:hidden`}
     >
+      {/* Grid lines overlay */}
+      <div
+        className="absolute inset-0 opacity-[0.04] pointer-events-none"
+        style={{
+          backgroundImage: `linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)`,
+          backgroundSize: '60px 60px',
+        }}
+      />
 
       <div className="relative z-10 flex flex-col justify-between h-full p-2.5">
         <div>
@@ -72,8 +77,9 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
               className={`flex items-center ${isCollapsed ? 'justify-center w-full cursor-pointer' : 'gap-3'}`}
               title={isCollapsed ? 'Perluas Sidebar' : undefined}
             >
-              <div className="w-10 h-10 bg-accent text-white rounded-xl flex items-center justify-center overflow-hidden shrink-0 transition-transform duration-300 hover:scale-105">
+              <div className="w-10 h-10 bg-white/10 border border-white/15 backdrop-blur-sm rounded-xl flex items-center justify-center overflow-hidden shadow-lg shrink-0 transition-transform duration-300 hover:scale-105">
                 <img
+                  src={logoImg}
                   alt="Logo ISTEK 2"
                   className="w-7 h-7 object-contain"
                   onError={(e) => {
@@ -83,9 +89,9 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
                 />
               </div>
               {!isCollapsed && (
-                <div className="flex flex-col justify-center overflow-hidden">
-                  <p className="text-white font-bold text-xs tracking-tight leading-tight truncate">Inspeksi Teknik 2</p>
-                  <p className="text-platinum-dark text-[9px] font-medium mt-0.5 truncate">Sistem Monitoring</p>
+                <div className="flex flex-col justify-center">
+                  <p className="text-white font-bold text-xs tracking-tight leading-tight">Inspeksi Teknik 2</p>
+                  <p className="text-slate-400 text-[9px] font-medium mt-0.5">Sistem Monitoring</p>
                 </div>
               )}
             </div>
@@ -95,7 +101,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
                 className="p-1 text-white/40 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
                 title="Ciutkan Sidebar"
               >
-                <ChevronLeft size={20} className="lg:w-4 lg:h-4" />
+                <ChevronLeft size={16} />
               </button>
             )}
           </div>
@@ -116,19 +122,19 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
                     return (
                       <button
                         key={item.path}
-                        onClick={() => {
-                          navigate(item.path);
-                          if (window.innerWidth < 1024) setIsCollapsed(true);
-                        }}
+                        onClick={() => navigate(item.path)}
                         title={isCollapsed ? item.label : undefined}
-                        className={`w-full flex items-center ${isCollapsed ? 'justify-center py-2.5' : 'gap-2.5 px-3.5 py-2.5'
-                          } rounded-lg text-sm transition-all duration-200 ease-out border-l-[3px] mb-2 ${isActive
-                            ? 'bg-accent/10 border-accent text-accent font-bold'
-                            : 'border-transparent text-platinum-dark hover:bg-white/5 font-medium'
+                        className={`w-full flex items-center ${isCollapsed ? 'justify-center py-2' : 'space-x-3 px-3 py-2.5'
+                          } rounded-xl text-xs font-bold transition-all duration-300 ease-out border ${isActive
+                            ? 'bg-[#1A4BC4] text-white shadow-lg shadow-blue-900/40 border-blue-400/30'
+                            : 'border-transparent text-white/60 hover:text-white hover:bg-white/10'
                           }`}
                       >
-                        <div className="shrink-0 flex items-center justify-center">
-                          <Icon className={`w-5 h-5 transition-colors duration-200 ease-out ${isActive ? 'text-accent' : 'text-platinum-dark'}`} />
+                        <div
+                          className={`shrink-0 flex items-center justify-center transition-all duration-300 ease-out ${isCollapsed ? 'w-9 h-9 rounded-full bg-white/5 border border-white/10' : ''
+                            } ${isActive ? '!bg-white/15 !border-blue-300/30 text-white' : ''}`}
+                        >
+                          <Icon className={`w-4 h-4 transition-colors duration-300 ease-out ${isActive ? 'text-[#FF7B4F]' : 'text-white/60'}`} />
                         </div>
                         {!isCollapsed && <span className="truncate">{item.label}</span>}
                       </button>
@@ -140,9 +146,28 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
           </div>
         </div>
 
-        {/* Support/Pro Card for Expanded state - Removed per user request */}
+        {/* Footer Toggle for Collapsed state */}
+        {isCollapsed && (
+          <div className="flex justify-center pb-1">
+            <button
+              onClick={() => setIsCollapsed && setIsCollapsed(false)}
+              className="p-2 text-white/40 hover:text-white hover:bg-white/10 rounded-xl transition-colors"
+              title="Perluas Sidebar"
+            >
+              <ChevronRight size={18} />
+            </button>
+          </div>
+        )}
+
+        {/* Footer info minimalis for Expanded state */}
+        {!isCollapsed && (
+          <div className="p-2.5 text-center border-t border-white/10">
+            <span className="text-[10px] text-white/30 font-semibold tracking-wider uppercase">
+              Inspeksi Teknik 2
+            </span>
+          </div>
+        )}
       </div>
     </aside>
   );
 }
-

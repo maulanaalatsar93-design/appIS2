@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { Loader2, Plus, Calendar as CalendarIcon, Users, FileText, ChevronRight, Eye, CheckCircle2, Clock, XCircle, AlertTriangle } from 'lucide-react';
 import ManpowerPlanningForm from './ManpowerPlanningForm';
@@ -47,13 +47,13 @@ export default function ManpowerPlanning() {
 
   const getStatusBadge = (status) => {
     const badges = {
-      'Draft': 'bg-platinum-dark text-slate-600 border-platinum-dark',
-      'Waiting AVP Approval': 'bg-blue-50 text-navy border-navy-soft',
-      'Waiting VP Approval': 'bg-indigo-50 text-navy border-indigo-200',
+      'Draft': 'bg-slate-100 text-slate-600 border-slate-200',
+      'Waiting AVP Approval': 'bg-blue-50 text-blue-600 border-blue-200',
+      'Waiting VP Approval': 'bg-indigo-50 text-indigo-600 border-indigo-200',
       'Approved': 'bg-emerald-50 text-emerald-600 border-emerald-200',
       'Rejected': 'bg-red-50 text-red-600 border-red-200',
       'Revision Requested': 'bg-amber-50 text-amber-600 border-amber-200',
-      'Cancelled': 'bg-gray-100 text-gray-500 border-platinum-dark',
+      'Cancelled': 'bg-gray-100 text-gray-500 border-gray-200',
     };
     
     return (
@@ -76,12 +76,12 @@ export default function ManpowerPlanning() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-ink mb-2">Perencanaan Manpower</h1>
-          <p className="text-platinum-dark text-sm">Kelola rencana penempatan personel untuk program pabrik dan pantau proses persetujuan.</p>
+          <h1 className="text-2xl font-bold text-industrial-text mb-2">Perencanaan Manpower</h1>
+          <p className="text-industrial-muted text-sm">Kelola rencana penempatan personel untuk program pabrik dan pantau proses persetujuan.</p>
         </div>
         <button
           onClick={handleCreateNew}
-          className="flex items-center space-x-2 bg-navy hover:bg-blue-700 text-white px-4 py-2.5 rounded-xl text-sm font-semibold transition-all shadow-sm"
+          className="flex items-center space-x-2 bg-industrial-blue hover:bg-blue-700 text-white px-4 py-2.5 rounded-xl text-sm font-semibold transition-all shadow-sm"
         >
           <Plus className="w-4 h-4" />
           <span>Buat Rencana</span>
@@ -90,44 +90,44 @@ export default function ManpowerPlanning() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-white border border-platinum-dark rounded-card p-4 flex items-start space-x-4 shadow-sm-subtle">
+        <div className="bg-white border border-industrial-border rounded-card p-4 flex items-start space-x-4 shadow-sm-subtle">
           <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center shrink-0">
             <FileText className="w-5 h-5 text-blue-500" />
           </div>
           <div>
-            <p className="text-xs font-medium text-platinum-dark">Total Rencana</p>
-            <p className="text-2xl font-bold text-ink mt-1">{plans.length}</p>
+            <p className="text-xs font-medium text-industrial-muted">Total Rencana</p>
+            <p className="text-2xl font-bold text-industrial-text mt-1">{plans.length}</p>
           </div>
         </div>
-        <div className="bg-white border border-platinum-dark rounded-card p-4 flex items-start space-x-4 shadow-sm-subtle">
+        <div className="bg-white border border-industrial-border rounded-card p-4 flex items-start space-x-4 shadow-sm-subtle">
           <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center shrink-0">
             <Clock className="w-5 h-5 text-amber-500" />
           </div>
           <div>
-            <p className="text-xs font-medium text-platinum-dark">Menunggu Approval</p>
-            <p className="text-2xl font-bold text-ink mt-1">
+            <p className="text-xs font-medium text-industrial-muted">Menunggu Approval</p>
+            <p className="text-2xl font-bold text-industrial-text mt-1">
               {plans.filter(p => p.status.includes('Waiting')).length}
             </p>
           </div>
         </div>
-        <div className="bg-white border border-platinum-dark rounded-card p-4 flex items-start space-x-4 shadow-sm-subtle">
+        <div className="bg-white border border-industrial-border rounded-card p-4 flex items-start space-x-4 shadow-sm-subtle">
           <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center shrink-0">
             <CheckCircle2 className="w-5 h-5 text-emerald-500" />
           </div>
           <div>
-            <p className="text-xs font-medium text-platinum-dark">Disetujui</p>
-            <p className="text-2xl font-bold text-ink mt-1">
+            <p className="text-xs font-medium text-industrial-muted">Disetujui</p>
+            <p className="text-2xl font-bold text-industrial-text mt-1">
               {plans.filter(p => p.status === 'Approved').length}
             </p>
           </div>
         </div>
-        <div className="bg-white border border-platinum-dark rounded-card p-4 flex items-start space-x-4 shadow-sm-subtle">
+        <div className="bg-white border border-industrial-border rounded-card p-4 flex items-start space-x-4 shadow-sm-subtle">
           <div className="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center shrink-0">
             <AlertTriangle className="w-5 h-5 text-red-500" />
           </div>
           <div>
-            <p className="text-xs font-medium text-platinum-dark">Perlu Perhatian</p>
-            <p className="text-2xl font-bold text-ink mt-1">
+            <p className="text-xs font-medium text-industrial-muted">Perlu Perhatian</p>
+            <p className="text-2xl font-bold text-industrial-text mt-1">
               {plans.filter(p => p.status === 'Rejected' || p.status === 'Revision Requested').length}
             </p>
           </div>
@@ -135,14 +135,14 @@ export default function ManpowerPlanning() {
       </div>
 
       {/* List */}
-      <div className="bg-white border border-platinum-dark rounded-card overflow-hidden shadow-soft-card">
-        <div className="p-4 border-b border-platinum-dark bg-platinum/50">
-          <h2 className="text-sm font-semibold text-ink">Daftar Dokumen Perencanaan</h2>
+      <div className="bg-white border border-industrial-border rounded-card overflow-hidden shadow-soft-card">
+        <div className="p-4 border-b border-industrial-border bg-gray-50/50">
+          <h2 className="text-sm font-semibold text-industrial-text">Daftar Dokumen Perencanaan</h2>
         </div>
         
         {loading ? (
-          <div className="flex flex-col items-center justify-center p-12 text-platinum-dark">
-            <Loader2 className="w-8 h-8 animate-spin text-navy mb-4" />
+          <div className="flex flex-col items-center justify-center p-12 text-industrial-muted">
+            <Loader2 className="w-8 h-8 animate-spin text-industrial-blue mb-4" />
             <p className="text-sm">Memuat data perencanaan...</p>
           </div>
         ) : plans.length === 0 ? (
@@ -155,7 +155,7 @@ export default function ManpowerPlanning() {
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm whitespace-nowrap">
               <thead>
-                <tr className="text-platinum-dark border-b border-platinum-dark bg-platinum/50">
+                <tr className="text-industrial-muted border-b border-industrial-border bg-gray-50/50">
                   <th className="px-4 py-3 font-medium">Program / Pekerjaan</th>
                   <th className="px-4 py-3 font-medium">Jadwal Pelaksanaan</th>
                   <th className="px-4 py-3 font-medium">Departemen & Area</th>
@@ -164,15 +164,15 @@ export default function ManpowerPlanning() {
                   <th className="px-4 py-3 font-medium text-right">Aksi</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-platinum-dark">
+              <tbody className="divide-y divide-industrial-border">
                 {plans.map((plan) => (
-                  <tr key={plan.id} className="hover:bg-platinum transition-colors group">
+                  <tr key={plan.id} className="hover:bg-slate-50 transition-colors group">
                     <td className="px-4 py-3">
-                      <p className="font-semibold text-ink truncate max-w-[200px]">{plan.title}</p>
-                      <p className="text-xs text-platinum-dark mt-0.5">Pembuat: {plan.createdBy.name}</p>
+                      <p className="font-semibold text-industrial-text truncate max-w-[200px]">{plan.title}</p>
+                      <p className="text-xs text-industrial-muted mt-0.5">Pembuat: {plan.createdBy.name}</p>
                     </td>
                     <td className="px-4 py-3">
-                      <div className="flex items-center space-x-1.5 text-ink text-xs">
+                      <div className="flex items-center space-x-1.5 text-industrial-text text-xs">
                         <CalendarIcon className="w-3.5 h-3.5 text-slate-400" />
                         <span>
                           {new Date(plan.startDate).toLocaleDateString('id-ID', { day: '2-digit', month: 'short' })} 
@@ -182,11 +182,11 @@ export default function ManpowerPlanning() {
                       </div>
                     </td>
                     <td className="px-4 py-3">
-                      <p className="text-ink">{plan.department}</p>
-                      <p className="text-xs text-platinum-dark mt-0.5">{plan.area}</p>
+                      <p className="text-industrial-text">{plan.department}</p>
+                      <p className="text-xs text-industrial-muted mt-0.5">{plan.area}</p>
                     </td>
                     <td className="px-4 py-3">
-                      <div className="flex items-center space-x-1.5 text-ink text-xs bg-platinum-dark px-2 py-1 rounded-md w-fit border border-platinum-dark">
+                      <div className="flex items-center space-x-1.5 text-industrial-text text-xs bg-slate-100 px-2 py-1 rounded-md w-fit border border-slate-200">
                         <Users className="w-3.5 h-3.5 text-blue-500" />
                         <span className="font-medium">{plan.members?.length || 0} orang</span>
                       </div>
@@ -197,7 +197,7 @@ export default function ManpowerPlanning() {
                     <td className="px-4 py-3 text-right">
                       <button 
                         onClick={() => handleViewDetail(plan.id)}
-                        className="p-1.5 bg-blue-50 text-navy hover:bg-blue-100 rounded-lg transition-colors border border-navy-soft inline-flex items-center"
+                        className="p-1.5 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg transition-colors border border-blue-200 inline-flex items-center"
                         title="Lihat Detail"
                       >
                         <Eye className="w-4 h-4" />
@@ -213,5 +213,3 @@ export default function ManpowerPlanning() {
     </div>
   );
 }
-
-
