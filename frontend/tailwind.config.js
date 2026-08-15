@@ -11,31 +11,32 @@ export default {
       },
       colors: {
         industrial: {
-          navy: '#0F172A',
-          blue: '#2563EB',
-          orange: '#FF5722',
-          green: '#10B981',
-          red: '#EF4444',
-          amber: '#F59E0B',
-          background: '#F0F3F8',
-          border: '#E2E8F0',
-          text: '#0F172A',
-          muted: '#64748B',
+          navy: '#00305B',        // Primary Navy
+          blue: '#00A3AD',        // Primary Accent Teal
+          orange: '#F36F21',      // Secondary Accent Orange
+          green: '#10B981',       // Semantic Success
+          red: '#E53E3E',         // Semantic Danger
+          amber: '#F59E0B',       // Semantic Warning
+          background: '#F4F7FB',  // App Background
+          border: '#E2E8F0',      // Border
+          text: '#1A202C',        // Text Primary
+          muted: '#718096',       // Text Secondary
+          surfaceDark: '#0B1E2E', // Surface Dark
           // === Reference design color tokens ===
-          navyDark: '#0F2052',      // Sidebar & SEMUA PM scorecard
-          navyCard: '#13254F',      // SEMUA PM card header
-          royalBlue: '#1A4BC4',     // PM04 card header
-          royalLight: '#2A5FD4',    // PM04 progress bar
-          cardOrange: '#D9650F',    // PM02+ card header
-          progressBar: '#1E56D9',   // Table progress bar fill
+          navyDark: '#00305B',      // Sidebar & SEMUA PM scorecard
+          navyCard: '#0B1E2E',      // SEMUA PM card header
+          royalBlue: '#00A3AD',     // PM04 card header
+          royalLight: '#00C3CF',    // PM04 progress bar (Lighter teal)
+          cardOrange: '#F36F21',    // PM02+ card header
+          progressBar: '#00A3AD',   // Table progress bar fill
         },
       },
       boxShadow: {
-        'sm-subtle': '0 2px 8px 0 rgba(0, 0, 0, 0.03)',
-        'soft-card': '0 8px 24px -4px rgba(15, 23, 42, 0.04)',
+        'sm-subtle': '0 2px 8px 0 rgba(0, 48, 91, 0.03)',
+        'soft-card': '0 4px 16px 0 rgba(0, 48, 91, 0.04)',
       },
       borderRadius: {
-        'card': '24px',
+        'card': '18px',
         'pill': '9999px',
       }
     },
