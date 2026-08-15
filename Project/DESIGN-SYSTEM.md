@@ -1,4 +1,4 @@
-# DESIGN SYSTEM
+<!-- # DESIGN SYSTEM
 ## Industrial Operations & Reliability Dashboard
 
 > Palet warna (Navy + Orange) terinspirasi dari identitas korporat
@@ -605,4 +605,4 @@ Pengguna yang belum login tetap bisa mengakses Public Dashboard tanpa autentikas
 - Public Dashboard berjalan normal dengan data read-only
 - Header tetap menampilkan tombol Login yang prominent (lihat Bagian 25)
 - Tidak ada data internal / manpower / import yang diekspos ke guest
-
+ -->
