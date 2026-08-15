@@ -119,29 +119,8 @@ export default function Header({ isCollapsed, setIsCollapsed }) {
   };
 
   return (
-    <header className="h-20 bg-transparent px-4 lg:px-8 flex items-center justify-between sticky top-0 z-30 pt-4 pb-2 print:hidden">
-      <div className="flex-1 flex items-center justify-between">
-        
-        {/* Left: Greeting */}
-        <div className="flex items-center gap-2">
-          <span className="text-xl">☀️</span>
-          <h1 className="text-xl font-extrabold text-industrial-text">
-            Hello {user ? user.name.split(' ')[0] : 'Guest'} <span className="text-xl">👋</span>
-          </h1>
-        </div>
-
-        {/* Center: Search Bar (Hidden on Mobile) */}
-        <div className="hidden md:flex items-center bg-white rounded-full px-4 py-2.5 w-96 shadow-sm-subtle border border-industrial-border ml-10">
-          <svg className="w-4 h-4 text-industrial-muted mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-          </svg>
-          <input 
-            type="text" 
-            placeholder="Search here" 
-            className="w-full text-xs font-semibold text-industrial-text bg-transparent outline-none placeholder-industrial-muted"
-          />
-        </div>
-
+    <header className="h-20 bg-transparent px-4 lg:px-8 flex items-center justify-end sticky top-0 z-30 pt-4 pb-2 print:hidden">
+      <div className="flex items-center">
         {/* Right: Actions */}
         <div className="flex items-center space-x-4 relative justify-end flex-1">
           <button className="p-2.5 bg-white border border-industrial-border text-industrial-text hover:bg-slate-50 rounded-full transition-colors hidden sm:block">

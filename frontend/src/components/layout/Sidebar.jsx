@@ -134,19 +134,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
           </div>
         </div>
 
-        {/* Support/Pro Card for Expanded state */}
-        {!isCollapsed && (
-          <div className="p-4 mx-3 mb-4 bg-white rounded-2xl shadow-soft-card text-center relative overflow-hidden">
-            <div className="w-8 h-8 bg-[#0a0a0a] text-white rounded-lg flex items-center justify-center mx-auto mb-3">
-              <Shield size={16} />
-            </div>
-            <h4 className="text-sm font-bold text-industrial-text mb-1">Butuh Bantuan?</h4>
-            <p className="text-[10px] text-industrial-muted mb-4 px-2">Hubungi admin untuk fitur dan akses lebih lanjut!</p>
-            <button className="w-full bg-[#0a0a0a] text-white text-xs font-bold py-2.5 rounded-xl hover:bg-industrial-blue transition-colors">
-              Hubungi Admin
-            </button>
-          </div>
-        )}
+        {/* Support/Pro Card for Expanded state - Removed per user request */}
       </div>
     </aside>
   );

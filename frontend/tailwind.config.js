@@ -12,23 +12,23 @@ export default {
       colors: {
         industrial: {
           navy: '#00305B',        // Primary Navy
-          blue: '#00A3AD',        // Primary Accent Teal
-          orange: '#F36F21',      // Secondary Accent Orange
-          green: '#10B981',       // Semantic Success
+          blue: '#1268B3',        // Primary Accent Blue
+          orange: '#F47920',      // Secondary Accent Orange
+          green: '#16A34A',       // Semantic Success
           red: '#E53E3E',         // Semantic Danger
           amber: '#F59E0B',       // Semantic Warning
-          background: '#F4F7FB',  // App Background
+          background: '#F5F7FB',  // App Background
           border: '#E2E8F0',      // Border
           text: '#1A202C',        // Text Primary
           muted: '#718096',       // Text Secondary
-          surfaceDark: '#0B1E2E', // Surface Dark
+          surfaceDark: '#0D1E2D', // Surface Dark
           // === Reference design color tokens ===
           navyDark: '#00305B',      // Sidebar & SEMUA PM scorecard
-          navyCard: '#0B1E2E',      // SEMUA PM card header
-          royalBlue: '#00A3AD',     // PM04 card header
-          royalLight: '#00C3CF',    // PM04 progress bar (Lighter teal)
-          cardOrange: '#F36F21',    // PM02+ card header
-          progressBar: '#00A3AD',   // Table progress bar fill
+          navyCard: '#0D1E2D',      // SEMUA PM card header
+          royalBlue: '#1268B3',     // PM04 card header
+          royalLight: '#1268B3',    // PM04 progress bar (Lighter teal)
+          cardOrange: '#F47920',    // PM02+ card header
+          progressBar: '#1268B3',   // Table progress bar fill
         },
       },
       boxShadow: {
