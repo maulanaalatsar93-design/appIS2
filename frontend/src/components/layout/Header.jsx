@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Bell, Database, Server, LogOut, User, Menu, Lock } from 'lucide-react';
+import { Bell, Database, Server, LogOut, User, Menu, Lock, Settings } from 'lucide-react';
 import { AuthContext } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { playSubmitSound, playSuccessSound, playErrorSound } from '../../utils/soundUtils';
