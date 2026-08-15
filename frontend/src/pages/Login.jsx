@@ -60,10 +60,10 @@ export default function Login() {
       {/* === LEFT: Animated Branding Panel === */}
       <div className="hidden lg:flex lg:w-[55%] relative flex-col justify-between p-14 overflow-hidden">
         {/* Subtle background radial glow */}
-        <div className="absolute inset-0 bg-gradient-to-br from-platinum via-[#EAE5C9] to-platinum" />
+        <div className="absolute inset-0 bg-gradient-to-br from-navy via-[#1F1E2E] to-navy" />
 
         {/* Glowing orbs */}
-        <div className="absolute top-[-15%] left-[-10%] w-[55%] h-[55%] rounded-full bg-navy/10 blur-[90px] pointer-events-none" />
+        <div className="absolute top-[-15%] left-[-10%] w-[55%] h-[55%] rounded-full bg-white/5 blur-[90px] pointer-events-none" />
         <div className="absolute bottom-[-10%] right-[-5%] w-[45%] h-[45%] rounded-full bg-accent/10 blur-[80px] pointer-events-none" />
         <div className="absolute top-[40%] left-[30%] w-[30%] h-[30%] rounded-full bg-success/10 blur-[60px] pointer-events-none" />
 
@@ -71,7 +71,7 @@ export default function Login() {
         <div
           className="absolute inset-0 opacity-10"
           style={{
-            backgroundImage: `linear-gradient(rgba(3,42,83,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(3,42,83,0.15) 1px, transparent 1px)`,
+            backgroundImage: `linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)`,
             backgroundSize: '60px 60px',
           }}
         />
@@ -87,7 +87,7 @@ export default function Login() {
             />
           </div>
           <div>
-            <p className="text-navy font-bold text-sm tracking-tight font-display">ISTEK 2 Dashboard</p>
+            <p className="text-white font-bold text-sm tracking-tight font-display">ISTEK 2 Dashboard</p>
             <p className="text-platinum-dark text-[10px] font-medium">Sistem Monitoring</p>
           </div>
         </div>
@@ -99,7 +99,7 @@ export default function Login() {
             <span className="text-success text-xs font-semibold tracking-wider uppercase">Sistem Online</span>
           </div>
 
-          <h1 className="text-5xl font-extrabold text-navy leading-[1.1] tracking-tight font-display">
+          <h1 className="text-5xl font-extrabold text-white leading-[1.1] tracking-tight font-display">
             Platform <span className="text-accent">Monitoring</span><br />
             Inspeksi Teknik 2
           </h1>
@@ -114,9 +114,9 @@ export default function Login() {
               { icon: Activity, label: 'Monitoring' },
               { icon: Cpu, label: 'Data SAP' },
             ].map(({ icon: Icon, label }) => (
-              <div key={label} className="flex items-center gap-1.5 bg-white/60 border border-white rounded-full px-3 py-1.5 shadow-sm">
-                <Icon className="w-3 h-3 text-navy" />
-                <span className="text-navy text-[11px] font-medium">{label}</span>
+              <div key={label} className="flex items-center gap-1.5 bg-white/10 border border-white/20 rounded-full px-3 py-1.5 shadow-sm">
+                <Icon className="w-3 h-3 text-white" />
+                <span className="text-white text-[11px] font-medium">{label}</span>
               </div>
             ))}
           </div>
@@ -124,7 +124,7 @@ export default function Login() {
 
         {/* Abstract dashboard mockup */}
         <div className="relative z-10 w-full">
-          <div className="bg-white/80 border border-white backdrop-blur-sm rounded-2xl p-5 shadow-xl">
+          <div className="bg-navy-soft/80 border border-white/10 backdrop-blur-sm rounded-2xl p-5 shadow-xl">
             {/* Top bar */}
             <div className="flex items-center justify-between mb-4">
               <div className="flex gap-1.5">
@@ -137,19 +137,19 @@ export default function Login() {
             {/* KPI cards row */}
             <div className="grid grid-cols-3 gap-2.5 mb-3">
               {['Work Order', 'Rekomendasi', 'Man Power'].map((label, i) => (
-                <div key={label} className="bg-white border border-platinum-dark rounded-xl p-3 shadow-sm">
-                  <div className="h-1.5 w-8 bg-navy/40 rounded mb-2" />
-                  <div className="h-5 w-12 bg-navy/10 rounded font-bold" />
-                  <div className="h-1.5 w-10 bg-platinum-dark rounded mt-1.5" />
+                <div key={label} className="bg-navy/40 border border-white/10 rounded-xl p-3 shadow-sm">
+                  <div className="h-1.5 w-8 bg-white/40 rounded mb-2" />
+                  <div className="h-5 w-12 bg-white/10 rounded font-bold" />
+                  <div className="h-1.5 w-10 bg-platinum-dark/50 rounded mt-1.5" />
                 </div>
               ))}
             </div>
             {/* Chart area */}
-            <div className="bg-white border border-platinum-dark rounded-xl p-3 flex items-end gap-1.5 h-16 shadow-sm">
+            <div className="bg-navy/40 border border-white/10 rounded-xl p-3 flex items-end gap-1.5 h-16 shadow-sm">
               {[40, 65, 45, 80, 55, 90, 70, 85, 60, 75, 50, 88].map((h, i) => (
                 <div
                   key={i}
-                  className="flex-1 rounded-sm bg-gradient-to-t from-navy/60 to-navy/20"
+                  className="flex-1 rounded-sm bg-gradient-to-t from-accent/60 to-accent/20"
                   style={{ height: `${h}%` }}
                 />
               ))}
@@ -163,7 +163,7 @@ export default function Login() {
         {/* Subtle top accent line */}
         <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-navy via-accent to-accent-soft lg:hidden" />
 
-        <div className="w-full max-w-sm mx-auto bg-white p-8 rounded-3xl shadow-xl border border-white/50">
+        <div className="w-full max-w-sm mx-auto bg-white p-8 rounded-[14px] shadow-[0_4px_16px_0_rgba(0,0,0,0.08)] border border-platinum-dark">
           {/* Mobile logo */}
           <div className="flex items-center gap-3 mb-8 lg:hidden">
             <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center overflow-hidden border border-platinum-dark shadow-sm">
@@ -201,9 +201,9 @@ export default function Login() {
             {/* Email field */}
             <div className="space-y-1.5">
               <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">NPK</label>
-              <div className={`relative flex items-center rounded-xl border-2 transition-all duration-200 bg-white ${focusedField === 'npk' ? 'border-blue-500 shadow-[0_0_0_3px_rgba(59,130,246,0.15)]' : 'border-slate-200 hover:border-slate-300'}`}>
+              <div className={`relative flex items-center rounded-xl border-2 transition-all duration-200 bg-white ${focusedField === 'npk' ? 'border-navy shadow-[0_0_0_3px_rgba(20,19,29,0.08)]' : 'border-platinum-dark hover:border-navy/50'}`}>
                 <div className="pl-4 shrink-0">
-                  <User className={`w-4 h-4 transition-colors ${focusedField === 'npk' ? 'text-blue-500' : 'text-slate-400'}`} />
+                  <User className={`w-4 h-4 transition-colors ${focusedField === 'npk' ? 'text-navy' : 'text-slate-400'}`} />
                 </div>
                 <input
                   type="text"
@@ -221,9 +221,9 @@ export default function Login() {
             {/* Password field */}
             <div className="space-y-1.5">
               <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">Password</label>
-              <div className={`relative flex items-center rounded-xl border-2 transition-all duration-200 bg-white ${focusedField === 'password' ? 'border-blue-500 shadow-[0_0_0_3px_rgba(59,130,246,0.15)]' : 'border-slate-200 hover:border-slate-300'}`}>
+              <div className={`relative flex items-center rounded-xl border-2 transition-all duration-200 bg-white ${focusedField === 'password' ? 'border-navy shadow-[0_0_0_3px_rgba(20,19,29,0.08)]' : 'border-platinum-dark hover:border-navy/50'}`}>
                 <div className="pl-4 shrink-0">
-                  <Lock className={`w-4 h-4 transition-colors ${focusedField === 'password' ? 'text-blue-500' : 'text-slate-400'}`} />
+                  <Lock className={`w-4 h-4 transition-colors ${focusedField === 'password' ? 'text-navy' : 'text-slate-400'}`} />
                 </div>
                 <input
                   type={showPassword ? 'text' : 'password'}
@@ -248,7 +248,7 @@ export default function Login() {
                 <button
                   type="button"
                   onClick={() => alert('Untuk mereset password Anda, silakan hubungi Administrator (Maulana Cipta P).')}
-                  className="text-xs text-blue-600 font-semibold hover:text-blue-800 transition-colors"
+                  className="text-xs text-navy font-bold hover:text-navy-soft transition-colors"
                 >
                   Lupa Password?
                 </button>
@@ -259,7 +259,7 @@ export default function Login() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full mt-2 relative overflow-hidden flex items-center justify-center gap-2 py-3 px-6 rounded-xl text-sm font-bold text-white transition-all duration-300 bg-accent hover:shadow-[0_4px_20px_rgba(228,59,0,0.3)] hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-60 disabled:cursor-not-allowed shadow-md"
+              className="w-full mt-2 relative overflow-hidden flex items-center justify-center gap-2 py-3 px-6 rounded-[10px] text-sm font-bold text-white transition-all duration-300 bg-navy hover:bg-[#1F1E2E] active:translate-y-0 disabled:opacity-60 disabled:cursor-not-allowed tracking-[0.01em]"
             >
               <span className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 translate-x-[-100%] hover:translate-x-[100%] transition-transform duration-700" />
               {loading ? (
@@ -289,7 +289,7 @@ export default function Login() {
             <button
               type="button"
               onClick={() => navigate('/')}
-              className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl border-2 border-slate-200 hover:border-[#1A4BC4] text-slate-500 hover:text-[#1A4BC4] text-xs font-semibold transition-all duration-200 hover:bg-blue-50 group"
+              className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-[10px] border border-platinum-dark hover:border-navy text-slate-500 hover:text-navy text-xs font-semibold transition-all duration-200 hover:bg-platinum group"
             >
               <span>Lihat Dashboard Publik tanpa login</span>
               <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
