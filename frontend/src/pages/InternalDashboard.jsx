@@ -1261,7 +1261,7 @@ export default function InternalDashboard() {
                               <td className="py-2.5 px-2 text-xs text-industrial-text">PM04</td>
                               <td 
                                 className={`py-2.5 px-2 text-center text-xs font-medium ${textColor}`} 
-                                style={{ backgroundColor: `rgba(228, 59, 0, ${opacity || 0.05})` }}
+                                style={{ backgroundColor: `rgba(20, 27, 116, ${opacity || 0.05})` }}
                               >
                                 {row.totalWO.toLocaleString('id-ID')}
                               </td>
@@ -1303,14 +1303,14 @@ export default function InternalDashboard() {
                       <tbody>
                         {pm02Data.map((row, idx) => {
                           const opacity = maxWO2 > 0 ? (row.totalWO / maxWO2) : 0;
-                          const textColor = opacity > 0.45 ? 'text-white' : 'text-industrial-text';
+                          const textColor = opacity > 0.45 ? 'text-industrial-ink' : 'text-industrial-text';
                           return (
                             <tr key={idx} className="last:border-0">
                               <td className="py-2.5 pr-2 text-xs text-industrial-text">{row.name}</td>
                               <td className="py-2.5 px-2 text-xs text-industrial-text">PM02+</td>
                               <td 
                                 className={`py-2.5 px-2 text-center text-xs font-medium ${textColor}`} 
-                                style={{ backgroundColor: `rgba(228, 59, 0, ${opacity || 0.05})` }}
+                                style={{ backgroundColor: `rgba(252, 163, 17, ${opacity || 0.05})` }}
                               >
                                 {row.totalWO.toLocaleString('id-ID')}
                               </td>
