@@ -56,17 +56,8 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
 
   return (
     <aside
-      className={`${isCollapsed ? 'w-16' : 'w-64'
-        } bg-[#050D1F]/95 backdrop-blur-xl bg-gradient-to-b from-[#0A1A4A] to-[#050D1F] border border-white/10 shadow-2xl flex flex-col justify-between shrink-0 h-[calc(100vh-1.5rem)] my-3 ml-3 rounded-2xl sticky top-3 transition-all duration-300 ease-in-out z-40 relative overflow-hidden print:hidden`}
+      className={`${isCollapsed ? 'w-20' : 'w-64'} bg-industrial-navyDark flex flex-col justify-between shrink-0 h-full transition-all duration-300 ease-in-out z-40 relative overflow-y-auto print:hidden`}
     >
-      {/* Grid lines overlay */}
-      <div
-        className="absolute inset-0 opacity-[0.04] pointer-events-none"
-        style={{
-          backgroundImage: `linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)`,
-          backgroundSize: '60px 60px',
-        }}
-      />
 
       <div className="relative z-10 flex flex-col justify-between h-full p-2.5">
         <div>
@@ -77,11 +68,11 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
               className={`flex items-center ${isCollapsed ? 'justify-center w-full cursor-pointer' : 'gap-3'}`}
               title={isCollapsed ? 'Perluas Sidebar' : undefined}
             >
-              <div className="w-10 h-10 bg-white/10 border border-white/15 backdrop-blur-sm rounded-xl flex items-center justify-center overflow-hidden shadow-lg shrink-0 transition-transform duration-300 hover:scale-105">
+              <div className="w-10 h-10 bg-industrial-blue text-white rounded-xl flex items-center justify-center overflow-hidden shrink-0 transition-transform duration-300 hover:scale-105">
                 <img
                   src={logoImg}
                   alt="Logo ISTEK 2"
-                  className="w-7 h-7 object-contain"
+                  className="w-7 h-7 object-contain brightness-0 invert"
                   onError={(e) => {
                     e.target.onerror = null;
                     e.target.src = brandIconImg;
@@ -124,17 +115,14 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
                         key={item.path}
                         onClick={() => navigate(item.path)}
                         title={isCollapsed ? item.label : undefined}
-                        className={`w-full flex items-center ${isCollapsed ? 'justify-center py-2' : 'space-x-3 px-3 py-2.5'
-                          } rounded-xl text-xs font-bold transition-all duration-300 ease-out border ${isActive
-                            ? 'bg-[#1A4BC4] text-white shadow-lg shadow-blue-900/40 border-blue-400/30'
-                            : 'border-transparent text-white/60 hover:text-white hover:bg-white/10'
+                        className={`w-full flex items-center ${isCollapsed ? 'justify-center py-3' : 'space-x-3 px-4 py-3'
+                          } rounded-none text-xs font-bold transition-all duration-300 ease-out border-l-4 ${isActive
+                            ? 'bg-white/5 border-industrial-blue text-white'
+                            : 'border-transparent text-industrial-muted hover:text-white hover:bg-white/5'
                           }`}
                       >
-                        <div
-                          className={`shrink-0 flex items-center justify-center transition-all duration-300 ease-out ${isCollapsed ? 'w-9 h-9 rounded-full bg-white/5 border border-white/10' : ''
-                            } ${isActive ? '!bg-white/15 !border-blue-300/30 text-white' : ''}`}
-                        >
-                          <Icon className={`w-4 h-4 transition-colors duration-300 ease-out ${isActive ? 'text-[#FF7B4F]' : 'text-white/60'}`} />
+                        <div className="shrink-0 flex items-center justify-center">
+                          <Icon className={`w-5 h-5 transition-colors duration-300 ease-out ${isActive ? 'text-industrial-blue' : 'text-industrial-muted'}`} />
                         </div>
                         {!isCollapsed && <span className="truncate">{item.label}</span>}
                       </button>
@@ -146,25 +134,17 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
           </div>
         </div>
 
-        {/* Footer Toggle for Collapsed state */}
-        {isCollapsed && (
-          <div className="flex justify-center pb-1">
-            <button
-              onClick={() => setIsCollapsed && setIsCollapsed(false)}
-              className="p-2 text-white/40 hover:text-white hover:bg-white/10 rounded-xl transition-colors"
-              title="Perluas Sidebar"
-            >
-              <ChevronRight size={18} />
-            </button>
-          </div>
-        )}
-
-        {/* Footer info minimalis for Expanded state */}
+        {/* Support/Pro Card for Expanded state */}
         {!isCollapsed && (
-          <div className="p-2.5 text-center border-t border-white/10">
-            <span className="text-[10px] text-white/30 font-semibold tracking-wider uppercase">
-              Inspeksi Teknik 2
-            </span>
+          <div className="p-4 mx-3 mb-4 bg-white rounded-2xl shadow-soft-card text-center relative overflow-hidden">
+            <div className="w-8 h-8 bg-industrial-navyDark text-white rounded-lg flex items-center justify-center mx-auto mb-3">
+              <Shield size={16} />
+            </div>
+            <h4 className="text-sm font-bold text-industrial-text mb-1">Butuh Bantuan?</h4>
+            <p className="text-[10px] text-industrial-muted mb-4 px-2">Hubungi admin untuk fitur dan akses lebih lanjut!</p>
+            <button className="w-full bg-industrial-navyDark text-white text-xs font-bold py-2.5 rounded-xl hover:bg-industrial-blue transition-colors">
+              Hubungi Admin
+            </button>
           </div>
         )}
       </div>
