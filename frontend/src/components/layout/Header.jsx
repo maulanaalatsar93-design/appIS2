@@ -212,7 +212,7 @@ export default function Header({ isCollapsed, setIsCollapsed }) {
             
             {user ? (
               <div className="flex items-center gap-2 relative group cursor-pointer ml-2">
-                <div className="w-9 h-9 rounded-full bg-industrial-navyDark text-white flex items-center justify-center text-xs font-extrabold uppercase shadow-sm">
+                <div className="w-9 h-9 rounded-full bg-[#0a0a0a] text-white flex items-center justify-center text-xs font-extrabold uppercase shadow-sm">
                   {user.name ? user.name.charAt(0) : 'U'}
                 </div>
                 {/* Minimal dropdown on hover for auth actions */}
@@ -232,7 +232,7 @@ export default function Header({ isCollapsed, setIsCollapsed }) {
             ) : (
               <button
                 onClick={() => navigate('/login')}
-                className="group relative flex items-center gap-2 px-5 py-2 text-xs font-bold text-white rounded-full overflow-hidden shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg bg-industrial-navyDark"
+                className="group relative flex items-center gap-2 px-5 py-2 text-xs font-bold text-white rounded-full overflow-hidden shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg bg-[#0a0a0a]"
               >
                 <User className="w-3.5 h-3.5 relative z-10" />
                 <span className="relative z-10">Login</span>

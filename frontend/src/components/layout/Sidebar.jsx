@@ -56,7 +56,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
 
   return (
     <aside
-      className={`${isCollapsed ? 'w-20' : 'w-64'} bg-industrial-navyDark flex flex-col justify-between shrink-0 h-full transition-all duration-300 ease-in-out z-40 relative overflow-y-auto print:hidden`}
+      className={`${isCollapsed ? 'w-20' : 'w-64'} bg-[#0a0a0a] flex flex-col justify-between shrink-0 h-full transition-all duration-300 ease-in-out z-40 relative overflow-y-auto print:hidden`}
     >
 
       <div className="relative z-10 flex flex-col justify-between h-full p-2.5">
@@ -137,12 +137,12 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
         {/* Support/Pro Card for Expanded state */}
         {!isCollapsed && (
           <div className="p-4 mx-3 mb-4 bg-white rounded-2xl shadow-soft-card text-center relative overflow-hidden">
-            <div className="w-8 h-8 bg-industrial-navyDark text-white rounded-lg flex items-center justify-center mx-auto mb-3">
+            <div className="w-8 h-8 bg-[#0a0a0a] text-white rounded-lg flex items-center justify-center mx-auto mb-3">
               <Shield size={16} />
             </div>
             <h4 className="text-sm font-bold text-industrial-text mb-1">Butuh Bantuan?</h4>
             <p className="text-[10px] text-industrial-muted mb-4 px-2">Hubungi admin untuk fitur dan akses lebih lanjut!</p>
-            <button className="w-full bg-industrial-navyDark text-white text-xs font-bold py-2.5 rounded-xl hover:bg-industrial-blue transition-colors">
+            <button className="w-full bg-[#0a0a0a] text-white text-xs font-bold py-2.5 rounded-xl hover:bg-industrial-blue transition-colors">
               Hubungi Admin
             </button>
           </div>

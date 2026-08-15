@@ -10,7 +10,7 @@ export default function MainLayout() {
   const { user } = useContext(AuthContext);
 
   return (
-    <div className="flex h-screen bg-industrial-navyDark text-industrial-text font-sans overflow-hidden">
+    <div className="flex h-screen bg-[#0a0a0a] text-industrial-text font-sans overflow-hidden">
       {/* Sidebar hanya tampil bila sudah login */}
       {user && (
         <Sidebar 
