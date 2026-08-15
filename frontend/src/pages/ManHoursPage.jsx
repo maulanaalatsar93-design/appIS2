@@ -29,7 +29,7 @@ function KpiCard({ icon: Icon, label, value, sub, color, unit = 'jam' }) {
 
 function SortIcon({ field, sortBy, sortDir }) {
   if (sortBy !== field) return <span className="text-gray-200 ml-1">↕</span>;
-  return sortDir === 'asc' ? <ChevronUp className="w-3 h-3 ml-1 inline text-blue-500" /> : <ChevronDown className="w-3 h-3 ml-1 inline text-blue-500" />;
+  return sortDir === 'asc' ? <ChevronUp className="w-3 h-3 ml-1 inline text-navy-600" /> : <ChevronDown className="w-3 h-3 ml-1 inline text-navy-600" />;
 }
 
 // Inline edit jam untuk personil
@@ -83,7 +83,7 @@ function InlineTimeEditor({ row, onSave, onCancel, isSaving }) {
           <button
             onClick={() => onSave(rowId, tanggal, mulai, selesai)}
             disabled={isSaving || !mulai || !selesai}
-            className="flex items-center gap-1 px-3 py-1.5 bg-green-600 text-white rounded-lg text-xs font-semibold hover:bg-green-700 disabled:opacity-50 transition"
+            className="flex items-center gap-1 px-3 py-1.5 bg-green-600 text-ink rounded-lg text-xs font-semibold hover:bg-green-700 disabled:opacity-50 transition"
           >
             <Check className="w-3.5 h-3.5" /> {isSaving ? 'Menyimpan...' : 'Simpan'}
           </button>
@@ -362,8 +362,8 @@ export default function ManHoursPage() {
       {/* ── Header ── */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
-            <Clock className="w-6 h-6 text-blue-600" /> Man Hours (Daily Task)
+          <h1 className="text-2xl font-display font-bold text-gray-800 flex items-center gap-2">
+            <Clock className="w-6 h-6 text-navy-600" /> Man Hours (Daily Task)
           </h1>
           <p className="text-sm text-gray-500 mt-0.5">
             {isAnggota
@@ -390,11 +390,11 @@ export default function ManHoursPage() {
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} /> Refresh
           </button>
           <button onClick={() => setShowForm(true)}
-            className="flex items-center gap-1.5 px-3 py-2 bg-green-600 text-white rounded-lg text-sm hover:bg-green-700 transition">
+            className="flex items-center gap-1.5 px-3 py-2 bg-green-600 text-ink rounded-lg text-sm hover:bg-green-700 transition">
             <Plus className="w-3.5 h-3.5" /> Tambah Aktivitas
           </button>
           <button onClick={exportCsv}
-            className="flex items-center gap-1.5 px-3 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700 transition">
+            className="flex items-center gap-1.5 px-3 py-2 bg-navy-600 text-white rounded-lg text-sm hover:bg-navy-950 transition">
             <Download className="w-3.5 h-3.5" /> Export CSV
           </button>
         </div>
@@ -403,7 +403,7 @@ export default function ManHoursPage() {
       {/* ── Modal Form Tambah DailyTask ── */}
       {showForm && (
         <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+          <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
               <h2 className="text-base font-bold text-gray-800 flex items-center gap-2">
                 <Plus className="w-4 h-4 text-green-600" /> Tambah Aktivitas Harian
@@ -511,11 +511,11 @@ export default function ManHoursPage() {
               )}
               <div className="flex gap-3 pt-2">
                 <button type="button" onClick={() => { setShowForm(false); setFormError(''); }}
-                  className="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition">
+                  className="flex-1 py-2.5 border border-gray-200 rounded-lg text-sm text-gray-600 hover:bg-gray-50 transition">
                   Batal
                 </button>
                 <button type="submit" disabled={formSaving}
-                  className="flex-1 py-2.5 bg-green-600 text-white rounded-xl text-sm font-semibold hover:bg-green-700 disabled:opacity-60 transition flex items-center justify-center gap-2">
+                  className="flex-1 py-2.5 bg-green-600 text-ink rounded-lg text-sm font-semibold hover:bg-green-700 disabled:opacity-60 transition flex items-center justify-center gap-2">
                   <Save className="w-4 h-4" />
                   {formSaving ? 'Menyimpan...' : 'Simpan Aktivitas'}
                 </button>
@@ -537,9 +537,9 @@ export default function ManHoursPage() {
       {isAdmin && (
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Bar: MH per Personel */}
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-4">
+        <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-4">
           <h3 className="text-sm font-bold text-gray-700 mb-3 flex items-center gap-1.5">
-            <BarChart3 className="w-4 h-4 text-blue-500" /> Man Hours per Personel (Top 10)
+            <BarChart3 className="w-4 h-4 text-navy-600" /> Man Hours per Personel (Top 10)
           </h3>
           {chartPersonel ? (
             <Chart options={chartPersonel.options} series={chartPersonel.series} type="bar" height={280} />
@@ -549,7 +549,7 @@ export default function ManHoursPage() {
         </div>
 
         {/* Donut: MH per Area */}
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-4">
+        <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-4">
           <h3 className="text-sm font-bold text-gray-700 mb-3 flex items-center gap-1.5">
             <MapPin className="w-4 h-4 text-amber-500" /> Man Hours per Area
           </h3>
@@ -563,7 +563,7 @@ export default function ManHoursPage() {
       )}
 
       {/* ── Filter Bar ── */}
-      <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-4 space-y-3">
+      <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-4 space-y-3">
         <div className="flex items-center gap-2 text-sm font-semibold text-gray-700">
           <Filter className="w-4 h-4 text-gray-400" /> Filter
         </div>
@@ -605,7 +605,7 @@ export default function ManHoursPage() {
       </div>
 
       {/* ── Data Table ── */}
-      <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+      <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
         {isAnggota && (
           <div className="px-4 py-2.5 bg-blue-50 border-b border-blue-100 text-xs text-blue-700 flex items-center gap-1.5">
             <Edit2 className="w-3.5 h-3.5" />
@@ -732,9 +732,9 @@ export default function ManHoursPage() {
       {isAdmin && summary && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {/* Per Personel */}
-          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+          <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
             <div className="px-4 py-3 border-b border-gray-100 flex items-center gap-2">
-              <Users className="w-4 h-4 text-blue-500" />
+              <Users className="w-4 h-4 text-navy-600" />
               <h3 className="text-sm font-bold text-gray-700">MH per Personel</h3>
             </div>
             <div className="divide-y divide-gray-50 max-h-64 overflow-y-auto">
@@ -744,7 +744,7 @@ export default function ManHoursPage() {
                     <p className="text-xs font-semibold text-gray-700">{p.nama}</p>
                     <p className="text-[10px] text-gray-400">{p.npk}</p>
                   </div>
-                  <span className="text-sm font-bold text-blue-600">{p.total} <span className="text-[10px] font-normal text-gray-400">jam</span></span>
+                  <span className="text-sm font-bold text-navy-600">{p.total} <span className="text-[10px] font-normal text-gray-400">jam</span></span>
                 </div>
               ))}
               {!summary.by_personel.length && <p className="px-4 py-3 text-xs text-gray-400 italic">Tidak ada data</p>}
@@ -752,7 +752,7 @@ export default function ManHoursPage() {
           </div>
 
           {/* Per Area */}
-          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+          <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
             <div className="px-4 py-3 border-b border-gray-100 flex items-center gap-2">
               <MapPin className="w-4 h-4 text-amber-500" />
               <h3 className="text-sm font-bold text-gray-700">MH per Area</h3>
@@ -769,7 +769,7 @@ export default function ManHoursPage() {
           </div>
 
           {/* Per Pabrik */}
-          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+          <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
             <div className="px-4 py-3 border-b border-gray-100 flex items-center gap-2">
               <Building2 className="w-4 h-4 text-green-500" />
               <h3 className="text-sm font-bold text-gray-700">MH per Pabrik</h3>

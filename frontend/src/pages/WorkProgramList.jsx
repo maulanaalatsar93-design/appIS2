@@ -56,11 +56,11 @@ export default function WorkProgramList() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-industrial-text">Work Programs</h1>
-          <p className="text-industrial-muted text-sm mt-1">Kelola perencanaan manpower, alur approval, dan eksekusi program pabrik.</p>
+          <h1 className="text-2xl font-display font-bold text-ink">Work Programs</h1>
+          <p className="text-gray-500 text-sm mt-1">Kelola perencanaan manpower, alur approval, dan eksekusi program pabrik.</p>
         </div>
         <button onClick={() => setView('form')}
-          className="flex items-center space-x-2 bg-industrial-blue hover:bg-blue-700 text-white px-4 py-2.5 rounded-xl text-sm font-semibold transition-all shadow-sm">
+          className="flex items-center space-x-2 bg-navy-600 hover:bg-navy-950 text-white px-4 py-2.5 rounded-lg text-sm font-semibold transition-all shadow-sm">
           <Plus className="w-4 h-4" />
           <span>Buat Program</span>
         </button>
@@ -69,13 +69,13 @@ export default function WorkProgramList() {
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map(s => (
-          <div key={s.label} className="bg-white border border-industrial-border rounded-card p-4 flex items-center space-x-4 shadow-sm-subtle">
+          <div key={s.label} className="bg-white border border-gray-200 rounded-lg p-4 flex items-center space-x-4 shadow-sm-subtle">
             <div className={`w-10 h-10 rounded-xl ${s.bg} flex items-center justify-center shrink-0`}>
               <s.icon className={`w-5 h-5 ${s.color}`} />
             </div>
             <div>
-              <p className="text-xs font-medium text-industrial-muted">{s.label}</p>
-              <p className="text-2xl font-bold text-industrial-text">{s.value}</p>
+              <p className="text-xs font-medium text-gray-500">{s.label}</p>
+              <p className="text-2xl font-display font-bold text-ink">{s.value}</p>
             </div>
           </div>
         ))}
@@ -85,16 +85,16 @@ export default function WorkProgramList() {
       <div className="flex flex-wrap gap-2">
         {['All', 'Draft', 'Waiting AVP Approval', 'Waiting VP Approval', 'Approved', 'Team Ready', 'Active', 'Completed', 'Rejected'].map(s => (
           <button key={s} onClick={() => setStatusFilter(s)}
-            className={`px-3 py-1.5 text-xs font-semibold rounded-lg border transition-all ${statusFilter === s ? 'bg-industrial-blue text-white border-blue-600' : 'bg-white text-industrial-muted border-industrial-border hover:border-industrial-blue hover:text-industrial-blue'}`}>
+            className={`px-3 py-1.5 text-xs font-semibold rounded-lg border transition-all ${statusFilter === s ? 'bg-industrial-blue text-ink border-blue-600' : 'bg-white text-industrial-muted border-industrial-border hover:border-industrial-blue hover:text-industrial-blue'}`}>
             {s}
           </button>
         ))}
       </div>
 
       {/* List */}
-      <div className="bg-white border border-industrial-border rounded-card overflow-hidden shadow-soft-card">
-        <div className="p-4 border-b border-industrial-border bg-slate-50">
-          <h2 className="text-sm font-semibold text-industrial-text">Daftar Program ({filtered.length})</h2>
+      <div className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-md">
+        <div className="p-4 border-b border-gray-200 bg-slate-50">
+          <h2 className="text-sm font-semibold text-ink">Daftar Program ({filtered.length})</h2>
         </div>
 
         {loading ? (
@@ -102,15 +102,15 @@ export default function WorkProgramList() {
             <Loader2 className="w-8 h-8 animate-spin text-industrial-blue" />
           </div>
         ) : filtered.length === 0 ? (
-          <div className="flex flex-col items-center justify-center p-12 text-slate-400">
+          <div className="flex flex-col items-center justify-center p-12 text-gray-500">
             <ClipboardList className="w-12 h-12 opacity-20 mb-3" />
-            <p className="text-sm font-medium text-slate-500">Belum ada program.</p>
+            <p className="text-sm font-medium text-gray-500">Belum ada program.</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
               <thead>
-                <tr className="border-b border-industrial-border bg-slate-50/50 text-industrial-muted text-xs uppercase tracking-wide">
+                <tr className="border-b border-gray-200 bg-slate-50/50 text-gray-500 text-xs uppercase tracking-wide">
                   <th className="px-4 py-3 font-semibold">Nama Program</th>
                   <th className="px-4 py-3 font-semibold">Plant & Area</th>
                   <th className="px-4 py-3 font-semibold">Jadwal</th>
@@ -124,16 +124,16 @@ export default function WorkProgramList() {
                 {filtered.map(p => (
                   <tr key={p.id} className="hover:bg-slate-50 transition-colors">
                     <td className="px-4 py-3">
-                      <p className="font-semibold text-industrial-text">{p.title}</p>
-                      <p className="text-[10px] text-industrial-muted">Oleh: {p.created_by?.name}</p>
+                      <p className="font-semibold text-ink">{p.title}</p>
+                      <p className="text-[10px] text-gray-500">Oleh: {p.created_by?.name}</p>
                     </td>
                     <td className="px-4 py-3">
-                      <p className="text-sm text-industrial-text font-medium">{p.plant || '—'}</p>
-                      <p className="text-[10px] text-industrial-muted">{p.area || ''}</p>
+                      <p className="text-sm text-ink font-medium">{p.plant || '—'}</p>
+                      <p className="text-[10px] text-gray-500">{p.area || ''}</p>
                     </td>
                     <td className="px-4 py-3">
-                      <div className="flex items-center text-xs text-industrial-text space-x-1">
-                        <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                      <div className="flex items-center text-xs text-ink space-x-1">
+                        <Calendar className="w-3.5 h-3.5 text-gray-500" />
                         <span>
                           {new Date(p.start_date).toLocaleDateString('id-ID', { day: '2-digit', month: 'short' })}
                           {' – '}
@@ -144,15 +144,15 @@ export default function WorkProgramList() {
                     <td className="px-4 py-3">
                       {p.coordinator ? (
                         <div>
-                          <p className="text-xs font-semibold text-industrial-text">{p.coordinator.name}</p>
-                          <p className="text-[10px] text-industrial-muted">{p.coordinator.position}</p>
+                          <p className="text-xs font-semibold text-ink">{p.coordinator.name}</p>
+                          <p className="text-[10px] text-gray-500">{p.coordinator.position}</p>
                         </div>
-                      ) : <span className="text-xs text-slate-400">—</span>}
+                      ) : <span className="text-xs text-gray-500">—</span>}
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex items-center space-x-1.5 bg-slate-100 px-2 py-1 rounded-md border border-slate-200 w-fit">
-                        <Users className="w-3.5 h-3.5 text-blue-500" />
-                        <span className="text-xs font-semibold text-industrial-text">{p.members?.length || 0}</span>
+                        <Users className="w-3.5 h-3.5 text-navy-600" />
+                        <span className="text-xs font-semibold text-ink">{p.members?.length || 0}</span>
                       </div>
                     </td>
                     <td className="px-4 py-3">
@@ -177,7 +177,7 @@ export default function WorkProgramList() {
                     </td>
                     <td className="px-4 py-3 text-right">
                       <button onClick={() => { setSelectedId(p.id); setView('detail'); }}
-                        className="p-1.5 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg border border-blue-200 transition-colors">
+                        className="p-1.5 bg-blue-50 text-navy-600 hover:bg-blue-100 rounded-lg border border-blue-200 transition-colors">
                         <Eye className="w-4 h-4" />
                       </button>
                     </td>

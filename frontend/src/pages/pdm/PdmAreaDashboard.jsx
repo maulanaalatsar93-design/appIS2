@@ -72,7 +72,7 @@ function AreaRow({ area, expanded, onToggle, isUserArea }) {
           <div className="flex items-center gap-2 flex-wrap mb-1">
             <p className="font-bold text-gray-800">{area.sub_area}</p>
             {isUserArea && (
-              <span className="text-[10px] bg-blue-600 text-white font-bold px-2 py-0.5 rounded-full uppercase tracking-wider shadow-sm">Area Anda</span>
+              <span className="text-[10px] bg-navy-600 text-white font-bold px-2 py-0.5 rounded-full uppercase tracking-wider shadow-sm">Area Anda</span>
             )}
             <span className="text-[10px] text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded">
               {area.nama_pabrik}
@@ -117,7 +117,7 @@ function AreaRow({ area, expanded, onToggle, isUserArea }) {
                   {/* Personnel */}
                   <div className="flex flex-wrap gap-1.5 mt-1">
                     {task.dataCollector && (
-                      <span className="text-[10px] bg-blue-50 text-blue-600 px-1.5 py-0.5 rounded">DC: {task.dataCollector.name}</span>
+                      <span className="text-[10px] bg-blue-50 text-navy-600 px-1.5 py-0.5 rounded">DC: {task.dataCollector.name}</span>
                     )}
                     {task.analyst && (
                       <span className="text-[10px] bg-amber-50 text-amber-600 px-1.5 py-0.5 rounded">Analyst: {task.analyst.name}</span>
@@ -224,8 +224,8 @@ export default function PdmAreaDashboard() {
       {/* Header */}
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
-            <BarChart2 className="w-6 h-6 text-blue-600" />
+          <h1 className="text-2xl font-display font-bold text-gray-800 flex items-center gap-2">
+            <BarChart2 className="w-6 h-6 text-navy-600" />
             Area Dashboard PdM
           </h1>
           <p className="text-sm text-gray-500 mt-0.5">
@@ -265,7 +265,7 @@ export default function PdmAreaDashboard() {
       </div>
 
       {/* Overall Progress bar */}
-      <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-4">
+      <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-4">
         <div className="flex items-center justify-between mb-2">
           <p className="text-sm font-semibold text-gray-700">Overall Completion — {data.length} area</p>
           <p className="text-sm font-bold text-gray-800">{overallPct}%</p>

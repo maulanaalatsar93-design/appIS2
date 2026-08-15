@@ -5,13 +5,13 @@ import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, AlertTriangle, Zap
 
 
 const STATUS_STYLE = {
-  SCHEDULED:   { bg: 'bg-gray-100 text-gray-700 border-gray-200', dot: 'bg-gray-400' },
-  ASSIGNED:    { bg: 'bg-blue-100 text-blue-700 border-blue-200', dot: 'bg-blue-500' },
-  IN_PROGRESS: { bg: 'bg-amber-100 text-amber-700 border-amber-200', dot: 'bg-amber-500' },
-  ON_HOLD:     { bg: 'bg-orange-100 text-orange-700 border-orange-200', dot: 'bg-orange-500' },
-  COMPLETED:   { bg: 'bg-green-100 text-green-700 border-green-200', dot: 'bg-green-500' },
-  OVERDUE:     { bg: 'bg-red-100 text-red-700 border-red-200', dot: 'bg-red-500' },
-  CANCELLED:   { bg: 'bg-slate-100 text-slate-500 border-slate-200', dot: 'bg-slate-400' },
+  SCHEDULED:   { bg: 'bg-gray-50 text-gray-500 border-gray-200', dot: 'bg-gray-500' },
+  ASSIGNED:    { bg: 'bg-navy-100 text-navy-600 border-navy-200', dot: 'bg-navy-600' },
+  IN_PROGRESS: { bg: 'bg-orange-100 text-orange-600 border-orange-200', dot: 'bg-orange-600' },
+  ON_HOLD:     { bg: 'bg-gray-200 text-gray-500 border-gray-300', dot: 'bg-gray-500' },
+  COMPLETED:   { bg: 'bg-[#E4F3EC] text-success border-[#1E7F53]', dot: 'bg-success' },
+  OVERDUE:     { bg: 'bg-orange-100 text-danger border-danger', dot: 'bg-danger' },
+  CANCELLED:   { bg: 'bg-gray-200 text-gray-500 border-gray-300', dot: 'bg-gray-500' },
 };
 
 export default function PdmCalendar() {
@@ -102,8 +102,8 @@ export default function PdmCalendar() {
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
-            <CalendarIcon className="w-6 h-6 text-blue-600" />
+          <h1 className="text-2xl font-display font-bold text-gray-800 flex items-center gap-2">
+            <CalendarIcon className="w-6 h-6 text-navy-600" />
             Kalender PdM Rotating
           </h1>
           <p className="text-gray-500 text-sm mt-1">Jadwal inspeksi bulanan berdasarkan master schedule</p>
@@ -151,7 +151,7 @@ export default function PdmCalendar() {
       {/* Calendar + Detail */}
       <div className="flex gap-4">
         {/* Calendar Grid */}
-        <div className="flex-1 bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+        <div className="flex-1 bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
           <div className="grid grid-cols-7 bg-gray-50 border-b border-gray-100">
             {['Sen','Sel','Rab','Kam','Jum','Sab','Min'].map(d => (
               <div key={d} className="py-2 text-center text-xs font-semibold text-gray-500 uppercase border-r last:border-0 border-gray-100">{d}</div>
@@ -169,7 +169,7 @@ export default function PdmCalendar() {
                   onClick={() => setSelected(day)}
                   className={`min-h-[100px] p-2 bg-white cursor-pointer transition ${!inMonth ? 'opacity-40' : ''} ${isSelected ? 'ring-2 ring-blue-400 ring-inset' : 'hover:bg-blue-50/30'}`}
                 >
-                  <div className={`text-sm font-medium mb-1 w-6 h-6 flex items-center justify-center rounded-full ${isToday ? 'bg-blue-600 text-white' : 'text-gray-500'}`}>
+                  <div className={`text-sm font-medium mb-1 w-6 h-6 flex items-center justify-center rounded-full ${isToday ? 'bg-navy-600 text-ink' : 'text-gray-500'}`}>
                     {format(day, 'd')}
                   </div>
                   <div className="space-y-0.5">
@@ -185,7 +185,7 @@ export default function PdmCalendar() {
                         </div>
                       );
                     })}
-                    {dayTasks.length > 3 && <div className="text-xs text-blue-500 font-medium">+{dayTasks.length - 3} lagi</div>}
+                    {dayTasks.length > 3 && <div className="text-xs text-navy-600 font-medium">+{dayTasks.length - 3} lagi</div>}
                   </div>
                 </div>
               );
@@ -195,7 +195,7 @@ export default function PdmCalendar() {
 
         {/* Selected Day Detail */}
         <div className="w-72 shrink-0">
-          <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden h-full">
+          <div className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden h-full">
             <div className="p-4 border-b border-gray-100 bg-gray-50">
               <h3 className="font-semibold text-gray-700">
                 {selected ? format(selected, 'EEEE, d MMMM', { locale: idLocale }) : 'Pilih tanggal'}
@@ -230,24 +230,24 @@ export default function PdmCalendar() {
                       <span className={`px-1.5 py-0.5 rounded ${occ.rule?.criticality === 'CRITICAL' ? 'bg-red-50 text-red-600' : 'bg-gray-100 text-gray-500'}`}>
                         {occ.rule?.criticality === 'CRITICAL' ? 'Critical' : 'Non Critical'}
                       </span>
-                      <span className="px-1.5 py-0.5 rounded bg-blue-50 text-blue-600">{occ.rule?.equipmentCat}</span>
+                      <span className="px-1.5 py-0.5 rounded bg-blue-50 text-navy-600">{occ.rule?.equipmentCat}</span>
                     </div>
                     {/* Action Buttons */}
                     {occ.status === 'ASSIGNED' && (
                       <button onClick={() => handleAction('start', occ.id)}
-                        className="w-full flex items-center justify-center gap-1.5 py-1.5 bg-amber-500 text-white rounded-lg text-xs font-medium hover:bg-amber-600 transition">
+                        className="w-full flex items-center justify-center gap-1.5 py-1.5 bg-amber-500 text-ink rounded-lg text-xs font-medium hover:bg-amber-600 transition">
                         <Play className="w-3 h-3" /> Mulai Kerjakan
                       </button>
                     )}
                     {occ.status === 'ON_HOLD' && (
                       <button onClick={() => handleAction('start', occ.id)}
-                        className="w-full flex items-center justify-center gap-1.5 py-1.5 bg-blue-500 text-white rounded-lg text-xs font-medium hover:bg-blue-600 transition">
+                        className="w-full flex items-center justify-center gap-1.5 py-1.5 bg-navy-600 text-white rounded-lg text-xs font-medium hover:bg-navy-950 transition">
                         <Play className="w-3 h-3" /> Lanjutkan
                       </button>
                     )}
                     {['IN_PROGRESS','ASSIGNED','ON_HOLD'].includes(occ.status) && (
                       <button onClick={() => handleAction('complete', occ.id)}
-                        className="w-full flex items-center justify-center gap-1.5 py-1.5 bg-green-500 text-white rounded-lg text-xs font-medium hover:bg-green-600 transition">
+                        className="w-full flex items-center justify-center gap-1.5 py-1.5 bg-green-500 text-ink rounded-lg text-xs font-medium hover:bg-green-600 transition">
                         <CheckCircle2 className="w-3 h-3" /> Selesaikan
                       </button>
                     )}

@@ -193,7 +193,7 @@ export default function OnlineChatWidget() {
           style={{ marginBottom: isOpen ? '16px' : '0' }}
         >
           {/* Header */}
-          <div className="bg-industrial-blue text-white px-4 py-3 flex items-center justify-between cursor-pointer" onClick={() => setIsMinimized(!isMinimized)}>
+          <div className="bg-navy-600 text-white px-4 py-3 flex items-center justify-between cursor-pointer" onClick={() => setIsMinimized(!isMinimized)}>
             <div className="flex items-center gap-2">
               {activeChatUser ? (
                 <>
@@ -218,7 +218,7 @@ export default function OnlineChatWidget() {
                     </span>
                   )}
                   {isMinimized && unreadCount > 0 && (
-                    <span className="bg-red-500 text-white text-xs px-2 py-0.5 rounded-full ml-2 animate-pulse">
+                    <span className="bg-red-500 text-ink text-xs px-2 py-0.5 rounded-full ml-2 animate-pulse">
                       {unreadCount} New
                     </span>
                   )}
@@ -262,7 +262,7 @@ export default function OnlineChatWidget() {
                         const isMe = msg.senderId === user.id;
                         return (
                           <div key={msg.id || idx} className={`flex ${isMe ? 'justify-end' : 'justify-start'}`}>
-                            <div className={`max-w-[75%] rounded-lg px-3 py-2 text-sm ${isMe ? 'bg-industrial-blue text-white rounded-tr-none' : 'bg-white border border-gray-200 text-gray-800 rounded-tl-none shadow-sm'}`}>
+                            <div className={`max-w-[75%] rounded-lg px-3 py-2 text-sm ${isMe ? 'bg-industrial-blue text-ink rounded-tr-none' : 'bg-white border border-gray-200 text-gray-800 rounded-tl-none shadow-sm'}`}>
                               <p className="break-words">{msg.content}</p>
                               <span className={`text-[10px] mt-1 block ${isMe ? 'text-blue-200 text-right' : 'text-gray-400 text-left'}`}>
                                 {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
@@ -291,7 +291,7 @@ export default function OnlineChatWidget() {
                     <button
                       type="submit"
                       disabled={!newMessage.trim()}
-                      className="bg-industrial-blue text-white p-2 rounded-full hover:bg-industrial-blue-light disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                      className="bg-navy-600 text-white p-2 rounded-full hover:bg-industrial-blue-light disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     >
                       <Send className="w-4 h-4" />
                     </button>
@@ -314,15 +314,15 @@ export default function OnlineChatWidget() {
                   </div>
                   <div className="flex-1 overflow-y-auto p-2">
                     {loadingUsers && onlineUsers.length === 0 ? (
-                      <div className="flex justify-center items-center h-20 text-industrial-muted text-sm">
+                      <div className="flex justify-center items-center h-20 text-gray-500 text-sm">
                         Loading...
                       </div>
                     ) : onlineUsers.length === 0 ? (
-                      <div className="flex justify-center items-center h-20 text-industrial-muted text-sm">
+                      <div className="flex justify-center items-center h-20 text-gray-500 text-sm">
                         Tidak ada personil lain yang online.
                       </div>
                     ) : filteredUsers.length === 0 ? (
-                      <div className="flex justify-center items-center h-20 text-industrial-muted text-sm">
+                      <div className="flex justify-center items-center h-20 text-gray-500 text-sm">
                         Personil tidak ditemukan.
                       </div>
                     ) : (
@@ -348,7 +348,7 @@ export default function OnlineChatWidget() {
                                 </p>
                               </div>
                               {userUnread > 0 && (
-                                <div className="bg-red-500 text-white text-[10px] font-bold rounded-full h-5 w-5 flex items-center justify-center shadow-sm">
+                                <div className="bg-red-500 text-ink text-[10px] font-bold rounded-full h-5 w-5 flex items-center justify-center shadow-sm">
                                   {userUnread > 99 ? '99+' : userUnread}
                                 </div>
                               )}
@@ -369,12 +369,12 @@ export default function OnlineChatWidget() {
       {!isOpen && (
         <button
           onClick={() => { setIsOpen(true); setIsMinimized(false); }}
-          className="bg-industrial-blue text-white p-2.5 rounded-full shadow-lg hover:bg-industrial-blue-light transition-all hover:scale-105 relative"
+          className="bg-navy-600 text-white p-2.5 rounded-full shadow-lg hover:bg-industrial-blue-light transition-all hover:scale-105 relative"
           title="Online Personnel"
         >
           <MessageSquare className="w-4 h-4" />
           {unreadCount > 0 && (
-            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold rounded-full h-5 w-5 flex items-center justify-center animate-pulse shadow-sm border-2 border-white">
+            <span className="absolute -top-1 -right-1 bg-red-500 text-ink text-[10px] font-bold rounded-full h-5 w-5 flex items-center justify-center animate-pulse shadow-sm border-2 border-white">
               {unreadCount > 99 ? '99+' : unreadCount}
             </span>
           )}

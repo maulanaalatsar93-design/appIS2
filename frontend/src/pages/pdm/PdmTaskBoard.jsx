@@ -17,12 +17,12 @@ const STAGES = [
 const STAGE_ORDER = { DC_COLLECTION: 1, ANALYSIS: 2, AVP_APPROVAL: 3, SAP_UPLOAD: 4, CLOSED: 5 };
 
 const STATUS_STYLE = {
-  SCHEDULED:   { bg: 'bg-gray-50 border-gray-200',    badge: 'bg-gray-100 text-gray-600',    label: 'Scheduled' },
-  ASSIGNED:    { bg: 'bg-blue-50 border-blue-200',     badge: 'bg-blue-100 text-blue-700',    label: 'Assigned' },
-  IN_PROGRESS: { bg: 'bg-amber-50 border-amber-200',   badge: 'bg-amber-100 text-amber-700',  label: 'In Progress' },
-  ON_HOLD:     { bg: 'bg-orange-50 border-orange-200', badge: 'bg-orange-100 text-orange-700',label: 'On Hold' },
-  COMPLETED:   { bg: 'bg-green-50 border-green-200',   badge: 'bg-green-100 text-green-700',  label: 'Completed' },
-  OVERDUE:     { bg: 'bg-red-50 border-red-200',       badge: 'bg-red-100 text-red-700',      label: 'Overdue' },
+  SCHEDULED:   { bg: 'bg-gray-50 border-gray-200',    badge: 'bg-gray-50 text-gray-500',    label: 'Scheduled' },
+  ASSIGNED:    { bg: 'bg-navy-100 border-gray-200',   badge: 'bg-navy-100 text-navy-600',    label: 'Assigned' },
+  IN_PROGRESS: { bg: 'bg-orange-100 border-orange-200',badge: 'bg-orange-100 text-orange-600',  label: 'In Progress' },
+  ON_HOLD:     { bg: 'bg-gray-200 border-gray-300',    badge: 'bg-gray-200 text-gray-500',label: 'On Hold' },
+  COMPLETED:   { bg: 'bg-[#E4F3EC] border-gray-200',   badge: 'bg-[#E4F3EC] text-success',  label: 'Completed' },
+  OVERDUE:     { bg: 'bg-orange-100 border-danger',    badge: 'bg-orange-100 text-danger',      label: 'Overdue' },
 };
 
 // ── Stage Progress Bar ───────────────────────────────────────────────────────
@@ -55,8 +55,8 @@ function HoldModal({ onConfirm, onCancel }) {
   const [reason, setReason] = useState('');
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6 space-y-4">
-        <h3 className="font-bold text-gray-800 text-lg">Hold Task</h3>
+      <div className="bg-white rounded-xl shadow-2xl w-full max-w-sm p-6 space-y-4">
+        <h3 className="font-bold text-gray-800 text-lg font-display">Hold Task</h3>
         <p className="text-sm text-gray-500">Masukkan alasan hold. Waktu hold tidak akan dihitung sebagai man-hours.</p>
         <textarea
           value={reason}
@@ -84,8 +84,8 @@ function RejectModal({ onConfirm, onCancel }) {
   const [reason, setReason] = useState('');
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6 space-y-4">
-        <h3 className="font-bold text-red-700 text-lg">Reject / Revisi</h3>
+      <div className="bg-white rounded-xl shadow-2xl w-full max-w-sm p-6 space-y-4">
+        <h3 className="font-bold text-red-700 text-lg font-display">Reject / Revisi</h3>
         <p className="text-sm text-gray-500">Berikan catatan revisi untuk Analyst.</p>
         <textarea
           value={reason}
@@ -98,7 +98,7 @@ function RejectModal({ onConfirm, onCancel }) {
           <button
             onClick={() => { if (reason.trim()) onConfirm(reason); }}
             disabled={!reason.trim()}
-            className="flex-1 py-2 bg-red-500 text-white rounded-lg text-sm font-semibold hover:bg-red-600 transition disabled:opacity-40">
+            className="flex-1 py-2 bg-red-500 text-ink rounded-lg text-sm font-semibold hover:bg-red-600 transition disabled:opacity-40">
             Kirim Revisi
           </button>
           <button onClick={onCancel} className="flex-1 py-2 bg-gray-100 text-gray-600 rounded-lg text-sm hover:bg-gray-200 transition">Batal</button>
@@ -207,7 +207,7 @@ function TaskBox({ occ, onAction, manpowers, userRole, userMpId, isAdmin: global
 
         {/* PIC History toggle */}
         {occ.picHistories?.length > 0 && (
-          <button onClick={() => setHistoryOpen(!historyOpen)} className="text-xs text-blue-500 hover:underline flex items-center gap-1">
+          <button onClick={() => setHistoryOpen(!historyOpen)} className="text-xs text-navy-600 hover:underline flex items-center gap-1">
             <History className="w-3 h-3" /> {occ.picHistories.length} perubahan PIC
           </button>
         )}
@@ -228,12 +228,12 @@ function TaskBox({ occ, onAction, manpowers, userRole, userMpId, isAdmin: global
 
           {/* DC Stage Actions */}
           {showDcActions && occ.status === 'ASSIGNED' && (
-            <button onClick={() => onAction('start', occ.id)} className="flex items-center gap-1 px-3 py-1.5 bg-amber-500 text-white rounded-lg text-xs font-medium hover:bg-amber-600 transition">
+            <button onClick={() => onAction('start', occ.id)} className="flex items-center gap-1 px-3 py-1.5 bg-amber-500 text-ink rounded-lg text-xs font-medium hover:bg-amber-600 transition">
               <Play className="w-3 h-3" /> Mulai DC
             </button>
           )}
           {showDcActions && occ.status === 'ON_HOLD' && (
-            <button onClick={() => onAction('workflow-resume', occ.id)} className="flex items-center gap-1 px-3 py-1.5 bg-blue-500 text-white rounded-lg text-xs font-medium hover:bg-blue-600 transition">
+            <button onClick={() => onAction('workflow-resume', occ.id)} className="flex items-center gap-1 px-3 py-1.5 bg-navy-600 text-white rounded-lg text-xs font-medium hover:bg-navy-950 transition">
               <Play className="w-3 h-3" /> Lanjutkan
             </button>
           )}
@@ -242,7 +242,7 @@ function TaskBox({ occ, onAction, manpowers, userRole, userMpId, isAdmin: global
               <button onClick={() => setShowHoldModal(true)} className="flex items-center gap-1 px-3 py-1.5 bg-orange-100 text-orange-700 border border-orange-200 rounded-lg text-xs font-medium hover:bg-orange-200 transition">
                 <Square className="w-3 h-3" /> Hold
               </button>
-              <button onClick={() => onAction('finish-dc', occ.id)} className="flex items-center gap-1 px-3 py-1.5 bg-green-500 text-white rounded-lg text-xs font-medium hover:bg-green-600 transition">
+              <button onClick={() => onAction('finish-dc', occ.id)} className="flex items-center gap-1 px-3 py-1.5 bg-green-500 text-ink rounded-lg text-xs font-medium hover:bg-green-600 transition">
                 <CheckCircle className="w-3 h-3" /> Selesai DC
               </button>
             </>
@@ -250,12 +250,12 @@ function TaskBox({ occ, onAction, manpowers, userRole, userMpId, isAdmin: global
 
           {/* Analysis Stage Actions */}
           {showAnalysisActions && occ.status === 'ASSIGNED' && (
-            <button onClick={() => onAction('start-analysis', occ.id)} className="flex items-center gap-1 px-3 py-1.5 bg-amber-500 text-white rounded-lg text-xs font-medium hover:bg-amber-600 transition">
+            <button onClick={() => onAction('start-analysis', occ.id)} className="flex items-center gap-1 px-3 py-1.5 bg-amber-500 text-ink rounded-lg text-xs font-medium hover:bg-amber-600 transition">
               <Play className="w-3 h-3" /> Mulai Analisis
             </button>
           )}
           {showAnalysisActions && occ.status === 'ON_HOLD' && (
-            <button onClick={() => onAction('workflow-resume', occ.id)} className="flex items-center gap-1 px-3 py-1.5 bg-blue-500 text-white rounded-lg text-xs font-medium hover:bg-blue-600 transition">
+            <button onClick={() => onAction('workflow-resume', occ.id)} className="flex items-center gap-1 px-3 py-1.5 bg-navy-600 text-white rounded-lg text-xs font-medium hover:bg-navy-950 transition">
               <Play className="w-3 h-3" /> Lanjutkan
             </button>
           )}
@@ -264,7 +264,7 @@ function TaskBox({ occ, onAction, manpowers, userRole, userMpId, isAdmin: global
               <button onClick={() => setShowHoldModal(true)} className="flex items-center gap-1 px-3 py-1.5 bg-orange-100 text-orange-700 border border-orange-200 rounded-lg text-xs font-medium hover:bg-orange-200 transition">
                 <Square className="w-3 h-3" /> Hold
               </button>
-              <button onClick={() => onAction('finish-analysis', occ.id)} className="flex items-center gap-1 px-3 py-1.5 bg-green-500 text-white rounded-lg text-xs font-medium hover:bg-green-600 transition">
+              <button onClick={() => onAction('finish-analysis', occ.id)} className="flex items-center gap-1 px-3 py-1.5 bg-green-500 text-ink rounded-lg text-xs font-medium hover:bg-green-600 transition">
                 <CheckCircle className="w-3 h-3" /> Selesai Analisis
               </button>
             </>
@@ -273,7 +273,7 @@ function TaskBox({ occ, onAction, manpowers, userRole, userMpId, isAdmin: global
           {/* AVP Stage Actions */}
           {showAvpActions && (
             <>
-              <button onClick={() => onAction('avp-approve', occ.id)} className="flex items-center gap-1 px-3 py-1.5 bg-purple-600 text-white rounded-lg text-xs font-medium hover:bg-purple-700 transition">
+              <button onClick={() => onAction('avp-approve', occ.id)} className="flex items-center gap-1 px-3 py-1.5 bg-purple-600 text-ink rounded-lg text-xs font-medium hover:bg-purple-700 transition">
                 <CheckCircle className="w-3 h-3" /> Approve
               </button>
               <button onClick={() => setShowRejectModal(true)} className="flex items-center gap-1 px-3 py-1.5 bg-red-100 text-red-700 border border-red-200 rounded-lg text-xs font-medium hover:bg-red-200 transition">
@@ -307,7 +307,7 @@ function TaskBox({ occ, onAction, manpowers, userRole, userMpId, isAdmin: global
             </select>
             <input value={reasonInput} onChange={e => setReasonInput(e.target.value)} placeholder="Alasan (wajib)" className="w-full text-xs border border-gray-200 rounded p-2" />
             <div className="flex gap-2">
-              <button onClick={() => { onAction('reassign', occ.id, { newPicId, reason: reasonInput }); setReassignOpen(false); }} className="px-3 py-1.5 bg-blue-600 text-white rounded text-xs font-medium hover:bg-blue-700">Simpan</button>
+              <button onClick={() => { onAction('reassign', occ.id, { newPicId, reason: reasonInput }); setReassignOpen(false); }} className="px-3 py-1.5 bg-navy-600 text-white rounded text-xs font-medium hover:bg-navy-950">Simpan</button>
               <button onClick={() => setReassignOpen(false)} className="px-3 py-1.5 bg-gray-100 text-gray-600 rounded text-xs">Batal</button>
             </div>
           </div>
@@ -358,7 +358,7 @@ function JobBoardBox({ occ, onAction, manpowers, userRole, isAdmin,
   const fmt = d => d ? new Date(d).toLocaleDateString('id-ID', { day: '2-digit', month: 'short' }) : '-';
 
   return (
-    <div className="rounded-xl border-2 border-gray-200 bg-gray-50 shadow-sm p-4 flex flex-col justify-between min-h-[200px]">
+    <div className="rounded-lg border-2 border-gray-200 bg-gray-50 shadow-sm p-4 flex flex-col justify-between min-h-[200px]">
       {/* Criticality strip */}
       <div className={`h-1 w-full rounded-t-xl -mt-4 -mx-4 mb-3 ${occ.rule?.criticality === 'CRITICAL' ? 'bg-red-400' : 'bg-blue-300'}`} style={{ width: 'calc(100% + 2rem)' }} />
       
@@ -369,10 +369,10 @@ function JobBoardBox({ occ, onAction, manpowers, userRole, isAdmin,
             <p className="font-bold text-gray-800 text-sm leading-tight">
               {occ.rule?.pabrik?.nama_pabrik}
             </p>
-            <p className="text-xs font-semibold text-blue-600 mt-0.5">→ {occ.rule?.subArea}</p>
+            <p className="text-xs font-semibold text-navy-600 mt-0.5">→ {occ.rule?.subArea}</p>
             <p className="text-xs text-gray-500 mt-1">{occ.rule?.taskName}</p>
           </div>
-          <span className={`shrink-0 text-[10px] px-2 py-0.5 rounded-full font-bold text-white ${badgeColor}`}>
+          <span className={`shrink-0 text-[10px] px-2 py-0.5 rounded-full font-bold text-ink ${badgeColor}`}>
             {badgeLabel}
           </span>
         </div>
@@ -395,8 +395,8 @@ function JobBoardBox({ occ, onAction, manpowers, userRole, isAdmin,
       
       <div className="mt-3 space-y-2">
         <button onClick={() => onAction(claimAction, occ.id)}
-          className={`w-full py-2 text-white rounded-lg text-sm font-semibold transition ${
-            badgeColor.includes('amber') ? 'bg-amber-500 hover:bg-amber-600' : 'bg-blue-600 hover:bg-blue-700'
+          className={`w-full py-2 text-ink rounded-lg text-sm font-semibold transition ${
+            badgeColor.includes('amber') ? 'bg-amber-500 hover:bg-amber-600' : 'bg-navy-600 hover:bg-blue-700'
           }`}>
           {claimLabel}
         </button>
@@ -425,7 +425,7 @@ function JobBoardBox({ occ, onAction, manpowers, userRole, isAdmin,
                     alert('Pilih personel dan masukkan alasan.');
                   }
                 }} 
-                className="px-3 py-1.5 bg-blue-600 text-white rounded text-xs font-medium hover:bg-blue-700">
+                className="px-3 py-1.5 bg-navy-600 text-white rounded text-xs font-medium hover:bg-navy-950">
                 Simpan
               </button>
               <button onClick={() => setReassignOpen(false)} className="px-3 py-1.5 bg-gray-100 text-gray-600 rounded text-xs">Batal</button>
@@ -542,8 +542,8 @@ export default function PdmTaskBoard() {
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
-            <ClipboardList className="w-6 h-6 text-blue-600" />
+          <h1 className="text-2xl font-display font-bold text-gray-800 flex items-center gap-2">
+            <ClipboardList className="w-6 h-6 text-navy-600" />
             Task Board PdM Rotating
           </h1>
           <p className="text-gray-500 text-sm mt-0.5">Workflow 4-stage: DC → Analisis → AVP → SAP</p>
@@ -566,7 +566,7 @@ export default function PdmTaskBoard() {
         <span className="text-xs font-semibold text-gray-500">Filter Stage:</span>
         <button
           onClick={() => setFilterStage('')}
-          className={`text-xs px-3 py-1 rounded-full border transition ${!filterStage ? 'bg-gray-800 text-white border-gray-800' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400'}`}>
+          className={`text-xs px-3 py-1 rounded-full border transition ${!filterStage ? 'bg-gray-800 text-ink border-gray-800' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400'}`}>
           Semua
         </button>
         {STAGES.filter(s => s.key !== 'CLOSED').map(s => (
@@ -578,7 +578,7 @@ export default function PdmTaskBoard() {
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-1 bg-gray-100 p-1 rounded-xl w-fit">
+      <div className="flex gap-1 bg-gray-100 p-1 rounded-lg w-fit">
         {[
           { key: 'WORKFLOW', label: `Tugas Saya (${tabCounts.WORKFLOW})` },
           { key: 'JOB_BOARD', label: `Job Board (${tabCounts.JOB_BOARD})` },
@@ -599,7 +599,7 @@ export default function PdmTaskBoard() {
             <ClipboardList className="w-12 h-12 mx-auto mb-3 text-gray-300" />
             <p>Tidak ada task aktif untuk Anda bulan ini.</p>
             {(userRole === 'analyst' || userRole === 'data_collector') && (
-              <p className="text-xs mt-2 text-blue-400">Cek <strong>Job Board</strong> untuk mengambil task baru di area Anda.</p>
+              <p className="text-xs mt-2 text-navy-600">Cek <strong>Job Board</strong> untuk mengambil task baru di area Anda.</p>
             )}
           </div>
         ) : (
@@ -632,7 +632,7 @@ export default function PdmTaskBoard() {
               dcTasks.length > 0 ? (
                 <div>
                   <div className="flex items-center gap-2 mb-3">
-                    <Database className="w-4 h-4 text-blue-500" />
+                    <Database className="w-4 h-4 text-navy-600" />
                     <h3 className="text-sm font-bold text-gray-700">
                       Task Data Collection Tersedia
                       <span className="ml-2 px-2 py-0.5 bg-blue-100 text-blue-700 rounded-full text-xs">{dcTasks.length}</span>

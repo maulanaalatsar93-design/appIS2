@@ -23,8 +23,8 @@ export default function ProgressBar({
     <div className="w-full">
       {(label || showPercentage) && (
         <div className="flex justify-between items-center mb-1.5">
-          {label && <span className="text-xs font-medium text-industrial-text">{label}</span>}
-          {showPercentage && <span className="text-xs font-bold text-industrial-text">{percentage.toFixed(0)}%</span>}
+          {label && <span className="text-xs font-medium text-ink">{label}</span>}
+          {showPercentage && <span className="text-xs font-bold text-ink">{percentage.toFixed(0)}%</span>}
         </div>
       )}
       <div className="w-full h-2 bg-industrial-border rounded-full overflow-hidden">

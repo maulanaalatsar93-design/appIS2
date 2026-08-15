@@ -15,16 +15,16 @@ import {
 } from '../services/reportService';
 
 const PM_TYPES_LIST = [
-  { code: 'PM01', name: 'Breakdown Maintenance', color: '#EF4444' },
+  { code: 'PM01', name: 'Breakdown Maintenance', color: '#D6402C' },
   { code: 'PM02', name: 'Corrective Maintenance', color: '#F97316' },
-  { code: 'PM03', name: 'Preventive Maintenance', color: '#10B981' },
-  { code: 'PM04', name: 'Predictive Maintenance', color: '#2563EB' },
+  { code: 'PM03', name: 'Preventive Maintenance', color: '#1E7F53' },
+  { code: 'PM04', name: 'Predictive Maintenance', color: '#18468B' },
   { code: 'PM05', name: 'Improvement / Modification', color: '#8B5CF6' },
   { code: 'PM06', name: 'Refurbishment Order', color: '#EC4899' },
   { code: 'PM07', name: 'Calibration Order', color: '#14B8A6' },
   { code: 'PM08', name: 'Standing Order', color: '#64748B' },
   { code: 'PM09', name: 'Turn Around Order', color: '#D97706' },
-  { code: 'PM10', name: 'General Maintenance', color: '#6366F1' },
+  { code: 'PM10', name: 'General Maintenance', color: '#18468B' },
 ];
 
 const WORK_CENTER_LABELS = {
@@ -230,7 +230,7 @@ export default function PublicDashboard({ onBack }) {
         >
           {/* WorkCenter Filter */}
           <div className="flex items-center gap-1 bg-white border border-slate-200 rounded-full px-3 py-1 text-[11px] shadow-xs">
-            <span className="text-slate-400 font-medium">Bagian:</span>
+            <span className="text-gray-500 font-medium">Bagian:</span>
             <select
               value={workCenter}
               onChange={(e) => setWorkCenter(e.target.value)}
@@ -247,7 +247,7 @@ export default function PublicDashboard({ onBack }) {
 
           {/* Month Filter */}
           <div className="flex items-center gap-1 bg-white border border-slate-200 rounded-full px-3 py-1 text-[11px] shadow-xs">
-            <span className="text-slate-400 font-medium">Bulan:</span>
+            <span className="text-gray-500 font-medium">Bulan:</span>
             <select
               value={month}
               onChange={(e) => setMonth(e.target.value)}
@@ -264,7 +264,7 @@ export default function PublicDashboard({ onBack }) {
 
           {/* Year Filter */}
           <div className="flex items-center gap-1 bg-white border border-slate-200 rounded-full px-3 py-1 text-[11px] shadow-xs">
-            <span className="text-slate-400 font-medium">Tahun:</span>
+            <span className="text-gray-500 font-medium">Tahun:</span>
             <select
               value={year}
               onChange={(e) => setYear(e.target.value)}
@@ -296,7 +296,7 @@ export default function PublicDashboard({ onBack }) {
 
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 print:hidden">
         <div>
-          <h2 className="text-xl md:text-2xl font-bold text-[#172033] tracking-tight flex items-center gap-3">
+          <h2 className="text-xl font-display md:text-2xl font-bold text-[#172033] tracking-tight flex items-center gap-3">
             <span>Public Executive Dashboard</span>
             {loading && <Loader2 className="w-5 h-5 animate-spin text-[#1A4BC4]" />}
           </h2>
@@ -309,7 +309,7 @@ export default function PublicDashboard({ onBack }) {
           {/* Executive Report Toolbar */}
           <button
             onClick={() => { setIsExporting(true); setToastMsg({ type: 'info', text: 'Generating Dashboard PDF...' }); exportDashboardPDF().finally(() => { setIsExporting(false); setToastMsg({ type: 'success', text: 'Laporan berhasil diunduh' }); setTimeout(() => setToastMsg(null), 3000); }); }}
-            className="bg-white px-4 py-2.5 rounded-xl shadow-sm border border-[#E2E8F0] flex items-center gap-2 hover:bg-slate-50 transition-colors focus:outline-none"
+            className="bg-white px-4 py-2.5 rounded-lg shadow-sm border border-[#E2E8F0] flex items-center gap-2 hover:bg-slate-50 transition-colors focus:outline-none"
             title="Export PDF"
           >
             <Download size={16} className="text-[#1A4BC4]" />
@@ -319,7 +319,7 @@ export default function PublicDashboard({ onBack }) {
           {onBack && (
             <button
               onClick={onBack}
-              className="bg-white px-4 py-2.5 rounded-xl shadow-sm border border-[#1A4BC4] text-[#1A4BC4] hover:bg-[#1A4BC4] hover:text-white flex items-center gap-2 transition-all focus:outline-none"
+              className="bg-white px-4 py-2.5 rounded-lg shadow-sm border border-[#1A4BC4] text-[#1A4BC4] hover:bg-[#1A4BC4] hover:text-ink flex items-center gap-2 transition-all focus:outline-none"
             >
               <span className="text-xs font-bold tracking-wide">Kembali ke Internal View</span>
             </button>
@@ -407,10 +407,10 @@ export default function PublicDashboard({ onBack }) {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 print:hidden">
 
         {/* Symmetrical Bar Chart 1: Work Order per Pabrik */}
-        <div className="bg-white border border-industrial-border rounded-card shadow-sm-subtle overflow-hidden flex flex-col">
-          <div className="px-5 py-3.5 bg-[#13254F] text-white">
-            <h4 className="text-sm font-bold text-white tracking-tight">Work Order per Pabrik</h4>
-            <p className="text-[11px] text-slate-200 mt-0.5">Total perbandingan WO berdasarkan area pabrik.</p>
+        <div className="bg-white border border-gray-200 rounded-lg shadow-sm-subtle overflow-hidden flex flex-col">
+          <div className="px-5 py-3.5 bg-[#13254F] text-ink">
+            <h4 className="text-sm font-bold text-ink tracking-tight">Work Order per Pabrik</h4>
+            <p className="text-[11px] text-ink mt-0.5">Total perbandingan WO berdasarkan area pabrik.</p>
           </div>
           <div className="p-5 flex-1 min-h-[250px]">
             <Chart options={chart2Options} series={chart2Series} type="bar" width="100%" height="250" />
@@ -418,9 +418,9 @@ export default function PublicDashboard({ onBack }) {
         </div>
 
         {/* Symmetrical Bar Chart 2: Rilis Rekomendasi per Pabrik */}
-        <div className="bg-white border border-industrial-border rounded-card shadow-sm-subtle overflow-hidden flex flex-col">
-          <div className="px-5 py-3.5 bg-[#168477] text-white">
-            <h4 className="text-sm font-bold text-white tracking-tight">Rilis Rekomendasi per Pabrik</h4>
+        <div className="bg-white border border-gray-200 rounded-lg shadow-sm-subtle overflow-hidden flex flex-col">
+          <div className="px-5 py-3.5 bg-[#168477] text-ink">
+            <h4 className="text-sm font-bold text-ink tracking-tight">Rilis Rekomendasi per Pabrik</h4>
             <p className="text-[11px] text-teal-100 mt-0.5">Perbandingan rilis rekomendasi berdasarkan area pabrik.</p>
           </div>
           <div className="p-5 flex-1 min-h-[250px]">
@@ -429,14 +429,14 @@ export default function PublicDashboard({ onBack }) {
         </div>
 
         {/* Symmetrical Donut Chart 1: Distribusi Tipe Order */}
-        <div className="bg-white border border-industrial-border rounded-card shadow-sm-subtle overflow-hidden flex flex-col">
-          <div className="px-5 py-3.5 bg-[#13254F] text-white">
-            <h4 className="text-sm font-bold text-white tracking-tight">Distribusi Tipe Order</h4>
-            <p className="text-[11px] text-slate-200 mt-0.5">Proporsi Work Order berdasarkan tipe (PM04 vs PM02+).</p>
+        <div className="bg-white border border-gray-200 rounded-lg shadow-sm-subtle overflow-hidden flex flex-col">
+          <div className="px-5 py-3.5 bg-[#13254F] text-ink">
+            <h4 className="text-sm font-bold text-ink tracking-tight">Distribusi Tipe Order</h4>
+            <p className="text-[11px] text-ink mt-0.5">Proporsi Work Order berdasarkan tipe (PM04 vs PM02+).</p>
           </div>
           <div className="p-5 flex-1 flex items-center justify-center min-h-[250px]">
             {chart1Series.reduce((a, b) => a + b, 0) === 0 ? (
-              <p className="text-xs text-industrial-muted">Tidak ada data tipe order</p>
+              <p className="text-xs text-gray-500">Tidak ada data tipe order</p>
             ) : (
               <Chart options={chart1Options} series={chart1Series} type="donut" width="100%" height="250" />
             )}
@@ -444,14 +444,14 @@ export default function PublicDashboard({ onBack }) {
         </div>
 
         {/* Symmetrical Donut Chart 2: Rekomendasi (M4 & M7) */}
-        <div className="bg-white border border-industrial-border rounded-card shadow-sm-subtle overflow-hidden flex flex-col">
-          <div className="px-5 py-3.5 bg-[#168477] text-white">
-            <h4 className="text-sm font-bold text-white tracking-tight">Rekomendasi (M4 & M7)</h4>
+        <div className="bg-white border border-gray-200 rounded-lg shadow-sm-subtle overflow-hidden flex flex-col">
+          <div className="px-5 py-3.5 bg-[#168477] text-ink">
+            <h4 className="text-sm font-bold text-ink tracking-tight">Rekomendasi (M4 & M7)</h4>
             <p className="text-[11px] text-teal-100 mt-0.5">Proporsi rekomendasi berdasarkan status rilis.</p>
           </div>
           <div className="p-5 flex-1 flex items-center justify-center min-h-[250px]">
             {chart4Series.reduce((a, b) => a + b, 0) === 0 ? (
-              <p className="text-xs text-industrial-muted">Tidak ada data rekomendasi</p>
+              <p className="text-xs text-gray-500">Tidak ada data rekomendasi</p>
             ) : (
               <Chart options={chart4Options} series={chart4Series} type="donut" width="100%" height="250" />
             )}
@@ -460,13 +460,13 @@ export default function PublicDashboard({ onBack }) {
 
         {/* Full Width Bottom Chart: Job Load & Output */}
         <div className="mt-6 bg-white p-6 border border-slate-200 rounded-3xl shadow-sm lg:col-span-2 flex flex-col">
-          <h3 className="text-center text-lg font-bold text-slate-800 tracking-tight mb-6">Job Load & Output (12 Bulan Terakhir)</h3>
+          <h3 className="text-center text-lg font-display font-bold text-slate-800 tracking-tight mb-6">Job Load & Output (12 Bulan Terakhir)</h3>
           <div className="flex-1 min-h-[320px]">
             {chart3Series[0]?.data?.length > 0 ? (
               <Chart options={chart3Options} series={chart3Series} type="area" width="100%" height="320" />
             ) : (
               <div className="h-full flex items-center justify-center">
-                <p className="text-industrial-muted text-sm flex items-center gap-2">
+                <p className="text-gray-500 text-sm flex items-center gap-2">
                   <AlertCircle className="w-4 h-4" /> Tidak ada data Job Load
                 </p>
               </div>
@@ -478,24 +478,24 @@ export default function PublicDashboard({ onBack }) {
       {/* MODAL POPUP: DETAIL PM BREAKDOWN */}
       {showPMModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
-          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden border border-slate-100">
-            <div className="p-4 bg-industrial-text text-white flex items-center justify-between">
+          <div className="bg-white rounded-xl shadow-2xl max-w-md w-full overflow-hidden border border-slate-100">
+            <div className="p-4 bg-industrial-text text-ink flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                <div className="p-2 bg-blue-500/20 text-blue-400 rounded-xl">
+                <div className="p-2 bg-blue-500/20 text-navy-600 rounded-lg">
                   <Info size={18} />
                 </div>
                 <div>
                   <h3 className="text-sm font-bold tracking-wide">
                     {pmModalMode === 'pm02plus' ? 'Detail Work Order PM02+ (Selain PM04)' : 'Detail Work Order per Tipe PM'}
                   </h3>
-                  <p className="text-[10px] text-slate-300">
+                  <p className="text-[10px] text-gray-500">
                     {pmModalMode === 'pm02plus' ? 'Rincian tipe maintenance SAP selain PM04' : `Distribusi jumlah Work Order (${month} ${year})`}
                   </p>
                 </div>
               </div>
               <button
                 onClick={() => setShowPMModal(false)}
-                className="p-1.5 text-slate-300 hover:text-white rounded-lg hover:bg-slate-800 transition-colors"
+                className="p-1.5 text-gray-500 hover:text-ink rounded-lg hover:bg-gray-50 transition-colors"
               >
                 <X size={18} />
               </button>
@@ -503,13 +503,13 @@ export default function PublicDashboard({ onBack }) {
 
             <div className="p-4 space-y-3 max-h-[70vh] overflow-y-auto">
               <div className="grid grid-cols-2 gap-2 mb-2">
-                <div className="bg-blue-50 p-2.5 rounded-xl border border-blue-100 text-blue-800">
-                  <div className="text-[10px] font-bold uppercase tracking-wider text-blue-600">Total PM04</div>
-                  <div className="text-lg font-bold font-poppins mt-0.5">{summary.kpi.pm04Count.toLocaleString('id-ID')}</div>
+                <div className="bg-blue-50 p-2.5 rounded-lg border border-blue-100 text-blue-800">
+                  <div className="text-[10px] font-bold uppercase tracking-wider text-navy-600">Total PM04</div>
+                  <div className="text-lg font-display font-bold font-poppins mt-0.5">{summary.kpi.pm04Count.toLocaleString('id-ID')}</div>
                 </div>
-                <div className="bg-orange-50 p-2.5 rounded-xl border border-orange-100 text-orange-800">
+                <div className="bg-orange-50 p-2.5 rounded-lg border border-orange-100 text-orange-800">
                   <div className="text-[10px] font-bold uppercase tracking-wider text-orange-600">Total PM02+ (Non-PM04)</div>
-                  <div className="text-lg font-bold font-poppins mt-0.5">{summary.kpi.pm02PlusCount.toLocaleString('id-ID')}</div>
+                  <div className="text-lg font-display font-bold font-poppins mt-0.5">{summary.kpi.pm02PlusCount.toLocaleString('id-ID')}</div>
                 </div>
               </div>
 
@@ -523,17 +523,17 @@ export default function PublicDashboard({ onBack }) {
                   const baseTotal = pmModalMode === 'pm02plus' ? (summary.kpi.pm02PlusCount || 1) : (summary.kpi.totalWO || 1);
                   const pct = ((count / baseTotal) * 100).toFixed(1);
                   return (
-                    <div key={pm.code} className="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
+                    <div key={pm.code} className="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
                       <div className="flex items-center justify-between text-xs mb-1">
                         <div className="flex items-center gap-2">
-                          <span className="px-2 py-0.5 text-[10px] font-bold text-white rounded-md" style={{ backgroundColor: pm.color }}>
+                          <span className="px-2 py-0.5 text-[10px] font-bold text-ink rounded-md" style={{ backgroundColor: pm.color }}>
                             {pm.code}
                           </span>
                           <span className="font-semibold text-slate-700 text-[11px]">{pm.name}</span>
                         </div>
                         <div className="text-right">
                           <span className="font-bold text-slate-900">{count.toLocaleString('id-ID')}</span>
-                          <span className="text-[10px] text-slate-400 ml-1 font-medium">({pct}%)</span>
+                          <span className="text-[10px] text-gray-500 ml-1 font-medium">({pct}%)</span>
                         </div>
                       </div>
                       <div className="w-full bg-slate-200/70 h-1.5 rounded-full overflow-hidden">
@@ -546,7 +546,7 @@ export default function PublicDashboard({ onBack }) {
             </div>
 
             <div className="p-3 bg-slate-50 border-t border-slate-100 flex justify-between items-center text-xs">
-              <span className="text-[11px] text-slate-500 font-medium">
+              <span className="text-[11px] text-gray-500 font-medium">
                 {pmModalMode === 'pm02plus' ? 'Total PM02+: ' : 'Total Akumulasi: '}
                 <strong className="text-slate-800">
                   {pmModalMode === 'pm02plus' ? summary.kpi.pm02PlusCount.toLocaleString('id-ID') : summary.kpi.totalWO.toLocaleString('id-ID')} WO
@@ -554,7 +554,7 @@ export default function PublicDashboard({ onBack }) {
               </span>
               <button
                 onClick={() => setShowPMModal(false)}
-                className="px-4 py-1.5 bg-industrial-text hover:bg-slate-900 text-white text-xs font-semibold rounded-lg transition-colors"
+                className="px-4 py-1.5 bg-industrial-text hover:bg-slate-900 text-ink text-xs font-semibold rounded-lg transition-colors"
               >
                 Tutup
               </button>
@@ -575,7 +575,7 @@ export default function PublicDashboard({ onBack }) {
           <div className="w-2/4 flex flex-col items-center text-center">
             <h1 className="text-sm font-bold text-[#0F2052] leading-tight tracking-wide uppercase">DEPARTEMEN INSPEKSI</h1>
             <h1 className="text-sm font-bold text-[#0F2052] leading-tight tracking-wide uppercase">TEKNIK 2</h1>
-            <p className="text-[10px] font-semibold text-slate-500 mt-1">PT Pupuk Kalimantan Timur</p>
+            <p className="text-[10px] font-semibold text-gray-500 mt-1">PT Pupuk Kalimantan Timur</p>
             <div className="w-full max-w-[280px] border-b-2 border-[#1A4BC4] mt-3"></div>
           </div>
           <div className="w-1/4 flex justify-end items-start">
@@ -584,14 +584,14 @@ export default function PublicDashboard({ onBack }) {
         </div>
 
         {/* Print Footer */}
-        <div className="fixed bottom-0 left-0 w-full px-10 pb-8 hidden print:flex justify-between items-center text-[10px] text-slate-500 font-medium bg-white">
+        <div className="fixed bottom-0 left-0 w-full px-10 pb-8 hidden print:flex justify-between items-center text-[10px] text-gray-500 font-medium bg-white">
           <span className="w-1/3 text-left">Departemen Inspeksi Teknik 2</span>
           <span className="w-1/3 text-center">PT Pupuk Kalimantan Timur</span>
           <span className="w-1/3 text-right text-slate-700">Halaman <strong className="font-bold">1</strong></span>
         </div>
 
         <div className="text-center mb-10">
-          <h2 className="text-2xl font-black text-slate-800 uppercase tracking-widest border-b-[3px] border-slate-300 inline-block pb-2">
+          <h2 className="text-2xl font-display font-black text-slate-800 uppercase tracking-widest border-b-[3px] border-slate-300 inline-block pb-2">
             LAPORAN KINERJA KEANDALAN OPERASIONAL
           </h2>
           <p className="text-base font-semibold text-slate-600 mt-3">
@@ -601,7 +601,7 @@ export default function PublicDashboard({ onBack }) {
 
         {/* KPI Table */}
         <div className="mb-10">
-          <h3 className="text-base font-bold text-slate-800 mb-3 border-l-4 border-blue-600 pl-3">1. RINGKASAN EKSEKUTIF (KPI)</h3>
+          <h3 className="text-base font-bold text-slate-800 mb-3 border-l-4 border-navy-600 pl-3">1. RINGKASAN EKSEKUTIF (KPI)</h3>
           <table className="w-full text-sm text-left border-collapse border border-slate-300 shadow-sm">
             <thead>
               <tr className="bg-slate-100">
@@ -619,12 +619,12 @@ export default function PublicDashboard({ onBack }) {
             </thead>
             <tbody>
               <tr>
-                <td className="border border-slate-300 p-3 text-center font-bold text-lg">{summary.kpi?.totalWO?.toLocaleString('id-ID') || 0}</td>
-                <td className="border border-slate-300 p-3 text-center font-bold text-lg">{summary.kpi?.pm04Count?.toLocaleString('id-ID') || 0}</td>
-                <td className="border border-slate-300 p-3 text-center font-bold text-lg">{summary.kpi?.pm02PlusCount?.toLocaleString('id-ID') || 0}</td>
-                <td className="border border-slate-300 p-3 text-center font-bold text-lg">{summary.kpi?.totalRek?.toLocaleString('id-ID') || 0}</td>
-                <td className="border border-slate-300 p-3 text-center font-bold text-lg">{summary.kpi?.m04Count?.toLocaleString('id-ID') || 0}</td>
-                <td className="border border-slate-300 p-3 text-center font-bold text-lg">{summary.kpi?.m07Count?.toLocaleString('id-ID') || 0}</td>
+                <td className="border border-slate-300 p-3 text-center font-bold text-lg font-display">{summary.kpi?.totalWO?.toLocaleString('id-ID') || 0}</td>
+                <td className="border border-slate-300 p-3 text-center font-bold text-lg font-display">{summary.kpi?.pm04Count?.toLocaleString('id-ID') || 0}</td>
+                <td className="border border-slate-300 p-3 text-center font-bold text-lg font-display">{summary.kpi?.pm02PlusCount?.toLocaleString('id-ID') || 0}</td>
+                <td className="border border-slate-300 p-3 text-center font-bold text-lg font-display">{summary.kpi?.totalRek?.toLocaleString('id-ID') || 0}</td>
+                <td className="border border-slate-300 p-3 text-center font-bold text-lg font-display">{summary.kpi?.m04Count?.toLocaleString('id-ID') || 0}</td>
+                <td className="border border-slate-300 p-3 text-center font-bold text-lg font-display">{summary.kpi?.m07Count?.toLocaleString('id-ID') || 0}</td>
               </tr>
             </tbody>
           </table>
@@ -632,7 +632,7 @@ export default function PublicDashboard({ onBack }) {
 
         {/* Data Tables for Print */}
         <div className="mb-8 print-break-avoid">
-          <h3 className="text-base font-bold text-slate-800 mb-3 border-l-4 border-blue-600 pl-3">2. KINERJA PER PABRIK / AREA</h3>
+          <h3 className="text-base font-bold text-slate-800 mb-3 border-l-4 border-navy-600 pl-3">2. KINERJA PER PABRIK / AREA</h3>
           <table className="w-full text-sm text-left border-collapse border border-slate-300 shadow-sm">
             <thead>
               <tr className="bg-slate-100">
@@ -661,7 +661,7 @@ export default function PublicDashboard({ onBack }) {
         </div>
 
         <div className="mb-8 print-break-avoid">
-          <h3 className="text-base font-bold text-slate-800 mb-3 border-l-4 border-blue-600 pl-3">
+          <h3 className="text-base font-bold text-slate-800 mb-3 border-l-4 border-navy-600 pl-3">
             3. TREN KINERJA {month !== 'Semua Bulan' ? `BULAN ${MONTH_NAMES[month]?.toUpperCase()}` : 'BULANAN'}
           </h3>
           <table className="w-full text-sm text-left border-collapse border border-slate-300 shadow-sm">
@@ -693,7 +693,7 @@ export default function PublicDashboard({ onBack }) {
         </div>
 
         <div className="mb-6 print-break-avoid">
-          <h3 className="text-base font-bold text-slate-800 mb-3 border-l-4 border-blue-600 pl-3">4. DISTRIBUSI TIPE ORDER & REKOMENDASI</h3>
+          <h3 className="text-base font-bold text-slate-800 mb-3 border-l-4 border-navy-600 pl-3">4. DISTRIBUSI TIPE ORDER & REKOMENDASI</h3>
           <div className="flex gap-8">
             <table className="w-1/2 text-sm text-left border-collapse border border-slate-300 shadow-sm">
               <thead>
@@ -737,7 +737,7 @@ export default function PublicDashboard({ onBack }) {
 
       {/* TOAST NOTIFICATION */}
       {toastMsg && (
-        <div className={`fixed top-6 right-6 z-[200] flex items-center gap-3 px-4 py-3 rounded-lg shadow-xl text-white text-sm font-semibold animate-in slide-in-from-top-2 fade-in ${toastMsg.type === 'success' ? 'bg-emerald-600' : toastMsg.type === 'error' ? 'bg-red-600' : 'bg-industrial-blue'
+        <div className={`fixed top-6 right-6 z-[200] flex items-center gap-3 px-4 py-3 rounded-lg shadow-xl text-ink text-sm font-semibold animate-in slide-in-from-top-2 fade-in ${toastMsg.type === 'success' ? 'bg-emerald-600' : toastMsg.type === 'error' ? 'bg-red-600' : 'bg-industrial-blue'
           }`}>
           {toastMsg.type === 'success' && <CheckCircle2 size={18} />}
           {toastMsg.type === 'error' && <AlertCircle size={18} />}
@@ -747,7 +747,7 @@ export default function PublicDashboard({ onBack }) {
       )}
 
       {/* Print Footer Template */}
-      <div className="hidden print:flex fixed bottom-0 left-0 w-full justify-between items-center border-t border-slate-400 pt-2 pb-2 text-[10px] text-slate-500 bg-white z-50">
+      <div className="hidden print:flex fixed bottom-0 left-0 w-full justify-between items-center border-t border-slate-400 pt-2 pb-2 text-[10px] text-gray-500 bg-white z-50">
         <div className="w-1/3 text-left">Departemen Inspeksi Teknik 2</div>
         <div className="w-1/3 text-center">PT Pupuk Kalimantan Timur</div>
         <div className="w-1/3 text-right">Halaman 1</div>

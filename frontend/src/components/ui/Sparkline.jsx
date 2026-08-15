@@ -4,7 +4,7 @@ export default function Sparkline({
   data = [], 
   width = 240, 
   height = 42, 
-  color = '#2563EB', 
+  color = '#18468B', 
   strokeWidth = 1.8 
 }) {
   // Fallback data if empty or zero

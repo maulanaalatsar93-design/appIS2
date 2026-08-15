@@ -6,37 +6,30 @@ export default {
   ],
   theme: {
     extend: {
-      fontFamily: {
-        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-      },
       colors: {
-        industrial: {
-          navy: '#0F172A',
-          blue: '#2563EB',
-          orange: '#FF5722',
-          green: '#10B981',
-          red: '#EF4444',
-          amber: '#F59E0B',
-          background: '#F0F3F8',
-          border: '#E2E8F0',
-          text: '#0F172A',
-          muted: '#64748B',
-          // === Reference design color tokens ===
-          navyDark: '#0F2052',      // Sidebar & SEMUA PM scorecard
-          navyCard: '#13254F',      // SEMUA PM card header
-          royalBlue: '#1A4BC4',     // PM04 card header
-          royalLight: '#2A5FD4',    // PM04 progress bar
-          cardOrange: '#D9650F',    // PM02+ card header
-          progressBar: '#1E56D9',   // Table progress bar fill
-        },
-      },
-      boxShadow: {
-        'sm-subtle': '0 2px 8px 0 rgba(0, 0, 0, 0.03)',
-        'soft-card': '0 8px 24px -4px rgba(15, 23, 42, 0.04)',
+        navy: { 100: '#E8EDF5', 600: '#18468B', 950: '#0E2A52' },
+        orange: { 100: '#FDEAE0', 500: '#EA853C', 600: '#DE6F20' },
+        ink: '#0B0D12',
+        gray: { 50: '#F7F8FA', 200: '#E4E7EC', 400: '#9AA3B2', 500: '#6B7280' },
+        success: '#1E7F53',
+        danger: '#D6402C',
       },
       borderRadius: {
-        'card': '24px',
-        'pill': '9999px',
+        sm: '8px',
+        md: '12px',
+        lg: '16px',
+        xl: '20px'
+      },
+      fontFamily: {
+        display: ['Sora', 'sans-serif'],
+        body: ['Inter', 'sans-serif'],
+        mono: ['"IBM Plex Mono"', 'monospace'],
+        sans: ['Inter', 'sans-serif'],
+      },
+      boxShadow: {
+        'sm': '0 1px 2px rgba(10,22,40,0.06)',
+        'md': '0 4px 12px rgba(10,22,40,0.08)',
+        'lg': '0 12px 32px rgba(10,22,40,0.12)',
       }
     },
   },

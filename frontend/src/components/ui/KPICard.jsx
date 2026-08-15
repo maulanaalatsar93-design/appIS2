@@ -49,17 +49,17 @@ export default function KPICard({
         <div className="flex items-center gap-2 mb-4">
           {Icon && (
             <div className={`w-7 h-7 rounded-lg flex items-center justify-center ${isDark ? 'bg-white/10' : 'bg-slate-100'}`}>
-              <Icon className={`w-4 h-4 ${isDark ? 'text-white/80' : 'text-slate-600'}`} />
+              <Icon className={`w-4 h-4 ${isDark ? 'text-ink/80' : 'text-slate-600'}`} />
             </div>
           )}
-          <span className={`text-[11px] font-extrabold uppercase tracking-widest ${isDark ? 'text-white/60' : 'text-slate-500'}`}>
+          <span className={`text-[11px] font-extrabold uppercase tracking-widest ${isDark ? 'text-ink/60' : 'text-slate-500'}`}>
             {label}
           </span>
         </div>
         
         <div className="flex items-baseline gap-2 mb-4">
-          <span className={`text-4xl font-extrabold tracking-tight ${isDark ? 'text-white' : 'text-[#0F172A]'}`}>{value}</span>
-          {unit && <span className={`text-sm font-bold ${isDark ? 'text-white/50' : 'text-slate-400'}`}>{unit}</span>}
+          <span className={`text-4xl font-extrabold tracking-tight ${isDark ? 'text-ink' : 'text-[#0F172A]'}`}>{value}</span>
+          {unit && <span className={`text-sm font-bold ${isDark ? 'text-ink/50' : 'text-gray-500'}`}>{unit}</span>}
         </div>
         
         {(trendValue || trendLabel) && (
@@ -70,7 +70,7 @@ export default function KPICard({
                 {trendValue}
               </span>
             )}
-            {trendLabel && <span className={`text-[10px] ml-2 ${isDark ? 'text-white/50' : 'text-slate-400'}`}>{trendLabel}</span>}
+            {trendLabel && <span className={`text-[10px] ml-2 ${isDark ? 'text-ink/50' : 'text-gray-500'}`}>{trendLabel}</span>}
           </div>
         )}
       </div>

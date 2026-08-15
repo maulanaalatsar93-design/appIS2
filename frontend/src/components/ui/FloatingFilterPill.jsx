@@ -21,7 +21,7 @@ export default function FloatingFilterPill({
       >
         {isCollapsed ? <Filter size={14} /> : <X size={14} />}
         {isCollapsed && activeCount > 0 && (
-          <span className="absolute -top-1 -right-1 w-4 h-4 bg-[#FF5722] text-white rounded-full text-[9px] font-bold flex items-center justify-center shadow-sm">
+          <span className="absolute -top-1 -right-1 w-4 h-4 bg-[#FF5722] text-ink rounded-full text-[9px] font-bold flex items-center justify-center shadow-sm">
             {activeCount}
           </span>
         )}

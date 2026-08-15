@@ -239,24 +239,24 @@ export default function SertifikasiPersonel() {
     <div className="p-6 space-y-6">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-800 flex items-center gap-2">
+          <h1 className="text-2xl font-display font-bold text-slate-800 flex items-center gap-2">
             <Shield className="w-6 h-6 text-industrial-blue" />
             Monitoring Sertifikasi Personel
           </h1>
-          <p className="text-slate-500 text-sm mt-1">
+          <p className="text-gray-500 text-sm mt-1">
             Kelola dan pantau masa berlaku sertifikasi kompetensi personel
           </p>
         </div>
         <button
           onClick={() => openModal()}
-          className="flex items-center gap-2 px-4 py-2 bg-industrial-blue hover:bg-blue-700 text-white rounded-lg font-medium transition-colors shadow-sm"
+          className="flex items-center gap-2 px-4 py-2 bg-navy-600 hover:bg-navy-950 text-white rounded-lg font-medium transition-colors shadow-sm"
         >
           <Plus size={18} />
           <span>Tambah Data</span>
         </button>
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+      <div className="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
         <div className="border-b border-slate-200 bg-slate-50/50 px-4 pt-4 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
           <div className="flex space-x-6">
             <button
@@ -280,7 +280,7 @@ export default function SertifikasiPersonel() {
           </div>
           <div className="pb-3 w-full sm:w-auto flex items-center gap-3">
             <div className="relative w-full sm:w-64">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4" />
               <input
                 type="text"
                 placeholder="Cari nama, NPK..."
@@ -326,13 +326,13 @@ export default function SertifikasiPersonel() {
             <tbody className="divide-y divide-slate-100">
               {loading ? (
                 <tr>
-                  <td colSpan="11" className="px-4 py-8 text-center text-slate-500">
+                  <td colSpan="11" className="px-4 py-8 text-center text-gray-500">
                     Memuat data...
                   </td>
                 </tr>
               ) : filteredData.length === 0 ? (
                 <tr>
-                  <td colSpan="11" className="px-4 py-8 text-center text-slate-500">
+                  <td colSpan="11" className="px-4 py-8 text-center text-gray-500">
                     Tidak ada data sertifikasi ditemukan.
                   </td>
                 </tr>
@@ -341,7 +341,7 @@ export default function SertifikasiPersonel() {
                   const statusInfo = getStatusInfo(item.tanggal_berakhir, item.is_rencana);
                   return (
                     <tr key={item.id} className={`transition-colors ${statusInfo.rowColor || 'hover:bg-slate-50/80'}`}>
-                      <td className="px-4 py-3 text-center text-slate-500">{index + 1}</td>
+                      <td className="px-4 py-3 text-center text-gray-500">{index + 1}</td>
                       <td className="px-4 py-3 font-medium text-slate-800">{item.man_power?.name || '-'}</td>
                       <td className="px-4 py-3 text-slate-600 font-mono text-xs">{item.man_power?.npk || '-'}</td>
                       <td className="px-4 py-3 text-slate-600">{item.man_power?.divisi?.nama_divisi || '-'}</td>
@@ -366,7 +366,7 @@ export default function SertifikasiPersonel() {
                       <td className="px-4 py-3">
                         {activeTab === 'tanpa_kedaluwarsa' ? (
                           <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border bg-blue-50 text-blue-700 border-blue-200">
-                            <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+                            <div className="w-1.5 h-1.5 rounded-full bg-navy-600" />
                             Lifetime
                           </div>
                         ) : (
@@ -392,14 +392,14 @@ export default function SertifikasiPersonel() {
                             <>
                               <button
                                 onClick={() => handleApprove(item.id)}
-                                className="p-1.5 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors"
+                                className="p-1.5 text-gray-500 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors"
                                 title="Approve"
                               >
                                 <CheckCircle size={16} />
                               </button>
                               <button
                                 onClick={() => handleReject(item.id)}
-                                className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                className="p-1.5 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                                 title="Reject"
                               >
                                 <XCircle size={16} />
@@ -409,14 +409,14 @@ export default function SertifikasiPersonel() {
                             <>
                               <button
                                 onClick={() => openModal(item)}
-                                className="p-1.5 text-slate-400 hover:text-industrial-blue hover:bg-blue-50 rounded-lg transition-colors"
+                                className="p-1.5 text-gray-500 hover:text-industrial-blue hover:bg-blue-50 rounded-lg transition-colors"
                                 title="Edit"
                               >
                                 <Edit2 size={16} />
                               </button>
                               <button
                                 onClick={() => handleDelete(item.id)}
-                                className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                className="p-1.5 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                                 title="Hapus"
                               >
                                 <Trash2 size={16} />
@@ -437,12 +437,12 @@ export default function SertifikasiPersonel() {
       {/* Form Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
-          <div className="bg-white rounded-2xl shadow-xl w-full max-w-xl overflow-hidden flex flex-col max-h-[90vh]">
+          <div className="bg-white rounded-xl shadow-xl w-full max-w-xl overflow-hidden flex flex-col max-h-[90vh]">
             <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
-              <h2 className="text-lg font-bold text-slate-800">
+              <h2 className="text-lg font-display font-bold text-slate-800">
                 {editingId ? 'Edit Data Sertifikasi' : 'Tambah Data Sertifikasi'}
               </h2>
-              <button onClick={closeModal} className="text-slate-400 hover:text-slate-600 p-1">
+              <button onClick={closeModal} className="text-gray-500 hover:text-slate-600 p-1">
                 <X size={20} />
               </button>
             </div>
@@ -551,7 +551,7 @@ export default function SertifikasiPersonel() {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 text-sm font-medium text-white bg-industrial-blue hover:bg-blue-700 rounded-lg transition-colors shadow-sm"
+                  className="px-4 py-2 text-sm font-medium text-white bg-navy-600 hover:bg-navy-950 rounded-lg transition-colors shadow-sm"
                 >
                   Simpan Data
                 </button>

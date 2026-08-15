@@ -99,7 +99,7 @@ export default function ManPowerDashboard() {
       padding: 5
     },
     labels: ['Hadir', 'Tidak Hadir'],
-    colors: ['#2563EB', '#FBBF24'], // Blue for present, yellow for absent as per mockup
+    colors: ['#18468B', '#FBBF24'], // Blue for present, yellow for absent as per mockup
     plotOptions: {
       pie: {
         donut: { size: '60%' },
@@ -127,7 +127,7 @@ export default function ManPowerDashboard() {
     if (p.statusToday === 'Dinas Luar Negeri') bgClass = 'bg-black';
 
     return (
-      <div className={`w-full text-center py-1.5 text-white font-bold text-[11px] uppercase rounded-md tracking-wider shadow-sm ${bgClass}`}>
+      <div className={`w-full text-center py-1.5 text-ink font-bold text-[11px] uppercase rounded-md tracking-wider shadow-sm ${bgClass}`}>
         {p.statusToday}
       </div>
     );
@@ -149,14 +149,14 @@ export default function ManPowerDashboard() {
       return (
         <div className="flex flex-col text-center mt-1">
           <span className="text-xs font-bold text-slate-800">{diffDays} Hari</span>
-          <span className="text-[10px] text-slate-500">{dateRange}</span>
+          <span className="text-[10px] text-gray-500">{dateRange}</span>
           <div className="mt-1.5 pt-1.5 border-t border-slate-100">
-            <span className="text-[10px] font-bold text-blue-600">Masuk: {tKembaliStr}</span>
+            <span className="text-[10px] font-bold text-navy-600">Masuk: {tKembaliStr}</span>
           </div>
         </div>
       );
     }
-    return <span className="text-xs text-slate-400">-</span>;
+    return <span className="text-xs text-gray-500">-</span>;
   };
 
   return (
@@ -165,28 +165,28 @@ export default function ManPowerDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
         {/* Filters */}
         <div className="col-span-1 lg:col-span-2 space-y-4">
-          <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 h-full">
+          <div className="bg-white p-5 rounded-xl shadow-sm border border-slate-200 h-full">
             <h3 className="text-sm font-bold text-slate-800 flex items-center gap-2 mb-4">
               <Calendar className="h-4 w-4 text-[#1A4BC4]" /> Filter
             </h3>
             <div className="space-y-4">
               <div>
-                <label className="text-xs font-semibold text-slate-500 mb-1 block">Pilih Tanggal</label>
+                <label className="text-xs font-semibold text-gray-500 mb-1 block">Pilih Tanggal</label>
                 <input 
                   type="date"
                   value={selectedDate}
                   onChange={(e) => setSelectedDate(e.target.value)}
-                  className="w-full text-sm font-medium border border-slate-200 rounded-xl px-3 py-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-[#1A4BC4]/30"
+                  className="w-full text-sm font-medium border border-slate-200 rounded-lg px-3 py-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-[#1A4BC4]/30"
                 />
               </div>
               <div>
-                <label className="text-xs font-semibold text-slate-500 mb-1 block">Cari Personil</label>
+                <label className="text-xs font-semibold text-gray-500 mb-1 block">Cari Personil</label>
                 <input 
                   type="text"
                   placeholder="Ketik Nama..."
                   value={nameFilter}
                   onChange={(e) => setNameFilter(e.target.value)}
-                  className="w-full text-sm font-medium border border-slate-200 rounded-xl px-3 py-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-[#1A4BC4]/30"
+                  className="w-full text-sm font-medium border border-slate-200 rounded-lg px-3 py-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-[#1A4BC4]/30"
                 />
               </div>
             </div>
@@ -195,56 +195,56 @@ export default function ManPowerDashboard() {
 
         {/* Charts */}
         <div className="col-span-1 lg:col-span-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden pt-4 pb-2 relative flex flex-col items-center justify-center">
-            <div className="absolute top-0 left-0 right-0 bg-[#0f172a] text-white text-xs font-bold px-4 py-2 z-10 shadow-sm flex items-center gap-2">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden pt-4 pb-2 relative flex flex-col items-center justify-center">
+            <div className="absolute top-0 left-0 right-0 bg-[#0f172a] text-ink text-xs font-bold px-4 py-2 z-10 shadow-sm flex items-center gap-2">
               <span className="w-1.5 h-1.5 bg-blue-400 rounded-full"></span> Overall
             </div>
             <div className="mt-8 w-full flex justify-center">
               {overallStats.total > 0 ? (
                 <Chart options={createDonutOptions('')} series={[overallStats.hadir, overallStats.total - overallStats.hadir]} type="donut" height="200" width="100%" />
               ) : (
-                <div className="h-[200px] flex items-center justify-center"><Loader2 className="w-5 h-5 text-blue-500 animate-spin" /></div>
+                <div className="h-[200px] flex items-center justify-center"><Loader2 className="w-5 h-5 text-navy-600 animate-spin" /></div>
               )}
             </div>
-            <div className="absolute bottom-3 right-4 text-sm font-bold text-blue-800 bg-blue-100 px-3 py-1 rounded-xl shadow-sm border border-blue-200">
+            <div className="absolute bottom-3 right-4 text-sm font-bold text-blue-800 bg-blue-100 px-3 py-1 rounded-lg shadow-sm border border-blue-200">
               {overallStats.percentage}%
             </div>
           </div>
-          <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden pt-4 pb-2 relative flex flex-col items-center justify-center">
-            <div className="absolute top-0 left-0 right-0 bg-[#0f172a] text-white text-xs font-bold px-4 py-2 z-10 shadow-sm flex items-center gap-2">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden pt-4 pb-2 relative flex flex-col items-center justify-center">
+            <div className="absolute top-0 left-0 right-0 bg-[#0f172a] text-ink text-xs font-bold px-4 py-2 z-10 shadow-sm flex items-center gap-2">
               <span className="w-1.5 h-1.5 bg-green-400 rounded-full"></span> TKO
             </div>
             <div className="mt-8 w-full flex justify-center">
               {tkoStats.total > 0 ? (
                 <Chart options={createDonutOptions('')} series={[tkoStats.hadir, tkoStats.total - tkoStats.hadir]} type="donut" height="200" width="100%" />
               ) : (
-                <div className="h-[200px] flex items-center justify-center text-xs text-slate-400">Belum ada data</div>
+                <div className="h-[200px] flex items-center justify-center text-xs text-gray-500">Belum ada data</div>
               )}
             </div>
-            <div className="absolute bottom-3 right-4 text-sm font-bold text-blue-800 bg-blue-100 px-3 py-1 rounded-xl shadow-sm border border-blue-200">
+            <div className="absolute bottom-3 right-4 text-sm font-bold text-blue-800 bg-blue-100 px-3 py-1 rounded-lg shadow-sm border border-blue-200">
               {tkoStats.percentage}%
             </div>
           </div>
-          <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden pt-4 pb-2 relative flex flex-col items-center justify-center">
-            <div className="absolute top-0 left-0 right-0 bg-[#0f172a] text-white text-xs font-bold px-4 py-2 z-10 shadow-sm flex items-center gap-2">
+          <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden pt-4 pb-2 relative flex flex-col items-center justify-center">
+            <div className="absolute top-0 left-0 right-0 bg-[#0f172a] text-ink text-xs font-bold px-4 py-2 z-10 shadow-sm flex items-center gap-2">
               <span className="w-1.5 h-1.5 bg-orange-400 rounded-full"></span> TKNO
             </div>
             <div className="mt-8 w-full flex justify-center">
               {tknoStats.total > 0 ? (
                 <Chart options={createDonutOptions('')} series={[tknoStats.hadir, tknoStats.total - tknoStats.hadir]} type="donut" height="200" width="100%" />
               ) : (
-                <div className="h-[200px] flex items-center justify-center text-xs text-slate-400">Belum ada data</div>
+                <div className="h-[200px] flex items-center justify-center text-xs text-gray-500">Belum ada data</div>
               )}
             </div>
-            <div className="absolute bottom-3 right-4 text-sm font-bold text-blue-800 bg-blue-100 px-3 py-1 rounded-xl shadow-sm border border-blue-200">
+            <div className="absolute bottom-3 right-4 text-sm font-bold text-blue-800 bg-blue-100 px-3 py-1 rounded-lg shadow-sm border border-blue-200">
               {tknoStats.percentage}%
             </div>
           </div>
         </div>
 
         {/* Scorecard full grid */}
-        <div className="col-span-1 lg:col-span-4 bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden relative">
-          <div className="absolute top-0 left-0 right-0 bg-[#0f172a] text-white text-xs font-bold px-4 py-2 z-10 shadow-sm flex justify-between items-center">
+        <div className="col-span-1 lg:col-span-4 bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden relative">
+          <div className="absolute top-0 left-0 right-0 bg-[#0f172a] text-ink text-xs font-bold px-4 py-2 z-10 shadow-sm flex justify-between items-center">
             <div className="flex items-center gap-2">
               <Info className="w-4 h-4 text-blue-300" /> Rekapitulasi Kehadiran
             </div>
@@ -252,50 +252,50 @@ export default function ManPowerDashboard() {
           </div>
           
           <div className="grid grid-cols-3 gap-3 p-4 mt-8">
-            <div className="flex flex-col items-center justify-center p-2 rounded-xl bg-slate-50 border border-slate-100">
-              <CheckCircle2 className="w-5 h-5 text-blue-600 mb-1" />
-              <span className="text-xl font-black text-slate-800 leading-none">{scoreCounts.Hadir}</span>
-              <span className="text-[10px] text-slate-500 font-bold uppercase mt-1">Hadir</span>
+            <div className="flex flex-col items-center justify-center p-2 rounded-lg bg-slate-50 border border-slate-100">
+              <CheckCircle2 className="w-5 h-5 text-navy-600 mb-1" />
+              <span className="text-xl font-display font-black text-slate-800 leading-none">{scoreCounts.Hadir}</span>
+              <span className="text-[10px] text-gray-500 font-bold uppercase mt-1">Hadir</span>
             </div>
-            <div className="flex flex-col items-center justify-center p-2 rounded-xl bg-slate-50 border border-slate-100">
+            <div className="flex flex-col items-center justify-center p-2 rounded-lg bg-slate-50 border border-slate-100">
               <UserX className="w-5 h-5 text-red-500 mb-1" />
-              <span className="text-xl font-black text-slate-800 leading-none">{scoreCounts.Off}</span>
-              <span className="text-[10px] text-slate-500 font-bold uppercase mt-1">Off</span>
+              <span className="text-xl font-display font-black text-slate-800 leading-none">{scoreCounts.Off}</span>
+              <span className="text-[10px] text-gray-500 font-bold uppercase mt-1">Off</span>
             </div>
-            <div className="flex flex-col items-center justify-center p-2 rounded-xl bg-slate-50 border border-slate-100">
+            <div className="flex flex-col items-center justify-center p-2 rounded-lg bg-slate-50 border border-slate-100">
               <GraduationCap className="w-5 h-5 text-green-500 mb-1" />
-              <span className="text-xl font-black text-slate-800 leading-none">{scoreCounts.Training}</span>
-              <span className="text-[10px] text-slate-500 font-bold uppercase mt-1">Training</span>
+              <span className="text-xl font-display font-black text-slate-800 leading-none">{scoreCounts.Training}</span>
+              <span className="text-[10px] text-gray-500 font-bold uppercase mt-1">Training</span>
             </div>
-            <div className="flex flex-col items-center justify-center p-2 rounded-xl bg-slate-50 border border-slate-100">
+            <div className="flex flex-col items-center justify-center p-2 rounded-lg bg-slate-50 border border-slate-100">
               <Calendar className="w-5 h-5 text-yellow-500 mb-1" />
-              <span className="text-xl font-black text-slate-800 leading-none">{scoreCounts.Cuti}</span>
-              <span className="text-[10px] text-slate-500 font-bold uppercase mt-1">Cuti</span>
+              <span className="text-xl font-display font-black text-slate-800 leading-none">{scoreCounts.Cuti}</span>
+              <span className="text-[10px] text-gray-500 font-bold uppercase mt-1">Cuti</span>
             </div>
-            <div className="flex flex-col items-center justify-center p-2 rounded-xl bg-slate-50 border border-slate-100">
+            <div className="flex flex-col items-center justify-center p-2 rounded-lg bg-slate-50 border border-slate-100">
               <Info className="w-5 h-5 text-amber-700 mb-1" />
-              <span className="text-xl font-black text-slate-800 leading-none">{scoreCounts.Izin}</span>
-              <span className="text-[10px] text-slate-500 font-bold uppercase mt-1">Izin</span>
+              <span className="text-xl font-display font-black text-slate-800 leading-none">{scoreCounts.Izin}</span>
+              <span className="text-[10px] text-gray-500 font-bold uppercase mt-1">Izin</span>
             </div>
-            <div className="flex flex-col items-center justify-center p-2 rounded-xl bg-slate-50 border border-slate-100">
-              <Stethoscope className="w-5 h-5 text-slate-500 mb-1" />
-              <span className="text-xl font-black text-slate-800 leading-none">{scoreCounts.Sakit}</span>
-              <span className="text-[10px] text-slate-500 font-bold uppercase mt-1">Sakit</span>
+            <div className="flex flex-col items-center justify-center p-2 rounded-lg bg-slate-50 border border-slate-100">
+              <Stethoscope className="w-5 h-5 text-gray-500 mb-1" />
+              <span className="text-xl font-display font-black text-slate-800 leading-none">{scoreCounts.Sakit}</span>
+              <span className="text-[10px] text-gray-500 font-bold uppercase mt-1">Sakit</span>
             </div>
-            <div className="flex flex-col items-center justify-center p-2 rounded-xl bg-slate-50 border border-slate-100">
+            <div className="flex flex-col items-center justify-center p-2 rounded-lg bg-slate-50 border border-slate-100">
               <Hospital className="w-5 h-5 text-purple-500 mb-1" />
-              <span className="text-xl font-black text-slate-800 leading-none">{scoreCounts.Referral}</span>
-              <span className="text-[10px] text-slate-500 font-bold uppercase mt-1">Referral</span>
+              <span className="text-xl font-display font-black text-slate-800 leading-none">{scoreCounts.Referral}</span>
+              <span className="text-[10px] text-gray-500 font-bold uppercase mt-1">Referral</span>
             </div>
-            <div className="flex flex-col items-center justify-center p-2 rounded-xl bg-slate-50 border border-slate-100 text-center">
+            <div className="flex flex-col items-center justify-center p-2 rounded-lg bg-slate-50 border border-slate-100 text-center">
               <PlaneTakeoff className="w-5 h-5 text-orange-500 mb-1" />
-              <span className="text-xl font-black text-slate-800 leading-none">{scoreCounts['Dinas Dalam Negeri']}</span>
-              <span className="text-[9px] text-slate-500 font-bold uppercase mt-1 leading-tight">Dinas<br/>Dalam</span>
+              <span className="text-xl font-display font-black text-slate-800 leading-none">{scoreCounts['Dinas Dalam Negeri']}</span>
+              <span className="text-[9px] text-gray-500 font-bold uppercase mt-1 leading-tight">Dinas<br/>Dalam</span>
             </div>
-            <div className="flex flex-col items-center justify-center p-2 rounded-xl bg-slate-50 border border-slate-100 text-center">
+            <div className="flex flex-col items-center justify-center p-2 rounded-lg bg-slate-50 border border-slate-100 text-center">
               <Globe className="w-5 h-5 text-black mb-1" />
-              <span className="text-xl font-black text-slate-800 leading-none">{scoreCounts['Dinas Luar Negeri']}</span>
-              <span className="text-[9px] text-slate-500 font-bold uppercase mt-1 leading-tight">Dinas<br/>Luar</span>
+              <span className="text-xl font-display font-black text-slate-800 leading-none">{scoreCounts['Dinas Luar Negeri']}</span>
+              <span className="text-[9px] text-gray-500 font-bold uppercase mt-1 leading-tight">Dinas<br/>Luar</span>
             </div>
           </div>
         </div>
@@ -304,8 +304,8 @@ export default function ManPowerDashboard() {
       {/* BOTTOM ROW: Tables */}
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
         {/* Table Organik */}
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
-          <div className="bg-[#0f172a] text-white text-sm font-bold px-5 py-3 shadow-sm">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
+          <div className="bg-[#0f172a] text-ink text-sm font-bold px-5 py-3 shadow-sm">
             Tenaga Kerja Organik (TKO)
           </div>
           <div className="overflow-auto max-h-[350px]">
@@ -319,10 +319,10 @@ export default function ManPowerDashboard() {
                 </tr>
               </thead>
               <tbody>
-                {loading ? <tr><td colSpan="4" className="text-center py-8 text-slate-400"><Loader2 className="w-6 h-6 animate-spin mx-auto mb-2" /> Memuat Data...</td></tr> : 
+                {loading ? <tr><td colSpan="4" className="text-center py-8 text-gray-500"><Loader2 className="w-6 h-6 animate-spin mx-auto mb-2" /> Memuat Data...</td></tr> : 
                   organikData.map((p, i) => (
                   <tr key={p.id} className="border-b border-slate-100 last:border-0 hover:bg-slate-50 transition-colors">
-                    <td className="py-3 px-4 text-center text-slate-500 font-medium">{i + 1}.</td>
+                    <td className="py-3 px-4 text-center text-gray-500 font-medium">{i + 1}.</td>
                     <td className="py-3 px-4 font-bold text-slate-800">{p.name}</td>
                     <td className="py-3 px-4 text-slate-600 text-xs font-semibold">{getBagian(p)}</td>
                     <td className="py-2 px-4">
@@ -331,7 +331,7 @@ export default function ManPowerDashboard() {
                   </tr>
                 ))}
                 {organikData.length === 0 && !loading && (
-                  <tr><td colSpan="4" className="text-center py-6 text-slate-400 text-sm">Tidak ada data TKO</td></tr>
+                  <tr><td colSpan="4" className="text-center py-6 text-gray-500 text-sm">Tidak ada data TKO</td></tr>
                 )}
               </tbody>
             </table>
@@ -339,8 +339,8 @@ export default function ManPowerDashboard() {
         </div>
 
         {/* Table Non Organik */}
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
-          <div className="bg-[#1E293B] text-white text-sm font-bold px-5 py-3 shadow-sm">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
+          <div className="bg-[#1E293B] text-ink text-sm font-bold px-5 py-3 shadow-sm">
             Tenaga Kerja Non Organik (TKNO)
           </div>
           <div className="overflow-auto max-h-[350px]">
@@ -354,10 +354,10 @@ export default function ManPowerDashboard() {
                 </tr>
               </thead>
               <tbody>
-                {loading ? <tr><td colSpan="4" className="text-center py-8 text-slate-400"><Loader2 className="w-6 h-6 animate-spin mx-auto mb-2" /> Memuat Data...</td></tr> : 
+                {loading ? <tr><td colSpan="4" className="text-center py-8 text-gray-500"><Loader2 className="w-6 h-6 animate-spin mx-auto mb-2" /> Memuat Data...</td></tr> : 
                   nonOrganikData.map((p, i) => (
                   <tr key={p.id} className="border-b border-slate-100 last:border-0 hover:bg-slate-50 transition-colors">
-                    <td className="py-3 px-4 text-center text-slate-500 font-medium">{i + 1}.</td>
+                    <td className="py-3 px-4 text-center text-gray-500 font-medium">{i + 1}.</td>
                     <td className="py-3 px-4 font-bold text-slate-800">{p.name}</td>
                     <td className="py-3 px-4 text-slate-600 text-xs font-semibold">{getBagian(p)}</td>
                     <td className="py-2 px-4">
@@ -366,7 +366,7 @@ export default function ManPowerDashboard() {
                   </tr>
                 ))}
                 {nonOrganikData.length === 0 && !loading && (
-                  <tr><td colSpan="4" className="text-center py-6 text-slate-400 text-sm">Tidak ada data TKNO</td></tr>
+                  <tr><td colSpan="4" className="text-center py-6 text-gray-500 text-sm">Tidak ada data TKNO</td></tr>
                 )}
               </tbody>
             </table>
@@ -374,8 +374,8 @@ export default function ManPowerDashboard() {
         </div>
 
         {/* Table Ketidakhadiran */}
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
-          <div className="bg-[#EAB308] text-white text-sm font-bold px-5 py-3 shadow-sm flex items-center gap-2">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
+          <div className="bg-[#EAB308] text-ink text-sm font-bold px-5 py-3 shadow-sm flex items-center gap-2">
             <Calendar className="w-4 h-4" /> Ketidakhadiran (Cuti, Izin, Sakit, Referral)
           </div>
           <div className="overflow-auto max-h-[350px]">
@@ -390,10 +390,10 @@ export default function ManPowerDashboard() {
                 </tr>
               </thead>
               <tbody>
-                {loading ? <tr><td colSpan="5" className="text-center py-8 text-slate-400">Memuat Data...</td></tr> : 
+                {loading ? <tr><td colSpan="5" className="text-center py-8 text-gray-500">Memuat Data...</td></tr> : 
                   ketidakhadiranData.map((p, i) => (
                   <tr key={p.id} className="border-b border-slate-100 hover:bg-slate-50 last:border-0 transition-colors">
-                    <td className="py-3 px-4 text-center text-slate-500 font-medium">{i + 1}.</td>
+                    <td className="py-3 px-4 text-center text-gray-500 font-medium">{i + 1}.</td>
                     <td className="py-3 px-4 font-bold text-slate-800">{p.name}</td>
                     <td className="py-3 px-4 text-slate-600 text-xs font-semibold">{getBagian(p)}</td>
                     <td className="py-2 px-4">
@@ -405,7 +405,7 @@ export default function ManPowerDashboard() {
                   </tr>
                 ))}
                 {ketidakhadiranData.length === 0 && !loading && (
-                  <tr><td colSpan="5" className="text-center py-6 text-slate-400 text-sm">Semua personil hadir</td></tr>
+                  <tr><td colSpan="5" className="text-center py-6 text-gray-500 text-sm">Semua personil hadir</td></tr>
                 )}
               </tbody>
             </table>
@@ -413,8 +413,8 @@ export default function ManPowerDashboard() {
         </div>
 
         {/* Table Penugasan */}
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
-          <div className="bg-[#EA580C] text-white text-sm font-bold px-5 py-3 shadow-sm flex items-center gap-2">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
+          <div className="bg-[#EA580C] text-ink text-sm font-bold px-5 py-3 shadow-sm flex items-center gap-2">
             <PlaneTakeoff className="w-4 h-4" /> Penugasan Dinas (Dalam/Luar Negeri)
           </div>
           <div className="overflow-auto max-h-[350px]">
@@ -428,10 +428,10 @@ export default function ManPowerDashboard() {
                 </tr>
               </thead>
               <tbody>
-                {loading ? <tr><td colSpan="4" className="text-center py-8 text-slate-400">Memuat Data...</td></tr> : 
+                {loading ? <tr><td colSpan="4" className="text-center py-8 text-gray-500">Memuat Data...</td></tr> : 
                   penugasanData.map((p, i) => (
                   <tr key={p.id} className="border-b border-slate-100 hover:bg-slate-50 last:border-0 transition-colors">
-                    <td className="py-3 px-4 text-center text-slate-500 font-medium">{i + 1}.</td>
+                    <td className="py-3 px-4 text-center text-gray-500 font-medium">{i + 1}.</td>
                     <td className="py-3 px-4 font-bold text-slate-800">{p.name}</td>
                     <td className="py-3 px-4 text-slate-600 text-xs font-semibold">{getBagian(p)}</td>
                     <td className="py-2 px-4">
@@ -440,7 +440,7 @@ export default function ManPowerDashboard() {
                   </tr>
                 ))}
                 {penugasanData.length === 0 && !loading && (
-                  <tr><td colSpan="4" className="text-center py-6 text-slate-400 text-sm">Tidak ada personil dinas</td></tr>
+                  <tr><td colSpan="4" className="text-center py-6 text-gray-500 text-sm">Tidak ada personil dinas</td></tr>
                 )}
               </tbody>
             </table>

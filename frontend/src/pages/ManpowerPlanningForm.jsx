@@ -176,19 +176,19 @@ export default function ManpowerPlanningForm({ onBack, onSaved }) {
         <div className="flex items-center space-x-4">
           <button 
             onClick={onBack}
-            className="p-2 bg-white hover:bg-slate-50 text-slate-600 rounded-lg transition-colors border border-industrial-border shadow-sm-subtle"
+            className="p-2 bg-white hover:bg-slate-50 text-slate-600 rounded-lg transition-colors border border-gray-200 shadow-sm-subtle"
           >
             <ArrowLeft className="w-5 h-5" />
           </button>
           <div>
-            <h1 className="text-xl font-bold text-industrial-text">Buat Rencana Manpower</h1>
-            <p className="text-industrial-muted text-sm">Susun form penempatan dan alur persetujuan</p>
+            <h1 className="text-xl font-display font-bold text-ink">Buat Rencana Manpower</h1>
+            <p className="text-gray-500 text-sm">Susun form penempatan dan alur persetujuan</p>
           </div>
         </div>
         <button
           onClick={handleSubmit}
           disabled={saving}
-          className="flex items-center space-x-2 bg-industrial-green hover:bg-emerald-600 text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-all shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex items-center space-x-2 bg-industrial-green hover:bg-emerald-600 text-ink px-5 py-2.5 rounded-lg text-sm font-semibold transition-all shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
           <span>Simpan Rencana</span>
@@ -196,7 +196,7 @@ export default function ManpowerPlanningForm({ onBack, onSaved }) {
       </div>
 
       {error && (
-        <div className="p-4 bg-red-50 border border-red-200 rounded-xl flex items-start space-x-3 text-red-600">
+        <div className="p-4 bg-red-50 border border-red-200 rounded-lg flex items-start space-x-3 text-red-600">
           <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
           <p className="text-sm font-medium">{error}</p>
         </div>
@@ -205,59 +205,59 @@ export default function ManpowerPlanningForm({ onBack, onSaved }) {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left Column: Form Details & Approvals */}
         <div className="lg:col-span-1 space-y-6">
-          <div className="bg-white border border-industrial-border rounded-card p-5 space-y-4 shadow-sm-subtle">
-            <h3 className="font-semibold text-industrial-text border-b border-industrial-border pb-2">Informasi Program</h3>
+          <div className="bg-white border border-gray-200 rounded-lg p-5 space-y-4 shadow-sm-subtle">
+            <h3 className="font-semibold text-ink border-b border-gray-200 pb-2">Informasi Program</h3>
             
             <div className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-industrial-text mb-1.5">Nama Program / Pekerjaan</label>
+                <label className="block text-xs font-semibold text-ink mb-1.5">Nama Program / Pekerjaan</label>
                 <input 
                   type="text" name="title" value={formData.title} onChange={handleInputChange}
-                  className="w-full bg-white border border-industrial-border rounded-lg px-3 py-2 text-sm text-industrial-text focus:outline-none focus:border-industrial-blue focus:ring-1 focus:ring-industrial-blue"
+                  className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm text-ink focus:outline-none focus:border-industrial-blue focus:ring-1 focus:ring-industrial-blue"
                   placeholder="Contoh: Overhaul Pabrik 1"
                 />
               </div>
               
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-industrial-text mb-1.5">Tgl Mulai</label>
+                  <label className="block text-xs font-semibold text-ink mb-1.5">Tgl Mulai</label>
                   <input 
                     type="date" name="startDate" value={formData.startDate} onChange={handleInputChange}
-                    className="w-full bg-white border border-industrial-border rounded-lg px-3 py-2 text-sm text-industrial-text focus:outline-none focus:border-industrial-blue focus:ring-1 focus:ring-industrial-blue"
+                    className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm text-ink focus:outline-none focus:border-industrial-blue focus:ring-1 focus:ring-industrial-blue"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-industrial-text mb-1.5">Tgl Selesai</label>
+                  <label className="block text-xs font-semibold text-ink mb-1.5">Tgl Selesai</label>
                   <input 
                     type="date" name="endDate" value={formData.endDate} onChange={handleInputChange}
-                    className="w-full bg-white border border-industrial-border rounded-lg px-3 py-2 text-sm text-industrial-text focus:outline-none focus:border-industrial-blue focus:ring-1 focus:ring-industrial-blue"
+                    className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm text-ink focus:outline-none focus:border-industrial-blue focus:ring-1 focus:ring-industrial-blue"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-industrial-text mb-1.5">Departemen</label>
+                <label className="block text-xs font-semibold text-ink mb-1.5">Departemen</label>
                 <input 
                   type="text" name="department" value={formData.department} onChange={handleInputChange}
-                  className="w-full bg-white border border-industrial-border rounded-lg px-3 py-2 text-sm text-industrial-text focus:outline-none focus:border-industrial-blue focus:ring-1 focus:ring-industrial-blue"
+                  className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm text-ink focus:outline-none focus:border-industrial-blue focus:ring-1 focus:ring-industrial-blue"
                   placeholder="Contoh: Pemeliharaan Mekanik"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-industrial-text mb-1.5">Area / Plant</label>
+                <label className="block text-xs font-semibold text-ink mb-1.5">Area / Plant</label>
                 <input 
                   type="text" name="area" value={formData.area} onChange={handleInputChange}
-                  className="w-full bg-white border border-industrial-border rounded-lg px-3 py-2 text-sm text-industrial-text focus:outline-none focus:border-industrial-blue focus:ring-1 focus:ring-industrial-blue"
+                  className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm text-ink focus:outline-none focus:border-industrial-blue focus:ring-1 focus:ring-industrial-blue"
                   placeholder="Contoh: Amonia P-1B"
                 />
               </div>
             </div>
           </div>
 
-          <div className="bg-white border border-industrial-border rounded-card p-5 space-y-4 shadow-sm-subtle">
-            <div className="flex items-center justify-between border-b border-industrial-border pb-2">
-              <h3 className="font-semibold text-industrial-text">Alur Persetujuan</h3>
+          <div className="bg-white border border-gray-200 rounded-lg p-5 space-y-4 shadow-sm-subtle">
+            <div className="flex items-center justify-between border-b border-gray-200 pb-2">
+              <h3 className="font-semibold text-ink">Alur Persetujuan</h3>
               <label className="flex items-center space-x-2 cursor-pointer group">
                 <input 
                   type="checkbox" name="isUrgentBypass" checked={formData.isUrgentBypass} onChange={handleInputChange}
@@ -273,7 +273,7 @@ export default function ManpowerPlanningForm({ onBack, onSaved }) {
               {!formData.isUrgentBypass && (
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <label className="block text-xs font-semibold text-industrial-text">AVP Approvers</label>
+                    <label className="block text-xs font-semibold text-ink">AVP Approvers</label>
                     <button type="button" onClick={() => addApprover('AVP')} className="text-xs text-industrial-blue hover:text-blue-700 font-medium">+ Tambah AVP</button>
                   </div>
                   {approvers.filter(a => a.role === 'AVP').length === 0 && (
@@ -284,14 +284,14 @@ export default function ManpowerPlanningForm({ onBack, onSaved }) {
                       <select 
                         value={appr.userId} 
                         onChange={(e) => updateApprover(idx, e.target.value)}
-                        className="w-full bg-white border border-industrial-border rounded-lg px-3 py-1.5 text-sm text-industrial-text focus:outline-none focus:border-industrial-blue"
+                        className="w-full bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-sm text-ink focus:outline-none focus:border-industrial-blue"
                       >
                         <option value="">-- Pilih AVP --</option>
                         {availableApprovers.map(user => (
                           <option key={user.id} value={user.id}>{user.name} ({user.position})</option>
                         ))}
                       </select>
-                      <button onClick={() => removeApprover(idx)} className="p-1.5 text-slate-400 hover:text-red-500 bg-slate-50 rounded-lg border border-slate-200"><Trash2 className="w-4 h-4"/></button>
+                      <button onClick={() => removeApprover(idx)} className="p-1.5 text-gray-500 hover:text-red-500 bg-slate-50 rounded-lg border border-slate-200"><Trash2 className="w-4 h-4"/></button>
                     </div>
                   ))}
                 </div>
@@ -302,29 +302,29 @@ export default function ManpowerPlanningForm({ onBack, onSaved }) {
 
         {/* Right Column: Manpower Selection */}
         <div className="lg:col-span-2 space-y-6">
-          <div className="bg-white border border-industrial-border rounded-card overflow-hidden shadow-soft-card flex flex-col h-[400px]">
-            <div className="p-4 border-b border-industrial-border flex items-center justify-between bg-slate-50">
-              <h3 className="font-semibold text-industrial-text">Personil yang Ditugaskan ({selectedMembers.length})</h3>
+          <div className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-md flex flex-col h-[400px]">
+            <div className="p-4 border-b border-gray-200 flex items-center justify-between bg-slate-50">
+              <h3 className="font-semibold text-ink">Personil yang Ditugaskan ({selectedMembers.length})</h3>
             </div>
             
             <div className="p-4 overflow-y-auto flex-1 space-y-2 bg-industrial-background/30">
               {selectedMembers.length === 0 ? (
-                <div className="h-full flex flex-col items-center justify-center text-slate-400">
-                  <Users className="w-10 h-10 mb-3 opacity-20 text-slate-500" />
+                <div className="h-full flex flex-col items-center justify-center text-gray-500">
+                  <Users className="w-10 h-10 mb-3 opacity-20 text-gray-500" />
                   <p className="text-sm font-medium text-slate-600">Belum ada personil yang dipilih.</p>
                   <p className="text-xs mt-1 text-center">Pilih personil dari daftar ketersediaan di bawah berdasarkan tanggal yang telah ditentukan.</p>
                 </div>
               ) : (
                 selectedMembers.map(member => (
-                  <div key={member.manPowerId} className="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-white border border-industrial-border rounded-xl shadow-sm-subtle gap-3">
+                  <div key={member.manPowerId} className="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-white border border-gray-200 rounded-lg shadow-sm-subtle gap-3">
                     <div className="flex-1">
                       <div className="flex items-center space-x-2">
-                        <p className="font-semibold text-industrial-text text-sm">{member.name}</p>
+                        <p className="font-semibold text-ink text-sm">{member.name}</p>
                         {member.hasConflicts && (
                           <span className="px-1.5 py-0.5 bg-amber-100 text-amber-700 text-[10px] font-medium rounded border border-amber-200">Ada Jadwal/Cuti</span>
                         )}
                       </div>
-                      <p className="text-xs text-industrial-muted">{member.position}</p>
+                      <p className="text-xs text-gray-500">{member.position}</p>
                     </div>
                     <div className="flex items-center space-x-3 w-full sm:w-auto">
                       <input 
@@ -332,9 +332,9 @@ export default function ManpowerPlanningForm({ onBack, onSaved }) {
                         value={member.role}
                         onChange={(e) => updateMemberRole(member.manPowerId, e.target.value)}
                         placeholder="Peran (Opsional)"
-                        className="w-full sm:w-40 bg-slate-50 border border-industrial-border rounded-lg px-2 py-1.5 text-xs text-industrial-text focus:outline-none focus:border-industrial-blue"
+                        className="w-full sm:w-40 bg-slate-50 border border-gray-200 rounded-lg px-2 py-1.5 text-xs text-ink focus:outline-none focus:border-industrial-blue"
                       />
-                      <button onClick={() => removeMember(member.manPowerId)} className="p-1.5 text-slate-500 hover:text-red-500 hover:bg-red-50 border border-slate-200 rounded-lg transition-colors">
+                      <button onClick={() => removeMember(member.manPowerId)} className="p-1.5 text-gray-500 hover:text-red-500 hover:bg-red-50 border border-slate-200 rounded-lg transition-colors">
                         <Trash2 className="w-4 h-4" />
                       </button>
                     </div>
@@ -345,14 +345,14 @@ export default function ManpowerPlanningForm({ onBack, onSaved }) {
           </div>
 
           {/* Availability Pool */}
-          <div className="bg-white border border-industrial-border rounded-card overflow-hidden shadow-soft-card">
-            <div className="p-4 border-b border-industrial-border flex items-center justify-between bg-slate-50">
+          <div className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-md">
+            <div className="p-4 border-b border-gray-200 flex items-center justify-between bg-slate-50">
               <div className="flex flex-col">
-                 <h3 className="font-semibold text-industrial-text text-sm flex items-center">
+                 <h3 className="font-semibold text-ink text-sm flex items-center">
                    <Users className="w-4 h-4 mr-1.5 text-industrial-blue" />
                    Database Ketersediaan Personil
                  </h3>
-                 <p className="text-[10px] text-industrial-muted mt-0.5">Daftar anggota ditarik langsung dari database Man Power, mendeteksi status cuti/sakit secara otomatis.</p>
+                 <p className="text-[10px] text-gray-500 mt-0.5">Daftar anggota ditarik langsung dari database Man Power, mendeteksi status cuti/sakit secara otomatis.</p>
               </div>
               {(!formData.startDate || !formData.endDate) && (
                 <span className="text-xs text-amber-600 bg-amber-50 px-2 py-1.5 font-medium rounded border border-amber-200 flex items-center">
@@ -363,21 +363,21 @@ export default function ManpowerPlanningForm({ onBack, onSaved }) {
 
             {/* Filters */}
             {availableManpower.length > 0 && (
-              <div className="p-3 bg-white border-b border-industrial-border flex gap-3">
+              <div className="p-3 bg-white border-b border-gray-200 flex gap-3">
                 <div className="relative flex-1">
-                  <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                  <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
                   <input 
                     type="text" 
                     placeholder="Cari nama atau jabatan..." 
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-industrial-text focus:outline-none focus:border-industrial-blue"
+                    className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs text-ink focus:outline-none focus:border-industrial-blue"
                   />
                 </div>
                 <select 
                   value={selectedDivision}
                   onChange={(e) => setSelectedDivision(e.target.value)}
-                  className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-industrial-text focus:outline-none focus:border-industrial-blue min-w-[120px]"
+                  className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-ink focus:outline-none focus:border-industrial-blue min-w-[120px]"
                 >
                   {divisions.map(div => (
                     <option key={div} value={div}>{div === 'All' ? 'Semua Bagian' : div}</option>
@@ -390,7 +390,7 @@ export default function ManpowerPlanningForm({ onBack, onSaved }) {
               {loadingManpower ? (
                 <div className="flex justify-center py-6"><Loader2 className="w-6 h-6 animate-spin text-industrial-blue" /></div>
               ) : availableManpower.length === 0 ? (
-                <p className="text-xs text-center text-slate-500 py-4">Pilih rentang tanggal di kolom kiri untuk melihat daftar ketersediaan seluruh anggota.</p>
+                <p className="text-xs text-center text-gray-500 py-4">Pilih rentang tanggal di kolom kiri untuk melihat daftar ketersediaan seluruh anggota.</p>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {filteredManpower.map(mp => {
@@ -408,7 +408,7 @@ export default function ManpowerPlanningForm({ onBack, onSaved }) {
                                <span className="ml-2 px-1.5 py-0.5 bg-emerald-100 text-emerald-700 text-[9px] font-bold rounded-full">TERSEDIA</span>
                             )}
                           </p>
-                          <p className="text-[10px] text-industrial-muted">{mp.position} • <span className="font-medium text-slate-600">{mp.divisi.nama_divisi}</span></p>
+                          <p className="text-[10px] text-gray-500">{mp.position} • <span className="font-medium text-slate-600">{mp.divisi.nama_divisi}</span></p>
                           
                           {hasConflicts && !isSelected && (
                             <div className="mt-1.5 space-y-1">
@@ -422,7 +422,7 @@ export default function ManpowerPlanningForm({ onBack, onSaved }) {
                             <Check className="w-4 h-4 text-industrial-blue" />
                           </div>
                         ) : (
-                          <div className="w-7 h-7 rounded-full bg-slate-50 flex items-center justify-center border border-slate-200 hover:bg-industrial-blue hover:border-industrial-blue hover:text-white text-slate-400 transition-colors shrink-0">
+                          <div className="w-7 h-7 rounded-full bg-slate-50 flex items-center justify-center border border-slate-200 hover:bg-industrial-blue hover:border-industrial-blue hover:text-ink text-gray-500 transition-colors shrink-0">
                             <Plus className="w-4 h-4" />
                           </div>
                         )}

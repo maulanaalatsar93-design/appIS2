@@ -54,10 +54,10 @@ export default function WorkCube() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-industrial-text">Work Cube — My Tasks</h1>
-          <p className="text-industrial-muted text-sm mt-1">Pekerjaan yang menjadi tanggung jawab Anda. Update progress dan checklist di sini.</p>
+          <h1 className="text-2xl font-display font-bold text-ink">Work Cube — My Tasks</h1>
+          <p className="text-gray-500 text-sm mt-1">Pekerjaan yang menjadi tanggung jawab Anda. Update progress dan checklist di sini.</p>
         </div>
-        <button onClick={fetchMyCube} className="flex items-center space-x-2 bg-white border border-industrial-border hover:bg-slate-50 text-industrial-text px-4 py-2 rounded-xl text-sm font-medium shadow-sm-subtle">
+        <button onClick={fetchMyCube} className="flex items-center space-x-2 bg-white border border-gray-200 hover:bg-slate-50 text-ink px-4 py-2 rounded-lg text-sm font-medium shadow-sm-subtle">
           <RefreshCw className="w-4 h-4" />
           <span>Refresh</span>
         </button>
@@ -68,10 +68,10 @@ export default function WorkCube() {
           <Loader2 className="w-8 h-8 animate-spin text-industrial-blue" />
         </div>
       ) : items.length === 0 ? (
-        <div className="flex flex-col items-center justify-center h-64 text-slate-400 bg-white border border-industrial-border rounded-card">
+        <div className="flex flex-col items-center justify-center h-64 text-gray-500 bg-white border border-gray-200 rounded-lg">
           <ClipboardList className="w-16 h-16 opacity-15 mb-4" />
-          <p className="font-semibold text-slate-500 text-lg">Tidak ada tugas aktif.</p>
-          <p className="text-sm mt-1 text-slate-400">Akun Anda belum terhubung ke data ManPower, atau belum ada item yang ditugaskan ke Anda.</p>
+          <p className="font-semibold text-gray-500 text-lg font-display">Tidak ada tugas aktif.</p>
+          <p className="text-sm mt-1 text-gray-500">Akun Anda belum terhubung ke data ManPower, atau belum ada item yang ditugaskan ke Anda.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
@@ -90,26 +90,26 @@ export default function WorkCube() {
 
                 {/* Cards */}
                 {statusItems.length === 0 ? (
-                  <div className="bg-white border border-dashed border-slate-200 rounded-xl p-4 text-center">
-                    <p className="text-[10px] text-slate-400">Tidak ada tugas</p>
+                  <div className="bg-white border border-dashed border-slate-200 rounded-lg p-4 text-center">
+                    <p className="text-[10px] text-gray-500">Tidak ada tugas</p>
                   </div>
                 ) : statusItems.map(item => (
                   <div key={item.id} className={`bg-white border rounded-xl overflow-hidden shadow-sm-subtle ${item.status === 'Ready For Review' ? 'ring-2 ring-amber-300' : 'border-industrial-border'}`}>
                     {/* Card Header */}
                     <div className={`px-3 py-2 flex items-center justify-between ${item.status === 'Ready For Review' ? 'bg-amber-50' : 'bg-slate-50'} border-b border-industrial-border`}>
-                      <span className="font-mono text-[10px] font-bold text-industrial-muted">{item.item_no || `#${item.id}`}</span>
-                      <span className="text-[10px] font-semibold text-industrial-muted">{item.program?.title}</span>
+                      <span className="font-mono text-[10px] font-bold text-gray-500">{item.item_no || `#${item.id}`}</span>
+                      <span className="text-[10px] font-semibold text-gray-500">{item.program?.title}</span>
                     </div>
 
                     {/* Card Body */}
                     <div className="p-3 space-y-3">
-                      <p className="font-bold text-sm text-industrial-text leading-tight">{item.title}</p>
-                      {item.equipment && <p className="text-[10px] text-industrial-muted">🔧 {item.equipment}</p>}
+                      <p className="font-bold text-sm text-ink leading-tight">{item.title}</p>
+                      {item.equipment && <p className="text-[10px] text-gray-500">🔧 {item.equipment}</p>}
 
                       {/* Progress Bar */}
                       <div>
                         <div className="flex items-center justify-between mb-1">
-                          <span className="text-[10px] text-industrial-muted">Progress</span>
+                          <span className="text-[10px] text-gray-500">Progress</span>
                           <span className="text-[10px] font-bold text-industrial-blue">{item.progress_pct}%</span>
                         </div>
                         <div className="w-full bg-slate-100 rounded-full h-1.5">
@@ -128,7 +128,7 @@ export default function WorkCube() {
 
                         {item.status === 'Waiting' && (
                           <button onClick={() => handleStatusChange(item.id, 'In Progress')}
-                            className="w-full flex items-center justify-center space-x-2 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs font-semibold transition-colors">
+                            className="w-full flex items-center justify-center space-x-2 py-1.5 bg-navy-600 hover:bg-blue-500 text-white rounded-lg text-xs font-semibold transition-colors">
                             <Play className="w-3.5 h-3.5" />
                             <span>Mulai Kerjakan</span>
                           </button>
@@ -143,7 +143,7 @@ export default function WorkCube() {
                             </button>
                             {item.progress_pct === 100 && (
                               <button onClick={() => handleStatusChange(item.id, 'Ready For Review')}
-                                className="w-full flex items-center justify-center space-x-2 py-1.5 bg-amber-500 hover:bg-amber-400 text-white rounded-lg text-xs font-semibold transition-colors">
+                                className="w-full flex items-center justify-center space-x-2 py-1.5 bg-amber-500 hover:bg-amber-400 text-ink rounded-lg text-xs font-semibold transition-colors">
                                 <CheckCircle2 className="w-3.5 h-3.5" />
                                 <span>Ajukan Review</span>
                               </button>
@@ -153,7 +153,7 @@ export default function WorkCube() {
 
                         {item.status === 'Hold' && (
                           <button onClick={() => handleStatusChange(item.id, 'In Progress')}
-                            className="w-full flex items-center justify-center space-x-2 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs font-semibold transition-colors">
+                            className="w-full flex items-center justify-center space-x-2 py-1.5 bg-navy-600 hover:bg-blue-500 text-white rounded-lg text-xs font-semibold transition-colors">
                             <Play className="w-3.5 h-3.5" />
                             <span>Lanjutkan</span>
                           </button>

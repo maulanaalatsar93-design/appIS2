@@ -7,13 +7,13 @@ import {
 import Chart from 'react-apexcharts';
 
 const STATUS_COLOR = {
-  SCHEDULED:   { bg: 'bg-gray-100',   text: 'text-gray-700',   dot: '#94a3b8', label: 'Scheduled' },
-  ASSIGNED:    { bg: 'bg-blue-100',   text: 'text-blue-700',   dot: '#3b82f6', label: 'Assigned' },
-  IN_PROGRESS: { bg: 'bg-amber-100',  text: 'text-amber-700',  dot: '#f59e0b', label: 'In Progress' },
-  ON_HOLD:     { bg: 'bg-orange-100', text: 'text-orange-700', dot: '#f97316', label: 'On Hold' },
-  COMPLETED:   { bg: 'bg-green-100',  text: 'text-green-700',  dot: '#22c55e', label: 'Completed' },
-  OVERDUE:     { bg: 'bg-red-100',    text: 'text-red-700',    dot: '#ef4444', label: 'Overdue' },
-  CANCELLED:   { bg: 'bg-slate-100',  text: 'text-slate-500',  dot: '#94a3b8', label: 'Cancelled' },
+  SCHEDULED:   { bg: 'bg-gray-50',   text: 'text-gray-500',   dot: '#6B7280', label: 'Scheduled' },
+  ASSIGNED:    { bg: 'bg-navy-100',   text: 'text-navy-600',   dot: '#18468B', label: 'Assigned' },
+  IN_PROGRESS: { bg: 'bg-orange-100',  text: 'text-orange-600',  dot: '#DE6F20', label: 'In Progress' },
+  ON_HOLD:     { bg: 'bg-gray-200', text: 'text-gray-500', dot: '#9AA3B2', label: 'On Hold' },
+  COMPLETED:   { bg: 'bg-[#E4F3EC]',  text: 'text-success',  dot: '#1E7F53', label: 'Completed' },
+  OVERDUE:     { bg: 'bg-orange-100',    text: 'text-danger',    dot: '#D6402C', label: 'Overdue' },
+  CANCELLED:   { bg: 'bg-gray-200',  text: 'text-gray-500',  dot: '#9AA3B2', label: 'Cancelled' },
 };
 
 function OccurrenceModal({ occ, onClose, onAction, api, headers }) {
@@ -38,11 +38,11 @@ function OccurrenceModal({ occ, onClose, onAction, api, headers }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-xl flex flex-col max-h-[90vh] overflow-hidden">
+      <div className="bg-white rounded-xl shadow-2xl w-full max-w-xl flex flex-col max-h-[90vh] overflow-hidden">
         <div className={`p-5 flex justify-between items-start gap-3 ${daysLate > 4 ? 'bg-red-50 border-b border-red-100' : daysLate > 0 ? 'bg-orange-50 border-b border-orange-100' : 'bg-gray-50 border-b border-gray-100'}`}>
           <div className="flex-1 min-w-0">
             <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Occurrence Detail</p>
-            <h2 className="text-lg font-bold text-gray-800 truncate">{occ.rule?.code} -- {occ.rule?.subArea}</h2>
+            <h2 className="text-lg font-display font-bold text-gray-800 truncate">{occ.rule?.code} -- {occ.rule?.subArea}</h2>
             <p className="text-sm text-gray-500 mt-0.5">{occ.rule?.pabrik?.nama_pabrik} . {occ.rule?.equipmentCat} . {occ.rule?.criticality}</p>
           </div>
           <div className="flex items-center gap-2 shrink-0">
@@ -88,14 +88,14 @@ function OccurrenceModal({ occ, onClose, onAction, api, headers }) {
               )}
               {occ.cancelReason && (
                 <div className="bg-slate-50 rounded-lg p-3 border border-slate-200">
-                  <p className="text-xs text-slate-500 font-medium mb-1">Alasan Pembatalan</p>
+                  <p className="text-xs text-gray-500 font-medium mb-1">Alasan Pembatalan</p>
                   <p className="text-sm text-slate-700">{occ.cancelReason}</p>
                 </div>
               )}
               <div className="flex flex-wrap gap-2 pt-2 border-t border-gray-100">
                 {occ.status === 'ASSIGNED' && (
                   <button onClick={() => { onAction('start', occ.id); onClose(); }}
-                    className="flex items-center gap-1.5 px-4 py-2 bg-amber-500 text-white rounded-lg text-sm font-medium hover:bg-amber-600 transition">
+                    className="flex items-center gap-1.5 px-4 py-2 bg-amber-500 text-ink rounded-lg text-sm font-medium hover:bg-amber-600 transition">
                     <Activity className="w-3.5 h-3.5" /> Mulai Kerjakan
                   </button>
                 )}
@@ -106,7 +106,7 @@ function OccurrenceModal({ occ, onClose, onAction, api, headers }) {
                       Hold
                     </button>
                     <button onClick={() => { onAction('complete', occ.id); onClose(); }}
-                      className="flex items-center gap-1.5 px-4 py-2 bg-green-500 text-white rounded-lg text-sm font-medium hover:bg-green-600 transition">
+                      className="flex items-center gap-1.5 px-4 py-2 bg-green-500 text-ink rounded-lg text-sm font-medium hover:bg-green-600 transition">
                       <CheckCircle2 className="w-3.5 h-3.5" /> Selesaikan
                     </button>
                   </>
@@ -266,8 +266,8 @@ export default function PdmDashboard() {
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
-            <TrendingUp className="w-6 h-6 text-blue-600" />
+          <h1 className="text-2xl font-display font-bold text-gray-800 flex items-center gap-2">
+            <TrendingUp className="w-6 h-6 text-navy-600" />
             Dashboard PdM Rotating
           </h1>
           <p className="text-gray-500 text-sm mt-1">Monitoring keterlambatan dan progres task inspeksi</p>
@@ -312,15 +312,15 @@ export default function PdmDashboard() {
 
       {/* Charts Row */}
       <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-        <div className="md:col-span-2 bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
+        <div className="md:col-span-2 bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
           <h3 className="font-semibold text-gray-700 mb-3">Distribusi Status</h3>
           {stats && donutSeries.some(v => v > 0)
             ? <Chart type="donut" options={donutOpts} series={donutSeries} height={260} />
             : <div className="flex items-center justify-center h-56 text-gray-300 text-sm">Belum ada data</div>}
         </div>
-        <div className="md:col-span-3 bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
+        <div className="md:col-span-3 bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
           <h3 className="font-semibold text-gray-700 mb-3 flex items-center gap-2">
-            <MapPin className="w-4 h-4 text-blue-500" />
+            <MapPin className="w-4 h-4 text-navy-600" />
             Selesai vs Terlambat per Pabrik
           </h3>
           {completionByPabrik.length > 0
@@ -331,7 +331,7 @@ export default function PdmDashboard() {
 
       {/* Overdue List */}
       {overdueList.length > 0 && (
-        <div className="bg-white rounded-xl border border-red-200 p-4 shadow-sm">
+        <div className="bg-white rounded-lg border border-red-200 p-4 shadow-sm">
           <h3 className="font-semibold text-gray-700 mb-3 flex items-center gap-2">
             <AlertTriangle className="w-4 h-4 text-red-500" />
             Task Terlambat ({overdueList.length})
@@ -355,12 +355,12 @@ export default function PdmDashboard() {
       )}
 
       {/* Table */}
-      <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+      <div className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
         <div className="p-4 border-b border-gray-100 flex flex-col md:flex-row gap-3 items-start md:items-center justify-between">
           <h3 className="font-semibold text-gray-700 shrink-0">
             Semua Task - {monthNames[filterMonth-1]} {filterYear}
             {filteredOccurrences.length !== occurrences.length && (
-              <span className="ml-2 text-sm font-normal text-blue-600">({filteredOccurrences.length} dari {occurrences.length})</span>
+              <span className="ml-2 text-sm font-normal text-navy-600">({filteredOccurrences.length} dari {occurrences.length})</span>
             )}
           </h3>
           <div className="flex flex-wrap gap-2">

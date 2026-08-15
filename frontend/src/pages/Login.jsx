@@ -78,7 +78,7 @@ export default function Login() {
 
         {/* Brand header */}
         <div className="relative z-10 flex items-center gap-3">
-          <div className="w-11 h-11 bg-white/10 border border-white/15 backdrop-blur-sm rounded-xl flex items-center justify-center overflow-hidden shadow-lg">
+          <div className="w-11 h-11 bg-white/10 border border-white/15 backdrop-blur-sm rounded-lg flex items-center justify-center overflow-hidden shadow-lg">
             <img
               src={logoImg}
               alt="Logo"
@@ -87,8 +87,8 @@ export default function Login() {
             />
           </div>
           <div>
-            <p className="text-white font-bold text-sm tracking-tight">ISTEK 2 Dashboard</p>
-            <p className="text-slate-400 text-[10px] font-medium">Sistem Monitoring</p>
+            <p className="text-ink font-bold text-sm tracking-tight">ISTEK 2 Dashboard</p>
+            <p className="text-gray-500 text-[10px] font-medium">Sistem Monitoring</p>
           </div>
         </div>
 
@@ -99,11 +99,11 @@ export default function Login() {
             <span className="text-emerald-400 text-xs font-semibold tracking-wider uppercase">Sistem Online</span>
           </div>
 
-          <h1 className="text-5xl font-extrabold text-white leading-[1.1] tracking-tight">
+          <h1 className="text-5xl font-extrabold text-ink leading-[1.1] tracking-tight">
             Platform <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4A9EFF] to-[#A78BFA]">Monitoring</span><br />
             Inspeksi Teknik 2
           </h1>
-          <p className="text-slate-400 text-base leading-relaxed max-w-sm">
+          <p className="text-gray-500 text-base leading-relaxed max-w-sm">
             Monitoring Work Order, Rekomendasi SAP, dan Manpower dari satu dasbor.
           </p>
 
@@ -115,8 +115,8 @@ export default function Login() {
               { icon: Cpu, label: 'Data SAP' },
             ].map(({ icon: Icon, label }) => (
               <div key={label} className="flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-full px-3 py-1.5">
-                <Icon className="w-3 h-3 text-blue-400" />
-                <span className="text-slate-300 text-[11px] font-medium">{label}</span>
+                <Icon className="w-3 h-3 text-navy-600" />
+                <span className="text-gray-500 text-[11px] font-medium">{label}</span>
               </div>
             ))}
           </div>
@@ -124,7 +124,7 @@ export default function Login() {
 
         {/* Abstract dashboard mockup */}
         <div className="relative z-10 w-full">
-          <div className="bg-white/5 border border-white/10 backdrop-blur-sm rounded-2xl p-5 shadow-2xl">
+          <div className="bg-white/5 border border-white/10 backdrop-blur-sm rounded-xl p-5 shadow-2xl">
             {/* Top bar */}
             <div className="flex items-center justify-between mb-4">
               <div className="flex gap-1.5">
@@ -137,7 +137,7 @@ export default function Login() {
             {/* KPI cards row */}
             <div className="grid grid-cols-3 gap-2.5 mb-3">
               {['Work Order', 'Rekomendasi', 'Man Power'].map((label, i) => (
-                <div key={label} className="bg-white/5 border border-white/5 rounded-xl p-3">
+                <div key={label} className="bg-white/5 border border-white/5 rounded-lg p-3">
                   <div className="h-1.5 w-8 bg-blue-400/40 rounded mb-2" />
                   <div className="h-5 w-12 bg-white/30 rounded font-bold" />
                   <div className="h-1.5 w-10 bg-white/10 rounded mt-1.5" />
@@ -145,7 +145,7 @@ export default function Login() {
               ))}
             </div>
             {/* Chart area */}
-            <div className="bg-white/5 border border-white/5 rounded-xl p-3 flex items-end gap-1.5 h-16">
+            <div className="bg-white/5 border border-white/5 rounded-lg p-3 flex items-end gap-1.5 h-16">
               {[40, 65, 45, 80, 55, 90, 70, 85, 60, 75, 50, 88].map((h, i) => (
                 <div
                   key={i}
@@ -166,29 +166,29 @@ export default function Login() {
         <div className="w-full max-w-sm mx-auto">
           {/* Mobile logo */}
           <div className="flex items-center gap-3 mb-8 lg:hidden">
-            <div className="w-10 h-10 bg-slate-100 rounded-xl flex items-center justify-center overflow-hidden border border-slate-200">
+            <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center overflow-hidden border border-slate-200">
               <img src={logoImg} alt="Logo" className="w-8 h-8 object-contain"
                 onError={(e) => { e.target.onerror = null; e.target.src = brandIconImg; }} />
             </div>
             <div>
               <p className="font-bold text-slate-900 text-sm">Departemen Inspeksi Teknik 2</p>
-              <p className="text-slate-500 text-[10px]">Sistem Keandalan Operasional</p>
+              <p className="text-gray-500 text-[10px]">Sistem Keandalan Operasional</p>
             </div>
           </div>
 
           {/* Header text */}
           <div className="mb-8">
             <div className="inline-flex items-center gap-1.5 bg-blue-50 border border-blue-100 rounded-full px-3 py-1 mb-4">
-              <ShieldCheck className="w-3 h-3 text-blue-600" />
+              <ShieldCheck className="w-3 h-3 text-navy-600" />
               <span className="text-blue-700 text-[10px] font-bold uppercase tracking-wider">Akses Departemen ISTEK 2</span>
             </div>
-            <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight mb-1">Masuk ke Akun Anda</h2>
-            <p className="text-slate-500 text-sm">Gunakan NPK & password yang terdaftar di sistem.</p>
+            <h2 className="text-2xl font-display font-extrabold text-slate-900 tracking-tight mb-1">Masuk ke Akun Anda</h2>
+            <p className="text-gray-500 text-sm">Gunakan NPK & password yang terdaftar di sistem.</p>
           </div>
 
           {/* Error */}
           {error && (
-            <div className="mb-5 flex items-start gap-2.5 p-3.5 rounded-xl bg-red-50 border border-red-100 text-red-700 text-sm">
+            <div className="mb-5 flex items-start gap-2.5 p-3.5 rounded-lg bg-red-50 border border-red-100 text-red-700 text-sm">
               <div className="w-4 h-4 rounded-full bg-red-100 border border-red-200 flex items-center justify-center shrink-0 mt-0.5">
                 <span className="text-red-600 font-black text-[9px]">!</span>
               </div>
@@ -203,7 +203,7 @@ export default function Login() {
               <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">NPK</label>
               <div className={`relative flex items-center rounded-xl border-2 transition-all duration-200 bg-white ${focusedField === 'npk' ? 'border-blue-500 shadow-[0_0_0_3px_rgba(59,130,246,0.15)]' : 'border-slate-200 hover:border-slate-300'}`}>
                 <div className="pl-4 shrink-0">
-                  <User className={`w-4 h-4 transition-colors ${focusedField === 'npk' ? 'text-blue-500' : 'text-slate-400'}`} />
+                  <User className={`w-4 h-4 transition-colors ${focusedField === 'npk' ? 'text-blue-500' : 'text-gray-500'}`} />
                 </div>
                 <input
                   type="text"
@@ -223,7 +223,7 @@ export default function Login() {
               <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">Password</label>
               <div className={`relative flex items-center rounded-xl border-2 transition-all duration-200 bg-white ${focusedField === 'password' ? 'border-blue-500 shadow-[0_0_0_3px_rgba(59,130,246,0.15)]' : 'border-slate-200 hover:border-slate-300'}`}>
                 <div className="pl-4 shrink-0">
-                  <Lock className={`w-4 h-4 transition-colors ${focusedField === 'password' ? 'text-blue-500' : 'text-slate-400'}`} />
+                  <Lock className={`w-4 h-4 transition-colors ${focusedField === 'password' ? 'text-blue-500' : 'text-gray-500'}`} />
                 </div>
                 <input
                   type={showPassword ? 'text' : 'password'}
@@ -238,7 +238,7 @@ export default function Login() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="pr-4 shrink-0 text-slate-400 hover:text-slate-600 transition-colors"
+                  className="pr-4 shrink-0 text-gray-500 hover:text-slate-600 transition-colors"
                   tabIndex={-1}
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -248,7 +248,7 @@ export default function Login() {
                 <button
                   type="button"
                   onClick={() => alert('Untuk mereset password Anda, silakan hubungi Administrator (Maulana Cipta P).')}
-                  className="text-xs text-blue-600 font-semibold hover:text-blue-800 transition-colors"
+                  className="text-xs text-navy-600 font-semibold hover:text-blue-800 transition-colors"
                 >
                   Lupa Password?
                 </button>
@@ -259,7 +259,7 @@ export default function Login() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full mt-2 relative overflow-hidden flex items-center justify-center gap-2 py-3 px-6 rounded-xl text-sm font-bold text-white transition-all duration-300 bg-gradient-to-r from-[#0F2052] via-[#1A4BC4] to-[#2563EB] hover:shadow-[0_4px_20px_rgba(37,99,235,0.4)] hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-60 disabled:cursor-not-allowed shadow-md"
+              className="w-full mt-2 relative overflow-hidden flex items-center justify-center gap-2 py-3 px-6 rounded-lg text-sm font-bold text-ink transition-all duration-300 bg-gradient-to-r from-[#0F2052] via-[#1A4BC4] to-[#2563EB] hover:shadow-[0_4px_20px_rgba(37,99,235,0.4)] hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-60 disabled:cursor-not-allowed shadow-md"
             >
               <span className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 translate-x-[-100%] hover:translate-x-[100%] transition-transform duration-700" />
               {loading ? (
@@ -279,9 +279,9 @@ export default function Login() {
 
 
           {/* Footer note */}
-          <p className="mt-8 text-center text-[10px] text-slate-400">
+          <p className="mt-8 text-center text-[10px] text-gray-500">
             Hanya untuk pengguna yang berwenang di departemen ISTEK 2.<br />
-            <span className="text-slate-500 font-medium">PT. Pupuk Kalimantan Timur</span>
+            <span className="text-gray-500 font-medium">PT. Pupuk Kalimantan Timur</span>
           </p>
 
           {/* Guest access */}
@@ -289,7 +289,7 @@ export default function Login() {
             <button
               type="button"
               onClick={() => navigate('/')}
-              className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl border-2 border-slate-200 hover:border-[#1A4BC4] text-slate-500 hover:text-[#1A4BC4] text-xs font-semibold transition-all duration-200 hover:bg-blue-50 group"
+              className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg border-2 border-slate-200 hover:border-[#1A4BC4] text-gray-500 hover:text-[#1A4BC4] text-xs font-semibold transition-all duration-200 hover:bg-blue-50 group"
             >
               <span>Lihat Dashboard Publik tanpa login</span>
               <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />

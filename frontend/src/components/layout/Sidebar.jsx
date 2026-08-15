@@ -77,7 +77,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
               className={`flex items-center ${isCollapsed ? 'justify-center w-full cursor-pointer' : 'gap-3'}`}
               title={isCollapsed ? 'Perluas Sidebar' : undefined}
             >
-              <div className="w-10 h-10 bg-white/10 border border-white/15 backdrop-blur-sm rounded-xl flex items-center justify-center overflow-hidden shadow-lg shrink-0 transition-transform duration-300 hover:scale-105">
+              <div className="w-10 h-10 bg-white/10 border border-white/15 backdrop-blur-sm rounded-lg flex items-center justify-center overflow-hidden shadow-lg shrink-0 transition-transform duration-300 hover:scale-105">
                 <img
                   src={logoImg}
                   alt="Logo ISTEK 2"
@@ -90,15 +90,15 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
               </div>
               {!isCollapsed && (
                 <div className="flex flex-col justify-center">
-                  <p className="text-white font-bold text-xs tracking-tight leading-tight">Inspeksi Teknik 2</p>
-                  <p className="text-slate-400 text-[9px] font-medium mt-0.5">Sistem Monitoring</p>
+                  <p className="text-ink font-bold text-xs tracking-tight leading-tight">Inspeksi Teknik 2</p>
+                  <p className="text-gray-500 text-[9px] font-medium mt-0.5">Sistem Monitoring</p>
                 </div>
               )}
             </div>
             {!isCollapsed && (
               <button
                 onClick={() => setIsCollapsed && setIsCollapsed(true)}
-                className="p-1 text-white/40 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
+                className="p-1 text-white/40 hover:text-ink hover:bg-white/10 rounded-lg transition-colors"
                 title="Ciutkan Sidebar"
               >
                 <ChevronLeft size={16} />
@@ -126,15 +126,15 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
                         title={isCollapsed ? item.label : undefined}
                         className={`w-full flex items-center ${isCollapsed ? 'justify-center py-2' : 'space-x-3 px-3 py-2.5'
                           } rounded-xl text-xs font-bold transition-all duration-300 ease-out border ${isActive
-                            ? 'bg-[#1A4BC4] text-white shadow-lg shadow-blue-900/40 border-blue-400/30'
-                            : 'border-transparent text-white/60 hover:text-white hover:bg-white/10'
+                            ? 'bg-[#1A4BC4] text-ink shadow-lg shadow-blue-900/40 border-blue-400/30'
+                            : 'border-transparent text-ink/60 hover:text-ink hover:bg-white/10'
                           }`}
                       >
                         <div
                           className={`shrink-0 flex items-center justify-center transition-all duration-300 ease-out ${isCollapsed ? 'w-9 h-9 rounded-full bg-white/5 border border-white/10' : ''
-                            } ${isActive ? '!bg-white/15 !border-blue-300/30 text-white' : ''}`}
+                            } ${isActive ? '!bg-white/15 !border-blue-300/30 text-ink' : ''}`}
                         >
-                          <Icon className={`w-4 h-4 transition-colors duration-300 ease-out ${isActive ? 'text-[#FF7B4F]' : 'text-white/60'}`} />
+                          <Icon className={`w-4 h-4 transition-colors duration-300 ease-out ${isActive ? 'text-[#FF7B4F]' : 'text-ink/60'}`} />
                         </div>
                         {!isCollapsed && <span className="truncate">{item.label}</span>}
                       </button>
@@ -151,7 +151,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
           <div className="flex justify-center pb-1">
             <button
               onClick={() => setIsCollapsed && setIsCollapsed(false)}
-              className="p-2 text-white/40 hover:text-white hover:bg-white/10 rounded-xl transition-colors"
+              className="p-2 text-white/40 hover:text-ink hover:bg-white/10 rounded-lg transition-colors"
               title="Perluas Sidebar"
             >
               <ChevronRight size={18} />

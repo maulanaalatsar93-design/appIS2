@@ -101,7 +101,7 @@ export default function AbsensiCalendar({ employees = [], attendanceChanges = []
         onClick={() => (absentCount > 0 ? setSelectedDay({ date: dateStr, records: absentList }) : undefined)}
         className={`relative min-h-[80px] md:min-h-[100px] rounded-xl border ${borderClass} ${bgClass} p-2 flex flex-col transition-all duration-150 ${absentCount > 0 ? 'cursor-pointer shadow-sm hover:shadow-md' : 'cursor-default'}`}
       >
-        <span className={`text-[12px] md:text-[14px] font-bold leading-none mb-1 ${isToday ? 'text-white' : textClass}`}>
+        <span className={`text-[12px] md:text-[14px] font-bold leading-none mb-1 ${isToday ? 'text-ink' : textClass}`}>
           {d}
         </span>
         {isHoliday && !isToday && (
@@ -120,7 +120,7 @@ export default function AbsensiCalendar({ employees = [], attendanceChanges = []
         </div>
 
         {absentCount > 2 && (
-          <div className="mt-1 text-[9px] font-bold text-slate-500">
+          <div className="mt-1 text-[9px] font-bold text-gray-500">
             +{absentCount - 2} lainnya
           </div>
         )}
@@ -141,7 +141,7 @@ export default function AbsensiCalendar({ employees = [], attendanceChanges = []
           >
             <ChevronLeft size={16} className="text-slate-600" />
           </button>
-          <h3 className="text-[15px] font-bold text-industrial-text capitalize min-w-[160px] text-center">
+          <h3 className="text-[15px] font-bold text-ink capitalize min-w-[160px] text-center">
             {monthName}
           </h3>
           <button
@@ -162,20 +162,20 @@ export default function AbsensiCalendar({ employees = [], attendanceChanges = []
       {/* Legend */}
       <div className="flex flex-wrap items-center gap-3 text-[11px] font-medium">
         <div className="flex items-center gap-1.5">
-          <div className="w-3 h-3 rounded-full bg-industrial-navy"></div>
-          <span className="text-slate-500">Hari Ini</span>
+          <div className="w-3 h-3 rounded-full bg-navy-950"></div>
+          <span className="text-gray-500">Hari Ini</span>
         </div>
         <div className="flex items-center gap-1.5">
           <div className="w-3 h-3 rounded-md bg-amber-100 border border-amber-200"></div>
-          <span className="text-slate-500">Hari Libur Nasional</span>
+          <span className="text-gray-500">Hari Libur Nasional</span>
         </div>
         <div className="flex items-center gap-1.5">
           <div className="w-3 h-3 rounded-md bg-slate-50 border border-slate-200"></div>
-          <span className="text-slate-500">Weekend</span>
+          <span className="text-gray-500">Weekend</span>
         </div>
         <div className="flex items-center gap-1.5">
           <div className="w-3 h-3 rounded-full bg-red-500"></div>
-          <span className="text-slate-500">Jumlah Absen</span>
+          <span className="text-gray-500">Jumlah Absen</span>
         </div>
       </div>
 
@@ -185,7 +185,7 @@ export default function AbsensiCalendar({ employees = [], attendanceChanges = []
           <div
             key={d}
             className={`text-center text-[11px] font-bold py-1.5 ${
-              d === 'Sab' || d === 'Min' ? 'text-slate-400' : 'text-slate-500'
+              d === 'Sab' || d === 'Min' ? 'text-gray-500' : 'text-slate-500'
             }`}
           >
             {d}
@@ -197,16 +197,16 @@ export default function AbsensiCalendar({ employees = [], attendanceChanges = []
       <div className="grid grid-cols-7 gap-1">{days}</div>
 
       {/* Summary for month */}
-      <div className="bg-slate-50 rounded-xl p-3 border border-slate-100">
+      <div className="bg-slate-50 rounded-lg p-3 border border-slate-100">
         <div className="text-[12px] font-semibold text-slate-600 mb-1.5">Ringkasan Bulan Ini</div>
         <div className="flex flex-wrap gap-3">
-          <div className="text-[11px] text-slate-500">
+          <div className="text-[11px] text-gray-500">
             Total catatan absen bulan ini:{' '}
             <span className="font-bold text-red-500">
               {Object.values(absenceMap).reduce((acc, v) => acc + v.length, 0)}
             </span>
           </div>
-          <div className="text-[11px] text-slate-500">
+          <div className="text-[11px] text-gray-500">
             Hari libur nasional:{' '}
             <span className="font-bold text-amber-600">
               {
@@ -222,10 +222,10 @@ export default function AbsensiCalendar({ employees = [], attendanceChanges = []
       {/* Popup: Absen detail for selected day */}
       {selectedDay && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm p-4">
-          <div ref={popupRef} className="bg-white rounded-2xl shadow-2xl border border-slate-100 w-full max-w-sm overflow-hidden">
+          <div ref={popupRef} className="bg-white rounded-xl shadow-2xl border border-slate-100 w-full max-w-sm overflow-hidden">
             <div className="bg-gradient-to-r from-[#193B8F] to-[#0F2356] px-5 py-4 flex items-center justify-between">
               <div>
-                <div className="text-white font-bold text-[15px]">
+                <div className="text-ink font-bold text-[15px]">
                   {new Intl.DateTimeFormat('id-ID', {
                     weekday: 'long',
                     day: 'numeric',
@@ -243,7 +243,7 @@ export default function AbsensiCalendar({ employees = [], attendanceChanges = []
                 onClick={() => setSelectedDay(null)}
                 className="w-7 h-7 bg-white/15 rounded-lg flex items-center justify-center hover:bg-white/25 transition-colors"
               >
-                <X size={14} className="text-white" />
+                <X size={14} className="text-ink" />
               </button>
             </div>
             <div className="px-5 py-3 border-b border-slate-100 bg-red-50">
@@ -254,21 +254,21 @@ export default function AbsensiCalendar({ employees = [], attendanceChanges = []
             <div className="divide-y divide-slate-100 max-h-[280px] overflow-y-auto">
               {selectedDay.records.map((rec, idx) => (
                 <div key={idx} className="px-5 py-3 flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#193B8F] to-[#0F2356] flex items-center justify-center text-white text-[11px] font-bold shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#193B8F] to-[#0F2356] flex items-center justify-center text-ink text-[11px] font-bold shrink-0">
                     {rec.emp?.name?.charAt(0) || '?'}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="text-[13px] font-semibold text-industrial-text truncate">
+                    <div className="text-[13px] font-semibold text-ink truncate">
                       {rec.emp?.name || 'Unknown'}
                     </div>
-                    <div className="text-[11px] text-slate-500">{rec.emp?.division || '-'}</div>
+                    <div className="text-[11px] text-gray-500">{rec.emp?.division || '-'}</div>
                   </div>
                   <div className="shrink-0">
                     <span
                       className="text-[11px] font-bold px-2 py-0.5 rounded-full"
                       style={{
-                        backgroundColor: (rec.status?.color || '#94A3B8') + '22',
-                        color: rec.status?.color || '#94A3B8',
+                        backgroundColor: (rec.status?.color || '#9AA3B2') + '22',
+                        color: rec.status?.color || '#9AA3B2',
                       }}
                     >
                       {rec.status?.name || '-'}
@@ -280,7 +280,7 @@ export default function AbsensiCalendar({ employees = [], attendanceChanges = []
             <div className="px-5 py-3 bg-slate-50 border-t border-slate-100">
               <button
                 onClick={() => setSelectedDay(null)}
-                className="w-full py-2 bg-industrial-navy text-white text-[13px] font-semibold rounded-xl hover:bg-industrial-text transition-colors"
+                className="w-full py-2 bg-navy-950 text-white text-[13px] font-semibold rounded-lg hover:bg-industrial-text transition-colors"
               >
                 Tutup
               </button>

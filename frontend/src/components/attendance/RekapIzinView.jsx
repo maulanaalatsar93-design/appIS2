@@ -118,9 +118,9 @@ export default function RekapIzinView({
   return (
     <div className="space-y-4">
       {/* Top Header Toolbar */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-3 bg-white p-3 rounded-xl border border-slate-200">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-3 bg-white p-3 rounded-lg border border-slate-200">
         <div className="relative w-full sm:w-80">
-          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
           <input
             type="text"
             value={searchEmp}
@@ -129,13 +129,13 @@ export default function RekapIzinView({
             className="w-full pl-9 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg outline-none focus:bg-white focus:border-industrial-blue"
           />
         </div>
-        <div className="text-xs text-slate-500 font-medium">
+        <div className="text-xs text-gray-500 font-medium">
           Total Personel: <span className="font-bold text-slate-800">{employees.length} Personel</span>
         </div>
       </div>
 
       {/* Recap Table */}
-      <div className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+      <div className="bg-white rounded-lg border border-slate-200 overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
@@ -158,17 +158,17 @@ export default function RekapIzinView({
             <tbody className="divide-y divide-slate-100 text-xs">
               {filteredRecap.length === 0 ? (
                 <tr>
-                  <td colSpan={11} className="text-center py-8 text-slate-400 font-medium">
+                  <td colSpan={11} className="text-center py-8 text-gray-500 font-medium">
                     Tidak ada data karyawan yang ditemukan.
                   </td>
                 </tr>
               ) : (
                 filteredRecap.map((row, idx) => (
                   <tr key={row.emp.id} className="hover:bg-slate-50/70 transition-colors">
-                    <td className="py-3 px-3 text-center text-slate-400">{idx + 1}</td>
+                    <td className="py-3 px-3 text-center text-gray-500">{idx + 1}</td>
                     <td className="py-3 px-3">
                       <div className="font-semibold text-slate-900">{row.emp.name}</div>
-                      <div className="text-[10px] text-slate-400 font-mono">NPK: {row.emp.npk}</div>
+                      <div className="text-[10px] text-gray-500 font-mono">NPK: {row.emp.npk}</div>
                     </td>
                     <td className="py-3 px-3">
                       <div className="text-slate-700 font-medium">{row.emp.position}</div>
@@ -178,7 +178,7 @@ export default function RekapIzinView({
                     <td className="py-3 px-3 text-center font-bold text-orange-600">{row.totalIzin > 0 ? `${row.totalIzin} Hari` : '-'}</td>
                     <td className="py-3 px-3 text-center font-bold text-slate-600">{row.totalAlpha > 0 ? `${row.totalAlpha} Hari` : '-'}</td>
                     <td className="py-3 px-3 text-center font-bold text-sky-600">{row.totalDinasDalamNegeri > 0 ? `${row.totalDinasDalamNegeri} Hari` : '-'}</td>
-                    <td className="py-3 px-3 text-center font-bold text-indigo-600">{row.totalDinasLuarNegeri > 0 ? `${row.totalDinasLuarNegeri} Hari` : '-'}</td>
+                    <td className="py-3 px-3 text-center font-bold text-navy-600">{row.totalDinasLuarNegeri > 0 ? `${row.totalDinasLuarNegeri} Hari` : '-'}</td>
                     <td className="py-3 px-3 text-center font-bold text-teal-600">{row.totalTraining > 0 ? `${row.totalTraining} Hari` : '-'}</td>
                     <td className="py-3 px-3 text-center font-bold text-fuchsia-600">{row.totalReferral > 0 ? `${row.totalReferral} Hari` : '-'}</td>
                     <td className="py-3 px-3 text-center font-bold text-rose-700 bg-rose-50/60">
@@ -188,7 +188,7 @@ export default function RekapIzinView({
                       {isAdmin && (
                         <button
                           onClick={() => onEditEmployee && onEditEmployee(row.emp)}
-                          className="p-1.5 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors mr-1"
+                          className="p-1.5 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors mr-1"
                           title="Edit Data Personel"
                         >
                           <Edit size={15} />
@@ -197,7 +197,7 @@ export default function RekapIzinView({
                       {isAdminOrVP && (
                         <button
                           onClick={() => onDeleteEmployee && onDeleteEmployee(row.emp.id, row.emp.name)}
-                          className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors"
+                          className="p-1.5 text-gray-500 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors"
                           title="Hapus / Menonaktifkan Anggota"
                         >
                           <Trash2 size={15} />

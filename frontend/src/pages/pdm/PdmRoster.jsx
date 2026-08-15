@@ -70,7 +70,7 @@ function MultiSelect({ value, onChange, options, max = 5, placeholder = "Pilih P
                   checked={value.includes(opt.id)} 
                   disabled={!value.includes(opt.id) && value.length >= max}
                   onChange={() => toggle(opt.id)} 
-                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  className="rounded border-gray-300 text-navy-600 focus:ring-blue-500"
                 />
                 {opt.name} — {opt.position}
               </label>
@@ -190,40 +190,40 @@ function EditRosterModal({ pabrikEntry, criticality, manpowers, api, headers, pe
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg flex flex-col max-h-[92vh] overflow-hidden">
-        <div className="p-5 bg-gradient-to-r from-blue-600 to-blue-700 text-white flex justify-between items-start rounded-t-2xl">
+      <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg flex flex-col max-h-[92vh] overflow-hidden">
+        <div className="p-5 bg-gradient-to-r from-blue-600 to-blue-700 text-ink flex justify-between items-start rounded-t-2xl">
           <div>
             <p className="text-xs font-bold text-blue-200 uppercase tracking-wider mb-1">Edit Roster PIC</p>
             <h2 className="text-base font-bold">{pabrikEntry.nama_pabrik}</h2>
             <p className="text-sm text-blue-100 mt-0.5">{label}</p>
           </div>
-          <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-white/20 transition text-white/80 hover:text-white">
+          <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-white/20 transition text-white/80 hover:text-ink">
             <X className="w-4 h-4" />
           </button>
         </div>
 
         <div className="px-5 py-3 bg-blue-50 border-b border-blue-100 flex items-center gap-3 text-sm">
-          <Calendar className="w-4 h-4 text-blue-500 shrink-0" />
+          <Calendar className="w-4 h-4 text-navy-600 shrink-0" />
           <span className="font-medium text-blue-800">
             Berlaku: {MONTH_FULL[periodStart.month - 1]} {periodStart.year}
             {(periodStart.month !== periodEnd.month || periodStart.year !== periodEnd.year) &&
               ` s/d ${MONTH_FULL[periodEnd.month - 1]} ${periodEnd.year}`}
           </span>
-          <span className="text-xs text-blue-500 ml-auto">({monthsInRange.length} bulan)</span>
+          <span className="text-xs text-navy-600 ml-auto">({monthsInRange.length} bulan)</span>
         </div>
 
         <div className="px-5 py-2.5 border-b border-gray-200 bg-gray-50 flex items-center gap-4 text-sm">
           <span className="font-semibold text-gray-700">Data Collector:</span>
           <label className="flex items-center gap-1.5 cursor-pointer text-gray-600 hover:text-gray-900">
-            <input type="radio" checked={empFilter === 'ALL'} onChange={() => setEmpFilter('ALL')} className="text-blue-600 focus:ring-blue-500 cursor-pointer" />
+            <input type="radio" checked={empFilter === 'ALL'} onChange={() => setEmpFilter('ALL')} className="text-navy-600 focus:ring-blue-500 cursor-pointer" />
             Semua
           </label>
           <label className="flex items-center gap-1.5 cursor-pointer text-gray-600 hover:text-gray-900">
-            <input type="radio" checked={empFilter === 'TKO'} onChange={() => setEmpFilter('TKO')} className="text-blue-600 focus:ring-blue-500 cursor-pointer" />
+            <input type="radio" checked={empFilter === 'TKO'} onChange={() => setEmpFilter('TKO')} className="text-navy-600 focus:ring-blue-500 cursor-pointer" />
             TKO
           </label>
           <label className="flex items-center gap-1.5 cursor-pointer text-gray-600 hover:text-gray-900">
-            <input type="radio" checked={empFilter === 'TNO'} onChange={() => setEmpFilter('TNO')} className="text-blue-600 focus:ring-blue-500 cursor-pointer" />
+            <input type="radio" checked={empFilter === 'TNO'} onChange={() => setEmpFilter('TNO')} className="text-navy-600 focus:ring-blue-500 cursor-pointer" />
             TNO
           </label>
         </div>
@@ -235,7 +235,7 @@ function EditRosterModal({ pabrikEntry, criticality, manpowers, api, headers, pe
           {entries.map(entry => {
             const sel = selections[entry.rule_id];
             return (
-              <div key={entry.rule_id} className="bg-gray-50 rounded-xl border border-gray-200 p-4 space-y-3">
+              <div key={entry.rule_id} className="bg-gray-50 rounded-lg border border-gray-200 p-4 space-y-3">
                 <div className="flex justify-between items-start">
                   <div>
                     <p className="text-xs font-bold text-gray-500 uppercase tracking-wide">{entry.code}</p>
@@ -253,7 +253,7 @@ function EditRosterModal({ pabrikEntry, criticality, manpowers, api, headers, pe
                     <div>
                       <label className="text-xs font-semibold text-gray-600 mb-1 flex items-center justify-between">
                         <span>Analyst (Maks 2)</span>
-                        <span className="text-blue-500">{sel.picIds?.length || 0}/2</span>
+                        <span className="text-navy-600">{sel.picIds?.length || 0}/2</span>
                       </label>
                       <MultiSelect 
                         value={sel.picIds || []}
@@ -267,7 +267,7 @@ function EditRosterModal({ pabrikEntry, criticality, manpowers, api, headers, pe
                     <div>
                       <label className="text-xs font-semibold text-gray-600 mb-1 flex items-center justify-between">
                         <span>Data Collector (Maks 5)</span>
-                        <span className="text-blue-500">{sel.dataCollectorIds.length}/5</span>
+                        <span className="text-navy-600">{sel.dataCollectorIds.length}/5</span>
                       </label>
                       <MultiSelect 
                         value={sel.dataCollectorIds}
@@ -282,7 +282,7 @@ function EditRosterModal({ pabrikEntry, criticality, manpowers, api, headers, pe
                       <div>
                         <label className="text-xs font-semibold text-gray-600 mb-1 flex items-center justify-between">
                           <span>Data Collector GTG (Maks 5)</span>
-                          <span className="text-blue-500">{sel.gtgDataCollectorIds.length}/5</span>
+                          <span className="text-navy-600">{sel.gtgDataCollectorIds.length}/5</span>
                         </label>
                         <MultiSelect 
                           value={sel.gtgDataCollectorIds}
@@ -300,7 +300,7 @@ function EditRosterModal({ pabrikEntry, criticality, manpowers, api, headers, pe
                     <div>
                       <label className="text-xs font-semibold text-gray-600 mb-1 flex items-center justify-between">
                         <span>PIC / Analyst (Maks 2)</span>
-                        <span className="text-blue-500">{sel.picIds?.length || 0}/2</span>
+                        <span className="text-navy-600">{sel.picIds?.length || 0}/2</span>
                       </label>
                       <MultiSelect 
                         value={sel.picIds || []}
@@ -314,7 +314,7 @@ function EditRosterModal({ pabrikEntry, criticality, manpowers, api, headers, pe
                     <div>
                       <label className="text-xs font-semibold text-gray-600 mb-1 flex items-center justify-between">
                         <span>Data Collector (Maks 5)</span>
-                        <span className="text-blue-500">{sel.dataCollectorIds.length}/5</span>
+                        <span className="text-navy-600">{sel.dataCollectorIds.length}/5</span>
                       </label>
                       <MultiSelect 
                         value={sel.dataCollectorIds}
@@ -329,7 +329,7 @@ function EditRosterModal({ pabrikEntry, criticality, manpowers, api, headers, pe
                       <div>
                         <label className="text-xs font-semibold text-gray-600 mb-1 flex items-center justify-between">
                           <span>Data Collector GTG (Maks 5)</span>
-                          <span className="text-blue-500">{sel.gtgDataCollectorIds.length}/5</span>
+                          <span className="text-navy-600">{sel.gtgDataCollectorIds.length}/5</span>
                         </label>
                         <MultiSelect 
                           value={sel.gtgDataCollectorIds}
@@ -358,7 +358,7 @@ function EditRosterModal({ pabrikEntry, criticality, manpowers, api, headers, pe
         <div className="p-4 bg-gray-50 border-t border-gray-100 flex justify-end gap-2 rounded-b-2xl">
           <button onClick={onClose} className="px-4 py-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition">Batal</button>
           <button onClick={handleSave} disabled={saving}
-            className="flex items-center gap-1.5 px-4 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium disabled:opacity-50">
+            className="flex items-center gap-1.5 px-4 py-2 text-sm bg-navy-600 text-white rounded-lg hover:bg-navy-950 transition font-medium disabled:opacity-50">
             <Save className="w-3.5 h-3.5" />
             {saving ? 'Menyimpan...' : 'Simpan Roster'}
           </button>
@@ -374,7 +374,7 @@ function PicCell({ pics, onEdit }) {
     return (
       <div className="flex items-center justify-between gap-2 group">
         <span className="text-gray-300 italic text-xs">Belum diset</span>
-        <button onClick={onEdit} className="opacity-0 group-hover:opacity-100 p-1 rounded text-blue-400 hover:bg-blue-50 transition">
+        <button onClick={onEdit} className="opacity-0 group-hover:opacity-100 p-1 rounded text-navy-600 hover:bg-blue-50 transition">
           <Edit3 className="w-3 h-3" />
         </button>
       </div>
@@ -389,7 +389,7 @@ function PicCell({ pics, onEdit }) {
           </span>
         ))}
       </div>
-      <button onClick={onEdit} className="opacity-0 group-hover:opacity-100 p-1 rounded text-blue-400 hover:bg-blue-50 transition shrink-0">
+      <button onClick={onEdit} className="opacity-0 group-hover:opacity-100 p-1 rounded text-navy-600 hover:bg-blue-50 transition shrink-0">
         <Edit3 className="w-3 h-3" />
       </button>
     </div>
@@ -440,8 +440,8 @@ export default function PdmRoster() {
       {/* ── Header ── */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
-            <Users className="w-6 h-6 text-blue-600" />
+          <h1 className="text-2xl font-display font-bold text-gray-800 flex items-center gap-2">
+            <Users className="w-6 h-6 text-navy-600" />
             Roster PIC PdM Rotating
           </h1>
           <p className="text-gray-500 text-sm mt-1">
@@ -465,7 +465,7 @@ export default function PdmRoster() {
       </div>
 
       {/* ── Range override info ── */}
-      <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 flex flex-wrap items-center gap-4 text-sm">
+      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 flex flex-wrap items-center gap-4 text-sm">
         <div className="flex items-center gap-2 text-blue-700">
           <Calendar className="w-4 h-4 shrink-0" />
           <span className="font-medium">Range berlaku saat edit:</span>
@@ -479,7 +479,7 @@ export default function PdmRoster() {
             className="border border-blue-200 rounded-lg px-2 py-1 bg-white text-sm outline-none focus:ring-2 focus:ring-blue-300">
             {[2024, 2025, 2026, 2027].map(y => <option key={y} value={y}>{y}</option>)}
           </select>
-          <ChevronRight className="w-4 h-4 text-blue-400" />
+          <ChevronRight className="w-4 h-4 text-navy-600" />
           <select value={rangeEnd.month} onChange={e => setRangeEnd(p => ({ ...p, month: parseInt(e.target.value) }))}
             className="border border-blue-200 rounded-lg px-2 py-1 bg-white text-sm outline-none focus:ring-2 focus:ring-blue-300">
             {MONTH_NAMES.map((n, i) => <option key={i} value={i + 1}>{n}</option>)}
@@ -489,7 +489,7 @@ export default function PdmRoster() {
             {[2024, 2025, 2026, 2027].map(y => <option key={y} value={y}>{y}</option>)}
           </select>
         </div>
-        <span className="text-blue-500 text-xs">Klik ikon edit (✎) pada baris untuk mengubah PIC berlaku selama range ini.</span>
+        <span className="text-navy-600 text-xs">Klik ikon edit (✎) pada baris untuk mengubah PIC berlaku selama range ini.</span>
       </div>
 
       {/* ── Dua Tabel: Critical | Non Critical ── */}
@@ -504,8 +504,8 @@ export default function PdmRoster() {
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* ─── Tabel CRITICAL ─── */}
-          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-            <div className="bg-gradient-to-r from-red-500 to-red-600 px-5 py-4 text-white">
+          <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+            <div className="bg-gradient-to-r from-red-500 to-red-600 px-5 py-4 text-ink">
               <p className="text-xs font-bold uppercase tracking-widest text-red-100 mb-0.5">CRITICAL ITEM</p>
               <h2 className="text-base font-bold">Analyst Inspector</h2>
               <p className="text-xs text-red-100 mt-0.5">Periode: {periodLabel}</p>
@@ -539,15 +539,15 @@ export default function PdmRoster() {
           </div>
 
           {/* ─── Tabel NON CRITICAL ─── */}
-          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-            <div className="bg-gradient-to-r from-blue-500 to-blue-600 px-5 py-4 text-white">
+          <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+            <div className="bg-gradient-to-r from-blue-500 to-blue-600 px-5 py-4 text-ink">
               <p className="text-xs font-bold uppercase tracking-widest text-blue-100 mb-0.5">NON CRITICAL ITEM</p>
               <h2 className="text-base font-bold">Inspector</h2>
               <p className="text-xs text-blue-100 mt-0.5">Periode: {periodLabel}</p>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
-                <thead className="bg-blue-50 text-xs text-blue-600 uppercase tracking-wider border-b border-blue-100">
+                <thead className="bg-blue-50 text-xs text-navy-600 uppercase tracking-wider border-b border-blue-100">
                   <tr>
                     <th className="px-4 py-3 text-left font-bold">Pabrik</th>
                     <th className="px-4 py-3 text-left font-bold">Inspector</th>
@@ -584,7 +584,7 @@ export default function PdmRoster() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
             {roster.map(p => (
-              <div key={p.pabrik_id} className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+              <div key={p.pabrik_id} className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
                 <div className="px-4 py-3 bg-gray-50 border-b border-gray-100 flex items-center justify-between">
                   <p className="font-bold text-gray-800">{p.nama_pabrik}</p>
                   <span className="text-xs text-gray-400">{p.critical.length + p.nonCritical.length} rules</span>
@@ -599,7 +599,7 @@ export default function PdmRoster() {
                         {(r.dataCollectors?.length > 0 || r.gtgDataCollectors?.length > 0) && (
                           <div className="flex flex-wrap gap-1 mt-1.5">
                             {r.dataCollectors?.map(d => (
-                              <span key={`dc-${d.id}`} className="bg-blue-50 text-blue-600 border border-blue-100 px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap">
+                              <span key={`dc-${d.id}`} className="bg-blue-50 text-navy-600 border border-blue-100 px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap">
                                 {d.name}
                               </span>
                             ))}
@@ -625,7 +625,7 @@ export default function PdmRoster() {
                         {(r.dataCollectors?.length > 0 || r.gtgDataCollectors?.length > 0) && (
                           <div className="flex flex-wrap gap-1 mt-1.5">
                             {r.dataCollectors?.map(d => (
-                              <span key={`dc-${d.id}`} className="bg-blue-50 text-blue-600 border border-blue-100 px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap">
+                              <span key={`dc-${d.id}`} className="bg-blue-50 text-navy-600 border border-blue-100 px-1.5 py-0.5 rounded text-[10px] font-medium whitespace-nowrap">
                                 {d.name}
                               </span>
                             ))}

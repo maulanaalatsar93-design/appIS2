@@ -28,10 +28,10 @@ function MonthlyPicModal({ rule, manpowers, api, headers, onClose, onSaved }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
+      <div className="bg-white rounded-xl shadow-2xl w-full max-w-md overflow-hidden">
         <div className="p-5 bg-blue-50 border-b border-blue-100 flex justify-between items-center">
           <div>
-            <p className="text-xs font-bold text-blue-400 uppercase tracking-wider mb-1">Override PIC Bulanan</p>
+            <p className="text-xs font-bold text-navy-600 uppercase tracking-wider mb-1">Override PIC Bulanan</p>
             <h2 className="text-base font-bold text-gray-800">{rule.code} — {rule.subArea || rule.taskName}</h2>
             <p className="text-xs text-gray-500 mt-0.5">Default PIC: {rule.defaultPic?.name || 'Belum ada'}</p>
           </div>
@@ -65,7 +65,7 @@ function MonthlyPicModal({ rule, manpowers, api, headers, onClose, onSaved }) {
         </div>
         <div className="p-4 bg-gray-50 border-t border-gray-100 flex justify-end gap-2">
           <button onClick={onClose} className="px-4 py-2 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition">Batal</button>
-          <button onClick={handleSave} disabled={saving} className="px-4 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium disabled:opacity-50">
+          <button onClick={handleSave} disabled={saving} className="px-4 py-2 text-sm bg-navy-600 text-white rounded-lg hover:bg-navy-950 transition font-medium disabled:opacity-50">
             {saving ? 'Menyimpan...' : 'Simpan Override'}
           </button>
         </div>
@@ -99,7 +99,7 @@ function GenerateModal({ rule, api, headers, onClose, onGenerated }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
+      <div className="bg-white rounded-xl shadow-2xl w-full max-w-md overflow-hidden">
         <div className="p-5 bg-emerald-50 border-b border-emerald-100 flex justify-between items-center">
           <div>
             <p className="text-xs font-bold text-emerald-500 uppercase tracking-wider mb-1">Generate Jadwal</p>
@@ -134,7 +134,7 @@ function GenerateModal({ rule, api, headers, onClose, onGenerated }) {
             {result ? 'Tutup' : 'Batal'}
           </button>
           {!result && (
-            <button onClick={handleGenerate} disabled={loading} className="flex items-center gap-1.5 px-4 py-2 text-sm bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition font-medium disabled:opacity-50">
+            <button onClick={handleGenerate} disabled={loading} className="flex items-center gap-1.5 px-4 py-2 text-sm bg-emerald-600 text-ink rounded-lg hover:bg-emerald-700 transition font-medium disabled:opacity-50">
               <Zap className="w-3.5 h-3.5" /> {loading ? 'Generating...' : 'Generate Sekarang'}
             </button>
           )}
@@ -226,26 +226,26 @@ export default function PdmScheduleRules() {
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
-            <Settings className="w-6 h-6 text-blue-600" />
+          <h1 className="text-2xl font-display font-bold text-gray-800 flex items-center gap-2">
+            <Settings className="w-6 h-6 text-navy-600" />
             PdM Schedule Rules
           </h1>
           <p className="text-gray-500 text-sm mt-1">Kelola aturan auto-generate jadwal PdM Rotating — {rules.length} rule terdaftar</p>
         </div>
         <div className="flex gap-2">
           <button onClick={() => setShowGenerateAll(true)}
-            className="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition text-sm font-medium">
+            className="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-ink rounded-lg hover:bg-emerald-700 transition text-sm font-medium">
             <Zap className="w-4 h-4" /> Generate Semua
           </button>
           <button onClick={() => { resetForm(); setEditingId(null); setIsFormOpen(true); }}
-            className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-sm font-medium">
+            className="flex items-center gap-2 px-4 py-2 bg-navy-600 text-white rounded-lg hover:bg-navy-950 transition text-sm font-medium">
             <PlusCircle className="w-4 h-4" /> Tambah Rule
           </button>
         </div>
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
@@ -271,7 +271,7 @@ export default function PdmScheduleRules() {
                   <td className="p-4">
                     <div className="font-medium text-gray-800">{r.taskName}</div>
                     <div className="text-xs text-gray-500 flex gap-1 mt-1">
-                      <span className="px-1.5 py-0.5 bg-blue-50 text-blue-600 rounded">{r.equipmentCat}</span>
+                      <span className="px-1.5 py-0.5 bg-blue-50 text-navy-600 rounded">{r.equipmentCat}</span>
                       <span className={`px-1.5 py-0.5 rounded ${r.criticality === 'CRITICAL' ? 'bg-red-50 text-red-600' : 'bg-gray-100 text-gray-500'}`}>{r.criticality}</span>
                     </div>
                   </td>
@@ -299,7 +299,7 @@ export default function PdmScheduleRules() {
                         <Zap className="w-4 h-4" />
                       </button>
                       <button onClick={() => handleEdit(r)} title="Edit Rule"
-                        className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg transition">
+                        className="p-1.5 text-navy-600 hover:bg-blue-50 rounded-lg transition">
                         <Edit className="w-4 h-4" />
                       </button>
                       <button onClick={() => handleDelete(r.id)} title="Hapus Rule"
@@ -321,9 +321,9 @@ export default function PdmScheduleRules() {
       {/* Modal Form Rule */}
       {isFormOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh]">
+          <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh]">
             <div className="p-5 border-b border-gray-100 flex justify-between items-center bg-gray-50">
-              <h2 className="text-xl font-bold text-gray-800">{editingId ? 'Edit Rule' : 'Tambah Rule Baru'}</h2>
+              <h2 className="text-xl font-display font-bold text-gray-800">{editingId ? 'Edit Rule' : 'Tambah Rule Baru'}</h2>
               <button onClick={() => setIsFormOpen(false)} className="p-1.5 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-200 transition">
                 <X className="w-4 h-4" />
               </button>
@@ -405,7 +405,7 @@ export default function PdmScheduleRules() {
                 )}
                 <div>
                   <label className="flex items-center gap-2 cursor-pointer">
-                    <input type="checkbox" checked={formData.isActive} onChange={e => setFormData({...formData, isActive: e.target.checked})} className="w-4 h-4 text-blue-600 rounded" />
+                    <input type="checkbox" checked={formData.isActive} onChange={e => setFormData({...formData, isActive: e.target.checked})} className="w-4 h-4 text-navy-600 rounded" />
                     <span className="text-sm text-gray-700 font-medium">Aktif (otomatis digenerate tiap bulan)</span>
                   </label>
                 </div>
@@ -413,7 +413,7 @@ export default function PdmScheduleRules() {
             </div>
             <div className="p-5 border-t border-gray-100 flex justify-end gap-3 bg-gray-50">
               <button onClick={() => setIsFormOpen(false)} className="px-4 py-2 text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition text-sm">Batal</button>
-              <button type="submit" form="ruleForm" className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium text-sm">Simpan</button>
+              <button type="submit" form="ruleForm" className="px-4 py-2 bg-navy-600 text-white rounded-lg hover:bg-navy-950 transition font-medium text-sm">Simpan</button>
             </div>
           </div>
         </div>
