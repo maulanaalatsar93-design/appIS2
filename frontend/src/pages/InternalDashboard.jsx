@@ -1804,7 +1804,7 @@ export default function InternalDashboard() {
             },
             dataLabels: { enabled: true, style: { fontSize: '14px', fontWeight: 'bold' }, offsetY: -20 },
             xaxis: { categories: pkCategories, labels: { style: { fontWeight: 600 } } },
-            colors: ['#8B0000', '#B91C1C', '#C2410C', '#B45309', '#1D4ED8', '#0F766E', '#4338CA', '#A21CAF'],
+            colors: ['#14131D', '#FCA311', '#1F1E2E', '#FFD98F', '#C9C9C9', '#2E7D32', '#D32F2F', '#000000'],
             title: { text: 'Distribusi per Area/Plant', style: { color: '#1E293B', fontSize: '13px', fontWeight: 'bold' } },
             legend: { show: false },
             grid: { strokeDashArray: 4 }
@@ -1816,7 +1816,7 @@ export default function InternalDashboard() {
           options: {
             chart: { type: 'donut', fontFamily: 'Plus Jakarta Sans, sans-serif' },
             labels: pkCategories,
-            colors: ['#8B0000', '#B91C1C', '#C2410C', '#B45309', '#1D4ED8', '#0F766E', '#4338CA', '#A21CAF'],
+            colors: ['#14131D', '#FCA311', '#1F1E2E', '#FFD98F', '#C9C9C9', '#2E7D32', '#D32F2F', '#000000'],
             plotOptions: {
               pie: {
                 donut: {

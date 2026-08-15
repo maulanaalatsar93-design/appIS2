@@ -312,7 +312,7 @@ export default function ManHoursPage() {
       options: {
         chart: { type: 'bar', toolbar: { show: false }, background: 'transparent' },
         plotOptions: { bar: { horizontal: true, borderRadius: 4, barHeight: '60%' } },
-        colors: ['#3b82f6'],
+        colors: ['#14131D'],
         xaxis: { categories: top10.map(p => p.nama), labels: { style: { fontSize: '11px' } } },
         dataLabels: { enabled: true, formatter: v => `${v} jam`, style: { fontSize: '10px' } },
         grid: { borderColor: '#f1f5f9' },
@@ -328,7 +328,7 @@ export default function ManHoursPage() {
       options: {
         chart: { type: 'donut', background: 'transparent' },
         labels: summary.by_area.map(a => a.area),
-        colors: ['#3b82f6','#f59e0b','#8b5cf6','#f97316','#10b981','#ef4444','#06b6d4'],
+        colors: ['#14131D', '#FCA311', '#1F1E2E', '#FFD98F', '#C9C9C9', '#2E7D32', '#D32F2F'],
         legend: { position: 'bottom', fontSize: '11px' },
         dataLabels: { formatter: (val, opts) => `${val.toFixed(1)}%` },
         tooltip: { y: { formatter: v => `${v} jam` } }

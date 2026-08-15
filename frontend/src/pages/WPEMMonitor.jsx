@@ -54,7 +54,7 @@ export default function WPEMMonitor() {
       chart: { type: 'bar', toolbar: { show: false }, fontFamily: 'Plus Jakarta Sans' },
       plotOptions: { bar: { horizontal: true, barHeight: '55%', borderRadius: 6 } },
       dataLabels: { enabled: true, formatter: (v) => `${v}%`, style: { fontSize: '11px' } },
-      colors: ['#2563EB'],
+      colors: ['#14131D'],
       xaxis: {
         categories: kpi?.programsProgress?.map(p => p.title.length > 25 ? p.title.slice(0, 25) + '…' : p.title) || [],
         min: 0, max: 100,
@@ -73,7 +73,7 @@ export default function WPEMMonitor() {
     options: {
       chart: { type: 'donut', fontFamily: 'Plus Jakarta Sans' },
       labels: ['Waiting', 'In Progress', 'Done', 'Overdue'],
-      colors: ['#94A3B8', '#2563EB', '#10B981', '#EF4444'],
+      colors: ['#C9C9C9', '#14131D', '#2E7D32', '#D32F2F'],
       legend: { position: 'bottom', fontSize: '12px' },
       dataLabels: { style: { fontSize: '12px' } },
       plotOptions: { pie: { donut: { size: '65%' } } }
@@ -101,7 +101,7 @@ export default function WPEMMonitor() {
           track: { background: '#F1F5F9', strokeWidth: '97%' }
         }
       },
-      colors: [s.utilization_pct > 80 ? '#EF4444' : s.utilization_pct > 60 ? '#F59E0B' : '#10B981'],
+      colors: [s.utilization_pct > 80 ? '#D32F2F' : s.utilization_pct > 60 ? '#FCA311' : '#2E7D32'],
       labels: ['Utilisasi']
     },
     series: [s.utilization_pct || 0]
