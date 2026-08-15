@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import Chart from 'react-apexcharts';
 import ScorecardGroup from '../components/ui/ScorecardGroup';
 import FloatingFilterPill from '../components/ui/FloatingFilterPill';
@@ -218,7 +218,7 @@ export default function PublicDashboard({ onBack }) {
   const chart5Series = [{ name: 'Rekomendasi', data: summary.factoryComparison.rekData }];
 
   return (
-    <div className="p-6 space-y-6 bg-[#F0F3F8] min-h-screen text-[#0F172A] relative print:bg-white print:p-0 print:space-y-4">
+    <div className="p-6 space-y-6 bg-platinum min-h-screen text-ink relative print:bg-white print:p-0 print:space-y-4">
 
       {/* STANDARD FLOATING COLLAPSIBLE PILL FILTER (Hidden on print) */}
       <div className="print:hidden">
@@ -234,7 +234,7 @@ export default function PublicDashboard({ onBack }) {
             <select
               value={workCenter}
               onChange={(e) => setWorkCenter(e.target.value)}
-              className="bg-transparent font-bold text-[#0F172A] outline-none cursor-pointer text-[11px]"
+              className="bg-transparent font-bold text-ink outline-none cursor-pointer text-[11px]"
             >
               <option value="Semua Bagian">Semua Bagian</option>
               {(summary.availableFilters?.workCenters || []).map((wc) => (
@@ -251,7 +251,7 @@ export default function PublicDashboard({ onBack }) {
             <select
               value={month}
               onChange={(e) => setMonth(e.target.value)}
-              className="bg-transparent font-bold text-[#0F172A] outline-none cursor-pointer text-[11px]"
+              className="bg-transparent font-bold text-ink outline-none cursor-pointer text-[11px]"
             >
               <option value="Semua Bulan">Semua Bulan</option>
               {(summary.availableFilters?.months || []).map((m) => (
@@ -268,7 +268,7 @@ export default function PublicDashboard({ onBack }) {
             <select
               value={year}
               onChange={(e) => setYear(e.target.value)}
-              className="bg-transparent font-bold text-[#0F172A] outline-none cursor-pointer text-[11px]"
+              className="bg-transparent font-bold text-ink outline-none cursor-pointer text-[11px]"
             >
               <option value="Semua">Semua Tahun</option>
               {(summary.availableFilters?.years || []).map((y) => (
@@ -296,9 +296,9 @@ export default function PublicDashboard({ onBack }) {
 
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 print:hidden">
         <div>
-          <h2 className="text-xl md:text-2xl font-bold text-[#172033] tracking-tight flex items-center gap-3">
+          <h2 className="text-xl md:text-2xl font-bold text-ink tracking-tight flex items-center gap-3">
             <span>Public Executive Dashboard</span>
-            {loading && <Loader2 className="w-5 h-5 animate-spin text-[#1A4BC4]" />}
+            {loading && <Loader2 className="w-5 h-5 animate-spin text-navy" />}
           </h2>
           <p className="text-[#64748B] text-xs md:text-sm mt-1 font-medium">
             Ringkasan eksekutif keandalan operasional industri — Data Real Database
@@ -309,17 +309,17 @@ export default function PublicDashboard({ onBack }) {
           {/* Executive Report Toolbar */}
           <button
             onClick={() => { setIsExporting(true); setToastMsg({ type: 'info', text: 'Generating Dashboard PDF...' }); exportDashboardPDF().finally(() => { setIsExporting(false); setToastMsg({ type: 'success', text: 'Laporan berhasil diunduh' }); setTimeout(() => setToastMsg(null), 3000); }); }}
-            className="bg-white px-4 py-2.5 rounded-xl shadow-sm border border-[#E2E8F0] flex items-center gap-2 hover:bg-slate-50 transition-colors focus:outline-none"
+            className="bg-white px-4 py-2.5 rounded-xl shadow-sm border border-platinum-dark flex items-center gap-2 hover:bg-slate-50 transition-colors focus:outline-none"
             title="Export PDF"
           >
-            <Download size={16} className="text-[#1A4BC4]" />
-            <span className="text-xs font-bold text-[#172033] uppercase tracking-wide">Export PDF</span>
+            <Download size={16} className="text-navy" />
+            <span className="text-xs font-bold text-ink uppercase tracking-wide">Export PDF</span>
           </button>
 
           {onBack && (
             <button
               onClick={onBack}
-              className="bg-white px-4 py-2.5 rounded-xl shadow-sm border border-[#1A4BC4] text-[#1A4BC4] hover:bg-[#1A4BC4] hover:text-white flex items-center gap-2 transition-all focus:outline-none"
+              className="bg-white px-4 py-2.5 rounded-xl shadow-sm border border-navy text-navy hover:bg-navy hover:text-white flex items-center gap-2 transition-all focus:outline-none"
             >
               <span className="text-xs font-bold tracking-wide">Kembali ke Internal View</span>
             </button>
@@ -339,8 +339,8 @@ export default function PublicDashboard({ onBack }) {
               value: summary.kpi?.totalWO || 0,
               sparklineData: summary.sparklines?.totalWo || summary.jobLoadTrend?.woSeries || [],
               isDark: true,
-              bgGradient: 'bg-[#13254F]',
-              borderColor: 'border-[#13254F]',
+              bgGradient: 'bg-navy',
+              borderColor: 'border-navy',
               onInfoClick: () => { setPmModalMode('all'); setShowPMModal(true); }
             },
             {
@@ -350,8 +350,8 @@ export default function PublicDashboard({ onBack }) {
               value: summary.kpi?.pm04Count || 0,
               sparklineData: summary.sparklines?.pm04 || [],
               isDark: true,
-              bgGradient: 'bg-[#1A4BC4]',
-              borderColor: 'border-[#1A4BC4]'
+              bgGradient: 'bg-navy',
+              borderColor: 'border-navy'
             },
             {
               label: 'PM02+',
@@ -360,8 +360,8 @@ export default function PublicDashboard({ onBack }) {
               value: summary.kpi?.pm02PlusCount || 0,
               sparklineData: summary.sparklines?.pm02Plus || [],
               isDark: true,
-              bgGradient: 'bg-[#D9650F]',
-              borderColor: 'border-[#D9650F]',
+              bgGradient: 'bg-accent',
+              borderColor: 'border-accent',
               onInfoClick: () => { setPmModalMode('pm02plus'); setShowPMModal(true); }
             },
           ]}
@@ -377,8 +377,8 @@ export default function PublicDashboard({ onBack }) {
               value: summary.kpi?.totalRek || 0,
               sparklineData: summary.sparklines?.totalRek || summary.jobLoadTrend?.rekSeries || [],
               isDark: true,
-              bgGradient: 'bg-[#168477]',
-              borderColor: 'border-[#168477]',
+              bgGradient: 'bg-success',
+              borderColor: 'border-success',
             },
             {
               label: 'M04',
@@ -387,8 +387,8 @@ export default function PublicDashboard({ onBack }) {
               value: summary.kpi?.m04Count || 0,
               sparklineData: summary.sparklines?.m04 || [],
               isDark: true,
-              bgGradient: 'bg-[#059669]',
-              borderColor: 'border-[#059669]',
+              bgGradient: 'bg-success',
+              borderColor: 'border-success',
             },
             {
               label: 'M07',
@@ -397,8 +397,8 @@ export default function PublicDashboard({ onBack }) {
               value: summary.kpi?.m07Count || 0,
               sparklineData: summary.sparklines?.m07 || [],
               isDark: true,
-              bgGradient: 'bg-[#D97706]',
-              borderColor: 'border-[#D97706]',
+              bgGradient: 'bg-accent',
+              borderColor: 'border-accent',
             },
           ]}
         />
@@ -407,34 +407,22 @@ export default function PublicDashboard({ onBack }) {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 print:hidden">
 
         {/* Symmetrical Bar Chart 1: Work Order per Pabrik */}
-        <div className="bg-white border border-platinum-dark rounded-card shadow-sm-subtle overflow-hidden flex flex-col">
-          <div className="px-5 py-3.5 bg-[#13254F] text-white">
-            <h4 className="text-sm font-bold text-white tracking-tight">Work Order per Pabrik</h4>
-            <p className="text-[11px] text-slate-200 mt-0.5">Total perbandingan WO berdasarkan area pabrik.</p>
-          </div>
-          <div className="p-5 flex-1 min-h-[250px]">
+        <div className="bg-white border border-platinum-dark rounded-[14px] p-5 shadow-[0_4px_16px_0_rgba(0,0,0,0.02)] flex flex-col"><div className="flex items-center justify-between mb-4"><h3 className="text-[14.5px] font-bold text-ink">Work Order per Pabrik</h3><div className="text-[11px] text-slate-500 bg-platinum px-2.5 py-1 rounded-[6px]">BAR CHART</div></div>
+          <div className="flex-1 min-h-[250px]">
             <Chart options={chart2Options} series={chart2Series} type="bar" width="100%" height="250" />
           </div>
         </div>
 
         {/* Symmetrical Bar Chart 2: Rilis Rekomendasi per Pabrik */}
-        <div className="bg-white border border-platinum-dark rounded-card shadow-sm-subtle overflow-hidden flex flex-col">
-          <div className="px-5 py-3.5 bg-[#168477] text-white">
-            <h4 className="text-sm font-bold text-white tracking-tight">Rilis Rekomendasi per Pabrik</h4>
-            <p className="text-[11px] text-teal-100 mt-0.5">Perbandingan rilis rekomendasi berdasarkan area pabrik.</p>
-          </div>
-          <div className="p-5 flex-1 min-h-[250px]">
+        <div className="bg-white border border-platinum-dark rounded-[14px] p-5 shadow-[0_4px_16px_0_rgba(0,0,0,0.02)] flex flex-col"><div className="flex items-center justify-between mb-4"><h3 className="text-[14.5px] font-bold text-ink">Rilis Rekomendasi per Pabrik</h3><div className="text-[11px] text-slate-500 bg-platinum px-2.5 py-1 rounded-[6px]">BAR CHART</div></div>
+          <div className="flex-1 min-h-[250px]">
             <Chart options={chart5Options} series={chart5Series} type="bar" width="100%" height="250" />
           </div>
         </div>
 
         {/* Symmetrical Donut Chart 1: Distribusi Tipe Order */}
-        <div className="bg-white border border-platinum-dark rounded-card shadow-sm-subtle overflow-hidden flex flex-col">
-          <div className="px-5 py-3.5 bg-[#13254F] text-white">
-            <h4 className="text-sm font-bold text-white tracking-tight">Distribusi Tipe Order</h4>
-            <p className="text-[11px] text-slate-200 mt-0.5">Proporsi Work Order berdasarkan tipe (PM04 vs PM02+).</p>
-          </div>
-          <div className="p-5 flex-1 flex items-center justify-center min-h-[250px]">
+        <div className="bg-white border border-platinum-dark rounded-[14px] p-5 shadow-[0_4px_16px_0_rgba(0,0,0,0.02)] flex flex-col"><div className="flex items-center justify-between mb-4"><h3 className="text-[14.5px] font-bold text-ink">Distribusi Tipe Order</h3><div className="text-[11px] text-slate-500 bg-platinum px-2.5 py-1 rounded-[6px]">DONUT CHART</div></div>
+          <div className="flex-1 flex items-center justify-center min-h-[250px]">
             {chart1Series.reduce((a, b) => a + b, 0) === 0 ? (
               <p className="text-xs text-platinum-dark">Tidak ada data tipe order</p>
             ) : (
@@ -444,12 +432,8 @@ export default function PublicDashboard({ onBack }) {
         </div>
 
         {/* Symmetrical Donut Chart 2: Rekomendasi (M4 & M7) */}
-        <div className="bg-white border border-platinum-dark rounded-card shadow-sm-subtle overflow-hidden flex flex-col">
-          <div className="px-5 py-3.5 bg-[#168477] text-white">
-            <h4 className="text-sm font-bold text-white tracking-tight">Rekomendasi (M4 & M7)</h4>
-            <p className="text-[11px] text-teal-100 mt-0.5">Proporsi rekomendasi berdasarkan status rilis.</p>
-          </div>
-          <div className="p-5 flex-1 flex items-center justify-center min-h-[250px]">
+        <div className="bg-white border border-platinum-dark rounded-[14px] p-5 shadow-[0_4px_16px_0_rgba(0,0,0,0.02)] flex flex-col"><div className="flex items-center justify-between mb-4"><h3 className="text-[14.5px] font-bold text-ink">Rekomendasi (M4 & M7)</h3><div className="text-[11px] text-slate-500 bg-platinum px-2.5 py-1 rounded-[6px]">DONUT CHART</div></div>
+          <div className="flex-1 flex items-center justify-center min-h-[250px]">
             {chart4Series.reduce((a, b) => a + b, 0) === 0 ? (
               <p className="text-xs text-platinum-dark">Tidak ada data rekomendasi</p>
             ) : (
@@ -459,7 +443,7 @@ export default function PublicDashboard({ onBack }) {
         </div>
 
         {/* Full Width Bottom Chart: Job Load & Output */}
-        <div className="mt-6 bg-white p-6 border border-slate-200 rounded-3xl shadow-sm lg:col-span-2 flex flex-col">
+        <div className="bg-white border border-platinum-dark rounded-[14px] p-[20px] shadow-[0_4px_16px_0_rgba(0,0,0,0.02)] lg:col-span-2 flex flex-col">
           <h3 className="text-center text-lg font-bold text-slate-800 tracking-tight mb-6">Job Load & Output (12 Bulan Terakhir)</h3>
           <div className="flex-1 min-h-[320px]">
             {chart3Series[0]?.data?.length > 0 ? (
@@ -573,10 +557,10 @@ export default function PublicDashboard({ onBack }) {
             <img src={pktLogoImg} alt="Pupuk Kaltim" className="h-10 object-contain" />
           </div>
           <div className="w-2/4 flex flex-col items-center text-center">
-            <h1 className="text-sm font-bold text-[#0F2052] leading-tight tracking-wide uppercase">DEPARTEMEN INSPEKSI</h1>
-            <h1 className="text-sm font-bold text-[#0F2052] leading-tight tracking-wide uppercase">TEKNIK 2</h1>
+            <h1 className="text-sm font-bold text-navy leading-tight tracking-wide uppercase">DEPARTEMEN INSPEKSI</h1>
+            <h1 className="text-sm font-bold text-navy leading-tight tracking-wide uppercase">TEKNIK 2</h1>
             <p className="text-[10px] font-semibold text-slate-500 mt-1">PT Pupuk Kalimantan Timur</p>
-            <div className="w-full max-w-[280px] border-b-2 border-[#1A4BC4] mt-3"></div>
+            <div className="w-full max-w-[280px] border-b-2 border-navy mt-3"></div>
           </div>
           <div className="w-1/4 flex justify-end items-start">
             <img src={brandIconImg} alt="App Icon" className="h-12 object-contain" />
@@ -755,3 +739,5 @@ export default function PublicDashboard({ onBack }) {
     </div>
   );
 }
+
+

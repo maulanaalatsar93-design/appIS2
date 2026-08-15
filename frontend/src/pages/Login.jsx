@@ -122,7 +122,7 @@ export default function Login() {
                 value={npk}
                 onChange={(e) => setNpk(e.target.value)}
                 placeholder="Contoh: 8812345"
-                className="w-full px-[14px] py-3 border-[1.5px] border-platinum-dark rounded-[10px] text-[14px] bg-white transition-all duration-150 focus:outline-none focus:border-navy focus:shadow-[0_0_0_3px_rgba(20,19,29,0.08)]"
+                className="w-full px-[14px] py-3 border-[1.5px] border-platinum-dark rounded-[10px] text-ink text-[14px] bg-white transition-all duration-150 focus:outline-none focus:border-navy focus:shadow-[0_0_0_3px_rgba(20,19,29,0.08)]"
               />
             </div>
             
@@ -135,7 +135,7 @@ export default function Login() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full pl-[14px] pr-10 py-3 border-[1.5px] border-platinum-dark rounded-[10px] text-[14px] bg-white transition-all duration-150 focus:outline-none focus:border-navy focus:shadow-[0_0_0_3px_rgba(20,19,29,0.08)]"
+                  className="w-full pl-[14px] pr-10 py-3 border-[1.5px] border-platinum-dark rounded-[10px] text-ink text-[14px] bg-white transition-all duration-150 focus:outline-none focus:border-navy focus:shadow-[0_0_0_3px_rgba(20,19,29,0.08)]"
                 />
                 <button
                   type="button"
