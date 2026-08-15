@@ -671,7 +671,7 @@ export default function InternalDashboard() {
           {/* ManPower Detailed Scorecards — Premium Redesign */}
           <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
             {/* === Header Banner === */}
-            <div className="relative bg-gradient-to-r from-[#0F2052] via-[#1A4BC4] to-[#1e56d9] px-6 py-5">
+            <div className="relative bg-industrial-navyDark px-6 py-5">
               <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='2'/%3E%3Ccircle cx='13' cy='3' r='2'/%3E%3C/g%3E%3C/svg%3E\")" }}></div>
               <div className="relative flex items-start justify-between gap-4">
                 <div>
@@ -697,7 +697,7 @@ export default function InternalDashboard() {
               <div className="relative mt-4">
                 <div className="w-full h-2.5 bg-white/20 rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-gradient-to-r from-emerald-400 to-emerald-300 rounded-full transition-all duration-1000"
+                    className="h-full bg-industrial-green rounded-full transition-all duration-1000"
                     style={{ width: `${summary?.manPower?.total > 0 ? Math.round(summary.manPower.hadir / summary.manPower.total * 100) : 0}%` }}
                   />
                 </div>
@@ -1234,108 +1234,103 @@ export default function InternalDashboard() {
           {/* Middle Row: Side-by-Side Breakdown Tables — Enterprise Blue Progress Bars */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Progress PM04 Table */}
-            <div className="bg-white border border-slate-200 rounded-2xl shadow-lg overflow-hidden flex flex-col">
-              <div className="flex items-center justify-between px-5 py-4 bg-gradient-to-r from-[#13254F] to-[#1E3A8A]">
-                <h4 className="text-[15px] font-bold text-white flex items-center gap-2 tracking-wide">
-                  <Activity size={18} className="text-blue-300" />
-                  <span>Progress PM04 (Per Pabrik)</span>
-                </h4>
-                <span className="text-[10px] bg-blue-400/20 text-blue-100 font-bold px-3 py-1 rounded-full border border-blue-400/30 shadow-inner">
-                  Predictive
-                </span>
-              </div>
-              <div className="p-4 flex-1 bg-slate-50/50">
-                <div className="space-y-3">
-                  {(summary?.jobLoadDetails?.pm04Progress || []).map((row, idx) => (
-                    <div key={idx} className="bg-white border border-slate-100 rounded-xl p-3.5 shadow-sm hover:shadow-md hover:border-blue-200 transition-all duration-300 group">
-                      <div className="flex justify-between items-center mb-2.5">
-                        <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-xs border border-blue-100 group-hover:bg-blue-600 group-hover:text-white transition-colors">
-                            {row.name.substring(0, 2)}
-                          </div>
-                          <div>
-                            <div className="font-bold text-slate-800 text-sm">{row.name}</div>
-                            <div className="text-[10px] font-semibold text-slate-400">Total WO: <span className="text-slate-600">{row.totalWO.toLocaleString('id-ID')}</span></div>
-                          </div>
-                        </div>
-                        <div className="flex flex-col items-end">
-                          {getCapaianBadge(row.capaianCNF)}
-                        </div>
-                      </div>
-                      <div className="relative pt-1">
-                        <div className="flex mb-1 items-center justify-between">
-                          <span className="text-[10px] font-semibold text-blue-600 uppercase tracking-wider">Progress CNF</span>
-                          <span className="text-[11px] font-bold text-blue-700">{row.capaianCNF.toFixed(1)}%</span>
-                        </div>
-                        <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden shadow-inner">
-                          <div
-                            className="h-full bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full transition-all duration-1000 ease-out shadow-[0_0_10px_rgba(59,130,246,0.6)]"
-                            style={{ width: `${Math.min(row.capaianCNF || 0, 100)}%` }}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                  {(!summary?.jobLoadDetails?.pm04Progress || summary.jobLoadDetails.pm04Progress.length === 0) && (
-                    <div className="text-center py-8 text-slate-400 text-sm font-medium border-2 border-dashed border-slate-200 rounded-xl">
-                      Tidak ada data PM04
-                    </div>
-                  )}
+            {(() => {
+              const pm04Data = summary?.jobLoadDetails?.pm04Progress || [];
+              const maxWO4 = pm04Data.reduce((acc, row) => Math.max(acc, row.totalWO), 1);
+              return (
+                <div className="bg-white border border-industrial-border rounded-[1.5rem] shadow-sm-subtle p-6 h-full flex flex-col">
+                  <h3 className="text-[15px] font-bold text-industrial-text mb-4">Progress PM04</h3>
+                  <div className="overflow-x-auto flex-1">
+                    <table className="w-full text-left border-collapse">
+                      <thead>
+                        <tr className="border-b border-industrial-border">
+                          <th className="pb-2 text-xs font-semibold text-industrial-text w-[30%]">Bagian</th>
+                          <th className="pb-2 text-xs font-semibold text-industrial-text w-[20%]">Tipe</th>
+                          <th className="pb-2 text-xs font-semibold text-industrial-text text-center w-[25%]">Total WO</th>
+                          <th className="pb-2 text-xs font-semibold text-industrial-text text-center w-[25%]">Capaian CNF</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {pm04Data.map((row, idx) => {
+                          const opacity = maxWO4 > 0 ? (row.totalWO / maxWO4) : 0;
+                          // If opacity > 0.45, use white text for better contrast on blue #1268B3
+                          const textColor = opacity > 0.45 ? 'text-white' : 'text-industrial-text';
+                          return (
+                            <tr key={idx} className="last:border-0">
+                              <td className="py-2.5 pr-2 text-xs text-industrial-text">{row.name}</td>
+                              <td className="py-2.5 px-2 text-xs text-industrial-text">PM04</td>
+                              <td 
+                                className={`py-2.5 px-2 text-center text-xs font-medium ${textColor}`} 
+                                style={{ backgroundColor: `rgba(18, 104, 179, ${opacity || 0.05})` }}
+                              >
+                                {row.totalWO.toLocaleString('id-ID')}
+                              </td>
+                              <td 
+                                className={`py-2.5 px-2 text-center text-xs font-medium text-white ${row.capaianCNF >= 90 ? 'bg-industrial-green' : 'bg-industrial-red'}`}
+                              >
+                                {row.capaianCNF.toFixed(2)}%
+                              </td>
+                            </tr>
+                          );
+                        })}
+                        {pm04Data.length === 0 && (
+                          <tr><td colSpan="4" className="text-center py-4 text-xs text-industrial-muted border-b border-industrial-border">Tidak ada data</td></tr>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
-              </div>
-            </div>
+              );
+            })()}
 
             {/* Progress PM02+ Table */}
-            <div className="bg-white border border-slate-200 rounded-2xl shadow-lg overflow-hidden flex flex-col">
-              <div className="flex items-center justify-between px-5 py-4 bg-gradient-to-r from-[#D9650F] to-[#EA580C]">
-                <h4 className="text-[15px] font-bold text-white flex items-center gap-2 tracking-wide">
-                  <HardHat size={18} className="text-orange-200" />
-                  <span>Progress PM02+ (Per Pabrik)</span>
-                </h4>
-                <span className="text-[10px] bg-orange-300/20 text-orange-50 font-bold px-3 py-1 rounded-full border border-orange-300/30 shadow-inner">
-                  Corrective &amp; Other
-                </span>
-              </div>
-              <div className="p-4 flex-1 bg-slate-50/50">
-                <div className="space-y-3">
-                  {(summary?.jobLoadDetails?.pm02PlusProgress || []).map((row, idx) => (
-                    <div key={idx} className="bg-white border border-slate-100 rounded-xl p-3.5 shadow-sm hover:shadow-md hover:border-orange-200 transition-all duration-300 group">
-                      <div className="flex justify-between items-center mb-2.5">
-                        <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-lg bg-orange-50 text-orange-600 flex items-center justify-center font-bold text-xs border border-orange-100 group-hover:bg-orange-500 group-hover:text-white transition-colors">
-                            {row.name.substring(0, 2)}
-                          </div>
-                          <div>
-                            <div className="font-bold text-slate-800 text-sm">{row.name}</div>
-                            <div className="text-[10px] font-semibold text-slate-400">Total WO: <span className="text-slate-600">{row.totalWO.toLocaleString('id-ID')}</span></div>
-                          </div>
-                        </div>
-                        <div className="flex flex-col items-end">
-                          {getCapaianBadge(row.capaianCNF)}
-                        </div>
-                      </div>
-                      <div className="relative pt-1">
-                        <div className="flex mb-1 items-center justify-between">
-                          <span className="text-[10px] font-semibold text-orange-600 uppercase tracking-wider">Progress CNF</span>
-                          <span className="text-[11px] font-bold text-orange-700">{row.capaianCNF.toFixed(1)}%</span>
-                        </div>
-                        <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden shadow-inner">
-                          <div
-                            className="h-full bg-gradient-to-r from-orange-500 to-amber-400 rounded-full transition-all duration-1000 ease-out shadow-[0_0_10px_rgba(249,115,22,0.6)]"
-                            style={{ width: `${Math.min(row.capaianCNF || 0, 100)}%` }}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                  {(!summary?.jobLoadDetails?.pm02PlusProgress || summary.jobLoadDetails.pm02PlusProgress.length === 0) && (
-                    <div className="text-center py-8 text-slate-400 text-sm font-medium border-2 border-dashed border-slate-200 rounded-xl">
-                      Tidak ada data PM02+
-                    </div>
-                  )}
+            {(() => {
+              const pm02Data = summary?.jobLoadDetails?.pm02PlusProgress || [];
+              const maxWO2 = pm02Data.reduce((acc, row) => Math.max(acc, row.totalWO), 1);
+              return (
+                <div className="bg-white border border-industrial-border rounded-[1.5rem] shadow-sm-subtle p-6 h-full flex flex-col">
+                  <h3 className="text-[15px] font-bold text-industrial-text mb-4">Progress PM02+</h3>
+                  <div className="overflow-x-auto flex-1">
+                    <table className="w-full text-left border-collapse">
+                      <thead>
+                        <tr className="border-b border-industrial-border">
+                          <th className="pb-2 text-xs font-semibold text-industrial-text w-[30%]">Bagian</th>
+                          <th className="pb-2 text-xs font-semibold text-industrial-text w-[20%]">Tipe</th>
+                          <th className="pb-2 text-xs font-semibold text-industrial-text text-center w-[25%]">Total WO</th>
+                          <th className="pb-2 text-xs font-semibold text-industrial-text text-center w-[25%]">Capaian CNF</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {pm02Data.map((row, idx) => {
+                          const opacity = maxWO2 > 0 ? (row.totalWO / maxWO2) : 0;
+                          const textColor = opacity > 0.45 ? 'text-white' : 'text-industrial-text';
+                          return (
+                            <tr key={idx} className="last:border-0">
+                              <td className="py-2.5 pr-2 text-xs text-industrial-text">{row.name}</td>
+                              <td className="py-2.5 px-2 text-xs text-industrial-text">PM02+</td>
+                              <td 
+                                className={`py-2.5 px-2 text-center text-xs font-medium ${textColor}`} 
+                                style={{ backgroundColor: `rgba(18, 104, 179, ${opacity || 0.05})` }}
+                              >
+                                {row.totalWO.toLocaleString('id-ID')}
+                              </td>
+                              <td 
+                                className={`py-2.5 px-2 text-center text-xs font-medium text-white ${row.capaianCNF >= 90 ? 'bg-industrial-green' : 'bg-industrial-red'}`}
+                              >
+                                {row.capaianCNF.toFixed(2)}%
+                              </td>
+                            </tr>
+                          );
+                        })}
+                        {pm02Data.length === 0 && (
+                          <tr><td colSpan="4" className="text-center py-4 text-xs text-industrial-muted border-b border-industrial-border">Tidak ada data</td></tr>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
-              </div>
-            </div>
+              );
+            })()}
           </div>
 
           {/* Side-by-Side Distribution Bar Charts with Background Color Headers */}
