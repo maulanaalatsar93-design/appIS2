@@ -816,17 +816,16 @@ export default function InternalDashboard() {
           </div>
 
           {/* Visualisasi & Perbandingan per Pabrik (7 Pabrik) */}
-          <div className="bg-white border border-platinum-dark rounded-card shadow-sm-subtle overflow-hidden">
-            <div className="px-5 py-3.5 bg-[#13254F] text-white">
-              <h3 className="text-base font-bold text-white">
-                Perbandingan Work Order vs Rekomendasi per Pabrik (P1A - P7)
-              </h3>
-              <p className="text-xs text-slate-200 mt-0.5">
-                Analisis komparatif beban pekerjaan dan notifikasi rekomendasi inspeksi pada 7 unit pabrik.
-              </p>
+          <div className="bg-white border border-platinum-dark rounded-[14px] p-5 shadow-[0_4px_16px_0_rgba(0,0,0,0.02)] flex flex-col">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <h3 className="text-[14.5px] font-bold text-ink">Perbandingan Work Order vs Rekomendasi per Pabrik (P1A - P7)</h3>
+                <p className="text-[11px] text-slate-500 mt-0.5">Analisis komparatif beban pekerjaan dan notifikasi rekomendasi inspeksi pada 7 unit pabrik.</p>
+              </div>
+              <div className="text-[11px] text-slate-500 bg-platinum px-2.5 py-1 rounded-[6px]">BAR CHART</div>
             </div>
 
-            <div className="p-6 min-h-[320px]">
+            <div className="min-h-[320px]">
               <Chart options={factoryChartOptions} series={factoryChartSeries} type="bar" width="100%" height="320" />
             </div>
           </div>
@@ -1336,12 +1335,15 @@ export default function InternalDashboard() {
           {/* Side-by-Side Distribution Bar Charts with Background Color Headers */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-6">
             {/* Distribusi Status WO per Bagian */}
-            <div className="bg-white border border-platinum-dark rounded-card shadow-sm-subtle overflow-hidden flex flex-col">
-              <div className="px-5 py-3.5 bg-navy text-white">
-                <h4 className="text-sm font-bold text-white tracking-tight">Distribusi Work Order (Berdasarkan Status WO)</h4>
-                <p className="text-[11px] text-slate-200 mt-0.5">Perbandingan jumlah WO per status (CNF TECO, CNF REL, TECO, CRTD, REL) di tiap bagian.</p>
+            <div className="bg-white border border-platinum-dark rounded-[14px] p-5 shadow-[0_4px_16px_0_rgba(0,0,0,0.02)] flex flex-col">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h3 className="text-[14.5px] font-bold text-ink">Distribusi Work Order (Berdasarkan Status WO)</h3>
+                  <p className="text-[11px] text-slate-500 mt-0.5">Perbandingan jumlah WO per status (CNF TECO, CNF REL, TECO, CRTD, REL) di tiap bagian.</p>
+                </div>
+                <div className="text-[11px] text-slate-500 bg-platinum px-2.5 py-1 rounded-[6px]">BAR CHART</div>
               </div>
-              <div className="p-5 flex-1 min-h-[280px]">
+              <div className="flex-1 min-h-[280px]">
                 <Chart
                   options={statusDistChartOptions}
                   series={summary?.jobLoadDetails?.statusDistribution?.series || []}
@@ -1353,12 +1355,15 @@ export default function InternalDashboard() {
             </div>
 
             {/* Distribusi Tipe PM per Bagian */}
-            <div className="bg-white border border-platinum-dark rounded-card shadow-sm-subtle overflow-hidden flex flex-col">
-              <div className="px-5 py-3.5 bg-accent text-white">
-                <h4 className="text-sm font-bold text-white tracking-tight">Distribusi Work Order (Berdasarkan Tipe WO)</h4>
-                <p className="text-[11px] text-orange-50 mt-0.5">Perbandingan jumlah WO berdasarkan jenis PM (PM04, PM02, PM03, PM09, PM01, PM05) di tiap bagian.</p>
+            <div className="bg-white border border-platinum-dark rounded-[14px] p-5 shadow-[0_4px_16px_0_rgba(0,0,0,0.02)] flex flex-col">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h3 className="text-[14.5px] font-bold text-ink">Distribusi Work Order (Berdasarkan Tipe WO)</h3>
+                  <p className="text-[11px] text-slate-500 mt-0.5">Perbandingan jumlah WO berdasarkan jenis PM (PM04, PM02, PM03, PM09, PM01, PM05) di tiap bagian.</p>
+                </div>
+                <div className="text-[11px] text-slate-500 bg-platinum px-2.5 py-1 rounded-[6px]">BAR CHART</div>
               </div>
-              <div className="p-5 flex-1 min-h-[280px]">
+              <div className="flex-1 min-h-[280px]">
                 <Chart
                   options={pmTypeDistChartOptions}
                   series={summary?.jobLoadDetails?.pmTypeDistribution?.series || []}
