@@ -56,7 +56,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
 
   return (
     <aside
-      className={`${isCollapsed ? 'w-20' : 'w-64'} bg-[#0a0a0a] flex flex-col justify-between shrink-0 h-full transition-all duration-300 ease-in-out z-40 relative overflow-y-auto print:hidden`}
+      className={`${isCollapsed ? 'w-20' : 'w-64'} bg-industrial-primaryBase flex flex-col justify-between shrink-0 h-full transition-all duration-300 ease-in-out z-40 relative overflow-y-auto print:hidden`}
     >
 
       <div className="relative z-10 flex flex-col justify-between h-full p-2.5">
@@ -68,9 +68,8 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
               className={`flex items-center ${isCollapsed ? 'justify-center w-full cursor-pointer' : 'gap-3'}`}
               title={isCollapsed ? 'Perluas Sidebar' : undefined}
             >
-              <div className="w-10 h-10 bg-industrial-blue text-white rounded-xl flex items-center justify-center overflow-hidden shrink-0 transition-transform duration-300 hover:scale-105">
+              <div className="w-10 h-10 bg-industrial-primaryAccent text-white rounded-xl flex items-center justify-center overflow-hidden shrink-0 transition-transform duration-300 hover:scale-105">
                 <img
-                  src={logoImg}
                   alt="Logo ISTEK 2"
                   className="w-7 h-7 object-contain brightness-0 invert"
                   onError={(e) => {
@@ -117,12 +116,12 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
                         title={isCollapsed ? item.label : undefined}
                         className={`w-full flex items-center ${isCollapsed ? 'justify-center py-3' : 'space-x-3 px-4 py-3'
                           } rounded-none text-xs font-bold transition-all duration-300 ease-out border-l-4 ${isActive
-                            ? 'bg-white/5 border-industrial-blue text-white'
+                            ? 'bg-white/5 border-industrial-primaryAccent text-white'
                             : 'border-transparent text-industrial-muted hover:text-white hover:bg-white/5'
                           }`}
                       >
                         <div className="shrink-0 flex items-center justify-center">
-                          <Icon className={`w-5 h-5 transition-colors duration-300 ease-out ${isActive ? 'text-industrial-blue' : 'text-industrial-muted'}`} />
+                          <Icon className={`w-5 h-5 transition-colors duration-300 ease-out ${isActive ? 'text-industrial-primaryAccent' : 'text-industrial-muted'}`} />
                         </div>
                         {!isCollapsed && <span className="truncate">{item.label}</span>}
                       </button>

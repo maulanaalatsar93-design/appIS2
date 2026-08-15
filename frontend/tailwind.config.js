@@ -7,28 +7,36 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+        sans: ['"Aeonik"', '"Plus Jakarta Sans"', 'sans-serif'],
+        display: ['"SendHapy"', '"Fredoka"', 'sans-serif'],
       },
       colors: {
         industrial: {
-          navy: '#00305B',        // Primary Navy
-          blue: '#1268B3',        // Primary Accent Blue
-          orange: '#F47920',      // Secondary Accent Orange
-          green: '#16A34A',       // Semantic Success
-          red: '#E53E3E',         // Semantic Danger
-          amber: '#F59E0B',       // Semantic Warning
-          background: '#F5F7FB',  // App Background
-          border: '#E2E8F0',      // Border
-          text: '#1A202C',        // Text Primary
-          muted: '#718096',       // Text Secondary
-          surfaceDark: '#0D1E2D', // Surface Dark
-          // === Reference design color tokens ===
-          navyDark: '#00305B',      // Sidebar & SEMUA PM scorecard
-          navyCard: '#0D1E2D',      // SEMUA PM card header
-          royalBlue: '#1268B3',     // PM04 card header
-          royalLight: '#1268B3',    // PM04 progress bar (Lighter teal)
-          cardOrange: '#F47920',    // PM02+ card header
-          progressBar: '#1268B3',   // Table progress bar fill
+          primaryBase: '#032A53',     // OxfordBlue
+          primaryAccent: '#E43B00',   // Sinopia
+          bgEggshell: '#F4F1DE',      // Eggshell
+          accentChampagne: '#F2CC8F', // Deep Champagne
+          accentGreen: '#81B29A',     // Green Sheen
+          surfaceWhite: '#FFFFFF',    // White
+          
+          // Legacy mappings mapped to new colors so existing components don't break entirely
+          navy: '#032A53',
+          blue: '#E43B00',        
+          orange: '#F2CC8F',      
+          green: '#81B29A',       
+          red: '#E43B00',         
+          amber: '#F2CC8F',       
+          background: '#F4F1DE',  
+          border: '#E2E8F0',      
+          text: '#032A53',        
+          muted: '#64748B',       
+          surfaceDark: '#032A53', 
+          navyDark: '#032A53',      
+          navyCard: '#FFFFFF',      
+          royalBlue: '#E43B00',     
+          royalLight: '#F2CC8F',    
+          cardOrange: '#E43B00',    
+          progressBar: '#81B29A',   
         },
       },
       boxShadow: {

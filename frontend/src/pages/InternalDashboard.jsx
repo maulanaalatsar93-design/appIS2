@@ -1261,7 +1261,7 @@ export default function InternalDashboard() {
                               <td className="py-2.5 px-2 text-xs text-industrial-text">PM04</td>
                               <td 
                                 className={`py-2.5 px-2 text-center text-xs font-medium ${textColor}`} 
-                                style={{ backgroundColor: `rgba(18, 104, 179, ${opacity || 0.05})` }}
+                                style={{ backgroundColor: `rgba(228, 59, 0, ${opacity || 0.05})` }}
                               >
                                 {row.totalWO.toLocaleString('id-ID')}
                               </td>
@@ -1310,7 +1310,7 @@ export default function InternalDashboard() {
                               <td className="py-2.5 px-2 text-xs text-industrial-text">PM02+</td>
                               <td 
                                 className={`py-2.5 px-2 text-center text-xs font-medium ${textColor}`} 
-                                style={{ backgroundColor: `rgba(18, 104, 179, ${opacity || 0.05})` }}
+                                style={{ backgroundColor: `rgba(228, 59, 0, ${opacity || 0.05})` }}
                               >
                                 {row.totalWO.toLocaleString('id-ID')}
                               </td>
@@ -1337,7 +1337,7 @@ export default function InternalDashboard() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-6">
             {/* Distribusi Status WO per Bagian */}
             <div className="bg-white border border-industrial-border rounded-card shadow-sm-subtle overflow-hidden flex flex-col">
-              <div className="px-5 py-3.5 bg-[#13254F] text-white">
+              <div className="px-5 py-3.5 bg-industrial-primaryBase text-white">
                 <h4 className="text-sm font-bold text-white tracking-tight">Distribusi Work Order (Berdasarkan Status WO)</h4>
                 <p className="text-[11px] text-slate-200 mt-0.5">Perbandingan jumlah WO per status (CNF TECO, CNF REL, TECO, CRTD, REL) di tiap bagian.</p>
               </div>
@@ -1354,7 +1354,7 @@ export default function InternalDashboard() {
 
             {/* Distribusi Tipe PM per Bagian */}
             <div className="bg-white border border-industrial-border rounded-card shadow-sm-subtle overflow-hidden flex flex-col">
-              <div className="px-5 py-3.5 bg-[#D9650F] text-white">
+              <div className="px-5 py-3.5 bg-industrial-primaryAccent text-white">
                 <h4 className="text-sm font-bold text-white tracking-tight">Distribusi Work Order (Berdasarkan Tipe WO)</h4>
                 <p className="text-[11px] text-orange-50 mt-0.5">Perbandingan jumlah WO berdasarkan jenis PM (PM04, PM02, PM03, PM09, PM01, PM05) di tiap bagian.</p>
               </div>
