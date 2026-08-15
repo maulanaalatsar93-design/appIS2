@@ -28,7 +28,7 @@ export default function MainLayout() {
   const { user } = useContext(AuthContext);
 
   return (
-    <div className="flex h-screen bg-industrial-primaryBase text-industrial-primaryBase font-sans overflow-hidden">
+    <div className="flex h-screen bg-industrial-bgEggshell text-industrial-primaryBase font-sans overflow-hidden">
       {/* Sidebar hanya tampil bila sudah login */}
       {user && (
         <Sidebar 
@@ -36,7 +36,7 @@ export default function MainLayout() {
           setIsCollapsed={setIsCollapsed} 
         />
       )}
-      <div className={`flex-1 flex flex-col min-w-0 bg-industrial-bgEggshell transition-all duration-300 ${user ? 'rounded-l-[2.5rem] my-2 mr-2 overflow-hidden' : ''}`}>
+      <div className="flex-1 flex flex-col min-w-0 transition-all duration-300 overflow-hidden">
         <Header 
           isCollapsed={isCollapsed} 
           setIsCollapsed={setIsCollapsed} 

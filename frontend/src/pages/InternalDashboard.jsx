@@ -1065,7 +1065,7 @@ export default function InternalDashboard() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
 
             {/* SEMUA PM Card — Dark Navy */}
-            <div className="rounded-2xl overflow-hidden shadow-lg border border-[#0A1B3F]/20 bg-[#13254F]">
+            <div className="rounded-2xl overflow-hidden shadow-lg border border-industrial-navy/20 bg-industrial-navy">
               <div className="px-5 pt-5 pb-0">
                 <div className="flex items-start justify-between mb-1">
                   <div>
@@ -1119,7 +1119,7 @@ export default function InternalDashboard() {
             </div>
 
             {/* PM04 Card — Royal Blue */}
-            <div className="rounded-2xl overflow-hidden shadow-lg border border-[#0D3299]/20 bg-[#1A4BC4]">
+            <div className="rounded-2xl overflow-hidden shadow-lg border border-industrial-navy/20 bg-industrial-navy">
               <div className="px-5 pt-5 pb-0">
                 <div className="flex items-start justify-between mb-1">
                   <div>
@@ -1172,32 +1172,32 @@ export default function InternalDashboard() {
             </div>
 
             {/* PM02+ Card — Orange */}
-            <div className="rounded-2xl overflow-hidden shadow-lg border border-[#A04508]/20 bg-[#D9650F]">
+            <div className="rounded-2xl overflow-hidden shadow-lg border border-industrial-orange/20 bg-industrial-orange">
               <div className="px-5 pt-5 pb-0">
                 <div className="flex items-start justify-between mb-1">
                   <div>
                     <div className="flex items-center gap-2 mb-0.5">
-                      <div className="w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center">
+                      <div className="w-7 h-7 rounded-lg bg-black/10 flex items-center justify-center">
                         <button
                           onClick={() => setShowPm02PlusModal(true)}
-                          className="flex items-center justify-center text-white/80 hover:text-white transition-colors cursor-pointer"
+                          className="flex items-center justify-center text-industrial-ink/80 hover:text-industrial-ink transition-colors cursor-pointer"
                           title="Klik detail rincian PM01-PM10"
                         >
                           <Info className="w-3.5 h-3.5" />
                         </button>
                       </div>
-                      <div className="text-[10px] font-bold text-white/50 uppercase tracking-widest">PM02+</div>
+                      <div className="text-[10px] font-bold text-industrial-ink/50 uppercase tracking-widest">PM02+</div>
                     </div>
-                    <div className="text-[11px] text-white/60">Total Work Order PM02+</div>
+                    <div className="text-[11px] text-industrial-ink/70">Total Work Order PM02+</div>
                   </div>
                 </div>
                 <div className="flex items-end gap-2 mt-2">
-                  <div className="text-4xl font-extrabold text-white tracking-tight">{summary?.kpi?.pm02PlusCount ? summary.kpi.pm02PlusCount.toLocaleString('id-ID') : '0'}</div>
-                  <div className="text-base text-white/50 font-semibold mb-0.5">WO</div>
+                  <div className="text-4xl font-extrabold text-industrial-ink tracking-tight">{summary?.kpi?.pm02PlusCount ? summary.kpi.pm02PlusCount.toLocaleString('id-ID') : '0'}</div>
+                  <div className="text-base text-industrial-ink/70 font-semibold mb-0.5">WO</div>
                 </div>
-                <div className="mt-2 flex items-center gap-4 text-[11px] text-white/60">
-                  <span>● CNF: <strong className="text-white">{summary?.jobLoadDetails?.gauges?.pm02PlusCnfCount || '—'}</strong> WO</span>
-                  <span>● Total: <strong className="text-white">{summary?.kpi?.pm02PlusCount || 0}</strong> WO</span>
+                <div className="mt-2 flex items-center gap-4 text-[11px] text-industrial-ink/70">
+                  <span>● CNF: <strong className="text-industrial-ink">{summary?.jobLoadDetails?.gauges?.pm02PlusCnfCount || '—'}</strong> WO</span>
+                  <span>● Total: <strong className="text-industrial-ink">{summary?.kpi?.pm02PlusCount || 0}</strong> WO</span>
                 </div>
               </div>
               {/* Progress Bar Section */}

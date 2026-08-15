@@ -12,16 +12,17 @@ export default function KPICard({
   className = '',
   variant = 'default' // default, navy, blue, teal, orange, red
 }) {
-  const isDark = variant !== 'default';
+  const isDark = variant === 'navy' || variant === 'blue' || variant === 'teal' || variant === 'red' || variant === 'rose';
+  // Orange is bright, so it uses dark text (isDark = false) but has a colored background.
 
   const getContainerStyles = () => {
     switch(variant) {
-      case 'navy': return 'bg-[#13254F] border-[#0A1B3F]/20 shadow-lg';
-      case 'blue': return 'bg-[#1A4BC4] border-[#0D3299]/20 shadow-lg';
-      case 'teal': return 'bg-[#118B75] border-[#0C6A5A]/20 shadow-lg';
-      case 'orange': return 'bg-[#E85D04] border-[#B94A03]/20 shadow-lg';
-      case 'red': return 'bg-[#DC2626] border-[#991B1B]/20 shadow-lg';
-      case 'rose': return 'bg-[#E11D48] border-[#BE123C]/20 shadow-lg';
+      case 'navy': return 'bg-industrial-navy border-industrial-navy/20 shadow-lg';
+      case 'blue': return 'bg-industrial-navy border-industrial-navy/20 shadow-lg'; // Mapped to Navy
+      case 'teal': return 'bg-industrial-navy border-industrial-navy/20 shadow-lg'; // Mapped to Navy
+      case 'orange': return 'bg-industrial-orange border-industrial-orange/20 shadow-lg';
+      case 'red': return 'bg-industrial-red border-industrial-red/20 shadow-lg';
+      case 'rose': return 'bg-industrial-red border-industrial-red/20 shadow-lg';
       default: return 'bg-white border-industrial-border shadow-sm-subtle';
     }
   };
@@ -48,18 +49,18 @@ export default function KPICard({
       <div className="relative z-10">
         <div className="flex items-center gap-2 mb-4">
           {Icon && (
-            <div className={`w-7 h-7 rounded-lg flex items-center justify-center ${isDark ? 'bg-white/10' : 'bg-slate-100'}`}>
-              <Icon className={`w-4 h-4 ${isDark ? 'text-white/80' : 'text-slate-600'}`} />
+            <div className={`w-7 h-7 rounded-lg flex items-center justify-center ${isDark ? 'bg-white/10' : variant === 'orange' ? 'bg-black/10' : 'bg-slate-100'}`}>
+              <Icon className={`w-4 h-4 ${isDark ? 'text-white/80' : variant === 'orange' ? 'text-black/80' : 'text-slate-600'}`} />
             </div>
           )}
-          <span className={`text-[11px] font-extrabold uppercase tracking-widest ${isDark ? 'text-white/60' : 'text-slate-500'}`}>
+          <span className={`text-[11px] font-extrabold uppercase tracking-widest ${isDark ? 'text-white/60' : variant === 'orange' ? 'text-black/60' : 'text-slate-500'}`}>
             {label}
           </span>
         </div>
         
         <div className="flex items-baseline gap-2 mb-4">
-          <span className={`text-4xl font-extrabold tracking-tight ${isDark ? 'text-white' : 'text-[#0F172A]'}`}>{value}</span>
-          {unit && <span className={`text-sm font-bold ${isDark ? 'text-white/50' : 'text-slate-400'}`}>{unit}</span>}
+          <span className={`text-4xl font-extrabold tracking-tight ${isDark ? 'text-white' : 'text-industrial-ink'}`}>{value}</span>
+          {unit && <span className={`text-sm font-bold ${isDark ? 'text-white/50' : variant === 'orange' ? 'text-black/50' : 'text-slate-400'}`}>{unit}</span>}
         </div>
         
         {(trendValue || trendLabel) && (
@@ -70,7 +71,7 @@ export default function KPICard({
                 {trendValue}
               </span>
             )}
-            {trendLabel && <span className={`text-[10px] ml-2 ${isDark ? 'text-white/50' : 'text-slate-400'}`}>{trendLabel}</span>}
+            {trendLabel && <span className={`text-[10px] ml-2 ${isDark ? 'text-white/50' : variant === 'orange' ? 'text-black/50' : 'text-slate-400'}`}>{trendLabel}</span>}
           </div>
         )}
       </div>

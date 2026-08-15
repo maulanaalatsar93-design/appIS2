@@ -56,10 +56,10 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
 
   return (
     <aside
-      className={`bg-industrial-primaryBase flex flex-col justify-between shrink-0 h-full transition-all duration-300 ease-in-out z-50 overflow-y-auto print:hidden ${
+      className={`bg-industrial-primaryBase flex flex-col justify-between shrink-0 transition-all duration-300 ease-in-out z-50 overflow-y-auto print:hidden lg:my-4 lg:ml-4 lg:rounded-2xl lg:shadow-xl ${
         isCollapsed 
-          ? 'w-0 -translate-x-full lg:translate-x-0 lg:w-20 fixed lg:static inset-y-0 left-0 opacity-0 lg:opacity-100' 
-          : 'w-full translate-x-0 lg:w-64 fixed lg:static inset-y-0 left-0 opacity-100'
+          ? 'w-0 -translate-x-full lg:translate-x-0 lg:w-20 fixed lg:relative inset-y-0 left-0 opacity-0 lg:opacity-100 h-full lg:h-[calc(100vh-2rem)]' 
+          : 'w-full translate-x-0 lg:w-64 fixed lg:relative inset-y-0 left-0 opacity-100 h-full lg:h-[calc(100vh-2rem)]'
       }`}
     >
 
@@ -75,7 +75,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
               <div className="w-10 h-10 bg-industrial-primaryAccent text-white rounded-xl flex items-center justify-center overflow-hidden shrink-0 transition-transform duration-300 hover:scale-105">
                 <img
                   alt="Logo ISTEK 2"
-                  className="w-7 h-7 object-contain brightness-0 invert"
+                  className="w-7 h-7 object-contain"
                   onError={(e) => {
                     e.target.onerror = null;
                     e.target.src = brandIconImg;
@@ -83,9 +83,9 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
                 />
               </div>
               {!isCollapsed && (
-                <div className="flex flex-col justify-center">
-                  <p className="text-white font-bold text-xs tracking-tight leading-tight">Inspeksi Teknik 2</p>
-                  <p className="text-slate-400 text-[9px] font-medium mt-0.5">Sistem Monitoring</p>
+                <div className="flex flex-col justify-center overflow-hidden">
+                  <p className="text-white font-bold text-xs tracking-tight leading-tight truncate">Inspeksi Teknik 2</p>
+                  <p className="text-industrial-muted text-[9px] font-medium mt-0.5 truncate">Sistem Monitoring</p>
                 </div>
               )}
             </div>
