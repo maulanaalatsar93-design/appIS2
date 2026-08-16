@@ -17,7 +17,7 @@ const STATUS_CONFIG = {
   'Izin': { label: 'Izin', category: 'Absen', color: 'bg-orange-100 text-orange-700 border-orange-200', dot: 'bg-orange-500', icon: Info, gradient: 'bg-gradient-to-br from-orange-50 to-orange-100/50' },
   'Sakit': { label: 'Sakit', category: 'Absen', color: 'bg-rose-100 text-rose-700 border-rose-200', dot: 'bg-rose-500', icon: Stethoscope, gradient: 'bg-gradient-to-br from-rose-50 to-rose-100/50' },
   'Referral': { label: 'Referral', category: 'Absen', color: 'bg-fuchsia-100 text-fuchsia-700 border-fuchsia-200', dot: 'bg-fuchsia-500', icon: UserCheck, gradient: 'bg-gradient-to-br from-fuchsia-50 to-fuchsia-100/50' },
-  'Alpha': { label: 'Alpha/Tanpa Keterangan', category: 'Absen', color: 'bg-slate-200 text-slate-700 border-slate-300', dot: 'bg-slate-600', icon: XCircle, gradient: 'bg-gradient-to-br from-slate-100 to-slate-200/50' },
+  'Alpha': { label: 'Alpha/Tanpa Keterangan', category: 'Hide', color: 'bg-slate-200 text-slate-700 border-slate-300', dot: 'bg-slate-600', icon: XCircle, gradient: 'bg-gradient-to-br from-slate-100 to-slate-200/50' },
   'Libur': { label: 'Libur / Off', category: 'Hide', color: 'bg-slate-100 text-slate-600 border-slate-200', dot: 'bg-slate-400', icon: Clock, gradient: 'bg-gradient-to-br from-slate-50 to-slate-100/50' },
   'Inactive': { label: 'Tidak Aktif', category: 'Hide', color: 'bg-gray-100 text-gray-500 border-gray-200', dot: 'bg-gray-400', icon: AlertCircle, gradient: 'bg-gradient-to-br from-gray-50 to-gray-100/50' },
 };
@@ -196,42 +196,39 @@ export default function ManpowerAvailabilityBoard() {
   const renderScorecard = (s) => {
     const StatusIcon = STATUS_CONFIG[s.key]?.icon || AlertCircle;
     const isActive = filters.status === s.key;
-    const dotColor = STATUS_CONFIG[s.key]?.dot || 'bg-gray-500'; 
-    const textColor = dotColor.replace('bg-', 'text-'); 
-    const bgLightColor = dotColor.replace('bg-', 'bg-').replace('500', '50');
+    const baseColor = STATUS_CONFIG[s.key]?.dot || 'bg-gray-500'; 
+    const bgColor = baseColor; // Use the 500 shade as background
     const isUtama = STATUS_CONFIG[s.key]?.category === 'Utama';
 
     return (
       <div key={s.key}
         onClick={() => handleFilterChange('status', isActive ? 'All' : s.key)}
-        className={`relative bg-white border ${isActive ? `border-gray-400 shadow-md` : 'border-gray-200 shadow-sm-subtle'} rounded-xl p-4 cursor-pointer transition-all duration-300 overflow-hidden group flex flex-col justify-between hover:shadow-md hover:border-gray-300`}
+        className={`relative ${bgColor} border ${isActive ? `border-white shadow-lg ring-2 ring-offset-2 ring-${baseColor.replace('bg-', '')}` : 'border-white/20 shadow-md'} rounded-xl p-4 cursor-pointer transition-all duration-300 overflow-hidden group flex flex-col justify-between hover:shadow-lg hover:-translate-y-0.5 text-white`}
       >
-        {/* Accent Bar at the left */}
-        <div className={`absolute top-0 left-0 bottom-0 w-1 ${dotColor} opacity-80 group-hover:opacity-100 transition-opacity`} />
-        
-        {/* Subtle Background Glow behind icon */}
-        <div className={`absolute -right-6 -top-6 w-20 h-20 rounded-full ${bgLightColor} opacity-50 transition-transform duration-500 group-hover:scale-150`} />
+        {/* Subtle Background Glow/Shape behind icon */}
+        <div className="absolute -right-4 -top-4 w-24 h-24 rounded-full bg-white/10 transition-transform duration-500 group-hover:scale-150" />
+        <div className="absolute right-4 -bottom-4 w-16 h-16 rounded-full bg-black/5 transition-transform duration-500 group-hover:scale-125" />
 
         <div className="relative z-10 flex flex-col h-full">
           {/* Header */}
           <div className="flex items-start justify-between mb-4">
              <div className="flex flex-col gap-1.5">
-               <div className={`w-8 h-8 flex items-center justify-center rounded-md ${bgLightColor} border border-white/50 shadow-sm mb-1`}>
-                 <StatusIcon className={`w-4 h-4 ${textColor}`} />
+               <div className="w-8 h-8 flex items-center justify-center rounded-md bg-white/20 border border-white/30 shadow-sm mb-1 backdrop-blur-sm">
+                 <StatusIcon className="w-4 h-4 text-white" />
                </div>
-               <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{s.label}</span>
+               <span className="text-[10px] font-bold text-white/90 uppercase tracking-widest drop-shadow-sm">{s.label}</span>
              </div>
              {isActive && (
-               <div className={`w-2 h-2 rounded-full ${dotColor} shadow-sm animate-pulse mt-1`} />
+               <div className="w-2 h-2 rounded-full bg-white shadow-sm animate-pulse mt-1" />
              )}
           </div>
           
           {/* Number */}
           <div className="flex items-baseline gap-1.5 mt-auto">
-             <span className={`text-3xl ${isUtama ? 'md:text-4xl' : 'md:text-3xl'} font-display font-black text-slate-800 tracking-tight`}>
+             <span className={`text-3xl ${isUtama ? 'md:text-4xl' : 'md:text-3xl'} font-display font-black text-white tracking-tight drop-shadow-sm`}>
                {s.count}
              </span>
-             <span className="text-xs font-semibold text-slate-400">Org</span>
+             <span className="text-xs font-bold text-white/80">Org</span>
           </div>
         </div>
       </div>
@@ -239,7 +236,7 @@ export default function ManpowerAvailabilityBoard() {
   };
 
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-6">
+    <div className="p-4 sm:p-6 w-full max-w-none space-y-6">
       {/* Header */}
       <div className="flex items-start justify-between">
         <div>
