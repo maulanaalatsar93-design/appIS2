@@ -1061,12 +1061,46 @@ export default function InternalDashboard() {
             </div>
           </div>
 
-          {/* Top Row: 3 Solid Cards (Mockup Style) */}
+          {/* Top Row: 3 Integrated Columns (Scorecard + Progress Bar) */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
 
-            {/* PM04 Card — Solid Blue */}
-            <div className="rounded-2xl overflow-hidden shadow-lg border border-blue-700 bg-[#0A337A]">
-              <div className="px-5 pt-5 pb-0">
+            {/* Column 1: Total Work Order (Semua WO) */}
+            <div className="flex flex-col gap-3">
+              <div className="bg-[#0A337A] text-white rounded-2xl shadow-lg border border-blue-800 px-5 pt-5 pb-0 relative overflow-hidden">
+                <div className="flex items-start justify-between mb-2">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full border border-white/20 bg-white/10 flex items-center justify-center backdrop-blur-sm">
+                      <FileText className="w-5 h-5 text-white/80" />
+                    </div>
+                    <div className="text-sm font-semibold text-white/80">Total Work Order</div>
+                  </div>
+                </div>
+                <div className="flex items-end gap-2 mt-6">
+                  <div className="text-[40px] font-display font-bold text-white tracking-tight leading-none">{summary?.kpi?.totalWO ? summary.kpi.totalWO.toLocaleString('id-ID') : '0'}</div>
+                  <div className="text-sm text-white/60 font-semibold mb-1">WO</div>
+                </div>
+                <div className="mt-4 h-16 w-full">
+                  <Sparkline data={summary?.sparklines?.totalWo} color="rgba(255,255,255,0.4)" height={64} strokeWidth={2} />
+                </div>
+              </div>
+              <div className="px-1">
+                <div className="flex items-center justify-between mb-2">
+                  <h4 className="text-xs font-bold text-slate-800">Progress CNF semua WO</h4>
+                  <span className="text-xs font-extrabold text-blue-700">{summary?.jobLoadDetails?.gauges?.allWOCnfRate || 0}%</span>
+                </div>
+                <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-blue-700 rounded-full transition-all duration-700"
+                    style={{ width: `${Math.min(summary?.jobLoadDetails?.gauges?.allWOCnfRate || 0, 100)}%` }}
+                  />
+                </div>
+                <p className="text-[9px] text-gray-500 text-center mt-1.5">% Persentase CNF real</p>
+              </div>
+            </div>
+
+            {/* Column 2: Total Work Order PM 04 */}
+            <div className="flex flex-col gap-3">
+              <div className="bg-gradient-to-r from-[#F97316] to-[#EA580C] text-white rounded-2xl shadow-lg border border-orange-600 px-5 pt-5 pb-0 relative overflow-hidden">
                 <div className="flex items-start justify-between mb-2">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full border border-white/20 bg-white/10 flex items-center justify-center backdrop-blur-sm">
@@ -1079,43 +1113,35 @@ export default function InternalDashboard() {
                   <div className="text-[40px] font-display font-bold text-white tracking-tight leading-none">{summary?.kpi?.pm04Count ? summary.kpi.pm04Count.toLocaleString('id-ID') : '0'}</div>
                   <div className="text-sm text-white/60 font-semibold mb-1">WO</div>
                 </div>
+                <div className="mt-4 h-16 w-full">
+                  <Sparkline data={summary?.sparklines?.pm04} color="rgba(255,255,255,0.4)" height={64} strokeWidth={2} />
+                </div>
               </div>
-              <div className="mt-4 h-16 w-full">
-                <Sparkline data={summary?.sparklines?.pm04} color="rgba(255,255,255,0.4)" height={64} strokeWidth={2} />
+              <div className="px-1">
+                <div className="flex items-center justify-between mb-2">
+                  <h4 className="text-xs font-bold text-slate-800">Progress PM04</h4>
+                  <span className="text-xs font-extrabold text-orange-600">{summary?.jobLoadDetails?.gauges?.pm04CnfRate || 0}%</span>
+                </div>
+                <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-orange-500 rounded-full transition-all duration-700"
+                    style={{ width: `${Math.min(summary?.jobLoadDetails?.gauges?.pm04CnfRate || 0, 100)}%` }}
+                  />
+                </div>
+                <p className="text-[9px] text-gray-500 text-center mt-1.5">% Persentase CNF real</p>
               </div>
             </div>
 
-            {/* Selain PM04 Card — Solid Orange */}
-            <div className="rounded-2xl overflow-hidden shadow-lg border border-orange-600 bg-gradient-to-r from-[#F97316] to-[#EA580C]">
-              <div className="px-5 pt-5 pb-0">
-                <div className="flex items-start justify-between mb-2">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full border border-white/20 bg-white/10 flex items-center justify-center backdrop-blur-sm">
-                      <FileText className="w-5 h-5 text-white/80" />
-                    </div>
-                    <div className="text-sm font-semibold text-white/80">Total Work Order Selain PM 04</div>
-                  </div>
-                </div>
-                <div className="flex items-end gap-2 mt-6">
-                  <div className="text-[40px] font-display font-bold text-white tracking-tight leading-none">{((summary?.kpi?.totalWO || 0) - (summary?.kpi?.pm04Count || 0)).toLocaleString('id-ID')}</div>
-                  <div className="text-sm text-white/60 font-semibold mb-1">WO</div>
-                </div>
-              </div>
-              <div className="mt-4 h-16 w-full">
-                <Sparkline data={summary?.sparklines?.totalWo} color="rgba(255,255,255,0.4)" height={64} strokeWidth={2} />
-              </div>
-            </div>
-
-            {/* PM02+ Card — Solid Dark Gray */}
-            <div className="rounded-2xl overflow-hidden shadow-lg border border-[#333333] bg-[#1A1C1E]">
-              <div className="px-5 pt-5 pb-0">
+            {/* Column 3: Total Work Order PM02+ */}
+            <div className="flex flex-col gap-3">
+              <div className="bg-[#1A1C1E] text-white rounded-2xl shadow-lg border border-[#333333] px-5 pt-5 pb-0 relative overflow-hidden">
                 <div className="flex items-start justify-between mb-2">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full border border-white/20 bg-white/10 flex items-center justify-center backdrop-blur-sm">
                       <button
                         onClick={() => setShowPm02PlusModal(true)}
                         className="flex items-center justify-center text-white/80 hover:text-white transition-colors cursor-pointer"
-                        title="Klik detail rincian PM01-PM10"
+                        title="Klik detail rincian PM01-PM10 (Selain PM 04)"
                       >
                         <Info className="w-5 h-5" />
                       </button>
@@ -1127,63 +1153,27 @@ export default function InternalDashboard() {
                   <div className="text-[40px] font-display font-bold text-white tracking-tight leading-none">{summary?.kpi?.pm02PlusCount ? summary.kpi.pm02PlusCount.toLocaleString('id-ID') : '0'}</div>
                   <div className="text-sm text-white/60 font-semibold mb-1">WO</div>
                 </div>
-              </div>
-              <div className="mt-4 h-16 w-full">
-                <Sparkline data={summary?.sparklines?.pm02Plus} color="rgba(255,255,255,0.2)" height={64} strokeWidth={2} />
-              </div>
-            </div>
-
-          </div>
-
-          {/* Progress Bars Row */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-6 mb-8">
-            {/* Progress PM04 */}
-            <div className="flex flex-col justify-center px-4">
-              <div className="flex items-center justify-between mb-2">
-                <h4 className="text-sm font-bold text-slate-800">Progress PM04</h4>
-                <span className="text-sm font-extrabold text-blue-700">{summary?.jobLoadDetails?.gauges?.pm04CnfRate || 0}%</span>
-              </div>
-              <div className="w-full h-2.5 bg-gray-200 rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-blue-700 rounded-full transition-all duration-700"
-                  style={{ width: `${Math.min(summary?.jobLoadDetails?.gauges?.pm04CnfRate || 0, 100)}%` }}
-                />
-              </div>
-              <p className="text-[10px] text-gray-500 text-center mt-2">% Persentase CNF real</p>
-            </div>
-
-            {/* Progress Selain PM04 */}
-            <div className="flex flex-col justify-center px-4">
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-1">
-                  <h4 className="text-sm font-bold text-slate-800">Progress Selain PM 04</h4>
-                  <Info className="w-3.5 h-3.5 text-gray-400" />
+                <div className="mt-4 h-16 w-full">
+                  <Sparkline data={summary?.sparklines?.pm02Plus} color="rgba(255,255,255,0.2)" height={64} strokeWidth={2} />
                 </div>
-                <span className="text-sm font-extrabold text-orange-600">{summary?.jobLoadDetails?.gauges?.allWOCnfRate || 0}%</span>
               </div>
-              <div className="w-full h-2.5 bg-gray-200 rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-orange-500 rounded-full transition-all duration-700"
-                  style={{ width: `${Math.min(summary?.jobLoadDetails?.gauges?.allWOCnfRate || 0, 100)}%` }}
-                />
+              <div className="px-1">
+                <div className="flex items-center justify-between mb-2">
+                  <h4 className="text-xs font-bold text-slate-800 flex items-center gap-1">
+                    Progress PM02+ <Info className="w-3 h-3 text-gray-400" />
+                  </h4>
+                  <span className="text-xs font-extrabold text-[#1A1C1E]">{summary?.jobLoadDetails?.gauges?.pm02PlusCnfRate || 0}%</span>
+                </div>
+                <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-[#1A1C1E] rounded-full transition-all duration-700"
+                    style={{ width: `${Math.min(summary?.jobLoadDetails?.gauges?.pm02PlusCnfRate || 0, 100)}%` }}
+                  />
+                </div>
+                <p className="text-[9px] text-gray-500 text-center mt-1.5">% Persentase CNF real</p>
               </div>
-              <p className="text-[10px] text-gray-500 text-center mt-2">% Persentase CNF real</p>
             </div>
 
-            {/* Progress Semua WO */}
-            <div className="flex flex-col justify-center px-4">
-              <div className="flex items-center justify-between mb-2">
-                <h4 className="text-sm font-bold text-slate-800">Progress CNF semua WO</h4>
-                <span className="text-sm font-extrabold text-[#1A1C1E]">{summary?.jobLoadDetails?.gauges?.allWOCnfRate || 0}%</span>
-              </div>
-              <div className="w-full h-2.5 bg-gray-200 rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-[#1A1C1E] rounded-full transition-all duration-700"
-                  style={{ width: `${Math.min(summary?.jobLoadDetails?.gauges?.allWOCnfRate || 0, 100)}%` }}
-                />
-              </div>
-              <p className="text-[10px] text-gray-500 text-center mt-2">% Persentase CNF real</p>
-            </div>
           </div>
           {/* Middle Row: Side-by-Side Breakdown Tables — Enterprise Blue Progress Bars */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
@@ -1286,13 +1276,13 @@ export default function InternalDashboard() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-6">
             {/* Distribusi Status WO per Bagian */}
             <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden flex flex-col">
-              <div className="px-5 py-5 bg-white border-b border-gray-100 flex items-start justify-between">
+              <div className="px-5 py-5 bg-white border-b border-gray-100 flex items-start gap-3">
+                <div className="bg-blue-50 p-2 rounded-lg">
+                  <Factory className="w-5 h-5 text-blue-700" />
+                </div>
                 <div>
                   <h4 className="text-[15px] font-bold text-[#0F172A]">Distribusi Work Order</h4>
                   <p className="text-xs text-gray-500 mt-1">(Berdasarkan status WO)</p>
-                </div>
-                <div className="bg-blue-50 p-2 rounded-lg">
-                  <Factory className="w-5 h-5 text-blue-700" />
                 </div>
               </div>
               <div className="p-5 flex-1 min-h-[280px]">
@@ -1308,13 +1298,13 @@ export default function InternalDashboard() {
 
             {/* Distribusi Tipe PM per Bagian */}
             <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden flex flex-col">
-              <div className="px-5 py-5 bg-white border-b border-gray-100 flex items-start justify-between">
+              <div className="px-5 py-5 bg-white border-b border-gray-100 flex items-start gap-3">
+                <div className="bg-blue-50 p-2 rounded-lg">
+                  <Factory className="w-5 h-5 text-blue-700" />
+                </div>
                 <div>
                   <h4 className="text-[15px] font-bold text-[#0F172A]">Distribusi Work Order</h4>
                   <p className="text-xs text-gray-500 mt-1">(Berdasarkan Tipe WO)</p>
-                </div>
-                <div className="bg-blue-50 p-2 rounded-lg">
-                  <Factory className="w-5 h-5 text-blue-700" />
                 </div>
               </div>
               <div className="p-5 flex-1 min-h-[280px]">
