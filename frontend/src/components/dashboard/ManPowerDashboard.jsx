@@ -96,13 +96,13 @@ export default function ManPowerDashboard() {
       plotOptions: { 
         pie: { 
           donut: { 
-            size: '65%',
+            size: '60%',
             labels: {
               show: true,
               name: { show: false },
               value: {
                 show: true,
-                fontSize: '26px',
+                fontSize: '28px',
                 fontWeight: 800,
                 color: '#1e293b',
                 offsetY: 8,
@@ -112,7 +112,7 @@ export default function ManPowerDashboard() {
                 show: true,
                 showAlways: true,
                 label: 'Total',
-                fontSize: '11px',
+                fontSize: '12px',
                 fontWeight: 600,
                 color: '#64748b',
                 formatter: function (w) {
@@ -123,7 +123,11 @@ export default function ManPowerDashboard() {
           } 
         } 
       },
-      dataLabels: { enabled: false },
+      dataLabels: { 
+        enabled: true, 
+        style: { fontSize: '12px', fontWeight: 'bold', colors: ['#ffffff', '#ffffff'] },
+        dropShadow: { enabled: true, top: 1, left: 1, blur: 1, color: '#000', opacity: 0.45 }
+      },
       legend: { show: false },
       stroke: { show: true, width: 3, colors: ['#ffffff'] },
       tooltip: {
@@ -135,12 +139,12 @@ export default function ManPowerDashboard() {
     return (
       <div className="bg-white border border-slate-200 rounded-xl shadow-sm p-5 flex flex-col h-full hover:shadow-md transition-shadow">
         <h3 className="text-[13px] font-bold text-slate-800 mb-4">{title}</h3>
-        <div className="flex flex-col sm:flex-row items-center flex-1 gap-5">
-          <div className="w-[180px] shrink-0">
+        <div className="flex flex-col sm:flex-row items-center flex-1 gap-6">
+          <div className="w-[220px] shrink-0">
             {total > 0 ? (
-              <Chart options={options} series={series} type="donut" width="100%" height="190" />
+              <Chart options={options} series={series} type="donut" width="100%" height="230" />
             ) : (
-              <div className="h-[180px] flex items-center justify-center text-xs text-slate-400">N/A</div>
+              <div className="h-[220px] flex items-center justify-center text-xs text-slate-400">N/A</div>
             )}
           </div>
           <div className="grid grid-cols-1 gap-2 flex-1 w-full">
