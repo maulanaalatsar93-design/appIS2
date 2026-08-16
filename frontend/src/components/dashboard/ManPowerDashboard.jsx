@@ -93,8 +93,8 @@ export default function ManPowerDashboard() {
     title: { 
       text: title, 
       align: 'left',
-      style: { color: '#ffffff', fontSize: '13px', fontWeight: 'bold' },
-      background: '#0f172a', // Dark blue header matching Job Load
+      style: { color: '#0F172A', fontSize: '13px', fontWeight: 'bold' },
+      background: 'transparent', // Dark blue header matching Job Load
       offsetX: 10,
       padding: 5
     },
@@ -196,7 +196,7 @@ export default function ManPowerDashboard() {
         {/* Charts */}
         <div className="col-span-1 lg:col-span-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div className="bg-white/80 backdrop-blur-xl rounded-[24px] shadow-xl ring-1 ring-gray-100/50 border border-white overflow-hidden pt-4 pb-2 relative flex flex-col items-center justify-center">
-            <div className="absolute top-0 left-0 right-0 bg-[#0f172a] text-ink text-xs font-bold px-4 py-2 z-10 shadow-sm flex items-center gap-2">
+            <div className="absolute top-0 left-0 right-0 bg-gradient-to-r from-[#0F2052] to-[#1A4BC4] text-white/90 shadow-md text-xs font-bold px-4 py-2 z-10 shadow-sm flex items-center gap-2">
               <span className="w-1.5 h-1.5 bg-blue-400 rounded-full"></span> Overall
             </div>
             <div className="mt-8 w-full flex justify-center">
@@ -211,7 +211,7 @@ export default function ManPowerDashboard() {
             </div>
           </div>
           <div className="bg-white/80 backdrop-blur-xl rounded-[24px] shadow-xl ring-1 ring-gray-100/50 border border-white overflow-hidden pt-4 pb-2 relative flex flex-col items-center justify-center">
-            <div className="absolute top-0 left-0 right-0 bg-[#0f172a] text-ink text-xs font-bold px-4 py-2 z-10 shadow-sm flex items-center gap-2">
+            <div className="absolute top-0 left-0 right-0 bg-gradient-to-r from-[#0F2052] to-[#1A4BC4] text-white/90 shadow-md text-xs font-bold px-4 py-2 z-10 shadow-sm flex items-center gap-2">
               <span className="w-1.5 h-1.5 bg-green-400 rounded-full"></span> TKO
             </div>
             <div className="mt-8 w-full flex justify-center">
@@ -226,7 +226,7 @@ export default function ManPowerDashboard() {
             </div>
           </div>
           <div className="bg-white/80 backdrop-blur-xl rounded-[24px] shadow-xl ring-1 ring-gray-100/50 border border-white overflow-hidden pt-4 pb-2 relative flex flex-col items-center justify-center">
-            <div className="absolute top-0 left-0 right-0 bg-[#0f172a] text-ink text-xs font-bold px-4 py-2 z-10 shadow-sm flex items-center gap-2">
+            <div className="absolute top-0 left-0 right-0 bg-gradient-to-r from-[#0F2052] to-[#1A4BC4] text-white/90 shadow-md text-xs font-bold px-4 py-2 z-10 shadow-sm flex items-center gap-2">
               <span className="w-1.5 h-1.5 bg-orange-400 rounded-full"></span> TKNO
             </div>
             <div className="mt-8 w-full flex justify-center">
@@ -244,7 +244,7 @@ export default function ManPowerDashboard() {
 
         {/* Scorecard full grid */}
         <div className="col-span-1 lg:col-span-4 bg-white/80 backdrop-blur-xl rounded-[24px] shadow-xl ring-1 ring-gray-100/50 border border-white overflow-hidden relative">
-          <div className="absolute top-0 left-0 right-0 bg-[#0f172a] text-ink text-xs font-bold px-4 py-2 z-10 shadow-sm flex justify-between items-center">
+          <div className="absolute top-0 left-0 right-0 bg-gradient-to-r from-[#0F2052] to-[#1A4BC4] text-white/90 shadow-md text-xs font-bold px-4 py-2 z-10 shadow-sm flex justify-between items-center">
             <div className="flex items-center gap-2">
               <Info className="w-4 h-4 text-blue-300" /> Rekapitulasi Kehadiran
             </div>
@@ -305,7 +305,7 @@ export default function ManPowerDashboard() {
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
         {/* Table Organik */}
         <div className="bg-white/80 backdrop-blur-xl rounded-[24px] shadow-xl ring-1 ring-gray-100/50 border border-white overflow-hidden flex flex-col">
-          <div className="bg-[#0f172a] text-ink text-sm font-bold px-5 py-3 shadow-sm">
+          <div className="bg-gradient-to-r from-[#0F2052] to-[#1A4BC4] text-white/90 shadow-md text-sm font-bold px-5 py-3 shadow-sm">
             Tenaga Kerja Organik (TKO)
           </div>
           <div className="overflow-auto max-h-[350px]">
@@ -340,7 +340,7 @@ export default function ManPowerDashboard() {
 
         {/* Table Non Organik */}
         <div className="bg-white/80 backdrop-blur-xl rounded-[24px] shadow-xl ring-1 ring-gray-100/50 border border-white overflow-hidden flex flex-col">
-          <div className="bg-[#1E293B] text-ink text-sm font-bold px-5 py-3 shadow-sm">
+          <div className="bg-gradient-to-r from-[#193B8F] to-[#2563EB] text-white/90 shadow-md text-sm font-bold px-5 py-3 shadow-sm">
             Tenaga Kerja Non Organik (TKNO)
           </div>
           <div className="overflow-auto max-h-[350px]">
@@ -375,7 +375,7 @@ export default function ManPowerDashboard() {
 
         {/* Table Ketidakhadiran */}
         <div className="bg-white/80 backdrop-blur-xl rounded-[24px] shadow-xl ring-1 ring-gray-100/50 border border-white overflow-hidden flex flex-col">
-          <div className="bg-[#EAB308] text-ink text-sm font-bold px-5 py-3 shadow-sm flex items-center gap-2">
+          <div className="bg-gradient-to-r from-[#F59E0B] to-[#D97706] text-white/90 shadow-md text-sm font-bold px-5 py-3 shadow-sm flex items-center gap-2">
             <Calendar className="w-4 h-4" /> Ketidakhadiran (Cuti, Izin, Sakit, Referral)
           </div>
           <div className="overflow-auto max-h-[350px]">
@@ -414,7 +414,7 @@ export default function ManPowerDashboard() {
 
         {/* Table Penugasan */}
         <div className="bg-white/80 backdrop-blur-xl rounded-[24px] shadow-xl ring-1 ring-gray-100/50 border border-white overflow-hidden flex flex-col">
-          <div className="bg-[#EA580C] text-ink text-sm font-bold px-5 py-3 shadow-sm flex items-center gap-2">
+          <div className="bg-gradient-to-r from-[#EA580C] to-[#C2410C] text-white/90 shadow-md text-sm font-bold px-5 py-3 shadow-sm flex items-center gap-2">
             <PlaneTakeoff className="w-4 h-4" /> Penugasan Dinas (Dalam/Luar Negeri)
           </div>
           <div className="overflow-auto max-h-[350px]">
@@ -451,4 +451,5 @@ export default function ManPowerDashboard() {
     </div>
   );
 }
+
 

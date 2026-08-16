@@ -339,7 +339,7 @@ export default function PublicDashboard({ onBack }) {
               value: summary.kpi?.totalWO || 0,
               sparklineData: summary.sparklines?.totalWo || summary.jobLoadTrend?.woSeries || [],
               isDark: true,
-              bgGradient: 'bg-[#13254F]',
+              bgGradient: 'bg-gradient-to-r from-[#0F2052] to-[#1A4BC4]',
               borderColor: 'border-[#13254F]',
               onInfoClick: () => { setPmModalMode('all'); setShowPMModal(true); }
             },
@@ -408,7 +408,7 @@ export default function PublicDashboard({ onBack }) {
 
         {/* Symmetrical Bar Chart 1: Work Order per Pabrik */}
         <div className="bg-white border border-gray-200 rounded-2xl shadow-sm-subtle overflow-hidden flex flex-col">
-          <div className="px-5 py-3.5 bg-[#13254F] text-ink">
+          <div className="px-5 py-3.5 bg-gradient-to-r from-[#0F2052] to-[#1A4BC4] text-ink">
             <h4 className="text-sm font-bold text-ink tracking-tight">Work Order per Pabrik</h4>
             <p className="text-[11px] text-ink mt-0.5">Total perbandingan WO berdasarkan area pabrik.</p>
           </div>
@@ -430,7 +430,7 @@ export default function PublicDashboard({ onBack }) {
 
         {/* Symmetrical Donut Chart 1: Distribusi Tipe Order */}
         <div className="bg-white border border-gray-200 rounded-2xl shadow-sm-subtle overflow-hidden flex flex-col">
-          <div className="px-5 py-3.5 bg-[#13254F] text-ink">
+          <div className="px-5 py-3.5 bg-gradient-to-r from-[#0F2052] to-[#1A4BC4] text-ink">
             <h4 className="text-sm font-bold text-ink tracking-tight">Distribusi Tipe Order</h4>
             <p className="text-[11px] text-ink mt-0.5">Proporsi Work Order berdasarkan tipe (PM04 vs PM02+).</p>
           </div>
@@ -755,4 +755,5 @@ export default function PublicDashboard({ onBack }) {
     </div>
   );
 }
+
 

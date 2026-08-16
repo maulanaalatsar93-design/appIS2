@@ -817,7 +817,7 @@ export default function InternalDashboard() {
 
           {/* Visualisasi & Perbandingan per Pabrik (7 Pabrik) */}
           <div className="bg-white/90 backdrop-blur-md border border-white shadow-xl ring-1 ring-gray-100/50 rounded-2xl shadow-sm-subtle overflow-hidden">
-            <div className="px-5 py-3.5 bg-[#13254F] text-ink">
+            <div className="px-5 py-3.5 bg-gradient-to-r from-[#0F2052] to-[#1A4BC4] text-ink">
               <h3 className="text-base font-bold text-ink">
                 Perbandingan Work Order vs Rekomendasi per Pabrik (P1A - P7)
               </h3>
@@ -834,7 +834,7 @@ export default function InternalDashboard() {
           {/* Rekomendasi Table di Overview */}
           <div className="bg-white/90 backdrop-blur-md border border-white shadow-xl ring-1 ring-gray-100/50 rounded-2xl shadow-sm-subtle overflow-hidden mt-6">
             <div className="flex items-center justify-between px-4 py-3 bg-emerald-700">
-              <h4 className="text-sm font-bold text-ink flex items-center gap-2">
+              <h4 className="text-sm font-bold text-white/90 flex items-center gap-2">
                 <FileText size={16} />
                 <span>Realisasi & Tindak Lanjut Rekomendasi (M04 & M07)</span>
               </h4>
@@ -894,9 +894,9 @@ export default function InternalDashboard() {
           {/* Work Order PM 02+ List (Overview) */}
           <div className="bg-white/90 backdrop-blur-md border border-white shadow-xl ring-1 ring-gray-100/50 rounded-2xl shadow-sm-subtle overflow-hidden mt-6">
             <div className="flex items-center justify-between px-4 py-3 bg-[#D9650F]">
-              <h4 className="text-sm font-bold text-ink flex items-center gap-2">
+              <h4 className="text-sm font-bold text-white/90 flex items-center gap-2">
                 <span>Work Order PM 02+</span>
-                <span className="text-[10px] bg-white/20 text-ink font-semibold px-2.5 py-0.5 rounded-full">Corrective &amp; Other</span>
+                <span className="text-[10px] bg-white/20 text-white/90 font-semibold px-2.5 py-0.5 rounded-full">Corrective &amp; Other</span>
               </h4>
               <label className="flex items-center gap-2 text-ink text-xs font-semibold cursor-pointer hover:bg-white/10 px-2 py-1 rounded transition-colors">
                 <input
@@ -1065,7 +1065,7 @@ export default function InternalDashboard() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
 
             {/* SEMUA PM Card — Dark Navy */}
-            <div className="rounded-xl overflow-hidden shadow-lg border border-[#0A1B3F]/20 bg-[#13254F]">
+            <div className="rounded-xl overflow-hidden shadow-lg border border-[#0A1B3F]/20 bg-gradient-to-r from-[#0F2052] to-[#1A4BC4]">
               <div className="px-5 pt-5 pb-0">
                 <div className="flex items-start justify-between mb-1">
                   <div>
@@ -1235,11 +1235,11 @@ export default function InternalDashboard() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
             {/* Progress PM04 Table */}
             <div className="bg-white/90 backdrop-blur-md border border-white shadow-xl ring-1 ring-gray-100/50 rounded-2xl shadow-sm-subtle overflow-hidden">
-              <div className="flex items-center justify-between px-4 py-3 bg-[#13254F]">
-                <h4 className="text-sm font-bold text-ink flex items-center gap-2">
+              <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-[#0F2052] to-[#1A4BC4]">
+                <h4 className="text-sm font-bold text-white/90 flex items-center gap-2">
                   <span>Progress PM04 (Per Bagian)</span>
                 </h4>
-                <span className="text-[10px] bg-white/20 text-ink font-semibold px-2.5 py-0.5 rounded-full">Predictive</span>
+                <span className="text-[10px] bg-white/20 text-white/90 font-semibold px-2.5 py-0.5 rounded-full">Predictive</span>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full text-xs text-left">
@@ -1279,10 +1279,10 @@ export default function InternalDashboard() {
             {/* Progress PM02+ Table */}
             <div className="bg-white/90 backdrop-blur-md border border-white shadow-xl ring-1 ring-gray-100/50 rounded-2xl shadow-sm-subtle overflow-hidden">
               <div className="flex items-center justify-between px-4 py-3 bg-[#D9650F]">
-                <h4 className="text-sm font-bold text-ink flex items-center gap-2">
+                <h4 className="text-sm font-bold text-white/90 flex items-center gap-2">
                   <span>Progress PM02+ (Per Bagian)</span>
                 </h4>
-                <span className="text-[10px] bg-white/20 text-ink font-semibold px-2.5 py-0.5 rounded-full">Corrective &amp; Other</span>
+                <span className="text-[10px] bg-white/20 text-white/90 font-semibold px-2.5 py-0.5 rounded-full">Corrective &amp; Other</span>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full text-xs text-left">
@@ -1326,7 +1326,7 @@ export default function InternalDashboard() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-6">
             {/* Distribusi Status WO per Bagian */}
             <div className="bg-white/90 backdrop-blur-md border border-white shadow-xl ring-1 ring-gray-100/50 rounded-2xl shadow-sm-subtle overflow-hidden flex flex-col">
-              <div className="px-5 py-3.5 bg-[#13254F] text-ink">
+              <div className="px-5 py-3.5 bg-gradient-to-r from-[#0F2052] to-[#1A4BC4] text-ink">
                 <h4 className="text-sm font-bold text-ink tracking-tight">Distribusi Work Order (Berdasarkan Status WO)</h4>
                 <p className="text-[11px] text-ink mt-0.5">Perbandingan jumlah WO per status (CNF TECO, CNF REL, TECO, CRTD, REL) di tiap bagian.</p>
               </div>
@@ -2117,5 +2117,6 @@ export default function InternalDashboard() {
     </div>
   );
 }
+
 
 
