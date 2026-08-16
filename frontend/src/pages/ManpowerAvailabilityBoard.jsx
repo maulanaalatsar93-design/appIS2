@@ -195,21 +195,44 @@ export default function ManpowerAvailabilityBoard() {
 
   const renderScorecard = (s) => {
     const StatusIcon = STATUS_CONFIG[s.key]?.icon || AlertCircle;
-    const gradient = STATUS_CONFIG[s.key]?.gradient || 'bg-white';
+    const isActive = filters.status === s.key;
+    const dotColor = STATUS_CONFIG[s.key]?.dot || 'bg-gray-500'; 
+    const textColor = dotColor.replace('bg-', 'text-'); 
+    const bgLightColor = dotColor.replace('bg-', 'bg-').replace('500', '50');
+    const isUtama = STATUS_CONFIG[s.key]?.category === 'Utama';
+
     return (
       <div key={s.key}
-        onClick={() => handleFilterChange('status', filters.status === s.key ? 'All' : s.key)}
-        className={`${gradient} border rounded-xl p-3.5 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ${filters.status === s.key ? 'ring-2 ring-industrial-blue shadow-md border-transparent' : 'border-industrial-border/60 shadow-sm-subtle'}`}
+        onClick={() => handleFilterChange('status', isActive ? 'All' : s.key)}
+        className={`relative bg-white border ${isActive ? `border-gray-400 shadow-md` : 'border-gray-200 shadow-sm-subtle'} rounded-xl p-4 cursor-pointer transition-all duration-300 overflow-hidden group flex flex-col justify-between hover:shadow-md hover:border-gray-300`}
       >
-        <div className="flex items-center justify-between mb-3">
-          <div className={`p-1.5 rounded-lg ${STATUS_CONFIG[s.key]?.color.split(' ')[0] || 'bg-slate-100'}`}>
-            <StatusIcon className={`w-4 h-4 ${STATUS_CONFIG[s.key]?.color.split(' ')[1] || 'text-slate-500'}`} />
+        {/* Accent Bar at the left */}
+        <div className={`absolute top-0 left-0 bottom-0 w-1 ${dotColor} opacity-80 group-hover:opacity-100 transition-opacity`} />
+        
+        {/* Subtle Background Glow behind icon */}
+        <div className={`absolute -right-6 -top-6 w-20 h-20 rounded-full ${bgLightColor} opacity-50 transition-transform duration-500 group-hover:scale-150`} />
+
+        <div className="relative z-10 flex flex-col h-full">
+          {/* Header */}
+          <div className="flex items-start justify-between mb-4">
+             <div className="flex flex-col gap-1.5">
+               <div className={`w-8 h-8 flex items-center justify-center rounded-md ${bgLightColor} border border-white/50 shadow-sm mb-1`}>
+                 <StatusIcon className={`w-4 h-4 ${textColor}`} />
+               </div>
+               <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{s.label}</span>
+             </div>
+             {isActive && (
+               <div className={`w-2 h-2 rounded-full ${dotColor} shadow-sm animate-pulse mt-1`} />
+             )}
           </div>
-          <span className="text-2xl font-display font-black text-ink tracking-tight">{s.count}</span>
-        </div>
-        <div className="flex items-center space-x-1.5">
-          <div className={`w-2 h-2 rounded-full ${s.dot} shadow-sm`} />
-          <p className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">{s.label}</p>
+          
+          {/* Number */}
+          <div className="flex items-baseline gap-1.5 mt-auto">
+             <span className={`text-3xl ${isUtama ? 'md:text-4xl' : 'md:text-3xl'} font-display font-black text-slate-800 tracking-tight`}>
+               {s.count}
+             </span>
+             <span className="text-xs font-semibold text-slate-400">Org</span>
+          </div>
         </div>
       </div>
     );

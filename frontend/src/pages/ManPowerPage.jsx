@@ -6,7 +6,6 @@ import {
 import AbsensiCalendar from '../components/attendance/AbsensiCalendar';
 import RekapIzinView from '../components/attendance/RekapIzinView';
 import ManpowerAvailabilityBoard from './ManpowerAvailabilityBoard';
-import ManpowerScorecardGroup from '../components/ui/ManpowerScorecardGroup';
 import { MOCK_STATUSES, INDONESIA_HOLIDAYS } from '../constants/holidays';
 import { AuthContext } from '../context/AuthContext';
 import logoImg from '../assets/logo.png';
@@ -367,7 +366,20 @@ export default function ManPowerPage({ initialView = 'availability' }) {
         </div>
 
         {/* KPI Cards */}
-        <ManpowerScorecardGroup employees={employees} attendanceChanges={attendanceChanges} />
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="bg-white rounded-lg p-4 border border-gray-200 shadow-sm-subtle">
+            <div className="text-xs text-gray-500 font-medium mb-1">Total Personel</div>
+            <div className="text-2xl font-display font-bold text-ink">{employees.length} Personil</div>
+          </div>
+          <div className="bg-white rounded-lg p-4 border border-gray-200 shadow-sm-subtle">
+            <div className="text-xs text-gray-500 font-medium mb-1">Catatan Aktif / Akan Datang</div>
+            <div className="text-2xl font-display font-bold text-industrial-blue">{activeOrUpcomingCount} Catatan</div>
+          </div>
+          <div className="bg-white rounded-lg p-4 border border-gray-200 shadow-sm-subtle">
+            <div className="text-xs text-gray-500 font-medium mb-1">Total Riwayat Presensi</div>
+            <div className="text-2xl font-display font-bold text-ink">{attendanceChanges.length} Riwayat</div>
+          </div>
+        </div>
 
         {/* Main Table / Calendar Container */}
         <div className="bg-white rounded-lg border border-gray-200 shadow-sm-subtle overflow-hidden">
