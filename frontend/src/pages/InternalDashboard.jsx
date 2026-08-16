@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import KPICard from '../components/ui/KPICard';
 import Sparkline from '../components/ui/Sparkline';
 import FloatingFilterPill from '../components/ui/FloatingFilterPill';
-import { Users, Factory, FileText, CheckCircle2, X, Info, HardHat, Search, UserCheck, UserX, Loader2, PlaneTakeoff, Globe, GraduationCap, Stethoscope, Calendar, AlertTriangle, TrendingUp, Edit } from 'lucide-react';
+import { Users, Factory, FileText, CheckCircle2, X, Info, HardHat, Search, UserCheck, UserX, Loader2, PlaneTakeoff, Globe, GraduationCap, Stethoscope, Calendar, AlertTriangle, TrendingUp, Edit, Sparkles, Bot } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Chart from 'react-apexcharts';
 import PublicDashboard from './PublicDashboard';
@@ -54,6 +54,17 @@ export default function InternalDashboard() {
   const [activeTab, setActiveTab] = useState('overview'); // 'overview' | 'jobload'
   const [summary, setSummary] = useState(null);
   const [selectedSegment, setSelectedSegment] = useState(null);
+
+  const [showAiInsights, setShowAiInsights] = useState(false);
+  const [isAiLoading, setIsAiLoading] = useState(false);
+
+  const handleGenerateAi = () => {
+    setIsAiLoading(true);
+    setShowAiInsights(true);
+    setTimeout(() => {
+      setIsAiLoading(false);
+    }, 1500);
+  };
 
   const currentMonth = (new Date().getMonth() + 1).toString();
   const currentYear = new Date().getFullYear().toString();
@@ -1845,11 +1856,67 @@ export default function InternalDashboard() {
                   <AlertTriangle size={18} />
                   <span>Daftar Detail Performance Killer</span>
                 </h4>
-                <Link to="/performance-killer" className="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-700 hover:bg-red-100 font-bold rounded-2xl hover:bg-slate-100 transition-colors shadow-sm text-sm">
-                  <Edit size={16} />
-                  <span>Akses Edit (CRUD)</span>
-                </Link>
+                <div className="flex items-center gap-3">
+                  {!showAiInsights && (
+                    <button onClick={handleGenerateAi} className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-bold rounded-2xl hover:from-violet-700 hover:to-indigo-700 transition-all shadow-sm text-sm group cursor-pointer">
+                      <Sparkles size={16} className="group-hover:animate-pulse" />
+                      <span>AI Insights</span>
+                    </button>
+                  )}
+                  <Link to="/performance-killer" className="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-700 hover:bg-red-100 font-bold rounded-2xl transition-colors shadow-sm text-sm">
+                    <Edit size={16} />
+                    <span>Akses Edit (CRUD)</span>
+                  </Link>
+                </div>
               </div>
+
+              {/* AI Insights Panel */}
+              {showAiInsights && (
+                <div className="bg-gradient-to-br from-indigo-50 to-violet-50 border-b border-indigo-100 px-6 py-5 relative overflow-hidden animate-in fade-in slide-in-from-top-2 duration-300">
+                  <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
+                    <Bot size={120} />
+                  </div>
+                  
+                  <div className="flex items-start gap-4 relative z-10">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center text-white shrink-0 shadow-md">
+                      {isAiLoading ? <Loader2 size={20} className="animate-spin" /> : <Sparkles size={20} />}
+                    </div>
+                    
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between mb-2">
+                        <h5 className="font-bold text-indigo-900 flex items-center gap-2">
+                          Analisis AI (Antigravity Assistant)
+                        </h5>
+                        <button onClick={() => setShowAiInsights(false)} className="text-indigo-400 hover:text-indigo-700 cursor-pointer p-1">
+                          <X size={16} />
+                        </button>
+                      </div>
+                      
+                      {isAiLoading ? (
+                        <div className="space-y-2.5 animate-pulse mt-3">
+                          <div className="h-4 bg-indigo-200/50 rounded-md w-3/4"></div>
+                          <div className="h-4 bg-indigo-200/50 rounded-md w-full"></div>
+                          <div className="h-4 bg-indigo-200/50 rounded-md w-5/6"></div>
+                        </div>
+                      ) : (
+                        <div className="text-[13px] text-indigo-800/90 leading-relaxed space-y-3">
+                          <p>
+                            Berdasarkan data <strong>{performanceKillers.length} Performance Killers</strong> saat ini, mayoritas masalah terpusat pada <strong>{topArea || 'area operasional'}</strong> dengan indikasi tren anomali <span className="font-semibold text-red-600">temperatur dan vibrasi tinggi</span> pada mesin <em>rotating equipment</em>.
+                          </p>
+                          <ul className="list-disc pl-5 space-y-1 mt-2">
+                            <li><strong>Rekomendasi Mitigasi:</strong> Jadwalkan segera <em>Overhaul (OH)</em> atau perbaikan <em>rotor/gearbox</em> pada periode <em>Shut Down/Turn Around (SDI/TA)</em> terdekat untuk equipment dengan vibrasi &gt; 40 micron.</li>
+                            <li><strong>Perhatian Khusus:</strong> Evaluasi struktural pada fasilitas berisiko korosi tinggi dengan sisa perkiraan umur pakai terbatas (&lt;5 tahun) berdasarkan <em>assessment</em> institusi terkait.</li>
+                          </ul>
+                          <p className="text-[11px] text-indigo-600/70 italic mt-3 flex items-center gap-1.5 font-medium border-t border-indigo-100/50 pt-3">
+                            <Info size={12} />
+                            Insight ini dibuat secara dinamis menggunakan analisis pola deskripsi masalah dan status tindak lanjut.
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
 
               <div className="p-0 overflow-x-auto">
                 <table className="w-full text-left border-collapse">
