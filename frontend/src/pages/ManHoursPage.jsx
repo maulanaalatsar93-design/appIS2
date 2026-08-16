@@ -10,18 +10,40 @@ import { AuthContext } from '../context/AuthContext';
 const MONTH_NAMES = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
 const SOURCE_LABELS = { DailyTask: 'Daily Task', PdmActivity: 'PdM Rotating', all: 'Semua Sumber' };
 
-function KpiCard({ icon: Icon, label, value, sub, color, unit = 'jam' }) {
+import Sparkline from '../components/ui/Sparkline';
+
+function KpiCard({ icon: Icon, label, value, sub, bgGradient, sparklineColor, unit = 'jam' }) {
+  const sparkData = [20, 25, 22, 30, 28, 35, 40, 38, 45, 50, 48];
   return (
-    <div className={`bg-white rounded-2xl border ${color} p-4 flex items-start gap-3 shadow-sm`}>
-      <div className={`p-2.5 rounded-xl ${color.replace('border-', 'bg-').replace('-200', '-100')}`}>
-        <Icon className={`w-5 h-5 ${color.replace('border-', 'text-').replace('-200', '-600')}`} />
+    <div className={`p-5 rounded-2xl flex flex-col justify-between relative overflow-hidden transition-all duration-300 shadow-md ${bgGradient} hover:-translate-y-1 hover:shadow-xl text-white min-h-[140px]`}>
+      {/* Background Accents */}
+      <div className="absolute -right-6 -top-6 w-24 h-24 rounded-full bg-white/10 blur-xl transition-transform duration-500 hover:scale-150" />
+      <div className="absolute right-0 -bottom-4 w-32 h-16 bg-white/5 blur-2xl transition-transform duration-500 hover:scale-125" />
+
+      <div className="relative z-10 flex flex-col h-full">
+        <div className="flex items-center gap-3 mb-2">
+          <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center shadow-inner backdrop-blur-md border border-white/20">
+            <Icon className="w-5 h-5 text-white drop-shadow-sm" />
+          </div>
+          <div className="flex flex-col">
+            <span className="text-sm font-medium text-white/90 drop-shadow-sm leading-tight">{label}</span>
+          </div>
+        </div>
+        
+        <div className="mt-auto mb-6 flex flex-col">
+          <div className="flex items-baseline gap-1.5">
+            <span className="text-3xl md:text-4xl font-display font-bold text-white tracking-tight drop-shadow-md leading-none">
+              {value}
+            </span>
+            <span className="text-xs font-semibold text-white/80">{unit}</span>
+          </div>
+          {sub && <span className="text-[10px] font-medium text-white/60 mt-1">{sub}</span>}
+        </div>
       </div>
-      <div className="min-w-0">
-        <p className="text-xs text-gray-500 font-medium">{label}</p>
-        <p className={`text-2xl font-bold ${color.replace('border-', 'text-').replace('-200', '-700')}`}>
-          {value} <span className="text-sm font-normal text-gray-400">{unit}</span>
-        </p>
-        {sub && <p className="text-[10px] text-gray-400 mt-0.5">{sub}</p>}
+
+      {/* Sparkline implementation at bottom */}
+      <div className="absolute bottom-0 left-0 right-0 h-12 opacity-80 z-0 pointer-events-none">
+        <Sparkline data={sparkData} color={sparklineColor} strokeWidth={2.5} fillOpacity={0.15} />
       </div>
     </div>
   );
@@ -32,8 +54,8 @@ function SortIcon({ field, sortBy, sortDir }) {
   return sortDir === 'asc' ? <ChevronUp className="w-3 h-3 ml-1 inline text-navy-600" /> : <ChevronDown className="w-3 h-3 ml-1 inline text-navy-600" />;
 }
 
-// Inline edit jam untuk personil
-function InlineTimeEditor({ row, onSave, onCancel, isSaving }) {
+// Edit jam pop-out modal
+function EditTimeModal({ row, onSave, onCancel, isSaving }) {
   const getTimeStr = (iso) => {
     if (!iso) return '';
     const d = new Date(iso);
@@ -61,39 +83,61 @@ function InlineTimeEditor({ row, onSave, onCancel, isSaving }) {
   if (!rowId) return null;
 
   return (
-    <tr className="bg-green-50 border-b border-green-100">
-      <td colSpan={12} className="px-4 py-3">
-        <div className="flex items-center gap-3 flex-wrap">
-          <span className="text-xs font-semibold text-gray-600">Edit Jam Kerja:</span>
-          <div className="flex items-center gap-1.5">
-            <label className="text-xs text-gray-500">Mulai</label>
-            <input type="time" value={mulai} onChange={e => setMulai(e.target.value)}
-              className="text-sm border border-gray-300 rounded px-2 py-1 focus:ring-1 focus:ring-green-400 focus:outline-none" />
+    <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+      <div className="bg-white rounded-xl shadow-2xl w-full max-w-md overflow-hidden">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+          <h2 className="text-lg font-bold text-gray-800 flex items-center gap-2">
+            <Clock className="w-5 h-5 text-blue-600" /> Edit Jam Kerja
+          </h2>
+          <button onClick={onCancel} className="text-gray-400 hover:text-gray-600 transition">
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+        <div className="p-5 space-y-4 bg-gray-50/50">
+          <div>
+            <p className="text-sm font-semibold text-gray-700">{row.task_code}</p>
+            <p className="text-xs text-gray-500 mt-1 line-clamp-2">{row.deskripsi}</p>
           </div>
-          <div className="flex items-center gap-1.5">
-            <label className="text-xs text-gray-500">Selesai</label>
-            <input type="time" value={selesai} onChange={e => setSelesai(e.target.value)}
-              className="text-sm border border-gray-300 rounded px-2 py-1 focus:ring-1 focus:ring-green-400 focus:outline-none" />
+          
+          <div className="grid grid-cols-2 gap-4 mt-4">
+            <div>
+              <label className="block text-xs font-semibold text-gray-600 mb-1">Jam Mulai</label>
+              <input type="time" value={mulai} onChange={e => setMulai(e.target.value)}
+                className="w-full text-sm border border-gray-300 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition shadow-sm" />
+            </div>
+            <div>
+              <label className="block text-xs font-semibold text-gray-600 mb-1">Jam Selesai</label>
+              <input type="time" value={selesai} onChange={e => setSelesai(e.target.value)}
+                className="w-full text-sm border border-gray-300 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition shadow-sm" />
+            </div>
           </div>
+          
           {mulai && selesai && hitungMH() && (
-            <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full font-medium">
-              ⏱ {hitungMH()} jam
-            </span>
+            <div className="bg-blue-50 border border-blue-100 text-blue-800 px-4 py-3 rounded-lg text-sm flex items-center justify-between mt-2 shadow-sm">
+              <span className="font-medium">Total Man Hours:</span>
+              <span className="font-bold text-lg">{hitungMH()} <span className="text-sm font-normal">jam</span></span>
+            </div>
           )}
+        </div>
+        <div className="px-5 py-4 border-t border-gray-100 flex gap-3 bg-white">
+          <button onClick={onCancel}
+            className="flex-1 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-semibold hover:bg-gray-200 transition">
+            Batal
+          </button>
           <button
             onClick={() => onSave(rowId, tanggal, mulai, selesai)}
             disabled={isSaving || !mulai || !selesai}
-            className="flex items-center gap-1 px-3 py-1.5 bg-green-600 text-ink rounded-lg text-xs font-semibold hover:bg-green-700 disabled:opacity-50 transition"
+            className="flex-1 py-2 bg-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-blue-700 disabled:opacity-50 transition flex items-center justify-center gap-2 shadow-md hover:shadow-lg"
           >
-            <Check className="w-3.5 h-3.5" /> {isSaving ? 'Menyimpan...' : 'Simpan'}
-          </button>
-          <button onClick={onCancel}
-            className="flex items-center gap-1 px-3 py-1.5 bg-gray-100 text-gray-600 rounded-lg text-xs font-semibold hover:bg-gray-200 transition">
-            <X className="w-3.5 h-3.5" /> Batal
+            {isSaving ? (
+              <>Menyimpan...</>
+            ) : (
+              <><Check className="w-4 h-4" /> Simpan</>
+            )}
           </button>
         </div>
-      </td>
-    </tr>
+      </div>
+    </div>
   );
 }
 
@@ -526,11 +570,11 @@ export default function ManHoursPage() {
       )}
 
       {/* ── KPI Cards ── */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <KpiCard icon={Clock} label="Total MH Hari Ini" value={summary?.totals?.today ?? '—'} sub="Dari semua task aktif" color="border-blue-200" />
-        <KpiCard icon={TrendingUp} label={`Total MH ${MONTH_NAMES[month-1]}`} value={summary?.totals?.month ?? '—'} sub={`${filtered.length} aktivitas tercatat`} color="border-indigo-200" />
-        <KpiCard icon={Users} label="Personel Aktif" value={summary?.by_personel?.length ?? '—'} unit="orang" sub="Memiliki aktivitas bulan ini" color="border-green-200" />
-        <KpiCard icon={MapPin} label="Total MH Filtered" value={totalMhFiltered} sub={`${filtered.length} baris data`} color="border-amber-200" />
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <KpiCard icon={Clock} label="Total MH Hari Ini" value={summary?.totals?.today ?? '—'} sub="Dari semua task aktif" bgGradient="bg-gradient-to-br from-blue-700 to-blue-900" sparklineColor="#60a5fa" />
+        <KpiCard icon={TrendingUp} label={`Total MH ${MONTH_NAMES[month-1]}`} value={summary?.totals?.month ?? '—'} sub={`${filtered.length} aktivitas tercatat`} bgGradient="bg-gradient-to-br from-orange-500 to-orange-600" sparklineColor="#fdba74" />
+        <KpiCard icon={Users} label="Personel Aktif" value={summary?.by_personel?.length ?? '—'} unit="orang" sub="Memiliki aktivitas bulan ini" bgGradient="bg-gradient-to-br from-slate-800 to-slate-900" sparklineColor="#94a3b8" />
+        <KpiCard icon={MapPin} label="Total MH Filtered" value={totalMhFiltered} sub={`${filtered.length} baris data`} bgGradient="bg-gradient-to-br from-emerald-600 to-emerald-800" sparklineColor="#6ee7b7" />
       </div>
 
       {/* ── Charts (hanya admin) ── */}
@@ -713,14 +757,6 @@ export default function ManHoursPage() {
                       </div>
                     </td>
                   </tr>
-                  {editingRowId === row.id && (
-                    <InlineTimeEditor
-                      row={row}
-                      onSave={handleInlineSave}
-                      onCancel={() => setEditingRowId(null)}
-                      isSaving={editSaving}
-                    />
-                  )}
                 </React.Fragment>
               ))}
             </tbody>
@@ -785,6 +821,16 @@ export default function ManHoursPage() {
             </div>
           </div>
         </div>
+      )}
+
+      {/* ── Edit Time Modal ── */}
+      {editingRowId && (
+        <EditTimeModal
+          row={filtered.find(r => r.id === editingRowId) || rows.find(r => r.id === editingRowId)}
+          onSave={handleInlineSave}
+          onCancel={() => setEditingRowId(null)}
+          isSaving={editSaving}
+        />
       )}
     </div>
   );
