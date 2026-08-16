@@ -591,7 +591,7 @@ export default function InternalDashboard() {
             <button
               onClick={() => setActiveTab('overview')}
               className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-300 ${activeTab === 'overview'
-                ? 'bg-gradient-to-br from-emerald-500 to-emerald-700 text-white shadow-md'
+                ? 'bg-gradient-to-br from-[#193B8F] to-[#0A1B3F] text-white shadow-md'
                 : 'text-gray-500 hover:text-[#193B8F] hover:bg-gray-50'
                 }`}
             >
@@ -600,7 +600,7 @@ export default function InternalDashboard() {
             <button
               onClick={() => setActiveTab('jobload')}
               className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-300 ${activeTab === 'jobload'
-                ? 'bg-gradient-to-br from-emerald-500 to-emerald-700 text-white shadow-md'
+                ? 'bg-gradient-to-br from-[#193B8F] to-[#0A1B3F] text-white shadow-md'
                 : 'text-gray-500 hover:text-[#193B8F] hover:bg-gray-50'
                 }`}
             >
@@ -609,7 +609,7 @@ export default function InternalDashboard() {
             <button
               onClick={() => setActiveTab('performance_killer')}
               className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-300 ${activeTab === 'performance_killer'
-                ? 'bg-gradient-to-br from-emerald-500 to-emerald-700 text-white shadow-md'
+                ? 'bg-gradient-to-br from-[#193B8F] to-[#0A1B3F] text-white shadow-md'
                 : 'text-gray-500 hover:text-[#193B8F] hover:bg-gray-50'
                 }`}
             >
@@ -618,7 +618,7 @@ export default function InternalDashboard() {
             <button
               onClick={() => setActiveTab('man_power')}
               className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-300 ${activeTab === 'man_power'
-                ? 'bg-gradient-to-br from-emerald-500 to-emerald-700 text-white shadow-md'
+                ? 'bg-gradient-to-br from-[#193B8F] to-[#0A1B3F] text-white shadow-md'
                 : 'text-gray-500 hover:text-[#193B8F] hover:bg-gray-50'
                 }`}
             >
