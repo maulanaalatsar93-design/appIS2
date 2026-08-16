@@ -190,10 +190,10 @@ export default function InternalDashboard() {
     );
   }
 
-  // Factory Comparison Grouped Bar Chart options
-  const factoryChartOptions = {
+  // 12-Month Trend Line Chart options
+  const trendChartOptions = {
     chart: {
-      type: 'bar',
+      type: 'line',
       toolbar: { show: false },
       fontFamily: 'Plus Jakarta Sans, sans-serif',
       events: {
@@ -202,11 +202,11 @@ export default function InternalDashboard() {
           const dataIdx = config.dataPointIndex;
           if (seriesIdx === undefined || dataIdx === undefined || seriesIdx < 0 || dataIdx < 0) return;
 
-          const categories = summary?.factoryComparison?.categories || ['P1A', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7'];
-          const woData = summary?.factoryComparison?.woData || [];
-          const rekData = summary?.factoryComparison?.rekData || [];
+          const categories = summary?.jobLoadTrend?.categories || ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'];
+          const woData = summary?.jobLoadTrend?.woSeries || [];
+          const rekData = summary?.jobLoadTrend?.rekSeries || [];
 
-          const factory = categories[dataIdx] || 'Pabrik';
+          const month = categories[dataIdx] || 'Bulan';
           const seriesName = seriesIdx === 0 ? 'Work Orders' : 'Rekomendasi';
           const valWO = woData[dataIdx] || 0;
           const valRek = rekData[dataIdx] || 0;
@@ -214,9 +214,9 @@ export default function InternalDashboard() {
           const totalCategory = valWO + valRek;
 
           setSelectedSegment({
-            chartType: 'factory',
-            title: `Perbandingan Pabrik - ${factory}`,
-            category: factory,
+            chartType: 'trend',
+            title: `Tren 12 Bulan - ${month}`,
+            category: month,
             seriesName: seriesName,
             value: val,
             totalCategory: totalCategory,
@@ -229,19 +229,17 @@ export default function InternalDashboard() {
         }
       }
     },
-    plotOptions: { bar: { horizontal: false, columnWidth: '55%', borderRadius: 4 } },
-    dataLabels: { enabled: false },
-    stroke: { show: true, width: 2, colors: ['transparent'] },
+    stroke: { curve: 'smooth', width: 3 },
     colors: ['#193B8F', '#168477'],
-    xaxis: { categories: summary?.factoryComparison?.categories || ['P1A', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7'] },
-    fill: { opacity: 1 },
+    xaxis: { categories: summary?.jobLoadTrend?.categories || ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'] },
+    markers: { size: 4, hover: { size: 6 } },
     legend: { position: 'top', horizontalAlign: 'right' },
     tooltip: { shared: true, intersect: false },
   };
 
-  const factoryChartSeries = [
-    { name: 'Work Orders', data: summary?.factoryComparison?.woData || [0, 0, 0, 0, 0, 0, 0] },
-    { name: 'Rekomendasi', data: summary?.factoryComparison?.rekData || [0, 0, 0, 0, 0, 0, 0] },
+  const trendChartSeries = [
+    { name: 'Work Orders', data: summary?.jobLoadTrend?.woSeries || [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
+    { name: 'Rekomendasi', data: summary?.jobLoadTrend?.rekSeries || [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
   ];
 
   // Helper for Semi-Circle Radial Gauge Chart (for dark cards)
@@ -826,19 +824,19 @@ export default function InternalDashboard() {
             />
           </div>
 
-          {/* Visualisasi & Perbandingan per Pabrik (7 Pabrik) */}
+          {/* Visualisasi Tren WO vs Rekomendasi (12 Bulan) */}
           <div className="bg-white/90 backdrop-blur-md border border-white shadow-xl ring-1 ring-gray-100/50 rounded-2xl shadow-sm-subtle overflow-hidden">
             <div className="px-5 py-4 bg-white border-b border-gray-100 rounded-t-2xl">
               <h3 className="text-base font-bold text-slate-800">
-                Perbandingan Work Order vs Rekomendasi per Pabrik (P1A - P7)
+                Tren Work Order vs Rekomendasi (12 Bulan)
               </h3>
               <p className="text-xs text-gray-500 mt-0.5">
-                Analisis komparatif beban pekerjaan dan notifikasi rekomendasi inspeksi pada 7 unit pabrik.
+                Analisis tren historis beban pekerjaan dan notifikasi rekomendasi inspeksi selama satu tahun terakhir.
               </p>
             </div>
 
             <div className="p-6 min-h-[320px]">
-              <Chart options={factoryChartOptions} series={factoryChartSeries} type="bar" width="100%" height="320" />
+              <Chart options={trendChartOptions} series={trendChartSeries} type="line" width="100%" height="320" />
             </div>
           </div>
 
