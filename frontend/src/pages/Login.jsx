@@ -13,6 +13,17 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [focusedField, setFocusedField] = useState(null);
+  const [rememberMe, setRememberMe] = useState(false);
+
+  useEffect(() => {
+    const savedNpk = localStorage.getItem('istek_saved_npk');
+    const savedPassword = localStorage.getItem('istek_saved_password');
+    if (savedNpk && savedPassword) {
+      setNpk(savedNpk);
+      setPassword(savedPassword);
+      setRememberMe(true);
+    }
+  }, []);
 
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -35,6 +46,15 @@ export default function Login() {
         } else {
           playSuccessSound();
         }
+        
+        if (rememberMe) {
+          localStorage.setItem('istek_saved_npk', npk);
+          localStorage.setItem('istek_saved_password', password);
+        } else {
+          localStorage.removeItem('istek_saved_npk');
+          localStorage.removeItem('istek_saved_password');
+        }
+
         login(data.token, data.user);
         navigate('/');
       } else {
@@ -245,8 +265,20 @@ export default function Login() {
 
               <div className="flex items-center justify-between pt-2">
                 <label className="flex items-center gap-3 cursor-pointer group">
-                  <div className="w-5 h-5 rounded-md border-2 border-gray-300 group-hover:border-navy-600 flex items-center justify-center transition-colors bg-white">
-                    <div className="w-2.5 h-2.5 rounded-[2px] bg-transparent group-active:bg-navy-600" />
+                  <div className="relative flex items-center justify-center">
+                    <input 
+                      type="checkbox" 
+                      className="sr-only" 
+                      checked={rememberMe}
+                      onChange={(e) => setRememberMe(e.target.checked)}
+                    />
+                    <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition-colors ${rememberMe ? 'bg-navy-600 border-navy-600' : 'bg-white border-gray-300 group-hover:border-navy-600'}`}>
+                      {rememberMe && (
+                        <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                      )}
+                    </div>
                   </div>
                   <span className="text-sm font-semibold text-gray-600 group-hover:text-ink transition-colors">Ingat saya</span>
                 </label>
