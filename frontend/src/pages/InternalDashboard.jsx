@@ -1061,214 +1061,208 @@ export default function InternalDashboard() {
             </div>
           </div>
 
-          {/* Top Row: 3 Cards — Screenshot-accurate with Radial Gauge */}
+          {/* Top Row: 3 Solid Cards (Mockup Style) */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
 
-            {/* SEMUA PM Card — Dark Navy */}
-            <div className="rounded-xl overflow-hidden shadow-lg border border-blue-700/50 bg-gradient-to-br from-blue-600 to-blue-800">
+            {/* PM04 Card — Solid Blue */}
+            <div className="rounded-2xl overflow-hidden shadow-lg border border-blue-700 bg-[#0A337A]">
               <div className="px-5 pt-5 pb-0">
-                <div className="flex items-start justify-between mb-1">
-                  <div>
-                    <div className="flex items-center gap-2 mb-0.5">
-                      <div className="w-7 h-7 rounded-2xl bg-white/10 flex items-center justify-center">
-                        <FileText className="w-3.5 h-3.5 text-white/80" />
-                      </div>
-                      <div className="text-[10px] font-bold text-white/50 uppercase tracking-widest">Semua PM</div>
+                <div className="flex items-start justify-between mb-2">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full border border-white/20 bg-white/10 flex items-center justify-center backdrop-blur-sm">
+                      <HardHat className="w-5 h-5 text-white/80" />
                     </div>
-                    <div className="text-[11px] text-white/60">Total Work Order Semua PM</div>
+                    <div className="text-sm font-semibold text-white/80">Total Work Order PM 04</div>
                   </div>
                 </div>
-                <div className="flex items-end gap-2 mt-2">
-                  <div className="text-4xl font-display font-extrabold text-white/90 tracking-tight">{summary?.kpi?.totalWO ? summary.kpi.totalWO.toLocaleString('id-ID') : '0'}</div>
-                  <div className="text-base text-white/50 font-semibold mb-0.5">WO</div>
-                </div>
-                <div className="mt-2 flex items-center gap-4 text-[11px] text-white/60">
-                  <span>● CNF: <strong className="text-white/90">{summary?.jobLoadDetails?.gauges?.cnfCount || '—'}</strong> WO</span>
-                  <span>● Total: <strong className="text-white/90">{summary?.kpi?.totalWO || 0}</strong> WO</span>
+                <div className="flex items-end gap-2 mt-6">
+                  <div className="text-[40px] font-display font-bold text-white tracking-tight leading-none">{summary?.kpi?.pm04Count ? summary.kpi.pm04Count.toLocaleString('id-ID') : '0'}</div>
+                  <div className="text-sm text-white/60 font-semibold mb-1">WO</div>
                 </div>
               </div>
-              {/* Progress Bar Section */}
-              <div className="px-5 py-4">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-bold text-gray-500">Progress CNF Semua WO</span>
-                  <span className={`text-xl font-extrabold ${(summary?.jobLoadDetails?.gauges?.allWOCnfRate || 0) >= CNF_TARGET ? 'text-emerald-300' : 'text-amber-300'}`}>
-                    {summary?.jobLoadDetails?.gauges?.allWOCnfRate || 0}%
-                  </span>
-                </div>
-                <div className="relative w-full h-4 bg-white/20 rounded-full overflow-hidden">
-                  <div
-                    className="h-full rounded-full transition-all duration-700"
-                    style={{
-                      width: `${Math.min(summary?.jobLoadDetails?.gauges?.allWOCnfRate || 0, 100)}%`,
-                      background: (summary?.jobLoadDetails?.gauges?.allWOCnfRate || 0) >= CNF_TARGET
-                        ? 'linear-gradient(90deg,#34d399,#10b981)'
-                        : 'linear-gradient(90deg,#fbbf24,#f59e0b)'
-                    }}
-                  />
-                  {/* Target marker */}
-                  <div className="absolute top-0 h-full w-0.5 bg-yellow-300/80" style={{ left: `${CNF_TARGET}%` }} />
-                </div>
-                <div className="flex justify-between text-[10px] text-white/40 mt-1.5">
-                  <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-yellow-300 inline-block" />Target {CNF_TARGET}%</span>
-                  <span className="font-mono text-gray-500 font-bold">{summary?.jobLoadDetails?.gauges?.cnfCount || '—'} / {summary?.kpi?.totalWO || 0} WO</span>
-                </div>
-                <div className="mt-3 -mx-2 h-8">
-                  <Sparkline data={summary?.sparklines?.totalWo} color="rgba(255,255,255,0.3)" height={32} strokeWidth={2} />
-                </div>
+              <div className="mt-4 h-16 w-full">
+                <Sparkline data={summary?.sparklines?.pm04} color="rgba(255,255,255,0.4)" height={64} strokeWidth={2} />
               </div>
             </div>
 
-            {/* PM04 Card — Royal Blue */}
-            <div className="rounded-xl overflow-hidden shadow-lg border border-emerald-600/50 bg-gradient-to-br from-emerald-500 to-emerald-700">
+            {/* Selain PM04 Card — Solid Orange */}
+            <div className="rounded-2xl overflow-hidden shadow-lg border border-orange-600 bg-gradient-to-r from-[#F97316] to-[#EA580C]">
               <div className="px-5 pt-5 pb-0">
-                <div className="flex items-start justify-between mb-1">
-                  <div>
-                    <div className="flex items-center gap-2 mb-0.5">
-                      <div className="w-7 h-7 rounded-2xl bg-white/10 flex items-center justify-center">
-                        <HardHat className="w-3.5 h-3.5 text-white/80" />
-                      </div>
-                      <div className="text-[10px] font-bold text-white/50 uppercase tracking-widest">PM04</div>
+                <div className="flex items-start justify-between mb-2">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full border border-white/20 bg-white/10 flex items-center justify-center backdrop-blur-sm">
+                      <FileText className="w-5 h-5 text-white/80" />
                     </div>
-                    <div className="text-[11px] text-white/60">Total Work Order PM 04</div>
+                    <div className="text-sm font-semibold text-white/80">Total Work Order Selain PM 04</div>
                   </div>
                 </div>
-                <div className="flex items-end gap-2 mt-2">
-                  <div className="text-4xl font-display font-extrabold text-white/90 tracking-tight">{summary?.kpi?.pm04Count ? summary.kpi.pm04Count.toLocaleString('id-ID') : '0'}</div>
-                  <div className="text-base text-white/50 font-semibold mb-0.5">WO</div>
-                </div>
-                <div className="mt-2 flex items-center gap-4 text-[11px] text-white/60">
-                  <span>● CNF: <strong className="text-white/90">{summary?.jobLoadDetails?.gauges?.pm04CnfCount || '—'}</strong> WO</span>
-                  <span>● Total: <strong className="text-white/90">{summary?.kpi?.pm04Count || 0}</strong> WO</span>
+                <div className="flex items-end gap-2 mt-6">
+                  <div className="text-[40px] font-display font-bold text-white tracking-tight leading-none">{((summary?.kpi?.totalWO || 0) - (summary?.kpi?.pm04Count || 0)).toLocaleString('id-ID')}</div>
+                  <div className="text-sm text-white/60 font-semibold mb-1">WO</div>
                 </div>
               </div>
-              {/* Progress Bar Section */}
-              <div className="px-5 py-4">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-bold text-gray-500">Progress CNF PM04</span>
-                  <span className={`text-xl font-extrabold ${(summary?.jobLoadDetails?.gauges?.pm04CnfRate || 0) >= CNF_TARGET ? 'text-emerald-300' : 'text-amber-300'}`}>
-                    {summary?.jobLoadDetails?.gauges?.pm04CnfRate || 0}%
-                  </span>
-                </div>
-                <div className="relative w-full h-4 bg-white/20 rounded-full overflow-hidden">
-                  <div
-                    className="h-full rounded-full transition-all duration-700"
-                    style={{
-                      width: `${Math.min(summary?.jobLoadDetails?.gauges?.pm04CnfRate || 0, 100)}%`,
-                      background: (summary?.jobLoadDetails?.gauges?.pm04CnfRate || 0) >= CNF_TARGET
-                        ? 'linear-gradient(90deg,#34d399,#10b981)'
-                        : 'linear-gradient(90deg,#fbbf24,#f59e0b)'
-                    }}
-                  />
-                  <div className="absolute top-0 h-full w-0.5 bg-yellow-300/80" style={{ left: `${CNF_TARGET}%` }} />
-                </div>
-                <div className="flex justify-between text-[10px] text-white/40 mt-1.5">
-                  <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-yellow-300 inline-block" />Target {CNF_TARGET}%</span>
-                  <span className="font-mono text-gray-500 font-bold">{summary?.jobLoadDetails?.gauges?.pm04CnfCount || '—'} / {summary?.kpi?.pm04Count || 0} WO</span>
-                </div>
-                <div className="mt-3 -mx-2 h-8">
-                  <Sparkline data={summary?.sparklines?.pm04} color="rgba(255,255,255,0.3)" height={32} strokeWidth={2} />
-                </div>
+              <div className="mt-4 h-16 w-full">
+                <Sparkline data={summary?.sparklines?.totalWo} color="rgba(255,255,255,0.4)" height={64} strokeWidth={2} />
               </div>
             </div>
 
-            {/* PM02+ Card — Orange */}
-            <div className="rounded-xl overflow-hidden shadow-lg border border-[#A04508]/20 bg-gradient-to-br from-orange-500 to-orange-700">
+            {/* PM02+ Card — Solid Dark Gray */}
+            <div className="rounded-2xl overflow-hidden shadow-lg border border-[#333333] bg-[#1A1C1E]">
               <div className="px-5 pt-5 pb-0">
-                <div className="flex items-start justify-between mb-1">
-                  <div>
-                    <div className="flex items-center gap-2 mb-0.5">
-                      <div className="w-7 h-7 rounded-2xl bg-white/10 flex items-center justify-center">
-                        <button
-                          onClick={() => setShowPm02PlusModal(true)}
-                          className="flex items-center justify-center text-white/80 hover:text-ink transition-colors cursor-pointer"
-                          title="Klik detail rincian PM01-PM10"
-                        >
-                          <Info className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
-                      <div className="text-[10px] font-bold text-white/50 uppercase tracking-widest">PM02+</div>
+                <div className="flex items-start justify-between mb-2">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full border border-white/20 bg-white/10 flex items-center justify-center backdrop-blur-sm">
+                      <button
+                        onClick={() => setShowPm02PlusModal(true)}
+                        className="flex items-center justify-center text-white/80 hover:text-white transition-colors cursor-pointer"
+                        title="Klik detail rincian PM01-PM10"
+                      >
+                        <Info className="w-5 h-5" />
+                      </button>
                     </div>
-                    <div className="text-[11px] text-white/60">Total Work Order PM02+</div>
+                    <div className="text-sm font-semibold text-white/80">Total Work Order PM02+</div>
                   </div>
                 </div>
-                <div className="flex items-end gap-2 mt-2">
-                  <div className="text-4xl font-display font-extrabold text-white/90 tracking-tight">{summary?.kpi?.pm02PlusCount ? summary.kpi.pm02PlusCount.toLocaleString('id-ID') : '0'}</div>
-                  <div className="text-base text-white/50 font-semibold mb-0.5">WO</div>
-                </div>
-                <div className="mt-2 flex items-center gap-4 text-[11px] text-white/60">
-                  <span>● CNF: <strong className="text-white/90">{summary?.jobLoadDetails?.gauges?.pm02PlusCnfCount || '—'}</strong> WO</span>
-                  <span>● Total: <strong className="text-white/90">{summary?.kpi?.pm02PlusCount || 0}</strong> WO</span>
+                <div className="flex items-end gap-2 mt-6">
+                  <div className="text-[40px] font-display font-bold text-white tracking-tight leading-none">{summary?.kpi?.pm02PlusCount ? summary.kpi.pm02PlusCount.toLocaleString('id-ID') : '0'}</div>
+                  <div className="text-sm text-white/60 font-semibold mb-1">WO</div>
                 </div>
               </div>
-              {/* Progress Bar Section */}
-              <div className="px-5 py-4">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-bold text-gray-500">Progress CNF PM02+</span>
-                  <span className={`text-xl font-extrabold ${(summary?.jobLoadDetails?.gauges?.pm02PlusCnfRate || 0) >= CNF_TARGET ? 'text-emerald-300' : 'text-amber-300'}`}>
-                    {summary?.jobLoadDetails?.gauges?.pm02PlusCnfRate || 0}%
-                  </span>
-                </div>
-                <div className="relative w-full h-4 bg-white/20 rounded-full overflow-hidden">
-                  <div
-                    className="h-full rounded-full transition-all duration-700"
-                    style={{
-                      width: `${Math.min(summary?.jobLoadDetails?.gauges?.pm02PlusCnfRate || 0, 100)}%`,
-                      background: (summary?.jobLoadDetails?.gauges?.pm02PlusCnfRate || 0) >= CNF_TARGET
-                        ? 'linear-gradient(90deg,#34d399,#10b981)'
-                        : 'linear-gradient(90deg,#fbbf24,#f59e0b)'
-                    }}
-                  />
-                  <div className="absolute top-0 h-full w-0.5 bg-yellow-300/80" style={{ left: `${CNF_TARGET}%` }} />
-                </div>
-                <div className="flex justify-between text-[10px] text-white/40 mt-1.5">
-                  <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-yellow-300 inline-block" />Target {CNF_TARGET}%</span>
-                  <span className="font-mono text-orange-200 font-bold">{summary?.jobLoadDetails?.gauges?.pm02PlusCnfCount || '—'} / {summary?.kpi?.pm02PlusCount || 0} WO</span>
-                </div>
-                <div className="mt-3 -mx-2 h-8">
-                  <Sparkline data={summary?.sparklines?.pm02Plus} color="rgba(255,255,255,0.3)" height={32} strokeWidth={2} />
-                </div>
+              <div className="mt-4 h-16 w-full">
+                <Sparkline data={summary?.sparklines?.pm02Plus} color="rgba(255,255,255,0.2)" height={64} strokeWidth={2} />
               </div>
             </div>
 
           </div>
+
+          {/* Radial Gauges Row */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-6 mb-8">
+            {/* Gauge PM04 */}
+            <div className="flex flex-col items-center justify-center">
+              <h4 className="text-sm font-bold text-slate-800 mb-2">Progress PM04</h4>
+              <Chart
+                options={{
+                  chart: { type: 'radialBar', sparkline: { enabled: true } },
+                  plotOptions: {
+                    radialBar: {
+                      startAngle: -90,
+                      endAngle: 90,
+                      track: { background: '#E2E8F0', strokeWidth: '100%', margin: 5 },
+                      hollow: { size: '65%' },
+                      dataLabels: {
+                        name: { show: true, offsetY: 25, fontSize: '10px', color: '#64748B', fontWeight: 500 },
+                        value: { show: true, offsetY: -5, fontSize: '28px', fontWeight: 800, color: '#0F172A', formatter: (v) => v + '%' }
+                      }
+                    }
+                  },
+                  fill: { colors: ['#1E40AF'] },
+                  labels: ['% Persentase CNF real']
+                }}
+                series={[summary?.jobLoadDetails?.gauges?.pm04CnfRate || 0]}
+                type="radialBar"
+                height="200"
+              />
+            </div>
+
+            {/* Gauge Selain PM04 */}
+            <div className="flex flex-col items-center justify-center">
+              <div className="flex items-center gap-1 mb-2">
+                <h4 className="text-sm font-bold text-slate-800">Progress Selain PM 04</h4>
+                <Info className="w-3.5 h-3.5 text-gray-400" />
+              </div>
+              <Chart
+                options={{
+                  chart: { type: 'radialBar', sparkline: { enabled: true } },
+                  plotOptions: {
+                    radialBar: {
+                      startAngle: -90,
+                      endAngle: 90,
+                      track: { background: '#E2E8F0', strokeWidth: '100%', margin: 5 },
+                      hollow: { size: '65%' },
+                      dataLabels: {
+                        name: { show: true, offsetY: 25, fontSize: '10px', color: '#64748B', fontWeight: 500 },
+                        value: { show: true, offsetY: -5, fontSize: '28px', fontWeight: 800, color: '#0F172A', formatter: (v) => v + '%' }
+                      }
+                    }
+                  },
+                  fill: { colors: ['#D97706'] },
+                  labels: ['% Persentase CNF real']
+                }}
+                series={[summary?.jobLoadDetails?.gauges?.allWOCnfRate || 0]} /* Note: Using allWOCnfRate since we don't have exact Selain PM04 rate */
+                type="radialBar"
+                height="200"
+              />
+            </div>
+
+            {/* Gauge Semua WO */}
+            <div className="flex flex-col items-center justify-center">
+              <h4 className="text-sm font-bold text-slate-800 mb-2">Progress CNF semua WO</h4>
+              <Chart
+                options={{
+                  chart: { type: 'radialBar', sparkline: { enabled: true } },
+                  plotOptions: {
+                    radialBar: {
+                      startAngle: -90,
+                      endAngle: 90,
+                      track: { background: '#E2E8F0', strokeWidth: '100%', margin: 5 },
+                      hollow: { size: '65%' },
+                      dataLabels: {
+                        name: { show: true, offsetY: 25, fontSize: '10px', color: '#64748B', fontWeight: 500 },
+                        value: { show: true, offsetY: -5, fontSize: '28px', fontWeight: 800, color: '#0F172A', formatter: (v) => v + '%' }
+                      }
+                    }
+                  },
+                  fill: { colors: ['#831843'] },
+                  labels: ['% Persentase CNF real']
+                }}
+                series={[summary?.jobLoadDetails?.gauges?.allWOCnfRate || 0]}
+                type="radialBar"
+                height="200"
+              />
+            </div>
+          </div>
           {/* Middle Row: Side-by-Side Breakdown Tables — Enterprise Blue Progress Bars */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
             {/* Progress PM04 Table */}
-            <div className="bg-white/90 backdrop-blur-md border border-white shadow-xl ring-1 ring-gray-100/50 rounded-2xl shadow-sm-subtle overflow-hidden">
-              <div className="flex items-center justify-between px-4 py-3 bg-white border-b border-gray-100 rounded-t-2xl">
-                <h4 className="text-sm font-bold text-slate-800 flex items-center gap-2">
-                  <span>Progress PM04 (Per Bagian)</span>
-                </h4>
-                <span className="text-[10px] bg-blue-50 text-blue-700 border border-blue-200 font-semibold px-2.5 py-0.5 rounded-full">Predictive</span>
+            <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
+              <div className="px-5 py-4 flex items-center gap-2">
+                <Users className="w-4 h-4 text-blue-700" />
+                <h4 className="text-[15px] font-bold text-[#0F172A]">Progress PM04</h4>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full text-xs text-left">
-                  <thead className="bg-slate-50 text-gray-500 font-bold uppercase text-[10px] border-b border-slate-200">
-                    <tr>
-                      <th className="py-2.5 px-4">Bagian</th>
-                      <th className="py-2.5 px-4">Tipe</th>
-                      <th className="py-2.5 px-4 text-right">Total WO</th>
-                      <th className="py-2.5 px-4 w-32">Progress</th>
-                      <th className="py-2.5 px-4 text-center">Capaian CNF</th>
+                  <thead className="border-b border-gray-100">
+                    <tr className="text-gray-500 font-semibold text-[11px] bg-white">
+                      <th className="py-3 px-5">Bagian</th>
+                      <th className="py-3 px-5">Tipe</th>
+                      <th className="py-3 px-5">Total WO</th>
+                      <th className="py-3 px-5 w-40"></th>
+                      <th className="py-3 px-5 text-right">Capaian CNF</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-100">
+                  <tbody className="divide-y divide-gray-50">
                     {(summary?.jobLoadDetails?.pm04Progress || []).map((row, idx) => (
-                      <tr key={idx} className="hover:bg-blue-50/40 transition-colors">
-                        <td className="py-2.5 px-4 font-semibold text-slate-800">{row.name}</td>
-                        <td className="py-2.5 px-4">
-                          <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-gradient-to-br from-emerald-500 to-emerald-700/10 text-[#1A4BC4] border border-[#1A4BC4]/20">{row.tipe}</span>
-                        </td>
-                        <td className="py-2.5 px-4 text-right font-bold text-slate-900">{row.totalWO.toLocaleString('id-ID')}</td>
-                        <td className="py-2.5 px-4">
-                          <div className="w-full h-2.5 bg-slate-100 rounded-sm overflow-hidden">
+                      <tr key={idx} className="hover:bg-gray-50/50 transition-colors">
+                        <td className="py-3.5 px-5 font-semibold text-slate-700">{row.name}</td>
+                        <td className="py-3.5 px-5 text-gray-500">{row.tipe}</td>
+                        <td className="py-3.5 px-5 text-slate-700 font-medium">{row.totalWO.toLocaleString('id-ID')}</td>
+                        <td className="py-3.5 px-5">
+                          <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
                             <div
-                              className="h-full bg-[#1E56D9] rounded-sm transition-all duration-500"
+                              className="h-full bg-[#1A4BC4] rounded-full transition-all duration-500"
                               style={{ width: `${Math.min(row.capaianCNF || 0, 100)}%` }}
                             />
                           </div>
                         </td>
-                        <td className="py-2.5 px-4 text-center">{getCapaianBadge(row.capaianCNF)}</td>
+                        <td className="py-3.5 px-5 text-right">
+                          <span className={`px-2.5 py-1 rounded text-[11px] font-bold ${
+                            row.capaianCNF >= 90 ? 'bg-green-50 text-green-700' :
+                            row.capaianCNF >= 85 ? 'bg-yellow-50 text-yellow-700' :
+                            'bg-red-50 text-red-600'
+                          }`}>
+                            {row.capaianCNF ? `${row.capaianCNF.toFixed(2)}%` : '0%'}
+                          </span>
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -1277,43 +1271,45 @@ export default function InternalDashboard() {
             </div>
 
             {/* Progress PM02+ Table */}
-            <div className="bg-white/90 backdrop-blur-md border border-white shadow-xl ring-1 ring-gray-100/50 rounded-2xl shadow-sm-subtle overflow-hidden">
-              <div className="flex items-center justify-between px-4 py-3 bg-white border-b border-gray-100 rounded-t-2xl">
-                <h4 className="text-sm font-bold text-slate-800 flex items-center gap-2">
-                  <span>Progress PM02+ (Per Bagian)</span>
-                </h4>
-                <span className="text-[10px] bg-orange-50 text-orange-700 border border-orange-200 font-semibold px-2.5 py-0.5 rounded-full">Corrective &amp; Other</span>
+            <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
+              <div className="px-5 py-4 flex items-center gap-2">
+                <Users className="w-4 h-4 text-blue-700" />
+                <h4 className="text-[15px] font-bold text-[#0F172A]">Progress PM02+</h4>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full text-xs text-left">
-                  <thead className="bg-slate-50 text-gray-500 font-bold uppercase text-[10px] border-b border-slate-200">
-                    <tr>
-                      <th className="py-2.5 px-4">Bagian</th>
-                      <th className="py-2.5 px-4">Tipe</th>
-                      <th className="py-2.5 px-4 text-right">Total WO</th>
-                      <th className="py-2.5 px-4 w-32">Progress</th>
-                      <th className="py-2.5 px-4 text-center">Capaian CNF</th>
+                  <thead className="border-b border-gray-100">
+                    <tr className="text-gray-500 font-semibold text-[11px] bg-white">
+                      <th className="py-3 px-5">Bagian</th>
+                      <th className="py-3 px-5">Tipe</th>
+                      <th className="py-3 px-5">Total WO</th>
+                      <th className="py-3 px-5 w-40"></th>
+                      <th className="py-3 px-5 text-right">Capaian CNF</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-100">
+                  <tbody className="divide-y divide-gray-50">
                     {(summary?.jobLoadDetails?.pm02PlusProgress || []).map((row, idx) => (
-                      <tr key={idx} className="hover:bg-orange-50/40 transition-colors">
-                        <td className="py-2.5 px-4 align-top">
-                          <div className="font-semibold text-slate-800">{row.name}</div>
-                        </td>
-                        <td className="py-2.5 px-4 align-top">
-                          <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-gradient-to-br from-orange-500 to-orange-700/10 text-[#D9650F] border border-[#D9650F]/20">{row.tipe}</span>
-                        </td>
-                        <td className="py-2.5 px-4 text-right font-bold text-slate-900 align-top">{row.totalWO.toLocaleString('id-ID')}</td>
-                        <td className="py-2.5 px-4">
-                          <div className="w-full h-2.5 bg-slate-100 rounded-sm overflow-hidden">
+                      <tr key={idx} className="hover:bg-gray-50/50 transition-colors">
+                        <td className="py-3.5 px-5 font-semibold text-slate-700">{row.name}</td>
+                        <td className="py-3.5 px-5 text-gray-500">{row.tipe}</td>
+                        <td className="py-3.5 px-5 text-slate-700 font-medium">{row.totalWO.toLocaleString('id-ID')}</td>
+                        <td className="py-3.5 px-5">
+                          <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
                             <div
-                              className="h-full bg-gradient-to-br from-orange-500 to-orange-700 rounded-sm transition-all duration-500"
+                              className="h-full bg-[#1A4BC4] rounded-full transition-all duration-500"
                               style={{ width: `${Math.min(row.capaianCNF || 0, 100)}%` }}
                             />
                           </div>
                         </td>
-                        <td className="py-2.5 px-4 text-center">{getCapaianBadge(row.capaianCNF)}</td>
+                        <td className="py-3.5 px-5 text-right">
+                          <span className={`px-2.5 py-1 rounded text-[11px] font-bold ${
+                            row.capaianCNF >= 90 ? 'bg-green-50 text-green-700' :
+                            row.capaianCNF >= 85 ? 'bg-yellow-50 text-yellow-700' :
+                            'bg-red-50 text-red-600'
+                          }`}>
+                            {row.capaianCNF ? `${row.capaianCNF.toFixed(2)}%` : '0%'}
+                          </span>
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -1325,10 +1321,10 @@ export default function InternalDashboard() {
           {/* Side-by-Side Distribution Bar Charts with Background Color Headers */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-6">
             {/* Distribusi Status WO per Bagian */}
-            <div className="bg-white/90 backdrop-blur-md border border-white shadow-xl ring-1 ring-gray-100/50 rounded-2xl shadow-sm-subtle overflow-hidden flex flex-col">
-              <div className="px-5 py-4 bg-white border-b border-gray-100 rounded-t-2xl">
-                <h4 className="text-sm font-bold text-slate-800 tracking-tight">Distribusi Work Order (Berdasarkan Status WO)</h4>
-                <p className="text-[11px] text-gray-500 mt-0.5">Perbandingan jumlah WO per status (CNF TECO, CNF REL, TECO, CRTD, REL) di tiap bagian.</p>
+            <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden flex flex-col">
+              <div className="px-5 py-5 bg-white border-b border-gray-100">
+                <h4 className="text-[15px] font-bold text-[#0F172A]">Distribusi Work Order</h4>
+                <p className="text-xs text-gray-500">(Berdasarkan status WO)</p>
               </div>
               <div className="p-5 flex-1 min-h-[280px]">
                 <Chart
@@ -1342,10 +1338,10 @@ export default function InternalDashboard() {
             </div>
 
             {/* Distribusi Tipe PM per Bagian */}
-            <div className="bg-white/90 backdrop-blur-md border border-white shadow-xl ring-1 ring-gray-100/50 rounded-2xl shadow-sm-subtle overflow-hidden flex flex-col">
-              <div className="px-5 py-4 bg-white border-b border-gray-100 rounded-t-2xl">
-                <h4 className="text-sm font-bold text-slate-800 tracking-tight">Distribusi Work Order (Berdasarkan Tipe WO)</h4>
-                <p className="text-[11px] text-gray-500 mt-0.5">Perbandingan jumlah WO berdasarkan jenis PM (PM04, PM02, PM03, PM09, PM01, PM05) di tiap bagian.</p>
+            <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden flex flex-col">
+              <div className="px-5 py-5 bg-white border-b border-gray-100">
+                <h4 className="text-[15px] font-bold text-[#0F172A]">Distribusi Work Order</h4>
+                <p className="text-xs text-gray-500">(Berdasarkan Tipe WO)</p>
               </div>
               <div className="p-5 flex-1 min-h-[280px]">
                 <Chart
