@@ -102,10 +102,10 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
   const activeCategory = CATEGORIES.find(c => c.id === activeCategoryId) || CATEGORIES[0];
 
   return (
-    <div className="flex h-screen shrink-0 relative z-40 bg-gray-50 overflow-hidden print:hidden">
+    <div className="fixed inset-y-0 left-0 flex h-screen shrink-0 z-50 pointer-events-none print:hidden">
       
       {/* === Primary Sidebar (Thin) === */}
-      <aside className="w-[84px] bg-white border-r border-gray-200 flex flex-col items-center py-5 justify-between shrink-0 h-full z-20">
+      <aside className="w-[84px] bg-white border-r border-gray-200 flex flex-col items-center py-5 justify-start shrink-0 h-full z-20 pointer-events-auto shadow-sm">
         <div className="w-full flex flex-col items-center gap-6">
           {/* Logo */}
           <div className="w-12 h-12 bg-white border border-gray-200 rounded-xl flex items-center justify-center cursor-pointer shadow-sm hover:shadow-md transition-shadow">
@@ -144,20 +144,11 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
           </div>
         </div>
 
-        {/* Bottom Actions */}
-        <div className="flex flex-col items-center gap-3 w-full px-3">
-          <button className="w-12 h-12 rounded-xl flex items-center justify-center text-gray-400 hover:text-navy-600 hover:bg-navy-50 transition-colors">
-            <Settings className="w-5 h-5" />
-          </button>
-          <div className="w-10 h-10 rounded-full mx-auto bg-gray-200 border-2 border-white shadow-sm overflow-hidden mt-1 flex items-center justify-center text-orange-600 font-bold text-sm" style={{ background: '#FDEAE0' }}>
-            {user?.nama?.charAt(0) || user?.name?.charAt(0) || 'U'}
-          </div>
-        </div>
       </aside>
 
       {/* === Secondary Sidebar (Expandable) === */}
       <aside 
-        className={`bg-white border-r border-gray-200 flex flex-col shrink-0 h-full transition-all duration-300 ease-in-out overflow-hidden ${
+        className={`bg-white/95 backdrop-blur-md border-r border-gray-200 flex flex-col shrink-0 h-full transition-all duration-300 ease-in-out overflow-hidden pointer-events-auto shadow-xl ${
           isCollapsed ? 'w-0 border-r-0' : 'w-[280px]'
         }`}
       >
@@ -220,22 +211,6 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
                 </div>
               </div>
             ))}
-          </div>
-
-          {/* Bottom Card in secondary sidebar */}
-          <div className="p-5 mt-auto shrink-0 border-t border-gray-100">
-            <div className="bg-gradient-to-br from-navy-50 to-white border border-navy-100 rounded-2xl p-4 shadow-sm relative overflow-hidden group cursor-pointer hover:shadow-md transition-all">
-              <div className="absolute -right-4 -top-4 w-16 h-16 bg-navy-600/5 rounded-full blur-xl group-hover:bg-navy-600/10 transition-colors" />
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-white shadow-sm border border-gray-100 flex items-center justify-center text-navy-600 group-hover:scale-110 transition-transform">
-                  <Plus className="w-5 h-5" />
-                </div>
-                <div>
-                  <p className="text-sm font-bold text-ink">Work Order</p>
-                  <p className="text-[10px] text-gray-500 font-medium">Buat Baru</p>
-                </div>
-              </div>
-            </div>
           </div>
 
         </div>

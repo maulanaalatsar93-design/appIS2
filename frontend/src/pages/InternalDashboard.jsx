@@ -1022,49 +1022,49 @@ export default function InternalDashboard() {
             </div>
 
             {/* Interactive Formula & Status Legend Popover Button */}
-            <div className="relative group shrink-0">
+            <div className="relative group shrink-0 z-[100]">
               <button
                 type="button"
-                className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-industrial-blue border border-blue-200 rounded-full text-xs font-bold transition-all shadow-xs cursor-pointer"
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-full text-xs font-bold transition-all shadow-sm cursor-pointer"
               >
-                <Info size={14} className="text-industrial-blue" />
+                <Info size={14} className="text-indigo-600" />
                 <span>Petunjuk Rumus & Status CNF</span>
               </button>
 
               {/* Hover & Click Popover Tooltip */}
-              <div className="absolute right-0 top-full mt-2 w-80 sm:w-96 p-4 bg-navy-950 text-white rounded-xl shadow-2xl border border-gray-200 z-50 opacity-0 group-hover:opacity-100 group-hover:pointer-events-auto pointer-events-none transition-all duration-200 space-y-3 text-xs">
-                <div className="flex items-center justify-between border-b border-gray-200 pb-2">
-                  <span className="font-bold text-navy-600 flex items-center gap-1.5">
-                    <Info size={14} /> Petunjuk Perhitungan Capaian CNF %
+              <div className="absolute right-0 top-full mt-2 w-80 sm:w-96 p-4 bg-white text-slate-800 rounded-2xl shadow-xl border border-gray-200 opacity-0 group-hover:opacity-100 group-hover:pointer-events-auto pointer-events-none transition-all duration-200 space-y-3 text-xs">
+                <div className="flex items-center justify-between border-b border-gray-100 pb-2">
+                  <span className="font-bold text-indigo-700 flex items-center gap-1.5">
+                    <Info size={14} className="text-indigo-600" /> Petunjuk Capaian CNF %
                   </span>
-                  <span className="text-[10px] text-gray-500 font-mono">SQL / SAP Formula</span>
+                  <span className="text-[10px] text-gray-500 font-mono bg-gray-50 px-2 py-0.5 rounded border border-gray-200">SQL / SAP</span>
                 </div>
 
-                <div className="bg-white p-3 rounded-2xl border border-gray-200 text-[11px] leading-relaxed">
-                  <div className="text-[10px] text-gray-500 uppercase font-bold tracking-wider mb-1">Formulasi Capaian CNF:</div>
-                  <div className="font-mono text-gray-500 bg-slate-950/60 p-2 rounded-2xl border border-gray-200">
-                    CNF % = <span className="text-emerald-400 font-bold">SUM(Status 'CNF'/'TECO' TANPA 'PCNF')</span> ÷ <span className="text-amber-400 font-bold">SUM(Status BUKAN 'CRTD')</span> × 100%
+                <div className="bg-slate-50 p-3 rounded-xl border border-gray-200 text-[11px] leading-relaxed">
+                  <div className="text-[10px] text-slate-500 uppercase font-bold tracking-wider mb-1.5">Formulasi Capaian CNF:</div>
+                  <div className="font-mono text-slate-700 bg-white p-2.5 rounded-lg border border-gray-200 shadow-sm leading-relaxed">
+                    CNF % = <span className="text-emerald-600 font-bold">SUM('CNF'/'TECO' TANPA 'PCNF')</span> ÷ <span className="text-amber-600 font-bold">SUM(BUKAN 'CRTD')</span> × 100%
                   </div>
                 </div>
 
                 <div className="space-y-1.5 pt-1">
-                  <div className="text-[10px] uppercase font-bold tracking-wider text-gray-500">Keterangan Kode Status SAP:</div>
+                  <div className="text-[10px] uppercase font-bold tracking-wider text-slate-500">Keterangan Kode Status SAP:</div>
                   <div className="grid grid-cols-2 gap-2 text-[11px]">
-                    <div className="flex items-center gap-1.5 bg-white p-2 rounded-2xl border border-gray-200">
-                      <span className="w-2.5 h-2.5 rounded-full bg-[#193B8F] shrink-0"></span>
-                      <span className="truncate">CNF TECO: Dikonfirmasi & TECO</span>
+                    <div className="flex items-center gap-1.5 bg-slate-50 p-2 rounded-xl border border-slate-200">
+                      <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shrink-0"></span>
+                      <span className="truncate text-slate-700 font-medium">CNF TECO</span>
                     </div>
-                    <div className="flex items-center gap-1.5 bg-white p-2 rounded-2xl border border-gray-200">
-                      <span className="w-2.5 h-2.5 rounded-full bg-gradient-to-br from-orange-500 to-orange-700 shrink-0"></span>
-                      <span className="truncate">CNF REL: Dikonfirmasi Rilis</span>
+                    <div className="flex items-center gap-1.5 bg-slate-50 p-2 rounded-xl border border-slate-200">
+                      <span className="w-2.5 h-2.5 rounded-full bg-blue-500 shrink-0"></span>
+                      <span className="truncate text-slate-700 font-medium">CNF REL</span>
                     </div>
-                    <div className="flex items-center gap-1.5 bg-white p-2 rounded-2xl border border-gray-200">
-                      <span className="w-2.5 h-2.5 rounded-full bg-[#8B5CF6] shrink-0"></span>
-                      <span className="truncate">TECO: Finish</span>
+                    <div className="flex items-center gap-1.5 bg-slate-50 p-2 rounded-xl border border-slate-200">
+                      <span className="w-2.5 h-2.5 rounded-full bg-indigo-500 shrink-0"></span>
+                      <span className="truncate text-slate-700 font-medium">TECO</span>
                     </div>
-                    <div className="flex items-center gap-1.5 bg-white p-2 rounded-2xl border border-gray-200">
-                      <span className="w-2.5 h-2.5 rounded-full bg-[#94A3B8] shrink-0"></span>
-                      <span className="truncate">CRTD: Baru Dibuat</span>
+                    <div className="flex items-center gap-1.5 bg-slate-50 p-2 rounded-xl border border-slate-200">
+                      <span className="w-2.5 h-2.5 rounded-full bg-amber-500 shrink-0"></span>
+                      <span className="truncate text-slate-700 font-medium">CRTD</span>
                     </div>
                   </div>
                 </div>
