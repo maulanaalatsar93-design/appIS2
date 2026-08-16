@@ -339,8 +339,8 @@ export default function PublicDashboard({ onBack }) {
               value: summary.kpi?.totalWO || 0,
               sparklineData: summary.sparklines?.totalWo || summary.jobLoadTrend?.woSeries || [],
               isDark: true,
-              bgGradient: 'bg-gradient-to-r from-[#0F2052] to-[#1A4BC4]',
-              borderColor: 'border-[#13254F]',
+              bgGradient: 'bg-gradient-to-br from-blue-600 to-blue-800',
+              borderColor: 'border-blue-700/50',
               onInfoClick: () => { setPmModalMode('all'); setShowPMModal(true); }
             },
             {
@@ -350,8 +350,8 @@ export default function PublicDashboard({ onBack }) {
               value: summary.kpi?.pm04Count || 0,
               sparklineData: summary.sparklines?.pm04 || [],
               isDark: true,
-              bgGradient: 'bg-[#1A4BC4]',
-              borderColor: 'border-[#1A4BC4]'
+              bgGradient: 'bg-gradient-to-br from-emerald-500 to-emerald-700',
+              borderColor: 'border-emerald-600/50'
             },
             {
               label: 'PM02+',
@@ -360,8 +360,8 @@ export default function PublicDashboard({ onBack }) {
               value: summary.kpi?.pm02PlusCount || 0,
               sparklineData: summary.sparklines?.pm02Plus || [],
               isDark: true,
-              bgGradient: 'bg-[#D9650F]',
-              borderColor: 'border-[#D9650F]',
+              bgGradient: 'bg-gradient-to-br from-orange-500 to-orange-700',
+              borderColor: 'border-orange-600/50',
               onInfoClick: () => { setPmModalMode('pm02plus'); setShowPMModal(true); }
             },
           ]}
@@ -377,8 +377,8 @@ export default function PublicDashboard({ onBack }) {
               value: summary.kpi?.totalRek || 0,
               sparklineData: summary.sparklines?.totalRek || summary.jobLoadTrend?.rekSeries || [],
               isDark: true,
-              bgGradient: 'bg-gradient-to-r from-[#0F5A51] to-[#168477]',
-              borderColor: 'border-[#168477]',
+              bgGradient: 'bg-gradient-to-br from-red-500 to-red-700',
+              borderColor: 'border-red-600/50',
             },
             {
               label: 'M04',
@@ -387,8 +387,8 @@ export default function PublicDashboard({ onBack }) {
               value: summary.kpi?.m04Count || 0,
               sparklineData: summary.sparklines?.m04 || [],
               isDark: true,
-              bgGradient: 'bg-[#059669]',
-              borderColor: 'border-[#059669]',
+              bgGradient: 'bg-gradient-to-br from-teal-500 to-teal-700',
+              borderColor: 'border-teal-600/50',
             },
             {
               label: 'M07',
@@ -397,8 +397,8 @@ export default function PublicDashboard({ onBack }) {
               value: summary.kpi?.m07Count || 0,
               sparklineData: summary.sparklines?.m07 || [],
               isDark: true,
-              bgGradient: 'bg-[#D97706]',
-              borderColor: 'border-[#D97706]',
+              bgGradient: 'bg-gradient-to-br from-purple-500 to-purple-700',
+              borderColor: 'border-purple-600/50',
             },
           ]}
         />
@@ -408,9 +408,9 @@ export default function PublicDashboard({ onBack }) {
 
         {/* Symmetrical Bar Chart 1: Work Order per Pabrik */}
         <div className="bg-white border border-gray-200 rounded-2xl shadow-sm-subtle overflow-hidden flex flex-col">
-          <div className="px-5 py-3.5 bg-gradient-to-r from-[#0F2052] to-[#1A4BC4] text-ink">
-            <h4 className="text-sm font-bold text-ink tracking-tight">Work Order per Pabrik</h4>
-            <p className="text-[11px] text-ink mt-0.5">Total perbandingan WO berdasarkan area pabrik.</p>
+          <div className="px-5 py-4 bg-white border-b border-gray-100 rounded-t-2xl">
+            <h4 className="text-sm font-bold text-slate-800 tracking-tight">Work Order per Pabrik</h4>
+            <p className="text-[11px] text-gray-500 mt-0.5">Total perbandingan WO berdasarkan area pabrik.</p>
           </div>
           <div className="p-5 flex-1 min-h-[250px]">
             <Chart options={chart2Options} series={chart2Series} type="bar" width="100%" height="250" />
@@ -419,9 +419,9 @@ export default function PublicDashboard({ onBack }) {
 
         {/* Symmetrical Bar Chart 2: Rilis Rekomendasi per Pabrik */}
         <div className="bg-white border border-gray-200 rounded-2xl shadow-sm-subtle overflow-hidden flex flex-col">
-          <div className="px-5 py-3.5 bg-gradient-to-r from-[#0F5A51] to-[#168477] text-white/90 shadow-md">
-            <h4 className="text-sm font-bold text-ink tracking-tight">Rilis Rekomendasi per Pabrik</h4>
-            <p className="text-[11px] text-teal-100 mt-0.5">Perbandingan rilis rekomendasi berdasarkan area pabrik.</p>
+          <div className="px-5 py-4 bg-white border-b border-gray-100 rounded-t-2xl">
+            <h4 className="text-sm font-bold text-slate-800 tracking-tight">Rilis Rekomendasi per Pabrik</h4>
+            <p className="text-[11px] text-gray-500 mt-0.5">Perbandingan rilis rekomendasi berdasarkan area pabrik.</p>
           </div>
           <div className="p-5 flex-1 min-h-[250px]">
             <Chart options={chart5Options} series={chart5Series} type="bar" width="100%" height="250" />
@@ -430,9 +430,9 @@ export default function PublicDashboard({ onBack }) {
 
         {/* Symmetrical Donut Chart 1: Distribusi Tipe Order */}
         <div className="bg-white border border-gray-200 rounded-2xl shadow-sm-subtle overflow-hidden flex flex-col">
-          <div className="px-5 py-3.5 bg-gradient-to-r from-[#0F2052] to-[#1A4BC4] text-ink">
-            <h4 className="text-sm font-bold text-ink tracking-tight">Distribusi Tipe Order</h4>
-            <p className="text-[11px] text-ink mt-0.5">Proporsi Work Order berdasarkan tipe (PM04 vs PM02+).</p>
+          <div className="px-5 py-4 bg-white border-b border-gray-100 rounded-t-2xl">
+            <h4 className="text-sm font-bold text-slate-800 tracking-tight">Distribusi Tipe Order</h4>
+            <p className="text-[11px] text-gray-500 mt-0.5">Proporsi Work Order berdasarkan tipe (PM04 vs PM02+).</p>
           </div>
           <div className="p-5 flex-1 flex items-center justify-center min-h-[250px]">
             {chart1Series.reduce((a, b) => a + b, 0) === 0 ? (
@@ -445,9 +445,9 @@ export default function PublicDashboard({ onBack }) {
 
         {/* Symmetrical Donut Chart 2: Rekomendasi (M4 & M7) */}
         <div className="bg-white border border-gray-200 rounded-2xl shadow-sm-subtle overflow-hidden flex flex-col">
-          <div className="px-5 py-3.5 bg-gradient-to-r from-[#0F5A51] to-[#168477] text-white/90 shadow-md">
-            <h4 className="text-sm font-bold text-ink tracking-tight">Rekomendasi (M4 & M7)</h4>
-            <p className="text-[11px] text-teal-100 mt-0.5">Proporsi rekomendasi berdasarkan status rilis.</p>
+          <div className="px-5 py-4 bg-white border-b border-gray-100 rounded-t-2xl">
+            <h4 className="text-sm font-bold text-slate-800 tracking-tight">Rekomendasi (M4 & M7)</h4>
+            <p className="text-[11px] text-gray-500 mt-0.5">Proporsi rekomendasi berdasarkan status rilis.</p>
           </div>
           <div className="p-5 flex-1 flex items-center justify-center min-h-[250px]">
             {chart4Series.reduce((a, b) => a + b, 0) === 0 ? (
@@ -755,6 +755,7 @@ export default function PublicDashboard({ onBack }) {
     </div>
   );
 }
+
 
 
 
