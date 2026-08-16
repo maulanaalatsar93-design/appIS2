@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Chart from 'react-apexcharts';
 import { differenceInDays, format, parseISO, addDays } from 'date-fns';
 import { getManpowerList } from '../../services/dashboardService';
-import { CheckCircle2, UserX, Calendar, Info, PlaneTakeoff, Globe, GraduationCap, Stethoscope, Loader2, Hospital } from 'lucide-react';
+import { CheckCircle2, UserX, Calendar, Info, PlaneTakeoff, Globe, GraduationCap, Stethoscope, Loader2, Hospital, HardHat } from 'lucide-react';
 
 export default function ManPowerDashboard() {
   const [selectedDate, setSelectedDate] = useState(format(new Date(), 'yyyy-MM-dd'));
@@ -327,7 +327,10 @@ export default function ManPowerDashboard() {
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
         {/* Table Organik */}
         <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col">
-          <div className="bg-slate-50 border-b border-slate-200 px-5 py-3 flex items-center">
+          <div className="bg-slate-50 border-b border-slate-200 px-5 py-3 flex items-center gap-2">
+            <div className="w-6 h-6 rounded-md bg-slate-300 flex items-center justify-center shadow-sm">
+              <HardHat className="w-3.5 h-3.5 text-white" />
+            </div>
             <h3 className="text-[13px] font-bold text-slate-800">Tenaga Kerja Organik (TKO)</h3>
           </div>
           <div className="overflow-auto max-h-[350px]">
@@ -336,16 +339,18 @@ export default function ManPowerDashboard() {
                 <tr className="border-b border-slate-200 text-slate-600">
                   <th className="py-3 px-4 font-bold w-12 text-center">No.</th>
                   <th className="py-3 px-4 font-bold">Nama</th>
+                  <th className="py-3 px-4 font-bold">NPK</th>
                   <th className="py-3 px-4 font-bold">Bagian</th>
                   <th className="py-3 px-4 font-bold text-center w-28">Status</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {loading ? <tr><td colSpan="4" className="text-center py-8 text-gray-500"><Loader2 className="w-6 h-6 animate-spin mx-auto mb-2" /> Memuat Data...</td></tr> : 
+                {loading ? <tr><td colSpan="5" className="text-center py-8 text-gray-500"><Loader2 className="w-6 h-6 animate-spin mx-auto mb-2" /> Memuat Data...</td></tr> : 
                   organikData.map((p, i) => (
                   <tr key={p.id} className="hover:bg-slate-50 transition-colors">
                     <td className="py-3 px-4 text-center text-gray-500 font-medium">{i + 1}.</td>
                     <td className="py-3 px-4 font-bold text-slate-800">{p.name}</td>
+                    <td className="py-3 px-4 text-slate-500 text-xs font-mono">{p.npk || '-'}</td>
                     <td className="py-3 px-4 text-slate-600 text-xs font-semibold">{getBagian(p)}</td>
                     <td className="py-2 px-4">
                       {renderStatusBadge(p)}
@@ -362,7 +367,10 @@ export default function ManPowerDashboard() {
 
         {/* Table Non Organik */}
         <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col">
-          <div className="bg-slate-50 border-b border-slate-200 px-5 py-3 flex items-center">
+          <div className="bg-slate-50 border-b border-slate-200 px-5 py-3 flex items-center gap-2">
+            <div className="w-6 h-6 rounded-md bg-emerald-100 flex items-center justify-center shadow-sm">
+              <HardHat className="w-3.5 h-3.5 text-emerald-600" />
+            </div>
             <h3 className="text-[13px] font-bold text-slate-800">Tenaga Kerja Non Organik (TKNO)</h3>
           </div>
           <div className="overflow-auto max-h-[350px]">
@@ -371,16 +379,18 @@ export default function ManPowerDashboard() {
                 <tr className="border-b border-slate-200 text-slate-600">
                   <th className="py-3 px-4 font-bold w-12 text-center">No.</th>
                   <th className="py-3 px-4 font-bold">Nama</th>
+                  <th className="py-3 px-4 font-bold">NPK</th>
                   <th className="py-3 px-4 font-bold">Bagian</th>
                   <th className="py-3 px-4 font-bold text-center w-28">Status</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {loading ? <tr><td colSpan="4" className="text-center py-8 text-gray-500"><Loader2 className="w-6 h-6 animate-spin mx-auto mb-2" /> Memuat Data...</td></tr> : 
+                {loading ? <tr><td colSpan="5" className="text-center py-8 text-gray-500"><Loader2 className="w-6 h-6 animate-spin mx-auto mb-2" /> Memuat Data...</td></tr> : 
                   nonOrganikData.map((p, i) => (
                   <tr key={p.id} className="hover:bg-slate-50 transition-colors">
                     <td className="py-3 px-4 text-center text-gray-500 font-medium">{i + 1}.</td>
                     <td className="py-3 px-4 font-bold text-slate-800">{p.name}</td>
+                    <td className="py-3 px-4 text-slate-500 text-xs font-mono">{p.npk || '-'}</td>
                     <td className="py-3 px-4 text-slate-600 text-xs font-semibold">{getBagian(p)}</td>
                     <td className="py-2 px-4">
                       {renderStatusBadge(p)}
@@ -397,9 +407,14 @@ export default function ManPowerDashboard() {
 
         {/* Table Ketidakhadiran */}
         <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col">
-          <div className="bg-slate-50 border-b border-slate-200 px-5 py-3 flex items-center gap-2">
-            <Calendar className="w-4 h-4 text-[#193B8F]" /> 
-            <h3 className="text-[13px] font-bold text-slate-800">Ketidakhadiran (Cuti, Izin, Sakit, Referral)</h3>
+          <div className="bg-slate-50 border-b border-slate-200 px-5 py-3 flex flex-col justify-center">
+            <div className="flex items-center gap-2">
+              <Calendar className="w-4 h-4 text-[#193B8F]" /> 
+              <h3 className="text-[13px] font-bold text-slate-800">Ketidakhadiran</h3>
+            </div>
+            <p className="text-[10px] font-medium text-slate-500 mt-0.5 ml-6">
+              (Cuti, Izin, Sakit, Referral)
+            </p>
           </div>
           <div className="overflow-auto max-h-[350px]">
             <table className="w-full text-sm text-left">
@@ -407,17 +422,19 @@ export default function ManPowerDashboard() {
                 <tr className="border-b border-slate-200 text-slate-600">
                   <th className="py-3 px-4 font-bold w-12 text-center">No.</th>
                   <th className="py-3 px-4 font-bold">Nama</th>
+                  <th className="py-3 px-4 font-bold">NPK</th>
                   <th className="py-3 px-4 font-bold">Bagian</th>
                   <th className="py-3 px-4 font-bold text-center w-28">Status</th>
                   <th className="py-3 px-4 font-bold text-center w-36">Durasi</th>
                 </tr>
               </thead>
               <tbody>
-                {loading ? <tr><td colSpan="5" className="text-center py-8 text-gray-500">Memuat Data...</td></tr> : 
+                {loading ? <tr><td colSpan="6" className="text-center py-8 text-gray-500">Memuat Data...</td></tr> : 
                   ketidakhadiranData.map((p, i) => (
                   <tr key={p.id} className="border-b border-slate-100 hover:bg-slate-50 last:border-0 transition-colors">
                     <td className="py-3 px-4 text-center text-gray-500 font-medium">{i + 1}.</td>
                     <td className="py-3 px-4 font-bold text-slate-800">{p.name}</td>
+                    <td className="py-3 px-4 text-slate-500 text-xs font-mono">{p.npk || '-'}</td>
                     <td className="py-3 px-4 text-slate-600 text-xs font-semibold">{getBagian(p)}</td>
                     <td className="py-2 px-4">
                       {renderStatusBadge(p)}
@@ -452,16 +469,18 @@ export default function ManPowerDashboard() {
                 <tr className="border-b border-slate-200 text-slate-600">
                   <th className="py-3 px-4 font-bold w-12 text-center">No.</th>
                   <th className="py-3 px-4 font-bold">Nama</th>
+                  <th className="py-3 px-4 font-bold">NPK</th>
                   <th className="py-3 px-4 font-bold">Bagian</th>
                   <th className="py-3 px-4 font-bold text-center w-36">Keterangan</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {loading ? <tr><td colSpan="4" className="text-center py-8 text-gray-500">Memuat Data...</td></tr> : 
+                {loading ? <tr><td colSpan="5" className="text-center py-8 text-gray-500">Memuat Data...</td></tr> : 
                   penugasanData.map((p, i) => (
                   <tr key={p.id} className="hover:bg-slate-50 transition-colors">
                     <td className="py-3 px-4 text-center text-gray-500 font-medium">{i + 1}.</td>
                     <td className="py-3 px-4 font-bold text-slate-800">{p.name}</td>
+                    <td className="py-3 px-4 text-slate-500 text-xs font-mono">{p.npk || '-'}</td>
                     <td className="py-3 px-4 text-slate-600 text-xs font-semibold">{getBagian(p)}</td>
                     <td className="py-2 px-4">
                       {renderDurasiCell(p)}
