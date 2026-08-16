@@ -1044,7 +1044,7 @@ export default function InternalDashboard() {
                       <span className="truncate">CNF TECO: Dikonfirmasi & TECO</span>
                     </div>
                     <div className="flex items-center gap-1.5 bg-white p-2 rounded-2xl border border-gray-200">
-                      <span className="w-2.5 h-2.5 rounded-full bg-[#FF7410] shrink-0"></span>
+                      <span className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-[#D9650F] to-[#FF7410] shrink-0"></span>
                       <span className="truncate">CNF REL: Dikonfirmasi Rilis</span>
                     </div>
                     <div className="flex items-center gap-1.5 bg-white p-2 rounded-2xl border border-gray-200">
@@ -1079,12 +1079,12 @@ export default function InternalDashboard() {
                   </div>
                 </div>
                 <div className="flex items-end gap-2 mt-2">
-                  <div className="text-4xl font-display font-extrabold text-ink tracking-tight">{summary?.kpi?.totalWO ? summary.kpi.totalWO.toLocaleString('id-ID') : '0'}</div>
+                  <div className="text-4xl font-display font-extrabold text-white/90 tracking-tight">{summary?.kpi?.totalWO ? summary.kpi.totalWO.toLocaleString('id-ID') : '0'}</div>
                   <div className="text-base text-white/50 font-semibold mb-0.5">WO</div>
                 </div>
                 <div className="mt-2 flex items-center gap-4 text-[11px] text-white/60">
-                  <span>● CNF: <strong className="text-ink">{summary?.jobLoadDetails?.gauges?.cnfCount || '—'}</strong> WO</span>
-                  <span>● Total: <strong className="text-ink">{summary?.kpi?.totalWO || 0}</strong> WO</span>
+                  <span>● CNF: <strong className="text-white/90">{summary?.jobLoadDetails?.gauges?.cnfCount || '—'}</strong> WO</span>
+                  <span>● Total: <strong className="text-white/90">{summary?.kpi?.totalWO || 0}</strong> WO</span>
                 </div>
               </div>
               {/* Progress Bar Section */}
@@ -1119,7 +1119,7 @@ export default function InternalDashboard() {
             </div>
 
             {/* PM04 Card — Royal Blue */}
-            <div className="rounded-xl overflow-hidden shadow-lg border border-[#0D3299]/20 bg-[#1A4BC4]">
+            <div className="rounded-xl overflow-hidden shadow-lg border border-[#0D3299]/20 bg-gradient-to-r from-[#193B8F] to-[#1A4BC4]">
               <div className="px-5 pt-5 pb-0">
                 <div className="flex items-start justify-between mb-1">
                   <div>
@@ -1133,12 +1133,12 @@ export default function InternalDashboard() {
                   </div>
                 </div>
                 <div className="flex items-end gap-2 mt-2">
-                  <div className="text-4xl font-display font-extrabold text-ink tracking-tight">{summary?.kpi?.pm04Count ? summary.kpi.pm04Count.toLocaleString('id-ID') : '0'}</div>
+                  <div className="text-4xl font-display font-extrabold text-white/90 tracking-tight">{summary?.kpi?.pm04Count ? summary.kpi.pm04Count.toLocaleString('id-ID') : '0'}</div>
                   <div className="text-base text-white/50 font-semibold mb-0.5">WO</div>
                 </div>
                 <div className="mt-2 flex items-center gap-4 text-[11px] text-white/60">
-                  <span>● CNF: <strong className="text-ink">{summary?.jobLoadDetails?.gauges?.pm04CnfCount || '—'}</strong> WO</span>
-                  <span>● Total: <strong className="text-ink">{summary?.kpi?.pm04Count || 0}</strong> WO</span>
+                  <span>● CNF: <strong className="text-white/90">{summary?.jobLoadDetails?.gauges?.pm04CnfCount || '—'}</strong> WO</span>
+                  <span>● Total: <strong className="text-white/90">{summary?.kpi?.pm04Count || 0}</strong> WO</span>
                 </div>
               </div>
               {/* Progress Bar Section */}
@@ -1192,12 +1192,12 @@ export default function InternalDashboard() {
                   </div>
                 </div>
                 <div className="flex items-end gap-2 mt-2">
-                  <div className="text-4xl font-display font-extrabold text-ink tracking-tight">{summary?.kpi?.pm02PlusCount ? summary.kpi.pm02PlusCount.toLocaleString('id-ID') : '0'}</div>
+                  <div className="text-4xl font-display font-extrabold text-white/90 tracking-tight">{summary?.kpi?.pm02PlusCount ? summary.kpi.pm02PlusCount.toLocaleString('id-ID') : '0'}</div>
                   <div className="text-base text-white/50 font-semibold mb-0.5">WO</div>
                 </div>
                 <div className="mt-2 flex items-center gap-4 text-[11px] text-white/60">
-                  <span>● CNF: <strong className="text-ink">{summary?.jobLoadDetails?.gauges?.pm02PlusCnfCount || '—'}</strong> WO</span>
-                  <span>● Total: <strong className="text-ink">{summary?.kpi?.pm02PlusCount || 0}</strong> WO</span>
+                  <span>● CNF: <strong className="text-white/90">{summary?.jobLoadDetails?.gauges?.pm02PlusCnfCount || '—'}</strong> WO</span>
+                  <span>● Total: <strong className="text-white/90">{summary?.kpi?.pm02PlusCount || 0}</strong> WO</span>
                 </div>
               </div>
               {/* Progress Bar Section */}
@@ -1257,7 +1257,7 @@ export default function InternalDashboard() {
                       <tr key={idx} className="hover:bg-blue-50/40 transition-colors">
                         <td className="py-2.5 px-4 font-semibold text-slate-800">{row.name}</td>
                         <td className="py-2.5 px-4">
-                          <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-[#1A4BC4]/10 text-[#1A4BC4] border border-[#1A4BC4]/20">{row.tipe}</span>
+                          <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-gradient-to-r from-[#193B8F] to-[#1A4BC4]/10 text-[#1A4BC4] border border-[#1A4BC4]/20">{row.tipe}</span>
                         </td>
                         <td className="py-2.5 px-4 text-right font-bold text-slate-900">{row.totalWO.toLocaleString('id-ID')}</td>
                         <td className="py-2.5 px-4">
@@ -1880,8 +1880,8 @@ export default function InternalDashboard() {
 
             {/* Data Table Section */}
             <div className="bg-white/90 backdrop-blur-md border border-white shadow-xl ring-1 ring-gray-100/50 rounded-2xl shadow-sm-subtle overflow-hidden">
-              <div className="flex items-center justify-between px-5 py-4 bg-[#8B0000]">
-                <h4 className="text-base font-bold text-ink flex items-center gap-2">
+              <div className="flex items-center justify-between px-5 py-4 bg-gradient-to-r from-[#7F1D1D] to-[#B91C1C]">
+                <h4 className="text-base font-bold text-white/90 flex items-center gap-2">
                   <AlertTriangle size={18} />
                   <span>Daftar Detail Performance Killer</span>
                 </h4>
@@ -2117,6 +2117,7 @@ export default function InternalDashboard() {
     </div>
   );
 }
+
 
 
 
