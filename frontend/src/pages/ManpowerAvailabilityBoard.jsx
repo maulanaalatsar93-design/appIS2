@@ -6,6 +6,7 @@ import {
   Activity, XCircle, MapPin, Calendar, Stethoscope,
   PlaneTakeoff, Globe, Info, UserCheck, ChevronDown, ChevronUp, Edit
 } from 'lucide-react';
+import Sparkline from '../components/ui/Sparkline';
 
 const STATUS_CONFIG = {
   'Tersedia': { label: 'Tersedia', category: 'Utama', color: 'bg-emerald-100 text-emerald-700 border-emerald-200', dot: 'bg-emerald-500', cardBg: 'bg-[#0B2E59]', icon: CheckCircle2, gradient: 'bg-gradient-to-br from-emerald-50 to-emerald-100/50' },
@@ -147,11 +148,22 @@ export default function ManpowerAvailabilityBoard() {
     return 5;
   };
 
-  const filtered = data.filter(mp =>
-    !filters.search || mp.name.toLowerCase().includes(filters.search.toLowerCase()) ||
+  const baseFiltered = data.filter(mp => 
+    !filters.search || 
+    mp.name.toLowerCase().includes(filters.search.toLowerCase()) ||
     mp.npk.toLowerCase().includes(filters.search.toLowerCase()) ||
     mp.position.toLowerCase().includes(filters.search.toLowerCase())
-  ).sort((a, b) => {
+  );
+
+  const filtered = baseFiltered.filter(mp => {
+    if (filters.status !== 'All') {
+      if (Array.isArray(filters.status)) {
+        return filters.status.includes(mp.availability_status);
+      }
+      return mp.availability_status === filters.status;
+    }
+    return true;
+  }).sort((a, b) => {
     const rankA = getRoleRank(a);
     const rankB = getRoleRank(b);
     if (rankA !== rankB) return rankA - rankB;
@@ -163,14 +175,53 @@ export default function ManpowerAvailabilityBoard() {
     return (a.name || '').localeCompare(b.name || '');
   });
 
-  // Summary stats
-  const stats = Object.keys(STATUS_CONFIG)
-    .filter(key => key !== 'Inactive' && key !== 'Libur')
-    .map(key => ({
-      key,
-      ...STATUS_CONFIG[key],
-      count: data.filter(mp => mp.availability_status === key).length
-    }));
+  const totalKaryawan = baseFiltered.length;
+  const hadirCount = baseFiltered.filter(mp => mp.availability_status === 'Tersedia').length;
+  const dinasCount = baseFiltered.filter(mp => ['Bertugas', 'Training', 'DinasDalamNegeri', 'DinasLuarNegeri'].includes(mp.availability_status)).length;
+  const absenCount = baseFiltered.filter(mp => ['Cuti', 'Izin', 'Sakit', 'Referral'].includes(mp.availability_status)).length;
+
+  const scorecardItems = [
+    {
+      id: 'total',
+      label: 'Total Karyawan',
+      value: totalKaryawan,
+      subLabel: filters.selectedDivisions.length > 0 ? 'Sesuai Filter' : 'Seluruh Divisi',
+      icon: Users,
+      bgGradient: 'bg-gradient-to-br from-[#0e48a1] to-[#0a2b66]',
+      sparklineColor: 'rgba(255,255,255,0.4)',
+      statusFilter: 'All'
+    },
+    {
+      id: 'hadir',
+      label: 'Man Power Hadir',
+      value: hadirCount,
+      subLabel: 'Tersedia & Aktif',
+      icon: UserCheck,
+      bgGradient: 'bg-gradient-to-br from-[#12a13a] to-[#0c6b25]',
+      sparklineColor: 'rgba(255,255,255,0.4)',
+      statusFilter: ['Tersedia']
+    },
+    {
+      id: 'dinas',
+      label: 'Dinas & Training',
+      value: dinasCount,
+      subLabel: 'Sedang bertugas',
+      icon: MapPin,
+      bgGradient: 'bg-gradient-to-br from-[#f27405] to-[#c25c04]',
+      sparklineColor: 'rgba(255,255,255,0.4)',
+      statusFilter: ['Bertugas', 'Training', 'DinasDalamNegeri', 'DinasLuarNegeri']
+    },
+    {
+      id: 'absen',
+      label: 'Cuti / Sakit / Izin',
+      value: absenCount,
+      subLabel: 'Tidak tersedia',
+      icon: Activity,
+      bgGradient: 'bg-gradient-to-br from-[#d91818] to-[#991111]',
+      sparklineColor: 'rgba(255,255,255,0.4)',
+      statusFilter: ['Cuti', 'Izin', 'Sakit', 'Referral']
+    }
+  ];
 
   const handleFilterChange = (key, value) => {
     setFilters(prev => ({ ...prev, [key]: value }));
@@ -192,47 +243,6 @@ export default function ManpowerAvailabilityBoard() {
   };
 
   const realDivisions = DIVISI_LIST.filter(d => d.id !== 'All');
-
-  const renderScorecard = (s) => {
-    const StatusIcon = STATUS_CONFIG[s.key]?.icon || AlertCircle;
-    const isActive = filters.status === s.key;
-    const bgColor = STATUS_CONFIG[s.key]?.cardBg || 'bg-slate-700';
-    const isUtama = STATUS_CONFIG[s.key]?.category === 'Utama';
-
-    return (
-      <div key={s.key}
-        onClick={() => handleFilterChange('status', isActive ? 'All' : s.key)}
-        className={`relative ${bgColor} border ${isActive ? `border-white shadow-lg ring-2 ring-offset-2 ring-blue-500` : 'border-white/10 shadow-md'} rounded-xl p-4 cursor-pointer transition-all duration-300 overflow-hidden group flex flex-col justify-between hover:shadow-lg hover:-translate-y-0.5 text-white`}
-      >
-        {/* Subtle Background Glow/Shape behind icon */}
-        <div className="absolute -right-4 -top-4 w-24 h-24 rounded-full bg-white/10 transition-transform duration-500 group-hover:scale-150" />
-        <div className="absolute right-4 -bottom-4 w-16 h-16 rounded-full bg-black/5 transition-transform duration-500 group-hover:scale-125" />
-
-        <div className="relative z-10 flex flex-col h-full">
-          {/* Header */}
-          <div className="flex items-start justify-between mb-4">
-             <div className="flex flex-col gap-1.5">
-               <div className="w-8 h-8 flex items-center justify-center rounded-md bg-white/20 border border-white/30 shadow-sm mb-1 backdrop-blur-sm">
-                 <StatusIcon className="w-4 h-4 text-white" />
-               </div>
-               <span className="text-[10px] font-bold text-white/90 uppercase tracking-widest drop-shadow-sm">{s.label}</span>
-             </div>
-             {isActive && (
-               <div className="w-2 h-2 rounded-full bg-white shadow-sm animate-pulse mt-1" />
-             )}
-          </div>
-          
-          {/* Number */}
-          <div className="flex items-baseline gap-1.5 mt-auto">
-             <span className={`text-3xl ${isUtama ? 'md:text-4xl' : 'md:text-3xl'} font-display font-black text-white tracking-tight drop-shadow-sm`}>
-               {s.count}
-             </span>
-             <span className="text-xs font-bold text-white/80">Org</span>
-          </div>
-        </div>
-      </div>
-    );
-  };
 
   return (
     <div className="p-4 sm:p-6 w-full max-w-none space-y-6">
@@ -277,34 +287,48 @@ export default function ManpowerAvailabilityBoard() {
         )}
       </div>
 
-      {/* Summary Stats */}
-      <div className="space-y-6">
-        {/* Utama */}
-        <div className="grid grid-cols-2 lg:grid-cols-2 gap-3">
-          {stats.filter(s => STATUS_CONFIG[s.key]?.category === 'Utama').map(renderScorecard)}
-        </div>
+      {/* Summary Stats - New 4 Card Layout */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {scorecardItems.map((item) => {
+          const isActive = JSON.stringify(filters.status) === JSON.stringify(item.statusFilter);
+          // Dummy sparkline data for aesthetic purpose like the image
+          const sparkData = [20, 25, 22, 30, 28, 35, 40, 38, 45, 50, 48];
+          
+          return (
+            <div
+              key={item.id}
+              onClick={() => handleFilterChange('status', isActive ? 'All' : item.statusFilter)}
+              className={`p-5 rounded-2xl flex flex-col justify-between relative overflow-hidden transition-all duration-300 cursor-pointer group ${item.bgGradient} text-white shadow-md ${isActive ? 'ring-4 ring-offset-2 ring-blue-500 scale-[1.02]' : 'hover:-translate-y-1 hover:shadow-xl'}`}
+            >
+              {/* Background Accents */}
+              <div className="absolute -right-6 -top-6 w-24 h-24 rounded-full bg-white/10 blur-xl transition-transform duration-500 group-hover:scale-150" />
+              <div className="absolute right-0 -bottom-4 w-32 h-16 bg-white/5 blur-2xl transition-transform duration-500 group-hover:scale-125" />
 
-        {/* Absen */}
-        <div>
-          <div className="flex items-center gap-2 mb-3">
-            <div className="w-1 h-4 bg-red-400 rounded-full"></div>
-            <span className="text-[10px] uppercase font-bold text-gray-500 tracking-widest">Ketidakhadiran & Izin</span>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-3">
-            {stats.filter(s => STATUS_CONFIG[s.key]?.category === 'Absen').map(renderScorecard)}
-          </div>
-        </div>
+              <div className="relative z-10 flex flex-col h-full">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center shadow-inner backdrop-blur-sm border border-white/20">
+                    <item.icon className="w-4 h-4 text-white drop-shadow-sm" />
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-xs font-semibold text-white/90 drop-shadow-sm leading-tight">{item.label}</span>
+                  </div>
+                </div>
+                
+                <div className="mt-2 mb-8 flex flex-col">
+                  <span className="text-4xl md:text-5xl font-display font-bold text-white tracking-tight drop-shadow-md leading-none">
+                    {item.value}
+                  </span>
+                  <span className="text-[11px] font-medium text-white/70 mt-1">{item.subLabel}</span>
+                </div>
+              </div>
 
-        {/* Penugasan */}
-        <div>
-          <div className="flex items-center gap-2 mb-3">
-            <div className="w-1 h-4 bg-blue-400 rounded-full"></div>
-            <span className="text-[10px] uppercase font-bold text-gray-500 tracking-widest">Penugasan & Pengembangan</span>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-3">
-            {stats.filter(s => STATUS_CONFIG[s.key]?.category === 'Penugasan').map(renderScorecard)}
-          </div>
-        </div>
+              {/* Sparkline implementation at bottom */}
+              <div className="absolute bottom-0 left-0 right-0 h-10 opacity-60 z-0">
+                <Sparkline data={sparkData} color={item.sparklineColor} strokeWidth={2} />
+              </div>
+            </div>
+          );
+        })}
       </div>
 
       {/* Filters Row */}

@@ -175,17 +175,16 @@ export default function Login() {
         {/* === RIGHT: Premium Form Panel === */}
         <div className="w-full lg:w-[45%] flex flex-col justify-center relative bg-white px-8 sm:px-16 xl:px-24">
           
-          {/* Top Right Public Dashboard Toggle */}
-          <div className="absolute top-6 right-6 sm:top-8 sm:right-8 flex items-center bg-navy-950 p-1.5 rounded-full shadow-lg border border-navy-950/50 z-50">
-            <div className="px-5 py-2 bg-[#FF7410] text-white text-sm font-bold rounded-full shadow-sm cursor-default">
-              Login Page
-            </div>
+          {/* Top Right Public Dashboard Button */}
+          <div className="absolute top-6 right-6 sm:top-8 sm:right-8 z-50">
             <button 
               type="button"
               onClick={() => navigate('/public')}
-              className="px-5 py-2 text-white/70 hover:text-white text-sm font-bold rounded-full transition-colors"
+              className="group flex items-center gap-2 px-5 py-2.5 bg-white border border-gray-200 text-gray-600 hover:text-navy-600 hover:border-navy-200 hover:bg-navy-50 rounded-full shadow-sm transition-all duration-300"
             >
-              Dashboard
+              <BarChart2 className="w-4 h-4" />
+              <span className="text-sm font-bold">Public Dashboard</span>
+              <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300 -ml-2 group-hover:ml-0" />
             </button>
           </div>
 
