@@ -8,18 +8,18 @@ import {
 } from 'lucide-react';
 
 const STATUS_CONFIG = {
-  'Tersedia': { label: 'Tersedia', category: 'Utama', color: 'bg-emerald-100 text-emerald-700 border-emerald-200', dot: 'bg-emerald-500', icon: CheckCircle2, gradient: 'bg-gradient-to-br from-emerald-50 to-emerald-100/50' },
-  'Bertugas': { label: 'Sedang Bertugas', category: 'Utama', color: 'bg-blue-100 text-blue-700 border-blue-200', dot: 'bg-blue-500', icon: Activity, gradient: 'bg-gradient-to-br from-blue-50 to-blue-100/50' },
-  'Training': { label: 'Training', category: 'Penugasan', color: 'bg-purple-100 text-purple-700 border-purple-200', dot: 'bg-purple-500', icon: BookOpen, gradient: 'bg-gradient-to-br from-purple-50 to-purple-100/50' },
-  'DinasDalamNegeri': { label: 'Dinas Dalam Negeri', category: 'Penugasan', color: 'bg-sky-100 text-sky-700 border-sky-200', dot: 'bg-sky-500', icon: PlaneTakeoff, gradient: 'bg-gradient-to-br from-sky-50 to-sky-100/50' },
-  'DinasLuarNegeri': { label: 'Dinas Luar Negeri', category: 'Penugasan', color: 'bg-indigo-100 text-indigo-700 border-indigo-200', dot: 'bg-indigo-500', icon: Globe, gradient: 'bg-gradient-to-br from-indigo-50 to-indigo-100/50' },
-  'Cuti': { label: 'Cuti', category: 'Absen', color: 'bg-amber-100 text-amber-700 border-amber-200', dot: 'bg-amber-500', icon: Calendar, gradient: 'bg-gradient-to-br from-amber-50 to-amber-100/50' },
-  'Izin': { label: 'Izin', category: 'Absen', color: 'bg-orange-100 text-orange-700 border-orange-200', dot: 'bg-orange-500', icon: Info, gradient: 'bg-gradient-to-br from-orange-50 to-orange-100/50' },
-  'Sakit': { label: 'Sakit', category: 'Absen', color: 'bg-rose-100 text-rose-700 border-rose-200', dot: 'bg-rose-500', icon: Stethoscope, gradient: 'bg-gradient-to-br from-rose-50 to-rose-100/50' },
-  'Referral': { label: 'Referral', category: 'Absen', color: 'bg-fuchsia-100 text-fuchsia-700 border-fuchsia-200', dot: 'bg-fuchsia-500', icon: UserCheck, gradient: 'bg-gradient-to-br from-fuchsia-50 to-fuchsia-100/50' },
-  'Alpha': { label: 'Alpha/Tanpa Keterangan', category: 'Hide', color: 'bg-slate-200 text-slate-700 border-slate-300', dot: 'bg-slate-600', icon: XCircle, gradient: 'bg-gradient-to-br from-slate-100 to-slate-200/50' },
-  'Libur': { label: 'Libur / Off', category: 'Hide', color: 'bg-slate-100 text-slate-600 border-slate-200', dot: 'bg-slate-400', icon: Clock, gradient: 'bg-gradient-to-br from-slate-50 to-slate-100/50' },
-  'Inactive': { label: 'Tidak Aktif', category: 'Hide', color: 'bg-gray-100 text-gray-500 border-gray-200', dot: 'bg-gray-400', icon: AlertCircle, gradient: 'bg-gradient-to-br from-gray-50 to-gray-100/50' },
+  'Tersedia': { label: 'Tersedia', category: 'Utama', color: 'bg-emerald-100 text-emerald-700 border-emerald-200', dot: 'bg-emerald-500', cardBg: 'bg-[#0B2E59]', icon: CheckCircle2, gradient: 'bg-gradient-to-br from-emerald-50 to-emerald-100/50' },
+  'Bertugas': { label: 'Sedang Bertugas', category: 'Utama', color: 'bg-blue-100 text-blue-700 border-blue-200', dot: 'bg-blue-500', cardBg: 'bg-[#18468B]', icon: Activity, gradient: 'bg-gradient-to-br from-blue-50 to-blue-100/50' },
+  'Training': { label: 'Training', category: 'Penugasan', color: 'bg-purple-100 text-purple-700 border-purple-200', dot: 'bg-purple-500', cardBg: 'bg-[#0F766E]', icon: BookOpen, gradient: 'bg-gradient-to-br from-purple-50 to-purple-100/50' },
+  'DinasDalamNegeri': { label: 'Dinas Dalam Negeri', category: 'Penugasan', color: 'bg-sky-100 text-sky-700 border-sky-200', dot: 'bg-sky-500', cardBg: 'bg-[#0369A1]', icon: PlaneTakeoff, gradient: 'bg-gradient-to-br from-sky-50 to-sky-100/50' },
+  'DinasLuarNegeri': { label: 'Dinas Luar Negeri', category: 'Penugasan', color: 'bg-indigo-100 text-indigo-700 border-indigo-200', dot: 'bg-indigo-500', cardBg: 'bg-[#4338CA]', icon: Globe, gradient: 'bg-gradient-to-br from-indigo-50 to-indigo-100/50' },
+  'Cuti': { label: 'Cuti', category: 'Absen', color: 'bg-amber-100 text-amber-700 border-amber-200', dot: 'bg-amber-500', cardBg: 'bg-[#B45309]', icon: Calendar, gradient: 'bg-gradient-to-br from-amber-50 to-amber-100/50' },
+  'Izin': { label: 'Izin', category: 'Absen', color: 'bg-orange-100 text-orange-700 border-orange-200', dot: 'bg-orange-500', cardBg: 'bg-[#FF7410]', icon: Info, gradient: 'bg-gradient-to-br from-orange-50 to-orange-100/50' },
+  'Sakit': { label: 'Sakit', category: 'Absen', color: 'bg-rose-100 text-rose-700 border-rose-200', dot: 'bg-rose-500', cardBg: 'bg-[#BE123C]', icon: Stethoscope, gradient: 'bg-gradient-to-br from-rose-50 to-rose-100/50' },
+  'Referral': { label: 'Referral', category: 'Absen', color: 'bg-fuchsia-100 text-fuchsia-700 border-fuchsia-200', dot: 'bg-fuchsia-500', cardBg: 'bg-[#6D28D9]', icon: UserCheck, gradient: 'bg-gradient-to-br from-fuchsia-50 to-fuchsia-100/50' },
+  'Alpha': { label: 'Alpha/Tanpa Keterangan', category: 'Hide', color: 'bg-slate-200 text-slate-700 border-slate-300', dot: 'bg-slate-600', cardBg: 'bg-slate-700', icon: XCircle, gradient: 'bg-gradient-to-br from-slate-100 to-slate-200/50' },
+  'Libur': { label: 'Libur / Off', category: 'Hide', color: 'bg-slate-100 text-slate-600 border-slate-200', dot: 'bg-slate-400', cardBg: 'bg-slate-500', icon: Clock, gradient: 'bg-gradient-to-br from-slate-50 to-slate-100/50' },
+  'Inactive': { label: 'Tidak Aktif', category: 'Hide', color: 'bg-gray-100 text-gray-500 border-gray-200', dot: 'bg-gray-400', cardBg: 'bg-gray-500', icon: AlertCircle, gradient: 'bg-gradient-to-br from-gray-50 to-gray-100/50' },
 };
 
 const DIVISI_LIST = [
@@ -196,14 +196,13 @@ export default function ManpowerAvailabilityBoard() {
   const renderScorecard = (s) => {
     const StatusIcon = STATUS_CONFIG[s.key]?.icon || AlertCircle;
     const isActive = filters.status === s.key;
-    const baseColor = STATUS_CONFIG[s.key]?.dot || 'bg-gray-500'; 
-    const bgColor = baseColor; // Use the 500 shade as background
+    const bgColor = STATUS_CONFIG[s.key]?.cardBg || 'bg-slate-700';
     const isUtama = STATUS_CONFIG[s.key]?.category === 'Utama';
 
     return (
       <div key={s.key}
         onClick={() => handleFilterChange('status', isActive ? 'All' : s.key)}
-        className={`relative ${bgColor} border ${isActive ? `border-white shadow-lg ring-2 ring-offset-2 ring-${baseColor.replace('bg-', '')}` : 'border-white/20 shadow-md'} rounded-xl p-4 cursor-pointer transition-all duration-300 overflow-hidden group flex flex-col justify-between hover:shadow-lg hover:-translate-y-0.5 text-white`}
+        className={`relative ${bgColor} border ${isActive ? `border-white shadow-lg ring-2 ring-offset-2 ring-blue-500` : 'border-white/10 shadow-md'} rounded-xl p-4 cursor-pointer transition-all duration-300 overflow-hidden group flex flex-col justify-between hover:shadow-lg hover:-translate-y-0.5 text-white`}
       >
         {/* Subtle Background Glow/Shape behind icon */}
         <div className="absolute -right-4 -top-4 w-24 h-24 rounded-full bg-white/10 transition-transform duration-500 group-hover:scale-150" />
@@ -291,7 +290,7 @@ export default function ManpowerAvailabilityBoard() {
             <div className="w-1 h-4 bg-red-400 rounded-full"></div>
             <span className="text-[10px] uppercase font-bold text-gray-500 tracking-widest">Ketidakhadiran & Izin</span>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-3">
             {stats.filter(s => STATUS_CONFIG[s.key]?.category === 'Absen').map(renderScorecard)}
           </div>
         </div>
