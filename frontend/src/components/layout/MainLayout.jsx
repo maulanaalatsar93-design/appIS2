@@ -25,7 +25,7 @@ export default function MainLayout() {
           isCollapsed={isCollapsed} 
           setIsCollapsed={setIsCollapsed} 
         />
-        <main className="flex-1 p-4 md:p-8 overflow-y-auto">
+        <main className="flex-1 p-4 md:px-6 md:py-4 overflow-y-auto">
           <Outlet />
         </main>
       </div>

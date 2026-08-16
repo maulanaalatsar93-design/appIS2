@@ -119,7 +119,7 @@ export default function Header({ isCollapsed, setIsCollapsed }) {
   };
 
   return (
-    <header className="h-[84px] bg-gray-50/80 backdrop-blur-xl px-6 md:px-8 flex items-center justify-between sticky top-0 z-30 border-b border-gray-200/60 print:hidden">
+    <header className="h-[72px] bg-gray-50/80 backdrop-blur-xl px-6 md:px-8 flex items-center justify-between sticky top-0 z-30 border-b border-gray-200/60 print:hidden">
       
       {/* Left side: Breadcrumb & Mobile toggle */}
       <div className="flex items-center gap-4">
@@ -141,19 +141,6 @@ export default function Header({ isCollapsed, setIsCollapsed }) {
         </div>
       </div>
 
-      {/* Center: Tabs (Mockup based on image) */}
-      <div className="hidden lg:flex items-center p-1 bg-white border border-gray-200 rounded-xl shadow-sm">
-        {['Overview', 'Board', 'List', 'Grid'].map((tab, i) => (
-          <button 
-            key={tab} 
-            className={`px-4 py-1.5 text-xs font-bold rounded-lg transition-all ${
-              i === 0 ? 'bg-gray-50 text-ink shadow-sm border border-gray-100' : 'text-gray-500 hover:text-ink'
-            }`}
-          >
-            {tab}
-          </button>
-        ))}
-      </div>
 
       {/* Right side: Actions & User */}
       <div className="flex items-center gap-3 md:gap-4 relative">

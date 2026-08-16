@@ -503,7 +503,7 @@ export default function InternalDashboard() {
   };
 
   return (
-    <div className="p-4 md:p-6 space-y-6 relative">
+    <div className="md:px-2 md:py-2 space-y-5 relative">
       {/* STANDARD FLOATING COLLAPSIBLE PILL FILTER */}
       <FloatingFilterPill
         isCollapsed={!isFilterOpen}
