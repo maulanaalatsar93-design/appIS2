@@ -32,7 +32,7 @@ export const INDONESIA_HOLIDAYS = {
   '2026-06-26': 'Idul Adha 1447 H',
   '2026-07-17': 'Tahun Baru Islam 1448 H',
   '2026-08-17': 'Hari Kemerdekaan RI',
-  '2026-09-25': 'Maulid Nabi Muhammad SAW',
+  '2026-08-25': 'Maulid Nabi Muhammad SAW',
   '2026-12-25': 'Hari Raya Natal',
 };
 
