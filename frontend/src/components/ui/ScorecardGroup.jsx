@@ -17,7 +17,7 @@ export default function ScorecardGroup({ title, items = [] }) {
           return (
             <div
               key={idx}
-              className={`p-6 ${isDark ? 'bg-[#193B8F] text-white' : 'bg-white text-slate-800'} border ${isDark ? 'border-transparent' : 'border-slate-200'} rounded-xl flex flex-col justify-between relative overflow-hidden transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 group`}
+              className={`p-6 ${isDark ? (item.bgGradient || 'bg-[#193B8F]') + ' text-white' : 'bg-white text-slate-800'} border ${isDark ? 'border-transparent' : 'border-slate-200'} rounded-xl flex flex-col justify-between relative overflow-hidden transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 group`}
               style={!isDark && item.color ? { borderTop: `4px solid ${item.color}` } : {}}
             >
 

@@ -106,15 +106,16 @@ export default function PublicDashboard({ onBack }) {
 
   // Chart 1: Distribusi Tipe Order (PM04 vs PM02+)
   const chart1Options = {
-    chart: { type: 'donut', fontFamily: 'Plus Jakarta Sans, sans-serif' },
-    labels: ['PM 04', 'PM 02+'],
+    chart: { type: 'bar', toolbar: { show: false }, fontFamily: 'Plus Jakarta Sans, sans-serif' },
+    plotOptions: { bar: { borderRadius: 4, columnWidth: '50%', distributed: true } },
+    xaxis: { categories: ['PM 04', 'PM 02+'] },
     colors: ['#1A4BC4', '#D9650F'],
-    legend: { position: 'bottom' },
-    dataLabels: { enabled: false },
+    legend: { show: false },
+    dataLabels: { enabled: true, style: { fontSize: '12px' } },
     stroke: { width: 0 },
     noData: noDataConfig
   };
-  const chart1Series = [summary.kpi.pm04Count, summary.kpi.pm02PlusCount];
+  const chart1Series = [{ name: 'Work Orders', data: [summary.kpi.pm04Count, summary.kpi.pm02PlusCount] }];
 
   // Chart 2: Order per Pabrik (Bar)
   const chart2Options = {
@@ -194,17 +195,18 @@ export default function PublicDashboard({ onBack }) {
     { name: 'Total Rekomendasi', data: summary.jobLoadTrend?.rekSeries || [] }
   ];
 
-  // Chart 4: Rekomendasi M4 & M7 (Donut)
+  // Chart 4: Rekomendasi M4 & M7 (Bar)
   const chart4Options = {
-    chart: { type: 'donut', fontFamily: 'Plus Jakarta Sans, sans-serif' },
-    labels: ['M4', 'M7'],
+    chart: { type: 'bar', toolbar: { show: false }, fontFamily: 'Plus Jakarta Sans, sans-serif' },
+    plotOptions: { bar: { borderRadius: 4, columnWidth: '50%', distributed: true } },
+    xaxis: { categories: ['M4', 'M7'] },
     colors: ['#059669', '#D97706'],
-    legend: { position: 'bottom' },
-    dataLabels: { enabled: false },
+    legend: { show: false },
+    dataLabels: { enabled: true, style: { fontSize: '12px' } },
     stroke: { width: 0 },
     noData: noDataConfig
   };
-  const chart4Series = [summary.kpi.m04Count, summary.kpi.m07Count];
+  const chart4Series = [{ name: 'Rekomendasi', data: [summary.kpi.m04Count, summary.kpi.m07Count] }];
 
   // Chart 5: Rilis per Pabrik (Bar)
   const chart5Options = {
@@ -333,36 +335,36 @@ export default function PublicDashboard({ onBack }) {
           title="Work Order"
           items={[
             {
-              label: 'SEMUA PM',
-              subLabel: 'Total Work Order Semua PM',
+              label: 'Total Work Order PM 04',
+              subLabel: 'Semua Bagian',
+              icon: FileText,
+              value: summary.kpi?.pm04Count || 0,
+              sparklineData: summary.sparklines?.pm04 || [],
+              isDark: true,
+              bgGradient: 'bg-[#1A56DB]',
+              borderColor: 'border-[#1A56DB]'
+            },
+            {
+              label: 'Total Work Order Selain PM 04',
+              subLabel: 'Semua Bagian',
+              icon: FileText,
+              value: summary.kpi?.pm02PlusCount || 0,
+              sparklineData: summary.sparklines?.pm02Plus || [],
+              isDark: true,
+              bgGradient: 'bg-[#F97316]',
+              borderColor: 'border-[#F97316]',
+              onInfoClick: () => { setPmModalMode('pm02plus'); setShowPMModal(true); }
+            },
+            {
+              label: 'Total Work Order Semua PM',
+              subLabel: 'Semua Bagian',
               icon: FileText,
               value: summary.kpi?.totalWO || 0,
               sparklineData: summary.sparklines?.totalWo || summary.jobLoadTrend?.woSeries || [],
               isDark: true,
-              bgGradient: 'bg-gradient-to-br from-blue-600 to-blue-800',
-              borderColor: 'border-blue-700/50',
+              bgGradient: 'bg-[#0B2E59]',
+              borderColor: 'border-[#0B2E59]',
               onInfoClick: () => { setPmModalMode('all'); setShowPMModal(true); }
-            },
-            {
-              label: 'PM04',
-              subLabel: 'Total Work Order PM 04',
-              icon: HardHat,
-              value: summary.kpi?.pm04Count || 0,
-              sparklineData: summary.sparklines?.pm04 || [],
-              isDark: true,
-              bgGradient: 'bg-gradient-to-br from-emerald-500 to-emerald-700',
-              borderColor: 'border-emerald-600/50'
-            },
-            {
-              label: 'PM02+',
-              subLabel: 'Total Work Order PM02+',
-              icon: Info,
-              value: summary.kpi?.pm02PlusCount || 0,
-              sparklineData: summary.sparklines?.pm02Plus || [],
-              isDark: true,
-              bgGradient: 'bg-gradient-to-br from-orange-500 to-orange-700',
-              borderColor: 'border-orange-600/50',
-              onInfoClick: () => { setPmModalMode('pm02plus'); setShowPMModal(true); }
             },
           ]}
         />
@@ -428,32 +430,32 @@ export default function PublicDashboard({ onBack }) {
           </div>
         </div>
 
-        {/* Symmetrical Donut Chart 1: Distribusi Tipe Order */}
+        {/* Symmetrical Bar Chart 1: Distribusi Tipe Order */}
         <div className="bg-white border border-gray-200 rounded-2xl shadow-sm-subtle overflow-hidden flex flex-col">
           <div className="px-5 py-4 bg-white border-b border-gray-100 rounded-t-2xl">
             <h4 className="text-sm font-bold text-slate-800 tracking-tight">Distribusi Tipe Order</h4>
             <p className="text-[11px] text-gray-500 mt-0.5">Proporsi Work Order berdasarkan tipe (PM04 vs PM02+).</p>
           </div>
-          <div className="p-5 flex-1 flex items-center justify-center min-h-[250px]">
-            {chart1Series.reduce((a, b) => a + b, 0) === 0 ? (
+          <div className="p-5 flex-1 flex items-center justify-center min-h-[250px] w-full">
+            {(chart1Series[0]?.data?.reduce((a, b) => a + b, 0) || 0) === 0 ? (
               <p className="text-xs text-gray-500">Tidak ada data tipe order</p>
             ) : (
-              <Chart options={chart1Options} series={chart1Series} type="donut" width="100%" height="250" />
+              <Chart options={chart1Options} series={chart1Series} type="bar" width="100%" height="250" />
             )}
           </div>
         </div>
 
-        {/* Symmetrical Donut Chart 2: Rekomendasi (M4 & M7) */}
+        {/* Symmetrical Bar Chart 2: Rekomendasi (M4 & M7) */}
         <div className="bg-white border border-gray-200 rounded-2xl shadow-sm-subtle overflow-hidden flex flex-col">
           <div className="px-5 py-4 bg-white border-b border-gray-100 rounded-t-2xl">
             <h4 className="text-sm font-bold text-slate-800 tracking-tight">Rekomendasi (M4 & M7)</h4>
             <p className="text-[11px] text-gray-500 mt-0.5">Proporsi rekomendasi berdasarkan status rilis.</p>
           </div>
-          <div className="p-5 flex-1 flex items-center justify-center min-h-[250px]">
-            {chart4Series.reduce((a, b) => a + b, 0) === 0 ? (
+          <div className="p-5 flex-1 flex items-center justify-center min-h-[250px] w-full">
+            {(chart4Series[0]?.data?.reduce((a, b) => a + b, 0) || 0) === 0 ? (
               <p className="text-xs text-gray-500">Tidak ada data rekomendasi</p>
             ) : (
-              <Chart options={chart4Options} series={chart4Series} type="donut" width="100%" height="250" />
+              <Chart options={chart4Options} series={chart4Series} type="bar" width="100%" height="250" />
             )}
           </div>
         </div>
