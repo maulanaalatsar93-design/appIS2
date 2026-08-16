@@ -220,7 +220,7 @@ export default function PdmAreaDashboard() {
   const overallPct = totals.total > 0 ? Math.round((totals.sap_closed / totals.total) * 100) : 0;
 
   return (
-    <div className="p-6 max-w-6xl mx-auto space-y-5">
+    <div className="p-6 w-full max-w-none space-y-5">
       {/* Header */}
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>

@@ -118,7 +118,7 @@ export default function WorkProgramDetail({ programId, onBack, onUpdated }) {
   const canOverrideApprove = isVpOrAdmin && (program.status === 'Waiting VP Approval' || program.status === 'Waiting AVP Approval');
 
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-6 pb-20">
+    <div className="p-6 w-full max-w-none space-y-6 pb-20">
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div className="flex items-center space-x-4">

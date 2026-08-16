@@ -144,7 +144,7 @@ export default function PerformanceKillerPage() {
   );
 
   return (
-    <div className="p-6 max-w-7xl mx-auto min-h-screen">
+    <div className="p-6 w-full max-w-none min-h-screen">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <div>
           <h1 className="text-3xl font-display font-extrabold text-slate-900 tracking-tight flex items-center gap-2">

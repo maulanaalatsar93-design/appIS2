@@ -136,7 +136,7 @@ export default function WorkItemDetail({ itemId, onBack }) {
   const checklistTotal = item.checklists.length;
 
   return (
-    <div className="p-6 max-w-6xl mx-auto space-y-6 pb-20">
+    <div className="p-6 w-full max-w-none space-y-6 pb-20">
       {/* Header */}
       <div className="flex items-center space-x-4">
         <button onClick={onBack} className="p-2 bg-white border border-gray-200 rounded-lg shadow-sm-subtle hover:bg-slate-50">
