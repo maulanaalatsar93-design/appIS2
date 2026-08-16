@@ -57,7 +57,7 @@ export default function ManPowerDashboard() {
   const nonOrganikData = filteredData.filter(p => p.employee_type?.toLowerCase().includes('non organik'));
   
   const ketidakhadiranStatuses = ['Cuti', 'Izin', 'Sakit', 'Referral'];
-  const penugasanStatuses = ['Dinas Dalam Negeri', 'Dinas Luar Negeri'];
+  const penugasanStatuses = ['Dinas Dalam Negeri', 'Dinas Luar Negeri', 'Training'];
 
   const ketidakhadiranData = filteredData.filter(p => ketidakhadiranStatuses.includes(p.statusToday));
   const penugasanData = filteredData.filter(p => penugasanStatuses.includes(p.statusToday));
@@ -171,17 +171,18 @@ export default function ManPowerDashboard() {
   };
 
   const renderStatusBadge = (p) => {
-    let bgClass = 'bg-slate-400';
-    if (p.statusToday === 'Cuti') bgClass = 'bg-[#EAB308]'; // Yellow 500
-    if (p.statusToday === 'Izin') bgClass = 'bg-amber-800';
-    if (p.statusToday === 'Sakit') bgClass = 'bg-slate-400';
-    if (p.statusToday === 'Referral') bgClass = 'bg-purple-500';
-    if (p.statusToday === 'Training') bgClass = 'bg-green-500';
-    if (p.statusToday === 'Dinas Dalam Negeri') bgClass = 'bg-orange-500';
-    if (p.statusToday === 'Dinas Luar Negeri') bgClass = 'bg-black';
+    let styleClass = 'bg-slate-100 text-slate-600 border border-slate-200';
+    if (p.statusToday === 'Cuti') styleClass = 'bg-yellow-50 text-yellow-700 border border-yellow-200';
+    else if (p.statusToday === 'Izin') styleClass = 'bg-amber-50 text-amber-700 border border-amber-200';
+    else if (p.statusToday === 'Sakit') styleClass = 'bg-rose-50 text-rose-600 border border-rose-200';
+    else if (p.statusToday === 'Referral') styleClass = 'bg-purple-50 text-purple-600 border border-purple-200';
+    else if (p.statusToday === 'Training') styleClass = 'bg-teal-50 text-teal-700 border border-teal-200';
+    else if (p.statusToday === 'Dinas Dalam Negeri') styleClass = 'bg-orange-50 text-orange-700 border border-orange-200';
+    else if (p.statusToday === 'Dinas Luar Negeri') styleClass = 'bg-[#193B8F]/10 text-[#193B8F] border border-[#193B8F]/20';
+    else if (p.statusToday === 'Hadir') styleClass = 'bg-emerald-50 text-emerald-600 border border-emerald-200';
 
     return (
-      <div className={`w-full text-center py-1.5 text-ink font-bold text-[11px] uppercase rounded-md tracking-wider shadow-sm ${bgClass}`}>
+      <div className={`w-full text-center py-1.5 font-bold text-[11px] rounded-md shadow-sm-subtle ${styleClass}`}>
         {p.statusToday}
       </div>
     );
@@ -436,9 +437,14 @@ export default function ManPowerDashboard() {
 
         {/* Table Penugasan */}
         <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col">
-          <div className="bg-slate-50 border-b border-slate-200 px-5 py-3 flex items-center gap-2">
-            <PlaneTakeoff className="w-4 h-4 text-[#FF7410]" /> 
-            <h3 className="text-[13px] font-bold text-slate-800">Penugasan Dinas (Dalam/Luar Negeri)</h3>
+          <div className="bg-slate-50 border-b border-slate-200 px-5 py-3 flex flex-col justify-center">
+            <div className="flex items-center gap-2">
+              <PlaneTakeoff className="w-4 h-4 text-[#FF7410]" /> 
+              <h3 className="text-[13px] font-bold text-slate-800">Penugasan Kerja</h3>
+            </div>
+            <p className="text-[10px] font-medium text-slate-500 mt-0.5 ml-6">
+              (Menampilkan karyawan yang sedang Dinas Dalam/Luar Negeri/Training)
+            </p>
           </div>
           <div className="overflow-auto max-h-[350px]">
             <table className="w-full text-sm text-left">
