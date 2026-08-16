@@ -13,17 +13,6 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [focusedField, setFocusedField] = useState(null);
-  const [rememberMe, setRememberMe] = useState(false);
-
-  useEffect(() => {
-    const savedNpk = localStorage.getItem('istek_saved_npk');
-    const savedPassword = localStorage.getItem('istek_saved_password');
-    if (savedNpk && savedPassword) {
-      setNpk(savedNpk);
-      setPassword(savedPassword);
-      setRememberMe(true);
-    }
-  }, []);
 
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -46,15 +35,6 @@ export default function Login() {
         } else {
           playSuccessSound();
         }
-        
-        if (rememberMe) {
-          localStorage.setItem('istek_saved_npk', npk);
-          localStorage.setItem('istek_saved_password', password);
-        } else {
-          localStorage.removeItem('istek_saved_npk');
-          localStorage.removeItem('istek_saved_password');
-        }
-
         login(data.token, data.user);
         navigate('/');
       } else {
@@ -116,203 +96,176 @@ export default function Login() {
               />
             </div>
             <div>
-              <p className="text-white font-display font-extrabold text-xl tracking-tight">ISTEK2</p>
-              <p className="text-gray-400 text-xs font-semibold tracking-widest uppercase mt-0.5">Inspeksi Teknik 2 Dashboard</p>
-            </div>
-          </div>
-
-          {/* Middle: Text & Glassmorphism Card */}
-          <div className="relative z-10 flex flex-col gap-12 mt-[-40px]">
-            <div className="space-y-6 max-w-xl">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md shadow-lg">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)] animate-pulse" />
-                <span className="text-emerald-300 text-[11px] font-bold tracking-widest uppercase">Sistem Online</span>
-              </div>
-              <h1 className="text-[52px] font-display font-extrabold text-white leading-[1.1] tracking-tight">
-                Monitoring Dashboard <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#60A5FA] via-[#A78BFA] to-[#FCA5A5]">
-                  Inspeksi Teknik 2.
-                </span>
-              </h1>
-              <p className="text-gray-400 text-lg leading-relaxed font-body max-w-md">
-                Platform terpadu untuk monitoring jadwal PdM, eksekusi Work Order, dan manajemen Man Power.
-              </p>
+              <p className="text-white font-display font-extrabold text-xl tracking-tight">Monitoring Dashboard</p>
+              <p className="text-gray-400 text-xs font-semibold tracking-widest uppercase mt-0.5">Inspeksi Teknik 2
             </div>
 
-            {/* Premium Glassmorphic Stats Card */}
-            <div className="w-full max-w-sm bg-white/5 border border-white/10 backdrop-blur-lg rounded-[24px] p-6 shadow-2xl ring-1 ring-white/5 group hover:bg-white/10 transition-all duration-500">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400">
-                    <Activity className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <div className="text-white font-bold text-sm tracking-wide">Target Orders</div>
-                    <div className="text-gray-400 text-xs font-medium">Progress status</div>
-                  </div>
+            {/* Middle: Text & Glassmorphism Card */}
+            <div className="relative z-10 flex flex-col gap-12 mt-[-40px]">
+              <div className="space-y-6 max-w-xl">
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md shadow-lg">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)] animate-pulse" />
+                  <span className="text-emerald-300 text-[11px] font-bold tracking-widest uppercase">Sistem Online</span>
                 </div>
-                <div className="text-orange-400 font-extrabold text-xl font-display">99.8%</div>
-              </div>
-              <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
-                <div className="h-full bg-gradient-to-r from-blue-500 via-indigo-500 to-orange-400 w-[99.8%] rounded-full shadow-[0_0_10px_rgba(234,133,60,0.5)]" />
-              </div>
-            </div>
-          </div>
-
-          {/* Bottom: Footer */}
-          <div className="relative z-10 flex items-center justify-between">
-            <p className="text-gray-500 text-sm font-medium">
-              PT. Pupuk Kalimantan Timur
-            </p>
-            <div className="flex gap-2">
-              <div className="w-2 h-2 rounded-full bg-white/20" />
-              <div className="w-2 h-2 rounded-full bg-white/20" />
-              <div className="w-2 h-2 rounded-full bg-white/60" />
-            </div>
-          </div>
-        </div>
-
-        {/* === RIGHT: Premium Form Panel === */}
-        <div className="w-full lg:w-[45%] flex flex-col justify-center relative bg-white px-8 sm:px-16 xl:px-24">
-          
-          {/* Top Right Public Dashboard Toggle */}
-          <div className="absolute top-6 right-6 sm:top-8 sm:right-8 hidden sm:flex items-center bg-[#0B1221] p-1.5 rounded-full shadow-lg border border-gray-100">
-            <div className="px-5 py-2 bg-[#FF7410] text-[#0B1221] text-sm font-bold rounded-full shadow-sm cursor-default">
-              Login Page
-            </div>
-            <button 
-              type="button"
-              onClick={() => navigate('/public')}
-              className="px-5 py-2 text-white/70 hover:text-white text-sm font-bold rounded-full transition-colors"
-            >
-              Dashboard
-            </button>
-          </div>
-
-          <div className="w-full max-w-[420px] mx-auto">
-            {/* Mobile logo */}
-            <div className="flex items-center gap-4 mb-10 lg:hidden">
-              <div className="w-12 h-12 bg-white shadow-md border border-gray-100 flex items-center justify-center rounded-2xl">
-                <img src={logoImg} alt="Logo" className="w-8 h-8 object-contain"
-                  onError={(e) => { e.target.onerror = null; e.target.src = brandIconImg; }} />
-              </div>
-              <div>
-                <p className="text-ink font-display font-extrabold text-xl tracking-tight">KENDALIKAN</p>
-                <p className="text-gray-500 text-xs font-semibold tracking-widest uppercase mt-0.5">Industrial Dashboard</p>
-              </div>
-            </div>
-
-            <div className="mb-10">
-              <h2 className="text-4xl font-display font-extrabold text-ink tracking-tight mb-3">Selamat Datang</h2>
-              <p className="text-gray-500 text-base font-body">Masuk ke dashboard Anda untuk melanjutkan.</p>
-            </div>
-
-            {error && (
-              <div className="mb-8 flex items-start gap-3 p-4 rounded-2xl bg-red-50 border border-red-100/50 text-danger text-sm shadow-sm">
-                <div className="w-6 h-6 rounded-full bg-red-100 flex items-center justify-center shrink-0">
-                  <span className="text-danger font-bold text-xs">!</span>
-                </div>
-                <span className="font-semibold leading-relaxed pt-0.5">{error}</span>
-              </div>
-            )}
-
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="space-y-2.5">
-                <label className="block text-sm font-bold text-ink">NPK Karyawan</label>
-                <div className={`relative flex items-center rounded-2xl border-2 transition-all duration-300 bg-[#F8FAFC] ${focusedField === 'npk' ? 'border-navy-600 bg-white shadow-[0_4px_20px_-4px_rgba(24,70,139,0.15)] ring-4 ring-navy-600/10' : 'border-gray-100 hover:border-gray-300 hover:bg-white'}`}>
-                  <div className="pl-5 shrink-0">
-                    <User className={`w-5 h-5 transition-colors ${focusedField === 'npk' ? 'text-navy-600' : 'text-gray-400'}`} />
-                  </div>
-                  <input
-                    type="text"
-                    required
-                    value={npk}
-                    onChange={(e) => setNpk(e.target.value)}
-                    onFocus={() => setFocusedField('npk')}
-                    onBlur={() => setFocusedField(null)}
-                    className="w-full pl-3 pr-5 py-4 bg-transparent text-ink text-base focus:outline-none placeholder:text-gray-400 font-semibold"
-                    placeholder="Masukkan NPK Anda"
-                  />
-                </div>
+                <h1 className="text-[52px] font-display font-extrabold text-white leading-[1.1] tracking-tight">
+                  Monitoring Dashboard <br />
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#60A5FA] via-[#A78BFA] to-[#FCA5A5]">
+                    Inspeksi Teknik 2.
+                  </span>
+                </h1>
+                <p className="text-gray-400 text-lg leading-relaxed font-body max-w-md">
+                  Platform terpadu untuk monitoring jadwal PdM, eksekusi Work Order, dan manajemen Man Power.
+                </p>
               </div>
 
-              <div className="space-y-2.5">
-                <label className="block text-sm font-bold text-ink">Kata Sandi</label>
-                <div className={`relative flex items-center rounded-2xl border-2 transition-all duration-300 bg-[#F8FAFC] ${focusedField === 'password' ? 'border-navy-600 bg-white shadow-[0_4px_20px_-4px_rgba(24,70,139,0.15)] ring-4 ring-navy-600/10' : 'border-gray-100 hover:border-gray-300 hover:bg-white'}`}>
-                  <div className="pl-5 shrink-0">
-                    <Lock className={`w-5 h-5 transition-colors ${focusedField === 'password' ? 'text-navy-600' : 'text-gray-400'}`} />
-                  </div>
-                  <input
-                    type={showPassword ? 'text' : 'password'}
-                    required
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    onFocus={() => setFocusedField('password')}
-                    onBlur={() => setFocusedField(null)}
-                    className="w-full pl-3 pr-3 py-4 bg-transparent text-ink text-base focus:outline-none placeholder:text-gray-400 font-semibold"
-                    placeholder="••••••••"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="pr-5 shrink-0 text-gray-400 hover:text-navy-600 transition-colors"
-                    tabIndex={-1}
-                  >
-                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-                  </button>
-                </div>
-              </div>
-
-              <div className="flex items-center justify-between pt-2">
-                <label className="flex items-center gap-3 cursor-pointer group">
-                  <div className="relative flex items-center justify-center">
-                    <input 
-                      type="checkbox" 
-                      className="sr-only" 
-                      checked={rememberMe}
-                      onChange={(e) => setRememberMe(e.target.checked)}
-                    />
-                    <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center transition-colors ${rememberMe ? 'bg-navy-600 border-navy-600' : 'bg-white border-gray-300 group-hover:border-navy-600'}`}>
-                      {rememberMe && (
-                        <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                        </svg>
-                      )}
+              {/* Premium Glassmorphic Stats Card */}
+              <div className="w-full max-w-sm bg-white/5 border border-white/10 backdrop-blur-lg rounded-[24px] p-6 shadow-2xl ring-1 ring-white/5 group hover:bg-white/10 transition-all duration-500">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400">
+                      <Activity className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <div className="text-white font-bold text-sm tracking-wide">Target Orders</div>
+                      <div className="text-gray-400 text-xs font-medium">Progress status</div>
                     </div>
                   </div>
-                  <span className="text-sm font-semibold text-gray-600 group-hover:text-ink transition-colors">Ingat saya</span>
-                </label>
-                <button
-                  type="button"
-                  onClick={() => alert('Untuk mereset password Anda, silakan hubungi Administrator (Maulana Cipta P).')}
-                  className="text-sm text-navy-600 font-bold hover:text-navy-950 transition-colors"
-                >
-                  Lupa Password?
-                </button>
+                  <div className="text-orange-400 font-extrabold text-xl font-display">99.8%</div>
+                </div>
+                <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+                  <div className="h-full bg-gradient-to-r from-blue-500 via-indigo-500 to-orange-400 w-[99.8%] rounded-full shadow-[0_0_10px_rgba(234,133,60,0.5)]" />
+                </div>
+              </div>
+            </div>
+
+            {/* Bottom: Footer */}
+            <div className="relative z-10 flex items-center justify-between">
+              <p className="text-gray-500 text-sm font-medium">
+                PT. Pupuk Kalimantan Timur
+              </p>
+              <div className="flex gap-2">
+                <div className="w-2 h-2 rounded-full bg-white/20" />
+                <div className="w-2 h-2 rounded-full bg-white/20" />
+                <div className="w-2 h-2 rounded-full bg-white/60" />
+              </div>
+            </div>
+          </div>
+
+          {/* === RIGHT: Premium Form Panel === */}
+          <div className="w-full lg:w-[45%] flex flex-col justify-center relative bg-white px-8 sm:px-16 xl:px-24">
+
+            <div className="w-full max-w-[420px] mx-auto">
+              {/* Mobile logo */}
+              <div className="flex items-center gap-4 mb-10 lg:hidden">
+                <div className="w-12 h-12 bg-white shadow-md border border-gray-100 flex items-center justify-center rounded-2xl">
+                  <img src={logoImg} alt="Logo" className="w-8 h-8 object-contain"
+                    onError={(e) => { e.target.onerror = null; e.target.src = brandIconImg; }} />
+                </div>
+                <div>
+                  <p className="text-ink font-display font-extrabold text-xl tracking-tight">KENDALIKAN</p>
+                  <p className="text-gray-500 text-xs font-semibold tracking-widest uppercase mt-0.5">Industrial Dashboard</p>
+                </div>
               </div>
 
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full mt-6 relative overflow-hidden flex items-center justify-center gap-2 py-4 px-6 rounded-2xl text-base font-bold text-white transition-all duration-300 bg-gradient-to-r from-orange-500 to-orange-400 hover:from-orange-600 hover:to-orange-500 active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed shadow-[0_8px_20px_-6px_rgba(234,133,60,0.5)] hover:shadow-[0_12px_24px_-6px_rgba(234,133,60,0.6)] group"
-              >
-                <span className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
-                {loading ? (
-                  <>
-                    <Loader2 className="w-5 h-5 animate-spin relative z-10" />
-                    <span className="relative z-10">Memproses...</span>
-                  </>
-                ) : (
-                  <>
-                    <span className="relative z-10">Masuk Sekarang</span>
-                    <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform" />
-                  </>
-                )}
-              </button>
-            </form>
+              <div className="mb-10">
+                <h2 className="text-4xl font-display font-extrabold text-ink tracking-tight mb-3">Selamat Datang</h2>
+                <p className="text-gray-500 text-base font-body">Masuk ke dashboard Anda untuk melanjutkan.</p>
+              </div>
+
+              {error && (
+                <div className="mb-8 flex items-start gap-3 p-4 rounded-2xl bg-red-50 border border-red-100/50 text-danger text-sm shadow-sm">
+                  <div className="w-6 h-6 rounded-full bg-red-100 flex items-center justify-center shrink-0">
+                    <span className="text-danger font-bold text-xs">!</span>
+                  </div>
+                  <span className="font-semibold leading-relaxed pt-0.5">{error}</span>
+                </div>
+              )}
+
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="space-y-2.5">
+                  <label className="block text-sm font-bold text-ink">NPK Karyawan</label>
+                  <div className={`relative flex items-center rounded-2xl border-2 transition-all duration-300 bg-[#F8FAFC] ${focusedField === 'npk' ? 'border-navy-600 bg-white shadow-[0_4px_20px_-4px_rgba(24,70,139,0.15)] ring-4 ring-navy-600/10' : 'border-gray-100 hover:border-gray-300 hover:bg-white'}`}>
+                    <div className="pl-5 shrink-0">
+                      <User className={`w-5 h-5 transition-colors ${focusedField === 'npk' ? 'text-navy-600' : 'text-gray-400'}`} />
+                    </div>
+                    <input
+                      type="text"
+                      required
+                      value={npk}
+                      onChange={(e) => setNpk(e.target.value)}
+                      onFocus={() => setFocusedField('npk')}
+                      onBlur={() => setFocusedField(null)}
+                      className="w-full pl-3 pr-5 py-4 bg-transparent text-ink text-base focus:outline-none placeholder:text-gray-400 font-semibold"
+                      placeholder="Masukkan NPK Anda"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2.5">
+                  <label className="block text-sm font-bold text-ink">Kata Sandi</label>
+                  <div className={`relative flex items-center rounded-2xl border-2 transition-all duration-300 bg-[#F8FAFC] ${focusedField === 'password' ? 'border-navy-600 bg-white shadow-[0_4px_20px_-4px_rgba(24,70,139,0.15)] ring-4 ring-navy-600/10' : 'border-gray-100 hover:border-gray-300 hover:bg-white'}`}>
+                    <div className="pl-5 shrink-0">
+                      <Lock className={`w-5 h-5 transition-colors ${focusedField === 'password' ? 'text-navy-600' : 'text-gray-400'}`} />
+                    </div>
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      required
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      onFocus={() => setFocusedField('password')}
+                      onBlur={() => setFocusedField(null)}
+                      className="w-full pl-3 pr-3 py-4 bg-transparent text-ink text-base focus:outline-none placeholder:text-gray-400 font-semibold"
+                      placeholder="••••••••"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="pr-5 shrink-0 text-gray-400 hover:text-navy-600 transition-colors"
+                      tabIndex={-1}
+                    >
+                      {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                    </button>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between pt-2">
+                  <label className="flex items-center gap-3 cursor-pointer group">
+                    <div className="w-5 h-5 rounded-md border-2 border-gray-300 group-hover:border-navy-600 flex items-center justify-center transition-colors bg-white">
+                      <div className="w-2.5 h-2.5 rounded-[2px] bg-transparent group-active:bg-navy-600" />
+                    </div>
+                    <span className="text-sm font-semibold text-gray-600 group-hover:text-ink transition-colors">Ingat saya</span>
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => alert('Untuk mereset password Anda, silakan hubungi Administrator (Maulana Cipta P).')}
+                    className="text-sm text-navy-600 font-bold hover:text-navy-950 transition-colors"
+                  >
+                    Lupa Password?
+                  </button>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full mt-6 relative overflow-hidden flex items-center justify-center gap-2 py-4 px-6 rounded-2xl text-base font-bold text-white transition-all duration-300 bg-gradient-to-r from-orange-500 to-orange-400 hover:from-orange-600 hover:to-orange-500 active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed shadow-[0_8px_20px_-6px_rgba(234,133,60,0.5)] hover:shadow-[0_12px_24px_-6px_rgba(234,133,60,0.6)] group"
+                >
+                  <span className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+                  {loading ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin relative z-10" />
+                      <span className="relative z-10">Memproses...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span className="relative z-10">Masuk Sekarang</span>
+                      <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform" />
+                    </>
+                  )}
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  );
-}
+      )
+} 
