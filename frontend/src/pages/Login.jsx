@@ -176,7 +176,7 @@ export default function Login() {
         <div className="w-full lg:w-[45%] flex flex-col justify-center relative bg-white px-8 sm:px-16 xl:px-24">
           
           {/* Top Right Public Dashboard Toggle */}
-          <div className="absolute top-6 right-6 sm:top-8 sm:right-8 flex items-center bg-navy-600 p-1.5 rounded-full shadow-lg border border-navy-600/50 z-50">
+          <div className="absolute top-6 right-6 sm:top-8 sm:right-8 flex items-center bg-navy-950 p-1.5 rounded-full shadow-lg border border-navy-950/50 z-50">
             <div className="px-5 py-2 bg-[#FF7410] text-white text-sm font-bold rounded-full shadow-sm cursor-default">
               Login Page
             </div>
