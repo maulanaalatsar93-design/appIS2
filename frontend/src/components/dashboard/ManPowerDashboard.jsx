@@ -183,10 +183,10 @@ export default function ManPowerDashboard() {
   const renderBagianBadge = (p) => {
     const bagian = getBagian(p);
     if (bagian === 'Vice President') {
-      return <span className="inline-block px-2.5 py-0.5 rounded text-[10px] font-black uppercase bg-[#193B8F] text-white shadow-sm tracking-wide">{bagian}</span>;
+      return <span className="inline-block px-2 py-0.5 rounded text-[11px] font-bold bg-[#193B8F] text-white shadow-sm">{bagian}</span>;
     }
     if (bagian.startsWith('AVP')) {
-      return <span className="inline-block px-2.5 py-0.5 rounded text-[10px] font-black uppercase bg-[#FF7410] text-white shadow-sm tracking-wide">{bagian}</span>;
+      return <span className="inline-block px-2 py-0.5 rounded text-[11px] font-bold bg-[#FF7410] text-white shadow-sm">{bagian}</span>;
     }
     return <span className="text-slate-600 text-[11px] font-semibold">{bagian}</span>;
   };
