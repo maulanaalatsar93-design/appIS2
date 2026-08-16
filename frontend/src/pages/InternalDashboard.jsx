@@ -1135,90 +1135,54 @@ export default function InternalDashboard() {
 
           </div>
 
-          {/* Radial Gauges Row */}
+          {/* Progress Bars Row */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-6 mb-8">
-            {/* Gauge PM04 */}
-            <div className="flex flex-col items-center justify-center">
-              <h4 className="text-sm font-bold text-slate-800 mb-2">Progress PM04</h4>
-              <Chart
-                options={{
-                  chart: { type: 'radialBar', sparkline: { enabled: true } },
-                  plotOptions: {
-                    radialBar: {
-                      startAngle: -90,
-                      endAngle: 90,
-                      track: { background: '#E2E8F0', strokeWidth: '100%', margin: 5 },
-                      hollow: { size: '65%' },
-                      dataLabels: {
-                        name: { show: true, offsetY: 25, fontSize: '10px', color: '#64748B', fontWeight: 500 },
-                        value: { show: true, offsetY: -5, fontSize: '28px', fontWeight: 800, color: '#0F172A', formatter: (v) => v + '%' }
-                      }
-                    }
-                  },
-                  fill: { colors: ['#1E40AF'] },
-                  labels: ['% Persentase CNF real']
-                }}
-                series={[summary?.jobLoadDetails?.gauges?.pm04CnfRate || 0]}
-                type="radialBar"
-                height="200"
-              />
-            </div>
-
-            {/* Gauge Selain PM04 */}
-            <div className="flex flex-col items-center justify-center">
-              <div className="flex items-center gap-1 mb-2">
-                <h4 className="text-sm font-bold text-slate-800">Progress Selain PM 04</h4>
-                <Info className="w-3.5 h-3.5 text-gray-400" />
+            {/* Progress PM04 */}
+            <div className="flex flex-col justify-center px-4">
+              <div className="flex items-center justify-between mb-2">
+                <h4 className="text-sm font-bold text-slate-800">Progress PM04</h4>
+                <span className="text-sm font-extrabold text-blue-700">{summary?.jobLoadDetails?.gauges?.pm04CnfRate || 0}%</span>
               </div>
-              <Chart
-                options={{
-                  chart: { type: 'radialBar', sparkline: { enabled: true } },
-                  plotOptions: {
-                    radialBar: {
-                      startAngle: -90,
-                      endAngle: 90,
-                      track: { background: '#E2E8F0', strokeWidth: '100%', margin: 5 },
-                      hollow: { size: '65%' },
-                      dataLabels: {
-                        name: { show: true, offsetY: 25, fontSize: '10px', color: '#64748B', fontWeight: 500 },
-                        value: { show: true, offsetY: -5, fontSize: '28px', fontWeight: 800, color: '#0F172A', formatter: (v) => v + '%' }
-                      }
-                    }
-                  },
-                  fill: { colors: ['#D97706'] },
-                  labels: ['% Persentase CNF real']
-                }}
-                series={[summary?.jobLoadDetails?.gauges?.allWOCnfRate || 0]} /* Note: Using allWOCnfRate since we don't have exact Selain PM04 rate */
-                type="radialBar"
-                height="200"
-              />
+              <div className="w-full h-2.5 bg-gray-200 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-blue-700 rounded-full transition-all duration-700"
+                  style={{ width: `${Math.min(summary?.jobLoadDetails?.gauges?.pm04CnfRate || 0, 100)}%` }}
+                />
+              </div>
+              <p className="text-[10px] text-gray-500 text-center mt-2">% Persentase CNF real</p>
             </div>
 
-            {/* Gauge Semua WO */}
-            <div className="flex flex-col items-center justify-center">
-              <h4 className="text-sm font-bold text-slate-800 mb-2">Progress CNF semua WO</h4>
-              <Chart
-                options={{
-                  chart: { type: 'radialBar', sparkline: { enabled: true } },
-                  plotOptions: {
-                    radialBar: {
-                      startAngle: -90,
-                      endAngle: 90,
-                      track: { background: '#E2E8F0', strokeWidth: '100%', margin: 5 },
-                      hollow: { size: '65%' },
-                      dataLabels: {
-                        name: { show: true, offsetY: 25, fontSize: '10px', color: '#64748B', fontWeight: 500 },
-                        value: { show: true, offsetY: -5, fontSize: '28px', fontWeight: 800, color: '#0F172A', formatter: (v) => v + '%' }
-                      }
-                    }
-                  },
-                  fill: { colors: ['#831843'] },
-                  labels: ['% Persentase CNF real']
-                }}
-                series={[summary?.jobLoadDetails?.gauges?.allWOCnfRate || 0]}
-                type="radialBar"
-                height="200"
-              />
+            {/* Progress Selain PM04 */}
+            <div className="flex flex-col justify-center px-4">
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-1">
+                  <h4 className="text-sm font-bold text-slate-800">Progress Selain PM 04</h4>
+                  <Info className="w-3.5 h-3.5 text-gray-400" />
+                </div>
+                <span className="text-sm font-extrabold text-orange-600">{summary?.jobLoadDetails?.gauges?.allWOCnfRate || 0}%</span>
+              </div>
+              <div className="w-full h-2.5 bg-gray-200 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-orange-500 rounded-full transition-all duration-700"
+                  style={{ width: `${Math.min(summary?.jobLoadDetails?.gauges?.allWOCnfRate || 0, 100)}%` }}
+                />
+              </div>
+              <p className="text-[10px] text-gray-500 text-center mt-2">% Persentase CNF real</p>
+            </div>
+
+            {/* Progress Semua WO */}
+            <div className="flex flex-col justify-center px-4">
+              <div className="flex items-center justify-between mb-2">
+                <h4 className="text-sm font-bold text-slate-800">Progress CNF semua WO</h4>
+                <span className="text-sm font-extrabold text-[#1A1C1E]">{summary?.jobLoadDetails?.gauges?.allWOCnfRate || 0}%</span>
+              </div>
+              <div className="w-full h-2.5 bg-gray-200 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-[#1A1C1E] rounded-full transition-all duration-700"
+                  style={{ width: `${Math.min(summary?.jobLoadDetails?.gauges?.allWOCnfRate || 0, 100)}%` }}
+                />
+              </div>
+              <p className="text-[10px] text-gray-500 text-center mt-2">% Persentase CNF real</p>
             </div>
           </div>
           {/* Middle Row: Side-by-Side Breakdown Tables — Enterprise Blue Progress Bars */}
@@ -1226,7 +1190,7 @@ export default function InternalDashboard() {
             {/* Progress PM04 Table */}
             <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
               <div className="px-5 py-4 flex items-center gap-2">
-                <Users className="w-4 h-4 text-blue-700" />
+                <TrendingUp className="w-4 h-4 text-blue-700" />
                 <h4 className="text-[15px] font-bold text-[#0F172A]">Progress PM04</h4>
               </div>
               <div className="overflow-x-auto">
@@ -1273,7 +1237,7 @@ export default function InternalDashboard() {
             {/* Progress PM02+ Table */}
             <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
               <div className="px-5 py-4 flex items-center gap-2">
-                <Users className="w-4 h-4 text-blue-700" />
+                <TrendingUp className="w-4 h-4 text-blue-700" />
                 <h4 className="text-[15px] font-bold text-[#0F172A]">Progress PM02+</h4>
               </div>
               <div className="overflow-x-auto">
@@ -1322,9 +1286,14 @@ export default function InternalDashboard() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-6">
             {/* Distribusi Status WO per Bagian */}
             <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden flex flex-col">
-              <div className="px-5 py-5 bg-white border-b border-gray-100">
-                <h4 className="text-[15px] font-bold text-[#0F172A]">Distribusi Work Order</h4>
-                <p className="text-xs text-gray-500">(Berdasarkan status WO)</p>
+              <div className="px-5 py-5 bg-white border-b border-gray-100 flex items-start justify-between">
+                <div>
+                  <h4 className="text-[15px] font-bold text-[#0F172A]">Distribusi Work Order</h4>
+                  <p className="text-xs text-gray-500 mt-1">(Berdasarkan status WO)</p>
+                </div>
+                <div className="bg-blue-50 p-2 rounded-lg">
+                  <Factory className="w-5 h-5 text-blue-700" />
+                </div>
               </div>
               <div className="p-5 flex-1 min-h-[280px]">
                 <Chart
@@ -1339,9 +1308,14 @@ export default function InternalDashboard() {
 
             {/* Distribusi Tipe PM per Bagian */}
             <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden flex flex-col">
-              <div className="px-5 py-5 bg-white border-b border-gray-100">
-                <h4 className="text-[15px] font-bold text-[#0F172A]">Distribusi Work Order</h4>
-                <p className="text-xs text-gray-500">(Berdasarkan Tipe WO)</p>
+              <div className="px-5 py-5 bg-white border-b border-gray-100 flex items-start justify-between">
+                <div>
+                  <h4 className="text-[15px] font-bold text-[#0F172A]">Distribusi Work Order</h4>
+                  <p className="text-xs text-gray-500 mt-1">(Berdasarkan Tipe WO)</p>
+                </div>
+                <div className="bg-blue-50 p-2 rounded-lg">
+                  <Factory className="w-5 h-5 text-blue-700" />
+                </div>
               </div>
               <div className="p-5 flex-1 min-h-[280px]">
                 <Chart
