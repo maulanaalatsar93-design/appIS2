@@ -66,9 +66,7 @@ function EditTimeModal({ row, onSave, onCancel, isSaving }) {
     return new Date(iso).toISOString().split('T')[0];
   };
 
-  const rowId = typeof row.id === 'string' && row.id.startsWith('dt-')
-    ? parseInt(row.id.replace('dt-', ''))
-    : null;
+  const rowId = row?.id || null;
 
   const [mulai, setMulai] = useState(getTimeStr(row.jam_mulai));
   const [selesai, setSelesai] = useState(getTimeStr(row.jam_selesai));
