@@ -3,91 +3,100 @@ import Sparkline from './Sparkline';
 
 export default function ScorecardGroup({ title, items = [] }) {
   return (
-    <div className="bg-white border border-[#E2E8F0] rounded-[24px] p-6 shadow-md space-y-4">
+    <div className="bg-white/80 backdrop-blur-xl border border-white shadow-[0_8px_30px_rgb(0,0,0,0.04)] ring-1 ring-gray-100/50 rounded-[32px] p-6 sm:p-8 space-y-6 relative overflow-hidden">
+      
+      {/* Subtle ambient glow for the group */}
+      <div className="absolute top-0 right-0 w-64 h-64 bg-navy-600/5 blur-[80px] rounded-full pointer-events-none" />
+
       {/* Title */}
-      <h3 className="text-center text-lg font-display font-extrabold text-[#0F172A] tracking-tight">
+      <h3 className="text-center text-xl font-display font-extrabold text-ink tracking-tight relative z-10">
         {title}
       </h3>
 
       {/* Symmetrical 3-Column Metric Items */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-1">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 pt-2 relative z-10">
         {items.map((item, idx) => {
           const isDark = item.isDark;
           return (
             <div
               key={idx}
-              className={`p-5 ${item.bgGradient || 'bg-[#F8FAFC]'} border ${item.borderColor || 'border-[#E2E8F0]'} rounded-[18px] flex flex-col justify-between relative overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1`}
-              style={!isDark ? { borderTop: `3.5px solid ${item.color || '#0E2A52'}` } : {}}
+              className={`p-6 ${item.bgGradient || (isDark ? 'bg-gradient-to-br from-[#0F2052] to-[#1A4BC4]' : 'bg-white')} border ${item.borderColor || (isDark ? 'border-white/10' : 'border-gray-100')} rounded-[24px] flex flex-col justify-between relative overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 group ${!isDark ? 'ring-1 ring-gray-100/50 shadow-sm' : 'shadow-[0_8px_30px_rgba(26,75,196,0.2)]'}`}
+              style={!isDark ? { borderTop: `4px solid ${item.color || '#1A4BC4'}` } : {}}
             >
+              {/* Decorative Glow inside dark cards */}
+              {isDark && (
+                <div className="absolute top-[-20%] right-[-10%] w-[60%] h-[60%] bg-white/10 blur-[40px] rounded-full pointer-events-none group-hover:scale-110 transition-transform duration-500" />
+              )}
+
               <div className="z-10 relative">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-3">
                     {item.icon && (
-                      <div className={`w-6 h-6 rounded-md flex items-center justify-center ${isDark ? 'bg-white/10' : 'bg-slate-100'}`}>
-                        <item.icon className={`w-3.5 h-3.5 ${isDark ? 'text-ink/80' : 'text-slate-600'}`} />
+                      <div className={`w-8 h-8 rounded-xl flex items-center justify-center shadow-inner ${isDark ? 'bg-white/10 ring-1 ring-white/20' : 'bg-gray-50 ring-1 ring-gray-100'}`}>
+                        <item.icon className={`w-4 h-4 ${isDark ? 'text-white' : 'text-navy-600'}`} />
                       </div>
                     )}
-                    <span className={`text-[11px] font-extrabold uppercase tracking-wider ${isDark ? 'text-ink/70' : 'text-slate-500'}`}>
+                    <span className={`text-xs font-bold uppercase tracking-widest ${isDark ? 'text-white/80' : 'text-gray-500'}`}>
                       {item.label}
                     </span>
                   </div>
                   {item.onInfoClick && (
                     <button
                       onClick={item.onInfoClick}
-                      className={`p-1 rounded-full ${isDark ? 'bg-white/20 text-ink hover:bg-white hover:text-industrial-text' : 'bg-white/80 text-slate-500 hover:text-[#FF5722] hover:bg-white'} transition-all shadow-xs`}
+                      className={`p-1.5 rounded-full ${isDark ? 'bg-white/20 text-white hover:bg-white hover:text-navy-600' : 'bg-gray-50 text-gray-400 hover:text-orange-500 hover:bg-orange-50'} transition-all shadow-sm`}
                       title="Klik untuk detail"
                     >
-                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                     </button>
                   )}
                 </div>
                 {item.subLabel && (
-                   <div className={`text-[11px] mt-1 ${isDark ? 'text-ink/60' : 'text-gray-500'}`}>{item.subLabel}</div>
+                   <div className={`text-[11px] font-semibold mt-2 ${isDark ? 'text-white/60' : 'text-gray-400'}`}>{item.subLabel}</div>
                 )}
                 
-                <div className="flex items-baseline gap-1.5 my-2.5">
-                  <p className={`text-3xl md:text-4xl font-extrabold ${item.textColor || (isDark ? 'text-ink' : 'text-[#0F172A]')} tracking-tight`}>
+                <div className="flex items-baseline gap-2 mt-4 mb-3">
+                  <p className={`text-4xl md:text-5xl font-display font-extrabold ${item.textColor || (isDark ? 'text-white' : 'text-ink')} tracking-tight`}>
                     {item.value ? Number(item.value).toLocaleString('id-ID') : '0'}
                   </p>
-                  <span className={`text-sm font-bold ${isDark ? 'text-ink/50' : 'text-gray-500'}`}>{item.unit || 'WO'}</span>
+                  <span className={`text-sm font-bold ${isDark ? 'text-white/60' : 'text-gray-400'}`}>{item.unit || 'WO'}</span>
                 </div>
 
                 {item.progress && (
-                  <div className="mt-4">
-                    <div className="flex items-center justify-between mb-1.5">
-                      <span className={`text-[10px] font-bold ${isDark ? 'text-ink/70' : 'text-slate-500'}`}>{item.progress.label}</span>
-                      <span className={`text-xs font-extrabold ${item.progress.rate >= (item.progress.target || 90) ? (isDark ? 'text-emerald-300' : 'text-emerald-600') : (isDark ? 'text-amber-300' : 'text-amber-600')}`}>
+                  <div className="mt-5">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className={`text-[10px] font-bold ${isDark ? 'text-white/70' : 'text-gray-500'}`}>{item.progress.label}</span>
+                      <span className={`text-xs font-extrabold ${item.progress.rate >= (item.progress.target || 90) ? (isDark ? 'text-emerald-300' : 'text-emerald-500') : (isDark ? 'text-orange-300' : 'text-orange-500')}`}>
                         {item.progress.rate}%
                       </span>
                     </div>
-                    <div className={`relative w-full h-2.5 ${isDark ? 'bg-white/20' : 'bg-slate-200'} rounded-full overflow-hidden`}>
+                    <div className={`relative w-full h-2.5 ${isDark ? 'bg-white/10 ring-1 ring-white/20' : 'bg-gray-100 ring-1 ring-gray-200/50'} rounded-full overflow-hidden`}>
                       <div
-                        className="h-full rounded-full transition-all duration-700"
+                        className="h-full rounded-full transition-all duration-700 shadow-inner"
                         style={{
                           width: `${Math.min(item.progress.rate, 100)}%`,
                           background: item.progress.rate >= (item.progress.target || 90)
                             ? 'linear-gradient(90deg,#34d399,#10b981)'
-                            : 'linear-gradient(90deg,#fbbf24,#f59e0b)'
+                            : 'linear-gradient(90deg,#fbbf24,#f97316)'
                         }}
                       />
                       {item.progress.target && (
-                         <div className={`absolute top-0 h-full w-0.5 ${isDark ? 'bg-yellow-300' : 'bg-slate-600'}`} style={{ left: `${item.progress.target}%` }} />
+                         <div className={`absolute top-0 h-full w-0.5 ${isDark ? 'bg-white/80' : 'bg-gray-400'}`} style={{ left: `${item.progress.target}%` }} />
                       )}
                     </div>
-                    <div className="flex justify-between text-[9px] mt-1">
-                      <span className={isDark ? 'text-white/50' : 'text-slate-400'}>Target {item.progress.target || 90}%</span>
-                      <span className={isDark ? 'text-white/60 font-bold' : 'text-slate-600 font-bold'}>{item.progress.count} / {item.progress.total}</span>
+                    <div className="flex justify-between text-[9px] mt-1.5">
+                      <span className={isDark ? 'text-white/50' : 'text-gray-400'}>Target {item.progress.target || 90}%</span>
+                      <span className={isDark ? 'text-white/60 font-bold' : 'text-gray-500 font-bold'}>{item.progress.count} / {item.progress.total}</span>
                     </div>
                   </div>
                 )}
               </div>
               
-              <div className={`absolute bottom-0 left-0 right-0 ${item.progress ? 'h-10 opacity-40' : 'h-16 opacity-100'} z-0`}>
+              <div className={`absolute bottom-0 left-0 right-0 ${item.progress ? 'h-10 opacity-30' : 'h-20 opacity-100'} z-0`}>
                 <Sparkline
                   data={item.sparklineData}
-                  color={isDark ? 'rgba(255,255,255,0.25)' : (item.color || '#18468B')}
+                  color={isDark ? 'rgba(255,255,255,0.2)' : (item.color || '#1A4BC4')}
                   strokeWidth={isDark ? 2 : 2.5}
                 />
               </div>

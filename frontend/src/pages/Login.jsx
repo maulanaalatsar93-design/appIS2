@@ -56,28 +56,28 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#F4F7FB] font-sans p-4 sm:p-6 lg:p-8 overflow-hidden relative">
-      
+
       {/* Background ambient glows for the whole page */}
       <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-navy-600/10 blur-[120px] rounded-full pointer-events-none" />
       <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-orange-500/10 blur-[120px] rounded-full pointer-events-none" />
 
       {/* Main Container - Floating Card */}
       <div className="w-full max-w-[1400px] h-[85vh] min-h-[700px] max-h-[900px] flex rounded-[32px] overflow-hidden shadow-[0_24px_80px_-12px_rgba(11,13,18,0.15)] bg-white relative z-10 border border-white ring-1 ring-gray-200/50">
-        
+
         {/* === LEFT: Premium Branding Panel === */}
         <div className="hidden lg:flex lg:w-[55%] relative flex-col justify-between p-16 xl:p-20 overflow-hidden">
-          
+
           {/* Deep elegant background */}
           <div className="absolute inset-0 bg-[#070F22]" />
           <div className="absolute inset-0 bg-gradient-to-br from-navy-950 via-[#0A1530] to-[#040812]" />
-          
+
           {/* Animated/Glowing Orbs */}
           <div className="absolute top-[-10%] left-[10%] w-[60%] h-[60%] bg-[#2563EB]/20 blur-[120px] rounded-full mix-blend-screen pointer-events-none" />
           <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-[#EA853C]/15 blur-[120px] rounded-full mix-blend-screen pointer-events-none" />
           <div className="absolute top-[40%] left-[-10%] w-[40%] h-[40%] bg-[#4F46E5]/15 blur-[100px] rounded-full mix-blend-screen pointer-events-none" />
 
           {/* Grid pattern overlay */}
-          <div 
+          <div
             className="absolute inset-0 opacity-[0.03] pointer-events-none"
             style={{
               backgroundImage: 'linear-gradient(rgba(255,255,255,0.7) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.7) 1px, transparent 1px)',
@@ -96,8 +96,8 @@ export default function Login() {
               />
             </div>
             <div>
-              <p className="text-white font-display font-extrabold text-xl tracking-tight">KENDALIKAN</p>
-              <p className="text-gray-400 text-xs font-semibold tracking-widest uppercase mt-0.5">Industrial Dashboard</p>
+              <p className="text-white font-display font-extrabold text-xl tracking-tight">ISTEK2</p>
+              <p className="text-gray-400 text-xs font-semibold tracking-widest uppercase mt-0.5">Inspeksi Teknik 2 Dashboard</p>
             </div>
           </div>
 
@@ -109,13 +109,13 @@ export default function Login() {
                 <span className="text-emerald-300 text-[11px] font-bold tracking-widest uppercase">Sistem Online</span>
               </div>
               <h1 className="text-[52px] font-display font-extrabold text-white leading-[1.1] tracking-tight">
-                Tingkatkan Keandalan <br/>
+                Monitoring Dashboard <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#60A5FA] via-[#A78BFA] to-[#FCA5A5]">
-                  Pabrik Anda.
+                  ISTEK2.
                 </span>
               </h1>
               <p className="text-gray-400 text-lg leading-relaxed font-body max-w-md">
-                Platform terpadu untuk monitoring jadwal PdM, eksekusi Work Order, dan analitik performa secara real-time.
+                Platform terpadu untuk monitoring jadwal PdM, eksekusi Work Order, dan manajemen Man Power.
               </p>
             </div>
 
@@ -127,8 +127,8 @@ export default function Login() {
                     <Activity className="w-5 h-5" />
                   </div>
                   <div>
-                    <div className="text-white font-bold text-sm tracking-wide">System Health</div>
-                    <div className="text-gray-400 text-xs font-medium">Real-time status</div>
+                    <div className="text-white font-bold text-sm tracking-wide">Target Orders</div>
+                    <div className="text-gray-400 text-xs font-medium">Progress status</div>
                   </div>
                 </div>
                 <div className="text-orange-400 font-extrabold text-xl font-display">99.8%</div>
@@ -154,7 +154,7 @@ export default function Login() {
 
         {/* === RIGHT: Premium Form Panel === */}
         <div className="w-full lg:w-[45%] flex flex-col justify-center relative bg-white px-8 sm:px-16 xl:px-24">
-          
+
           <div className="w-full max-w-[420px] mx-auto">
             {/* Mobile logo */}
             <div className="flex items-center gap-4 mb-10 lg:hidden">

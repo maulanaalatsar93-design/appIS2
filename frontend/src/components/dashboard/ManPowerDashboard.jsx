@@ -176,7 +176,7 @@ export default function ManPowerDashboard() {
                   type="date"
                   value={selectedDate}
                   onChange={(e) => setSelectedDate(e.target.value)}
-                  className="w-full text-sm font-medium border border-slate-200 rounded-lg px-3 py-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-[#1A4BC4]/30"
+                  className="w-full text-sm font-medium border border-slate-200 rounded-2xl px-3 py-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-[#1A4BC4]/30"
                 />
               </div>
               <div>
@@ -186,7 +186,7 @@ export default function ManPowerDashboard() {
                   placeholder="Ketik Nama..."
                   value={nameFilter}
                   onChange={(e) => setNameFilter(e.target.value)}
-                  className="w-full text-sm font-medium border border-slate-200 rounded-lg px-3 py-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-[#1A4BC4]/30"
+                  className="w-full text-sm font-medium border border-slate-200 rounded-2xl px-3 py-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-[#1A4BC4]/30"
                 />
               </div>
             </div>
@@ -195,7 +195,7 @@ export default function ManPowerDashboard() {
 
         {/* Charts */}
         <div className="col-span-1 lg:col-span-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden pt-4 pb-2 relative flex flex-col items-center justify-center">
+          <div className="bg-white/80 backdrop-blur-xl rounded-[24px] shadow-xl ring-1 ring-gray-100/50 border border-white overflow-hidden pt-4 pb-2 relative flex flex-col items-center justify-center">
             <div className="absolute top-0 left-0 right-0 bg-[#0f172a] text-ink text-xs font-bold px-4 py-2 z-10 shadow-sm flex items-center gap-2">
               <span className="w-1.5 h-1.5 bg-blue-400 rounded-full"></span> Overall
             </div>
@@ -206,11 +206,11 @@ export default function ManPowerDashboard() {
                 <div className="h-[200px] flex items-center justify-center"><Loader2 className="w-5 h-5 text-navy-600 animate-spin" /></div>
               )}
             </div>
-            <div className="absolute bottom-3 right-4 text-sm font-bold text-blue-800 bg-blue-100 px-3 py-1 rounded-lg shadow-sm border border-blue-200">
+            <div className="absolute bottom-3 right-4 text-sm font-bold text-blue-800 bg-blue-100 px-3 py-1 rounded-2xl shadow-sm border border-blue-200">
               {overallStats.percentage}%
             </div>
           </div>
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden pt-4 pb-2 relative flex flex-col items-center justify-center">
+          <div className="bg-white/80 backdrop-blur-xl rounded-[24px] shadow-xl ring-1 ring-gray-100/50 border border-white overflow-hidden pt-4 pb-2 relative flex flex-col items-center justify-center">
             <div className="absolute top-0 left-0 right-0 bg-[#0f172a] text-ink text-xs font-bold px-4 py-2 z-10 shadow-sm flex items-center gap-2">
               <span className="w-1.5 h-1.5 bg-green-400 rounded-full"></span> TKO
             </div>
@@ -221,11 +221,11 @@ export default function ManPowerDashboard() {
                 <div className="h-[200px] flex items-center justify-center text-xs text-gray-500">Belum ada data</div>
               )}
             </div>
-            <div className="absolute bottom-3 right-4 text-sm font-bold text-blue-800 bg-blue-100 px-3 py-1 rounded-lg shadow-sm border border-blue-200">
+            <div className="absolute bottom-3 right-4 text-sm font-bold text-blue-800 bg-blue-100 px-3 py-1 rounded-2xl shadow-sm border border-blue-200">
               {tkoStats.percentage}%
             </div>
           </div>
-          <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden pt-4 pb-2 relative flex flex-col items-center justify-center">
+          <div className="bg-white/80 backdrop-blur-xl rounded-[24px] shadow-xl ring-1 ring-gray-100/50 border border-white overflow-hidden pt-4 pb-2 relative flex flex-col items-center justify-center">
             <div className="absolute top-0 left-0 right-0 bg-[#0f172a] text-ink text-xs font-bold px-4 py-2 z-10 shadow-sm flex items-center gap-2">
               <span className="w-1.5 h-1.5 bg-orange-400 rounded-full"></span> TKNO
             </div>
@@ -236,14 +236,14 @@ export default function ManPowerDashboard() {
                 <div className="h-[200px] flex items-center justify-center text-xs text-gray-500">Belum ada data</div>
               )}
             </div>
-            <div className="absolute bottom-3 right-4 text-sm font-bold text-blue-800 bg-blue-100 px-3 py-1 rounded-lg shadow-sm border border-blue-200">
+            <div className="absolute bottom-3 right-4 text-sm font-bold text-blue-800 bg-blue-100 px-3 py-1 rounded-2xl shadow-sm border border-blue-200">
               {tknoStats.percentage}%
             </div>
           </div>
         </div>
 
         {/* Scorecard full grid */}
-        <div className="col-span-1 lg:col-span-4 bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden relative">
+        <div className="col-span-1 lg:col-span-4 bg-white/80 backdrop-blur-xl rounded-[24px] shadow-xl ring-1 ring-gray-100/50 border border-white overflow-hidden relative">
           <div className="absolute top-0 left-0 right-0 bg-[#0f172a] text-ink text-xs font-bold px-4 py-2 z-10 shadow-sm flex justify-between items-center">
             <div className="flex items-center gap-2">
               <Info className="w-4 h-4 text-blue-300" /> Rekapitulasi Kehadiran
@@ -252,47 +252,47 @@ export default function ManPowerDashboard() {
           </div>
           
           <div className="grid grid-cols-3 gap-3 p-4 mt-8">
-            <div className="flex flex-col items-center justify-center p-2 rounded-lg bg-slate-50 border border-slate-100">
+            <div className="flex flex-col items-center justify-center p-2 rounded-2xl bg-slate-50 border border-slate-100">
               <CheckCircle2 className="w-5 h-5 text-navy-600 mb-1" />
               <span className="text-xl font-display font-black text-slate-800 leading-none">{scoreCounts.Hadir}</span>
               <span className="text-[10px] text-gray-500 font-bold uppercase mt-1">Hadir</span>
             </div>
-            <div className="flex flex-col items-center justify-center p-2 rounded-lg bg-slate-50 border border-slate-100">
+            <div className="flex flex-col items-center justify-center p-2 rounded-2xl bg-slate-50 border border-slate-100">
               <UserX className="w-5 h-5 text-red-500 mb-1" />
               <span className="text-xl font-display font-black text-slate-800 leading-none">{scoreCounts.Off}</span>
               <span className="text-[10px] text-gray-500 font-bold uppercase mt-1">Off</span>
             </div>
-            <div className="flex flex-col items-center justify-center p-2 rounded-lg bg-slate-50 border border-slate-100">
+            <div className="flex flex-col items-center justify-center p-2 rounded-2xl bg-slate-50 border border-slate-100">
               <GraduationCap className="w-5 h-5 text-green-500 mb-1" />
               <span className="text-xl font-display font-black text-slate-800 leading-none">{scoreCounts.Training}</span>
               <span className="text-[10px] text-gray-500 font-bold uppercase mt-1">Training</span>
             </div>
-            <div className="flex flex-col items-center justify-center p-2 rounded-lg bg-slate-50 border border-slate-100">
+            <div className="flex flex-col items-center justify-center p-2 rounded-2xl bg-slate-50 border border-slate-100">
               <Calendar className="w-5 h-5 text-yellow-500 mb-1" />
               <span className="text-xl font-display font-black text-slate-800 leading-none">{scoreCounts.Cuti}</span>
               <span className="text-[10px] text-gray-500 font-bold uppercase mt-1">Cuti</span>
             </div>
-            <div className="flex flex-col items-center justify-center p-2 rounded-lg bg-slate-50 border border-slate-100">
+            <div className="flex flex-col items-center justify-center p-2 rounded-2xl bg-slate-50 border border-slate-100">
               <Info className="w-5 h-5 text-amber-700 mb-1" />
               <span className="text-xl font-display font-black text-slate-800 leading-none">{scoreCounts.Izin}</span>
               <span className="text-[10px] text-gray-500 font-bold uppercase mt-1">Izin</span>
             </div>
-            <div className="flex flex-col items-center justify-center p-2 rounded-lg bg-slate-50 border border-slate-100">
+            <div className="flex flex-col items-center justify-center p-2 rounded-2xl bg-slate-50 border border-slate-100">
               <Stethoscope className="w-5 h-5 text-gray-500 mb-1" />
               <span className="text-xl font-display font-black text-slate-800 leading-none">{scoreCounts.Sakit}</span>
               <span className="text-[10px] text-gray-500 font-bold uppercase mt-1">Sakit</span>
             </div>
-            <div className="flex flex-col items-center justify-center p-2 rounded-lg bg-slate-50 border border-slate-100">
+            <div className="flex flex-col items-center justify-center p-2 rounded-2xl bg-slate-50 border border-slate-100">
               <Hospital className="w-5 h-5 text-purple-500 mb-1" />
               <span className="text-xl font-display font-black text-slate-800 leading-none">{scoreCounts.Referral}</span>
               <span className="text-[10px] text-gray-500 font-bold uppercase mt-1">Referral</span>
             </div>
-            <div className="flex flex-col items-center justify-center p-2 rounded-lg bg-slate-50 border border-slate-100 text-center">
+            <div className="flex flex-col items-center justify-center p-2 rounded-2xl bg-slate-50 border border-slate-100 text-center">
               <PlaneTakeoff className="w-5 h-5 text-orange-500 mb-1" />
               <span className="text-xl font-display font-black text-slate-800 leading-none">{scoreCounts['Dinas Dalam Negeri']}</span>
               <span className="text-[9px] text-gray-500 font-bold uppercase mt-1 leading-tight">Dinas<br/>Dalam</span>
             </div>
-            <div className="flex flex-col items-center justify-center p-2 rounded-lg bg-slate-50 border border-slate-100 text-center">
+            <div className="flex flex-col items-center justify-center p-2 rounded-2xl bg-slate-50 border border-slate-100 text-center">
               <Globe className="w-5 h-5 text-black mb-1" />
               <span className="text-xl font-display font-black text-slate-800 leading-none">{scoreCounts['Dinas Luar Negeri']}</span>
               <span className="text-[9px] text-gray-500 font-bold uppercase mt-1 leading-tight">Dinas<br/>Luar</span>
@@ -304,7 +304,7 @@ export default function ManPowerDashboard() {
       {/* BOTTOM ROW: Tables */}
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
         {/* Table Organik */}
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
+        <div className="bg-white/80 backdrop-blur-xl rounded-[24px] shadow-xl ring-1 ring-gray-100/50 border border-white overflow-hidden flex flex-col">
           <div className="bg-[#0f172a] text-ink text-sm font-bold px-5 py-3 shadow-sm">
             Tenaga Kerja Organik (TKO)
           </div>
@@ -339,7 +339,7 @@ export default function ManPowerDashboard() {
         </div>
 
         {/* Table Non Organik */}
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
+        <div className="bg-white/80 backdrop-blur-xl rounded-[24px] shadow-xl ring-1 ring-gray-100/50 border border-white overflow-hidden flex flex-col">
           <div className="bg-[#1E293B] text-ink text-sm font-bold px-5 py-3 shadow-sm">
             Tenaga Kerja Non Organik (TKNO)
           </div>
@@ -374,7 +374,7 @@ export default function ManPowerDashboard() {
         </div>
 
         {/* Table Ketidakhadiran */}
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
+        <div className="bg-white/80 backdrop-blur-xl rounded-[24px] shadow-xl ring-1 ring-gray-100/50 border border-white overflow-hidden flex flex-col">
           <div className="bg-[#EAB308] text-ink text-sm font-bold px-5 py-3 shadow-sm flex items-center gap-2">
             <Calendar className="w-4 h-4" /> Ketidakhadiran (Cuti, Izin, Sakit, Referral)
           </div>
@@ -413,7 +413,7 @@ export default function ManPowerDashboard() {
         </div>
 
         {/* Table Penugasan */}
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
+        <div className="bg-white/80 backdrop-blur-xl rounded-[24px] shadow-xl ring-1 ring-gray-100/50 border border-white overflow-hidden flex flex-col">
           <div className="bg-[#EA580C] text-ink text-sm font-bold px-5 py-3 shadow-sm flex items-center gap-2">
             <PlaneTakeoff className="w-4 h-4" /> Penugasan Dinas (Dalam/Luar Negeri)
           </div>
@@ -451,3 +451,4 @@ export default function ManPowerDashboard() {
     </div>
   );
 }
+

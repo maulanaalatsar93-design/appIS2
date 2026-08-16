@@ -16,25 +16,20 @@ export default function KPICard({
 
   const getContainerStyles = () => {
     switch(variant) {
-      case 'navy': return 'bg-[#13254F] border-[#0A1B3F]/20 shadow-lg';
-      case 'blue': return 'bg-[#1A4BC4] border-[#0D3299]/20 shadow-lg';
-      case 'teal': return 'bg-[#118B75] border-[#0C6A5A]/20 shadow-lg';
-      case 'orange': return 'bg-[#E85D04] border-[#B94A03]/20 shadow-lg';
-      case 'red': return 'bg-[#DC2626] border-[#991B1B]/20 shadow-lg';
-      case 'rose': return 'bg-[#E11D48] border-[#BE123C]/20 shadow-lg';
-      default: return 'bg-white border-industrial-border shadow-sm-subtle';
+      case 'navy': return 'bg-gradient-to-br from-[#0F2052] to-[#1A4BC4] border-white/10 shadow-[0_8px_30px_rgba(26,75,196,0.35)] ring-1 ring-white/10 text-white';
+      case 'blue': return 'bg-gradient-to-br from-[#1E40AF] to-[#3B82F6] border-white/10 shadow-[0_8px_30px_rgba(59,130,246,0.35)] ring-1 ring-white/10 text-white';
+      case 'teal': return 'bg-gradient-to-br from-[#0F766E] to-[#14B8A6] border-white/10 shadow-[0_8px_30px_rgba(20,184,166,0.35)] ring-1 ring-white/10 text-white';
+      case 'orange': return 'bg-gradient-to-br from-[#C2410C] to-[#F97316] border-white/10 shadow-[0_8px_30px_rgba(249,115,22,0.35)] ring-1 ring-white/10 text-white';
+      case 'red': return 'bg-gradient-to-br from-[#991B1B] to-[#EF4444] border-white/10 shadow-[0_8px_30px_rgba(239,68,68,0.35)] ring-1 ring-white/10 text-white';
+      case 'rose': return 'bg-gradient-to-br from-[#BE123C] to-[#F43F5E] border-white/10 shadow-[0_8px_30px_rgba(244,63,94,0.35)] ring-1 ring-white/10 text-white';
+      default: return 'bg-white/90 backdrop-blur-md border border-white shadow-xl ring-1 ring-gray-100/50';
     }
   };
 
-  const getIconContainerStyles = () => {
-    if (isDark) return 'bg-white/10 text-white/80';
-    return '';
-  };
-
   const getTrendColor = () => {
-    if (trendDir === 'up') return isDark ? 'text-emerald-300 bg-emerald-400/20' : 'text-industrial-green bg-industrial-green/10';
-    if (trendDir === 'down') return isDark ? 'text-rose-300 bg-rose-400/20' : 'text-industrial-red bg-industrial-red/10';
-    return isDark ? 'text-white/70 bg-white/10' : 'text-industrial-muted bg-industrial-background';
+    if (trendDir === 'up') return isDark ? 'text-emerald-300 bg-emerald-400/20 ring-1 ring-emerald-400/30' : 'text-emerald-600 bg-emerald-50 ring-1 ring-emerald-100';
+    if (trendDir === 'down') return isDark ? 'text-rose-300 bg-rose-400/20 ring-1 ring-rose-400/30' : 'text-rose-600 bg-rose-50 ring-1 ring-rose-100';
+    return isDark ? 'text-white/80 bg-white/10 ring-1 ring-white/20' : 'text-gray-500 bg-gray-50 ring-1 ring-gray-100';
   };
 
   const renderTrendIcon = () => {
@@ -44,33 +39,42 @@ export default function KPICard({
   };
 
   return (
-    <div className={`${getContainerStyles()} border p-5 rounded-[18px] flex flex-col justify-between transition-transform hover:-translate-y-1 relative overflow-hidden ${className}`}>
+    <div className={`${getContainerStyles()} border p-5 rounded-[24px] flex flex-col justify-between transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 relative overflow-hidden group ${className}`}>
+      
+      {/* Decorative Glow inside dark cards */}
+      {isDark && (
+        <>
+          <div className="absolute top-[-20%] right-[-10%] w-[50%] h-[50%] bg-white/10 blur-[40px] rounded-full pointer-events-none group-hover:scale-110 transition-transform duration-500" />
+          <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-white/5 blur-[30px] rounded-full pointer-events-none" />
+        </>
+      )}
+
       <div className="relative z-10">
-        <div className="flex items-center gap-2 mb-4">
+        <div className="flex items-center gap-3 mb-5">
           {Icon && (
-            <div className={`w-7 h-7 rounded-lg flex items-center justify-center ${isDark ? 'bg-white/10' : 'bg-slate-100'}`}>
-              <Icon className={`w-4 h-4 ${isDark ? 'text-ink/80' : 'text-slate-600'}`} />
+            <div className={`w-8 h-8 rounded-xl flex items-center justify-center shadow-inner ${isDark ? 'bg-white/10 ring-1 ring-white/20 backdrop-blur-sm' : 'bg-gray-50 ring-1 ring-gray-100'}`}>
+              <Icon className={`w-4 h-4 ${isDark ? 'text-white' : 'text-navy-600'}`} />
             </div>
           )}
-          <span className={`text-[11px] font-extrabold uppercase tracking-widest ${isDark ? 'text-ink/60' : 'text-slate-500'}`}>
+          <span className={`text-xs font-bold uppercase tracking-widest ${isDark ? 'text-white/80' : 'text-gray-500'}`}>
             {label}
           </span>
         </div>
         
         <div className="flex items-baseline gap-2 mb-4">
-          <span className={`text-4xl font-extrabold tracking-tight ${isDark ? 'text-ink' : 'text-[#0F172A]'}`}>{value}</span>
-          {unit && <span className={`text-sm font-bold ${isDark ? 'text-ink/50' : 'text-gray-500'}`}>{unit}</span>}
+          <span className={`text-4xl md:text-5xl font-display font-extrabold tracking-tight ${isDark ? 'text-white' : 'text-ink'}`}>{value}</span>
+          {unit && <span className={`text-sm font-bold ${isDark ? 'text-white/60' : 'text-gray-400'}`}>{unit}</span>}
         </div>
         
         {(trendValue || trendLabel) && (
           <div className="flex items-center mt-2">
             {trendValue && (
-              <span className={`inline-flex items-center px-1.5 py-0.5 rounded-md text-[10px] font-bold ${getTrendColor()}`}>
+              <span className={`inline-flex items-center px-2 py-1 rounded-md text-[10px] font-extrabold shadow-sm ${getTrendColor()}`}>
                 {renderTrendIcon()}
                 {trendValue}
               </span>
             )}
-            {trendLabel && <span className={`text-[10px] ml-2 ${isDark ? 'text-ink/50' : 'text-gray-500'}`}>{trendLabel}</span>}
+            {trendLabel && <span className={`text-[10px] font-semibold ml-2 ${isDark ? 'text-white/60' : 'text-gray-400'}`}>{trendLabel}</span>}
           </div>
         )}
       </div>

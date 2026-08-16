@@ -309,7 +309,7 @@ export default function PublicDashboard({ onBack }) {
           {/* Executive Report Toolbar */}
           <button
             onClick={() => { setIsExporting(true); setToastMsg({ type: 'info', text: 'Generating Dashboard PDF...' }); exportDashboardPDF().finally(() => { setIsExporting(false); setToastMsg({ type: 'success', text: 'Laporan berhasil diunduh' }); setTimeout(() => setToastMsg(null), 3000); }); }}
-            className="bg-white px-4 py-2.5 rounded-lg shadow-sm border border-[#E2E8F0] flex items-center gap-2 hover:bg-slate-50 transition-colors focus:outline-none"
+            className="bg-white px-4 py-2.5 rounded-2xl shadow-sm border border-[#E2E8F0] flex items-center gap-2 hover:bg-slate-50 transition-colors focus:outline-none"
             title="Export PDF"
           >
             <Download size={16} className="text-[#1A4BC4]" />
@@ -319,7 +319,7 @@ export default function PublicDashboard({ onBack }) {
           {onBack && (
             <button
               onClick={onBack}
-              className="bg-white px-4 py-2.5 rounded-lg shadow-sm border border-[#1A4BC4] text-[#1A4BC4] hover:bg-[#1A4BC4] hover:text-ink flex items-center gap-2 transition-all focus:outline-none"
+              className="bg-white px-4 py-2.5 rounded-2xl shadow-sm border border-[#1A4BC4] text-[#1A4BC4] hover:bg-[#1A4BC4] hover:text-ink flex items-center gap-2 transition-all focus:outline-none"
             >
               <span className="text-xs font-bold tracking-wide">Kembali ke Internal View</span>
             </button>
@@ -407,7 +407,7 @@ export default function PublicDashboard({ onBack }) {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 print:hidden">
 
         {/* Symmetrical Bar Chart 1: Work Order per Pabrik */}
-        <div className="bg-white border border-gray-200 rounded-lg shadow-sm-subtle overflow-hidden flex flex-col">
+        <div className="bg-white border border-gray-200 rounded-2xl shadow-sm-subtle overflow-hidden flex flex-col">
           <div className="px-5 py-3.5 bg-[#13254F] text-ink">
             <h4 className="text-sm font-bold text-ink tracking-tight">Work Order per Pabrik</h4>
             <p className="text-[11px] text-ink mt-0.5">Total perbandingan WO berdasarkan area pabrik.</p>
@@ -418,7 +418,7 @@ export default function PublicDashboard({ onBack }) {
         </div>
 
         {/* Symmetrical Bar Chart 2: Rilis Rekomendasi per Pabrik */}
-        <div className="bg-white border border-gray-200 rounded-lg shadow-sm-subtle overflow-hidden flex flex-col">
+        <div className="bg-white border border-gray-200 rounded-2xl shadow-sm-subtle overflow-hidden flex flex-col">
           <div className="px-5 py-3.5 bg-[#168477] text-ink">
             <h4 className="text-sm font-bold text-ink tracking-tight">Rilis Rekomendasi per Pabrik</h4>
             <p className="text-[11px] text-teal-100 mt-0.5">Perbandingan rilis rekomendasi berdasarkan area pabrik.</p>
@@ -429,7 +429,7 @@ export default function PublicDashboard({ onBack }) {
         </div>
 
         {/* Symmetrical Donut Chart 1: Distribusi Tipe Order */}
-        <div className="bg-white border border-gray-200 rounded-lg shadow-sm-subtle overflow-hidden flex flex-col">
+        <div className="bg-white border border-gray-200 rounded-2xl shadow-sm-subtle overflow-hidden flex flex-col">
           <div className="px-5 py-3.5 bg-[#13254F] text-ink">
             <h4 className="text-sm font-bold text-ink tracking-tight">Distribusi Tipe Order</h4>
             <p className="text-[11px] text-ink mt-0.5">Proporsi Work Order berdasarkan tipe (PM04 vs PM02+).</p>
@@ -444,7 +444,7 @@ export default function PublicDashboard({ onBack }) {
         </div>
 
         {/* Symmetrical Donut Chart 2: Rekomendasi (M4 & M7) */}
-        <div className="bg-white border border-gray-200 rounded-lg shadow-sm-subtle overflow-hidden flex flex-col">
+        <div className="bg-white border border-gray-200 rounded-2xl shadow-sm-subtle overflow-hidden flex flex-col">
           <div className="px-5 py-3.5 bg-[#168477] text-ink">
             <h4 className="text-sm font-bold text-ink tracking-tight">Rekomendasi (M4 & M7)</h4>
             <p className="text-[11px] text-teal-100 mt-0.5">Proporsi rekomendasi berdasarkan status rilis.</p>
@@ -481,7 +481,7 @@ export default function PublicDashboard({ onBack }) {
           <div className="bg-white rounded-xl shadow-2xl max-w-md w-full overflow-hidden border border-slate-100">
             <div className="p-4 bg-industrial-text text-ink flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                <div className="p-2 bg-blue-500/20 text-navy-600 rounded-lg">
+                <div className="p-2 bg-blue-500/20 text-navy-600 rounded-2xl">
                   <Info size={18} />
                 </div>
                 <div>
@@ -495,7 +495,7 @@ export default function PublicDashboard({ onBack }) {
               </div>
               <button
                 onClick={() => setShowPMModal(false)}
-                className="p-1.5 text-gray-500 hover:text-ink rounded-lg hover:bg-gray-50 transition-colors"
+                className="p-1.5 text-gray-500 hover:text-ink rounded-2xl hover:bg-gray-50 transition-colors"
               >
                 <X size={18} />
               </button>
@@ -503,11 +503,11 @@ export default function PublicDashboard({ onBack }) {
 
             <div className="p-4 space-y-3 max-h-[70vh] overflow-y-auto">
               <div className="grid grid-cols-2 gap-2 mb-2">
-                <div className="bg-blue-50 p-2.5 rounded-lg border border-blue-100 text-blue-800">
+                <div className="bg-blue-50 p-2.5 rounded-2xl border border-blue-100 text-blue-800">
                   <div className="text-[10px] font-bold uppercase tracking-wider text-navy-600">Total PM04</div>
                   <div className="text-lg font-display font-bold font-poppins mt-0.5">{summary.kpi.pm04Count.toLocaleString('id-ID')}</div>
                 </div>
-                <div className="bg-orange-50 p-2.5 rounded-lg border border-orange-100 text-orange-800">
+                <div className="bg-orange-50 p-2.5 rounded-2xl border border-orange-100 text-orange-800">
                   <div className="text-[10px] font-bold uppercase tracking-wider text-orange-600">Total PM02+ (Non-PM04)</div>
                   <div className="text-lg font-display font-bold font-poppins mt-0.5">{summary.kpi.pm02PlusCount.toLocaleString('id-ID')}</div>
                 </div>
@@ -523,7 +523,7 @@ export default function PublicDashboard({ onBack }) {
                   const baseTotal = pmModalMode === 'pm02plus' ? (summary.kpi.pm02PlusCount || 1) : (summary.kpi.totalWO || 1);
                   const pct = ((count / baseTotal) * 100).toFixed(1);
                   return (
-                    <div key={pm.code} className="p-2.5 rounded-lg bg-slate-50 border border-slate-100">
+                    <div key={pm.code} className="p-2.5 rounded-2xl bg-slate-50 border border-slate-100">
                       <div className="flex items-center justify-between text-xs mb-1">
                         <div className="flex items-center gap-2">
                           <span className="px-2 py-0.5 text-[10px] font-bold text-ink rounded-md" style={{ backgroundColor: pm.color }}>
@@ -554,7 +554,7 @@ export default function PublicDashboard({ onBack }) {
               </span>
               <button
                 onClick={() => setShowPMModal(false)}
-                className="px-4 py-1.5 bg-industrial-text hover:bg-slate-900 text-ink text-xs font-semibold rounded-lg transition-colors"
+                className="px-4 py-1.5 bg-industrial-text hover:bg-slate-900 text-ink text-xs font-semibold rounded-2xl transition-colors"
               >
                 Tutup
               </button>
@@ -737,7 +737,7 @@ export default function PublicDashboard({ onBack }) {
 
       {/* TOAST NOTIFICATION */}
       {toastMsg && (
-        <div className={`fixed top-6 right-6 z-[200] flex items-center gap-3 px-4 py-3 rounded-lg shadow-xl text-ink text-sm font-semibold animate-in slide-in-from-top-2 fade-in ${toastMsg.type === 'success' ? 'bg-emerald-600' : toastMsg.type === 'error' ? 'bg-red-600' : 'bg-industrial-blue'
+        <div className={`fixed top-6 right-6 z-[200] flex items-center gap-3 px-4 py-3 rounded-2xl shadow-xl text-ink text-sm font-semibold animate-in slide-in-from-top-2 fade-in ${toastMsg.type === 'success' ? 'bg-emerald-600' : toastMsg.type === 'error' ? 'bg-red-600' : 'bg-industrial-blue'
           }`}>
           {toastMsg.type === 'success' && <CheckCircle2 size={18} />}
           {toastMsg.type === 'error' && <AlertCircle size={18} />}
@@ -755,3 +755,4 @@ export default function PublicDashboard({ onBack }) {
     </div>
   );
 }
+
