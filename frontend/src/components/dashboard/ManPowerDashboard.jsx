@@ -53,11 +53,20 @@ export default function ManPowerDashboard() {
     .sort(sortHierarchy);
 
   // Segmentation
-  const organikData = filteredData.filter(p => p.employee_type?.toLowerCase().includes('organik') && !p.employee_type?.toLowerCase().includes('non'));
-  const nonOrganikData = filteredData.filter(p => p.employee_type?.toLowerCase().includes('non organik'));
-  
   const ketidakhadiranStatuses = ['Cuti', 'Izin', 'Sakit', 'Referral'];
   const penugasanStatuses = ['Dinas Dalam Negeri', 'Dinas Luar Negeri', 'Training'];
+  const excludeStatuses = [...ketidakhadiranStatuses, ...penugasanStatuses];
+
+  const organikData = filteredData.filter(p => 
+    p.employee_type?.toLowerCase().includes('organik') && 
+    !p.employee_type?.toLowerCase().includes('non') &&
+    !excludeStatuses.includes(p.statusToday)
+  );
+  
+  const nonOrganikData = filteredData.filter(p => 
+    p.employee_type?.toLowerCase().includes('non organik') &&
+    !excludeStatuses.includes(p.statusToday)
+  );
 
   const ketidakhadiranData = filteredData.filter(p => ketidakhadiranStatuses.includes(p.statusToday));
   const penugasanData = filteredData.filter(p => penugasanStatuses.includes(p.statusToday));
@@ -168,6 +177,17 @@ export default function ManPowerDashboard() {
         </div>
       </div>
     );
+  };
+
+  const renderBagianBadge = (p) => {
+    const bagian = getBagian(p);
+    if (bagian === 'VP') {
+      return <span className="inline-block px-2.5 py-0.5 rounded text-[10px] font-black uppercase bg-[#193B8F] text-white shadow-sm tracking-wide">{bagian}</span>;
+    }
+    if (bagian === 'AVP') {
+      return <span className="inline-block px-2.5 py-0.5 rounded text-[10px] font-black uppercase bg-[#FF7410] text-white shadow-sm tracking-wide">{bagian}</span>;
+    }
+    return <span className="text-slate-600 text-[11px] font-semibold">{bagian}</span>;
   };
 
   const renderStatusBadge = (p) => {
@@ -351,7 +371,7 @@ export default function ManPowerDashboard() {
                     <td className="py-3 px-4 text-center text-gray-500 font-medium">{i + 1}.</td>
                     <td className="py-3 px-4 font-bold text-slate-800">{p.name}</td>
                     <td className="py-3 px-4 text-slate-500 text-xs font-mono">{p.npk || '-'}</td>
-                    <td className="py-3 px-4 text-slate-600 text-xs font-semibold">{getBagian(p)}</td>
+                    <td className="py-3 px-4">{renderBagianBadge(p)}</td>
                     <td className="py-2 px-4">
                       {renderStatusBadge(p)}
                     </td>
@@ -391,7 +411,7 @@ export default function ManPowerDashboard() {
                     <td className="py-3 px-4 text-center text-gray-500 font-medium">{i + 1}.</td>
                     <td className="py-3 px-4 font-bold text-slate-800">{p.name}</td>
                     <td className="py-3 px-4 text-slate-500 text-xs font-mono">{p.npk || '-'}</td>
-                    <td className="py-3 px-4 text-slate-600 text-xs font-semibold">{getBagian(p)}</td>
+                    <td className="py-3 px-4">{renderBagianBadge(p)}</td>
                     <td className="py-2 px-4">
                       {renderStatusBadge(p)}
                     </td>
@@ -435,7 +455,7 @@ export default function ManPowerDashboard() {
                     <td className="py-3 px-4 text-center text-gray-500 font-medium">{i + 1}.</td>
                     <td className="py-3 px-4 font-bold text-slate-800">{p.name}</td>
                     <td className="py-3 px-4 text-slate-500 text-xs font-mono">{p.npk || '-'}</td>
-                    <td className="py-3 px-4 text-slate-600 text-xs font-semibold">{getBagian(p)}</td>
+                    <td className="py-3 px-4">{renderBagianBadge(p)}</td>
                     <td className="py-2 px-4">
                       {renderStatusBadge(p)}
                     </td>
