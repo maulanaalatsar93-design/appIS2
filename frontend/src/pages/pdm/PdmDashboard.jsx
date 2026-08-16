@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import {
   CheckCircle2, Clock, AlertTriangle, AlertOctagon, Calendar, Users,
   LayoutGrid, TrendingUp, Search, X, Download,
-  Activity, MapPin
+  Activity, MapPin, Maximize2, Minimize2
 } from 'lucide-react';
 import Chart from 'react-apexcharts';
 
@@ -158,6 +158,19 @@ export default function PdmDashboard() {
   const [search, setSearch] = useState('');
   const [pabriks, setPabriks] = useState([]);
   const [selectedOcc, setSelectedOcc] = useState(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(err => console.error(err));
+      setIsFullscreen(true);
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+        setIsFullscreen(false);
+      }
+    }
+  };
 
   const api = import.meta.env.VITE_API_URL || 'http://localhost:5000';
   const token = localStorage.getItem('token');
@@ -262,7 +275,7 @@ export default function PdmDashboard() {
   };
 
   return (
-    <div className="p-6 max-w-7xl mx-auto space-y-6">
+    <div className="p-6 w-full max-w-none mx-auto space-y-6">
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
@@ -283,6 +296,9 @@ export default function PdmDashboard() {
           <select value={filterYear} onChange={e => setFilterYear(parseInt(e.target.value))} className="text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white shadow-sm outline-none focus:ring-2 focus:ring-blue-200">
             {[2024,2025,2026,2027].map(y => <option key={y} value={y}>{y}</option>)}
           </select>
+          <button onClick={toggleFullscreen} className="p-2 rounded-lg border border-gray-200 bg-white hover:bg-gray-50 shadow-sm text-gray-500 hover:text-navy-600 transition" title="Toggle Fullscreen">
+            {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
+          </button>
         </div>
       </div>
 

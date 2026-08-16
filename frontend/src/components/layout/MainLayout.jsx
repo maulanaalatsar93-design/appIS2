@@ -20,7 +20,7 @@ export default function MainLayout() {
       )}
       
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 bg-gray-50/50 relative md:pl-[84px]">
+      <div className={`flex-1 flex flex-col min-w-0 bg-gray-50/50 relative transition-all duration-300 ${isCollapsed ? 'md:pl-[84px]' : 'md:pl-[364px]'}`}>
         <Header 
           isCollapsed={isCollapsed} 
           setIsCollapsed={setIsCollapsed} 
