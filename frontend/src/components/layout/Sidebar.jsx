@@ -10,7 +10,7 @@ import {
 import logoImg from '../../assets/logo.png';
 import brandIconImg from '../../assets/brand-icon.png';
 
-export default function Sidebar({ isCollapsed, setIsCollapsed }) {
+export default function Sidebar({ isCollapsed, setIsCollapsed, isMobileMenuOpen, setIsMobileMenuOpen }) {
   const location = useLocation();
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
@@ -102,10 +102,20 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
   const activeCategory = CATEGORIES.find(c => c.id === activeCategoryId) || CATEGORIES[0];
 
   return (
-    <div className="fixed inset-y-0 left-0 flex h-screen shrink-0 z-50 pointer-events-none print:hidden">
-      
-      {/* === Primary Sidebar (Thin) === */}
-      <aside className="w-[84px] bg-white border-r border-gray-200 flex flex-col items-center py-5 justify-start shrink-0 h-full z-20 pointer-events-auto shadow-sm">
+    <>
+      {/* Mobile Overlay */}
+      {isMobileMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-gray-800/50 backdrop-blur-sm z-40 md:hidden pointer-events-auto"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
+
+      {/* Main Sidebar Wrapper */}
+      <div className={`fixed inset-y-0 left-0 flex h-screen shrink-0 z-50 pointer-events-none print:hidden transition-transform duration-300 md:translate-x-0 ${isMobileMenuOpen ? 'translate-x-0 pointer-events-auto' : '-translate-x-full'}`}>
+        
+        {/* === Primary Sidebar (Thin) === */}
+        <aside className="w-[84px] bg-white border-r border-gray-200 flex flex-col items-center py-5 justify-start shrink-0 h-full z-20 pointer-events-auto shadow-sm">
         <div className="w-full flex flex-col items-center gap-6">
           {/* Logo */}
           <div className="w-12 h-12 bg-white border border-gray-200 rounded-xl flex items-center justify-center cursor-pointer shadow-sm hover:shadow-md transition-shadow">
@@ -128,6 +138,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
                   onClick={() => {
                     setActiveCategoryId(cat.id);
                     setIsCollapsed(false); 
+                    if (window.innerWidth < 768) setIsMobileMenuOpen(false);
                   }}
                   className={`w-full aspect-square rounded-2xl flex flex-col items-center justify-center gap-1.5 transition-all duration-300 ${
                     isActive 
@@ -193,7 +204,10 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
                     return (
                       <button
                         key={item.path}
-                        onClick={() => navigate(item.path)}
+                        onClick={() => {
+                        navigate(item.path);
+                        if (window.innerWidth < 768) setIsMobileMenuOpen(false);
+                      }}
                         className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
                           isActive
                             ? 'bg-navy-50 text-navy-600'
@@ -214,7 +228,8 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }) {
           </div>
 
         </div>
-      </aside>
-    </div>
+        </aside>
+      </div>
+    </>
   );
 }

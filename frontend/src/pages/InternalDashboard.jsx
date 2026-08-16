@@ -586,8 +586,8 @@ export default function InternalDashboard() {
         </div>
 
         {/* View & Tab Switcher Controls */}
-        <div className="flex items-center gap-3">
-          <div className="flex items-center bg-white/80 backdrop-blur-md p-1.5 rounded-full ring-1 ring-gray-100/50 shadow-sm border border-white">
+        <div className="flex justify-between items-end mb-6 gap-4 flex-wrap">
+          <div className="flex items-center bg-white/80 backdrop-blur-md p-1.5 rounded-full ring-1 ring-gray-100/50 shadow-sm border border-white max-w-full overflow-x-auto whitespace-nowrap hide-scrollbar">
             <button
               onClick={() => setActiveTab('overview')}
               className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-300 ${activeTab === 'overview'

@@ -4,7 +4,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { playSubmitSound, playSuccessSound, playErrorSound } from '../../utils/soundUtils';
 
-export default function Header({ isCollapsed, setIsCollapsed }) {
+export default function Header({ isCollapsed, setIsCollapsed, isMobileMenuOpen, setIsMobileMenuOpen }) {
   const [apiStatus, setApiStatus] = useState('checking');
   const [isNotifOpen, setIsNotifOpen] = useState(false);
   const { user, logout, token } = useContext(AuthContext);
@@ -123,14 +123,12 @@ export default function Header({ isCollapsed, setIsCollapsed }) {
       
       {/* Left side: Breadcrumb & Mobile toggle */}
       <div className="flex items-center gap-4">
-        {isCollapsed && (
-          <button 
-            onClick={() => setIsCollapsed(false)}
-            className="p-2 -ml-2 text-gray-400 hover:text-ink hover:bg-gray-200 rounded-xl transition-colors lg:hidden"
-          >
-            <Menu className="w-5 h-5" />
-          </button>
-        )}
+        <button 
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          className="p-2 -ml-2 text-gray-400 hover:text-ink hover:bg-gray-200 rounded-xl transition-colors md:hidden pointer-events-auto"
+        >
+          <Menu className="w-5 h-5" />
+        </button>
         
         <div className="hidden md:flex items-center text-sm font-medium text-gray-500">
           <span className="hover:text-navy-600 cursor-pointer transition-colors">Home</span>

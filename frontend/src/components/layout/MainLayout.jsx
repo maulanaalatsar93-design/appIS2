@@ -7,6 +7,7 @@ import OnlineChatWidget from '../chat/OnlineChatWidget';
 
 export default function MainLayout() {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { user } = useContext(AuthContext);
 
   return (
@@ -16,6 +17,8 @@ export default function MainLayout() {
         <Sidebar 
           isCollapsed={isCollapsed} 
           setIsCollapsed={setIsCollapsed} 
+          isMobileMenuOpen={isMobileMenuOpen}
+          setIsMobileMenuOpen={setIsMobileMenuOpen}
         />
       )}
       
@@ -24,6 +27,8 @@ export default function MainLayout() {
         <Header 
           isCollapsed={isCollapsed} 
           setIsCollapsed={setIsCollapsed} 
+          isMobileMenuOpen={isMobileMenuOpen}
+          setIsMobileMenuOpen={setIsMobileMenuOpen}
         />
         <main className="flex-1 p-4 md:px-6 md:py-4 overflow-y-auto">
           <Outlet />
