@@ -893,7 +893,7 @@ export default function InternalDashboard() {
 
           {/* Work Order PM 02+ List (Overview) */}
           <div className="bg-white/90 backdrop-blur-md border border-white shadow-xl ring-1 ring-gray-100/50 rounded-2xl shadow-sm-subtle overflow-hidden mt-6">
-            <div className="flex items-center justify-between px-4 py-3 bg-[#D9650F]">
+            <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-[#D9650F] to-[#FF7410]">
               <h4 className="text-sm font-bold text-white/90 flex items-center gap-2">
                 <span>Work Order PM 02+</span>
                 <span className="text-[10px] bg-white/20 text-white/90 font-semibold px-2.5 py-0.5 rounded-full">Corrective &amp; Other</span>
@@ -1172,7 +1172,7 @@ export default function InternalDashboard() {
             </div>
 
             {/* PM02+ Card — Orange */}
-            <div className="rounded-xl overflow-hidden shadow-lg border border-[#A04508]/20 bg-[#D9650F]">
+            <div className="rounded-xl overflow-hidden shadow-lg border border-[#A04508]/20 bg-gradient-to-r from-[#D9650F] to-[#FF7410]">
               <div className="px-5 pt-5 pb-0">
                 <div className="flex items-start justify-between mb-1">
                   <div>
@@ -1278,7 +1278,7 @@ export default function InternalDashboard() {
 
             {/* Progress PM02+ Table */}
             <div className="bg-white/90 backdrop-blur-md border border-white shadow-xl ring-1 ring-gray-100/50 rounded-2xl shadow-sm-subtle overflow-hidden">
-              <div className="flex items-center justify-between px-4 py-3 bg-[#D9650F]">
+              <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-[#D9650F] to-[#FF7410]">
                 <h4 className="text-sm font-bold text-white/90 flex items-center gap-2">
                   <span>Progress PM02+ (Per Bagian)</span>
                 </h4>
@@ -1302,13 +1302,13 @@ export default function InternalDashboard() {
                           <div className="font-semibold text-slate-800">{row.name}</div>
                         </td>
                         <td className="py-2.5 px-4 align-top">
-                          <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-[#D9650F]/10 text-[#D9650F] border border-[#D9650F]/20">{row.tipe}</span>
+                          <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-gradient-to-r from-[#D9650F] to-[#FF7410]/10 text-[#D9650F] border border-[#D9650F]/20">{row.tipe}</span>
                         </td>
                         <td className="py-2.5 px-4 text-right font-bold text-slate-900 align-top">{row.totalWO.toLocaleString('id-ID')}</td>
                         <td className="py-2.5 px-4">
                           <div className="w-full h-2.5 bg-slate-100 rounded-sm overflow-hidden">
                             <div
-                              className="h-full bg-[#D9650F] rounded-sm transition-all duration-500"
+                              className="h-full bg-gradient-to-r from-[#D9650F] to-[#FF7410] rounded-sm transition-all duration-500"
                               style={{ width: `${Math.min(row.capaianCNF || 0, 100)}%` }}
                             />
                           </div>
@@ -1343,7 +1343,7 @@ export default function InternalDashboard() {
 
             {/* Distribusi Tipe PM per Bagian */}
             <div className="bg-white/90 backdrop-blur-md border border-white shadow-xl ring-1 ring-gray-100/50 rounded-2xl shadow-sm-subtle overflow-hidden flex flex-col">
-              <div className="px-5 py-3.5 bg-[#D9650F] text-ink">
+              <div className="px-5 py-3.5 bg-gradient-to-r from-[#D9650F] to-[#FF7410] text-white/90 shadow-md">
                 <h4 className="text-sm font-bold text-ink tracking-tight">Distribusi Work Order (Berdasarkan Tipe WO)</h4>
                 <p className="text-[11px] text-orange-50 mt-0.5">Perbandingan jumlah WO berdasarkan jenis PM (PM04, PM02, PM03, PM09, PM01, PM05) di tiap bagian.</p>
               </div>
@@ -1595,7 +1595,7 @@ export default function InternalDashboard() {
                             <td className="py-2.5 px-4 font-mono font-bold text-slate-600">{p.npk}</td>
                             <td className="py-2.5 px-4 font-bold text-slate-900">{p.name}</td>
                             <td className="py-2.5 px-4">
-                              <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold ${isOrganik ? 'bg-navy-950 text-ink' : 'bg-emerald-100 text-emerald-800 border border-emerald-200'
+                              <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold ${isOrganik ? 'bg-[#0F2052] text-white/90 shadow-sm' : 'bg-emerald-100 text-emerald-800 border border-emerald-200'
                                 }`}>
                                 <HardHat size={12} className={isOrganik ? 'text-white' : 'text-emerald-700'} />
                                 {p.employee_type}
@@ -1761,7 +1761,7 @@ export default function InternalDashboard() {
               </span>
               <button
                 onClick={() => setShowPm02PlusModal(false)}
-                className="px-4 py-2 bg-white hover:bg-slate-900 text-ink text-xs font-bold rounded-2xl transition-colors cursor-pointer"
+                className="px-4 py-2 bg-white hover:bg-[#0A1B3F] hover:text-white/90 text-[#0A1B3F] border border-gray-200 shadow-sm text-xs font-bold rounded-2xl transition-colors cursor-pointer"
               >
                 Tutup Detail
               </button>
@@ -2033,7 +2033,7 @@ export default function InternalDashboard() {
               <div className="px-5 py-3 bg-slate-50 border-t border-slate-200 flex justify-end">
                 <button
                   onClick={() => setShowCategoryModal(false)}
-                  className="px-4 py-2 bg-white hover:bg-slate-900 text-ink text-xs font-bold rounded-2xl transition-colors"
+                  className="px-4 py-2 bg-white hover:bg-[#0A1B3F] hover:text-white/90 text-[#0A1B3F] border border-gray-200 shadow-sm text-xs font-bold rounded-2xl transition-colors"
                 >
                   Tutup
                 </button>
@@ -2117,6 +2117,7 @@ export default function InternalDashboard() {
     </div>
   );
 }
+
 
 
 

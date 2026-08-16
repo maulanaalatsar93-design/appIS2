@@ -377,7 +377,7 @@ export default function PublicDashboard({ onBack }) {
               value: summary.kpi?.totalRek || 0,
               sparklineData: summary.sparklines?.totalRek || summary.jobLoadTrend?.rekSeries || [],
               isDark: true,
-              bgGradient: 'bg-[#168477]',
+              bgGradient: 'bg-gradient-to-r from-[#0F5A51] to-[#168477]',
               borderColor: 'border-[#168477]',
             },
             {
@@ -419,7 +419,7 @@ export default function PublicDashboard({ onBack }) {
 
         {/* Symmetrical Bar Chart 2: Rilis Rekomendasi per Pabrik */}
         <div className="bg-white border border-gray-200 rounded-2xl shadow-sm-subtle overflow-hidden flex flex-col">
-          <div className="px-5 py-3.5 bg-[#168477] text-ink">
+          <div className="px-5 py-3.5 bg-gradient-to-r from-[#0F5A51] to-[#168477] text-white/90 shadow-md">
             <h4 className="text-sm font-bold text-ink tracking-tight">Rilis Rekomendasi per Pabrik</h4>
             <p className="text-[11px] text-teal-100 mt-0.5">Perbandingan rilis rekomendasi berdasarkan area pabrik.</p>
           </div>
@@ -445,7 +445,7 @@ export default function PublicDashboard({ onBack }) {
 
         {/* Symmetrical Donut Chart 2: Rekomendasi (M4 & M7) */}
         <div className="bg-white border border-gray-200 rounded-2xl shadow-sm-subtle overflow-hidden flex flex-col">
-          <div className="px-5 py-3.5 bg-[#168477] text-ink">
+          <div className="px-5 py-3.5 bg-gradient-to-r from-[#0F5A51] to-[#168477] text-white/90 shadow-md">
             <h4 className="text-sm font-bold text-ink tracking-tight">Rekomendasi (M4 & M7)</h4>
             <p className="text-[11px] text-teal-100 mt-0.5">Proporsi rekomendasi berdasarkan status rilis.</p>
           </div>
@@ -554,7 +554,7 @@ export default function PublicDashboard({ onBack }) {
               </span>
               <button
                 onClick={() => setShowPMModal(false)}
-                className="px-4 py-1.5 bg-industrial-text hover:bg-slate-900 text-ink text-xs font-semibold rounded-2xl transition-colors"
+                className="px-4 py-1.5 bg-industrial-text hover:bg-[#0A1B3F] hover:text-white/90 text-[#0A1B3F] border border-gray-200 shadow-sm text-xs font-semibold rounded-2xl transition-colors"
               >
                 Tutup
               </button>
@@ -755,5 +755,6 @@ export default function PublicDashboard({ onBack }) {
     </div>
   );
 }
+
 
 
