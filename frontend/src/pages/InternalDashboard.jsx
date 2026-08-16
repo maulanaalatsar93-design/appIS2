@@ -582,7 +582,7 @@ export default function InternalDashboard() {
             <button
               onClick={() => setActiveTab('overview')}
               className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-300 ${activeTab === 'overview'
-                ? 'bg-gradient-to-r from-[#193B8F] to-[#1A4BC4] text-white shadow-md'
+                ? 'bg-gradient-to-br from-emerald-500 to-emerald-700 text-white shadow-md'
                 : 'text-gray-500 hover:text-[#193B8F] hover:bg-gray-50'
                 }`}
             >
@@ -591,7 +591,7 @@ export default function InternalDashboard() {
             <button
               onClick={() => setActiveTab('jobload')}
               className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-300 ${activeTab === 'jobload'
-                ? 'bg-gradient-to-r from-[#193B8F] to-[#1A4BC4] text-white shadow-md'
+                ? 'bg-gradient-to-br from-emerald-500 to-emerald-700 text-white shadow-md'
                 : 'text-gray-500 hover:text-[#193B8F] hover:bg-gray-50'
                 }`}
             >
@@ -600,7 +600,7 @@ export default function InternalDashboard() {
             <button
               onClick={() => setActiveTab('performance_killer')}
               className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-300 ${activeTab === 'performance_killer'
-                ? 'bg-gradient-to-r from-[#193B8F] to-[#1A4BC4] text-white shadow-md'
+                ? 'bg-gradient-to-br from-emerald-500 to-emerald-700 text-white shadow-md'
                 : 'text-gray-500 hover:text-[#193B8F] hover:bg-gray-50'
                 }`}
             >
@@ -609,7 +609,7 @@ export default function InternalDashboard() {
             <button
               onClick={() => setActiveTab('man_power')}
               className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-300 ${activeTab === 'man_power'
-                ? 'bg-gradient-to-r from-[#193B8F] to-[#1A4BC4] text-white shadow-md'
+                ? 'bg-gradient-to-br from-emerald-500 to-emerald-700 text-white shadow-md'
                 : 'text-gray-500 hover:text-[#193B8F] hover:bg-gray-50'
                 }`}
             >
@@ -671,21 +671,21 @@ export default function InternalDashboard() {
           {/* ManPower Detailed Scorecards — Premium Redesign */}
           <div className="bg-white rounded-xl border border-slate-100 shadow-sm overflow-hidden">
             {/* === Header Banner === */}
-            <div className="relative bg-gradient-to-r from-[#0F2052] via-[#1A4BC4] to-[#1e56d9] px-6 py-5">
+            <div className="relative bg-white border-b border-gray-100 px-6 py-5">
               <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='2'/%3E%3Ccircle cx='13' cy='3' r='2'/%3E%3C/g%3E%3C/svg%3E\")" }}></div>
               <div className="relative flex items-start justify-between gap-4">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <Users className="w-4 h-4 text-blue-200" />
-                    <span className="text-[10px] font-bold text-blue-200 uppercase tracking-widest">Status Kehadiran Personil</span>
+                    <Users className="w-4 h-4 text-gray-500" />
+                    <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Status Kehadiran Personil</span>
                   </div>
                   <h3 className="text-base font-extrabold text-ink">Monitoring Man Power Hari Ini</h3>
-                  <p className="text-xs text-blue-200 mt-0.5">Organik & Non-Organik — Data Real Time</p>
+                  <p className="text-xs text-gray-500 mt-0.5">Organik & Non-Organik — Data Real Time</p>
                 </div>
                 {/* Attendance Rate Ring */}
                 <div className="shrink-0 text-right">
                   <div className="inline-flex flex-col items-center bg-white/10 backdrop-blur-sm rounded-xl px-4 py-3 border border-white/20">
-                    <div className="text-[10px] font-bold text-blue-200 uppercase tracking-wider">Tingkat Hadir</div>
+                    <div className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Tingkat Hadir</div>
                     <div className={`text-3xl font-extrabold ${summary?.manPower?.total > 0 && (summary.manPower.hadir / summary.manPower.total) >= 0.85 ? 'text-emerald-300' : 'text-amber-300'}`}>
                       {summary?.manPower?.total > 0 ? Math.round(summary.manPower.hadir / summary.manPower.total * 100) : 0}%
                     </div>
@@ -701,7 +701,7 @@ export default function InternalDashboard() {
                     style={{ width: `${summary?.manPower?.total > 0 ? Math.round(summary.manPower.hadir / summary.manPower.total * 100) : 0}%` }}
                   />
                 </div>
-                <div className="flex justify-between text-[10px] text-blue-200 mt-1">
+                <div className="flex justify-between text-[10px] text-gray-500 mt-1">
                   <span>Hadir {summary?.manPower?.hadir || 0} orang</span>
                   <span>Total {summary?.manPower?.total || 0} personil</span>
                 </div>
@@ -817,11 +817,11 @@ export default function InternalDashboard() {
 
           {/* Visualisasi & Perbandingan per Pabrik (7 Pabrik) */}
           <div className="bg-white/90 backdrop-blur-md border border-white shadow-xl ring-1 ring-gray-100/50 rounded-2xl shadow-sm-subtle overflow-hidden">
-            <div className="px-5 py-3.5 bg-gradient-to-r from-[#0F2052] to-[#1A4BC4] text-ink">
-              <h3 className="text-base font-bold text-ink">
+            <div className="px-5 py-4 bg-white border-b border-gray-100 rounded-t-2xl">
+              <h3 className="text-base font-bold text-slate-800">
                 Perbandingan Work Order vs Rekomendasi per Pabrik (P1A - P7)
               </h3>
-              <p className="text-xs text-ink mt-0.5">
+              <p className="text-xs text-gray-500 mt-0.5">
                 Analisis komparatif beban pekerjaan dan notifikasi rekomendasi inspeksi pada 7 unit pabrik.
               </p>
             </div>
@@ -893,8 +893,8 @@ export default function InternalDashboard() {
 
           {/* Work Order PM 02+ List (Overview) */}
           <div className="bg-white/90 backdrop-blur-md border border-white shadow-xl ring-1 ring-gray-100/50 rounded-2xl shadow-sm-subtle overflow-hidden mt-6">
-            <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-[#D9650F] to-[#FF7410]">
-              <h4 className="text-sm font-bold text-white/90 flex items-center gap-2">
+            <div className="flex items-center justify-between px-4 py-3 bg-white border-b border-gray-100 rounded-t-2xl">
+              <h4 className="text-sm font-bold text-slate-800 flex items-center gap-2">
                 <span>Work Order PM 02+</span>
                 <span className="text-[10px] bg-white/20 text-white/90 font-semibold px-2.5 py-0.5 rounded-full">Corrective &amp; Other</span>
               </h4>
@@ -1031,7 +1031,7 @@ export default function InternalDashboard() {
 
                 <div className="bg-white p-3 rounded-2xl border border-gray-200 text-[11px] leading-relaxed">
                   <div className="text-[10px] text-gray-500 uppercase font-bold tracking-wider mb-1">Formulasi Capaian CNF:</div>
-                  <div className="font-mono text-blue-200 bg-slate-950/60 p-2 rounded-2xl border border-gray-200">
+                  <div className="font-mono text-gray-500 bg-slate-950/60 p-2 rounded-2xl border border-gray-200">
                     CNF % = <span className="text-emerald-400 font-bold">SUM(Status 'CNF'/'TECO' TANPA 'PCNF')</span> ÷ <span className="text-amber-400 font-bold">SUM(Status BUKAN 'CRTD')</span> × 100%
                   </div>
                 </div>
@@ -1044,7 +1044,7 @@ export default function InternalDashboard() {
                       <span className="truncate">CNF TECO: Dikonfirmasi & TECO</span>
                     </div>
                     <div className="flex items-center gap-1.5 bg-white p-2 rounded-2xl border border-gray-200">
-                      <span className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-[#D9650F] to-[#FF7410] shrink-0"></span>
+                      <span className="w-2.5 h-2.5 rounded-full bg-gradient-to-br from-orange-500 to-orange-700 shrink-0"></span>
                       <span className="truncate">CNF REL: Dikonfirmasi Rilis</span>
                     </div>
                     <div className="flex items-center gap-1.5 bg-white p-2 rounded-2xl border border-gray-200">
@@ -1065,7 +1065,7 @@ export default function InternalDashboard() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
 
             {/* SEMUA PM Card — Dark Navy */}
-            <div className="rounded-xl overflow-hidden shadow-lg border border-[#0A1B3F]/20 bg-gradient-to-r from-[#0F2052] to-[#1A4BC4]">
+            <div className="rounded-xl overflow-hidden shadow-lg border border-blue-700/50 bg-gradient-to-br from-blue-600 to-blue-800">
               <div className="px-5 pt-5 pb-0">
                 <div className="flex items-start justify-between mb-1">
                   <div>
@@ -1110,7 +1110,7 @@ export default function InternalDashboard() {
                 </div>
                 <div className="flex justify-between text-[10px] text-white/40 mt-1.5">
                   <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-yellow-300 inline-block" />Target {CNF_TARGET}%</span>
-                  <span className="font-mono text-blue-200 font-bold">{summary?.jobLoadDetails?.gauges?.cnfCount || '—'} / {summary?.kpi?.totalWO || 0} WO</span>
+                  <span className="font-mono text-gray-500 font-bold">{summary?.jobLoadDetails?.gauges?.cnfCount || '—'} / {summary?.kpi?.totalWO || 0} WO</span>
                 </div>
                 <div className="mt-3 -mx-2 h-8">
                   <Sparkline data={summary?.sparklines?.totalWo} color="rgba(255,255,255,0.3)" height={32} strokeWidth={2} />
@@ -1119,7 +1119,7 @@ export default function InternalDashboard() {
             </div>
 
             {/* PM04 Card — Royal Blue */}
-            <div className="rounded-xl overflow-hidden shadow-lg border border-[#0D3299]/20 bg-gradient-to-r from-[#193B8F] to-[#1A4BC4]">
+            <div className="rounded-xl overflow-hidden shadow-lg border border-emerald-600/50 bg-gradient-to-br from-emerald-500 to-emerald-700">
               <div className="px-5 pt-5 pb-0">
                 <div className="flex items-start justify-between mb-1">
                   <div>
@@ -1163,7 +1163,7 @@ export default function InternalDashboard() {
                 </div>
                 <div className="flex justify-between text-[10px] text-white/40 mt-1.5">
                   <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-yellow-300 inline-block" />Target {CNF_TARGET}%</span>
-                  <span className="font-mono text-blue-200 font-bold">{summary?.jobLoadDetails?.gauges?.pm04CnfCount || '—'} / {summary?.kpi?.pm04Count || 0} WO</span>
+                  <span className="font-mono text-gray-500 font-bold">{summary?.jobLoadDetails?.gauges?.pm04CnfCount || '—'} / {summary?.kpi?.pm04Count || 0} WO</span>
                 </div>
                 <div className="mt-3 -mx-2 h-8">
                   <Sparkline data={summary?.sparklines?.pm04} color="rgba(255,255,255,0.3)" height={32} strokeWidth={2} />
@@ -1172,7 +1172,7 @@ export default function InternalDashboard() {
             </div>
 
             {/* PM02+ Card — Orange */}
-            <div className="rounded-xl overflow-hidden shadow-lg border border-[#A04508]/20 bg-gradient-to-r from-[#D9650F] to-[#FF7410]">
+            <div className="rounded-xl overflow-hidden shadow-lg border border-[#A04508]/20 bg-gradient-to-br from-orange-500 to-orange-700">
               <div className="px-5 pt-5 pb-0">
                 <div className="flex items-start justify-between mb-1">
                   <div>
@@ -1235,11 +1235,11 @@ export default function InternalDashboard() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
             {/* Progress PM04 Table */}
             <div className="bg-white/90 backdrop-blur-md border border-white shadow-xl ring-1 ring-gray-100/50 rounded-2xl shadow-sm-subtle overflow-hidden">
-              <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-[#0F2052] to-[#1A4BC4]">
-                <h4 className="text-sm font-bold text-white/90 flex items-center gap-2">
+              <div className="flex items-center justify-between px-4 py-3 bg-white border-b border-gray-100 rounded-t-2xl">
+                <h4 className="text-sm font-bold text-slate-800 flex items-center gap-2">
                   <span>Progress PM04 (Per Bagian)</span>
                 </h4>
-                <span className="text-[10px] bg-white/20 text-white/90 font-semibold px-2.5 py-0.5 rounded-full">Predictive</span>
+                <span className="text-[10px] bg-blue-50 text-blue-700 border border-blue-200 font-semibold px-2.5 py-0.5 rounded-full">Predictive</span>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full text-xs text-left">
@@ -1257,7 +1257,7 @@ export default function InternalDashboard() {
                       <tr key={idx} className="hover:bg-blue-50/40 transition-colors">
                         <td className="py-2.5 px-4 font-semibold text-slate-800">{row.name}</td>
                         <td className="py-2.5 px-4">
-                          <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-gradient-to-r from-[#193B8F] to-[#1A4BC4]/10 text-[#1A4BC4] border border-[#1A4BC4]/20">{row.tipe}</span>
+                          <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-gradient-to-br from-emerald-500 to-emerald-700/10 text-[#1A4BC4] border border-[#1A4BC4]/20">{row.tipe}</span>
                         </td>
                         <td className="py-2.5 px-4 text-right font-bold text-slate-900">{row.totalWO.toLocaleString('id-ID')}</td>
                         <td className="py-2.5 px-4">
@@ -1278,11 +1278,11 @@ export default function InternalDashboard() {
 
             {/* Progress PM02+ Table */}
             <div className="bg-white/90 backdrop-blur-md border border-white shadow-xl ring-1 ring-gray-100/50 rounded-2xl shadow-sm-subtle overflow-hidden">
-              <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-[#D9650F] to-[#FF7410]">
-                <h4 className="text-sm font-bold text-white/90 flex items-center gap-2">
+              <div className="flex items-center justify-between px-4 py-3 bg-white border-b border-gray-100 rounded-t-2xl">
+                <h4 className="text-sm font-bold text-slate-800 flex items-center gap-2">
                   <span>Progress PM02+ (Per Bagian)</span>
                 </h4>
-                <span className="text-[10px] bg-white/20 text-white/90 font-semibold px-2.5 py-0.5 rounded-full">Corrective &amp; Other</span>
+                <span className="text-[10px] bg-orange-50 text-orange-700 border border-orange-200 font-semibold px-2.5 py-0.5 rounded-full">Corrective &amp; Other</span>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full text-xs text-left">
@@ -1302,13 +1302,13 @@ export default function InternalDashboard() {
                           <div className="font-semibold text-slate-800">{row.name}</div>
                         </td>
                         <td className="py-2.5 px-4 align-top">
-                          <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-gradient-to-r from-[#D9650F] to-[#FF7410]/10 text-[#D9650F] border border-[#D9650F]/20">{row.tipe}</span>
+                          <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-gradient-to-br from-orange-500 to-orange-700/10 text-[#D9650F] border border-[#D9650F]/20">{row.tipe}</span>
                         </td>
                         <td className="py-2.5 px-4 text-right font-bold text-slate-900 align-top">{row.totalWO.toLocaleString('id-ID')}</td>
                         <td className="py-2.5 px-4">
                           <div className="w-full h-2.5 bg-slate-100 rounded-sm overflow-hidden">
                             <div
-                              className="h-full bg-gradient-to-r from-[#D9650F] to-[#FF7410] rounded-sm transition-all duration-500"
+                              className="h-full bg-gradient-to-br from-orange-500 to-orange-700 rounded-sm transition-all duration-500"
                               style={{ width: `${Math.min(row.capaianCNF || 0, 100)}%` }}
                             />
                           </div>
@@ -1326,9 +1326,9 @@ export default function InternalDashboard() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-6">
             {/* Distribusi Status WO per Bagian */}
             <div className="bg-white/90 backdrop-blur-md border border-white shadow-xl ring-1 ring-gray-100/50 rounded-2xl shadow-sm-subtle overflow-hidden flex flex-col">
-              <div className="px-5 py-3.5 bg-gradient-to-r from-[#0F2052] to-[#1A4BC4] text-ink">
-                <h4 className="text-sm font-bold text-ink tracking-tight">Distribusi Work Order (Berdasarkan Status WO)</h4>
-                <p className="text-[11px] text-ink mt-0.5">Perbandingan jumlah WO per status (CNF TECO, CNF REL, TECO, CRTD, REL) di tiap bagian.</p>
+              <div className="px-5 py-4 bg-white border-b border-gray-100 rounded-t-2xl">
+                <h4 className="text-sm font-bold text-slate-800 tracking-tight">Distribusi Work Order (Berdasarkan Status WO)</h4>
+                <p className="text-[11px] text-gray-500 mt-0.5">Perbandingan jumlah WO per status (CNF TECO, CNF REL, TECO, CRTD, REL) di tiap bagian.</p>
               </div>
               <div className="p-5 flex-1 min-h-[280px]">
                 <Chart
@@ -1343,9 +1343,9 @@ export default function InternalDashboard() {
 
             {/* Distribusi Tipe PM per Bagian */}
             <div className="bg-white/90 backdrop-blur-md border border-white shadow-xl ring-1 ring-gray-100/50 rounded-2xl shadow-sm-subtle overflow-hidden flex flex-col">
-              <div className="px-5 py-3.5 bg-gradient-to-r from-[#D9650F] to-[#FF7410] text-white/90 shadow-md">
-                <h4 className="text-sm font-bold text-ink tracking-tight">Distribusi Work Order (Berdasarkan Tipe WO)</h4>
-                <p className="text-[11px] text-orange-50 mt-0.5">Perbandingan jumlah WO berdasarkan jenis PM (PM04, PM02, PM03, PM09, PM01, PM05) di tiap bagian.</p>
+              <div className="px-5 py-4 bg-white border-b border-gray-100 rounded-t-2xl">
+                <h4 className="text-sm font-bold text-slate-800 tracking-tight">Distribusi Work Order (Berdasarkan Tipe WO)</h4>
+                <p className="text-[11px] text-gray-500 mt-0.5">Perbandingan jumlah WO berdasarkan jenis PM (PM04, PM02, PM03, PM09, PM01, PM05) di tiap bagian.</p>
               </div>
               <div className="p-5 flex-1 min-h-[280px]">
                 <Chart
@@ -1375,7 +1375,7 @@ export default function InternalDashboard() {
             {/* Modal Header */}
             <div className="bg-navy-950 text-white px-6 py-4 flex items-center justify-between">
               <div>
-                <div className="text-[11px] uppercase tracking-wider text-blue-200 font-bold">Detail Ringkasan Segment Bar Chart</div>
+                <div className="text-[11px] uppercase tracking-wider text-gray-500 font-bold">Detail Ringkasan Segment Bar Chart</div>
                 <h3 className="text-lg font-display font-bold flex items-center gap-2 mt-0.5">
                   <span>{selectedSegment.category}</span>
                   <span className="text-xs bg-white/20 text-ink font-semibold px-2.5 py-0.5 rounded-full">
@@ -1497,7 +1497,7 @@ export default function InternalDashboard() {
                   <HardHat size={22} className={selectedManpowerType === 'Non Organik' ? 'text-emerald-300' : 'text-white'} />
                 </div>
                 <div>
-                  <div className="text-[11px] uppercase tracking-wider font-bold text-blue-200">
+                  <div className="text-[11px] uppercase tracking-wider font-bold text-gray-500">
                     Informasi Personil &amp; Status Kehadiran Real-Time
                   </div>
                   <h3 className="text-lg font-display font-bold flex items-center gap-2 mt-0.5">
@@ -1880,12 +1880,12 @@ export default function InternalDashboard() {
 
             {/* Data Table Section */}
             <div className="bg-white/90 backdrop-blur-md border border-white shadow-xl ring-1 ring-gray-100/50 rounded-2xl shadow-sm-subtle overflow-hidden">
-              <div className="flex items-center justify-between px-5 py-4 bg-gradient-to-r from-[#7F1D1D] to-[#B91C1C]">
-                <h4 className="text-base font-bold text-white/90 flex items-center gap-2">
+              <div className="flex items-center justify-between px-5 py-4 bg-white border-b border-gray-100">
+                <h4 className="text-base font-bold text-slate-800 flex items-center gap-2">
                   <AlertTriangle size={18} />
                   <span>Daftar Detail Performance Killer</span>
                 </h4>
-                <Link to="/performance-killer" className="flex items-center gap-2 px-4 py-2 bg-white text-[#8B0000] font-bold rounded-2xl hover:bg-slate-100 transition-colors shadow-sm text-sm">
+                <Link to="/performance-killer" className="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-700 hover:bg-red-100 font-bold rounded-2xl hover:bg-slate-100 transition-colors shadow-sm text-sm">
                   <Edit size={16} />
                   <span>Akses Edit (CRUD)</span>
                 </Link>
@@ -2117,6 +2117,7 @@ export default function InternalDashboard() {
     </div>
   );
 }
+
 
 
 

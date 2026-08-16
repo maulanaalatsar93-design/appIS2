@@ -16,12 +16,12 @@ export default function KPICard({
 
   const getContainerStyles = () => {
     switch(variant) {
-      case 'navy': return 'bg-gradient-to-br from-[#0F2052] to-[#1A4BC4] border-white/10 shadow-[0_8px_30px_rgba(26,75,196,0.35)] ring-1 ring-white/10 text-white';
-      case 'blue': return 'bg-gradient-to-br from-[#1E40AF] to-[#3B82F6] border-white/10 shadow-[0_8px_30px_rgba(59,130,246,0.35)] ring-1 ring-white/10 text-white';
-      case 'teal': return 'bg-gradient-to-br from-[#0F766E] to-[#14B8A6] border-white/10 shadow-[0_8px_30px_rgba(20,184,166,0.35)] ring-1 ring-white/10 text-white';
-      case 'orange': return 'bg-gradient-to-br from-[#C2410C] to-[#F97316] border-white/10 shadow-[0_8px_30px_rgba(249,115,22,0.35)] ring-1 ring-white/10 text-white';
-      case 'red': return 'bg-gradient-to-br from-[#991B1B] to-[#EF4444] border-white/10 shadow-[0_8px_30px_rgba(239,68,68,0.35)] ring-1 ring-white/10 text-white';
-      case 'rose': return 'bg-gradient-to-br from-[#BE123C] to-[#F43F5E] border-white/10 shadow-[0_8px_30px_rgba(244,63,94,0.35)] ring-1 ring-white/10 text-white';
+      case 'navy': return 'bg-gradient-to-br from-blue-600 to-blue-800 border-white/10 shadow-[0_8px_30px_rgba(37,99,235,0.35)] ring-1 ring-white/10 text-white';;
+      case 'blue': return 'bg-gradient-to-br from-blue-500 to-blue-700 border-white/10 shadow-[0_8px_30px_rgba(59,130,246,0.35)] ring-1 ring-white/10 text-white';;
+      case 'teal': return 'bg-gradient-to-br from-emerald-500 to-emerald-700 border-white/10 shadow-[0_8px_30px_rgba(16,185,129,0.35)] ring-1 ring-white/10 text-white';;
+      case 'orange': return 'bg-gradient-to-br from-orange-500 to-orange-700 border-white/10 shadow-[0_8px_30px_rgba(249,115,22,0.35)] ring-1 ring-white/10 text-white';;
+      case 'red': return 'bg-gradient-to-br from-red-500 to-red-700 border-white/10 shadow-[0_8px_30px_rgba(239,68,68,0.35)] ring-1 ring-white/10 text-white';;
+      case 'rose': return 'bg-gradient-to-br from-rose-500 to-rose-700 border-white/10 shadow-[0_8px_30px_rgba(244,63,94,0.35)] ring-1 ring-white/10 text-white';;
       default: return 'bg-white/90 backdrop-blur-md border border-white shadow-xl ring-1 ring-gray-100/50';
     }
   };
@@ -81,3 +81,4 @@ export default function KPICard({
     </div>
   );
 }
+
