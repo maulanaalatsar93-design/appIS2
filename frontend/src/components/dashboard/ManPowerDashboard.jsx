@@ -35,9 +35,10 @@ export default function ManPowerDashboard() {
 
   const getBagian = (p) => {
     const pos = (p.position || '').toUpperCase();
-    if ((pos.includes('VP') && !pos.includes('AVP')) || pos.includes('VICE PRESIDENT')) return 'VP';
-    if (pos.includes('AVP')) return 'AVP';
-    return `Staff ${p.nama_divisi && p.nama_divisi !== 'N/A' ? p.nama_divisi : p.sub_area || ''}`.trim();
+    const div = p.nama_divisi && p.nama_divisi !== 'N/A' ? p.nama_divisi : (p.sub_area || '');
+    if ((pos.includes('VP') && !pos.includes('AVP')) || pos.includes('VICE PRESIDENT')) return 'Vice President';
+    if (pos.includes('AVP')) return `AVP ${div}`.trim();
+    return `Staff ${div}`.trim();
   };
 
   // Custom sort: VP > AVP > Staff, then alphabetically
@@ -181,10 +182,10 @@ export default function ManPowerDashboard() {
 
   const renderBagianBadge = (p) => {
     const bagian = getBagian(p);
-    if (bagian === 'VP') {
+    if (bagian === 'Vice President') {
       return <span className="inline-block px-2.5 py-0.5 rounded text-[10px] font-black uppercase bg-[#193B8F] text-white shadow-sm tracking-wide">{bagian}</span>;
     }
-    if (bagian === 'AVP') {
+    if (bagian.startsWith('AVP')) {
       return <span className="inline-block px-2.5 py-0.5 rounded text-[10px] font-black uppercase bg-[#FF7410] text-white shadow-sm tracking-wide">{bagian}</span>;
     }
     return <span className="text-slate-600 text-[11px] font-semibold">{bagian}</span>;
@@ -501,7 +502,7 @@ export default function ManPowerDashboard() {
                     <td className="py-3 px-4 text-center text-gray-500 font-medium">{i + 1}.</td>
                     <td className="py-3 px-4 font-bold text-slate-800">{p.name}</td>
                     <td className="py-3 px-4 text-slate-500 text-xs font-mono">{p.npk || '-'}</td>
-                    <td className="py-3 px-4 text-slate-600 text-xs font-semibold">{getBagian(p)}</td>
+                    <td className="py-3 px-4">{renderBagianBadge(p)}</td>
                     <td className="py-2 px-4">
                       {renderDurasiCell(p)}
                     </td>
