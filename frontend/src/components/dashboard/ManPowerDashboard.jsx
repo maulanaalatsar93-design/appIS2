@@ -7,6 +7,8 @@ import { CheckCircle2, UserX, Calendar, Info, PlaneTakeoff, Globe, GraduationCap
 export default function ManPowerDashboard() {
   const [selectedDate, setSelectedDate] = useState(format(new Date(), 'yyyy-MM-dd'));
   const [nameFilter, setNameFilter] = useState('');
+  const [bagianFilter, setBagianFilter] = useState([]);
+  const [isBagianDropdownOpen, setIsBagianDropdownOpen] = useState(false);
   const [manpowerData, setManpowerData] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -26,11 +28,22 @@ export default function ManPowerDashboard() {
     }
   };
 
-  const getPriority = (position = '') => {
-    const pos = position.toUpperCase();
-    if ((pos.includes('VP') && !pos.includes('AVP')) || pos.includes('VICE PRESIDENT')) return 1;
-    if (pos.includes('AVP')) return 2;
-    return 3; // Staff and others
+  const getSortScore = (bagianStr) => {
+    const bagian = bagianStr.toUpperCase();
+    if (bagian === 'VICE PRESIDENT') return 1;
+    if (bagian.includes('AVP ROTATING')) return 2;
+    if (bagian.includes('AVP PPHS')) return 3;
+    if (bagian.includes('AVP BENGKEL')) return 4;
+    if (bagian.includes('AVP METAL') || bagian.includes('AVP MENTAL')) return 5;
+    if (bagian.includes('STAFF ROTATING 1')) return 6;
+    if (bagian.includes('STAFF ROTATING 2') || bagian.includes('ROTATING 2')) return 7;
+    if (bagian.includes('STAFF PPHS') || bagian.includes('PPHS')) return 8;
+    if (bagian.includes('STAFF METAL') || bagian.includes('METAL')) return 9;
+    if (bagian.includes('STAFF BENGKEL') || bagian.includes('BENGKEL')) return 10;
+    
+    if (bagian.includes('AVP')) return 5.5;
+    if (bagian.includes('STAFF')) return 11;
+    return 12;
   };
 
   const getBagian = (p) => {
@@ -43,14 +56,15 @@ export default function ManPowerDashboard() {
 
   // Custom sort: VP > AVP > Staff, then alphabetically
   const sortHierarchy = (a, b) => {
-    const pA = getPriority(a.position);
-    const pB = getPriority(b.position);
+    const pA = getSortScore(getBagian(a));
+    const pB = getSortScore(getBagian(b));
     if (pA !== pB) return pA - pB;
-    return a.name.localeCompare(b.name);
+    return (a.name || '').localeCompare(b.name || '');
   };
 
   const filteredData = manpowerData
     .filter(p => p.name.toLowerCase().includes(nameFilter.toLowerCase()))
+    .filter(p => bagianFilter.length === 0 || bagianFilter.includes(getBagian(p)))
     .sort(sortHierarchy);
 
   // Segmentation
@@ -264,6 +278,39 @@ export default function ManPowerDashboard() {
                   onChange={(e) => setNameFilter(e.target.value)}
                   className="w-full text-sm font-medium border border-slate-200 rounded-2xl px-3 py-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-[#1A4BC4]/30"
                 />
+              </div>
+              <div className="relative">
+                <label className="text-xs font-semibold text-gray-500 mb-1 block">Filter Bagian</label>
+                <button 
+                  type="button"
+                  onClick={() => setIsBagianDropdownOpen(!isBagianDropdownOpen)}
+                  className="w-full text-left text-sm font-medium border border-slate-200 rounded-2xl px-3 py-2 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-[#1A4BC4]/30 flex justify-between items-center"
+                >
+                  <span className="truncate text-slate-700">
+                    {bagianFilter.length === 0 ? 'Semua Bagian' : `${bagianFilter.length} Bagian Terpilih`}
+                  </span>
+                  <div className={`text-[10px] transition-transform ${isBagianDropdownOpen ? 'rotate-180' : ''}`}>▼</div>
+                </button>
+                {isBagianDropdownOpen && (
+                  <div className="absolute z-20 w-full mt-1 bg-white border border-slate-200 rounded-xl shadow-lg max-h-48 overflow-y-auto">
+                    <div className="p-2 space-y-1">
+                      {[...new Set(manpowerData.map(p => getBagian(p)))].sort((a,b) => getSortScore(a) - getSortScore(b)).map(b => (
+                        <label key={b} className="flex items-center gap-2 px-2 py-1.5 hover:bg-slate-50 rounded-lg cursor-pointer group transition-colors">
+                          <input 
+                            type="checkbox"
+                            checked={bagianFilter.includes(b)}
+                            onChange={(e) => {
+                              if (e.target.checked) setBagianFilter([...bagianFilter, b]);
+                              else setBagianFilter(bagianFilter.filter(item => item !== b));
+                            }}
+                            className="w-3.5 h-3.5 text-[#1A4BC4] border-gray-300 rounded focus:ring-[#1A4BC4]"
+                          />
+                          <span className="text-xs font-semibold text-slate-700 group-hover:text-[#1A4BC4]">{b}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
