@@ -3,10 +3,7 @@ import Sparkline from './Sparkline';
 
 export default function ScorecardGroup({ title, items = [] }) {
   return (
-    <div className="bg-white/80 backdrop-blur-xl border border-white shadow-[0_8px_30px_rgb(0,0,0,0.04)] ring-1 ring-gray-100/50 rounded-[32px] p-6 sm:p-8 space-y-6 relative overflow-hidden">
-      
-      {/* Subtle ambient glow for the group */}
-      <div className="absolute top-0 right-0 w-64 h-64 bg-navy-600/5 blur-[80px] rounded-full pointer-events-none" />
+    <div className="bg-white border border-slate-200 shadow-sm rounded-xl p-6 sm:p-8 space-y-6 relative overflow-hidden">
 
       {/* Title */}
       <h3 className="text-center text-xl font-display font-extrabold text-ink tracking-tight relative z-10">
@@ -20,13 +17,9 @@ export default function ScorecardGroup({ title, items = [] }) {
           return (
             <div
               key={idx}
-              className={`p-6 ${item.bgGradient || (isDark ? 'bg-gradient-to-br from-[#0F2052] to-[#1A4BC4]' : 'bg-white')} border ${item.borderColor || (isDark ? 'border-white/10' : 'border-gray-100')} rounded-[24px] flex flex-col justify-between relative overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 group ${!isDark ? 'ring-1 ring-gray-100/50 shadow-sm' : 'shadow-[0_8px_30px_rgba(26,75,196,0.2)]'}`}
-              style={!isDark ? { borderTop: `4px solid ${item.color || '#1A4BC4'}` } : {}}
+              className={`p-6 ${isDark ? 'bg-[#193B8F] text-white' : 'bg-white text-slate-800'} border ${isDark ? 'border-transparent' : 'border-slate-200'} rounded-xl flex flex-col justify-between relative overflow-hidden transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 group`}
+              style={!isDark && item.color ? { borderTop: `4px solid ${item.color}` } : {}}
             >
-              {/* Decorative Glow inside dark cards */}
-              {isDark && (
-                <div className="absolute top-[-20%] right-[-10%] w-[60%] h-[60%] bg-white/10 blur-[40px] rounded-full pointer-events-none group-hover:scale-110 transition-transform duration-500" />
-              )}
 
               <div className="z-10 relative">
                 <div className="flex items-center justify-between">
@@ -57,7 +50,7 @@ export default function ScorecardGroup({ title, items = [] }) {
                 )}
                 
                 <div className="flex items-baseline gap-2 mt-4 mb-3">
-                  <p className={`text-4xl md:text-5xl font-display font-extrabold ${item.textColor || (isDark ? 'text-white' : 'text-ink')} tracking-tight`}>
+                  <p className={`text-4xl md:text-5xl font-display font-extrabold tracking-tight`}>
                     {item.value ? Number(item.value).toLocaleString('id-ID') : '0'}
                   </p>
                   <span className={`text-sm font-bold ${isDark ? 'text-white/60' : 'text-gray-400'}`}>{item.unit || 'WO'}</span>
@@ -77,8 +70,8 @@ export default function ScorecardGroup({ title, items = [] }) {
                         style={{
                           width: `${Math.min(item.progress.rate, 100)}%`,
                           background: item.progress.rate >= (item.progress.target || 90)
-                            ? 'linear-gradient(90deg,#34d399,#10b981)'
-                            : 'linear-gradient(90deg,#fbbf24,#f97316)'
+                            ? '#10b981'
+                            : '#f97316'
                         }}
                       />
                       {item.progress.target && (

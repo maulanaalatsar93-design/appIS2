@@ -684,20 +684,20 @@ export default function InternalDashboard() {
                 </div>
                 {/* Attendance Rate Ring */}
                 <div className="shrink-0 text-right">
-                  <div className="inline-flex flex-col items-center bg-white/10 backdrop-blur-sm rounded-xl px-4 py-3 border border-white/20">
+                  <div className="inline-flex flex-col items-center bg-slate-50 rounded-xl px-4 py-3 border border-slate-200">
                     <div className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Tingkat Hadir</div>
-                    <div className={`text-3xl font-extrabold ${summary?.manPower?.total > 0 && (summary.manPower.hadir / summary.manPower.total) >= 0.85 ? 'text-emerald-300' : 'text-amber-300'}`}>
+                    <div className={`text-3xl font-extrabold ${summary?.manPower?.total > 0 && (summary.manPower.hadir / summary.manPower.total) >= 0.85 ? 'text-emerald-600' : 'text-amber-600'}`}>
                       {summary?.manPower?.total > 0 ? Math.round(summary.manPower.hadir / summary.manPower.total * 100) : 0}%
                     </div>
-                    <div className="text-[10px] text-blue-300">{summary?.manPower?.hadir || 0} / {summary?.manPower?.total || 0} org</div>
+                    <div className="text-[10px] text-blue-600 font-bold mt-1">{summary?.manPower?.hadir || 0} / {summary?.manPower?.total || 0} org</div>
                   </div>
                 </div>
               </div>
               {/* Progress bar in header */}
               <div className="relative mt-4">
-                <div className="w-full h-2.5 bg-white/20 rounded-full overflow-hidden">
+                <div className="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden border border-slate-200/60">
                   <div
-                    className="h-full bg-gradient-to-r from-emerald-400 to-emerald-300 rounded-full transition-all duration-1000"
+                    className="h-full bg-emerald-500 rounded-full transition-all duration-1000"
                     style={{ width: `${summary?.manPower?.total > 0 ? Math.round(summary.manPower.hadir / summary.manPower.total * 100) : 0}%` }}
                   />
                 </div>
@@ -728,15 +728,15 @@ export default function InternalDashboard() {
                     <button
                       key={key}
                       onClick={() => { setSelectedCategory(key); setShowCategoryModal(true); }}
-                      className={`group relative bg-${color}-50 border border-${color}-100 rounded-xl p-3 flex flex-col items-center gap-1.5 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer text-center`}
+                      className={`group relative bg-white border border-slate-200 rounded-xl p-3 flex flex-col items-center gap-1.5 hover:shadow-md hover:border-slate-300 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer text-center`}
                     >
-                      <div className={`w-8 h-8 rounded-full bg-${color}-100 flex items-center justify-center group-hover:scale-110 transition-transform`}>
-                        <Icon className={`w-4 h-4 text-${color}-500`} />
+                      <div className={`w-8 h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                        <Icon className={`w-4 h-4 text-${color}-600`} />
                       </div>
-                      <div className={`text-2xl font-extrabold text-${color}-700 leading-tight`}>{val}</div>
-                      <div className={`text-[9px] font-bold text-${color}-500 uppercase tracking-wider`}>{label}</div>
+                      <div className={`text-2xl font-extrabold text-slate-800 leading-tight`}>{val}</div>
+                      <div className={`text-[9px] font-bold text-slate-500 uppercase tracking-wider`}>{label}</div>
                       {val > 0 && (
-                        <div className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse"></div>
+                        <div className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></div>
                       )}
                     </button>
                   ))}
@@ -761,19 +761,19 @@ export default function InternalDashboard() {
                     <button
                       key={key}
                       onClick={() => { setSelectedCategory(key); setShowCategoryModal(true); }}
-                      className={`group relative bg-${color}-50 border border-${color}-100 rounded-xl p-4 flex items-center gap-4 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer text-left`}
+                      className={`group relative bg-white border border-slate-200 rounded-xl p-4 flex items-center gap-4 hover:shadow-md hover:border-slate-300 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer text-left`}
                     >
-                      <div className={`w-11 h-11 rounded-xl bg-${color}-100 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform`}>
+                      <div className={`w-11 h-11 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform`}>
                         <Icon className={`w-5 h-5 text-${color}-600`} />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <div className={`text-[10px] font-bold text-${color}-600 uppercase tracking-wider truncate`}>{label}</div>
-                        <div className={`text-3xl font-extrabold text-${color}-700 leading-tight`}>{val}</div>
+                        <div className={`text-[10px] font-bold text-slate-500 uppercase tracking-wider truncate`}>{label}</div>
+                        <div className={`text-3xl font-extrabold text-slate-800 leading-tight`}>{val}</div>
                         <div className="text-[9px] text-gray-500">orang</div>
                       </div>
                       {val > 0 && (
                         <div className="shrink-0">
-                          <div className={`w-2 h-2 rounded-full bg-${color}-400 animate-pulse`}></div>
+                          <div className={`w-2 h-2 rounded-full bg-${color}-500 animate-pulse`}></div>
                         </div>
                       )}
                     </button>
@@ -1852,38 +1852,44 @@ export default function InternalDashboard() {
               </div>
 
               <div className="p-0 overflow-x-auto">
-                <table className="w-full text-xs text-left border-collapse">
+                <table className="w-full text-left border-collapse">
                   <thead className="bg-slate-50 text-slate-700 font-bold border-b border-slate-300">
                     <tr>
-                      <th className="py-3 px-4 border border-slate-200 bg-slate-100 w-12 text-center">No</th>
-                      <th className="py-3 px-4 border border-slate-200 bg-slate-100 uppercase tracking-wider text-[10px]">Item</th>
-                      <th className="py-3 px-4 border border-slate-200 bg-slate-100 uppercase tracking-wider text-[10px]">Plant</th>
-                      <th className="py-3 px-4 border border-slate-200 bg-slate-100 uppercase tracking-wider text-[10px]">Masalah (Problem)</th>
-                      <th className="py-3 px-4 border border-slate-200 bg-slate-100 uppercase tracking-wider text-[10px]">Tindak Lanjut (Mitigation)</th>
+                      <th className="py-4 px-5 border-b border-slate-200 bg-slate-50 w-12 text-center text-xs">No</th>
+                      <th className="py-4 px-5 border-b border-slate-200 bg-slate-50 text-xs">Item</th>
+                      <th className="py-4 px-5 border-b border-slate-200 bg-slate-50 text-xs">Plant</th>
+                      <th className="py-4 px-5 border-b border-slate-200 bg-slate-50 text-xs w-[35%]">Masalah (Problem)</th>
+                      <th className="py-4 px-5 border-b border-slate-200 bg-slate-50 text-xs w-[35%]">Tindak Lanjut (Mitigation)</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-200 text-[11px] font-medium text-slate-700">
+                  <tbody className="divide-y divide-slate-100 text-[13px] font-medium text-slate-700">
                     {performanceKillers.length > 0 ? (
                       performanceKillers.map((pk, idx) => (
-                        <tr key={pk.id} className="hover:bg-slate-50 transition-colors">
-                          <td className="py-3 px-4 border border-slate-200 bg-slate-50/50 text-center font-bold text-slate-600">{idx + 1}</td>
-                          <td className="py-3 px-4 border border-slate-200 font-bold text-industrial-navy">{pk.item}</td>
-                          <td className="py-3 px-4 border border-slate-200">
-                            <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 text-slate-700 border border-slate-200">
+                        <tr key={pk.id} className="hover:bg-slate-50/50 transition-colors group">
+                          <td className="py-4 px-5 text-center font-bold text-slate-500 bg-slate-50/30">{idx + 1}</td>
+                          <td className="py-4 px-5 font-bold text-[#193B8F] text-sm align-top">{pk.item}</td>
+                          <td className="py-4 px-5 align-top">
+                            <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200 shadow-sm">
                               {pk.area_plant}
                             </span>
                           </td>
-                          <td className="py-3 px-4 border border-slate-200 min-w-[280px] max-w-sm whitespace-normal leading-relaxed text-slate-700">
-                            <div dangerouslySetInnerHTML={{ __html: pk.masalah }} className="prose prose-sm prose-slate max-w-none" />
+                          <td className="py-4 px-5 align-top leading-relaxed text-slate-700">
+                            <div className="flex items-start gap-2.5">
+                              <AlertTriangle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
+                              <div dangerouslySetInnerHTML={{ __html: pk.masalah }} className="prose prose-sm prose-slate max-w-none text-[13px]" />
+                            </div>
                           </td>
-                          <td className="py-3 px-4 border border-slate-200 min-w-[280px] max-w-sm whitespace-normal leading-relaxed text-slate-700">
-                            <div dangerouslySetInnerHTML={{ __html: pk.tindak_lanjut }} className="prose prose-sm prose-slate max-w-none" />
+                          <td className="py-4 px-5 align-top leading-relaxed text-slate-700">
+                            <div className="flex items-start gap-2.5">
+                              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                              <div dangerouslySetInnerHTML={{ __html: pk.tindak_lanjut }} className="prose prose-sm prose-slate max-w-none text-[13px]" />
+                            </div>
                           </td>
                         </tr>
                       ))
                     ) : (
                       <tr>
-                        <td colSpan="5" className="py-8 text-center text-gray-500 italic">Tidak ada data Performance Killer.</td>
+                        <td colSpan="5" className="py-12 text-center text-gray-500 italic text-sm bg-slate-50">Tidak ada data Performance Killer.</td>
                       </tr>
                     )}
                   </tbody>

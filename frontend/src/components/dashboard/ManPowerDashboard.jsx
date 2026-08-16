@@ -87,34 +87,52 @@ export default function ManPowerDashboard() {
     'Dinas Luar Negeri': filteredData.filter(p => p.statusToday === 'Dinas Luar Negeri').length,
   };
 
-  // Chart configuration generator
-  const createDonutOptions = (title) => ({
-    chart: { type: 'donut', fontFamily: 'Plus Jakarta Sans, sans-serif' },
-    title: { 
-      text: title, 
-      align: 'left',
-      style: { color: '#0F172A', fontSize: '13px', fontWeight: 'bold' },
-      background: 'transparent', // Dark blue header matching Job Load
-      offsetX: 10,
-      padding: 5
-    },
-    labels: ['Hadir', 'Tidak Hadir'],
-    colors: ['#18468B', '#FBBF24'], // Blue for present, yellow for absent as per mockup
-    plotOptions: {
-      pie: {
-        donut: { size: '60%' },
-        dataLabels: { offset: -10 }
+  const CustomDonutChart = ({ title, series, labels, colors }) => {
+    const total = series.reduce((a, b) => a + b, 0);
+    const options = {
+      chart: { type: 'donut', fontFamily: 'Plus Jakarta Sans, sans-serif', sparkline: { enabled: true } },
+      labels: labels,
+      colors: colors,
+      plotOptions: { pie: { donut: { size: '75%' } } },
+      dataLabels: { enabled: false },
+      legend: { show: false },
+      stroke: { width: 0 },
+      tooltip: {
+        y: { formatter: (val) => `${val} Personil` },
+        theme: 'light'
       }
-    },
-    dataLabels: {
-      enabled: true,
-      formatter: function (val) {
-        return typeof val === 'number' ? val.toFixed(1) + "%" : val + "%";
-      }
-    },
-    legend: { show: false },
-    stroke: { width: 1, colors: ['#ffffff'] }
-  });
+    };
+
+    return (
+      <div className="bg-white border border-slate-200 rounded-xl shadow-sm p-5 flex flex-col h-full hover:shadow-md transition-shadow">
+        <h3 className="text-[13px] font-bold text-slate-800 mb-4">{title}</h3>
+        <div className="flex items-center flex-1">
+          <div className="w-[120px] shrink-0">
+            {total > 0 ? (
+              <Chart options={options} series={series} type="donut" width="100%" height="120" />
+            ) : (
+              <div className="h-[120px] flex items-center justify-center text-xs text-slate-400">N/A</div>
+            )}
+          </div>
+          <div className="flex flex-col justify-center gap-3 pl-4 flex-1">
+            {labels.map((label, idx) => {
+              const val = series[idx];
+              const pct = total > 0 ? ((val / total) * 100).toFixed(2).replace('.', ',') : 0;
+              return (
+                <div key={label} className="flex gap-2">
+                  <div className="w-3 h-3 rounded shrink-0 mt-0.5" style={{ backgroundColor: colors[idx] }}></div>
+                  <div>
+                    <div className="text-xs font-bold text-[#172033] leading-none mb-1">{label}</div>
+                    <div className="text-[11px] font-medium text-slate-500">{val} ({pct}%)</div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   const renderStatusBadge = (p) => {
     let bgClass = 'bg-slate-400';
@@ -193,65 +211,32 @@ export default function ManPowerDashboard() {
           </div>
         </div>
 
-        {/* Charts */}
-        <div className="col-span-1 lg:col-span-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="bg-white/80 backdrop-blur-xl rounded-[24px] shadow-xl ring-1 ring-gray-100/50 border border-white overflow-hidden pt-4 pb-2 relative flex flex-col items-center justify-center">
-            <div className="absolute top-0 left-0 right-0 bg-gradient-to-r from-[#0F2052] to-[#1A4BC4] text-white/90 shadow-md text-xs font-bold px-4 py-2 z-10 shadow-sm flex items-center gap-2">
-              <span className="w-1.5 h-1.5 bg-blue-400 rounded-full"></span> Overall
-            </div>
-            <div className="mt-8 w-full flex justify-center">
-              {overallStats.total > 0 ? (
-                <Chart options={createDonutOptions('')} series={[overallStats.hadir, overallStats.total - overallStats.hadir]} type="donut" height="200" width="100%" />
-              ) : (
-                <div className="h-[200px] flex items-center justify-center"><Loader2 className="w-5 h-5 text-navy-600 animate-spin" /></div>
-              )}
-            </div>
-            <div className="absolute bottom-3 right-4 text-sm font-bold text-blue-800 bg-blue-100 px-3 py-1 rounded-2xl shadow-sm border border-blue-200">
-              {overallStats.percentage}%
-            </div>
-          </div>
-          <div className="bg-white/80 backdrop-blur-xl rounded-[24px] shadow-xl ring-1 ring-gray-100/50 border border-white overflow-hidden pt-4 pb-2 relative flex flex-col items-center justify-center">
-            <div className="absolute top-0 left-0 right-0 bg-gradient-to-r from-[#0F2052] to-[#1A4BC4] text-white/90 shadow-md text-xs font-bold px-4 py-2 z-10 shadow-sm flex items-center gap-2">
-              <span className="w-1.5 h-1.5 bg-green-400 rounded-full"></span> TKO
-            </div>
-            <div className="mt-8 w-full flex justify-center">
-              {tkoStats.total > 0 ? (
-                <Chart options={createDonutOptions('')} series={[tkoStats.hadir, tkoStats.total - tkoStats.hadir]} type="donut" height="200" width="100%" />
-              ) : (
-                <div className="h-[200px] flex items-center justify-center text-xs text-gray-500">Belum ada data</div>
-              )}
-            </div>
-            <div className="absolute bottom-3 right-4 text-sm font-bold text-blue-800 bg-blue-100 px-3 py-1 rounded-2xl shadow-sm border border-blue-200">
-              {tkoStats.percentage}%
-            </div>
-          </div>
-          <div className="bg-white/80 backdrop-blur-xl rounded-[24px] shadow-xl ring-1 ring-gray-100/50 border border-white overflow-hidden pt-4 pb-2 relative flex flex-col items-center justify-center">
-            <div className="absolute top-0 left-0 right-0 bg-gradient-to-r from-[#0F2052] to-[#1A4BC4] text-white/90 shadow-md text-xs font-bold px-4 py-2 z-10 shadow-sm flex items-center gap-2">
-              <span className="w-1.5 h-1.5 bg-orange-400 rounded-full"></span> TKNO
-            </div>
-            <div className="mt-8 w-full flex justify-center">
-              {tknoStats.total > 0 ? (
-                <Chart options={createDonutOptions('')} series={[tknoStats.hadir, tknoStats.total - tknoStats.hadir]} type="donut" height="200" width="100%" />
-              ) : (
-                <div className="h-[200px] flex items-center justify-center text-xs text-gray-500">Belum ada data</div>
-              )}
-            </div>
-            <div className="absolute bottom-3 right-4 text-sm font-bold text-blue-800 bg-blue-100 px-3 py-1 rounded-2xl shadow-sm border border-blue-200">
-              {tknoStats.percentage}%
-            </div>
-          </div>
+        {/* Premium Charts */}
+        <div className="col-span-1 lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <CustomDonutChart 
+            title="Tingkat Kehadiran Hari Ini" 
+            series={[overallStats.hadir, overallStats.total - overallStats.hadir]} 
+            labels={['Hadir', 'Tidak Hadir']} 
+            colors={['#168477', '#FF7410']} // Green for hadir, Orange for absen
+          />
+          <CustomDonutChart 
+            title="Berdasarkan Tipe Karyawan" 
+            series={[organikData.length, nonOrganikData.length]} 
+            labels={['Organik', 'Non Organik']} 
+            colors={['#193B8F', '#FF7410']} // Navy for organik, Orange for non-organik
+          />
         </div>
 
         {/* Scorecard full grid */}
-        <div className="col-span-1 lg:col-span-4 bg-white/80 backdrop-blur-xl rounded-[24px] shadow-xl ring-1 ring-gray-100/50 border border-white overflow-hidden relative">
-          <div className="absolute top-0 left-0 right-0 bg-gradient-to-r from-[#0F2052] to-[#1A4BC4] text-white/90 shadow-md text-xs font-bold px-4 py-2 z-10 shadow-sm flex justify-between items-center">
-            <div className="flex items-center gap-2">
-              <Info className="w-4 h-4 text-blue-300" /> Rekapitulasi Kehadiran
-            </div>
-            <span className="bg-white/20 px-2 py-0.5 rounded text-[10px]">Total: {filteredData.length}</span>
+        <div className="col-span-1 lg:col-span-4 bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden relative flex flex-col">
+          <div className="bg-slate-50 border-b border-slate-200 px-4 py-3 flex justify-between items-center">
+            <h3 className="text-[13px] font-bold text-slate-800 flex items-center gap-2">
+              <Info className="w-4 h-4 text-[#193B8F]" /> Rekapitulasi Kehadiran
+            </h3>
+            <span className="bg-white border border-slate-200 shadow-sm px-2.5 py-0.5 rounded-md text-[10px] font-bold text-slate-600">Total: {filteredData.length}</span>
           </div>
           
-          <div className="grid grid-cols-3 gap-3 p-4 mt-8">
+          <div className="grid grid-cols-3 gap-3 p-4 flex-1">
             <div className="flex flex-col items-center justify-center p-2 rounded-2xl bg-slate-50 border border-slate-100">
               <CheckCircle2 className="w-5 h-5 text-navy-600 mb-1" />
               <span className="text-xl font-display font-black text-slate-800 leading-none">{scoreCounts.Hadir}</span>
@@ -304,9 +289,9 @@ export default function ManPowerDashboard() {
       {/* BOTTOM ROW: Tables */}
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
         {/* Table Organik */}
-        <div className="bg-white/80 backdrop-blur-xl rounded-[24px] shadow-xl ring-1 ring-gray-100/50 border border-white overflow-hidden flex flex-col">
-          <div className="bg-gradient-to-r from-[#0F2052] to-[#1A4BC4] text-white/90 shadow-md text-sm font-bold px-5 py-3 shadow-sm">
-            Tenaga Kerja Organik (TKO)
+        <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col">
+          <div className="bg-slate-50 border-b border-slate-200 px-5 py-3 flex items-center">
+            <h3 className="text-[13px] font-bold text-slate-800">Tenaga Kerja Organik (TKO)</h3>
           </div>
           <div className="overflow-auto max-h-[350px]">
             <table className="w-full text-sm text-left">
@@ -318,10 +303,10 @@ export default function ManPowerDashboard() {
                   <th className="py-3 px-4 font-bold text-center w-28">Status</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="divide-y divide-slate-100">
                 {loading ? <tr><td colSpan="4" className="text-center py-8 text-gray-500"><Loader2 className="w-6 h-6 animate-spin mx-auto mb-2" /> Memuat Data...</td></tr> : 
                   organikData.map((p, i) => (
-                  <tr key={p.id} className="border-b border-slate-100 last:border-0 hover:bg-slate-50 transition-colors">
+                  <tr key={p.id} className="hover:bg-slate-50 transition-colors">
                     <td className="py-3 px-4 text-center text-gray-500 font-medium">{i + 1}.</td>
                     <td className="py-3 px-4 font-bold text-slate-800">{p.name}</td>
                     <td className="py-3 px-4 text-slate-600 text-xs font-semibold">{getBagian(p)}</td>
@@ -339,9 +324,9 @@ export default function ManPowerDashboard() {
         </div>
 
         {/* Table Non Organik */}
-        <div className="bg-white/80 backdrop-blur-xl rounded-[24px] shadow-xl ring-1 ring-gray-100/50 border border-white overflow-hidden flex flex-col">
-          <div className="bg-gradient-to-r from-[#193B8F] to-[#2563EB] text-white/90 shadow-md text-sm font-bold px-5 py-3 shadow-sm">
-            Tenaga Kerja Non Organik (TKNO)
+        <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col">
+          <div className="bg-slate-50 border-b border-slate-200 px-5 py-3 flex items-center">
+            <h3 className="text-[13px] font-bold text-slate-800">Tenaga Kerja Non Organik (TKNO)</h3>
           </div>
           <div className="overflow-auto max-h-[350px]">
             <table className="w-full text-sm text-left">
@@ -353,10 +338,10 @@ export default function ManPowerDashboard() {
                   <th className="py-3 px-4 font-bold text-center w-28">Status</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="divide-y divide-slate-100">
                 {loading ? <tr><td colSpan="4" className="text-center py-8 text-gray-500"><Loader2 className="w-6 h-6 animate-spin mx-auto mb-2" /> Memuat Data...</td></tr> : 
                   nonOrganikData.map((p, i) => (
-                  <tr key={p.id} className="border-b border-slate-100 last:border-0 hover:bg-slate-50 transition-colors">
+                  <tr key={p.id} className="hover:bg-slate-50 transition-colors">
                     <td className="py-3 px-4 text-center text-gray-500 font-medium">{i + 1}.</td>
                     <td className="py-3 px-4 font-bold text-slate-800">{p.name}</td>
                     <td className="py-3 px-4 text-slate-600 text-xs font-semibold">{getBagian(p)}</td>
@@ -374,9 +359,10 @@ export default function ManPowerDashboard() {
         </div>
 
         {/* Table Ketidakhadiran */}
-        <div className="bg-white/80 backdrop-blur-xl rounded-[24px] shadow-xl ring-1 ring-gray-100/50 border border-white overflow-hidden flex flex-col">
-          <div className="bg-gradient-to-r from-[#F59E0B] to-[#D97706] text-white/90 shadow-md text-sm font-bold px-5 py-3 shadow-sm flex items-center gap-2">
-            <Calendar className="w-4 h-4" /> Ketidakhadiran (Cuti, Izin, Sakit, Referral)
+        <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden flex flex-col xl:col-span-2">
+          <div className="bg-slate-50 border-b border-slate-200 px-5 py-3 flex items-center gap-2">
+            <Calendar className="w-4 h-4 text-[#193B8F]" /> 
+            <h3 className="text-[13px] font-bold text-slate-800">Ketidakhadiran (Cuti, Izin, Sakit, Referral)</h3>
           </div>
           <div className="overflow-auto max-h-[350px]">
             <table className="w-full text-sm text-left">

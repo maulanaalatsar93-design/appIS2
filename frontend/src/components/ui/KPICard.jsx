@@ -16,13 +16,13 @@ export default function KPICard({
 
   const getContainerStyles = () => {
     switch(variant) {
-      case 'navy': return 'bg-gradient-to-br from-blue-600 to-blue-800 border-white/10 shadow-[0_8px_30px_rgba(37,99,235,0.35)] ring-1 ring-white/10 text-white';;
-      case 'blue': return 'bg-gradient-to-br from-blue-500 to-blue-700 border-white/10 shadow-[0_8px_30px_rgba(59,130,246,0.35)] ring-1 ring-white/10 text-white';;
-      case 'teal': return 'bg-gradient-to-br from-emerald-500 to-emerald-700 border-white/10 shadow-[0_8px_30px_rgba(16,185,129,0.35)] ring-1 ring-white/10 text-white';;
-      case 'orange': return 'bg-gradient-to-br from-orange-500 to-orange-700 border-white/10 shadow-[0_8px_30px_rgba(249,115,22,0.35)] ring-1 ring-white/10 text-white';;
-      case 'red': return 'bg-gradient-to-br from-red-500 to-red-700 border-white/10 shadow-[0_8px_30px_rgba(239,68,68,0.35)] ring-1 ring-white/10 text-white';;
-      case 'rose': return 'bg-gradient-to-br from-rose-500 to-rose-700 border-white/10 shadow-[0_8px_30px_rgba(244,63,94,0.35)] ring-1 ring-white/10 text-white';;
-      default: return 'bg-white/90 backdrop-blur-md border border-white shadow-xl ring-1 ring-gray-100/50';
+      case 'navy': return 'bg-[#193B8F] border-transparent text-white shadow-sm';
+      case 'blue': return 'bg-[#3047D8] border-transparent text-white shadow-sm';
+      case 'teal': return 'bg-[#168477] border-transparent text-white shadow-sm';
+      case 'orange': return 'bg-[#FF7410] border-transparent text-white shadow-sm';
+      case 'red': return 'bg-[#D92D20] border-transparent text-white shadow-sm';
+      case 'rose': return 'bg-[#D92D20] border-transparent text-white shadow-sm'; // Mapping rose to red semantic
+      default: return 'bg-[#FFFFFF] border-[#E5E7EB] shadow-sm text-[#172033]';
     }
   };
 
@@ -39,15 +39,7 @@ export default function KPICard({
   };
 
   return (
-    <div className={`${getContainerStyles()} border p-5 rounded-[24px] flex flex-col justify-between transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 relative overflow-hidden group ${className}`}>
-      
-      {/* Decorative Glow inside dark cards */}
-      {isDark && (
-        <>
-          <div className="absolute top-[-20%] right-[-10%] w-[50%] h-[50%] bg-white/10 blur-[40px] rounded-full pointer-events-none group-hover:scale-110 transition-transform duration-500" />
-          <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-white/5 blur-[30px] rounded-full pointer-events-none" />
-        </>
-      )}
+    <div className={`${getContainerStyles()} border p-5 rounded-xl flex flex-col justify-between transition-all duration-300 hover:-translate-y-0.5 relative overflow-hidden group ${className}`}>
 
       <div className="relative z-10">
         <div className="flex items-center gap-3 mb-5">
