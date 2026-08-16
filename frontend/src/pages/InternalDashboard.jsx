@@ -568,49 +568,49 @@ export default function InternalDashboard() {
       {/* Top Controls Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-display md:text-2xl font-bold text-ink tracking-tight">
+          <h2 className="text-xl font-display md:text-[28px] font-extrabold text-[#0A1B3F] tracking-tight">
             Internal Department Dashboard
           </h2>
-          <p className="text-gray-500 text-xs md:text-sm mt-1">
+          <p className="text-gray-500 text-xs md:text-sm mt-1.5 font-medium">
             Status operasional keandalan departemen ISTEK 2 (Data Real Database).
           </p>
         </div>
 
         {/* View & Tab Switcher Controls */}
-        <div className="flex items-center gap-2">
-          <div className="flex items-center bg-[#0F2052]/10 p-1 rounded-full border border-[#0F2052]/20 shadow-inner">
+        <div className="flex items-center gap-3">
+          <div className="flex items-center bg-white/80 backdrop-blur-md p-1.5 rounded-full ring-1 ring-gray-100/50 shadow-sm border border-white">
             <button
               onClick={() => setActiveTab('overview')}
-              className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${activeTab === 'overview'
-                ? 'bg-[#1A4BC4] text-ink shadow-sm'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+              className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-300 ${activeTab === 'overview'
+                ? 'bg-gradient-to-r from-[#193B8F] to-[#1A4BC4] text-white shadow-md'
+                : 'text-gray-500 hover:text-[#193B8F] hover:bg-gray-50'
                 }`}
             >
               Overview
             </button>
             <button
               onClick={() => setActiveTab('jobload')}
-              className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${activeTab === 'jobload'
-                ? 'bg-[#1A4BC4] text-ink shadow-sm'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+              className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-300 ${activeTab === 'jobload'
+                ? 'bg-gradient-to-r from-[#193B8F] to-[#1A4BC4] text-white shadow-md'
+                : 'text-gray-500 hover:text-[#193B8F] hover:bg-gray-50'
                 }`}
             >
               Job Load &amp; Progress
             </button>
             <button
               onClick={() => setActiveTab('performance_killer')}
-              className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${activeTab === 'performance_killer'
-                ? 'bg-[#1A4BC4] text-ink shadow-sm'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+              className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-300 ${activeTab === 'performance_killer'
+                ? 'bg-gradient-to-r from-[#193B8F] to-[#1A4BC4] text-white shadow-md'
+                : 'text-gray-500 hover:text-[#193B8F] hover:bg-gray-50'
                 }`}
             >
               Performance Killer
             </button>
             <button
               onClick={() => setActiveTab('man_power')}
-              className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${activeTab === 'man_power'
-                ? 'bg-[#1A4BC4] text-ink shadow-sm'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+              className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-300 ${activeTab === 'man_power'
+                ? 'bg-gradient-to-r from-[#193B8F] to-[#1A4BC4] text-white shadow-md'
+                : 'text-gray-500 hover:text-[#193B8F] hover:bg-gray-50'
                 }`}
             >
               Man Power
@@ -619,7 +619,7 @@ export default function InternalDashboard() {
 
           <button
             onClick={() => setView('public')}
-            className="px-3.5 py-1.5 border border-[#1A4BC4] text-[#1A4BC4] text-xs font-bold rounded-full hover:bg-[#1A4BC4]/10 transition-colors"
+            className="px-4 py-2 bg-white text-[#193B8F] border border-gray-200 text-xs font-bold rounded-full shadow-sm hover:border-[#193B8F]/30 hover:bg-blue-50/50 transition-all duration-300"
           >
             Public View
           </button>

@@ -296,11 +296,11 @@ export default function PublicDashboard({ onBack }) {
 
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 print:hidden">
         <div>
-          <h2 className="text-xl font-display md:text-2xl font-bold text-[#172033] tracking-tight flex items-center gap-3">
+          <h2 className="text-xl font-display md:text-[28px] font-extrabold text-[#0A1B3F] tracking-tight flex items-center gap-3">
             <span>Public Executive Dashboard</span>
             {loading && <Loader2 className="w-5 h-5 animate-spin text-[#1A4BC4]" />}
           </h2>
-          <p className="text-[#64748B] text-xs md:text-sm mt-1 font-medium">
+          <p className="text-gray-500 text-xs md:text-sm mt-1.5 font-medium">
             Ringkasan eksekutif keandalan operasional industri — Data Real Database
           </p>
         </div>
@@ -309,17 +309,17 @@ export default function PublicDashboard({ onBack }) {
           {/* Executive Report Toolbar */}
           <button
             onClick={() => { setIsExporting(true); setToastMsg({ type: 'info', text: 'Generating Dashboard PDF...' }); exportDashboardPDF().finally(() => { setIsExporting(false); setToastMsg({ type: 'success', text: 'Laporan berhasil diunduh' }); setTimeout(() => setToastMsg(null), 3000); }); }}
-            className="bg-white px-4 py-2.5 rounded-2xl shadow-sm border border-[#E2E8F0] flex items-center gap-2 hover:bg-slate-50 transition-colors focus:outline-none"
+            className="px-4 py-2 bg-white text-[#193B8F] border border-gray-200 text-xs font-bold rounded-full shadow-sm hover:border-[#193B8F]/30 hover:bg-blue-50/50 flex items-center gap-2 transition-all duration-300 focus:outline-none"
             title="Export PDF"
           >
-            <Download size={16} className="text-[#1A4BC4]" />
-            <span className="text-xs font-bold text-[#172033] uppercase tracking-wide">Export PDF</span>
+            <Download size={16} className="text-[#193B8F]" />
+            <span className="text-xs font-bold text-[#193B8F] uppercase tracking-wide">Export PDF</span>
           </button>
 
           {onBack && (
             <button
               onClick={onBack}
-              className="bg-white px-4 py-2.5 rounded-2xl shadow-sm border border-[#1A4BC4] text-[#1A4BC4] hover:bg-[#1A4BC4] hover:text-ink flex items-center gap-2 transition-all focus:outline-none"
+              className="px-4 py-2 bg-gradient-to-r from-[#193B8F] to-[#1A4BC4] text-white text-xs font-bold rounded-full shadow-md hover:shadow-lg hover:scale-105 flex items-center gap-2 transition-all duration-300 focus:outline-none"
             >
               <span className="text-xs font-bold tracking-wide">Kembali ke Internal View</span>
             </button>
