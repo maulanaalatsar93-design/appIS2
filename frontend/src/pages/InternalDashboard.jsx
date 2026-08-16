@@ -726,13 +726,12 @@ export default function InternalDashboard() {
                   <div className="w-1 h-4 bg-red-400 rounded-full"></div>
                   <span className="text-[10px] uppercase font-bold text-gray-500 tracking-widest">Ketidakhadiran & Izin</span>
                 </div>
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5">
+                <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
                   {[
                     { key: 'cuti', label: 'Cuti', icon: Calendar, color: 'amber', val: summary?.manPower?.detailed?.cuti || 0 },
                     { key: 'izin', label: 'Izin', icon: Info, color: 'orange', val: summary?.manPower?.detailed?.izin || 0 },
                     { key: 'sakit', label: 'Sakit', icon: Stethoscope, color: 'rose', val: summary?.manPower?.detailed?.sakit || 0 },
                     { key: 'referal', label: 'Referal', icon: UserCheck, color: 'purple', val: summary?.manPower?.detailed?.referal || 0 },
-                    { key: 'absen', label: 'Alpha/Tanpa Keterangan', icon: UserX, color: 'slate', val: summary?.manPower?.detailed?.absen || 0 },
                   ].map(({ key, label, icon: Icon, color, val }) => (
                     <button
                       key={key}
