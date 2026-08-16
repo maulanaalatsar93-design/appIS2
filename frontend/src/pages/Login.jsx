@@ -111,7 +111,7 @@ export default function Login() {
               <h1 className="text-[52px] font-display font-extrabold text-white leading-[1.1] tracking-tight">
                 Monitoring Dashboard <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#60A5FA] via-[#A78BFA] to-[#FCA5A5]">
-                  ISTEK2.
+                  Inspeksi Teknik 2.
                 </span>
               </h1>
               <p className="text-gray-400 text-lg leading-relaxed font-body max-w-md">
@@ -142,7 +142,7 @@ export default function Login() {
           {/* Bottom: Footer */}
           <div className="relative z-10 flex items-center justify-between">
             <p className="text-gray-500 text-sm font-medium">
-              © 2024 PT. Pupuk Kalimantan Timur
+              PT. Pupuk Kalimantan Timur
             </p>
             <div className="flex gap-2">
               <div className="w-2 h-2 rounded-full bg-white/20" />
