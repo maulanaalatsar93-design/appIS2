@@ -218,6 +218,32 @@ export default function SertifikasiPersonel() {
     });
   };
 
+  const isExpired = (endDate) => {
+    if (!endDate) return false;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const expiry = new Date(endDate);
+    expiry.setHours(0, 0, 0, 0);
+    return expiry < today;
+  };
+
+  const bagianOrder = [
+    'vp', 
+    'avp', 
+    'staff rotating 1', 
+    'rotating 1', 
+    'rotating 2', 
+    'bengkel', 
+    'metalurgi'
+  ];
+
+  const getBagianRank = (namaDivisi) => {
+    if (!namaDivisi) return 999;
+    const lowerName = namaDivisi.toLowerCase().trim();
+    const index = bagianOrder.findIndex(b => lowerName === b || lowerName.includes(b));
+    return index !== -1 ? index : 998;
+  };
+
   const filteredData = sertifikasi.filter(item => {
     const matchSearch = item.man_power?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.man_power?.npk?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -225,7 +251,9 @@ export default function SertifikasiPersonel() {
 
     let matchTab = false;
     if (activeTab === 'sertifikasi') {
-      matchTab = item.is_rencana !== true && item.tanggal_berakhir !== null;
+      matchTab = item.is_rencana !== true && item.tanggal_berakhir !== null && !isExpired(item.tanggal_berakhir);
+    } else if (activeTab === 'kedaluwarsa') {
+      matchTab = item.is_rencana !== true && item.tanggal_berakhir !== null && isExpired(item.tanggal_berakhir);
     } else if (activeTab === 'tanpa_kedaluwarsa') {
       matchTab = item.is_rencana !== true && item.tanggal_berakhir === null;
     } else if (activeTab === 'rencana') {
@@ -233,6 +261,11 @@ export default function SertifikasiPersonel() {
     }
 
     return matchSearch && matchTab;
+  }).sort((a, b) => {
+    const rankA = getBagianRank(a.man_power?.divisi?.nama_divisi);
+    const rankB = getBagianRank(b.man_power?.divisi?.nama_divisi);
+    if (rankA !== rankB) return rankA - rankB;
+    return (a.man_power?.name || '').localeCompare(b.man_power?.name || '');
   });
 
   return (
@@ -264,6 +297,12 @@ export default function SertifikasiPersonel() {
               className={`pb-3 text-sm font-medium border-b-2 transition-colors ${activeTab === 'sertifikasi' ? 'border-industrial-blue text-industrial-blue' : 'border-transparent text-slate-500 hover:text-slate-700'}`}
             >
               Daftar Sertifikasi
+            </button>
+            <button
+              onClick={() => setActiveTab('kedaluwarsa')}
+              className={`pb-3 text-sm font-medium border-b-2 transition-colors ${activeTab === 'kedaluwarsa' ? 'border-red-600 text-red-600' : 'border-transparent text-slate-500 hover:text-slate-700'}`}
+            >
+              Kedaluwarsa
             </button>
             <button
               onClick={() => setActiveTab('tanpa_kedaluwarsa')}
@@ -305,7 +344,7 @@ export default function SertifikasiPersonel() {
                 <th className="px-4 py-3">NPK</th>
                 <th className="px-4 py-3">Bagian</th>
                 <th className="px-4 py-3">Certificate</th>
-                {activeTab === 'sertifikasi' && (
+                {(activeTab === 'sertifikasi' || activeTab === 'kedaluwarsa') && (
                   <th className="px-4 py-3">Certification No</th>
                 )}
                 {activeTab === 'rencana' ? (
@@ -346,7 +385,7 @@ export default function SertifikasiPersonel() {
                       <td className="px-4 py-3 text-slate-600 font-mono text-xs">{item.man_power?.npk || '-'}</td>
                       <td className="px-4 py-3 text-slate-600">{item.man_power?.divisi?.nama_divisi || '-'}</td>
                       <td className="px-4 py-3 text-slate-800 font-medium">{item.nama_sertifikat}</td>
-                      {activeTab === 'sertifikasi' && (
+                      {(activeTab === 'sertifikasi' || activeTab === 'kedaluwarsa') && (
                         <td className="px-4 py-3 text-slate-600 font-mono text-xs">{item.no_sertifikat || '-'}</td>
                       )}
                       {activeTab === 'rencana' ? (
