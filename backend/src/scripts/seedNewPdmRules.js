@@ -72,7 +72,7 @@ const MASTER_RULES = [
   { code: 'P3-UREA-ALL', pabrikNama: 'P3', subArea: 'Urea', taskName: 'Pengukuran All Item', dateFirst: 5, recurrence: 'MONTHLY_ONCE', equipmentCat: 'ROTATING', criticality: 'NON_CRITICAL' },
   { code: 'P3-UREA-MED', pabrikNama: 'P3', subArea: 'Urea', taskName: 'Pengukuran Medium Item', dateFirst: 16, recurrence: 'MONTHLY_ONCE', equipmentCat: 'ROTATING', criticality: 'NON_CRITICAL' },
   { code: 'P3-AMM-ALL', pabrikNama: 'P3', subArea: 'Ammonia', taskName: 'Pengukuran All Item', dateFirst: 5, recurrence: 'MONTHLY_ONCE', equipmentCat: 'ROTATING', criticality: 'NON_CRITICAL' },
-  { code: 'P3-AMM3-MED', pabrikNama: 'P3', subArea: 'Ammonia #3', taskName: 'Pengukuran Medium Item', dateFirst: 16, recurrence: 'MONTHLY_ONCE', equipmentCat: 'ROTATING', criticality: 'NON_CRITICAL' },
+  { code: 'P3-AMM-MED', pabrikNama: 'P3', subArea: 'Ammonia', taskName: 'Pengukuran Medium Item', dateFirst: 16, recurrence: 'MONTHLY_ONCE', equipmentCat: 'ROTATING', criticality: 'NON_CRITICAL' },
   { code: 'P3-GTG-CRIT', pabrikNama: 'P3', subArea: 'Critical GTG', taskName: 'Critical', dateFirst: 9, recurrence: 'MONTHLY_ONCE', equipmentCat: 'GTG', criticality: 'CRITICAL' },
   { code: 'P3-COMP-CRIT', pabrikNama: 'P3', subArea: 'Critical Compressor', taskName: 'Critical', dateFirst: 8, recurrence: 'MONTHLY_ONCE', equipmentCat: 'ROTATING', criticality: 'CRITICAL' },
 
