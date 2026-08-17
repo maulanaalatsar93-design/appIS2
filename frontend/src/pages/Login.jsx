@@ -46,7 +46,7 @@ export default function Login() {
         } else {
           playSuccessSound();
         }
-        
+
         if (rememberMe) {
           localStorage.setItem('istek_saved_npk', npk);
           localStorage.setItem('istek_saved_password', password);
@@ -135,7 +135,7 @@ export default function Login() {
                 </span>
               </h1>
               <p className="text-gray-400 text-lg leading-relaxed font-body max-w-md">
-                Platform terpadu untuk monitoring jadwal PdM, eksekusi Work Order, dan manajemen Man Power.
+                Sistem terintegrasi untuk perencanaan, pelaksanaan, monitoring, dan pengendalian aktivitas Predictive Maintenance serta Man Power.
               </p>
             </div>
 
@@ -174,10 +174,10 @@ export default function Login() {
 
         {/* === RIGHT: Premium Form Panel === */}
         <div className="w-full lg:w-[45%] flex flex-col justify-center relative bg-white px-8 sm:px-16 xl:px-24">
-          
+
           {/* Top Right Public Dashboard Button */}
           <div className="absolute top-6 right-6 sm:top-8 sm:right-8 z-50">
-            <button 
+            <button
               type="button"
               onClick={() => navigate('/public')}
               className="group flex items-center gap-2 px-5 py-2.5 bg-white border border-gray-200 text-gray-600 hover:text-navy-600 hover:border-navy-200 hover:bg-navy-50 rounded-full shadow-sm transition-all duration-300"
@@ -265,9 +265,9 @@ export default function Login() {
               <div className="flex items-center justify-between pt-2">
                 <label className="flex items-center gap-3 cursor-pointer group">
                   <div className="relative flex items-center justify-center">
-                    <input 
-                      type="checkbox" 
-                      className="sr-only" 
+                    <input
+                      type="checkbox"
+                      className="sr-only"
                       checked={rememberMe}
                       onChange={(e) => setRememberMe(e.target.checked)}
                     />
