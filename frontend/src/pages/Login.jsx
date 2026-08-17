@@ -117,7 +117,7 @@ export default function Login() {
             </div>
             <div>
               <p className="text-white font-display font-extrabold text-xl tracking-tight">ISTEK2</p>
-              <p className="text-gray-400 text-xs font-semibold tracking-widest uppercase mt-0.5">Inspeksi Teknik 2 Dashboard</p>
+              <p className="text-gray-400 text-xs font-semibold tracking-widest uppercase mt-0.5">Inspeksi Teknik 2 </p>
             </div>
           </div>
 
@@ -131,7 +131,7 @@ export default function Login() {
               <h1 className="text-[52px] font-display font-extrabold text-white leading-[1.1] tracking-tight">
                 Monitoring Dashboard <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#60A5FA] via-[#A78BFA] to-[#FCA5A5]">
-                  Inspeksi Teknik 2.
+                  Inspeksi Teknik 2
                 </span>
               </h1>
               <p className="text-gray-400 text-lg leading-relaxed font-body max-w-md">
