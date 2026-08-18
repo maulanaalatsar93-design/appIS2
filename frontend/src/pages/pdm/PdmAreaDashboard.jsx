@@ -101,8 +101,9 @@ function AreaRow({ area, isUserArea }) {
       </div>
 
       {/* Task list */}
-      {expanded && (
-        <div className="border-t border-gray-100 divide-y divide-gray-50 bg-gray-50/50">
+      <div className={`grid transition-all duration-300 ease-in-out ${expanded ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
+        <div className="overflow-hidden">
+          <div className="border-t border-gray-100 divide-y divide-gray-50 bg-gray-50/50">
           {tasks.length === 0 ? (
             <div className="px-5 py-4 text-sm text-gray-400 italic text-center">Tidak ada task untuk area ini.</div>
           ) : tasks.map(task => {
@@ -146,15 +147,13 @@ function AreaRow({ area, isUserArea }) {
                   })}
                 </div>
 
-                <div className="flex flex-col items-end gap-1 shrink-0 ml-2">
-                  <span className={`text-[11px] px-2.5 py-1 rounded-md font-bold shadow-sm border border-white/50 ${stg.color}`}>{stg.label}</span>
-                  {task.isOverdue && <span className="text-[10px] text-red-600 font-bold flex items-center gap-0.5"><AlertTriangle className="w-3 h-3" /> Overdue</span>}
                 </div>
               </div>
             );
           })}
+          </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }
@@ -203,15 +202,17 @@ function PabrikRow({ pabrik, expanded, onToggle, userSubArea }) {
       </div>
 
       {/* Areas List */}
-      <div className={`transition-all duration-500 ease-in-out ${expanded ? 'max-h-[5000px] opacity-100' : 'max-h-0 opacity-0'} overflow-hidden`}>
-        <div className="bg-[#f8f9fc] border-t border-gray-100 p-5 space-y-4">
-          {areas.map(area => (
-            <AreaRow 
-              key={area.area_key} 
-              area={area} 
-              isUserArea={userSubArea && area.sub_area.toLowerCase() === userSubArea.toLowerCase()} 
-            />
-          ))}
+      <div className={`grid transition-all duration-500 ease-in-out ${expanded ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
+        <div className="overflow-hidden">
+          <div className="bg-[#f8f9fc] border-t border-gray-100 p-5 space-y-4">
+            {areas.map(area => (
+              <AreaRow 
+                key={area.area_key} 
+                area={area} 
+                isUserArea={userSubArea && area.sub_area.toLowerCase() === userSubArea.toLowerCase()} 
+              />
+            ))}
+          </div>
         </div>
       </div>
     </div>
@@ -306,9 +307,9 @@ export default function PdmAreaDashboard() {
   const overallPct = totals.total > 0 ? Math.round((totals.sap_closed / totals.total) * 100) : 0;
 
   return (
-    <div className="p-6 w-full max-w-none space-y-6 bg-gray-50/30 min-h-screen">
+    <div className="p-4 md:p-6 w-full max-w-7xl mx-auto space-y-5 md:space-y-6 bg-gray-50/30 min-h-screen">
       {/* Header */}
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-gray-100 animate-in fade-in slide-in-from-top-4 duration-500">
         <div>
           <h1 className="text-3xl font-display font-extrabold text-gray-900 flex items-center gap-3 tracking-tight">
             <div className="p-2.5 bg-blue-50 rounded-xl text-[#193B8F]">
@@ -340,29 +341,31 @@ export default function PdmAreaDashboard() {
       </div>
 
       {/* Summary cards */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
         {[
           { label: 'Total Task', value: totals.total, bg: 'bg-white', border: 'border-gray-200', text: 'text-gray-800', icon: Database },
-          { label: 'DC Selesai', value: totals.dc_done, bg: 'bg-blue-50/50', border: 'border-blue-200', text: 'text-blue-700', icon: CheckCircle2 },
-          { label: 'Analisis Selesai', value: totals.analysis_done, bg: 'bg-amber-50/50', border: 'border-amber-200', text: 'text-amber-700', icon: CheckCircle2 },
-          { label: 'AVP Approved', value: totals.avp_approved, bg: 'bg-purple-50/50', border: 'border-purple-200', text: 'text-purple-700', icon: CheckCircle2 },
-          { label: 'SAP Closed', value: totals.sap_closed, bg: 'bg-green-50/50', border: 'border-green-200', text: 'text-green-700', icon: CheckCircle2 },
-        ].map(c => {
+          { label: 'DC Selesai', value: totals.dc_done, bg: 'bg-blue-50/40', border: 'border-blue-200', text: 'text-blue-700', icon: CheckCircle2 },
+          { label: 'Analisis Selesai', value: totals.analysis_done, bg: 'bg-amber-50/40', border: 'border-amber-200', text: 'text-amber-700', icon: CheckCircle2 },
+          { label: 'AVP Approved', value: totals.avp_approved, bg: 'bg-purple-50/40', border: 'border-purple-200', text: 'text-purple-700', icon: CheckCircle2 },
+          { label: 'SAP Closed', value: totals.sap_closed, bg: 'bg-green-50/40', border: 'border-green-200', text: 'text-green-700', icon: CheckCircle2 },
+        ].map((c, idx) => {
           const Icon = c.icon;
           return (
-            <div key={c.label} className={`rounded-2xl border ${c.border} ${c.bg} p-5 text-center shadow-sm relative overflow-hidden group hover:shadow-md transition-shadow`}>
-              <div className="absolute -right-4 -bottom-4 opacity-[0.03] group-hover:scale-110 transition-transform">
-                <Icon className="w-24 h-24" />
+            <div key={c.label} 
+                 className={`rounded-2xl border ${c.border} ${c.bg} p-4 md:p-5 text-center shadow-sm relative overflow-hidden group hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 animate-in fade-in zoom-in-95`}
+                 style={{ animationDelay: `${idx * 50}ms`, animationFillMode: 'both' }}>
+              <div className="absolute -right-3 -bottom-3 opacity-[0.04] group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500">
+                <Icon className="w-20 h-20 md:w-24 md:h-24" />
               </div>
-              <p className={`text-4xl font-display font-black ${c.text} mb-1 drop-shadow-sm`}>{c.value}</p>
-              <p className="text-sm font-semibold text-gray-500 uppercase tracking-wider">{c.label}</p>
+              <p className={`text-3xl md:text-4xl font-display font-black ${c.text} mb-0.5 md:mb-1 drop-shadow-sm relative z-10`}>{c.value}</p>
+              <p className="text-[10px] md:text-xs font-bold text-gray-500 uppercase tracking-widest relative z-10">{c.label}</p>
             </div>
           );
         })}
       </div>
 
       {/* Overall Progress bar */}
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 relative overflow-hidden">
+      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 md:p-6 relative overflow-hidden animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100 fill-mode-both">
         <div className="absolute top-0 right-0 w-64 h-full bg-gradient-to-l from-green-50/50 to-transparent pointer-events-none"></div>
         <div className="flex flex-col md:flex-row md:items-center justify-between mb-4 relative z-10">
           <div>
@@ -430,6 +433,7 @@ export default function PdmAreaDashboard() {
       </div>
 
       {/* Pabrik rows */}
+      <div className="animate-in fade-in slide-in-from-bottom-8 duration-700 delay-200 fill-mode-both">
       {loading ? (
         <div className="text-center py-20">
           <RefreshCw className="w-10 h-10 mx-auto mb-4 text-blue-500 animate-spin" />
@@ -457,6 +461,7 @@ export default function PdmAreaDashboard() {
           })}
         </div>
       )}
+      </div>
     </div>
   );
 }
