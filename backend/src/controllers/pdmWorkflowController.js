@@ -511,7 +511,7 @@ export const getAreaDashboard = async (req, res) => {
       
       // Pisahkan P6 biasa dan P6 PPHS OSBL untuk grouping frontend
       if (pabrikName.toLowerCase().includes('pabrik 6') || pabrikName.toLowerCase() === 'p6') {
-        const isPphs = ['pphs', 'osbl', 'conveyor ubs', 'conveyor bsl', 'batubara boiler', 'batu bara boiler'].some(kw => subArea.toLowerCase().includes(kw));
+        const isPphs = ['asu', 'asp', 'conveyor', 'tanki', 'ubs', 'qal', 'bsl', 'pphs', 'osbl'].some(kw => subArea.toLowerCase().includes(kw));
         if (isPphs) {
           pabrikName = `${pabrikName} (PPHS & OSBL)`;
         }
@@ -789,8 +789,8 @@ export const addHelper = async (req, res) => {
     const referenceArea = picArea || `${occ.rule.pabrik?.nama_pabrik || ''} ${occ.rule.subArea || ''}`.trim().toLowerCase();
     const mArea = (helperMp.sub_area || '').toLowerCase();
     
-    const isRefPphs = ['pphs', 'osbl', 'conveyor ubs', 'conveyor bsl', 'batubara boiler', 'batu bara boiler'].some(kw => referenceArea.includes(kw));
-    const isMPPphs = ['pphs', 'osbl', 'conveyor ubs', 'conveyor bsl', 'batubara boiler', 'batu bara boiler'].some(kw => mArea.includes(kw));
+    const isRefPphs = ['asu', 'asp', 'conveyor', 'tanki', 'ubs', 'qal', 'bsl', 'pphs', 'osbl'].some(kw => referenceArea.includes(kw));
+    const isMPPphs = ['asu', 'asp', 'conveyor', 'tanki', 'ubs', 'qal', 'bsl', 'pphs', 'osbl'].some(kw => mArea.includes(kw));
     
     let isCrossArea = true;
     if (isRefPphs && isMPPphs && referenceArea.includes('6') && mArea.includes('6')) isCrossArea = false;
