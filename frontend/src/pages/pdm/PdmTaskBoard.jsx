@@ -202,14 +202,13 @@ function AddHelperModal({ onConfirm, onCancel, manpowers, occ }) {
 }
 
 // ── Task Box ─────────────────────────────────────────────────────────────────
-function TaskBox({ occ, onAction, manpowers, userRole, userMpId, isAdmin: globalIsAdmin }) {
+function TaskBox({ occ, onAction, onPromptHelper, manpowers, userRole, userMpId, isAdmin: globalIsAdmin }) {
   const [reassignOpen, setReassignOpen] = useState(false);
   const [newPicId, setNewPicId] = useState('');
   const [reasonInput, setReasonInput] = useState('');
   const [historyOpen, setHistoryOpen] = useState(false);
   const [showHoldModal, setShowHoldModal] = useState(false);
   const [showRejectModal, setShowRejectModal] = useState(false);
-  const [showAddHelper, setShowAddHelper] = useState(false);
 
   const isAdmin = globalIsAdmin || ['admin', 'manager', 'supervisor'].includes(userRole);
 
@@ -372,9 +371,9 @@ function TaskBox({ occ, onAction, manpowers, userRole, userMpId, isAdmin: global
 
         {/* ── ACTION BUTTONS ── */}
         <div className="flex flex-wrap gap-2 pt-2 border-t border-gray-100">
-          {showDcActions && occ.status === 'ASSIGNED' && (
-            <button onClick={() => onAction('start', occ.id)} className="flex-1 flex justify-center items-center gap-1 px-3 py-2 bg-blue-600 text-white rounded-lg text-xs font-semibold hover:bg-blue-700 shadow-sm transition">
-              <Play className="w-3.5 h-3.5" /> Mulai DC
+          {(showDcActions && stage === 'DC_COLLECTION') && (
+            <button onClick={() => onPromptHelper('dc-complete', occ)} className="flex-1 flex justify-center items-center gap-1 px-3 py-2 bg-blue-600 text-white rounded-lg text-xs font-semibold hover:bg-blue-700 shadow-sm transition">
+              <CheckCircle className="w-3.5 h-3.5" /> Selesai Ambil Data
             </button>
           )}
           {showDcActions && occ.status === 'ON_HOLD' && (
@@ -384,20 +383,17 @@ function TaskBox({ occ, onAction, manpowers, userRole, userMpId, isAdmin: global
           )}
           {showDcActions && occ.status === 'IN_PROGRESS' && (
             <>
-              <button onClick={() => setShowAddHelper(true)} className="flex items-center justify-center gap-1 px-3 py-2 bg-blue-50 text-blue-600 border border-blue-200 rounded-lg text-xs font-semibold hover:bg-blue-100 shadow-sm transition">
+              <button onClick={() => onPromptHelper('add-helper', occ)} className="flex items-center justify-center gap-1 px-3 py-2 bg-blue-50 text-blue-600 border border-blue-200 rounded-lg text-xs font-semibold hover:bg-blue-100 shadow-sm transition">
                 <Users className="w-3.5 h-3.5" /> Rekan
               </button>
               <button onClick={() => setShowHoldModal(true)} className="flex items-center justify-center gap-1 px-3 py-2 bg-white text-gray-700 border border-gray-300 rounded-lg text-xs font-semibold hover:bg-gray-50 shadow-sm transition">
                 <Square className="w-3.5 h-3.5" /> Hold
               </button>
-              <button onClick={() => onAction('finish-dc', occ.id)} className="flex-1 flex justify-center items-center gap-1 px-3 py-2 bg-green-600 text-white rounded-lg text-xs font-semibold hover:bg-green-700 shadow-sm transition">
-                <CheckCircle className="w-3.5 h-3.5" /> Selesai DC
-              </button>
             </>
           )}
 
           {showAnalysisActions && occ.status === 'ASSIGNED' && (
-            <button onClick={() => onAction('start-analysis', occ.id)} className="flex-1 flex justify-center items-center gap-1 px-3 py-2 bg-amber-500 text-white rounded-lg text-xs font-semibold hover:bg-amber-600 shadow-sm transition">
+            <button onClick={() => onPromptHelper('start-analysis', occ)} className="flex-1 flex justify-center items-center gap-1 px-3 py-2 bg-amber-500 text-white rounded-lg text-xs font-semibold hover:bg-amber-600 shadow-sm transition">
               <Play className="w-3.5 h-3.5" /> Mulai Analisis
             </button>
           )}
@@ -408,7 +404,7 @@ function TaskBox({ occ, onAction, manpowers, userRole, userMpId, isAdmin: global
           )}
           {showAnalysisActions && occ.status === 'IN_PROGRESS' && (
             <>
-              <button onClick={() => setShowAddHelper(true)} className="flex items-center justify-center gap-1 px-3 py-2 bg-blue-50 text-blue-600 border border-blue-200 rounded-lg text-xs font-semibold hover:bg-blue-100 shadow-sm transition">
+              <button onClick={() => onPromptHelper('add-helper', occ)} className="flex items-center justify-center gap-1 px-3 py-2 bg-blue-50 text-blue-600 border border-blue-200 rounded-lg text-xs font-semibold hover:bg-blue-100 shadow-sm transition">
                 <Users className="w-3.5 h-3.5" /> Rekan
               </button>
               <button onClick={() => setShowHoldModal(true)} className="flex items-center justify-center gap-1 px-3 py-2 bg-white text-gray-700 border border-gray-300 rounded-lg text-xs font-semibold hover:bg-gray-50 shadow-sm transition">
@@ -466,19 +462,12 @@ function TaskBox({ occ, onAction, manpowers, userRole, userMpId, isAdmin: global
       {showRejectModal && (
         <RejectModal onConfirm={reason => { onAction('avp-reject', occ.id, { reason }); setShowRejectModal(false); }} onCancel={() => setShowRejectModal(false)} />
       )}
-      {showAddHelper && (
-        <AddHelperModal 
-          occ={occ} manpowers={manpowers} 
-          onConfirm={helperId => { onAction('add-helper', occ.id, { helperId }); setShowAddHelper(false); }} 
-          onCancel={() => setShowAddHelper(false)} 
-        />
-      )}
     </div>
   );
 }
 
 // ── Job Board Box ────────────────────────────────────────────────────────────
-function JobBoardBox({ occ, onAction, manpowers, userRole, isAdmin, claimLabel = 'Ambil Task', claimAction = 'claim', badgeColor = 'bg-blue-100 text-blue-700 border-blue-200', badgeLabel = 'DC Collection' }) {
+function JobBoardBox({ occ, onAction, onPromptHelper, manpowers, userRole, isAdmin, claimLabel = 'Ambil Task', claimAction = 'claim', badgeColor = 'bg-blue-100 text-blue-700 border-blue-200', badgeLabel = 'DC Collection' }) {
   const [reassignOpen, setReassignOpen] = useState(false);
   const [newPicId, setNewPicId] = useState('');
   const [reasonInput, setReasonInput] = useState('');
@@ -559,7 +548,7 @@ function JobBoardBox({ occ, onAction, manpowers, userRole, isAdmin, claimLabel =
       </div>
       
       <div className="mt-4 space-y-2 pl-2">
-        <button onClick={() => onAction(claimAction, occ.id)}
+        <button onClick={() => onPromptHelper(claimAction, occ)}
           className={`w-full py-2 text-white rounded-lg text-xs font-bold transition shadow-sm ${
             badgeColor.includes('amber') ? 'bg-[#FF7410] hover:bg-orange-600' : 'bg-[#193B8F] hover:bg-navy-800'
           }`}>
@@ -609,6 +598,9 @@ export default function PdmTaskBoard() {
   const [filterMonth, setFilterMonth] = useState(new Date().getMonth() + 1);
   const [filterYear, setFilterYear] = useState(new Date().getFullYear());
   const [filterStage, setFilterStage] = useState('');
+
+  const [helperPrompt, setHelperPrompt] = useState(null);
+  const [activeHelperOccId, setActiveHelperOccId] = useState(null);
 
   const api = import.meta.env.VITE_API_URL || 'http://localhost:5000';
   const token = localStorage.getItem('token');
@@ -666,11 +658,10 @@ export default function PdmTaskBoard() {
   };
 
   const handleAction = async (action, id, extra = {}) => {
-    const legacyMap = { start: 'start', hold: 'hold', complete: 'complete', reassign: 'reassign', claim: 'claim', 'add-helper': 'helpers' };
+    const legacyMap = { start: 'start', hold: 'hold', complete: 'complete', reassign: 'reassign', claim: 'claim', 'add-helper': 'helpers', 'dc-complete': 'finish-dc', 'start-analysis': 'start-analysis' };
     let endpoint = legacyMap[action] || action;
     let url = `${api}/api/pdm-schedule/occurrences/${id}/${endpoint}`;
 
-    // Handle helper approve/reject specifically since they use a different base path
     if (action === 'approve-helper') {
       url = `${api}/api/pdm-schedule/helpers/${id}/approve`;
     } else if (action === 'reject-helper') {
@@ -679,7 +670,7 @@ export default function PdmTaskBoard() {
 
     try {
       const res = await fetch(url, {
-        method: action === 'assign-personnel' || action.includes('helper') && action !== 'add-helper' ? 'PATCH' : 'POST',
+        method: action === 'assign-personnel' || (action.includes('helper') && action !== 'add-helper') ? 'PATCH' : 'POST',
         headers: { ...headers, 'Content-Type': 'application/json' },
         body: JSON.stringify(extra)
       });
@@ -687,6 +678,27 @@ export default function PdmTaskBoard() {
       else { const err = await res.json(); alert(err.error || 'Gagal melakukan aksi'); }
     } catch (e) { console.error(e); }
   };
+
+  const handlePromptHelper = (action, occ) => {
+    if (action === 'add-helper') {
+      setActiveHelperOccId(occ.id);
+    } else {
+      setHelperPrompt({ action, occ });
+    }
+  };
+
+  const handlePromptHelperConfirm = async (needsHelper) => {
+    const { action, occ } = helperPrompt;
+    setHelperPrompt(null);
+    await handleAction(action, occ.id);
+    if (needsHelper) {
+      setActiveHelperOccId(occ.id);
+    }
+  };
+
+  const activeOcc = activeHelperOccId 
+    ? [...workflowTasks, ...dcTasks, ...analysisTasks].find(t => t.id === activeHelperOccId)
+    : null;
 
   const monthNames = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des'];
 
@@ -703,7 +715,6 @@ export default function PdmTaskBoard() {
 
   return (
     <div className="p-6 max-w-7xl mx-auto space-y-6">
-      {/* Header & Global Filters */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-5 rounded-2xl border border-gray-200 shadow-sm">
         <div>
           <h1 className="text-2xl font-display font-bold text-gray-900 flex items-center gap-2">
@@ -729,10 +740,7 @@ export default function PdmTaskBoard() {
         </div>
       </div>
 
-      {/* Tabs Layout */}
       <div className="flex flex-col md:flex-row gap-6">
-        
-        {/* Left Panel: Tabs & Stage Filters (Sticky on desktop) */}
         <div className="w-full md:w-64 shrink-0 space-y-4">
           <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-2 flex flex-row md:flex-col gap-1">
             <button 
@@ -774,9 +782,7 @@ export default function PdmTaskBoard() {
           )}
         </div>
 
-        {/* Right Panel: Content Grid */}
         <div className="flex-1 min-w-0">
-          {/* Mobile Filter Stage (Horizontal Scroll) */}
           {tab === 'WORKFLOW' && (
             <div className="md:hidden flex overflow-x-auto pb-2 mb-4 gap-2 no-scrollbar">
               <button
@@ -808,7 +814,7 @@ export default function PdmTaskBoard() {
                   ) : (
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                       {filteredWorkflow.map(occ => (
-                        <TaskBox key={occ.id} occ={occ} onAction={handleAction} manpowers={manpowers} userRole={userRole} userMpId={userMpId} isAdmin={isAdminUser} />
+                        <TaskBox key={occ.id} occ={occ} onAction={handleAction} onPromptHelper={handlePromptHelper} manpowers={manpowers} userRole={userRole} userMpId={userMpId} isAdmin={isAdminUser} />
                       ))}
                     </div>
                   )}
@@ -830,7 +836,7 @@ export default function PdmTaskBoard() {
                           </h2>
                           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
                             {dcTasks.map(occ => (
-                              <JobBoardBox key={occ.id} occ={occ} onAction={handleAction} manpowers={manpowers} userRole={userRole} isAdmin={isAdminUser} badgeColor="bg-blue-50 text-blue-700 border-blue-200" badgeLabel="DC Collection" claimLabel="Ambil Task DC" claimAction="claim" />
+                              <JobBoardBox key={occ.id} occ={occ} onAction={handleAction} onPromptHelper={handlePromptHelper} manpowers={manpowers} userRole={userRole} isAdmin={isAdminUser} badgeColor="bg-blue-50 text-blue-700 border-blue-200" badgeLabel="DC Collection" claimLabel="Ambil Task DC" claimAction="claim" />
                             ))}
                           </div>
                         </div>
@@ -843,7 +849,7 @@ export default function PdmTaskBoard() {
                           </h2>
                           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
                             {analysisTasks.map(occ => (
-                              <JobBoardBox key={occ.id} occ={occ} onAction={handleAction} manpowers={manpowers} userRole={userRole} isAdmin={isAdminUser} badgeColor="bg-amber-50 text-amber-700 border-amber-200" badgeLabel="Analisis Data" claimLabel="Ambil Task Analisis" claimAction="claim-analysis" />
+                              <JobBoardBox key={occ.id} occ={occ} onAction={handleAction} onPromptHelper={handlePromptHelper} manpowers={manpowers} userRole={userRole} isAdmin={isAdminUser} badgeColor="bg-amber-50 text-amber-700 border-amber-200" badgeLabel="Analisis Data" claimLabel="Ambil Task Analisis" claimAction="claim-analysis" />
                             ))}
                           </div>
                         </div>
