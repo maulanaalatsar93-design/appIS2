@@ -52,10 +52,15 @@ export default function AbsensiGridCalendar({ employees = [], attendanceChanges 
     return map;
   }, [attendanceChanges, year, month]);
 
-  const getRank = (div, type, name) => {
-    const str = `${div} ${type} ${name}`.toLowerCase();
-    if (str.includes('febryan bagus')) return 0;
-    if (str.includes('vice president') || str.includes('vp')) return 1;
+  const getNormalizedDivision = (emp) => {
+    const str = `${emp.division} ${emp.employee_type} ${emp.name}`.toLowerCase();
+    if (str.includes('febryan bagus') || str.includes('vice president') || str.includes('vp')) return 'Vice President';
+    return emp.division || 'Tanpa Bagian';
+  };
+
+  const getRank = (emp) => {
+    const str = `${emp.division} ${emp.employee_type} ${emp.name}`.toLowerCase();
+    if (str.includes('febryan bagus') || str.includes('vice president') || str.includes('vp')) return 1;
     if (str.includes('avp rot1') || (str.includes('avp') && str.includes('rotating 1'))) return 2;
     if (str.includes('avp rot2') || (str.includes('avp') && str.includes('rotating 2'))) return 3;
     if (str.includes('avp bengkel')) return 4;
@@ -77,13 +82,13 @@ export default function AbsensiGridCalendar({ employees = [], attendanceChanges 
 
   const sortedEmployees = useMemo(() => {
     return [...employees].sort((a, b) => {
-      const rankA = getRank(a.division, a.employee_type, a.name);
-      const rankB = getRank(b.division, b.employee_type, b.name);
+      const rankA = getRank(a);
+      const rankB = getRank(b);
       
       if (rankA !== rankB) return rankA - rankB;
       
-      const divA = a.division || '';
-      const divB = b.division || '';
+      const divA = getNormalizedDivision(a);
+      const divB = getNormalizedDivision(b);
       if (divA !== divB) return divA.localeCompare(divB);
       
       const orgA = isOrganic(a.employee_type);
@@ -132,9 +137,10 @@ export default function AbsensiGridCalendar({ employees = [], attendanceChanges 
                 rowBg = isEvenRow ? 'bg-orange-50' : 'bg-orange-100/60';
               }
 
-              const isNewDivision = currentDivision !== emp.division;
+              const normDivision = getNormalizedDivision(emp);
+              const isNewDivision = currentDivision !== normDivision;
               if (isNewDivision) {
-                currentDivision = emp.division;
+                currentDivision = normDivision;
               }
 
               return (
@@ -146,7 +152,7 @@ export default function AbsensiGridCalendar({ employees = [], attendanceChanges 
                         colSpan={4 + totalDays} 
                         className="sticky left-0 z-20 py-0.5 px-3 font-extrabold text-slate-700 text-[10px] tracking-wider uppercase shadow-[1px_0_0_0_rgba(203,213,225,1)]"
                       >
-                        {emp.division || 'Tanpa Bagian'}
+                        {normDivision}
                       </td>
                     </tr>
                   )}
@@ -158,7 +164,7 @@ export default function AbsensiGridCalendar({ employees = [], attendanceChanges 
                     {emp.name} {!org && <span className="ml-1 text-[9px] px-1 py-0.5 bg-orange-200 text-orange-800 rounded">Non-Org</span>}
                   </td>
                   <td className={`sticky left-[150px] z-10 p-2 border border-gray-300 text-slate-700 ${rowBg}`}>
-                    {emp.division}
+                    {normDivision}
                   </td>
                   <td className={`sticky left-[270px] z-10 p-2 border border-gray-300 text-slate-700 ${rowBg}`}>
                     {emp.employee_type}

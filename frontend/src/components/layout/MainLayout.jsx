@@ -23,14 +23,16 @@ export default function MainLayout() {
       )}
       
       {/* Main Content Area */}
-      <div className={`flex-1 flex flex-col min-w-0 bg-gray-50/50 relative transition-all duration-300 ${isCollapsed ? 'md:pl-[84px]' : 'md:pl-[364px]'}`}>
-        <Header 
-          isCollapsed={isCollapsed} 
-          setIsCollapsed={setIsCollapsed} 
-          isMobileMenuOpen={isMobileMenuOpen}
-          setIsMobileMenuOpen={setIsMobileMenuOpen}
-        />
-        <main className="flex-1 p-4 md:px-6 md:py-4 overflow-y-auto">
+      <div className={`flex-1 flex flex-col min-w-0 bg-gray-50/50 relative transition-all duration-300 ${user ? (isCollapsed ? 'md:pl-[84px]' : 'md:pl-[364px]') : 'pl-0'}`}>
+        {user && (
+          <Header 
+            isCollapsed={isCollapsed} 
+            setIsCollapsed={setIsCollapsed} 
+            isMobileMenuOpen={isMobileMenuOpen}
+            setIsMobileMenuOpen={setIsMobileMenuOpen}
+          />
+        )}
+        <main className={`flex-1 overflow-y-auto ${user ? 'p-4 md:px-6 md:py-4' : 'p-0'}`}>
           <Outlet />
         </main>
       </div>
