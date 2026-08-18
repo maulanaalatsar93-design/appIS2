@@ -119,7 +119,7 @@ export default function Header({ isCollapsed, setIsCollapsed, isMobileMenuOpen, 
   };
 
   return (
-    <header className="h-[72px] bg-gray-50/80 backdrop-blur-xl px-6 md:px-8 flex items-center justify-between sticky top-0 z-30 border-b border-gray-200/60 print:hidden">
+    <header className="h-16 bg-gray-50/80 backdrop-blur-xl px-6 md:px-8 flex items-center justify-between sticky top-0 z-30 border-b border-gray-200/60 print:hidden">
       
       {/* Left side: Breadcrumb & Mobile toggle */}
       <div className="flex items-center gap-4">

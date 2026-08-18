@@ -115,14 +115,14 @@ export default function Sidebar({ isCollapsed, setIsCollapsed, isMobileMenuOpen,
       <div className={`fixed inset-y-0 left-0 flex h-screen shrink-0 z-50 pointer-events-none print:hidden transition-transform duration-300 md:translate-x-0 ${isMobileMenuOpen ? 'translate-x-0 pointer-events-auto' : '-translate-x-full'}`}>
         
         {/* === Primary Sidebar (Thin) === */}
-        <aside className="w-[72px] bg-white border-r border-gray-200 flex flex-col items-center py-4 justify-start shrink-0 h-full z-20 pointer-events-auto shadow-sm">
+        <aside className="w-16 bg-white border-r border-gray-200 flex flex-col items-center py-4 justify-start shrink-0 h-full z-20 pointer-events-auto shadow-sm">
         <div className="w-full flex flex-col items-center gap-5">
           {/* Logo */}
-          <div className="w-11 h-11 bg-white border border-gray-200 rounded-xl flex items-center justify-center cursor-pointer shadow-sm hover:shadow-md transition-shadow">
+          <div className="w-10 h-10 bg-white border border-gray-200 rounded-xl flex items-center justify-center cursor-pointer shadow-sm hover:shadow-md transition-shadow">
             <img
               src={logoImg}
               alt="Logo"
-              className="w-8 h-8 object-contain"
+              className="w-7 h-7 object-contain"
               onError={(e) => { e.target.onerror = null; e.target.src = brandIconImg; }}
             />
           </div>
@@ -140,7 +140,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed, isMobileMenuOpen,
                     setIsCollapsed(false); 
                     if (window.innerWidth < 768) setIsMobileMenuOpen(false);
                   }}
-                  className={`w-[48px] h-[48px] rounded-2xl flex items-center justify-center transition-all duration-300 ${
+                  className={`w-11 h-11 rounded-2xl flex items-center justify-center transition-all duration-300 ${
                     isActive 
                       ? 'bg-navy-600 text-white shadow-lg shadow-navy-600/30 scale-105' 
                       : 'text-gray-400 hover:text-navy-600 hover:bg-navy-50'
@@ -159,13 +159,13 @@ export default function Sidebar({ isCollapsed, setIsCollapsed, isMobileMenuOpen,
       {/* === Secondary Sidebar (Expandable) === */}
       <aside 
         className={`bg-white/95 backdrop-blur-md border-r border-gray-200 flex flex-col shrink-0 h-full transition-all duration-300 ease-in-out overflow-hidden pointer-events-auto shadow-xl ${
-          isCollapsed ? 'w-0 border-r-0' : 'w-[260px]'
+          isCollapsed ? 'w-0 border-r-0' : 'w-60'
         }`}
       >
-        <div className="flex-1 overflow-hidden flex flex-col min-w-[260px]">
+        <div className="flex-1 overflow-hidden flex flex-col min-w-[15rem]">
           
           {/* Header of Secondary Sidebar */}
-          <div className="h-[72px] px-5 flex items-center justify-between shrink-0">
+          <div className="h-16 px-5 flex items-center justify-between shrink-0">
             <div>
               <h2 className="text-xl font-display font-bold text-ink tracking-tight">{activeCategory.label}</h2>
               <p className="text-xs text-gray-400 font-medium tracking-wide">Menu & Modul Navigasi</p>
