@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Bell, Database, Server, LogOut, User, Menu, Lock } from 'lucide-react';
+import { Bell, Database, Server, LogOut, User, Menu, Lock, ChevronRight } from 'lucide-react';
 import { AuthContext } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { playSubmitSound, playSuccessSound, playErrorSound } from '../../utils/soundUtils';
@@ -157,40 +157,58 @@ export default function Header({ isCollapsed, setIsCollapsed, isMobileMenuOpen, 
 
         {/* NOTIFICATION POPUP DRAWER */}
         {isNotifOpen && (
-          <div className="absolute right-0 top-12 w-80 bg-white border border-gray-200 rounded-2xl shadow-xl z-50 p-4 animate-in fade-in zoom-in-95 duration-200">
+          <div className="absolute right-0 top-12 w-80 bg-white/95 backdrop-blur-xl border border-gray-200/60 rounded-2xl shadow-2xl z-50 p-4 animate-in fade-in zoom-in-95 duration-200 origin-top-right">
             <div className="flex items-center justify-between border-b border-gray-100 pb-3 mb-3">
               <div className="flex items-center gap-2">
-                <Bell size={14} className="text-orange-500" />
-                <span className="text-xs font-bold text-ink">Notifikasi Sistem</span>
+                <div className="w-6 h-6 rounded-full bg-orange-50 flex items-center justify-center">
+                  <Bell size={12} className="text-orange-600" />
+                </div>
+                <span className="text-xs font-extrabold text-ink tracking-tight">Notifikasi Sistem</span>
               </div>
-              <span className="text-[10px] font-bold bg-orange-50 text-orange-600 px-2 py-0.5 rounded-full">{unreadCount} Baru</span>
+              <span className="text-[9px] font-bold bg-orange-50 text-orange-600 px-2 py-1 rounded-md">{unreadCount} Baru</span>
             </div>
 
-            <div className="space-y-2.5 max-h-64 overflow-y-auto pr-1 custom-scrollbar">
+            <div className="space-y-2 max-h-72 overflow-y-auto pr-1 custom-scrollbar">
               {notifications.map((n) => (
-                <div key={n.id} className={`p-3 bg-gray-50 border border-gray-100 rounded-xl hover:bg-gray-100 transition-colors ${n.type === 'warning' ? 'border-l-4 border-l-red-500' : ''} ${n.type === 'info' ? 'border-l-4 border-l-blue-500' : ''}`}>
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="text-xs font-bold text-ink">{n.title}</span>
-                    <span className="text-[9px] text-gray-500 font-medium">{n.time}</span>
+                <div key={n.id} className="group relative p-3 bg-white border border-gray-100 rounded-xl hover:shadow-md hover:border-orange-200/50 transition-all duration-300">
+                  {/* Indicator Line */}
+                  <div className={`absolute left-0 top-3 bottom-3 w-1 rounded-r-full transition-colors ${
+                    n.type === 'warning' ? 'bg-red-500' : 
+                    n.type === 'info' ? 'bg-blue-500' : 
+                    n.action === 'start-pdm' ? 'bg-orange-500' : 'bg-gray-300'
+                  }`}></div>
+                  
+                  <div className="pl-2.5">
+                    <div className="flex items-start justify-between gap-2 mb-1">
+                      <span className="text-[11px] font-extrabold text-slate-800 leading-tight">{n.title}</span>
+                      <span className="text-[9px] text-gray-400 font-medium shrink-0 pt-0.5">{n.time}</span>
+                    </div>
+                    <p className="text-[10px] text-gray-500 leading-snug">{n.desc}</p>
+                    
+                    {n.action === 'start-pdm' && n.taskId && (
+                      <div className="flex items-center justify-end mt-2 pt-2 border-t border-gray-50">
+                        <button 
+                          onClick={() => handleStartPdm(n.taskId)}
+                          className="flex items-center gap-1.5 px-3 py-1.5 bg-orange-50 text-orange-600 hover:bg-orange-500 hover:text-white rounded-lg text-[9px] font-bold transition-all"
+                        >
+                          {n.actionLabel || 'Mulai Eksekusi'}
+                          <ChevronRight size={10} strokeWidth={3} />
+                        </button>
+                      </div>
+                    )}
                   </div>
-                  <p className="text-[11px] text-gray-600 leading-snug">{n.desc}</p>
-                  {n.action === 'start-pdm' && n.taskId && (
-                    <button 
-                      onClick={() => handleStartPdm(n.taskId)}
-                      className="mt-2 w-full text-center py-1.5 bg-orange-500 hover:bg-orange-600 text-white rounded-lg text-[10px] font-bold transition-colors shadow-sm"
-                    >
-                      {n.actionLabel || 'Mulai Eksekusi'}
-                    </button>
-                  )}
                 </div>
               ))}
             </div>
 
             <div className="mt-3 pt-3 border-t border-gray-100 flex justify-between items-center">
-              <span className="text-[10px] text-gray-400 font-medium">Sistem Berjalan Normal</span>
+              <div className="flex items-center gap-1.5 text-[9px] text-gray-400 font-medium">
+                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
+                Sistem Berjalan Normal
+              </div>
               <button
                 onClick={() => setIsNotifOpen(false)}
-                className="text-[10px] font-bold text-orange-500 hover:text-orange-600"
+                className="text-[10px] font-bold text-slate-400 hover:text-slate-700 transition-colors"
               >
                 Tutup
               </button>
