@@ -135,7 +135,7 @@ export default function Login() {
                 </span>
               </h1>
               <p className="text-gray-400 text-lg leading-relaxed font-body max-w-md">
-                Sistem terintegrasi untuk perencanaan, pelaksanaan, monitoring, dan pengendalian aktivitas Predictive Maintenance serta Man Power.
+                Sistem terintegrasi untuk perencanaan, pelaksanaan, dan monitoring aktivitas Predictive Maintenance serta Man Power.
               </p>
             </div>
 

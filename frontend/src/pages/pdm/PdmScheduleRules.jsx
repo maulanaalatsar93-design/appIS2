@@ -160,7 +160,7 @@ export default function PdmScheduleRules() {
   const [picOverrideRule, setPicOverrideRule] = useState(null);
   const [generateRule, setGenerateRule] = useState(null);
   const [showGenerateAll, setShowGenerateAll] = useState(false);
-  const [expandedPabriks, setExpandedPabriks] = useState({});
+  const [selectedPabrikFilter, setSelectedPabrikFilter] = useState('');
   const [formData, setFormData] = useState({
     code: '', pabrik_id: '', subArea: '', equipmentCat: 'ROTATING', criticality: 'CRITICAL',
     taskName: '', recurrence: 'MONTHLY_ONCE', dateFirst: '', dateSecond: '', defaultPicId: '', notes: '', isActive: true
@@ -179,12 +179,6 @@ export default function PdmScheduleRules() {
       if (res.ok) {
         const data = await res.json();
         setRules(data);
-        const grouped = data.reduce((acc, rule) => {
-          const p = rule.pabrik?.nama_pabrik || 'Lainnya';
-          acc[p] = true;
-          return acc;
-        }, {});
-        setExpandedPabriks(grouped);
       }
     } catch (e) { console.error(e); }
   };
@@ -239,23 +233,10 @@ export default function PdmScheduleRules() {
 
   const resetForm = () => setFormData({ code:'', pabrik_id:'', subArea:'', equipmentCat:'ROTATING', criticality:'CRITICAL', taskName:'', recurrence:'MONTHLY_ONCE', dateFirst:'', dateSecond:'', defaultPicId:'', notes:'', isActive:true });
 
-  const togglePabrik = (pabrikName) => {
-    setExpandedPabriks(prev => ({ ...prev, [pabrikName]: !prev[pabrikName] }));
-  };
-
-  // Group rules by Pabrik
-  const groupedRules = useMemo(() => {
-    const groups = {};
-    rules.forEach(r => {
-      const pName = r.pabrik?.nama_pabrik || 'Lain-lain';
-      if (!groups[pName]) groups[pName] = [];
-      groups[pName].push(r);
-    });
-    const sortedKeys = Object.keys(groups).sort((a, b) => a.localeCompare(b));
-    const sortedGroups = {};
-    sortedKeys.forEach(k => sortedGroups[k] = groups[k]);
-    return sortedGroups;
-  }, [rules]);
+  const filteredRules = useMemo(() => {
+    if (!selectedPabrikFilter) return rules;
+    return rules.filter(r => r.pabrik_id.toString() === selectedPabrikFilter.toString());
+  }, [rules, selectedPabrikFilter]);
 
   return (
     <div className="w-full max-w-[1440px] mx-auto px-4 md:px-6 lg:px-8 py-8 bg-gray-50 min-h-screen">
@@ -283,132 +264,125 @@ export default function PdmScheduleRules() {
         </div>
       </div>
 
-      {/* Rules List Grouped */}
+      {/* Rules List */}
       <div className="space-y-6">
-        {Object.entries(groupedRules).map(([pabrik, pabrikRules]) => (
-          <div key={pabrik} className="bg-white rounded-[16px] shadow-sm border border-gray-100 overflow-hidden">
-            {/* Group Header */}
-            <div 
-              className="px-6 py-4 flex items-center justify-between cursor-pointer hover:bg-gray-50 transition-colors border-b border-gray-100"
-              onClick={() => togglePabrik(pabrik)}
-            >
-              <div className="flex items-center gap-3">
-                <div className={`p-1 transition-transform ${expandedPabriks[pabrik] ? 'rotate-90 text-navy-600' : 'text-gray-400'}`}>
-                  <ChevronRight className="w-5 h-5" />
-                </div>
-                <h3 className="text-[16px] font-bold text-ink">{pabrik}</h3>
-                <span className="px-2 py-0.5 bg-gray-100 text-gray-600 text-[12px] font-medium rounded-[8px]">{pabrikRules.length} Aturan</span>
-              </div>
-            </div>
+        {/* Toolbar */}
+        <div className="flex gap-4">
+          <select 
+            value={selectedPabrikFilter} 
+            onChange={(e) => setSelectedPabrikFilter(e.target.value)}
+            className="px-4 py-2.5 bg-white border border-gray-200 rounded-[12px] text-[14px] focus:border-navy-600 focus:ring-1 focus:ring-navy-600 outline-none transition-all shadow-sm min-w-[240px]"
+          >
+            <option value="">Semua Pabrik</option>
+            {pabriks.map(p => (
+              <option key={p.id} value={p.id}>{p.nama_pabrik}</option>
+            ))}
+          </select>
+        </div>
 
-            {/* Group Content (Table) */}
-            <AnimatePresence>
-              {expandedPabriks[pabrik] && (
-                <motion.div 
-                  initial={{ height: 0, opacity: 0 }} 
-                  animate={{ height: 'auto', opacity: 1 }} 
-                  exit={{ height: 0, opacity: 0 }}
-                  className="overflow-hidden"
-                >
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-left border-collapse whitespace-nowrap">
-                      <thead>
-                        <tr className="bg-gray-50 text-gray-500 text-[12px] font-medium uppercase tracking-wider border-b border-gray-100">
-                          <th className="px-6 py-3 font-medium">Kode & Area</th>
-                          <th className="px-6 py-3 font-medium">Tugas</th>
-                          <th className="px-6 py-3 font-medium">Jadwal</th>
-                          <th className="px-6 py-3 font-medium">Default PIC</th>
-                          <th className="px-6 py-3 font-medium text-center">Status</th>
-                          <th className="px-6 py-3 font-medium text-right">Aksi</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-gray-50 text-[14px]">
-                        {pabrikRules.map(r => (
-                          <tr key={r.id} className="hover:bg-gray-50/50 transition-colors group">
-                            <td className="px-6 py-4">
-                              <div className="flex items-center gap-3">
-                                <div>
-                                  <div className="font-mono font-medium text-[13px] text-ink">{r.code}</div>
-                                  <div className="text-[12px] text-gray-500 mt-0.5">{r.subArea || '-'}</div>
-                                </div>
-                              </div>
-                            </td>
-                            <td className="px-6 py-4">
-                              <div className="font-medium text-ink">{r.taskName}</div>
-                              <div className="flex items-center gap-1.5 mt-1">
-                                <span className="px-2 py-0.5 bg-gray-100 text-gray-600 text-[10px] font-medium rounded-[8px] uppercase tracking-wide">{r.equipmentCat}</span>
-                                <span className={`px-2 py-0.5 text-[10px] font-medium rounded-[8px] uppercase tracking-wide ${r.criticality === 'CRITICAL' ? 'bg-red-50 text-red-600' : 'bg-gray-100 text-gray-500'}`}>
-                                  {r.criticality === 'CRITICAL' ? 'CRITICAL' : 'NON-CRIT'}
-                                </span>
-                              </div>
-                            </td>
-                            <td className="px-6 py-4">
-                              <div className="font-medium text-ink">
-                                {r.recurrence === 'MONTHLY_ONCE' ? '1x Sebulan' : r.recurrence === 'MONTHLY_TWICE' ? '2x Sebulan' : 'Tentative'}
-                              </div>
-                              <div className="text-[12px] text-gray-500 mt-1 flex items-center gap-1">
-                                <Calendar className="w-3.5 h-3.5" />
-                                {r.recurrence === 'MONTHLY_ONCE' && r.dateFirst && `Tgl ${r.dateFirst}`}
-                                {r.recurrence === 'MONTHLY_TWICE' && r.dateFirst && r.dateSecond && `Tgl ${r.dateFirst} & ${r.dateSecond}`}
-                                {r.recurrence === 'TENTATIVE' && 'Sesuai Kebutuhan'}
-                              </div>
-                            </td>
-                            <td className="px-6 py-4">
-                              {r.defaultPic ? (
-                                <div className="text-ink font-medium text-[13px]">{r.defaultPic.name}</div>
-                              ) : (
-                                <span className="text-[12px] text-gray-400 italic">Belum Set</span>
-                              )}
-                            </td>
-                            <td className="px-6 py-4 text-center">
-                              <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[8px] text-[12px] font-medium ${r.isActive ? 'bg-green-50 text-green-700' : 'bg-gray-100 text-gray-500'}`}>
-                                <span className={`w-1.5 h-1.5 rounded-full ${r.isActive ? 'bg-green-500' : 'bg-gray-400'}`}></span>
-                                {r.isActive ? 'Aktif' : 'Inaktif'}
-                              </span>
-                            </td>
-                            <td className="px-6 py-4 text-right">
-                              <div className="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <button onClick={() => setPicOverrideRule(r)} title="Override PIC Bulan Ini"
-                                  className="p-1.5 text-gray-400 hover:text-navy-600 hover:bg-gray-100 rounded-[8px] transition-colors">
-                                  <UserCog className="w-4 h-4" />
-                                </button>
-                                <button onClick={() => setGenerateRule(r)} title="Generate Jadwal"
-                                  className="p-1.5 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-[8px] transition-colors">
-                                  <Zap className="w-4 h-4" />
-                                </button>
-                                <button onClick={() => handleEdit(r)} title="Edit Rule"
-                                  className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-[8px] transition-colors">
-                                  <Edit className="w-4 h-4" />
-                                </button>
-                                <button onClick={() => handleDelete(r.id)} title="Hapus Rule"
-                                  className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-[8px] transition-colors">
-                                  <Trash2 className="w-4 h-4" />
-                                </button>
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+        <div className="bg-white rounded-[16px] shadow-sm border border-gray-100 overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse whitespace-nowrap">
+              <thead>
+                <tr className="bg-gray-50 text-gray-500 text-[12px] font-medium uppercase tracking-wider border-b border-gray-100">
+                  <th className="px-6 py-3 font-medium">Pabrik</th>
+                  <th className="px-6 py-3 font-medium">Kode & Area</th>
+                  <th className="px-6 py-3 font-medium">Tugas</th>
+                  <th className="px-6 py-3 font-medium">Jadwal</th>
+                  <th className="px-6 py-3 font-medium">Default PIC</th>
+                  <th className="px-6 py-3 font-medium text-center">Status</th>
+                  <th className="px-6 py-3 font-medium text-right">Aksi</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-50 text-[14px]">
+                {filteredRules.length > 0 ? (
+                  filteredRules.map(r => (
+                    <tr key={r.id} className="hover:bg-gray-50/50 transition-colors group">
+                      <td className="px-6 py-4">
+                        <div className="font-medium text-ink">{r.pabrik?.nama_pabrik || '-'}</div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-3">
+                          <div>
+                            <div className="font-mono font-medium text-[13px] text-ink">{r.code}</div>
+                            <div className="text-[12px] text-gray-500 mt-0.5">{r.subArea || '-'}</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="font-medium text-ink">{r.taskName}</div>
+                        <div className="flex items-center gap-1.5 mt-1">
+                          <span className="px-2 py-0.5 bg-gray-100 text-gray-600 text-[10px] font-medium rounded-[8px] uppercase tracking-wide">{r.equipmentCat}</span>
+                          <span className={`px-2 py-0.5 text-[10px] font-medium rounded-[8px] uppercase tracking-wide ${r.criticality === 'CRITICAL' ? 'bg-red-50 text-red-600' : 'bg-gray-100 text-gray-500'}`}>
+                            {r.criticality === 'CRITICAL' ? 'CRITICAL' : 'NON-CRIT'}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="font-medium text-ink">
+                          {r.recurrence === 'MONTHLY_ONCE' ? '1x Sebulan' : r.recurrence === 'MONTHLY_TWICE' ? '2x Sebulan' : 'Tentative'}
+                        </div>
+                        <div className="text-[12px] text-gray-500 mt-1 flex items-center gap-1">
+                          <Calendar className="w-3.5 h-3.5" />
+                          {r.recurrence === 'MONTHLY_ONCE' && r.dateFirst && `Tgl ${r.dateFirst}`}
+                          {r.recurrence === 'MONTHLY_TWICE' && r.dateFirst && r.dateSecond && `Tgl ${r.dateFirst} & ${r.dateSecond}`}
+                          {r.recurrence === 'TENTATIVE' && 'Sesuai Kebutuhan'}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        {r.defaultPic ? (
+                          <div className="text-ink font-medium text-[13px]">{r.defaultPic.name}</div>
+                        ) : (
+                          <span className="text-[12px] text-gray-400 italic">Belum Set</span>
+                        )}
+                      </td>
+                      <td className="px-6 py-4 text-center">
+                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[8px] text-[12px] font-medium ${r.isActive ? 'bg-green-50 text-green-700' : 'bg-gray-100 text-gray-500'}`}>
+                          <span className={`w-1.5 h-1.5 rounded-full ${r.isActive ? 'bg-green-500' : 'bg-gray-400'}`}></span>
+                          {r.isActive ? 'Aktif' : 'Inaktif'}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 text-right">
+                        <div className="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <button onClick={() => setPicOverrideRule(r)} title="Override PIC Bulan Ini"
+                            className="p-1.5 text-gray-400 hover:text-navy-600 hover:bg-gray-100 rounded-[8px] transition-colors">
+                            <UserCog className="w-4 h-4" />
+                          </button>
+                          <button onClick={() => setGenerateRule(r)} title="Generate Jadwal"
+                            className="p-1.5 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-[8px] transition-colors">
+                            <Zap className="w-4 h-4" />
+                          </button>
+                          <button onClick={() => handleEdit(r)} title="Edit Rule"
+                            className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-[8px] transition-colors">
+                            <Edit className="w-4 h-4" />
+                          </button>
+                          <button onClick={() => handleDelete(r.id)} title="Hapus Rule"
+                            className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-[8px] transition-colors">
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="7" className="px-6 py-12 text-center">
+                      <div className="flex flex-col items-center justify-center">
+                        <div className="w-12 h-12 bg-gray-50 rounded-[12px] flex items-center justify-center mb-4">
+                          <Settings className="w-6 h-6 text-gray-400" />
+                        </div>
+                        <h3 className="text-[16px] font-semibold text-ink mb-1">Belum ada aturan jadwal</h3>
+                        <p className="text-gray-500 text-[14px] max-w-md mx-auto">
+                          Tambahkan aturan master schedule baru atau ubah filter pabrik.
+                        </p>
+                      </div>
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
           </div>
-        ))}
-
-        {rules.length === 0 && (
-          <div className="bg-white rounded-[16px] p-12 text-center border border-gray-100 shadow-sm flex flex-col items-center justify-center">
-            <div className="w-12 h-12 bg-gray-50 rounded-[12px] flex items-center justify-center mb-4">
-              <Settings className="w-6 h-6 text-gray-400" />
-            </div>
-            <h3 className="text-[16px] font-semibold text-ink mb-1">Belum ada aturan jadwal</h3>
-            <p className="text-gray-500 text-[14px] max-w-md mx-auto mb-6">Tambahkan aturan master schedule baru untuk mulai meng-generate jadwal inspeksi secara otomatis ke kalender.</p>
-            <button onClick={() => { resetForm(); setEditingId(null); setIsFormOpen(true); }} className="px-5 py-2.5 bg-navy-600 text-white rounded-[12px] shadow-sm hover:bg-navy-950 transition-colors font-medium text-[14px] flex items-center gap-2">
-              <PlusCircle className="w-4 h-4" /> Tambah Aturan
-            </button>
-          </div>
-        )}
+        </div>
       </div>
 
       {/* Modal Form Rule */}
