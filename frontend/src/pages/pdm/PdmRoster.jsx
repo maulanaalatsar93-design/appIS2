@@ -106,6 +106,23 @@ function EditRosterModal({ pabrikEntry, criticality, manpowers, api, headers, pe
   // Filter state untuk TKO / TNO
   const [empFilter, setEmpFilter] = useState('ALL'); // 'ALL' | 'TKO' | 'TNO'
 
+  const handleCopyAnalystToDC = () => {
+    if (!window.confirm('Copy semua Analyst yang sudah dipilih menjadi Data Collector untuk seluruh area pabrik ini?')) return;
+    setSelections(prev => {
+      const next = { ...prev };
+      Object.keys(next).forEach(ruleId => {
+        const sel = next[ruleId];
+        if (sel.picIds && sel.picIds.length > 0) {
+          next[ruleId] = {
+            ...sel,
+            dataCollectorIds: [...sel.picIds]
+          };
+        }
+      });
+      return next;
+    });
+  };
+
   const rotatingManpowers = useMemo(() => {
     return manpowers.filter(m => {
       const div = m.nama_divisi ? m.nama_divisi.toLowerCase() : '';
@@ -212,20 +229,29 @@ function EditRosterModal({ pabrikEntry, criticality, manpowers, api, headers, pe
           <span className="text-xs text-navy-600 ml-auto">({monthsInRange.length} bulan)</span>
         </div>
 
-        <div className="px-5 py-2.5 border-b border-gray-200 bg-gray-50 flex items-center gap-4 text-sm">
-          <span className="font-semibold text-gray-700">Data Collector:</span>
-          <label className="flex items-center gap-1.5 cursor-pointer text-gray-600 hover:text-gray-900">
-            <input type="radio" checked={empFilter === 'ALL'} onChange={() => setEmpFilter('ALL')} className="text-navy-600 focus:ring-blue-500 cursor-pointer" />
-            Semua
-          </label>
-          <label className="flex items-center gap-1.5 cursor-pointer text-gray-600 hover:text-gray-900">
-            <input type="radio" checked={empFilter === 'TKO'} onChange={() => setEmpFilter('TKO')} className="text-navy-600 focus:ring-blue-500 cursor-pointer" />
-            TKO
-          </label>
-          <label className="flex items-center gap-1.5 cursor-pointer text-gray-600 hover:text-gray-900">
-            <input type="radio" checked={empFilter === 'TNO'} onChange={() => setEmpFilter('TNO')} className="text-navy-600 focus:ring-blue-500 cursor-pointer" />
-            TNO
-          </label>
+        <div className="px-5 py-2.5 border-b border-gray-200 bg-gray-50 flex flex-wrap items-center justify-between gap-4 text-sm">
+          <div className="flex items-center gap-4">
+            <span className="font-semibold text-gray-700">Data Collector:</span>
+            <label className="flex items-center gap-1.5 cursor-pointer text-gray-600 hover:text-gray-900">
+              <input type="radio" checked={empFilter === 'ALL'} onChange={() => setEmpFilter('ALL')} className="text-navy-600 focus:ring-blue-500 cursor-pointer" />
+              Semua
+            </label>
+            <label className="flex items-center gap-1.5 cursor-pointer text-gray-600 hover:text-gray-900">
+              <input type="radio" checked={empFilter === 'TKO'} onChange={() => setEmpFilter('TKO')} className="text-navy-600 focus:ring-blue-500 cursor-pointer" />
+              TKO
+            </label>
+            <label className="flex items-center gap-1.5 cursor-pointer text-gray-600 hover:text-gray-900">
+              <input type="radio" checked={empFilter === 'TNO'} onChange={() => setEmpFilter('TNO')} className="text-navy-600 focus:ring-blue-500 cursor-pointer" />
+              TNO
+            </label>
+          </div>
+          <button 
+            onClick={handleCopyAnalystToDC}
+            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold bg-white border border-blue-200 text-blue-700 hover:bg-blue-50 rounded shadow-sm transition"
+          >
+            <RefreshCw className="w-3.5 h-3.5" />
+            Samakan DC = Analyst
+          </button>
         </div>
 
         <div className="flex-1 overflow-y-auto p-5 space-y-4">
