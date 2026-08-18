@@ -115,6 +115,43 @@ function RejectModal({ onConfirm, onCancel }) {
   );
 }
 
+// ── Helper Prompt Modal ──────────────────────────────────────────────────────
+function HelperPromptModal({ prompt, onConfirm, onCancel }) {
+  const isDc = prompt.action === 'dc-complete';
+  const actionLabel = isDc ? 'Selesai Ambil Data' : 'Mulai Analisis';
+  const desc = isDc 
+    ? 'Apakah Anda mengambil data ini sendiri atau dibantu oleh rekan kerja?'
+    : 'Apakah Anda melakukan analisis ini sendiri atau dibantu oleh rekan kerja?';
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+      <div className="bg-white rounded-xl shadow-2xl w-full max-w-md overflow-hidden border border-gray-100">
+        <div className="p-4 border-b border-gray-100 flex items-center justify-between">
+          <h3 className="font-bold text-gray-800 flex items-center gap-2 font-display">
+            <Users className="w-5 h-5 text-navy-600" /> Konfirmasi Tugas
+          </h3>
+          <button onClick={onCancel} className="text-gray-400 hover:text-gray-600"><X className="w-5 h-5" /></button>
+        </div>
+        <div className="p-6 space-y-4 text-center">
+          <p className="text-gray-600 text-sm font-medium">{desc}</p>
+          <div className="flex flex-col gap-3 mt-4">
+            <button 
+              onClick={() => onConfirm(false)}
+              className="w-full py-3 bg-navy-600 text-white rounded-xl font-bold hover:bg-navy-700 shadow-sm transition">
+              Kerjakan Sendiri ({actionLabel})
+            </button>
+            <button 
+              onClick={() => onConfirm(true)}
+              className="w-full py-3 bg-blue-50 text-navy-700 border border-blue-200 rounded-xl font-bold hover:bg-blue-100 transition">
+              {actionLabel} & Tambah Rekan
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ── Add Helper Modal ─────────────────────────────────────────────────────────
 function AddHelperModal({ onConfirm, onCancel, manpowers, occ }) {
   const [selectedId, setSelectedId] = useState('');
@@ -371,9 +408,9 @@ function TaskBox({ occ, onAction, onPromptHelper, manpowers, userRole, userMpId,
 
         {/* ── ACTION BUTTONS ── */}
         <div className="flex flex-wrap gap-2 pt-2 border-t border-gray-100">
-          {(showDcActions && stage === 'DC_COLLECTION') && (
-            <button onClick={() => onPromptHelper('dc-complete', occ)} className="flex-1 flex justify-center items-center gap-1 px-3 py-2 bg-blue-600 text-white rounded-lg text-xs font-semibold hover:bg-blue-700 shadow-sm transition">
-              <CheckCircle className="w-3.5 h-3.5" /> Selesai Ambil Data
+          {showDcActions && occ.status === 'ASSIGNED' && (
+            <button onClick={() => onAction('start', occ.id)} className="flex-1 flex justify-center items-center gap-1 px-3 py-2 bg-blue-600 text-white rounded-lg text-xs font-semibold hover:bg-blue-700 shadow-sm transition">
+              <Play className="w-3.5 h-3.5" /> Mulai DC
             </button>
           )}
           {showDcActions && occ.status === 'ON_HOLD' && (
@@ -383,6 +420,9 @@ function TaskBox({ occ, onAction, onPromptHelper, manpowers, userRole, userMpId,
           )}
           {showDcActions && occ.status === 'IN_PROGRESS' && (
             <>
+              <button onClick={() => onPromptHelper('dc-complete', occ)} className="flex-1 flex justify-center items-center gap-1 px-3 py-2 bg-blue-600 text-white rounded-lg text-xs font-semibold hover:bg-blue-700 shadow-sm transition">
+                <CheckCircle className="w-3.5 h-3.5" /> Selesai Ambil Data
+              </button>
               <button onClick={() => onPromptHelper('add-helper', occ)} className="flex items-center justify-center gap-1 px-3 py-2 bg-blue-50 text-blue-600 border border-blue-200 rounded-lg text-xs font-semibold hover:bg-blue-100 shadow-sm transition">
                 <Users className="w-3.5 h-3.5" /> Rekan
               </button>
@@ -862,6 +902,22 @@ export default function PdmTaskBoard() {
           )}
         </div>
       </div>
+
+      {helperPrompt && (
+        <HelperPromptModal prompt={helperPrompt} onConfirm={handlePromptHelperConfirm} onCancel={() => setHelperPrompt(null)} />
+      )}
+      {activeHelperOccId && (
+        <AddHelperModal 
+          occ={activeOcc} 
+          manpowers={manpowers}
+          onConfirm={async (mpId) => {
+             const stage = activeOcc.workflowStage === 'ANALYSIS' ? 'ANALYSIS' : 'DC_COLLECTION';
+             await handleAction('add-helper', activeOcc.id, { helperId: mpId, stage });
+             setActiveHelperOccId(null);
+          }}
+          onCancel={() => setActiveHelperOccId(null)}
+        />
+      )}
     </div>
   );
 }
