@@ -407,6 +407,7 @@ export const getJobBoardTasksForUser = async (user, year, month) => {
         rule: { include: { pabrik: true } },
         dataCollector: { select: { id: true, name: true, npk: true } },
         analyst: { select: { id: true, name: true, npk: true } },
+        helpers: { include: { manPower: true } }
       },
       orderBy: { scheduledDate: 'asc' }
     }),
@@ -416,6 +417,7 @@ export const getJobBoardTasksForUser = async (user, year, month) => {
         rule: { include: { pabrik: true } },
         dataCollector: { select: { id: true, name: true, npk: true } },
         analyst: { select: { id: true, name: true, npk: true } },
+        helpers: { include: { manPower: true } }
       },
       orderBy: { scheduledDate: 'asc' }
     }) : Promise.resolve([])

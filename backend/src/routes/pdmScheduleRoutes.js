@@ -43,6 +43,11 @@ router.get('/workflow-tasks',                      verifyToken, wf.getMyWorkflow
 router.get('/area-dashboard',                      verifyToken, wf.getAreaDashboard);
 router.get('/occurrences/:id/workflow-logs',       verifyToken, wf.getWorkflowLogs);
 
+// ── Helpers ──────────────────────────────────────────────────
+router.post('/occurrences/:id/helpers',            verifyToken, wf.addHelper);
+router.patch('/helpers/:id/approve',               verifyToken, wf.approveHelper);
+router.patch('/helpers/:id/reject',                verifyToken, wf.rejectHelper);
+
 // ── Cross-Area Delegation ────────────────────────────────────
 router.post('/occurrences/:id/delegate',                 verifyToken, ac.createDelegation);
 router.get('/occurrences/:id/delegations',               verifyToken, ac.getDelegations);

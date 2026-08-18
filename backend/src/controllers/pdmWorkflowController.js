@@ -51,7 +51,7 @@ function logWorkflow(occurrenceId, fromStage, toStage, action, actorId, notes, t
   });
 }
 
-// Helper: tutup daily activity yang masih terbuka & hitung durasi
+// Helper: tutup daily activity yang masih terbuka & hitung durasi, dan berikan jam yang sama ke helpers
 async function closeOpenActivity(occurrenceId, actorId, statusSnapshot, workflowStage, note, tx = prisma) {
   const lastActivity = await tx.pdmDailyActivity.findFirst({
     where: { occurrenceId, endTime: null },
@@ -60,10 +60,32 @@ async function closeOpenActivity(occurrenceId, actorId, statusSnapshot, workflow
   if (!lastActivity) return 0;
   const now = new Date();
   const duration = Math.floor((now - new Date(lastActivity.startTime)) / 60000);
+  
   await tx.pdmDailyActivity.update({
     where: { id: lastActivity.id },
     data: { endTime: now, durationMinutes: duration, statusSnapshot, workflowStage, activityNote: note || lastActivity.activityNote }
   });
+
+  // Duplicate for all approved helpers in this stage
+  const helpers = await tx.pdmOccurrenceHelper.findMany({
+    where: { occurrenceId, stage: workflowStage || 'DC_COLLECTION', status: 'APPROVED' }
+  });
+  
+  if (helpers.length > 0) {
+    const helperActivities = helpers.map(h => ({
+      occurrenceId,
+      workDate: lastActivity.workDate,
+      startTime: lastActivity.startTime,
+      endTime: now,
+      durationMinutes: duration,
+      statusSnapshot,
+      workflowStage,
+      activityNote: (note || lastActivity.activityNote) + ' (Helper)',
+      performedById: h.manPowerId
+    }));
+    await tx.pdmDailyActivity.createMany({ data: helperActivities });
+  }
+
   return duration;
 }
 
@@ -727,3 +749,89 @@ export const getWorkflowLogs = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+// ============================================================
+// HELPERS
+// ============================================================
+export const addHelper = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { helperId, stage } = req.body;
+    const adminRole = ['admin', 'manager', 'supervisor', 'avp'];
+    const userRole = req.user?.role?.toLowerCase();
+    const isAdmin = adminRole.includes(userRole);
+    
+    const occ = await prisma.pdmScheduleOccurrence.findUnique({
+      where: { id: parseInt(id) },
+      include: { rule: { include: { pabrik: true } } }
+    });
+    if (!occ) return res.status(404).json({ error: 'Task not found' });
+    
+    const helperMp = await prisma.manPower.findUnique({ where: { id: parseInt(helperId) } });
+    if (!helperMp) return res.status(404).json({ error: 'Helper not found' });
+
+    const occArea = `${occ.rule.pabrik?.nama_pabrik || ''} ${occ.rule.subArea || ''}`.trim().toLowerCase();
+    const mArea = (helperMp.sub_area || '').toLowerCase();
+    const isOccPphs = ['pphs', 'osbl', 'conveyor ubs', 'conveyor bsl', 'batubara boiler', 'batu bara boiler'].some(kw => occArea.includes(kw));
+    const isMPPphs = ['pphs', 'osbl'].some(kw => mArea.includes(kw));
+    let isCrossArea = true;
+    if (isOccPphs && isMPPphs && occArea.includes('6') && mArea.includes('6')) isCrossArea = false;
+    else if (mArea === occArea) isCrossArea = false;
+    
+    const status = (isCrossArea && !isAdmin) ? 'PENDING' : 'APPROVED';
+    const activeStage = stage || occ.workflowStage;
+
+    const existing = await prisma.pdmOccurrenceHelper.findFirst({
+      where: { occurrenceId: parseInt(id), manPowerId: parseInt(helperId), stage: activeStage }
+    });
+    if (existing) return res.status(400).json({ error: 'Rekan ini sudah ditambahkan di tahap ini' });
+
+    const helper = await prisma.pdmOccurrenceHelper.create({
+      data: {
+        occurrenceId: parseInt(id),
+        manPowerId: parseInt(helperId),
+        stage: activeStage,
+        isCrossArea,
+        status
+      },
+      include: { manPower: true }
+    });
+    res.json(helper);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
+export const approveHelper = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { isAdmin } = await getUserAreaContext(req);
+    if (!isAdmin) return res.status(403).json({ error: 'Hanya Admin yang dapat menyetujui helper lintas area' });
+
+    const helper = await prisma.pdmOccurrenceHelper.update({
+      where: { id: parseInt(id) },
+      data: { status: 'APPROVED' },
+      include: { manPower: true }
+    });
+    res.json(helper);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
+export const rejectHelper = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { isAdmin } = await getUserAreaContext(req);
+    if (!isAdmin) return res.status(403).json({ error: 'Hanya Admin yang dapat menolak helper lintas area' });
+
+    const helper = await prisma.pdmOccurrenceHelper.update({
+      where: { id: parseInt(id) },
+      data: { status: 'REJECTED' },
+      include: { manPower: true }
+    });
+    res.json(helper);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}

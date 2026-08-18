@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import {
   ClipboardList, Play, Square, CheckCircle, UserCheck, Clock, AlertTriangle,
   AlertOctagon, ChevronDown, ChevronUp, History, RefreshCw, Database,
-  BarChart2, ChevronRight, Filter
+  BarChart2, ChevronRight, Filter, Users, X
 } from 'lucide-react';
 
 // ── Stage Configuration ──────────────────────────────────────────────────────
@@ -115,6 +115,58 @@ function RejectModal({ onConfirm, onCancel }) {
   );
 }
 
+// ── Add Helper Modal ─────────────────────────────────────────────────────────
+function AddHelperModal({ onConfirm, onCancel, manpowers, occ }) {
+  const [selectedId, setSelectedId] = useState('');
+  const [search, setSearch] = useState('');
+
+  const mps = (Array.isArray(manpowers) ? manpowers : []).filter(m => 
+    m.name.toLowerCase().includes(search.toLowerCase()) && 
+    m.id !== occ.assignedToId && m.id !== occ.dataCollectorId && m.id !== occ.analystId
+  );
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+      <div className="bg-white rounded-xl shadow-2xl w-full max-w-sm overflow-hidden flex flex-col max-h-[80vh] border border-gray-100">
+        <div className="p-4 border-b border-gray-100 flex items-center justify-between">
+          <h3 className="font-bold text-gray-800 flex items-center gap-2 font-display"><Users className="w-5 h-5 text-navy-600" /> Tambah Rekan Kerja</h3>
+          <button onClick={onCancel} className="text-gray-400 hover:text-gray-600"><X className="w-5 h-5" /></button>
+        </div>
+        <div className="p-4 border-b border-gray-100 bg-gray-50/50">
+          <input 
+            type="text" placeholder="Cari nama rekan..." 
+            className="w-full border border-gray-300 rounded-lg p-2.5 text-sm outline-none focus:ring-2 focus:ring-navy-300 transition-all"
+            value={search} onChange={e => setSearch(e.target.value)}
+          />
+        </div>
+        <div className="p-0 overflow-y-auto flex-1 bg-white">
+          {mps.length === 0 ? (
+             <p className="p-6 text-center text-sm text-gray-400 italic">Tidak ada personel ditemukan</p>
+          ) : (
+             <div className="divide-y divide-gray-50">
+               {mps.map(m => (
+                 <div key={m.id} 
+                      onClick={() => setSelectedId(m.id)}
+                      className={`p-3 flex items-center justify-between cursor-pointer transition-colors ${selectedId === m.id ? 'bg-blue-50/50' : 'hover:bg-gray-50'}`}>
+                    <div>
+                      <p className={`text-sm font-semibold ${selectedId === m.id ? 'text-blue-800' : 'text-gray-700'}`}>{m.name}</p>
+                      <p className="text-[10px] text-gray-500 font-medium">{m.position || '-'} | {m.sub_area || 'Area belum diset'}</p>
+                    </div>
+                    {selectedId === m.id ? <CheckCircle className="w-4 h-4 text-blue-600" /> : <div className="w-4 h-4 rounded-full border border-gray-300"></div>}
+                 </div>
+               ))}
+             </div>
+          )}
+        </div>
+        <div className="p-4 flex gap-2 border-t border-gray-100 bg-gray-50">
+          <button onClick={() => { if (selectedId) onConfirm(selectedId); }} disabled={!selectedId} className="flex-1 py-2 text-sm font-semibold bg-navy-600 text-white rounded-lg hover:bg-navy-700 disabled:opacity-50 transition shadow-sm">Tambah Rekan</button>
+          <button onClick={onCancel} className="px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-200 rounded-lg transition">Batal</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ── Task Box ─────────────────────────────────────────────────────────────────
 function TaskBox({ occ, onAction, manpowers, userRole, userMpId, isAdmin: globalIsAdmin }) {
   const [reassignOpen, setReassignOpen] = useState(false);
@@ -123,6 +175,7 @@ function TaskBox({ occ, onAction, manpowers, userRole, userMpId, isAdmin: global
   const [historyOpen, setHistoryOpen] = useState(false);
   const [showHoldModal, setShowHoldModal] = useState(false);
   const [showRejectModal, setShowRejectModal] = useState(false);
+  const [showAddHelper, setShowAddHelper] = useState(false);
 
   const isAdmin = globalIsAdmin || ['admin', 'manager', 'supervisor'].includes(userRole);
 
@@ -249,6 +302,40 @@ function TaskBox({ occ, onAction, manpowers, userRole, userMpId, isAdmin: global
           </div>
         )}
 
+        {occ.helpers?.filter(h => h.stage === stage).length > 0 && (
+          <div className="bg-blue-50/50 rounded-lg border border-blue-100 p-2 text-[11px]">
+            <span className="font-bold text-blue-800 block mb-1">Rekan Kerja ({stage}):</span>
+            <div className="space-y-1">
+              {occ.helpers.filter(h => h.stage === stage).map(h => (
+                <div key={h.id} className="flex items-center justify-between">
+                  <span className="text-gray-700 font-medium flex items-center gap-1">
+                    <Users className="w-3 h-3 text-blue-500" /> {h.manPower?.name}
+                  </span>
+                  {h.status === 'PENDING' ? (
+                    <div className="flex items-center gap-2">
+                       <span className="text-orange-500 font-bold bg-orange-100 px-1.5 py-0.5 rounded border border-orange-200">Pending Izin</span>
+                       {isAdmin && (
+                         <div className="flex items-center gap-1">
+                           <button onClick={() => onAction('approve-helper', h.id)} className="w-5 h-5 rounded bg-green-50 text-green-600 hover:bg-green-100 border border-green-200 flex justify-center items-center" title="Setujui">
+                             <CheckCircle className="w-3.5 h-3.5" />
+                           </button>
+                           <button onClick={() => onAction('reject-helper', h.id)} className="w-5 h-5 rounded bg-red-50 text-red-600 hover:bg-red-100 border border-red-200 flex justify-center items-center" title="Tolak">
+                             <X className="w-3.5 h-3.5" />
+                           </button>
+                         </div>
+                       )}
+                    </div>
+                  ) : h.status === 'APPROVED' ? (
+                    <span className="text-green-600 font-bold">Disetujui</span>
+                  ) : (
+                    <span className="text-red-500 font-bold">Ditolak</span>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* ── ACTION BUTTONS ── */}
         <div className="flex flex-wrap gap-2 pt-2 border-t border-gray-100">
           {showDcActions && occ.status === 'ASSIGNED' && (
@@ -263,6 +350,9 @@ function TaskBox({ occ, onAction, manpowers, userRole, userMpId, isAdmin: global
           )}
           {showDcActions && occ.status === 'IN_PROGRESS' && (
             <>
+              <button onClick={() => setShowAddHelper(true)} className="flex items-center justify-center gap-1 px-3 py-2 bg-blue-50 text-blue-600 border border-blue-200 rounded-lg text-xs font-semibold hover:bg-blue-100 shadow-sm transition">
+                <Users className="w-3.5 h-3.5" /> Rekan
+              </button>
               <button onClick={() => setShowHoldModal(true)} className="flex items-center justify-center gap-1 px-3 py-2 bg-white text-gray-700 border border-gray-300 rounded-lg text-xs font-semibold hover:bg-gray-50 shadow-sm transition">
                 <Square className="w-3.5 h-3.5" /> Hold
               </button>
@@ -284,6 +374,9 @@ function TaskBox({ occ, onAction, manpowers, userRole, userMpId, isAdmin: global
           )}
           {showAnalysisActions && occ.status === 'IN_PROGRESS' && (
             <>
+              <button onClick={() => setShowAddHelper(true)} className="flex items-center justify-center gap-1 px-3 py-2 bg-blue-50 text-blue-600 border border-blue-200 rounded-lg text-xs font-semibold hover:bg-blue-100 shadow-sm transition">
+                <Users className="w-3.5 h-3.5" /> Rekan
+              </button>
               <button onClick={() => setShowHoldModal(true)} className="flex items-center justify-center gap-1 px-3 py-2 bg-white text-gray-700 border border-gray-300 rounded-lg text-xs font-semibold hover:bg-gray-50 shadow-sm transition">
                 <Square className="w-3.5 h-3.5" /> Hold
               </button>
@@ -338,6 +431,13 @@ function TaskBox({ occ, onAction, manpowers, userRole, userMpId, isAdmin: global
       )}
       {showRejectModal && (
         <RejectModal onConfirm={reason => { onAction('avp-reject', occ.id, { reason }); setShowRejectModal(false); }} onCancel={() => setShowRejectModal(false)} />
+      )}
+      {showAddHelper && (
+        <AddHelperModal 
+          occ={occ} manpowers={manpowers} 
+          onConfirm={helperId => { onAction('add-helper', occ.id, { helperId }); setShowAddHelper(false); }} 
+          onCancel={() => setShowAddHelper(false)} 
+        />
       )}
     </div>
   );
@@ -395,6 +495,28 @@ function JobBoardBox({ occ, onAction, manpowers, userRole, isAdmin, claimLabel =
           <p className="text-xs text-gray-500 bg-gray-50 p-2 rounded-lg border border-gray-100">
             DC: <span className="font-medium text-gray-700">{occ.dataCollector.name}</span>
           </p>
+        )}
+
+        {occ.helpers?.length > 0 && (
+          <div className="bg-blue-50/50 rounded-lg border border-blue-100 p-2 text-[11px]">
+            <span className="font-bold text-blue-800 block mb-1">Rekan Kerja:</span>
+            <div className="space-y-1">
+              {occ.helpers.map(h => (
+                <div key={h.id} className="flex items-center justify-between">
+                  <span className="text-gray-700 font-medium flex items-center gap-1 line-clamp-1">
+                    <Users className="w-3 h-3 text-blue-500 shrink-0" /> {h.manPower?.name}
+                  </span>
+                  {h.status === 'PENDING' ? (
+                    <span className="text-orange-500 font-bold bg-orange-100 px-1.5 py-0.5 rounded border border-orange-200">Pending</span>
+                  ) : h.status === 'APPROVED' ? (
+                    <span className="text-green-600 font-bold">Disetujui</span>
+                  ) : (
+                    <span className="text-red-500 font-bold">Ditolak</span>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
         )}
 
         <div className="flex items-center gap-1.5 text-xs font-medium text-gray-600">
@@ -510,11 +632,20 @@ export default function PdmTaskBoard() {
   };
 
   const handleAction = async (action, id, extra = {}) => {
-    const legacyMap = { start: 'start', hold: 'hold', complete: 'complete', reassign: 'reassign', claim: 'claim' };
-    const endpoint = legacyMap[action] || action;
+    const legacyMap = { start: 'start', hold: 'hold', complete: 'complete', reassign: 'reassign', claim: 'claim', 'add-helper': 'helpers' };
+    let endpoint = legacyMap[action] || action;
+    let url = `${api}/api/pdm-schedule/occurrences/${id}/${endpoint}`;
+
+    // Handle helper approve/reject specifically since they use a different base path
+    if (action === 'approve-helper') {
+      url = `${api}/api/pdm-schedule/helpers/${id}/approve`;
+    } else if (action === 'reject-helper') {
+      url = `${api}/api/pdm-schedule/helpers/${id}/reject`;
+    }
+
     try {
-      const res = await fetch(`${api}/api/pdm-schedule/occurrences/${id}/${endpoint}`, {
-        method: endpoint === 'assign-personnel' ? 'PATCH' : 'POST',
+      const res = await fetch(url, {
+        method: action === 'assign-personnel' || action.includes('helper') && action !== 'add-helper' ? 'PATCH' : 'POST',
         headers: { ...headers, 'Content-Type': 'application/json' },
         body: JSON.stringify(extra)
       });

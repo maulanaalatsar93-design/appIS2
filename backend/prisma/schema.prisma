@@ -69,7 +69,7 @@ model ManPower {
   division_id   Int
   divisi        Divisi               @relation(fields: [division_id], references: [id])
   position      String
-  sub_area      String?              // Area kerja spesifik (contoh: "P6 PPHS & OSBL", "P6 Utility & Urea")
+  sub_area      String? // Area kerja spesifik (contoh: "P6 PPHS & OSBL", "P6 Utility & Urea")
   is_active     Boolean              @default(true)
   absensi       StatusKehadiran[]
   user          User?
@@ -86,19 +86,20 @@ model ManPower {
   DailyTask        DailyTask[]
 
   // PdM Rotating relations
-  pdm_default_pic        PdmScheduleRule[]       @relation("RuleDefaultPic")
-  pdm_monthly_pic        PdmRuleMonthlyPic[]     @relation("MonthlyPicOverride")
-  pdm_assigned_tasks     PdmScheduleOccurrence[] @relation("AssignedTo")
-  pdm_as_dc              PdmScheduleOccurrence[] @relation("OccurrenceDC")
-  pdm_as_analyst         PdmScheduleOccurrence[] @relation("OccurrenceAnalyst")
-  pdm_as_avp             PdmScheduleOccurrence[] @relation("OccurrenceAVP")
-  pdm_pic_history_from   PdmPicHistory[]         @relation("PicHistoryFrom")
-  pdm_pic_history_to     PdmPicHistory[]         @relation("PicHistoryTo")
-  pdm_pic_history_by     PdmPicHistory[]         @relation("PicHistoryChangedBy")
-  pdm_daily_activities   PdmDailyActivity[]      @relation("DailyActivityPerformer")
-  pdm_workflow_logs      PdmWorkflowLog[]        @relation("WorkflowLogActor")
-  pdm_delegations_given  PdmCrossDelegation[]    @relation("DelegationGranter")
-  pdm_delegations_recv   PdmCrossDelegation[]    @relation("DelegationReceiver")
+  pdm_default_pic       PdmScheduleRule[]       @relation("RuleDefaultPic")
+  pdm_monthly_pic       PdmRuleMonthlyPic[]     @relation("MonthlyPicOverride")
+  pdm_assigned_tasks    PdmScheduleOccurrence[] @relation("AssignedTo")
+  pdm_as_dc             PdmScheduleOccurrence[] @relation("OccurrenceDC")
+  pdm_as_analyst        PdmScheduleOccurrence[] @relation("OccurrenceAnalyst")
+  pdm_as_avp            PdmScheduleOccurrence[] @relation("OccurrenceAVP")
+  pdm_pic_history_from  PdmPicHistory[]         @relation("PicHistoryFrom")
+  pdm_pic_history_to    PdmPicHistory[]         @relation("PicHistoryTo")
+  pdm_pic_history_by    PdmPicHistory[]         @relation("PicHistoryChangedBy")
+  pdm_daily_activities  PdmDailyActivity[]      @relation("DailyActivityPerformer")
+  pdm_workflow_logs     PdmWorkflowLog[]        @relation("WorkflowLogActor")
+  pdm_delegations_given PdmCrossDelegation[]    @relation("DelegationGranter")
+  pdm_delegations_recv  PdmCrossDelegation[]    @relation("DelegationReceiver")
+  PdmOccurrenceHelper   PdmOccurrenceHelper[]
 
   @@schema("public")
 }
@@ -477,50 +478,50 @@ enum RecurrencePattern {
 }
 
 enum JobStatus {
-  SCHEDULED   // belum ada PIC, perlu di-claim manual
-  ASSIGNED    // sudah auto-assign ke PIC, belum mulai
+  SCHEDULED // belum ada PIC, perlu di-claim manual
+  ASSIGNED // sudah auto-assign ke PIC, belum mulai
   IN_PROGRESS
   ON_HOLD
   COMPLETED
-  OVERDUE     // belum selesai, sudah lewat scheduledDate
-  CANCELLED   // dibatalkan
+  OVERDUE // belum selesai, sudah lewat scheduledDate
+  CANCELLED // dibatalkan
 
   @@schema("public")
 }
 
 model PdmScheduleRule {
-  id                  Int                     @id @default(autoincrement())
-  code                String                  @unique
-  pabrik_id           Int
-  pabrik              Pabrik                  @relation(fields: [pabrik_id], references: [id])
-  subArea             String?
-  equipmentCat        EquipmentCategory
-  criticality         Criticality
-  taskName            String
-  recurrence          RecurrencePattern
-  dateFirst           Int?
-  dateSecond          Int?
-  defaultPicId        Int?
-  defaultPic          ManPower?               @relation("RuleDefaultPic", fields: [defaultPicId], references: [id])
+  id                         Int                     @id @default(autoincrement())
+  code                       String                  @unique
+  pabrik_id                  Int
+  pabrik                     Pabrik                  @relation(fields: [pabrik_id], references: [id])
+  subArea                    String?
+  equipmentCat               EquipmentCategory
+  criticality                Criticality
+  taskName                   String
+  recurrence                 RecurrencePattern
+  dateFirst                  Int?
+  dateSecond                 Int?
+  defaultPicId               Int?
+  defaultPic                 ManPower?               @relation("RuleDefaultPic", fields: [defaultPicId], references: [id])
   defaultPicIds              Int[]
   defaultDataCollectorIds    Int[]
   defaultGtgDataCollectorIds Int[]
-  isActive            Boolean                 @default(true)
-  notes               String?
-  occurrences         PdmScheduleOccurrence[]
-  monthlyPicOverrides PdmRuleMonthlyPic[]
+  isActive                   Boolean                 @default(true)
+  notes                      String?
+  occurrences                PdmScheduleOccurrence[]
+  monthlyPicOverrides        PdmRuleMonthlyPic[]
 
   @@schema("public")
 }
 
 model PdmRuleMonthlyPic {
-  id     Int             @id @default(autoincrement())
-  ruleId Int
-  rule   PdmScheduleRule @relation(fields: [ruleId], references: [id])
-  year   Int
-  month  Int
-  picId  Int?
-  pic    ManPower?       @relation("MonthlyPicOverride", fields: [picId], references: [id])
+  id                  Int             @id @default(autoincrement())
+  ruleId              Int
+  rule                PdmScheduleRule @relation(fields: [ruleId], references: [id])
+  year                Int
+  month               Int
+  picId               Int?
+  pic                 ManPower?       @relation("MonthlyPicOverride", fields: [picId], references: [id])
   picIds              Int[]
   dataCollectorIds    Int[]
   gtgDataCollectorIds Int[]
@@ -530,73 +531,92 @@ model PdmRuleMonthlyPic {
 }
 
 enum WorkflowStage {
-  DC_COLLECTION   // Stage 1: Data Collector mengumpulkan data
-  ANALYSIS        // Stage 2: Analyst menganalisis data
-  AVP_APPROVAL    // Stage 3: AVP menyetujui hasil analisis
-  SAP_UPLOAD      // Stage 4: DC upload data ke SAP
-  CLOSED          // Selesai semua tahap
+  DC_COLLECTION // Stage 1: Data Collector mengumpulkan data
+  ANALYSIS // Stage 2: Analyst menganalisis data
+  AVP_APPROVAL // Stage 3: AVP menyetujui hasil analisis
+  SAP_UPLOAD // Stage 4: DC upload data ke SAP
+  CLOSED // Selesai semua tahap
 
   @@schema("public")
 }
 
 model PdmScheduleOccurrence {
-  id            Int             @id @default(autoincrement())
-  ruleId        Int
-  rule          PdmScheduleRule @relation(fields: [ruleId], references: [id])
+  id     Int             @id @default(autoincrement())
+  ruleId Int
+  rule   PdmScheduleRule @relation(fields: [ruleId], references: [id])
 
   // Tanggal
-  targetDate    DateTime  // Tanggal asli dari master rule (tidak berubah)
-  scheduledDate DateTime  // Tanggal setelah shift hari libur
+  targetDate    DateTime // Tanggal asli dari master rule (tidak berubah)
+  scheduledDate DateTime // Tanggal setelah shift hari libur
   actualDate    DateTime? // Tanggal task benar-benar dikerjakan
   wasShifted    Boolean   @default(false)
-  year          Int       // untuk query filter bulanan
-  month         Int       // untuk query filter bulanan
+  year          Int // untuk query filter bulanan
+  month         Int // untuk query filter bulanan
 
-  status        JobStatus @default(SCHEDULED)
-  isOverdue     Boolean   @default(false)
-  cancelReason  String?
+  status       JobStatus @default(SCHEDULED)
+  isOverdue    Boolean   @default(false)
+  cancelReason String?
 
   // 4-Stage Workflow
   workflowStage   WorkflowStage @default(DC_COLLECTION)
-  dataCollectorId Int?          // Stage 1: siapa DC yang bertugas
-  dataCollector   ManPower?     @relation("OccurrenceDC",       fields: [dataCollectorId], references: [id])
-  analystId       Int?          // Stage 2: siapa Analyst yang bertugas
-  analyst         ManPower?     @relation("OccurrenceAnalyst",  fields: [analystId],       references: [id])
-  avpId           Int?          // Stage 3: siapa AVP yang ditugaskan
-  avp             ManPower?     @relation("OccurrenceAVP",      fields: [avpId],           references: [id])
+  dataCollectorId Int? // Stage 1: siapa DC yang bertugas
+  dataCollector   ManPower?     @relation("OccurrenceDC", fields: [dataCollectorId], references: [id])
+  analystId       Int? // Stage 2: siapa Analyst yang bertugas
+  analyst         ManPower?     @relation("OccurrenceAnalyst", fields: [analystId], references: [id])
+  avpId           Int? // Stage 3: siapa AVP yang ditugaskan
+  avp             ManPower?     @relation("OccurrenceAVP", fields: [avpId], references: [id])
 
   // Stage Timestamps
-  dcStartedAt       DateTime?
-  dcFinishedAt      DateTime?
-  analysisStartedAt DateTime?
+  dcStartedAt        DateTime?
+  dcFinishedAt       DateTime?
+  analysisStartedAt  DateTime?
   analysisFinishedAt DateTime?
-  avpActionAt       DateTime?
-  sapUploadedAt     DateTime?
+  avpActionAt        DateTime?
+  sapUploadedAt      DateTime?
 
   // Hold tracking untuk man-hours calculation
-  totalHoldMinutes  Int       @default(0)  // Akumulasi semua hold duration (menit)
+  totalHoldMinutes Int @default(0) // Akumulasi semua hold duration (menit)
 
   // AVP Rejection
   avpRejectedReason String?
 
   // PIC Assignment (legacy — Analyst utama)
-  assignedToId      Int?
-  assignedTo        ManPower? @relation("AssignedTo", fields: [assignedToId], references: [id])
-  originalPicId     Int?      // snapshot PIC awal saat generate, untuk audit
-  originalPicName   String?   // snapshot nama PIC awal
+  assignedToId    Int?
+  assignedTo      ManPower? @relation("AssignedTo", fields: [assignedToId], references: [id])
+  originalPicId   Int? // snapshot PIC awal saat generate, untuk audit
+  originalPicName String? // snapshot nama PIC awal
 
   // Timestamps
-  claimedAt       DateTime?
-  startedAt       DateTime?
-  completedAt     DateTime?
-  createdAt       DateTime  @default(now())
+  claimedAt   DateTime?
+  startedAt   DateTime?
+  completedAt DateTime?
+  createdAt   DateTime  @default(now())
 
-  dailyActivities    PdmDailyActivity[]
-  picHistories       PdmPicHistory[]
-  workflowLogs       PdmWorkflowLog[]
-  crossDelegations   PdmCrossDelegation[]
+  dailyActivities  PdmDailyActivity[]
+  picHistories     PdmPicHistory[]
+  workflowLogs     PdmWorkflowLog[]
+  crossDelegations PdmCrossDelegation[]
+  helpers          PdmOccurrenceHelper[]
 
   @@unique([ruleId, targetDate])
+  @@schema("public")
+}
+
+model PdmOccurrenceHelper {
+  id           Int                   @id @default(autoincrement())
+  occurrenceId Int
+  occurrence   PdmScheduleOccurrence @relation(fields: [occurrenceId], references: [id])
+
+  manPowerId Int
+  manPower   ManPower @relation(fields: [manPowerId], references: [id])
+
+  stage       String // 'DC_COLLECTION' atau 'ANALYSIS'
+  isCrossArea Boolean @default(false)
+  status      String // 'APPROVED', 'PENDING', 'REJECTED'
+
+  createdAt DateTime @default(now())
+
+  @@unique([occurrenceId, manPowerId, stage])
   @@schema("public")
 }
 
@@ -610,7 +630,7 @@ model PdmDailyActivity {
   durationMinutes Int?
   activityNote    String?
   statusSnapshot  JobStatus
-  workflowStage   WorkflowStage?        // Stage saat aktivitas terjadi
+  workflowStage   WorkflowStage? // Stage saat aktivitas terjadi
   performedById   Int?
   performedBy     ManPower?             @relation("DailyActivityPerformer", fields: [performedById], references: [id])
 
@@ -641,7 +661,7 @@ model PdmWorkflowLog {
   occurrence   PdmScheduleOccurrence @relation(fields: [occurrenceId], references: [id])
   fromStage    WorkflowStage?
   toStage      WorkflowStage
-  action       String                // 'DC_FINISH', 'ANALYSIS_FINISH', 'AVP_APPROVE', 'AVP_REJECT', 'SAP_UPLOAD', 'HOLD', 'RESUME'
+  action       String // 'DC_FINISH', 'ANALYSIS_FINISH', 'AVP_APPROVE', 'AVP_REJECT', 'SAP_UPLOAD', 'HOLD', 'RESUME'
   actorId      Int?
   actor        ManPower?             @relation("WorkflowLogActor", fields: [actorId], references: [id])
   notes        String?
@@ -655,18 +675,18 @@ model PdmWorkflowLog {
 // ============================================================
 
 model PdmCrossDelegation {
-  id             Int                   @id @default(autoincrement())
-  occurrenceId   Int
-  occurrence     PdmScheduleOccurrence @relation(fields: [occurrenceId], references: [id], onDelete: Cascade)
-  delegatedById  Int                   // Analyst/AVP yang memberi delegasi
-  delegatedBy    ManPower              @relation("DelegationGranter", fields: [delegatedById], references: [id])
-  delegatedToId  Int                   // Personel penerima (boleh dari area berbeda)
-  delegatedTo    ManPower              @relation("DelegationReceiver", fields: [delegatedToId], references: [id])
-  role           String                // 'DC' | 'ANALYST' | 'OBSERVER' — peran delegasi
-  isActive       Boolean               @default(true)
-  reason         String?
-  expiresAt      DateTime?             // null = tidak expired, otomatis hapus ketika task selesai
-  createdAt      DateTime              @default(now())
+  id            Int                   @id @default(autoincrement())
+  occurrenceId  Int
+  occurrence    PdmScheduleOccurrence @relation(fields: [occurrenceId], references: [id], onDelete: Cascade)
+  delegatedById Int // Analyst/AVP yang memberi delegasi
+  delegatedBy   ManPower              @relation("DelegationGranter", fields: [delegatedById], references: [id])
+  delegatedToId Int // Personel penerima (boleh dari area berbeda)
+  delegatedTo   ManPower              @relation("DelegationReceiver", fields: [delegatedToId], references: [id])
+  role          String // 'DC' | 'ANALYST' | 'OBSERVER' — peran delegasi
+  isActive      Boolean               @default(true)
+  reason        String?
+  expiresAt     DateTime? // null = tidak expired, otomatis hapus ketika task selesai
+  createdAt     DateTime              @default(now())
 
   @@schema("public")
 }

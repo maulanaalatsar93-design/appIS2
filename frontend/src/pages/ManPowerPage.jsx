@@ -29,7 +29,7 @@ const INITIAL_EMPLOYEES = [
   { id: 13, npk: '4104002', name: 'Agus Setiawan', employee_type: 'Organik', division: 'Bengkel', position: 'Bengkel', is_active: 1 },
   { id: 14, npk: '4083750', name: 'Bambang Tri', employee_type: 'Organik', division: 'Metalurgi', position: 'AVP Metalurgi', is_active: 1 },
   { id: 15, npk: '4154402', name: 'Dedi Kurnia', employee_type: 'Organik', division: 'QC', position: 'AVP QC', is_active: 1 },
-  { id: 16, npk: 'K225716', name: 'Siti Rahmawati', employee_type: 'Non Organik', division: 'Sekretaris', position: 'Sekretaris', is_active: 1 },
+  { id: 16, npk: 'K225716', name: 'Anggit Dwi Yanti', employee_type: 'Non Organik', division: 'Sekretaris', position: 'Sekretaris', is_active: 1 },
 ];
 
 export default function ManPowerPage({ initialView = 'availability' }) {
