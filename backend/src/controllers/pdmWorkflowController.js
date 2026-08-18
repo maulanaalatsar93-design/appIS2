@@ -572,7 +572,24 @@ export const getMyWorkflowTasks = async (req, res) => {
       const match = norm.match(/^(?:Pabrik\s+|P)(\d[A-Z]?)\s+(.+)$/i);
       if (match) {
         const pabrikCode = match[1]; // e.g. "6"
-        const areaName   = match[2].trim(); // e.g. "PPHS & OSBL"
+        const areaName   = match[2].trim().toUpperCase(); // e.g. "PPHS & OSBL"
+        
+        // Handling special case for PPHS & OSBL
+        if (areaName.includes('PPHS') || areaName.includes('OSBL')) {
+          return {
+            rule: {
+              pabrik: { nama_pabrik: { contains: pabrikCode, mode: 'insensitive' } },
+              OR: [
+                { subArea: { contains: 'PPHS', mode: 'insensitive' } },
+                { subArea: { contains: 'OSBL', mode: 'insensitive' } },
+                { subArea: { contains: 'CONVEYOR', mode: 'insensitive' } },
+                { subArea: { contains: 'BATUBARA', mode: 'insensitive' } },
+                { subArea: { contains: 'BATU BARA', mode: 'insensitive' } }
+              ]
+            }
+          };
+        }
+        
         return {
           rule: {
             pabrik: { nama_pabrik: { contains: pabrikCode, mode: 'insensitive' } },

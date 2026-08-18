@@ -29,6 +29,14 @@ async function shiftToWorkday(date) {
   return { effectiveDate: shifted, wasShifted };
 }
 
+// Helper to determine if an area belongs to PPHS & OSBL team
+const isPphsArea = (subArea) => {
+  const str = (subArea || '').toUpperCase();
+  return str.includes('PPHS') || str.includes('OSBL') || 
+         str.includes('CONVEYOR UBS') || str.includes('CONVEYOR BSL') || 
+         str.includes('BATUBARA BOILER') || str.includes('BATU BARA BOILER');
+};
+
 // ============================================================
 // CRUD MASTER RULE
 // ============================================================
@@ -350,7 +358,7 @@ export const getJobBoardTasksForUser = async (user, year, month) => {
       }
 
       if (assignedHere) {
-         const isPphsRule = (r.subArea || '').toUpperCase().includes('PPHS');
+         const isPphsRule = isPphsArea(r.subArea);
          myAreas.add(`${r.pabrik_id}_${isPphsRule ? 'PPHS' : 'NORMAL'}`);
       }
     }
@@ -483,7 +491,7 @@ export const claimTask = async (req, res) => {
         });
 
         let isAssignedToThisArea = false;
-        const occIsPphs = (occ.rule.subArea || '').toUpperCase().includes('PPHS');
+        const occIsPphs = isPphsArea(occ.rule.subArea);
 
         for (const r of myRules) {
           const mo = r.monthlyPicOverrides[0];
@@ -501,7 +509,7 @@ export const claimTask = async (req, res) => {
           }
 
           if (assignedHere && r.pabrik_id === occ.rule.pabrik_id) {
-             const rIsPphs = (r.subArea || '').toUpperCase().includes('PPHS');
+             const rIsPphs = isPphsArea(r.subArea);
              if (rIsPphs === occIsPphs) {
                  isAssignedToThisArea = true;
                  break;

@@ -127,6 +127,14 @@ function TaskBox({ occ, onAction, manpowers, userRole, userMpId, isAdmin: global
     if ((userRole || '').toLowerCase() === 'analyst') {
       const occArea = `${occ?.rule?.pabrik?.nama_pabrik || ''} ${occ?.rule?.subArea || ''}`.trim().toLowerCase();
       const mArea = (m.sub_area || '').toLowerCase();
+      
+      const isOccPphs = ['pphs', 'osbl', 'conveyor ubs', 'conveyor bsl', 'batubara boiler', 'batu bara boiler'].some(kw => occArea.includes(kw));
+      const isMPPphs = ['pphs', 'osbl'].some(kw => mArea.includes(kw));
+      
+      if (isOccPphs && isMPPphs && occArea.includes('6') && mArea.includes('6')) {
+        return true;
+      }
+      
       return mArea === occArea;
     }
     return true;
@@ -228,7 +236,7 @@ function TaskBox({ occ, onAction, manpowers, userRole, userMpId, isAdmin: global
 
           {/* DC Stage Actions */}
           {showDcActions && occ.status === 'ASSIGNED' && (
-            <button onClick={() => onAction('start', occ.id)} className="flex items-center gap-1 px-3 py-1.5 bg-amber-500 text-ink rounded-lg text-xs font-medium hover:bg-amber-600 transition">
+            <button onClick={() => onAction('start', occ.id)} className="flex items-center gap-1 px-3 py-1.5 bg-amber-500 text-white rounded-lg text-xs font-medium hover:bg-amber-600 transition">
               <Play className="w-3 h-3" /> Mulai DC
             </button>
           )}
@@ -242,7 +250,7 @@ function TaskBox({ occ, onAction, manpowers, userRole, userMpId, isAdmin: global
               <button onClick={() => setShowHoldModal(true)} className="flex items-center gap-1 px-3 py-1.5 bg-orange-100 text-orange-700 border border-orange-200 rounded-lg text-xs font-medium hover:bg-orange-200 transition">
                 <Square className="w-3 h-3" /> Hold
               </button>
-              <button onClick={() => onAction('finish-dc', occ.id)} className="flex items-center gap-1 px-3 py-1.5 bg-green-500 text-ink rounded-lg text-xs font-medium hover:bg-green-600 transition">
+              <button onClick={() => onAction('finish-dc', occ.id)} className="flex items-center gap-1 px-3 py-1.5 bg-green-500 text-white rounded-lg text-xs font-medium hover:bg-green-600 transition">
                 <CheckCircle className="w-3 h-3" /> Selesai DC
               </button>
             </>
@@ -250,7 +258,7 @@ function TaskBox({ occ, onAction, manpowers, userRole, userMpId, isAdmin: global
 
           {/* Analysis Stage Actions */}
           {showAnalysisActions && occ.status === 'ASSIGNED' && (
-            <button onClick={() => onAction('start-analysis', occ.id)} className="flex items-center gap-1 px-3 py-1.5 bg-amber-500 text-ink rounded-lg text-xs font-medium hover:bg-amber-600 transition">
+            <button onClick={() => onAction('start-analysis', occ.id)} className="flex items-center gap-1 px-3 py-1.5 bg-amber-500 text-white rounded-lg text-xs font-medium hover:bg-amber-600 transition">
               <Play className="w-3 h-3" /> Mulai Analisis
             </button>
           )}
@@ -264,7 +272,7 @@ function TaskBox({ occ, onAction, manpowers, userRole, userMpId, isAdmin: global
               <button onClick={() => setShowHoldModal(true)} className="flex items-center gap-1 px-3 py-1.5 bg-orange-100 text-orange-700 border border-orange-200 rounded-lg text-xs font-medium hover:bg-orange-200 transition">
                 <Square className="w-3 h-3" /> Hold
               </button>
-              <button onClick={() => onAction('finish-analysis', occ.id)} className="flex items-center gap-1 px-3 py-1.5 bg-green-500 text-ink rounded-lg text-xs font-medium hover:bg-green-600 transition">
+              <button onClick={() => onAction('finish-analysis', occ.id)} className="flex items-center gap-1 px-3 py-1.5 bg-green-500 text-white rounded-lg text-xs font-medium hover:bg-green-600 transition">
                 <CheckCircle className="w-3 h-3" /> Selesai Analisis
               </button>
             </>
@@ -273,7 +281,7 @@ function TaskBox({ occ, onAction, manpowers, userRole, userMpId, isAdmin: global
           {/* AVP Stage Actions */}
           {showAvpActions && (
             <>
-              <button onClick={() => onAction('avp-approve', occ.id)} className="flex items-center gap-1 px-3 py-1.5 bg-purple-600 text-ink rounded-lg text-xs font-medium hover:bg-purple-700 transition">
+              <button onClick={() => onAction('avp-approve', occ.id)} className="flex items-center gap-1 px-3 py-1.5 bg-purple-600 text-white rounded-lg text-xs font-medium hover:bg-purple-700 transition">
                 <CheckCircle className="w-3 h-3" /> Approve
               </button>
               <button onClick={() => setShowRejectModal(true)} className="flex items-center gap-1 px-3 py-1.5 bg-red-100 text-red-700 border border-red-200 rounded-lg text-xs font-medium hover:bg-red-200 transition">
@@ -349,6 +357,14 @@ function JobBoardBox({ occ, onAction, manpowers, userRole, isAdmin,
     if ((userRole || '').toLowerCase() === 'analyst') {
       const occArea = `${occ?.rule?.pabrik?.nama_pabrik || ''} ${occ?.rule?.subArea || ''}`.trim().toLowerCase();
       const mArea = (m.sub_area || '').toLowerCase();
+      
+      const isOccPphs = ['pphs', 'osbl', 'conveyor ubs', 'conveyor bsl', 'batubara boiler', 'batu bara boiler'].some(kw => occArea.includes(kw));
+      const isMPPphs = ['pphs', 'osbl'].some(kw => mArea.includes(kw));
+      
+      if (isOccPphs && isMPPphs && occArea.includes('6') && mArea.includes('6')) {
+        return true;
+      }
+      
       return mArea === occArea;
     }
     return true;
@@ -395,7 +411,7 @@ function JobBoardBox({ occ, onAction, manpowers, userRole, isAdmin,
       
       <div className="mt-3 space-y-2">
         <button onClick={() => onAction(claimAction, occ.id)}
-          className={`w-full py-2 text-ink rounded-lg text-sm font-semibold transition ${
+          className={`w-full py-2 text-white rounded-lg text-sm font-semibold transition ${
             badgeColor.includes('amber') ? 'bg-amber-500 hover:bg-amber-600' : 'bg-navy-600 hover:bg-blue-700'
           }`}>
           {claimLabel}
