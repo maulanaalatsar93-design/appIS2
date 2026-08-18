@@ -4,6 +4,84 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const monthNames = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des'];
 
+// ── Komponen MultiSelect Dropdown ──────────────────────────────────────────
+function MultiSelect({ value, onChange, options, max = 5, placeholder = "Pilih Personel" }) {
+  const [open, setOpen] = useState(false);
+  const containerRef = React.useRef(null);
+  const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        setOpen(false);
+        setSearch(""); 
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const toggle = (id) => {
+    if (value.includes(id)) onChange(value.filter(v => v !== id));
+    else if (value.length < max) onChange([...value, id]);
+  };
+
+  const filteredOptions = options.filter(o => {
+    if (!search) return true;
+    const lower = search.toLowerCase();
+    return o.name.toLowerCase().includes(lower) || (o.position && o.position.toLowerCase().includes(lower));
+  });
+
+  return (
+    <div className="relative" ref={containerRef}>
+      <div 
+        className="min-h-[38px] p-2 text-sm border border-gray-200 rounded-lg bg-white flex flex-wrap gap-1 items-center cursor-pointer"
+        onClick={() => setOpen(!open)}
+      >
+        {value.length === 0 && <span className="text-gray-400">{placeholder}</span>}
+        {value.map(id => {
+          const opt = options.find(o => o.id === id);
+          return opt ? (
+            <span key={id} className="bg-blue-100 text-blue-800 px-2 py-0.5 rounded text-xs flex items-center gap-1">
+              {opt.name.split(' ')[0]} 
+              <X className="w-3 h-3 hover:text-red-500" onClick={(e) => { e.stopPropagation(); toggle(id); }}/>
+            </span>
+          ) : null;
+        })}
+      </div>
+      {open && (
+        <div className="absolute z-20 top-full left-0 mt-1 w-full max-h-56 overflow-y-auto bg-white border border-gray-200 shadow-xl rounded-lg flex flex-col">
+          <div className="sticky top-0 bg-white p-2 border-b border-gray-100 z-10">
+            <input 
+              type="text" 
+              className="w-full text-xs p-1.5 border border-gray-300 rounded outline-none focus:border-blue-500" 
+              placeholder="Cari..." 
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              onClick={e => e.stopPropagation()}
+            />
+          </div>
+          <div className="p-1">
+            {filteredOptions.map(opt => (
+              <label key={opt.id} className="flex items-center gap-2 p-2 hover:bg-gray-50 rounded cursor-pointer text-sm">
+                <input 
+                  type="checkbox" 
+                  checked={value.includes(opt.id)} 
+                  disabled={!value.includes(opt.id) && value.length >= max}
+                  onChange={() => toggle(opt.id)} 
+                  className="rounded border-gray-300 text-navy-600 focus:ring-blue-500"
+                />
+                {opt.name} — {opt.position}
+              </label>
+            ))}
+            {filteredOptions.length === 0 && <div className="p-2 text-xs text-gray-500 text-center">Data kosong</div>}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ── Modal Monthly PIC Override ────────────────────────────────
 function MonthlyPicModal({ rule, manpowers, api, headers, onClose, onSaved }) {
   const now = new Date();
@@ -162,7 +240,7 @@ export default function PdmScheduleRules() {
   const [showGenerateAll, setShowGenerateAll] = useState(false);
   const [formData, setFormData] = useState({
     code: '', pabrik_id: '', subArea: '', equipmentCat: 'ROTATING', criticality: 'CRITICAL',
-    taskName: '', recurrence: 'MONTHLY_ONCE', dateFirst: '', dateSecond: '', defaultPicId: '', notes: '', isActive: true
+    taskName: '', recurrence: 'MONTHLY_ONCE', dateFirst: '', dateSecond: '', defaultPicId: '', defaultPicIds: [], defaultDataCollectorIds: [], notes: '', isActive: true
   });
   const [editingId, setEditingId] = useState(null);
 
@@ -192,6 +270,20 @@ export default function PdmScheduleRules() {
     if (res.ok) setManpowers(await res.json());
   };
 
+  const rotatingManpowers = useMemo(() => {
+    return manpowers.filter(m => {
+      const div = m.nama_divisi ? m.nama_divisi.toLowerCase() : '';
+      const pos = m.position ? m.position.toLowerCase() : '';
+      return div.includes('rotating') || pos.includes('rotating') || 
+             div.includes('pphs') || pos.includes('pphs') ||
+             div.includes('osbl') || pos.includes('osbl');
+    });
+  }, [manpowers]);
+
+  const filteredDataCollectors = useMemo(() => {
+    return rotatingManpowers;
+  }, [rotatingManpowers]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -201,6 +293,8 @@ export default function PdmScheduleRules() {
         dateFirst: formData.dateFirst ? parseInt(formData.dateFirst) : null,
         dateSecond: formData.dateSecond ? parseInt(formData.dateSecond) : null,
         defaultPicId: formData.defaultPicId ? parseInt(formData.defaultPicId) : null,
+        defaultPicIds: formData.defaultPicIds,
+        defaultDataCollectorIds: formData.defaultDataCollectorIds
       };
       const url = editingId ? `${apiUrl}/api/pdm-schedule/rules/${editingId}` : `${apiUrl}/api/pdm-schedule/rules`;
       const res = await fetch(url, {
@@ -218,7 +312,7 @@ export default function PdmScheduleRules() {
       code: rule.code, pabrik_id: rule.pabrik_id, subArea: rule.subArea || '',
       equipmentCat: rule.equipmentCat, criticality: rule.criticality, taskName: rule.taskName,
       recurrence: rule.recurrence, dateFirst: rule.dateFirst || '', dateSecond: rule.dateSecond || '',
-      defaultPicId: rule.defaultPicId || '', notes: rule.notes || '', isActive: rule.isActive
+      defaultPicId: rule.defaultPicId || '', defaultPicIds: rule.defaultPicIds || [], defaultDataCollectorIds: rule.defaultDataCollectorIds || [], notes: rule.notes || '', isActive: rule.isActive
     });
     setEditingId(rule.id);
     setIsFormOpen(true);
@@ -230,7 +324,7 @@ export default function PdmScheduleRules() {
     if (res.ok) fetchData();
   };
 
-  const resetForm = () => setFormData({ code:'', pabrik_id:'', subArea:'', equipmentCat:'ROTATING', criticality:'CRITICAL', taskName:'', recurrence:'MONTHLY_ONCE', dateFirst:'', dateSecond:'', defaultPicId:'', notes:'', isActive:true });
+  const resetForm = () => setFormData({ code:'', pabrik_id:'', subArea:'', equipmentCat:'ROTATING', criticality:'CRITICAL', taskName:'', recurrence:'MONTHLY_ONCE', dateFirst:'', dateSecond:'', defaultPicId:'', defaultPicIds:[], defaultDataCollectorIds:[], notes:'', isActive:true });
 
   // Group rules by Pabrik (including PPHS & OSBL logic)
   const groupedRules = useMemo(() => {
@@ -345,10 +439,17 @@ export default function PdmScheduleRules() {
                             </div>
                           </td>
                           <td className="px-6 py-4">
-                            {r.defaultPic ? (
+                            {r.defaultPicIds && r.defaultPicIds.length > 0 ? (
+                              <div className="flex flex-col gap-0.5">
+                                {r.defaultPicIds.map(id => {
+                                  const pic = manpowers.find(m => m.id === id);
+                                  return pic ? <span key={id} className="text-ink font-medium text-[13px]">{pic.name.split(' ').slice(0, 2).join(' ')}</span> : null;
+                                })}
+                              </div>
+                            ) : r.defaultPic ? (
                               <div className="text-ink font-medium text-[13px]">{r.defaultPic.name}</div>
                             ) : (
-                              <span className="text-[12px] text-gray-400 italic">Belum Set</span>
+                              <span className="text-gray-300 italic text-[12px]">Belum diset</span>
                             )}
                           </td>
                           <td className="px-6 py-4 text-center">
@@ -466,12 +567,25 @@ export default function PdmScheduleRules() {
                         <option value="TENTATIVE">Tentative (Manual)</option>
                       </select>
                     </div>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-4">
                     <div>
-                      <label className="block text-[14px] font-medium text-ink mb-1.5">Default Assignee (PIC)</label>
-                      <select className="w-full p-2.5 bg-white border border-gray-200 rounded-[8px] text-[14px] outline-none focus:border-navy-600 focus:ring-1 focus:ring-navy-600 transition-all" value={formData.defaultPicId} onChange={e => setFormData({...formData, defaultPicId: e.target.value})}>
-                        <option value="">-- Tanpa PIC Default --</option>
-                        {manpowers.map(m => <option key={m.id} value={m.id}>{m.name} - {m.position}</option>)}
-                      </select>
+                      <label className="block text-[14px] font-medium text-ink mb-1.5">Default Analyst (Maks 2)</label>
+                      <MultiSelect 
+                        value={formData.defaultPicIds}
+                        onChange={val => { if (val.length <= 2) setFormData({...formData, defaultPicIds: val}) }}
+                        options={rotatingManpowers}
+                        placeholder="Pilih Analyst Default..."
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[14px] font-medium text-ink mb-1.5">Default Data Collector (Maks 5)</label>
+                      <MultiSelect 
+                        value={formData.defaultDataCollectorIds}
+                        onChange={val => { if (val.length <= 5) setFormData({...formData, defaultDataCollectorIds: val}) }}
+                        options={filteredDataCollectors}
+                        placeholder="Pilih Data Collector Default..."
+                      />
                     </div>
                   </div>
                   {(formData.recurrence === 'MONTHLY_ONCE' || formData.recurrence === 'MONTHLY_TWICE') && (

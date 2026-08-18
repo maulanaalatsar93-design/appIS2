@@ -68,7 +68,7 @@ export const getRules = async (req, res) => {
 
 export const createRule = async (req, res) => {
   try {
-    const { code, pabrik_id, subArea, equipmentCat, criticality, taskName, recurrence, dateFirst, dateSecond, defaultPicId, notes, isActive } = req.body;
+    const { code, pabrik_id, subArea, equipmentCat, criticality, taskName, recurrence, dateFirst, dateSecond, defaultPicId, defaultPicIds, defaultDataCollectorIds, notes, isActive } = req.body;
     if (!code || !pabrik_id || !equipmentCat || !criticality || !taskName || !recurrence) {
       return res.status(400).json({ error: 'Field wajib: code, pabrik_id, equipmentCat, criticality, taskName, recurrence' });
     }
@@ -79,6 +79,8 @@ export const createRule = async (req, res) => {
         dateFirst: dateFirst ? parseInt(dateFirst) : null,
         dateSecond: dateSecond ? parseInt(dateSecond) : null,
         defaultPicId: defaultPicId ? parseInt(defaultPicId) : null,
+        defaultPicIds: Array.isArray(defaultPicIds) ? defaultPicIds : [],
+        defaultDataCollectorIds: Array.isArray(defaultDataCollectorIds) ? defaultDataCollectorIds : [],
         notes, isActive: isActive !== false
       },
       include: { pabrik: true, defaultPic: { select: { id: true, name: true } } }
@@ -98,6 +100,8 @@ export const updateRule = async (req, res) => {
     if (data.dateFirst) data.dateFirst = parseInt(data.dateFirst);
     if (data.dateSecond !== undefined) data.dateSecond = data.dateSecond ? parseInt(data.dateSecond) : null;
     if (data.defaultPicId !== undefined) data.defaultPicId = data.defaultPicId ? parseInt(data.defaultPicId) : null;
+    if (data.defaultPicIds && Array.isArray(data.defaultPicIds)) data.defaultPicIds = data.defaultPicIds;
+    if (data.defaultDataCollectorIds && Array.isArray(data.defaultDataCollectorIds)) data.defaultDataCollectorIds = data.defaultDataCollectorIds;
     delete data.id;
     const rule = await prisma.pdmScheduleRule.update({ where: { id: parseInt(id) }, data, include: { pabrik: true, defaultPic: { select: { id: true, name: true } } } });
     res.json(rule);
