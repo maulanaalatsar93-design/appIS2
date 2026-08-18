@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { 
-  Plus, Edit, Trash2, Search, X, Loader2, Save, FileText 
+  Plus, Edit, Trash2, Search, X, Loader2, Save, FileText, AlertTriangle, CheckCircle2
 } from 'lucide-react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -208,20 +208,26 @@ export default function PerformanceKillerPage() {
               ) : (
                 filteredData.map((row, index) => (
                   <tr key={row.id} className="hover:bg-blue-50/50 transition-colors">
-                    <td className="px-6 py-4 text-gray-500">{index + 1}</td>
-                    <td className="px-6 py-4 font-medium text-slate-800">{row.item}</td>
-                    <td className="px-6 py-4 text-slate-600">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800">
+                    <td className="px-6 py-4 align-middle text-gray-500 font-medium">{index + 1}</td>
+                    <td className="px-6 py-4 align-middle font-bold text-navy-700 whitespace-nowrap">{row.item}</td>
+                    <td className="px-6 py-4 align-middle text-slate-600 whitespace-nowrap">
+                      <span className="inline-flex items-center px-3 py-1 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 border border-slate-200 shadow-sm">
                         {row.area_plant}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-slate-600 max-w-xs truncate" title="Lihat selengkapnya di mode edit">
-                      <div dangerouslySetInnerHTML={{ __html: row.masalah }} className="line-clamp-2" />
+                    <td className="px-6 py-4 align-middle text-slate-600 min-w-[300px]">
+                      <div className="flex items-start gap-3 bg-red-50/80 border border-red-100 rounded-xl px-4 py-3 shadow-sm">
+                        <AlertTriangle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
+                        <div dangerouslySetInnerHTML={{ __html: row.masalah }} className="text-slate-700 text-[13px] leading-relaxed [&>p]:mb-2 last:[&>p]:mb-0 [&>ul]:list-disc [&>ul]:ml-4 [&>ol]:list-decimal [&>ol]:ml-4" />
+                      </div>
                     </td>
-                    <td className="px-6 py-4 text-slate-600 max-w-xs truncate" title="Lihat selengkapnya di mode edit">
-                      <div dangerouslySetInnerHTML={{ __html: row.tindak_lanjut }} className="line-clamp-2" />
+                    <td className="px-6 py-4 align-middle text-slate-600 min-w-[300px]">
+                      <div className="flex items-start gap-3 bg-emerald-50/80 border border-emerald-100 rounded-xl px-4 py-3 shadow-sm">
+                        <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+                        <div dangerouslySetInnerHTML={{ __html: row.tindak_lanjut }} className="text-slate-700 text-[13px] leading-relaxed [&>p]:mb-2 last:[&>p]:mb-0 [&>ul]:list-disc [&>ul]:ml-4 [&>ol]:list-decimal [&>ol]:ml-4" />
+                      </div>
                     </td>
-                    <td className="px-6 py-4 text-right">
+                    <td className="px-6 py-4 align-middle text-right whitespace-nowrap">
                       {user && ['vp', 'avp', 'manager', 'administrator', 'admin', 'supervisor', 'staff'].includes(user.role?.toLowerCase() || '') && (
                         <div className="flex justify-end gap-2">
                           <button 
