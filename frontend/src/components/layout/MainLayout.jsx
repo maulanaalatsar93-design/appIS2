@@ -23,7 +23,7 @@ export default function MainLayout() {
       )}
       
       {/* Main Content Area */}
-      <div className={`flex-1 flex flex-col min-w-0 bg-gray-50/50 relative transition-all duration-300 ${user ? (isCollapsed ? 'md:pl-[84px]' : 'md:pl-[364px]') : 'pl-0'}`}>
+      <div className={`flex-1 flex flex-col min-w-0 bg-gray-50/50 relative transition-all duration-300 ${user ? (isCollapsed ? 'md:pl-[72px]' : 'md:pl-[332px]') : 'pl-0'}`}>
         {user && (
           <Header 
             isCollapsed={isCollapsed} 
