@@ -119,11 +119,28 @@ function RejectModal({ onConfirm, onCancel }) {
 function AddHelperModal({ onConfirm, onCancel, manpowers, occ }) {
   const [selectedId, setSelectedId] = useState('');
   const [search, setSearch] = useState('');
+  const [showOutsideArea, setShowOutsideArea] = useState(false);
 
-  const mps = (Array.isArray(manpowers) ? manpowers : []).filter(m => 
-    m.name.toLowerCase().includes(search.toLowerCase()) && 
-    m.id !== occ.assignedToId && m.id !== occ.dataCollectorId && m.id !== occ.analystId
-  );
+  const mps = (Array.isArray(manpowers) ? manpowers : []).filter(m => {
+    if (!m.name.toLowerCase().includes(search.toLowerCase())) return false;
+    if (m.id === occ.assignedToId || m.id === occ.dataCollectorId || m.id === occ.analystId) return false;
+
+    const occArea = `${occ?.rule?.pabrik?.nama_pabrik || ''} ${occ?.rule?.subArea || ''}`.trim().toLowerCase();
+    const mArea = (m.sub_area || '').toLowerCase();
+    
+    const isOccPphs = ['pphs', 'osbl', 'conveyor ubs', 'conveyor bsl', 'batubara boiler', 'batu bara boiler'].some(kw => occArea.includes(kw));
+    const isMPPphs = ['pphs', 'osbl'].some(kw => mArea.includes(kw));
+    
+    let isSameArea = false;
+    if (isOccPphs && isMPPphs && occArea.includes('6') && mArea.includes('6')) {
+      isSameArea = true;
+    } else {
+      isSameArea = mArea === occArea;
+    }
+
+    if (!showOutsideArea && !isSameArea) return false;
+    return true;
+  });
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
@@ -138,6 +155,18 @@ function AddHelperModal({ onConfirm, onCancel, manpowers, occ }) {
             className="w-full border border-gray-300 rounded-lg p-2.5 text-sm outline-none focus:ring-2 focus:ring-navy-300 transition-all"
             value={search} onChange={e => setSearch(e.target.value)}
           />
+        </div>
+        <div className="px-4 py-2 border-b border-gray-100 bg-white flex items-center gap-2">
+          <input 
+            type="checkbox" 
+            id="crossArea" 
+            checked={showOutsideArea} 
+            onChange={e => setShowOutsideArea(e.target.checked)}
+            className="rounded border-gray-300 text-navy-600 focus:ring-navy-500 w-4 h-4"
+          />
+          <label htmlFor="crossArea" className="text-[11px] font-medium text-gray-700 cursor-pointer">
+            Tampilkan rekan lintas area <span className="text-orange-500 font-bold">(Butuh Izin Admin)</span>
+          </label>
         </div>
         <div className="p-0 overflow-y-auto flex-1 bg-white">
           {mps.length === 0 ? (
