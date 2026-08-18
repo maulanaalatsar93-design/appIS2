@@ -129,7 +129,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed, isMobileMenuOpen,
           </div>
 
           {/* Primary Nav Icons */}
-          <div className="flex flex-col gap-3 w-full items-center">
+          <div className="flex flex-col gap-2 w-full items-center">
             {CATEGORIES.map((cat) => {
               const isActive = activeCategoryId === cat.id;
               const Icon = cat.icon;
@@ -141,14 +141,14 @@ export default function Sidebar({ isCollapsed, setIsCollapsed, isMobileMenuOpen,
                     setIsCollapsed(false); 
                     if (window.innerWidth < 768) setIsMobileMenuOpen(false);
                   }}
-                  className={`w-11 h-11 rounded-2xl flex items-center justify-center transition-all duration-300 ${
+                  className={`w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-300 ${
                     isActive 
                       ? 'bg-navy-600 text-white shadow-lg shadow-navy-600/30 scale-105' 
                       : 'text-gray-400 hover:text-navy-600 hover:bg-navy-50'
                   }`}
                   title={cat.label}
                 >
-                  <Icon className="w-6 h-6" strokeWidth={isActive ? 2.5 : 2} />
+                  <Icon className="w-5 h-5" strokeWidth={isActive ? 2.5 : 2} />
                 </button>
               );
             })}
@@ -198,15 +198,15 @@ export default function Sidebar({ isCollapsed, setIsCollapsed, isMobileMenuOpen,
                         navigate(item.path);
                         if (window.innerWidth < 768) setIsMobileMenuOpen(false);
                       }}
-                        className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-[13px] font-medium transition-all duration-200 ${
+                        className={`w-full flex items-center justify-between px-2.5 py-2.5 rounded-xl text-xs font-medium transition-all duration-200 ${
                           isActive
                             ? 'bg-navy-50 text-navy-600'
                             : 'text-gray-500 hover:bg-gray-50 hover:text-ink'
                         }`}
                       >
-                        <div className="flex items-center gap-2.5 min-w-0">
+                        <div className="flex items-center gap-2">
                           <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-navy-600' : 'text-gray-400'}`} />
-                          <span className={`truncate ${isActive ? 'font-bold' : ''}`}>{item.label}</span>
+                          <span className={`tracking-tight whitespace-nowrap ${isActive ? 'font-bold' : ''}`}>{item.label}</span>
                         </div>
                         {isActive && <div className="w-2 h-2 rounded-full bg-orange-500 shadow-sm shadow-orange-500/50" />}
                       </button>
