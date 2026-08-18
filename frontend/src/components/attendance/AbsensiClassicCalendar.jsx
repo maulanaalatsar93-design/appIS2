@@ -75,9 +75,9 @@ export default function AbsensiClassicCalendar({ employees = [], attendanceChang
     let borderClass = 'border-slate-100';
 
     if (isToday) {
-      bgClass = 'bg-[#193B8F] text-white';
-      textClass = 'text-white';
-      borderClass = 'border-[#193B8F]';
+      bgClass = 'bg-blue-50 bg-opacity-60 text-blue-800 shadow-sm ring-1 ring-blue-500 ring-offset-1';
+      textClass = 'text-blue-800';
+      borderClass = 'border-blue-400';
     } else if (isHoliday) {
       bgClass = 'bg-amber-50 hover:bg-amber-100';
       textClass = 'text-amber-700';
@@ -128,7 +128,7 @@ export default function AbsensiClassicCalendar({ employees = [], attendanceChang
       {/* Legend */}
       <div className="flex flex-wrap items-center gap-3 text-[11px] font-medium">
         <div className="flex items-center gap-1.5">
-          <div className="w-3 h-3 rounded-full bg-navy-950"></div>
+          <div className="w-3 h-3 rounded-full bg-blue-50 border border-blue-400 ring-1 ring-blue-500"></div>
           <span className="text-gray-500">Hari Ini</span>
         </div>
         <div className="flex items-center gap-1.5">
