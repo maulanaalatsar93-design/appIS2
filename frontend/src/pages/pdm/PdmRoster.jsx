@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Users, Edit3, X, Save, ChevronRight, AlertCircle, CheckCircle2, Calendar, RefreshCw } from 'lucide-react';
+import { Users, Edit3, X, Save, ChevronRight, AlertCircle, CheckCircle2, Calendar, RefreshCw, Copy } from 'lucide-react';
 
 const MONTH_NAMES = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des'];
 const MONTH_FULL  = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
@@ -116,6 +116,25 @@ function EditRosterModal({ pabrikEntry, criticality, manpowers, api, headers, pe
           next[ruleId] = {
             ...sel,
             dataCollectorIds: [...sel.picIds]
+          };
+        }
+      });
+      return next;
+    });
+  };
+
+  const handleCopyRule = (sourceRuleId) => {
+    if (!window.confirm('Terapkan formasi personil dari area ini ke SELURUH AREA LAIN di pabrik ini?')) return;
+    setSelections(prev => {
+      const next = { ...prev };
+      const source = next[sourceRuleId];
+      Object.keys(next).forEach(targetId => {
+        if (targetId !== sourceRuleId.toString()) {
+          next[targetId] = {
+            ...next[targetId],
+            picIds: [...source.picIds],
+            dataCollectorIds: [...source.dataCollectorIds],
+            gtgDataCollectorIds: [...source.gtgDataCollectorIds]
           };
         }
       });
@@ -267,11 +286,20 @@ function EditRosterModal({ pabrikEntry, criticality, manpowers, api, headers, pe
                     <p className="text-xs font-bold text-gray-500 uppercase tracking-wide">{entry.code}</p>
                     <p className="text-sm font-semibold text-gray-800">{entry.subArea}</p>
                   </div>
-                  {entry.hasOverride && (
-                    <span className="inline-flex items-center gap-1 text-xs text-purple-600 bg-purple-100 px-2 py-0.5 rounded-full">
-                      <CheckCircle2 className="w-3 h-3" /> Override
-                    </span>
-                  )}
+                  <div className="flex gap-2 items-start">
+                    {entry.hasOverride && (
+                      <span className="inline-flex items-center gap-1 text-xs text-purple-600 bg-purple-100 px-2 py-0.5 rounded-full">
+                        <CheckCircle2 className="w-3 h-3" /> Override
+                      </span>
+                    )}
+                    <button 
+                      onClick={() => handleCopyRule(entry.rule_id)}
+                      title="Salin formasi ini ke semua area lain"
+                      className="p-1 rounded text-gray-400 hover:text-blue-600 hover:bg-blue-50 transition"
+                    >
+                      <Copy className="w-4 h-4" />
+                    </button>
+                  </div>
                 </div>
 
                 {criticality === 'CRITICAL' ? (
