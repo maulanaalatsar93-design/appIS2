@@ -54,6 +54,7 @@ export default function AbsensiGridCalendar({ employees = [], attendanceChanges 
 
   const getRank = (div, type, name) => {
     const str = `${div} ${type} ${name}`.toLowerCase();
+    if (str.includes('febryan bagus')) return 0;
     if (str.includes('vice president') || str.includes('vp')) return 1;
     if (str.includes('avp rot1') || (str.includes('avp') && str.includes('rotating 1'))) return 2;
     if (str.includes('avp rot2') || (str.includes('avp') && str.includes('rotating 2'))) return 3;
