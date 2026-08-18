@@ -507,7 +507,6 @@ export default function PdmRoster() {
           <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
             <div className="bg-gradient-to-r from-red-500 to-red-600 px-5 py-4 text-ink">
               <p className="text-xs font-bold uppercase tracking-widest text-red-100 mb-0.5">CRITICAL ITEM</p>
-              <h2 className="text-base font-bold">Analyst Inspector</h2>
               <p className="text-xs text-red-100 mt-0.5">Periode: {periodLabel}</p>
             </div>
             <div className="overflow-x-auto">
@@ -542,7 +541,6 @@ export default function PdmRoster() {
           <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
             <div className="bg-gradient-to-r from-blue-500 to-blue-600 px-5 py-4 text-ink">
               <p className="text-xs font-bold uppercase tracking-widest text-blue-100 mb-0.5">NON CRITICAL ITEM</p>
-              <h2 className="text-base font-bold">Inspector</h2>
               <p className="text-xs text-blue-100 mt-0.5">Periode: {periodLabel}</p>
             </div>
             <div className="overflow-x-auto">
