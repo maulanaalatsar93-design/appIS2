@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Chart from 'react-apexcharts';
 import ScorecardGroup from '../components/ui/ScorecardGroup';
 import FloatingFilterPill from '../components/ui/FloatingFilterPill';
-import { Filter, X, Loader2, Download, FileText, FileSpreadsheet, Info, CheckCircle2, AlertCircle, HardHat, Activity } from 'lucide-react';
+import { Filter, X, Loader2, Download, FileText, FileSpreadsheet, Info, CheckCircle2, AlertCircle, HardHat, Activity, LogIn } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { getDashboardSummary } from '../services/dashboardService';
 import logoImg from '../assets/logo.png';
 import pktLogoImg from '../assets/pkt-logo.png';
@@ -44,6 +45,7 @@ const MONTH_NAMES = {
 };
 
 export default function PublicDashboard({ onBack }) {
+  const navigate = useNavigate();
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [showPMModal, setShowPMModal] = useState(false);
@@ -318,12 +320,20 @@ export default function PublicDashboard({ onBack }) {
             <span className="text-xs font-bold text-[#193B8F] uppercase tracking-wide">Export PDF</span>
           </button>
 
-          {onBack && (
+          {onBack ? (
             <button
               onClick={onBack}
               className="px-4 py-2 bg-gradient-to-r from-[#193B8F] to-[#1A4BC4] text-white text-xs font-bold rounded-full shadow-md hover:shadow-lg hover:scale-105 flex items-center gap-2 transition-all duration-300 focus:outline-none"
             >
               <span className="text-xs font-bold tracking-wide">Kembali ke Internal View</span>
+            </button>
+          ) : (
+            <button
+              onClick={() => navigate('/login')}
+              className="px-4 py-2 bg-gradient-to-r from-[#193B8F] to-[#1A4BC4] text-white text-xs font-bold rounded-full shadow-md hover:shadow-lg hover:scale-105 flex items-center gap-2 transition-all duration-300 focus:outline-none"
+            >
+              <LogIn size={16} className="text-white" />
+              <span className="text-xs font-bold tracking-wide">Login Internal</span>
             </button>
           )}
         </div>
