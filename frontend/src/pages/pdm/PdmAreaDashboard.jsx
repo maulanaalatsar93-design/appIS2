@@ -146,8 +146,6 @@ function AreaRow({ area, isUserArea }) {
                     );
                   })}
                 </div>
-
-                </div>
               </div>
             );
           })}
