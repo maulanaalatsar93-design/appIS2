@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import {
   ClipboardList, Play, Square, CheckCircle, UserCheck, Clock, AlertTriangle,
   AlertOctagon, ChevronDown, ChevronUp, History, RefreshCw, Database,
-  BarChart2, ChevronRight
+  BarChart2, ChevronRight, Filter
 } from 'lucide-react';
 
 // ── Stage Configuration ──────────────────────────────────────────────────────
@@ -17,31 +17,38 @@ const STAGES = [
 const STAGE_ORDER = { DC_COLLECTION: 1, ANALYSIS: 2, AVP_APPROVAL: 3, SAP_UPLOAD: 4, CLOSED: 5 };
 
 const STATUS_STYLE = {
-  SCHEDULED:   { bg: 'bg-gray-50 border-gray-200',    badge: 'bg-gray-50 text-gray-500',    label: 'Scheduled' },
-  ASSIGNED:    { bg: 'bg-navy-100 border-gray-200',   badge: 'bg-navy-100 text-navy-600',    label: 'Assigned' },
-  IN_PROGRESS: { bg: 'bg-orange-100 border-orange-200',badge: 'bg-orange-100 text-orange-600',  label: 'In Progress' },
-  ON_HOLD:     { bg: 'bg-gray-200 border-gray-300',    badge: 'bg-gray-200 text-gray-500',label: 'On Hold' },
-  COMPLETED:   { bg: 'bg-[#E4F3EC] border-gray-200',   badge: 'bg-[#E4F3EC] text-success',  label: 'Completed' },
-  OVERDUE:     { bg: 'bg-orange-100 border-danger',    badge: 'bg-orange-100 text-danger',      label: 'Overdue' },
+  SCHEDULED:   { badge: 'bg-gray-100 text-gray-600 border border-gray-200', label: 'Scheduled' },
+  ASSIGNED:    { badge: 'bg-blue-50 text-blue-700 border border-blue-200', label: 'Assigned' },
+  IN_PROGRESS: { badge: 'bg-amber-50 text-amber-700 border border-amber-200', label: 'In Progress' },
+  ON_HOLD:     { badge: 'bg-slate-100 text-slate-600 border border-slate-300', label: 'On Hold' },
+  COMPLETED:   { badge: 'bg-green-50 text-green-700 border border-green-200', label: 'Completed' },
+  OVERDUE:     { badge: 'bg-red-50 text-red-700 border border-red-200', label: 'Overdue' },
 };
 
 // ── Stage Progress Bar ───────────────────────────────────────────────────────
 function WorkflowProgress({ workflowStage }) {
   const currentOrder = STAGE_ORDER[workflowStage] || 1;
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex items-center w-full mt-2">
       {STAGES.map((s, i) => {
         const order = i + 1;
         const done = currentOrder > order;
         const active = currentOrder === order;
+        
+        let circleClass = 'w-5 h-5 bg-gray-100 text-gray-400 border border-gray-200';
+        if (done) circleClass = 'w-5 h-5 bg-green-500 text-white shadow-sm';
+        else if (active) {
+           const colorBase = s.color.split('-')[1] || 'blue';
+           circleClass = `w-6 h-6 ${s.color} ring-2 ring-offset-1 ring-${colorBase}-300 shadow-sm`;
+        }
+
         return (
           <React.Fragment key={s.key}>
-            <div className={`flex items-center justify-center text-[9px] font-bold rounded-full transition-all
-              ${done ? 'w-5 h-5 bg-green-500 text-white' : active ? `w-6 h-6 ${s.color} shadow-md` : 'w-5 h-5 bg-gray-100 text-gray-400'}`}>
-              {done ? '✓' : s.label}
+            <div className={`flex items-center justify-center rounded-full text-[9px] font-bold transition-all z-10 shrink-0 ${circleClass}`} title={s.full}>
+              {done ? <CheckCircle className="w-3 h-3" /> : s.label}
             </div>
             {i < STAGES.length - 1 && (
-              <div className={`flex-1 h-0.5 ${done ? 'bg-green-400' : 'bg-gray-200'}`} style={{ minWidth: 8 }} />
+              <div className={`flex-1 h-1 -mx-1 z-0 ${done ? 'bg-green-500' : 'bg-gray-200'}`} />
             )}
           </React.Fragment>
         );
@@ -54,8 +61,8 @@ function WorkflowProgress({ workflowStage }) {
 function HoldModal({ onConfirm, onCancel }) {
   const [reason, setReason] = useState('');
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="bg-white rounded-xl shadow-2xl w-full max-w-sm p-6 space-y-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+      <div className="bg-white rounded-xl shadow-2xl w-full max-w-sm p-6 space-y-4 border border-gray-100">
         <h3 className="font-bold text-gray-800 text-lg font-display">Hold Task</h3>
         <p className="text-sm text-gray-500">Masukkan alasan hold. Waktu hold tidak akan dihitung sebagai man-hours.</p>
         <textarea
@@ -63,16 +70,16 @@ function HoldModal({ onConfirm, onCancel }) {
           onChange={e => setReason(e.target.value)}
           placeholder="Alasan hold (wajib)..."
           rows={3}
-          className="w-full text-sm border border-gray-200 rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-orange-300"
+          className="w-full text-sm border border-gray-200 rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-amber-300"
         />
         <div className="flex gap-2">
           <button
             onClick={() => { if (reason.trim()) onConfirm(reason); }}
             disabled={!reason.trim()}
-            className="flex-1 py-2 bg-orange-500 text-white rounded-lg text-sm font-semibold hover:bg-orange-600 transition disabled:opacity-40">
+            className="flex-1 py-2 bg-amber-500 text-white rounded-lg text-sm font-semibold hover:bg-amber-600 transition shadow-sm disabled:opacity-40">
             Confirm Hold
           </button>
-          <button onClick={onCancel} className="flex-1 py-2 bg-gray-100 text-gray-600 rounded-lg text-sm hover:bg-gray-200 transition">Batal</button>
+          <button onClick={onCancel} className="flex-1 py-2 bg-gray-100 text-gray-600 rounded-lg text-sm font-medium hover:bg-gray-200 transition">Batal</button>
         </div>
       </div>
     </div>
@@ -83,8 +90,8 @@ function HoldModal({ onConfirm, onCancel }) {
 function RejectModal({ onConfirm, onCancel }) {
   const [reason, setReason] = useState('');
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="bg-white rounded-xl shadow-2xl w-full max-w-sm p-6 space-y-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+      <div className="bg-white rounded-xl shadow-2xl w-full max-w-sm p-6 space-y-4 border border-red-100">
         <h3 className="font-bold text-red-700 text-lg font-display">Reject / Revisi</h3>
         <p className="text-sm text-gray-500">Berikan catatan revisi untuk Analyst.</p>
         <textarea
@@ -98,10 +105,10 @@ function RejectModal({ onConfirm, onCancel }) {
           <button
             onClick={() => { if (reason.trim()) onConfirm(reason); }}
             disabled={!reason.trim()}
-            className="flex-1 py-2 bg-red-500 text-ink rounded-lg text-sm font-semibold hover:bg-red-600 transition disabled:opacity-40">
+            className="flex-1 py-2 bg-red-600 text-white rounded-lg text-sm font-semibold hover:bg-red-700 transition shadow-sm disabled:opacity-40">
             Kirim Revisi
           </button>
-          <button onClick={onCancel} className="flex-1 py-2 bg-gray-100 text-gray-600 rounded-lg text-sm hover:bg-gray-200 transition">Batal</button>
+          <button onClick={onCancel} className="flex-1 py-2 bg-gray-100 text-gray-600 rounded-lg text-sm font-medium hover:bg-gray-200 transition">Batal</button>
         </div>
       </div>
     </div>
@@ -110,7 +117,6 @@ function RejectModal({ onConfirm, onCancel }) {
 
 // ── Task Box ─────────────────────────────────────────────────────────────────
 function TaskBox({ occ, onAction, manpowers, userRole, userMpId, isAdmin: globalIsAdmin }) {
-  const [expanded, setExpanded] = useState(false);
   const [reassignOpen, setReassignOpen] = useState(false);
   const [newPicId, setNewPicId] = useState('');
   const [reasonInput, setReasonInput] = useState('');
@@ -120,7 +126,6 @@ function TaskBox({ occ, onAction, manpowers, userRole, userMpId, isAdmin: global
 
   const isAdmin = globalIsAdmin || ['admin', 'manager', 'supervisor'].includes(userRole);
 
-  // Filter manpower based on role and area
   const filteredManpowers = (Array.isArray(manpowers) ? manpowers : []).filter(m => {
     if (!m) return false;
     if (isAdmin || ['admin', 'manager', 'supervisor', 'avp'].includes((userRole || '').toLowerCase())) return true;
@@ -134,7 +139,6 @@ function TaskBox({ occ, onAction, manpowers, userRole, userMpId, isAdmin: global
       if (isOccPphs && isMPPphs && occArea.includes('6') && mArea.includes('6')) {
         return true;
       }
-      
       return mArea === occArea;
     }
     return true;
@@ -144,15 +148,13 @@ function TaskBox({ occ, onAction, manpowers, userRole, userMpId, isAdmin: global
   const daysLate = !['COMPLETED', 'CANCELLED'].includes(occ.status) && occ.workflowStage !== 'CLOSED'
     ? Math.max(0, Math.floor((now - new Date(occ.scheduledDate)) / 86400000))
     : 0;
+  
   const statusKey = daysLate > 0 ? 'OVERDUE' : occ.status;
   const style = STATUS_STYLE[statusKey] || STATUS_STYLE.ASSIGNED;
-
   const stage = occ.workflowStage || 'DC_COLLECTION';
-  const stageCfg = STAGES.find(s => s.key === stage) || STAGES[0];
 
   const fmt = d => d ? new Date(d).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' }) : '-';
 
-  // Role-based action visibility
   const isDC = ['staff', 'data_collector', 'technician'].includes(userRole);
   const isAnalyst = userRole === 'analyst';
   const isAVP = userRole?.startsWith('avp');
@@ -165,206 +167,197 @@ function TaskBox({ occ, onAction, manpowers, userRole, userMpId, isAdmin: global
   const showSapActions = (isDC || isAdmin || isAssigned) && stage === 'SAP_UPLOAD';
 
   return (
-    <div className={`rounded-xl border-2 ${style.bg} shadow-sm overflow-hidden`}>
-      {/* Criticality strip */}
-      <div className={`h-1 w-full ${occ.rule?.criticality === 'CRITICAL' ? 'bg-red-400' : 'bg-blue-300'}`} />
+    <div className={`relative bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden flex flex-col ${daysLate > 0 ? 'ring-1 ring-red-300' : ''}`}>
+      <div className={`absolute left-0 top-0 bottom-0 w-1 ${occ.rule?.criticality === 'CRITICAL' ? 'bg-red-500' : 'bg-blue-500'}`} />
 
-      <div className="p-4 space-y-3">
+      <div className="p-4 pl-5 space-y-4 flex-1">
         {/* Header */}
-        <div className="flex justify-between items-start">
+        <div className="flex justify-between items-start gap-2">
           <div>
-            <p className="font-bold text-gray-800">{occ.rule?.code}</p>
-            <p className="text-xs text-gray-500">{occ.rule?.pabrik?.nama_pabrik} · {occ.rule?.subArea}</p>
+            <h3 className="font-bold text-gray-900 text-[15px] leading-tight group-hover:text-navy-700 transition-colors">
+              {occ.rule?.code}
+            </h3>
+            <p className="text-xs font-semibold text-navy-600 mt-1">
+              {occ.rule?.pabrik?.nama_pabrik} <span className="text-gray-400 mx-1">→</span> {occ.rule?.subArea}
+            </p>
+            {occ.rule?.taskName && <p className="text-[11px] text-gray-500 mt-0.5 line-clamp-1">{occ.rule?.taskName}</p>}
           </div>
-          <div className="flex items-center gap-1.5">
-            <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${stageCfg.color}`}>{stageCfg.full}</span>
-            <span className={`text-xs px-2 py-0.5 rounded-full font-semibold ${style.badge}`}>{style.label}</span>
+          <div className="flex flex-col items-end gap-1.5 shrink-0">
+             <span className={`text-[10px] px-2 py-0.5 rounded font-bold tracking-wide uppercase ${style.badge}`}>
+               {style.label}
+             </span>
+             {occ.rule?.equipmentCat && <span className="text-[10px] px-2 py-0.5 bg-gray-100 border border-gray-200 text-gray-600 rounded font-bold uppercase">{occ.rule.equipmentCat}</span>}
           </div>
         </div>
 
-        {/* Workflow Progress */}
         <WorkflowProgress workflowStage={stage} />
 
-        <hr className="border-gray-200" />
+        <hr className="border-gray-100" />
 
-        {/* Dates */}
-        <div className="grid grid-cols-2 gap-x-4 text-xs text-gray-600">
-          <div><span className="text-gray-400">Scheduled:</span> <span className="font-medium">{fmt(occ.scheduledDate)}</span></div>
-          <div><span className="text-gray-400">Status:</span> <span className={`font-semibold ${daysLate > 0 ? 'text-red-600' : 'text-gray-700'}`}>{style.label}</span></div>
+        {/* Dates and Assignment */}
+        <div className="grid grid-cols-2 gap-3 text-xs">
+          <div>
+            <span className="block text-gray-400 mb-0.5">Jadwal Target</span> 
+            <span className="font-medium text-gray-800 flex items-center gap-1">
+               <Clock className="w-3.5 h-3.5 text-gray-400" /> {fmt(occ.scheduledDate)}
+            </span>
+          </div>
+          <div>
+            <span className="block text-gray-400 mb-0.5">Assigned To</span>
+            <span className="font-medium text-gray-800 flex items-center gap-1 line-clamp-1">
+               <UserCheck className="w-3.5 h-3.5 text-gray-400" /> {occ.assignedTo?.name || 'Belum Ada'}
+            </span>
+          </div>
+          
           {daysLate > 0 && (
-            <div className="col-span-2 flex items-center gap-1 text-red-600 font-semibold">
-              <AlertOctagon className="w-3 h-3" /> +{daysLate} hari terlambat
+            <div className="col-span-2 flex items-center gap-1.5 text-red-700 font-semibold bg-red-50 p-2 rounded-lg border border-red-100 shadow-sm mt-1">
+              <AlertOctagon className="w-4 h-4" /> Terlambat {daysLate} hari
             </div>
           )}
         </div>
 
-        {/* Personnel info */}
-        <div className="space-y-0.5 text-xs">
-          {occ.dataCollector && <p className="text-gray-500">DC: <span className="font-medium text-gray-700">{occ.dataCollector.name}</span></p>}
-          {occ.analyst && <p className="text-gray-500">Analyst: <span className="font-medium text-gray-700">{occ.analyst.name}</span></p>}
-          {occ.avp && <p className="text-gray-500">AVP: <span className="font-medium text-gray-700">{occ.avp.name}</span></p>}
-          {!occ.dataCollector && !occ.analyst && <p className="text-gray-400 italic">PIC: {occ.assignedTo?.name || 'Belum ada'}</p>}
+        {/* Personnel info details */}
+        <div className="space-y-1 text-[11px] bg-gray-50 p-2 rounded-lg border border-gray-100">
+          {occ.dataCollector && <p className="text-gray-500 flex justify-between"><span>Data Collector:</span> <span className="font-medium text-gray-700">{occ.dataCollector.name}</span></p>}
+          {occ.analyst && <p className="text-gray-500 flex justify-between"><span>Analyst:</span> <span className="font-medium text-gray-700">{occ.analyst.name}</span></p>}
+          {occ.avp && <p className="text-gray-500 flex justify-between"><span>AVP:</span> <span className="font-medium text-gray-700">{occ.avp.name}</span></p>}
+          {!occ.dataCollector && !occ.analyst && <p className="text-gray-400 italic text-center">Menunggu aksi PIC</p>}
         </div>
 
-        {/* AVP rejection note */}
         {occ.avpRejectedReason && (
-          <div className="bg-red-50 border border-red-200 rounded-lg px-3 py-2 text-xs text-red-700">
-            <span className="font-semibold">Revisi AVP:</span> {occ.avpRejectedReason}
+          <div className="bg-red-50 border border-red-200 rounded-lg px-3 py-2 text-xs text-red-700 shadow-sm">
+            <span className="font-bold block mb-0.5">Catatan Revisi AVP:</span> {occ.avpRejectedReason}
           </div>
         )}
 
-        {/* PIC History toggle */}
         {occ.picHistories?.length > 0 && (
-          <button onClick={() => setHistoryOpen(!historyOpen)} className="text-xs text-navy-600 hover:underline flex items-center gap-1">
-            <History className="w-3 h-3" /> {occ.picHistories.length} perubahan PIC
-          </button>
-        )}
-        {historyOpen && (
-          <div className="bg-white rounded-lg border border-gray-200 p-2 text-xs space-y-1">
-            {occ.picHistories.map(h => (
-              <div key={h.id} className="flex gap-2 text-gray-600">
-                <span className="text-gray-400 shrink-0">{new Date(h.changedAt).toLocaleDateString('id-ID')}</span>
-                <span>{h.fromPic?.name || 'awal'} → <strong>{h.toPic?.name}</strong></span>
-                <span className="text-orange-500">({h.reason})</span>
+          <div>
+            <button onClick={() => setHistoryOpen(!historyOpen)} className="text-[11px] text-navy-600 hover:text-navy-800 font-medium flex items-center gap-1">
+              <History className="w-3 h-3" /> Riwayat Perubahan PIC ({occ.picHistories.length})
+            </button>
+            {historyOpen && (
+              <div className="bg-white rounded-lg border border-gray-200 p-2 text-[10px] space-y-1.5 mt-2 shadow-sm">
+                {occ.picHistories.map(h => (
+                  <div key={h.id} className="flex gap-2 text-gray-600 border-b border-gray-100 pb-1.5 last:border-0 last:pb-0">
+                    <span className="text-gray-400 shrink-0">{new Date(h.changedAt).toLocaleDateString('id-ID')}</span>
+                    <span className="truncate">{h.fromPic?.name || 'awal'} → <strong className="text-gray-800">{h.toPic?.name}</strong></span>
+                    <span className="text-orange-500 shrink-0">({h.reason})</span>
+                  </div>
+                ))}
               </div>
-            ))}
+            )}
           </div>
         )}
 
         {/* ── ACTION BUTTONS ── */}
-        <div className="flex flex-wrap gap-2 pt-1">
-
-          {/* DC Stage Actions */}
+        <div className="flex flex-wrap gap-2 pt-2 border-t border-gray-100">
           {showDcActions && occ.status === 'ASSIGNED' && (
-            <button onClick={() => onAction('start', occ.id)} className="flex items-center gap-1 px-3 py-1.5 bg-amber-500 text-white rounded-lg text-xs font-medium hover:bg-amber-600 transition">
-              <Play className="w-3 h-3" /> Mulai DC
+            <button onClick={() => onAction('start', occ.id)} className="flex-1 flex justify-center items-center gap-1 px-3 py-2 bg-blue-600 text-white rounded-lg text-xs font-semibold hover:bg-blue-700 shadow-sm transition">
+              <Play className="w-3.5 h-3.5" /> Mulai DC
             </button>
           )}
           {showDcActions && occ.status === 'ON_HOLD' && (
-            <button onClick={() => onAction('workflow-resume', occ.id)} className="flex items-center gap-1 px-3 py-1.5 bg-navy-600 text-white rounded-lg text-xs font-medium hover:bg-navy-950 transition">
-              <Play className="w-3 h-3" /> Lanjutkan
+            <button onClick={() => onAction('workflow-resume', occ.id)} className="flex-1 flex justify-center items-center gap-1 px-3 py-2 bg-navy-700 text-white rounded-lg text-xs font-semibold hover:bg-navy-800 shadow-sm transition">
+              <Play className="w-3.5 h-3.5" /> Lanjutkan
             </button>
           )}
           {showDcActions && occ.status === 'IN_PROGRESS' && (
             <>
-              <button onClick={() => setShowHoldModal(true)} className="flex items-center gap-1 px-3 py-1.5 bg-orange-100 text-orange-700 border border-orange-200 rounded-lg text-xs font-medium hover:bg-orange-200 transition">
-                <Square className="w-3 h-3" /> Hold
+              <button onClick={() => setShowHoldModal(true)} className="flex items-center justify-center gap-1 px-3 py-2 bg-white text-gray-700 border border-gray-300 rounded-lg text-xs font-semibold hover:bg-gray-50 shadow-sm transition">
+                <Square className="w-3.5 h-3.5" /> Hold
               </button>
-              <button onClick={() => onAction('finish-dc', occ.id)} className="flex items-center gap-1 px-3 py-1.5 bg-green-500 text-white rounded-lg text-xs font-medium hover:bg-green-600 transition">
-                <CheckCircle className="w-3 h-3" /> Selesai DC
+              <button onClick={() => onAction('finish-dc', occ.id)} className="flex-1 flex justify-center items-center gap-1 px-3 py-2 bg-green-600 text-white rounded-lg text-xs font-semibold hover:bg-green-700 shadow-sm transition">
+                <CheckCircle className="w-3.5 h-3.5" /> Selesai DC
               </button>
             </>
           )}
 
-          {/* Analysis Stage Actions */}
           {showAnalysisActions && occ.status === 'ASSIGNED' && (
-            <button onClick={() => onAction('start-analysis', occ.id)} className="flex items-center gap-1 px-3 py-1.5 bg-amber-500 text-white rounded-lg text-xs font-medium hover:bg-amber-600 transition">
-              <Play className="w-3 h-3" /> Mulai Analisis
+            <button onClick={() => onAction('start-analysis', occ.id)} className="flex-1 flex justify-center items-center gap-1 px-3 py-2 bg-amber-500 text-white rounded-lg text-xs font-semibold hover:bg-amber-600 shadow-sm transition">
+              <Play className="w-3.5 h-3.5" /> Mulai Analisis
             </button>
           )}
           {showAnalysisActions && occ.status === 'ON_HOLD' && (
-            <button onClick={() => onAction('workflow-resume', occ.id)} className="flex items-center gap-1 px-3 py-1.5 bg-navy-600 text-white rounded-lg text-xs font-medium hover:bg-navy-950 transition">
-              <Play className="w-3 h-3" /> Lanjutkan
+            <button onClick={() => onAction('workflow-resume', occ.id)} className="flex-1 flex justify-center items-center gap-1 px-3 py-2 bg-navy-700 text-white rounded-lg text-xs font-semibold hover:bg-navy-800 shadow-sm transition">
+              <Play className="w-3.5 h-3.5" /> Lanjutkan
             </button>
           )}
           {showAnalysisActions && occ.status === 'IN_PROGRESS' && (
             <>
-              <button onClick={() => setShowHoldModal(true)} className="flex items-center gap-1 px-3 py-1.5 bg-orange-100 text-orange-700 border border-orange-200 rounded-lg text-xs font-medium hover:bg-orange-200 transition">
-                <Square className="w-3 h-3" /> Hold
+              <button onClick={() => setShowHoldModal(true)} className="flex items-center justify-center gap-1 px-3 py-2 bg-white text-gray-700 border border-gray-300 rounded-lg text-xs font-semibold hover:bg-gray-50 shadow-sm transition">
+                <Square className="w-3.5 h-3.5" /> Hold
               </button>
-              <button onClick={() => onAction('finish-analysis', occ.id)} className="flex items-center gap-1 px-3 py-1.5 bg-green-500 text-white rounded-lg text-xs font-medium hover:bg-green-600 transition">
-                <CheckCircle className="w-3 h-3" /> Selesai Analisis
+              <button onClick={() => onAction('finish-analysis', occ.id)} className="flex-1 flex justify-center items-center gap-1 px-3 py-2 bg-green-600 text-white rounded-lg text-xs font-semibold hover:bg-green-700 shadow-sm transition">
+                <CheckCircle className="w-3.5 h-3.5" /> Selesai Analisis
               </button>
             </>
           )}
 
-          {/* AVP Stage Actions */}
           {showAvpActions && (
             <>
-              <button onClick={() => onAction('avp-approve', occ.id)} className="flex items-center gap-1 px-3 py-1.5 bg-purple-600 text-white rounded-lg text-xs font-medium hover:bg-purple-700 transition">
-                <CheckCircle className="w-3 h-3" /> Approve
+              <button onClick={() => setShowRejectModal(true)} className="flex items-center justify-center gap-1 px-3 py-2 bg-white text-red-600 border border-red-200 rounded-lg text-xs font-semibold hover:bg-red-50 shadow-sm transition">
+                <Square className="w-3.5 h-3.5" /> Revisi
               </button>
-              <button onClick={() => setShowRejectModal(true)} className="flex items-center gap-1 px-3 py-1.5 bg-red-100 text-red-700 border border-red-200 rounded-lg text-xs font-medium hover:bg-red-200 transition">
-                <Square className="w-3 h-3" /> Reject/Revisi
+              <button onClick={() => onAction('avp-approve', occ.id)} className="flex-1 flex justify-center items-center gap-1 px-3 py-2 bg-purple-600 text-white rounded-lg text-xs font-semibold hover:bg-purple-700 shadow-sm transition">
+                <CheckCircle className="w-3.5 h-3.5" /> Approve
               </button>
             </>
           )}
 
-          {/* SAP Upload Stage */}
           {showSapActions && (
-            <button onClick={() => onAction('sap-upload', occ.id)} className="flex items-center gap-1 px-3 py-1.5 bg-orange-500 text-white rounded-lg text-xs font-medium hover:bg-orange-600 transition">
-              <Database className="w-3 h-3" /> Upload SAP
+            <button onClick={() => onAction('sap-upload', occ.id)} className="flex-1 flex justify-center items-center gap-1 px-3 py-2 bg-[#FF7410] text-white rounded-lg text-xs font-semibold hover:bg-orange-600 shadow-sm transition">
+              <Database className="w-3.5 h-3.5" /> Selesai Upload SAP
             </button>
           )}
 
-          {/* Reassign (Admin/Analyst/AVP) */}
           {(isAdmin || ['analyst', 'avp'].includes((userRole || '').toLowerCase())) && (
-            <button onClick={() => setReassignOpen(!reassignOpen)} className="flex items-center gap-1 px-3 py-1.5 bg-gray-100 text-gray-600 border border-gray-200 rounded-lg text-xs font-medium hover:bg-gray-200 transition ml-auto">
-              <UserCheck className="w-3 h-3" /> Ganti PIC
+            <button onClick={() => setReassignOpen(!reassignOpen)} className="flex items-center justify-center gap-1 px-3 py-2 bg-gray-50 text-gray-600 border border-gray-200 rounded-lg text-xs font-medium hover:bg-gray-100 transition w-full mt-1">
+              <UserCheck className="w-3.5 h-3.5" /> Delegasi / Ganti PIC
             </button>
           )}
         </div>
 
-        {/* Reassign Form */}
         {reassignOpen && (
-          <div className="bg-gray-50 border border-gray-200 rounded-lg p-3 space-y-2">
-            <p className="text-xs font-semibold text-gray-600">Ganti PIC</p>
-            <select value={newPicId} onChange={e => setNewPicId(e.target.value)} className="w-full text-xs border border-gray-200 rounded p-2">
-              <option value="">-- Pilih PIC Baru --</option>
+          <div className="bg-gray-50 border border-gray-200 rounded-lg p-3 space-y-2 mt-2 shadow-sm">
+            <p className="text-xs font-bold text-gray-700">Pilih PIC Pengganti</p>
+            <select value={newPicId} onChange={e => setNewPicId(e.target.value)} className="w-full text-xs border border-gray-300 rounded-md p-2 bg-white">
+              <option value="">-- Pilih Personel --</option>
               {filteredManpowers.map(m => <option key={m.id} value={m.id}>{m.name} – {m.position} ({m.sub_area || 'No Area'})</option>)}
             </select>
-            <input value={reasonInput} onChange={e => setReasonInput(e.target.value)} placeholder="Alasan (wajib)" className="w-full text-xs border border-gray-200 rounded p-2" />
+            <input value={reasonInput} onChange={e => setReasonInput(e.target.value)} placeholder="Alasan perpindahan (wajib)" className="w-full text-xs border border-gray-300 rounded-md p-2 bg-white" />
             <div className="flex gap-2">
-              <button onClick={() => { onAction('reassign', occ.id, { newPicId, reason: reasonInput }); setReassignOpen(false); }} className="px-3 py-1.5 bg-navy-600 text-white rounded text-xs font-medium hover:bg-navy-950">Simpan</button>
-              <button onClick={() => setReassignOpen(false)} className="px-3 py-1.5 bg-gray-100 text-gray-600 rounded text-xs">Batal</button>
+              <button onClick={() => { onAction('reassign', occ.id, { newPicId, reason: reasonInput }); setReassignOpen(false); }} className="flex-1 py-1.5 bg-navy-600 text-white rounded-md text-xs font-bold hover:bg-navy-800 shadow-sm">Simpan</button>
+              <button onClick={() => setReassignOpen(false)} className="px-3 py-1.5 bg-white border border-gray-300 text-gray-600 rounded-md text-xs font-medium hover:bg-gray-50">Batal</button>
             </div>
           </div>
         )}
       </div>
 
-      {/* Hold Modal */}
       {showHoldModal && (
-        <HoldModal
-          onConfirm={reason => { onAction('workflow-hold', occ.id, { reason }); setShowHoldModal(false); }}
-          onCancel={() => setShowHoldModal(false)}
-        />
+        <HoldModal onConfirm={reason => { onAction('workflow-hold', occ.id, { reason }); setShowHoldModal(false); }} onCancel={() => setShowHoldModal(false)} />
       )}
-
-      {/* Reject Modal */}
       {showRejectModal && (
-        <RejectModal
-          onConfirm={reason => { onAction('avp-reject', occ.id, { reason }); setShowRejectModal(false); }}
-          onCancel={() => setShowRejectModal(false)}
-        />
+        <RejectModal onConfirm={reason => { onAction('avp-reject', occ.id, { reason }); setShowRejectModal(false); }} onCancel={() => setShowRejectModal(false)} />
       )}
     </div>
   );
 }
 
 // ── Job Board Box ────────────────────────────────────────────────────────────
-function JobBoardBox({ occ, onAction, manpowers, userRole, isAdmin,
-  claimLabel = 'Ambil Task', claimAction = 'claim',
-  badgeColor = 'bg-blue-500', badgeLabel = 'DC Collection'
-}) {
+function JobBoardBox({ occ, onAction, manpowers, userRole, isAdmin, claimLabel = 'Ambil Task', claimAction = 'claim', badgeColor = 'bg-blue-100 text-blue-700 border-blue-200', badgeLabel = 'DC Collection' }) {
   const [reassignOpen, setReassignOpen] = useState(false);
   const [newPicId, setNewPicId] = useState('');
   const [reasonInput, setReasonInput] = useState('');
 
-  // Filter manpower based on role and area
   const filteredManpowers = (Array.isArray(manpowers) ? manpowers : []).filter(m => {
     if (!m) return false;
     if (isAdmin || ['admin', 'manager', 'supervisor', 'avp'].includes((userRole || '').toLowerCase())) return true;
     if ((userRole || '').toLowerCase() === 'analyst') {
       const occArea = `${occ?.rule?.pabrik?.nama_pabrik || ''} ${occ?.rule?.subArea || ''}`.trim().toLowerCase();
       const mArea = (m.sub_area || '').toLowerCase();
-      
       const isOccPphs = ['pphs', 'osbl', 'conveyor ubs', 'conveyor bsl', 'batubara boiler', 'batu bara boiler'].some(kw => occArea.includes(kw));
       const isMPPphs = ['pphs', 'osbl'].some(kw => mArea.includes(kw));
-      
-      if (isOccPphs && isMPPphs && occArea.includes('6') && mArea.includes('6')) {
-        return true;
-      }
-      
+      if (isOccPphs && isMPPphs && occArea.includes('6') && mArea.includes('6')) return true;
       return mArea === occArea;
     }
     return true;
@@ -374,77 +367,73 @@ function JobBoardBox({ occ, onAction, manpowers, userRole, isAdmin,
   const fmt = d => d ? new Date(d).toLocaleDateString('id-ID', { day: '2-digit', month: 'short' }) : '-';
 
   return (
-    <div className="rounded-lg border-2 border-gray-200 bg-gray-50 shadow-sm p-4 flex flex-col justify-between min-h-[200px]">
-      {/* Criticality strip */}
-      <div className={`h-1 w-full rounded-t-xl -mt-4 -mx-4 mb-3 ${occ.rule?.criticality === 'CRITICAL' ? 'bg-red-400' : 'bg-blue-300'}`} style={{ width: 'calc(100% + 2rem)' }} />
+    <div className="relative rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-200 p-4 flex flex-col justify-between overflow-hidden group">
+      <div className={`absolute left-0 top-0 bottom-0 w-1 ${occ.rule?.criticality === 'CRITICAL' ? 'bg-red-500' : 'bg-blue-400'}`} />
       
-      <div className="space-y-2 flex-1">
-        {/* Header: Pabrik → Area */}
+      <div className="space-y-3 flex-1 pl-2">
         <div className="flex items-start justify-between gap-2">
           <div>
-            <p className="font-bold text-gray-800 text-sm leading-tight">
+            <h4 className="font-bold text-gray-800 text-[15px] leading-tight group-hover:text-navy-700 transition-colors">
               {occ.rule?.pabrik?.nama_pabrik}
-            </p>
-            <p className="text-xs font-semibold text-navy-600 mt-0.5">→ {occ.rule?.subArea}</p>
-            <p className="text-xs text-gray-500 mt-1">{occ.rule?.taskName}</p>
+            </h4>
+            <p className="text-[13px] font-semibold text-navy-600 mt-0.5">{occ.rule?.subArea}</p>
+            <p className="text-[11px] text-gray-500 mt-1 line-clamp-1">{occ.rule?.taskName}</p>
           </div>
-          <span className={`shrink-0 text-[10px] px-2 py-0.5 rounded-full font-bold text-ink ${badgeColor}`}>
+          <span className={`shrink-0 text-[10px] px-2 py-0.5 rounded font-bold uppercase border ${badgeColor}`}>
             {badgeLabel}
           </span>
         </div>
 
-        {/* Badges */}
-        <div className="flex gap-2 text-xs flex-wrap">
-          <span className={`px-2 py-0.5 rounded-full font-medium ${occ.rule?.criticality === 'CRITICAL' ? 'bg-red-100 text-red-600' : 'bg-blue-100 text-blue-600'}`}>
+        <div className="flex gap-2 text-[10px] flex-wrap">
+          <span className={`px-2 py-0.5 rounded uppercase font-bold border ${occ.rule?.criticality === 'CRITICAL' ? 'bg-red-50 text-red-600 border-red-200' : 'bg-blue-50 text-blue-600 border-blue-200'}`}>
             {occ.rule?.criticality === 'CRITICAL' ? '⚠ Critical' : 'Non Critical'}
           </span>
-          <span className="px-2 py-0.5 rounded-full bg-gray-200 text-gray-600">{occ.rule?.equipmentCat}</span>
+          <span className="px-2 py-0.5 rounded bg-gray-100 border border-gray-200 text-gray-600 font-bold uppercase">{occ.rule?.equipmentCat}</span>
         </div>
 
-        {/* Info DC jika ada (untuk task analisis) */}
         {occ.dataCollector && (
-          <p className="text-xs text-gray-500">DC selesai: <span className="font-medium text-gray-700">{occ.dataCollector.name}</span></p>
+          <p className="text-xs text-gray-500 bg-gray-50 p-2 rounded-lg border border-gray-100">
+            DC: <span className="font-medium text-gray-700">{occ.dataCollector.name}</span>
+          </p>
         )}
 
-        <p className="text-xs text-gray-400">Tgl: {fmt(occ.scheduledDate)}</p>
+        <div className="flex items-center gap-1.5 text-xs font-medium text-gray-600">
+          <Clock className="w-3.5 h-3.5 text-gray-400" /> Target: {fmt(occ.scheduledDate)}
+        </div>
       </div>
       
-      <div className="mt-3 space-y-2">
+      <div className="mt-4 space-y-2 pl-2">
         <button onClick={() => onAction(claimAction, occ.id)}
-          className={`w-full py-2 text-white rounded-lg text-sm font-semibold transition ${
-            badgeColor.includes('amber') ? 'bg-amber-500 hover:bg-amber-600' : 'bg-navy-600 hover:bg-blue-700'
+          className={`w-full py-2 text-white rounded-lg text-xs font-bold transition shadow-sm ${
+            badgeColor.includes('amber') ? 'bg-[#FF7410] hover:bg-orange-600' : 'bg-[#193B8F] hover:bg-navy-800'
           }`}>
           {claimLabel}
         </button>
 
         {isSpecialRole && (
-          <button onClick={() => setReassignOpen(!reassignOpen)} className="w-full py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 transition border border-gray-300">
-            <UserCheck className="w-4 h-4 inline mr-1" /> Assign Langsung
+          <button onClick={() => setReassignOpen(!reassignOpen)} className="w-full py-2 bg-white text-gray-700 rounded-lg text-xs font-semibold hover:bg-gray-50 transition border border-gray-300 shadow-sm flex justify-center items-center gap-1">
+            <UserCheck className="w-3.5 h-3.5" /> Assign Langsung
           </button>
         )}
 
         {reassignOpen && (
-          <div className="bg-white border border-gray-200 rounded-lg p-3 space-y-2 mt-2">
-            <p className="text-xs font-semibold text-gray-600">Assign Langsung ke Personel</p>
-            <select value={newPicId} onChange={e => setNewPicId(e.target.value)} className="w-full text-xs border border-gray-200 rounded p-2">
+          <div className="bg-gray-50 border border-gray-200 rounded-lg p-3 space-y-2 mt-2 shadow-sm">
+            <p className="text-xs font-bold text-gray-700">Assign ke Personel</p>
+            <select value={newPicId} onChange={e => setNewPicId(e.target.value)} className="w-full text-xs border border-gray-300 rounded-md p-2 bg-white">
               <option value="">-- Pilih Personel --</option>
               {filteredManpowers.map(m => <option key={m.id} value={m.id}>{m.name} – {m.position} ({m.sub_area || 'No Area'})</option>)}
             </select>
-            <input value={reasonInput} onChange={e => setReasonInput(e.target.value)} placeholder="Alasan / Ket. (wajib)" className="w-full text-xs border border-gray-200 rounded p-2" />
+            <input value={reasonInput} onChange={e => setReasonInput(e.target.value)} placeholder="Alasan (wajib)" className="w-full text-xs border border-gray-300 rounded-md p-2 bg-white" />
             <div className="flex gap-2">
               <button 
                 onClick={() => { 
-                  if(newPicId && reasonInput) { 
-                    onAction('reassign', occ.id, { newPicId, reason: reasonInput }); 
-                    setReassignOpen(false); 
-                  } else {
-                    alert('Pilih personel dan masukkan alasan.');
-                  }
+                  if(newPicId && reasonInput) { onAction('reassign', occ.id, { newPicId, reason: reasonInput }); setReassignOpen(false); } 
+                  else { alert('Pilih personel dan masukkan alasan.'); }
                 }} 
-                className="px-3 py-1.5 bg-navy-600 text-white rounded text-xs font-medium hover:bg-navy-950">
+                className="flex-1 py-1.5 bg-[#193B8F] text-white rounded-md text-xs font-bold hover:bg-navy-800 shadow-sm">
                 Simpan
               </button>
-              <button onClick={() => setReassignOpen(false)} className="px-3 py-1.5 bg-gray-100 text-gray-600 rounded text-xs">Batal</button>
+              <button onClick={() => setReassignOpen(false)} className="px-3 py-1.5 bg-white border border-gray-300 text-gray-600 rounded-md text-xs font-medium hover:bg-gray-50">Batal</button>
             </div>
           </div>
         )}
@@ -453,13 +442,12 @@ function JobBoardBox({ occ, onAction, manpowers, userRole, isAdmin,
   );
 }
 
-
 // ── Main PdmTaskBoard ────────────────────────────────────────────────────────
 export default function PdmTaskBoard() {
   const [tab, setTab] = useState('WORKFLOW');
   const [workflowTasks, setWorkflowTasks] = useState([]);
-  const [dcTasks, setDcTasks] = useState([]);        // Job Board: DC tasks tersedia
-  const [analysisTasks, setAnalysisTasks] = useState([]); // Job Board: Analyst tasks tersedia
+  const [dcTasks, setDcTasks] = useState([]);        
+  const [analysisTasks, setAnalysisTasks] = useState([]); 
   const [manpowers, setManpowers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [filterMonth, setFilterMonth] = useState(new Date().getMonth() + 1);
@@ -470,7 +458,6 @@ export default function PdmTaskBoard() {
   const token = localStorage.getItem('token');
   const headers = { Authorization: `Bearer ${token}` };
 
-  // Get user info from token
   const userPayload = (() => {
     try { return JSON.parse(atob(token.split('.')[1])); } catch { return {}; }
   })();
@@ -497,12 +484,10 @@ export default function PdmTaskBoard() {
       }
       if (jbRes.ok) {
         const jbData = await jbRes.json();
-        // Backend sekarang mengembalikan { dcTasks, analysisTasks, items }
         if (jbData && typeof jbData === 'object' && 'dcTasks' in jbData) {
           setDcTasks(jbData.dcTasks || []);
           setAnalysisTasks(jbData.analysisTasks || []);
         } else {
-          // Fallback jika backend masih return array lama
           setDcTasks(Array.isArray(jbData) ? jbData : []);
           setAnalysisTasks([]);
         }
@@ -524,7 +509,6 @@ export default function PdmTaskBoard() {
   };
 
   const handleAction = async (action, id, extra = {}) => {
-    // Workflow actions use new endpoints; legacy actions use old endpoints
     const legacyMap = { start: 'start', hold: 'hold', complete: 'complete', reassign: 'reassign', claim: 'claim' };
     const endpoint = legacyMap[action] || action;
     try {
@@ -544,8 +528,6 @@ export default function PdmTaskBoard() {
     ? workflowTasks.filter(t => t.workflowStage === filterStage)
     : workflowTasks;
 
-  const isAnalystUser = userRole === 'analyst';
-  const isAdminUser = ['admin', 'manager', 'supervisor'].includes(userRole);
   const totalJobBoard = dcTasks.length + analysisTasks.length;
 
   const tabCounts = {
@@ -554,168 +536,160 @@ export default function PdmTaskBoard() {
   };
 
   return (
-    <div className="p-6 w-full max-w-none space-y-4">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+    <div className="p-6 max-w-7xl mx-auto space-y-6">
+      {/* Header & Global Filters */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-5 rounded-2xl border border-gray-200 shadow-sm">
         <div>
-          <h1 className="text-2xl font-display font-bold text-gray-800 flex items-center gap-2">
-            <ClipboardList className="w-6 h-6 text-navy-600" />
-            Task Board PdM Rotating
+          <h1 className="text-2xl font-display font-bold text-gray-900 flex items-center gap-2">
+            <ClipboardList className="w-7 h-7 text-[#193B8F]" />
+            Task Board
           </h1>
-          <p className="text-gray-500 text-sm mt-0.5">Workflow 4-stage: DC → Analisis → AVP → SAP</p>
+          <p className="text-gray-500 text-[13px] mt-1 font-medium">Monitoring progress pekerjaan Data Collection hingga Upload SAP.</p>
         </div>
-        <div className="flex items-center gap-2 flex-wrap">
-          <select value={filterMonth} onChange={e => setFilterMonth(parseInt(e.target.value))} className="text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white">
-            {monthNames.map((n, i) => <option key={i} value={i + 1}>{n}</option>)}
-          </select>
-          <select value={filterYear} onChange={e => setFilterYear(parseInt(e.target.value))} className="text-sm border border-gray-200 rounded-lg px-3 py-2 bg-white">
-            {[2024, 2025, 2026, 2027].map(y => <option key={y} value={y}>{y}</option>)}
-          </select>
-          <button onClick={fetchAll} className="flex items-center gap-1.5 px-3 py-2 bg-gray-100 text-gray-700 border border-gray-200 rounded-lg text-sm hover:bg-gray-200 transition">
-            <RefreshCw className="w-3.5 h-3.5" /> Refresh
+        
+        <div className="flex items-center gap-2">
+          <div className="flex bg-gray-50 border border-gray-200 rounded-lg p-1">
+            <select value={filterMonth} onChange={e => setFilterMonth(parseInt(e.target.value))} className="text-sm font-semibold text-gray-700 bg-transparent border-none focus:ring-0 cursor-pointer pr-8 py-1.5 outline-none">
+              {monthNames.map((n, i) => <option key={i} value={i + 1}>{n}</option>)}
+            </select>
+            <div className="w-px bg-gray-300 my-1 mx-1"></div>
+            <select value={filterYear} onChange={e => setFilterYear(parseInt(e.target.value))} className="text-sm font-semibold text-gray-700 bg-transparent border-none focus:ring-0 cursor-pointer pr-8 py-1.5 outline-none">
+              {[2024, 2025, 2026, 2027].map(y => <option key={y} value={y}>{y}</option>)}
+            </select>
+          </div>
+          <button onClick={fetchAll} className="p-2 bg-white border border-gray-200 text-gray-600 rounded-lg hover:bg-gray-50 hover:text-[#193B8F] transition shadow-sm group" title="Refresh">
+            <RefreshCw className="w-5 h-5 group-hover:rotate-180 transition-transform duration-500" />
           </button>
         </div>
       </div>
 
-      {/* Stage Filter Pills */}
-      <div className="flex flex-wrap gap-2 items-center">
-        <span className="text-xs font-semibold text-gray-500">Filter Stage:</span>
-        <button
-          onClick={() => setFilterStage('')}
-          className={`text-xs px-3 py-1 rounded-full border transition ${!filterStage ? 'bg-gray-800 text-ink border-gray-800' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400'}`}>
-          Semua
-        </button>
-        {STAGES.filter(s => s.key !== 'CLOSED').map(s => (
-          <button key={s.key} onClick={() => setFilterStage(s.key)}
-            className={`text-xs px-3 py-1 rounded-full border transition ${filterStage === s.key ? s.color + ' border-transparent' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-400'}`}>
-            {s.full}
-          </button>
-        ))}
-      </div>
-
-      {/* Tabs */}
-      <div className="flex gap-1 bg-gray-100 p-1 rounded-lg w-fit">
-        {[
-          { key: 'WORKFLOW', label: `Tugas Saya (${tabCounts.WORKFLOW})` },
-          { key: 'JOB_BOARD', label: `Job Board (${tabCounts.JOB_BOARD})` },
-        ].map(t => (
-          <button key={t.key} onClick={() => setTab(t.key)}
-            className={`px-5 py-2 rounded-lg text-sm font-semibold transition ${tab === t.key ? 'bg-white text-blue-700 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}>
-            {t.label}
-          </button>
-        ))}
-      </div>
-
-      {/* Content */}
-      {loading ? (
-        <div className="text-center py-20 text-gray-400">Memuat task...</div>
-      ) : tab === 'WORKFLOW' ? (
-        filteredWorkflow.length === 0 ? (
-          <div className="text-center py-20 text-gray-400">
-            <ClipboardList className="w-12 h-12 mx-auto mb-3 text-gray-300" />
-            <p>Tidak ada task aktif untuk Anda bulan ini.</p>
-            {(userRole === 'analyst' || userRole === 'data_collector') && (
-              <p className="text-xs mt-2 text-navy-600">Cek <strong>Job Board</strong> untuk mengambil task baru di area Anda.</p>
-            )}
+      {/* Tabs Layout */}
+      <div className="flex flex-col md:flex-row gap-6">
+        
+        {/* Left Panel: Tabs & Stage Filters (Sticky on desktop) */}
+        <div className="w-full md:w-64 shrink-0 space-y-4">
+          <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-2 flex flex-row md:flex-col gap-1">
+            <button 
+              onClick={() => setTab('WORKFLOW')}
+              className={`flex-1 flex justify-between items-center px-4 py-3 rounded-lg text-sm font-bold transition-all ${tab === 'WORKFLOW' ? 'bg-[#193B8F] text-white shadow-md' : 'text-gray-600 hover:bg-gray-50'}`}>
+              Tugas Saya
+              <span className={`px-2 py-0.5 rounded-full text-[10px] ${tab === 'WORKFLOW' ? 'bg-white/20 text-white' : 'bg-gray-200 text-gray-600'}`}>
+                {tabCounts.WORKFLOW}
+              </span>
+            </button>
+            <button 
+              onClick={() => setTab('JOB_BOARD')}
+              className={`flex-1 flex justify-between items-center px-4 py-3 rounded-lg text-sm font-bold transition-all ${tab === 'JOB_BOARD' ? 'bg-[#193B8F] text-white shadow-md' : 'text-gray-600 hover:bg-gray-50'}`}>
+              Job Board
+              <span className={`px-2 py-0.5 rounded-full text-[10px] ${tab === 'JOB_BOARD' ? 'bg-white/20 text-white' : 'bg-gray-200 text-gray-600'}`}>
+                {tabCounts.JOB_BOARD}
+              </span>
+            </button>
           </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filteredWorkflow.map(occ => (
-              <TaskBox 
-                key={occ.id} 
-                occ={occ} 
-                onAction={handleAction} 
-                manpowers={manpowers} 
-                userRole={userRole} 
-                userMpId={userMpId}
-                isAdmin={isAdminUser} 
-              />
-            ))}
-          </div>
-        )
-      ) : (
-        /* ── JOB BOARD TAB ── */
-        totalJobBoard === 0 ? (
-          <div className="text-center py-20 text-gray-400">
-            <CheckCircle className="w-12 h-12 mx-auto mb-3 text-green-300" />
-            <p>Tidak ada task yang belum memiliki PIC di area Anda.</p>
-          </div>
-        ) : (
-          <div className="space-y-6">
 
-            {/* Section: Task DC Tersedia */}
-            {(dcTasks.length > 0 && !isAnalystUser) || isAdminUser ? (
-              dcTasks.length > 0 ? (
-                <div>
-                  <div className="flex items-center gap-2 mb-3">
-                    <Database className="w-4 h-4 text-navy-600" />
-                    <h3 className="text-sm font-bold text-gray-700">
-                      Task Data Collection Tersedia
-                      <span className="ml-2 px-2 py-0.5 bg-blue-100 text-blue-700 rounded-full text-xs">{dcTasks.length}</span>
-                    </h3>
-                    <span className="text-xs text-gray-400">— Belum ada Data Collector</span>
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {dcTasks.map(occ => (
-                      <JobBoardBox 
-                        key={occ.id} 
-                        occ={occ} 
-                        onAction={handleAction} 
-                        manpowers={manpowers} 
-                        userRole={userRole} 
-                        isAdmin={isAdminUser}
-                        claimLabel="Ambil Task DC"
-                        claimAction="claim"
-                        badgeColor="bg-blue-500"
-                        badgeLabel="DC Collection"
-                      />
-                    ))}
-                  </div>
-                </div>
-              ) : null
-            ) : null}
-
-            {/* Section: Task Analisis Tersedia — untuk Analyst + Admin */}
-            {(isAnalystUser || isAdminUser) && analysisTasks.length > 0 ? (
-              <div>
-                <div className="flex items-center gap-2 mb-3">
-                  <BarChart2 className="w-4 h-4 text-amber-500" />
-                  <h3 className="text-sm font-bold text-gray-700">
-                    Task Analisis Tersedia
-                    <span className="ml-2 px-2 py-0.5 bg-amber-100 text-amber-700 rounded-full text-xs">{analysisTasks.length}</span>
-                  </h3>
-                  <span className="text-xs text-gray-400">— DC sudah selesai, belum ada Analyst</span>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {analysisTasks.map(occ => (
-                    <JobBoardBox 
-                      key={occ.id} 
-                      occ={occ} 
-                      onAction={handleAction} 
-                      manpowers={manpowers} 
-                      userRole={userRole} 
-                      isAdmin={isAdminUser}
-                      claimLabel="Ambil Analisis"
-                      claimAction="claim"
-                      badgeColor="bg-amber-500"
-                      badgeLabel="Analisis"
-                    />
-                  ))}
-                </div>
+          {tab === 'WORKFLOW' && (
+            <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-4 hidden md:block">
+              <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3 flex items-center gap-1.5"><Filter className="w-3.5 h-3.5"/> Filter Stage</h3>
+              <div className="flex flex-col gap-1.5">
+                <button
+                  onClick={() => setFilterStage('')}
+                  className={`text-left text-[13px] px-3 py-2 rounded-lg font-medium transition-all ${!filterStage ? 'bg-gray-100 text-gray-900 border border-gray-200' : 'text-gray-600 hover:bg-gray-50 border border-transparent'}`}>
+                  Tampilkan Semua
+                </button>
+                {STAGES.filter(s => s.key !== 'CLOSED').map(s => (
+                  <button key={s.key} onClick={() => setFilterStage(s.key)}
+                    className={`text-left text-[13px] px-3 py-2 rounded-lg font-medium transition-all flex justify-between items-center ${filterStage === s.key ? 'bg-gray-100 text-gray-900 border border-gray-200' : 'text-gray-600 hover:bg-gray-50 border border-transparent'}`}>
+                    {s.full}
+                    {filterStage === s.key && <div className={`w-2 h-2 rounded-full ${s.color.split(' ')[0]}`} />}
+                  </button>
+                ))}
               </div>
-            ) : null}
+            </div>
+          )}
+        </div>
 
-            {/* Pesan jika analyst tidak lihat DC tasks */}
-            {isAnalystUser && dcTasks.length > 0 && analysisTasks.length === 0 && (
-              <div className="text-center py-8 text-gray-400">
-                <p className="text-sm">Ada {dcTasks.length} task DC yang sedang dalam proses pengumpulan data.</p>
-                <p className="text-xs mt-1">Task analisis akan muncul setelah DC selesai.</p>
-              </div>
-            )}
+        {/* Right Panel: Content Grid */}
+        <div className="flex-1 min-w-0">
+          {/* Mobile Filter Stage (Horizontal Scroll) */}
+          {tab === 'WORKFLOW' && (
+            <div className="md:hidden flex overflow-x-auto pb-2 mb-4 gap-2 no-scrollbar">
+              <button
+                onClick={() => setFilterStage('')}
+                className={`shrink-0 text-xs px-4 py-2 rounded-full font-bold border transition ${!filterStage ? 'bg-gray-800 text-white border-gray-800' : 'bg-white text-gray-600 border-gray-200'}`}>
+                Semua
+              </button>
+              {STAGES.filter(s => s.key !== 'CLOSED').map(s => (
+                <button key={s.key} onClick={() => setFilterStage(s.key)}
+                  className={`shrink-0 text-xs px-4 py-2 rounded-full font-bold border transition flex items-center gap-2 ${filterStage === s.key ? 'bg-gray-800 text-white border-gray-800' : 'bg-white text-gray-600 border-gray-200'}`}>
+                  <div className={`w-2 h-2 rounded-full ${s.color.split(' ')[0]}`} /> {s.full}
+                </button>
+              ))}
+            </div>
+          )}
 
-          </div>
-        )
-      )}
+          {loading ? (
+            <div className="flex justify-center py-20">
+              <div className="animate-spin rounded-full h-8 w-8 border-4 border-gray-200 border-t-[#193B8F]"></div>
+            </div>
+          ) : (
+            <>
+              {tab === 'WORKFLOW' && (
+                <div className="space-y-4">
+                  {filteredWorkflow.length === 0 ? (
+                    <div className="text-center py-16 bg-white border border-gray-200 rounded-xl shadow-sm">
+                      <p className="text-gray-500 font-medium">Tidak ada tugas pada tahap ini.</p>
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                      {filteredWorkflow.map(occ => (
+                        <TaskBox key={occ.id} occ={occ} onAction={handleAction} manpowers={manpowers} userRole={userRole} userMpId={userMpId} isAdmin={isAdminUser} />
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {tab === 'JOB_BOARD' && (
+                <div className="space-y-8">
+                  {dcTasks.length === 0 && analysisTasks.length === 0 ? (
+                    <div className="text-center py-16 bg-white border border-gray-200 rounded-xl shadow-sm">
+                      <p className="text-gray-500 font-medium">Hore! Tidak ada task yang perlu diambil saat ini.</p>
+                    </div>
+                  ) : (
+                    <>
+                      {dcTasks.length > 0 && (
+                        <div className="space-y-3">
+                          <h2 className="text-lg font-bold text-gray-800 border-b border-gray-200 pb-2">
+                            Tugas Data Collection ({dcTasks.length})
+                          </h2>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+                            {dcTasks.map(occ => (
+                              <JobBoardBox key={occ.id} occ={occ} onAction={handleAction} manpowers={manpowers} userRole={userRole} isAdmin={isAdminUser} badgeColor="bg-blue-50 text-blue-700 border-blue-200" badgeLabel="DC Collection" claimLabel="Ambil Task DC" claimAction="claim" />
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {analysisTasks.length > 0 && (
+                        <div className="space-y-3">
+                          <h2 className="text-lg font-bold text-gray-800 border-b border-gray-200 pb-2">
+                            Tugas Analisis ({analysisTasks.length})
+                          </h2>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+                            {analysisTasks.map(occ => (
+                              <JobBoardBox key={occ.id} occ={occ} onAction={handleAction} manpowers={manpowers} userRole={userRole} isAdmin={isAdminUser} badgeColor="bg-amber-50 text-amber-700 border-amber-200" badgeLabel="Analisis Data" claimLabel="Ambil Task Analisis" claimAction="claim-analysis" />
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
