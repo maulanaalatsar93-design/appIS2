@@ -121,21 +121,26 @@ function AddHelperModal({ onConfirm, onCancel, manpowers, occ }) {
   const [search, setSearch] = useState('');
   const [showOutsideArea, setShowOutsideArea] = useState(false);
 
+  const picId = occ.dataCollectorId || occ.analystId || occ.assignedToId;
+  const pic = (Array.isArray(manpowers) ? manpowers : []).find(m => m.id === picId);
+  const picArea = pic ? (pic.sub_area || '').toLowerCase() : '';
+  const fallbackOccArea = `${occ?.rule?.pabrik?.nama_pabrik || ''} ${occ?.rule?.subArea || ''}`.trim().toLowerCase();
+  const referenceArea = picArea || fallbackOccArea;
+
   const mps = (Array.isArray(manpowers) ? manpowers : []).filter(m => {
     if (!m.name.toLowerCase().includes(search.toLowerCase())) return false;
     if (m.id === occ.assignedToId || m.id === occ.dataCollectorId || m.id === occ.analystId) return false;
 
-    const occArea = `${occ?.rule?.pabrik?.nama_pabrik || ''} ${occ?.rule?.subArea || ''}`.trim().toLowerCase();
     const mArea = (m.sub_area || '').toLowerCase();
     
-    const isOccPphs = ['pphs', 'osbl', 'conveyor ubs', 'conveyor bsl', 'batubara boiler', 'batu bara boiler'].some(kw => occArea.includes(kw));
-    const isMPPphs = ['pphs', 'osbl'].some(kw => mArea.includes(kw));
+    const isRefPphs = ['pphs', 'osbl', 'conveyor ubs', 'conveyor bsl', 'batubara boiler', 'batu bara boiler'].some(kw => referenceArea.includes(kw));
+    const isMPPphs = ['pphs', 'osbl', 'conveyor ubs', 'conveyor bsl', 'batubara boiler', 'batu bara boiler'].some(kw => mArea.includes(kw));
     
     let isSameArea = false;
-    if (isOccPphs && isMPPphs && occArea.includes('6') && mArea.includes('6')) {
+    if (isRefPphs && isMPPphs && referenceArea.includes('6') && mArea.includes('6')) {
       isSameArea = true;
     } else {
-      isSameArea = mArea === occArea;
+      isSameArea = mArea === referenceArea;
     }
 
     if (!showOutsideArea && !isSameArea) return false;

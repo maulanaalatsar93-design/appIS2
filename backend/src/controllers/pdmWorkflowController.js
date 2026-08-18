@@ -770,13 +770,22 @@ export const addHelper = async (req, res) => {
     const helperMp = await prisma.manPower.findUnique({ where: { id: parseInt(helperId) } });
     if (!helperMp) return res.status(404).json({ error: 'Helper not found' });
 
-    const occArea = `${occ.rule.pabrik?.nama_pabrik || ''} ${occ.rule.subArea || ''}`.trim().toLowerCase();
+    const picId = occ.dataCollectorId || occ.analystId || occ.assignedToId;
+    let picArea = '';
+    if (picId) {
+       const picMp = await prisma.manPower.findUnique({ where: { id: picId } });
+       if (picMp) picArea = (picMp.sub_area || '').toLowerCase();
+    }
+    
+    const referenceArea = picArea || `${occ.rule.pabrik?.nama_pabrik || ''} ${occ.rule.subArea || ''}`.trim().toLowerCase();
     const mArea = (helperMp.sub_area || '').toLowerCase();
-    const isOccPphs = ['pphs', 'osbl', 'conveyor ubs', 'conveyor bsl', 'batubara boiler', 'batu bara boiler'].some(kw => occArea.includes(kw));
-    const isMPPphs = ['pphs', 'osbl'].some(kw => mArea.includes(kw));
+    
+    const isRefPphs = ['pphs', 'osbl', 'conveyor ubs', 'conveyor bsl', 'batubara boiler', 'batu bara boiler'].some(kw => referenceArea.includes(kw));
+    const isMPPphs = ['pphs', 'osbl', 'conveyor ubs', 'conveyor bsl', 'batubara boiler', 'batu bara boiler'].some(kw => mArea.includes(kw));
+    
     let isCrossArea = true;
-    if (isOccPphs && isMPPphs && occArea.includes('6') && mArea.includes('6')) isCrossArea = false;
-    else if (mArea === occArea) isCrossArea = false;
+    if (isRefPphs && isMPPphs && referenceArea.includes('6') && mArea.includes('6')) isCrossArea = false;
+    else if (mArea === referenceArea) isCrossArea = false;
     
     const status = (isCrossArea && !isAdmin) ? 'PENDING' : 'APPROVED';
     const activeStage = stage || occ.workflowStage;
