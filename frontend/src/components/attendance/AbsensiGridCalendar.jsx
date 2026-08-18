@@ -52,15 +52,44 @@ export default function AbsensiGridCalendar({ employees = [], attendanceChanges 
     return map;
   }, [attendanceChanges, year, month]);
 
+  const getRank = (div, type, name) => {
+    const str = `${div} ${type} ${name}`.toLowerCase();
+    if (str.includes('vice president') || str.includes('vp')) return 1;
+    if (str.includes('avp rot1') || (str.includes('avp') && str.includes('rotating 1'))) return 2;
+    if (str.includes('avp rot2') || (str.includes('avp') && str.includes('rotating 2'))) return 3;
+    if (str.includes('avp bengkel')) return 4;
+    if (str.includes('avp metal')) return 5;
+    if (str.includes('sekretaris')) return 6;
+    if (str.includes('staff rotating 1') || str.includes('rotating 1')) return 7;
+    if (str.includes('rotating 2') || str.includes('rotating2')) return 8;
+    if (str.includes('bengkel')) return 9;
+    if (str.includes('metal')) return 10;
+    if (str.includes('qc')) return 11;
+    return 99;
+  };
+
+  const isOrganic = (type) => {
+    const str = (type || '').toLowerCase();
+    if (str.includes('non') && (str.includes('organic') || str.includes('organik'))) return false;
+    return true;
+  };
+
   const sortedEmployees = useMemo(() => {
     return [...employees].sort((a, b) => {
+      const rankA = getRank(a.division, a.employee_type, a.name);
+      const rankB = getRank(b.division, b.employee_type, b.name);
+      
+      if (rankA !== rankB) return rankA - rankB;
+      
       const divA = a.division || '';
       const divB = b.division || '';
       if (divA !== divB) return divA.localeCompare(divB);
       
-      const typeA = a.employee_type || '';
-      const typeB = b.employee_type || '';
-      return typeA.localeCompare(typeB);
+      const orgA = isOrganic(a.employee_type);
+      const orgB = isOrganic(b.employee_type);
+      if (orgA !== orgB) return orgA ? -1 : 1;
+      
+      return (a.name || '').localeCompare(b.name || '');
     });
   }, [employees]);
 
@@ -95,8 +124,12 @@ export default function AbsensiGridCalendar({ employees = [], attendanceChanges 
           <tbody>
             {sortedEmployees.map((emp, index) => {
               const empAbsences = absenceMap[emp.id] || {};
+              const org = isOrganic(emp.employee_type);
               const isEvenRow = index % 2 === 0;
-              const rowBg = isEvenRow ? 'bg-white' : 'bg-slate-50';
+              let rowBg = isEvenRow ? 'bg-white' : 'bg-slate-50';
+              if (!org) {
+                rowBg = isEvenRow ? 'bg-orange-50' : 'bg-orange-100/60';
+              }
 
               const isNewDivision = currentDivision !== emp.division;
               if (isNewDivision) {
@@ -107,10 +140,10 @@ export default function AbsensiGridCalendar({ employees = [], attendanceChanges 
                 <React.Fragment key={emp.id}>
                   {/* Division Header Row */}
                   {isNewDivision && (
-                    <tr className="bg-slate-200/90 border-y-2 border-slate-300 shadow-sm">
+                    <tr className="bg-slate-200/90 border-y border-slate-300">
                       <td 
                         colSpan={4 + totalDays} 
-                        className="sticky left-0 z-20 py-1.5 px-3 font-extrabold text-slate-800 text-xs tracking-wider"
+                        className="sticky left-0 z-20 py-0.5 px-3 font-extrabold text-slate-700 text-[10px] tracking-wider uppercase shadow-[1px_0_0_0_rgba(203,213,225,1)]"
                       >
                         {emp.division || 'Tanpa Bagian'}
                       </td>
@@ -121,7 +154,7 @@ export default function AbsensiGridCalendar({ employees = [], attendanceChanges 
                   <tr className="hover:bg-slate-100 transition-colors">
                   {/* Sticky Left Columns */}
                   <td className={`sticky left-0 z-10 p-2 border border-gray-300 font-semibold text-slate-800 ${rowBg}`}>
-                    {emp.name}
+                    {emp.name} {!org && <span className="ml-1 text-[9px] px-1 py-0.5 bg-orange-200 text-orange-800 rounded">Non-Org</span>}
                   </td>
                   <td className={`sticky left-[150px] z-10 p-2 border border-gray-300 text-slate-700 ${rowBg}`}>
                     {emp.division}
