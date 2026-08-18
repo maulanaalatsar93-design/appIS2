@@ -576,16 +576,11 @@ export const getMyWorkflowTasks = async (req, res) => {
         
         // Handling special case for PPHS & OSBL
         if (areaName.includes('PPHS') || areaName.includes('OSBL')) {
+          const pphsKeywords = ['ASU', 'ASP', 'CONVEYOR', 'TANKI', 'UBS', 'QAL', 'BSL', 'PPHS', 'OSBL'];
           return {
             rule: {
               pabrik: { nama_pabrik: { contains: pabrikCode, mode: 'insensitive' } },
-              OR: [
-                { subArea: { contains: 'PPHS', mode: 'insensitive' } },
-                { subArea: { contains: 'OSBL', mode: 'insensitive' } },
-                { subArea: { contains: 'CONVEYOR', mode: 'insensitive' } },
-                { subArea: { contains: 'BATUBARA', mode: 'insensitive' } },
-                { subArea: { contains: 'BATU BARA', mode: 'insensitive' } }
-              ]
+              OR: pphsKeywords.map(kw => ({ subArea: { contains: kw, mode: 'insensitive' } }))
             }
           };
         }

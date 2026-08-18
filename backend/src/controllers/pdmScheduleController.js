@@ -30,11 +30,12 @@ async function shiftToWorkday(date) {
 }
 
 // Helper to determine if an area belongs to PPHS & OSBL team
+const pphsKeywords = ['ASU', 'ASP', 'CONVEYOR', 'TANKI', 'UBS', 'QAL', 'BSL', 'PPHS', 'OSBL'];
+
 const isPphsArea = (subArea) => {
-  const str = (subArea || '').toUpperCase();
-  return str.includes('PPHS') || str.includes('OSBL') || 
-         str.includes('CONVEYOR UBS') || str.includes('CONVEYOR BSL') || 
-         str.includes('BATUBARA BOILER') || str.includes('BATU BARA BOILER');
+  if (!subArea) return false;
+  const str = subArea.toUpperCase();
+  return pphsKeywords.some(kw => str.includes(kw));
 };
 
 // ============================================================
@@ -371,10 +372,11 @@ export const getJobBoardTasksForUser = async (user, year, month) => {
     if (areaArray.length > 0) {
        const orConditions = areaArray.map(areaKey => {
           const [pid, type] = areaKey.split('_');
+          
           if (type === 'PPHS') {
-             return { pabrik_id: parseInt(pid), subArea: { contains: 'PPHS', mode: 'insensitive' } };
+             return { pabrik_id: parseInt(pid), OR: pphsKeywords.map(kw => ({ subArea: { contains: kw, mode: 'insensitive' } })) };
           } else {
-             return { pabrik_id: parseInt(pid), NOT: { subArea: { contains: 'PPHS', mode: 'insensitive' } } };
+             return { pabrik_id: parseInt(pid), AND: pphsKeywords.map(kw => ({ NOT: { subArea: { contains: kw, mode: 'insensitive' } } })) };
           }
        });
        filterByRoster = { rule: { OR: orConditions } };
