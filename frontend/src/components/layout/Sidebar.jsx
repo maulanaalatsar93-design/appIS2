@@ -118,11 +118,12 @@ export default function Sidebar({ isCollapsed, setIsCollapsed, isMobileMenuOpen,
         <aside className="w-16 bg-white border-r border-gray-200 flex flex-col items-center py-4 justify-start shrink-0 h-full z-20 pointer-events-auto shadow-sm">
         <div className="w-full flex flex-col items-center gap-5">
           {/* Logo */}
-          <div className="w-10 h-10 bg-white border border-gray-200 rounded-xl flex items-center justify-center cursor-pointer shadow-sm hover:shadow-md transition-shadow">
+          <div className="w-12 h-12 flex items-center justify-center cursor-pointer transition-transform hover:scale-105">
             <img
               src={logoImg}
               alt="Logo"
-              className="w-7 h-7 object-contain"
+              className="w-9 h-9 object-contain drop-shadow-sm"
+              style={{ imageRendering: '-webkit-optimize-contrast' }}
               onError={(e) => { e.target.onerror = null; e.target.src = brandIconImg; }}
             />
           </div>
