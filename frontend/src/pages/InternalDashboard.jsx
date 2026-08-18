@@ -1096,9 +1096,10 @@ export default function InternalDashboard() {
                   <h4 className="text-xs font-bold text-slate-800">Progress CNF semua WO</h4>
                   <span className="text-xs font-extrabold text-blue-700">{summary?.jobLoadDetails?.gauges?.allWOCnfRate || 0}%</span>
                 </div>
-                <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                <div className="relative w-full h-2 bg-gray-200 rounded-full">
+                  <div className="absolute top-[-2px] bottom-[-2px] left-[90%] w-0.5 bg-red-500 z-10" title="Target 90%"></div>
                   <div
-                    className="h-full bg-blue-700 rounded-full transition-all duration-700"
+                    className="h-full rounded-full transition-all duration-700 bg-gradient-to-r from-[#fde047] via-[#10b981] to-[#4c1d95]"
                     style={{ width: `${Math.min(summary?.jobLoadDetails?.gauges?.allWOCnfRate || 0, 100)}%` }}
                   />
                 </div>
@@ -1130,9 +1131,10 @@ export default function InternalDashboard() {
                   <h4 className="text-xs font-bold text-slate-800">Progress PM04</h4>
                   <span className="text-xs font-extrabold text-orange-600">{summary?.jobLoadDetails?.gauges?.pm04CnfRate || 0}%</span>
                 </div>
-                <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                <div className="relative w-full h-2 bg-gray-200 rounded-full">
+                  <div className="absolute top-[-2px] bottom-[-2px] left-[90%] w-0.5 bg-red-500 z-10" title="Target 90%"></div>
                   <div
-                    className="h-full bg-orange-500 rounded-full transition-all duration-700"
+                    className="h-full rounded-full transition-all duration-700 bg-gradient-to-r from-[#fde047] via-[#10b981] to-[#4c1d95]"
                     style={{ width: `${Math.min(summary?.jobLoadDetails?.gauges?.pm04CnfRate || 0, 100)}%` }}
                   />
                 </div>
@@ -1172,9 +1174,10 @@ export default function InternalDashboard() {
                   </h4>
                   <span className="text-xs font-extrabold text-[#1A1C1E]">{summary?.jobLoadDetails?.gauges?.pm02PlusCnfRate || 0}%</span>
                 </div>
-                <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                <div className="relative w-full h-2 bg-gray-200 rounded-full">
+                  <div className="absolute top-[-2px] bottom-[-2px] left-[90%] w-0.5 bg-red-500 z-10" title="Target 90%"></div>
                   <div
-                    className="h-full bg-[#1A1C1E] rounded-full transition-all duration-700"
+                    className="h-full rounded-full transition-all duration-700 bg-gradient-to-r from-[#fde047] via-[#10b981] to-[#4c1d95]"
                     style={{ width: `${Math.min(summary?.jobLoadDetails?.gauges?.pm02PlusCnfRate || 0, 100)}%` }}
                   />
                 </div>
@@ -1209,9 +1212,10 @@ export default function InternalDashboard() {
                         <td className="py-3.5 px-5 text-gray-500">{row.tipe}</td>
                         <td className="py-3.5 px-5 text-slate-700 font-medium">{row.totalWO.toLocaleString('id-ID')}</td>
                         <td className="py-3.5 px-5">
-                          <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
+                          <div className="relative w-full h-3 bg-gray-200 rounded-full">
+                            <div className="absolute top-[-2px] bottom-[-2px] left-[90%] w-0.5 bg-red-500 z-10" title="Target 90%"></div>
                             <div
-                              className="h-full bg-[#1A4BC4] rounded-full transition-all duration-500"
+                              className="h-full rounded-full transition-all duration-500 bg-gradient-to-r from-[#fde047] via-[#10b981] to-[#4c1d95]"
                               style={{ width: `${Math.min(row.capaianCNF || 0, 100)}%` }}
                             />
                           </div>
@@ -1256,9 +1260,10 @@ export default function InternalDashboard() {
                         <td className="py-3.5 px-5 text-gray-500">{row.tipe}</td>
                         <td className="py-3.5 px-5 text-slate-700 font-medium">{row.totalWO.toLocaleString('id-ID')}</td>
                         <td className="py-3.5 px-5">
-                          <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
+                          <div className="relative w-full h-3 bg-gray-200 rounded-full">
+                            <div className="absolute top-[-2px] bottom-[-2px] left-[90%] w-0.5 bg-red-500 z-10" title="Target 90%"></div>
                             <div
-                              className="h-full bg-[#1A4BC4] rounded-full transition-all duration-500"
+                              className="h-full rounded-full transition-all duration-500 bg-gradient-to-r from-[#fde047] via-[#10b981] to-[#4c1d95]"
                               style={{ width: `${Math.min(row.capaianCNF || 0, 100)}%` }}
                             />
                           </div>
