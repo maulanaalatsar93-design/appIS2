@@ -463,6 +463,7 @@ export default function PdmTaskBoard() {
   })();
   const userRole = userPayload.role || 'staff';
   const userMpId = userPayload.man_power_id;
+  const isAdminUser = ['admin', 'manager', 'supervisor'].includes(userRole);
 
   useEffect(() => { fetchAll(); }, [filterMonth, filterYear, tab]);
   useEffect(() => { fetchManpowers(); }, []);
