@@ -54,17 +54,26 @@ export default function AbsensiGridCalendar({ employees = [], attendanceChanges 
 
   const getNormalizedDivision = (emp) => {
     const str = `${emp.division} ${emp.employee_type} ${emp.name}`.toLowerCase();
-    if (str.includes('febryan bagus') || str.includes('vice president') || str.includes('vp')) return 'Vice President';
+    if (str.includes('febryan bagus') || str.includes('vice president') || /\bvp\b/.test(str)) return 'Vice President';
+    if (str.includes('heri kurniawan') || str.includes('avp rot1') || (str.includes('avp') && str.includes('rotating 1'))) return 'AVP Rotating 1';
+    if (str.includes('supriadi') || str.includes('supariadi') || str.includes('avp rot2') || (str.includes('avp') && str.includes('rotating 2'))) return 'AVP Rotating 2';
+    if (str.includes('zulkifli') || str.includes('avp bengkel')) return 'AVP Bengkel';
+    if (str.includes('ridwan sunarya') || str.includes('avp metal')) return 'AVP Metalurgi';
+    
+    // Default to their division if no hardcoded match
     return emp.division || 'Tanpa Bagian';
   };
 
   const getRank = (emp) => {
+    const norm = getNormalizedDivision(emp).toLowerCase();
+    if (norm === 'vice president') return 1;
+    if (norm === 'avp rotating 1') return 2;
+    if (norm === 'avp rotating 2') return 3;
+    if (norm === 'avp bengkel') return 4;
+    if (norm === 'avp metalurgi') return 5;
+    
+    // Fallback checks for staff
     const str = `${emp.division} ${emp.employee_type} ${emp.name}`.toLowerCase();
-    if (str.includes('febryan bagus') || str.includes('vice president') || str.includes('vp')) return 1;
-    if (str.includes('avp rot1') || (str.includes('avp') && str.includes('rotating 1'))) return 2;
-    if (str.includes('avp rot2') || (str.includes('avp') && str.includes('rotating 2'))) return 3;
-    if (str.includes('avp bengkel')) return 4;
-    if (str.includes('avp metal')) return 5;
     if (str.includes('sekretaris')) return 6;
     if (str.includes('staff rotating 1') || str.includes('rotating 1')) return 7;
     if (str.includes('rotating 2') || str.includes('rotating2')) return 8;
