@@ -198,15 +198,15 @@ export default function Sidebar({ isCollapsed, setIsCollapsed, isMobileMenuOpen,
                         navigate(item.path);
                         if (window.innerWidth < 768) setIsMobileMenuOpen(false);
                       }}
-                        className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
+                        className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-[13px] font-medium transition-all duration-200 ${
                           isActive
                             ? 'bg-navy-50 text-navy-600'
                             : 'text-gray-500 hover:bg-gray-50 hover:text-ink'
                         }`}
                       >
-                        <div className="flex items-center gap-3">
-                          <Icon className={`w-4 h-4 ${isActive ? 'text-navy-600' : 'text-gray-400'}`} />
-                          <span className={isActive ? 'font-bold' : ''}>{item.label}</span>
+                        <div className="flex items-center gap-2.5 min-w-0">
+                          <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-navy-600' : 'text-gray-400'}`} />
+                          <span className={`truncate ${isActive ? 'font-bold' : ''}`}>{item.label}</span>
                         </div>
                         {isActive && <div className="w-2 h-2 rounded-full bg-orange-500 shadow-sm shadow-orange-500/50" />}
                       </button>
