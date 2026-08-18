@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Bell, Database, Server, LogOut, User, Menu, Lock, ChevronRight } from 'lucide-react';
 import { AuthContext } from '../../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { playSubmitSound, playSuccessSound, playErrorSound } from '../../utils/soundUtils';
 
 export default function Header({ isCollapsed, setIsCollapsed, isMobileMenuOpen, setIsMobileMenuOpen }) {
+  const location = useLocation();
   const [apiStatus, setApiStatus] = useState('checking');
   const [isNotifOpen, setIsNotifOpen] = useState(false);
   const { user, logout, token } = useContext(AuthContext);
