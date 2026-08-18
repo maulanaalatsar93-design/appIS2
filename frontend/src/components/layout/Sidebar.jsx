@@ -115,14 +115,14 @@ export default function Sidebar({ isCollapsed, setIsCollapsed, isMobileMenuOpen,
       <div className={`fixed inset-y-0 left-0 flex h-screen shrink-0 z-50 pointer-events-none print:hidden transition-transform duration-300 md:translate-x-0 ${isMobileMenuOpen ? 'translate-x-0 pointer-events-auto' : '-translate-x-full'}`}>
         
         {/* === Primary Sidebar (Thin) === */}
-        <aside className="w-[72px] bg-white border-r border-slate-200/80 flex flex-col items-center py-5 justify-start shrink-0 h-full z-20 pointer-events-auto shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
-        <div className="w-full flex flex-col items-center gap-6">
+        <aside className="w-16 bg-white border-r border-gray-200 flex flex-col items-center py-4 justify-start shrink-0 h-full z-20 pointer-events-auto shadow-sm">
+        <div className="w-full flex flex-col items-center gap-5">
           {/* Logo */}
-          <div className="w-12 h-12 bg-gradient-to-b from-slate-50 to-white border border-slate-200/80 rounded-2xl flex items-center justify-center cursor-pointer shadow-sm shadow-slate-200/50 hover:shadow-md transition-all group hover:-translate-y-0.5 ring-1 ring-white">
+          <div className="w-10 h-10 bg-white border border-gray-200 rounded-xl flex items-center justify-center cursor-pointer shadow-sm hover:shadow-md transition-shadow">
             <img
               src={logoImg}
               alt="Logo"
-              className="w-8 h-8 object-contain group-hover:scale-110 transition-transform duration-300 drop-shadow-sm"
+              className="w-7 h-7 object-contain"
               onError={(e) => { e.target.onerror = null; e.target.src = brandIconImg; }}
             />
           </div>
@@ -140,15 +140,14 @@ export default function Sidebar({ isCollapsed, setIsCollapsed, isMobileMenuOpen,
                     setIsCollapsed(false); 
                     if (window.innerWidth < 768) setIsMobileMenuOpen(false);
                   }}
-                  className={`relative w-[46px] h-[46px] rounded-2xl flex items-center justify-center transition-all duration-300 group ${
+                  className={`w-11 h-11 rounded-2xl flex items-center justify-center transition-all duration-300 ${
                     isActive 
-                      ? 'bg-gradient-to-br from-[#1e3a8a] to-[#0f172a] text-white shadow-lg shadow-blue-900/30 ring-1 ring-navy-800' 
-                      : 'text-slate-400 hover:text-navy-700 hover:bg-slate-50'
+                      ? 'bg-navy-600 text-white shadow-lg shadow-navy-600/30 scale-105' 
+                      : 'text-gray-400 hover:text-navy-600 hover:bg-navy-50'
                   }`}
                   title={cat.label}
                 >
-                  {isActive && <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-orange-500 rounded-r-full shadow-[0_0_8px_rgba(234,88,12,0.6)]" />}
-                  <Icon className={`w-5 h-5 transition-transform duration-300 ${isActive ? 'scale-110' : 'group-hover:scale-110'}`} strokeWidth={isActive ? 2.5 : 2} />
+                  <Icon className="w-6 h-6" strokeWidth={isActive ? 2.5 : 2} />
                 </button>
               );
             })}
@@ -166,27 +165,26 @@ export default function Sidebar({ isCollapsed, setIsCollapsed, isMobileMenuOpen,
         <div className="flex-1 overflow-hidden flex flex-col min-w-[15rem]">
           
           {/* Header of Secondary Sidebar */}
-          <div className="h-[88px] px-6 flex items-center justify-between shrink-0 border-b border-slate-100/60 bg-white/50">
+          <div className="h-16 px-5 flex items-center justify-between shrink-0">
             <div>
-              <h2 className="text-xl font-display font-extrabold bg-gradient-to-br from-slate-800 to-slate-600 bg-clip-text text-transparent tracking-tight">{activeCategory.label}</h2>
-              <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Menu & Modul Navigasi</p>
+              <h2 className="text-xl font-display font-bold text-ink tracking-tight">{activeCategory.label}</h2>
+              <p className="text-xs text-gray-400 font-medium tracking-wide">Menu & Modul Navigasi</p>
             </div>
             <button 
               onClick={() => setIsCollapsed(true)}
-              className="p-1.5 text-slate-400 hover:text-navy-700 hover:bg-slate-100 rounded-xl transition-all hover:scale-105 active:scale-95"
+              className="p-1.5 text-gray-400 hover:text-ink hover:bg-gray-100 rounded-lg transition-colors"
             >
-              <ChevronLeft className="w-5 h-5" strokeWidth={2.5} />
+              <ChevronLeft className="w-5 h-5" />
             </button>
           </div>
 
+
+
           {/* Sub Navigation */}
-          <div className="px-4 py-6 flex-1 overflow-y-auto space-y-6 custom-scrollbar">
+          <div className="px-3 flex-1 overflow-y-auto space-y-5 pb-6 custom-scrollbar">
             {activeCategory.groups.map((group, idx) => (
-              <div key={idx} className="space-y-2">
-                <div className="flex items-center gap-2 px-3 mb-2">
-                  <div className="w-1 h-3.5 bg-blue-500/40 rounded-full"></div>
-                  <p className="text-[10px] font-extrabold text-slate-400 uppercase tracking-[0.2em]">{group.label}</p>
-                </div>
+              <div key={idx} className="space-y-1">
+                <p className="px-3 text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">{group.label}</p>
                 
                 <div className="space-y-0.5">
                   {group.items.map((item) => {
@@ -199,18 +197,17 @@ export default function Sidebar({ isCollapsed, setIsCollapsed, isMobileMenuOpen,
                         navigate(item.path);
                         if (window.innerWidth < 768) setIsMobileMenuOpen(false);
                       }}
-                        className={`group relative w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-[13px] font-medium transition-all duration-200 overflow-hidden ${
+                        className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
                           isActive
-                            ? 'bg-blue-50/60 text-blue-700 ring-1 ring-blue-100/50'
-                            : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800'
+                            ? 'bg-navy-50 text-navy-600'
+                            : 'text-gray-500 hover:bg-gray-50 hover:text-ink'
                         }`}
                       >
-                        {isActive && <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-transparent pointer-events-none"></div>}
-                        <div className="flex items-center gap-3 relative z-10">
-                          <Icon className={`w-4 h-4 transition-transform duration-300 group-hover:scale-110 ${isActive ? 'text-blue-600' : 'text-slate-400'}`} />
+                        <div className="flex items-center gap-3">
+                          <Icon className={`w-4 h-4 ${isActive ? 'text-navy-600' : 'text-gray-400'}`} />
                           <span className={isActive ? 'font-bold' : ''}>{item.label}</span>
                         </div>
-                        {isActive && <div className="w-1.5 h-1.5 rounded-full bg-blue-600 shadow-[0_0_6px_rgba(37,99,235,0.4)] relative z-10" />}
+                        {isActive && <div className="w-2 h-2 rounded-full bg-orange-500 shadow-sm shadow-orange-500/50" />}
                       </button>
                     );
                   })}

@@ -14,20 +14,20 @@ export default function MainLayout() {
     <div className="flex h-screen bg-gray-50 text-ink font-sans overflow-hidden">
       {/* Sidebar (Dual-Sidebar component handles its own state) */}
       {user && (
-        <Sidebar 
-          isCollapsed={isCollapsed} 
-          setIsCollapsed={setIsCollapsed} 
+        <Sidebar
+          isCollapsed={isCollapsed}
+          setIsCollapsed={setIsCollapsed}
           isMobileMenuOpen={isMobileMenuOpen}
           setIsMobileMenuOpen={setIsMobileMenuOpen}
         />
       )}
-      
+
       {/* Main Content Area */}
-      <div className={`flex-1 flex flex-col min-w-0 bg-gray-50/50 relative transition-all duration-300 ${user ? (isCollapsed ? 'md:pl-16' : 'md:pl-[19rem]') : 'pl-0'}`}>
+      <div className={`flex-1 flex flex-col min-w-0 bg-gray-50/50 relative transition-all duration-300 ${user ? (isCollapsed ? 'md:pl-[84px]' : 'md:pl-[364px]') : 'pl-0'}`}>
         {user && (
-          <Header 
-            isCollapsed={isCollapsed} 
-            setIsCollapsed={setIsCollapsed} 
+          <Header
+            isCollapsed={isCollapsed}
+            setIsCollapsed={setIsCollapsed}
             isMobileMenuOpen={isMobileMenuOpen}
             setIsMobileMenuOpen={setIsMobileMenuOpen}
           />

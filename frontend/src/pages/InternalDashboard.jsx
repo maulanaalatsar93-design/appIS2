@@ -733,21 +733,20 @@ export default function InternalDashboard() {
                     { key: 'sakit', label: 'Sakit', icon: Stethoscope, color: 'rose', val: summary?.manPower?.detailed?.sakit || 0 },
                     { key: 'referal', label: 'Referal', icon: UserCheck, color: 'purple', val: summary?.manPower?.detailed?.referal || 0 },
                   ].map(({ key, label, icon: Icon, color, val }) => (
-                      <button
-                        key={key}
-                        onClick={() => { setSelectedCategory(key); setShowCategoryModal(true); }}
-                        className={`group relative bg-white/70 backdrop-blur-md border border-white/80 rounded-2xl p-4 flex flex-col items-center gap-2 hover:shadow-xl hover:shadow-${color}-500/10 hover:-translate-y-1 ring-1 ring-slate-100 hover:ring-${color}-200 transition-all duration-300 cursor-pointer text-center overflow-hidden`}
-                      >
-                        <div className={`absolute top-0 right-0 w-16 h-16 bg-${color}-50 rounded-full blur-xl -mr-6 -mt-6 group-hover:bg-${color}-100 transition-colors`}></div>
-                        <div className={`relative z-10 w-10 h-10 rounded-2xl bg-white shadow-sm ring-1 ring-slate-100 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}>
-                          <Icon className={`w-4 h-4 text-${color}-600`} />
-                        </div>
-                        <div className={`relative z-10 text-2xl font-extrabold text-slate-800 leading-tight`}>{val}</div>
-                        <div className={`relative z-10 text-[9px] font-bold text-slate-500 uppercase tracking-wider`}>{label}</div>
-                        {val > 0 && (
-                          <div className="absolute top-2 right-2 w-2 h-2 rounded-full bg-red-500 animate-pulse ring-2 ring-red-100"></div>
-                        )}
-                      </button>
+                    <button
+                      key={key}
+                      onClick={() => { setSelectedCategory(key); setShowCategoryModal(true); }}
+                      className={`group relative bg-white border border-slate-200 rounded-xl p-3 flex flex-col items-center gap-1.5 hover:shadow-md hover:border-slate-300 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer text-center`}
+                    >
+                      <div className={`w-8 h-8 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                        <Icon className={`w-4 h-4 text-${color}-600`} />
+                      </div>
+                      <div className={`text-2xl font-extrabold text-slate-800 leading-tight`}>{val}</div>
+                      <div className={`text-[9px] font-bold text-slate-500 uppercase tracking-wider`}>{label}</div>
+                      {val > 0 && (
+                        <div className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></div>
+                      )}
+                    </button>
                   ))}
                 </div>
               </div>
@@ -767,26 +766,25 @@ export default function InternalDashboard() {
                     { key: 'dinasLuarNegeri', label: 'Dinas Luar Negeri', icon: Globe, color: 'indigo', val: summary?.manPower?.detailed?.dinasLuarNegeri || 0 },
                     { key: 'training', label: 'Training / Pelatihan', icon: GraduationCap, color: 'teal', val: summary?.manPower?.detailed?.training || 0 },
                   ].map(({ key, label, icon: Icon, color, val }) => (
-                      <button
-                        key={key}
-                        onClick={() => { setSelectedCategory(key); setShowCategoryModal(true); }}
-                        className={`group relative bg-white/70 backdrop-blur-md border border-white/80 rounded-2xl p-4 flex items-center gap-4 hover:shadow-xl hover:shadow-${color}-500/10 hover:-translate-y-1 ring-1 ring-slate-100 hover:ring-${color}-200 transition-all duration-300 cursor-pointer text-left overflow-hidden`}
-                      >
-                        <div className={`absolute top-0 right-0 w-24 h-24 bg-${color}-50 rounded-full blur-2xl -mr-10 -mt-10 group-hover:bg-${color}-100 transition-colors`}></div>
-                        <div className={`relative z-10 w-12 h-12 rounded-2xl bg-white shadow-sm ring-1 ring-slate-100 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:-rotate-3 transition-all duration-300`}>
-                          <Icon className={`w-5 h-5 text-${color}-600`} />
+                    <button
+                      key={key}
+                      onClick={() => { setSelectedCategory(key); setShowCategoryModal(true); }}
+                      className={`group relative bg-white border border-slate-200 rounded-xl p-4 flex items-center gap-4 hover:shadow-md hover:border-slate-300 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer text-left`}
+                    >
+                      <div className={`w-11 h-11 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform`}>
+                        <Icon className={`w-5 h-5 text-${color}-600`} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className={`text-[10px] font-bold text-slate-500 uppercase tracking-wider truncate`}>{label}</div>
+                        <div className={`text-3xl font-extrabold text-slate-800 leading-tight`}>{val}</div>
+                        <div className="text-[9px] text-gray-500">orang</div>
+                      </div>
+                      {val > 0 && (
+                        <div className="shrink-0">
+                          <div className={`w-2 h-2 rounded-full bg-${color}-500 animate-pulse`}></div>
                         </div>
-                        <div className="relative z-10 flex-1 min-w-0">
-                          <div className={`text-[10px] font-bold text-slate-500 uppercase tracking-wider truncate`}>{label}</div>
-                          <div className={`text-3xl font-extrabold text-slate-800 leading-tight group-hover:text-${color}-700 transition-colors`}>{val}</div>
-                          <div className="text-[9px] text-gray-500 font-medium">orang</div>
-                        </div>
-                        {val > 0 && (
-                          <div className="relative z-10 shrink-0">
-                            <div className={`w-2.5 h-2.5 rounded-full bg-${color}-500 animate-pulse ring-4 ring-${color}-100`}></div>
-                          </div>
-                        )}
-                      </button>
+                      )}
+                    </button>
                   ))}
                 </div>
               </div>

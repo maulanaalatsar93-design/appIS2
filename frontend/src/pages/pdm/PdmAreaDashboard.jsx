@@ -6,13 +6,13 @@ import {
 
 const STAGE_CONFIG = {
   DC_COLLECTION: { label: 'DC', color: 'bg-blue-100 text-blue-700', dot: 'bg-blue-500', order: 1 },
-  ANALYSIS:      { label: 'INSP', color: 'bg-amber-100 text-amber-700', dot: 'bg-amber-500', order: 2 },
-  AVP_APPROVAL:  { label: 'AVP', color: 'bg-purple-100 text-purple-700', dot: 'bg-purple-500', order: 3 },
-  SAP_UPLOAD:    { label: 'SAP', color: 'bg-orange-100 text-orange-700', dot: 'bg-orange-500', order: 4 },
-  CLOSED:        { label: 'Done', color: 'bg-green-100 text-green-700', dot: 'bg-green-500', order: 5 },
+  ANALYSIS: { label: 'INSP', color: 'bg-amber-100 text-amber-700', dot: 'bg-amber-500', order: 2 },
+  AVP_APPROVAL: { label: 'AVP', color: 'bg-purple-100 text-purple-700', dot: 'bg-purple-500', order: 3 },
+  SAP_UPLOAD: { label: 'SAP', color: 'bg-orange-100 text-orange-700', dot: 'bg-orange-500', order: 4 },
+  CLOSED: { label: 'Done', color: 'bg-green-100 text-green-700', dot: 'bg-green-500', order: 5 },
 };
 
-const MONTH_NAMES = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
 
 function StageCheck({ done, inProgress, label }) {
   if (done) return (
@@ -76,15 +76,15 @@ function AreaRow({ area, isUserArea }) {
               </span>
             )}
           </div>
-          
+
           <div className="w-full mt-1 flex items-center gap-3">
-             <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
-               <div
-                 className="h-full bg-blue-500 rounded-full"
-                 style={{ width: `${summary.total > 0 ? (summary.sap_closed / summary.total) * 100 : 0}%` }}
-               />
-             </div>
-             <span className="text-[10px] font-semibold text-gray-500 w-8">{summary.total > 0 ? Math.round((summary.sap_closed / summary.total) * 100) : 0}%</span>
+            <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-blue-500 rounded-full"
+                style={{ width: `${summary.total > 0 ? (summary.sap_closed / summary.total) * 100 : 0}%` }}
+              />
+            </div>
+            <span className="text-[10px] font-semibold text-gray-500 w-8">{summary.total > 0 ? Math.round((summary.sap_closed / summary.total) * 100) : 0}%</span>
           </div>
         </div>
 
@@ -101,9 +101,8 @@ function AreaRow({ area, isUserArea }) {
       </div>
 
       {/* Task list */}
-      <div className={`grid transition-all duration-300 ease-in-out ${expanded ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
-        <div className="overflow-hidden">
-          <div className="border-t border-gray-100 divide-y divide-gray-50 bg-gray-50/50">
+      {expanded && (
+        <div className="border-t border-gray-100 divide-y divide-gray-50 bg-gray-50/50">
           {tasks.length === 0 ? (
             <div className="px-5 py-4 text-sm text-gray-400 italic text-center">Tidak ada task untuk area ini.</div>
           ) : tasks.map(task => {
@@ -111,7 +110,7 @@ function AreaRow({ area, isUserArea }) {
             return (
               <div key={task.id} className={`px-5 py-3.5 flex items-center gap-3 text-sm transition ${task.isOverdue ? 'bg-red-50/40 hover:bg-red-50/60' : 'bg-white hover:bg-blue-50/30'}`}>
                 <span className={`shrink-0 w-2.5 h-2.5 rounded-full shadow-sm ${task.criticality === 'CRITICAL' ? 'bg-red-500 ring-2 ring-red-200' : 'bg-blue-400 ring-2 ring-blue-100'}`} />
-                
+
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap mb-1">
                     <span className="font-semibold text-gray-800 truncate">{task.code}</span>
@@ -135,7 +134,7 @@ function AreaRow({ area, isUserArea }) {
 
                 {/* Stage progress badges */}
                 <div className="hidden lg:flex items-center gap-1 shrink-0 bg-gray-50 p-1 rounded-lg border border-gray-100">
-                  {['DC_COLLECTION','ANALYSIS','AVP_APPROVAL','SAP_UPLOAD','CLOSED'].map((s, i) => {
+                  {['DC_COLLECTION', 'ANALYSIS', 'AVP_APPROVAL', 'SAP_UPLOAD', 'CLOSED'].map((s, i) => {
                     const cfg = STAGE_CONFIG[s];
                     const isDone = STAGE_CONFIG[task.workflowStage]?.order > i + 1;
                     const isCurrent = task.workflowStage === s;
@@ -146,12 +145,16 @@ function AreaRow({ area, isUserArea }) {
                     );
                   })}
                 </div>
+
+                <div className="flex flex-col items-end gap-1 shrink-0 ml-2">
+                  <span className={`text-[11px] px-2.5 py-1 rounded-md font-bold shadow-sm border border-white/50 ${stg.color}`}>{stg.label}</span>
+                  {task.isOverdue && <span className="text-[10px] text-red-600 font-bold flex items-center gap-0.5"><AlertTriangle className="w-3 h-3" /> Overdue</span>}
+                </div>
               </div>
             );
           })}
-          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
@@ -200,17 +203,15 @@ function PabrikRow({ pabrik, expanded, onToggle, userSubArea }) {
       </div>
 
       {/* Areas List */}
-      <div className={`grid transition-all duration-500 ease-in-out ${expanded ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
-        <div className="overflow-hidden">
-          <div className="bg-[#f8f9fc] border-t border-gray-100 p-5 space-y-4">
-            {areas.map(area => (
-              <AreaRow 
-                key={area.area_key} 
-                area={area} 
-                isUserArea={userSubArea && area.sub_area.toLowerCase() === userSubArea.toLowerCase()} 
-              />
-            ))}
-          </div>
+      <div className={`transition-all duration-500 ease-in-out ${expanded ? 'max-h-[5000px] opacity-100' : 'max-h-0 opacity-0'} overflow-hidden`}>
+        <div className="bg-[#f8f9fc] border-t border-gray-100 p-5 space-y-4">
+          {areas.map(area => (
+            <AreaRow
+              key={area.area_key}
+              area={area}
+              isUserArea={userSubArea && area.sub_area.toLowerCase() === userSubArea.toLowerCase()}
+            />
+          ))}
         </div>
       </div>
     </div>
@@ -305,9 +306,9 @@ export default function PdmAreaDashboard() {
   const overallPct = totals.total > 0 ? Math.round((totals.sap_closed / totals.total) * 100) : 0;
 
   return (
-    <div className="p-4 md:p-6 w-full max-w-7xl mx-auto space-y-5 md:space-y-6 bg-gray-50/30 min-h-screen">
+    <div className="p-6 w-full max-w-none space-y-6 bg-gray-50/30 min-h-screen">
       {/* Header */}
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-gray-100 animate-in fade-in slide-in-from-top-4 duration-500">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
         <div>
           <h1 className="text-3xl font-display font-extrabold text-gray-900 flex items-center gap-3 tracking-tight">
             <div className="p-2.5 bg-blue-50 rounded-xl text-[#193B8F]">
@@ -339,31 +340,29 @@ export default function PdmAreaDashboard() {
       </div>
 
       {/* Summary cards */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
         {[
           { label: 'Total Task', value: totals.total, bg: 'bg-white', border: 'border-gray-200', text: 'text-gray-800', icon: Database },
-          { label: 'DC Selesai', value: totals.dc_done, bg: 'bg-blue-50/40', border: 'border-blue-200', text: 'text-blue-700', icon: CheckCircle2 },
-          { label: 'Analisis Selesai', value: totals.analysis_done, bg: 'bg-amber-50/40', border: 'border-amber-200', text: 'text-amber-700', icon: CheckCircle2 },
-          { label: 'AVP Approved', value: totals.avp_approved, bg: 'bg-purple-50/40', border: 'border-purple-200', text: 'text-purple-700', icon: CheckCircle2 },
-          { label: 'SAP Closed', value: totals.sap_closed, bg: 'bg-green-50/40', border: 'border-green-200', text: 'text-green-700', icon: CheckCircle2 },
-        ].map((c, idx) => {
+          { label: 'DC Selesai', value: totals.dc_done, bg: 'bg-blue-50/50', border: 'border-blue-200', text: 'text-blue-700', icon: CheckCircle2 },
+          { label: 'Analisis Selesai', value: totals.analysis_done, bg: 'bg-amber-50/50', border: 'border-amber-200', text: 'text-amber-700', icon: CheckCircle2 },
+          { label: 'AVP Approved', value: totals.avp_approved, bg: 'bg-purple-50/50', border: 'border-purple-200', text: 'text-purple-700', icon: CheckCircle2 },
+          { label: 'SAP Closed', value: totals.sap_closed, bg: 'bg-green-50/50', border: 'border-green-200', text: 'text-green-700', icon: CheckCircle2 },
+        ].map(c => {
           const Icon = c.icon;
           return (
-            <div key={c.label} 
-                 className={`rounded-2xl border ${c.border} ${c.bg} p-4 md:p-5 text-center shadow-sm relative overflow-hidden group hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 animate-in fade-in zoom-in-95`}
-                 style={{ animationDelay: `${idx * 50}ms`, animationFillMode: 'both' }}>
-              <div className="absolute -right-3 -bottom-3 opacity-[0.04] group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500">
-                <Icon className="w-20 h-20 md:w-24 md:h-24" />
+            <div key={c.label} className={`rounded-2xl border ${c.border} ${c.bg} p-5 text-center shadow-sm relative overflow-hidden group hover:shadow-md transition-shadow`}>
+              <div className="absolute -right-4 -bottom-4 opacity-[0.03] group-hover:scale-110 transition-transform">
+                <Icon className="w-24 h-24" />
               </div>
-              <p className={`text-3xl md:text-4xl font-display font-black ${c.text} mb-0.5 md:mb-1 drop-shadow-sm relative z-10`}>{c.value}</p>
-              <p className="text-[10px] md:text-xs font-bold text-gray-500 uppercase tracking-widest relative z-10">{c.label}</p>
+              <p className={`text-4xl font-display font-black ${c.text} mb-1 drop-shadow-sm`}>{c.value}</p>
+              <p className="text-sm font-semibold text-gray-500 uppercase tracking-wider">{c.label}</p>
             </div>
           );
         })}
       </div>
 
       {/* Overall Progress bar */}
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 md:p-6 relative overflow-hidden animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100 fill-mode-both">
+      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-full bg-gradient-to-l from-green-50/50 to-transparent pointer-events-none"></div>
         <div className="flex flex-col md:flex-row md:items-center justify-between mb-4 relative z-10">
           <div>
@@ -431,7 +430,6 @@ export default function PdmAreaDashboard() {
       </div>
 
       {/* Pabrik rows */}
-      <div className="animate-in fade-in slide-in-from-bottom-8 duration-700 delay-200 fill-mode-both">
       {loading ? (
         <div className="text-center py-20">
           <RefreshCw className="w-10 h-10 mx-auto mb-4 text-blue-500 animate-spin" />
@@ -459,7 +457,6 @@ export default function PdmAreaDashboard() {
           })}
         </div>
       )}
-      </div>
     </div>
   );
 }

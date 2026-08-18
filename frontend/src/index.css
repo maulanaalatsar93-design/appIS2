@@ -3,9 +3,6 @@
 @tailwind utilities;
 
 @layer base {
-  html {
-    font-size: 14px;
-  }
   body {
     font-family: 'Plus Jakarta Sans', sans-serif;
   }
@@ -16,19 +13,23 @@
     size: A4 landscape;
     margin: 10mm;
   }
+
   body {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
     background-color: white !important;
   }
+
   .print-break-avoid {
     page-break-inside: avoid;
   }
 }
+
 @layer utilities {
   .hide-scrollbar::-webkit-scrollbar {
     display: none;
   }
+
   .hide-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
