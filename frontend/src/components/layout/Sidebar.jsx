@@ -128,7 +128,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed, isMobileMenuOpen,
           </div>
 
           {/* Primary Nav Icons */}
-          <div className="flex flex-col gap-2.5 w-full items-center">
+          <div className="flex flex-col gap-3 w-full items-center">
             {CATEGORIES.map((cat) => {
               const isActive = activeCategoryId === cat.id;
               const Icon = cat.icon;
@@ -140,15 +140,14 @@ export default function Sidebar({ isCollapsed, setIsCollapsed, isMobileMenuOpen,
                     setIsCollapsed(false); 
                     if (window.innerWidth < 768) setIsMobileMenuOpen(false);
                   }}
-                  className={`w-[52px] h-[52px] rounded-xl flex flex-col items-center justify-center gap-1 transition-all duration-300 ${
+                  className={`w-[48px] h-[48px] rounded-2xl flex items-center justify-center transition-all duration-300 ${
                     isActive 
-                      ? 'bg-navy-600 text-white shadow-md shadow-navy-600/20' 
+                      ? 'bg-navy-600 text-white shadow-lg shadow-navy-600/30 scale-105' 
                       : 'text-gray-400 hover:text-navy-600 hover:bg-navy-50'
                   }`}
                   title={cat.label}
                 >
-                  <Icon className="w-[18px] h-[18px]" />
-                  <span className={`text-[8px] font-bold tracking-wide ${isActive ? 'text-white' : 'text-gray-400'}`}>{cat.label}</span>
+                  <Icon className="w-6 h-6" strokeWidth={isActive ? 2.5 : 2} />
                 </button>
               );
             })}
@@ -179,17 +178,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed, isMobileMenuOpen,
             </button>
           </div>
 
-          {/* Search bar mock (kosmetik/fungsional) */}
-          <div className="px-5 mb-4 shrink-0">
-            <div className="relative group">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-navy-600 transition-colors" />
-              <input 
-                type="text" 
-                placeholder="Cari menu..." 
-                className="w-full bg-gray-50 border border-gray-200 rounded-xl pl-9 pr-4 py-2.5 text-sm text-ink focus:outline-none focus:border-navy-600 focus:bg-white transition-all placeholder:text-gray-400 font-medium shadow-sm"
-              />
-            </div>
-          </div>
+
 
           {/* Sub Navigation */}
           <div className="px-3 flex-1 overflow-y-auto space-y-5 pb-6 custom-scrollbar">
