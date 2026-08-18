@@ -1946,23 +1946,23 @@ export default function InternalDashboard() {
                     {performanceKillers.length > 0 ? (
                       performanceKillers.map((pk, idx) => (
                         <tr key={pk.id} className="hover:bg-slate-50/50 transition-colors group">
-                          <td className="py-4 px-5 text-center font-bold text-slate-500 bg-slate-50/30">{idx + 1}</td>
-                          <td className="py-4 px-5 font-bold text-[#193B8F] text-sm align-top">{pk.item}</td>
-                          <td className="py-4 px-5 align-top">
+                          <td className="py-4 px-5 text-center align-middle font-bold text-slate-500 bg-slate-50/30">{idx + 1}</td>
+                          <td className="py-4 px-5 font-bold align-middle text-[#193B8F] text-sm">{pk.item}</td>
+                          <td className="py-4 px-5 align-middle">
                             <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200 shadow-sm">
                               {pk.area_plant}
                             </span>
                           </td>
-                          <td className="py-4 px-5 align-top leading-relaxed text-slate-700">
-                            <div className="flex items-start gap-2.5">
-                              <AlertTriangle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
-                              <div dangerouslySetInnerHTML={{ __html: pk.masalah }} className="prose prose-sm prose-slate max-w-none text-[13px]" />
+                          <td className="py-4 px-5 align-middle text-slate-600 min-w-[250px]">
+                            <div className="flex items-start gap-3 bg-red-50/80 border border-red-100 rounded-xl px-4 py-3 shadow-sm">
+                              <AlertTriangle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
+                              <div dangerouslySetInnerHTML={{ __html: pk.masalah }} className="prose prose-sm prose-slate max-w-none text-[13px] leading-relaxed [&>p]:mb-2 last:[&>p]:mb-0 [&>ul]:list-disc [&>ul]:ml-4 [&>ol]:list-decimal [&>ol]:ml-4" />
                             </div>
                           </td>
-                          <td className="py-4 px-5 align-top leading-relaxed text-slate-700">
-                            <div className="flex items-start gap-2.5">
-                              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                              <div dangerouslySetInnerHTML={{ __html: pk.tindak_lanjut }} className="prose prose-sm prose-slate max-w-none text-[13px]" />
+                          <td className="py-4 px-5 align-middle text-slate-600 min-w-[250px]">
+                            <div className="flex items-start gap-3 bg-emerald-50/80 border border-emerald-100 rounded-xl px-4 py-3 shadow-sm">
+                              <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+                              <div dangerouslySetInnerHTML={{ __html: pk.tindak_lanjut }} className="prose prose-sm prose-slate max-w-none text-[13px] leading-relaxed [&>p]:mb-2 last:[&>p]:mb-0 [&>ul]:list-disc [&>ul]:ml-4 [&>ol]:list-decimal [&>ol]:ml-4" />
                             </div>
                           </td>
                         </tr>
