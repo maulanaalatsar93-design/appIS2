@@ -160,10 +160,10 @@ export default function Sidebar({ isCollapsed, setIsCollapsed, isMobileMenuOpen,
       {/* === Secondary Sidebar (Expandable) === */}
       <aside 
         className={`bg-white/95 backdrop-blur-md border-r border-gray-200 flex flex-col shrink-0 h-full transition-all duration-300 ease-in-out overflow-hidden pointer-events-auto shadow-xl ${
-          isCollapsed ? 'w-0 border-r-0' : 'w-60'
+          isCollapsed ? 'w-0 border-r-0' : 'w-56'
         }`}
       >
-        <div className="flex-1 overflow-hidden flex flex-col min-w-[15rem]">
+        <div className="flex-1 overflow-hidden flex flex-col min-w-[14rem]">
           
           {/* Header of Secondary Sidebar */}
           <div className="h-16 px-5 flex items-center justify-between shrink-0">
