@@ -4,6 +4,7 @@ import {
   X, Users, Filter, Edit, MapPin
 } from 'lucide-react';
 import AbsensiCalendar from '../components/attendance/AbsensiCalendar';
+import AbsensiMatrixView from '../components/attendance/AbsensiMatrixView';
 import RekapIzinView from '../components/attendance/RekapIzinView';
 import ManpowerAvailabilityBoard from './ManpowerAvailabilityBoard';
 import { MOCK_STATUSES, INDONESIA_HOLIDAYS } from '../constants/holidays';
@@ -411,6 +412,13 @@ export default function ManPowerPage({ initialView = 'availability' }) {
                   <Calendar size={13} /> Kalender
                 </button>
                 <button
+                  onClick={() => setViewMode('matrix')}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${viewMode === 'matrix' ? 'bg-white text-industrial-navy shadow-sm' : 'text-slate-500'
+                    }`}
+                >
+                  <Calendar size={13} /> Grid Kalender
+                </button>
+                <button
                   onClick={() => setViewMode('recap')}
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${viewMode === 'recap' ? 'bg-white text-industrial-navy shadow-sm' : 'text-slate-500'
                     }`}
@@ -476,6 +484,8 @@ export default function ManPowerPage({ initialView = 'availability' }) {
               </div>
             ) : viewMode === 'calendar' ? (
               <AbsensiCalendar employees={employees} attendanceChanges={attendanceChanges} />
+            ) : viewMode === 'matrix' ? (
+              <AbsensiMatrixView employees={employees} attendanceChanges={attendanceChanges} />
             ) : viewMode === 'availability' ? (
               <div className="-m-4">
                 <ManpowerAvailabilityBoard />

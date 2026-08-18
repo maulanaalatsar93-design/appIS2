@@ -37,14 +37,14 @@ export const INDONESIA_HOLIDAYS = {
 };
 
 export const MOCK_STATUSES = [
-  { id: 1, name: 'Hadir', bg: 'bg-emerald-50', color: 'text-emerald-600' },
-  { id: 2, name: 'Libur', bg: 'bg-slate-50', color: 'text-slate-500' },
-  { id: 3, name: 'Cuti', bg: 'bg-amber-50', color: 'text-amber-600' },
-  { id: 4, name: 'Dinas Luar Negeri', bg: 'bg-blue-50', color: 'text-blue-600' },
-  { id: 5, name: 'Dinas Dalam Negeri', bg: 'bg-sky-50', color: 'text-sky-600' },
-  { id: 6, name: 'Training', bg: 'bg-indigo-50', color: 'text-indigo-600' },
-  { id: 7, name: 'Sakit', bg: 'bg-rose-50', color: 'text-rose-600' },
-  { id: 8, name: 'Izin', bg: 'bg-orange-50', color: 'text-orange-600' },
-  { id: 9, name: 'Referral', bg: 'bg-purple-50', color: 'text-purple-600' },
-  { id: 10, name: 'Alpha/Tanpa Keterangan', bg: 'bg-slate-100', color: 'text-slate-700' },
+  { id: 1, name: 'Hadir', bg: 'bg-emerald-50', color: 'text-emerald-600', code: 'H', matrixBg: 'bg-white', matrixText: 'text-slate-800' },
+  { id: 2, name: 'Libur', bg: 'bg-slate-50', color: 'text-slate-500', code: 'O', matrixBg: 'bg-red-600', matrixText: 'text-white' },
+  { id: 3, name: 'Cuti', bg: 'bg-amber-50', color: 'text-amber-600', code: 'C', matrixBg: 'bg-yellow-300', matrixText: 'text-slate-800' },
+  { id: 4, name: 'Dinas Luar Negeri', bg: 'bg-blue-50', color: 'text-blue-600', code: 'DL', matrixBg: 'bg-blue-600', matrixText: 'text-white' },
+  { id: 5, name: 'Dinas Dalam Negeri', bg: 'bg-sky-50', color: 'text-sky-600', code: 'D', matrixBg: 'bg-cyan-300', matrixText: 'text-slate-800' },
+  { id: 6, name: 'Training', bg: 'bg-indigo-50', color: 'text-indigo-600', code: 'T', matrixBg: 'bg-green-500', matrixText: 'text-white' },
+  { id: 7, name: 'Sakit', bg: 'bg-rose-50', color: 'text-rose-600', code: 'S', matrixBg: 'bg-orange-500', matrixText: 'text-white' },
+  { id: 8, name: 'Izin', bg: 'bg-orange-50', color: 'text-orange-600', code: 'I', matrixBg: 'bg-[#8B0000]', matrixText: 'text-white' }, // Dark red/brown
+  { id: 9, name: 'Referral', bg: 'bg-purple-50', color: 'text-purple-600', code: 'R', matrixBg: 'bg-purple-600', matrixText: 'text-white' },
+  { id: 10, name: 'Alpha/Tanpa Keterangan', bg: 'bg-slate-100', color: 'text-slate-700', code: 'A', matrixBg: 'bg-slate-300', matrixText: 'text-slate-800' },
 ];
