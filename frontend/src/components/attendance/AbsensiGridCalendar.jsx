@@ -2,16 +2,11 @@ import React, { useState, useMemo } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { INDONESIA_HOLIDAYS, MOCK_STATUSES } from '../../constants/holidays';
 
-export default function AbsensiMatrixView({ employees = [], attendanceChanges = [] }) {
+export default function AbsensiGridCalendar({ employees = [], attendanceChanges = [], currentDate }) {
   const today = new Date();
-  const [currentDate, setCurrentDate] = useState(new Date(today.getFullYear(), today.getMonth(), 1));
-
+  
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
-  const monthName = new Intl.DateTimeFormat('id-ID', { month: 'long', year: 'numeric' }).format(currentDate);
-
-  const prevMonth = () => setCurrentDate(new Date(year, month - 1, 1));
-  const nextMonth = () => setCurrentDate(new Date(year, month + 1, 1));
 
   const lastDayOfMonth = new Date(year, month + 1, 0);
   const totalDays = lastDayOfMonth.getDate();
@@ -59,39 +54,6 @@ export default function AbsensiMatrixView({ employees = [], attendanceChanges = 
 
   return (
     <div className="space-y-4">
-      {/* Header and Controls */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-3 rounded-lg border border-gray-200">
-        <div className="flex items-center gap-3">
-          <button
-            onClick={prevMonth}
-            className="w-8 h-8 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 flex items-center justify-center transition-colors shadow-sm"
-          >
-            <ChevronLeft size={16} className="text-slate-600" />
-          </button>
-          <h3 className="text-[15px] font-bold text-ink capitalize min-w-[160px] text-center">
-            {monthName}
-          </h3>
-          <button
-            onClick={nextMonth}
-            className="w-8 h-8 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 flex items-center justify-center transition-colors shadow-sm"
-          >
-            <ChevronRight size={16} className="text-slate-600" />
-          </button>
-        </div>
-
-        {/* Legend */}
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[10px] sm:text-[11px] font-medium bg-slate-50 p-2 rounded-lg border border-slate-100">
-          {MOCK_STATUSES.filter(s => s.code).map((status) => (
-            <div key={status.id} className="flex items-center gap-1.5">
-              <div className={`w-4 h-4 rounded flex items-center justify-center text-[9px] font-bold shadow-sm ${status.matrixBg} ${status.matrixText}`}>
-                {status.code}
-              </div>
-              <span className="text-gray-600">{status.name}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
       {/* Matrix Table */}
       <div className="overflow-x-auto rounded-lg border border-gray-300 shadow-sm custom-scrollbar bg-white">
         <table className="w-full text-left border-collapse min-w-max text-[11px]">
