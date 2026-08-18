@@ -506,8 +506,17 @@ export const getAreaDashboard = async (req, res) => {
     const areaMap = {};
     for (const occ of occurrences) {
       const pid = occ.rule?.pabrik_id;
-      const pabrikName = occ.rule?.pabrik?.nama_pabrik || 'Unknown';
+      let pabrikName = occ.rule?.pabrik?.nama_pabrik || 'Unknown';
       const subArea = occ.rule?.subArea || 'Umum';
+      
+      // Pisahkan P6 biasa dan P6 PPHS OSBL untuk grouping frontend
+      if (pabrikName.toLowerCase().includes('pabrik 6') || pabrikName.toLowerCase() === 'p6') {
+        const isPphs = ['pphs', 'osbl', 'conveyor ubs', 'conveyor bsl', 'batubara boiler', 'batu bara boiler'].some(kw => subArea.toLowerCase().includes(kw));
+        if (isPphs) {
+          pabrikName = `${pabrikName} (PPHS & OSBL)`;
+        }
+      }
+
       const areaKey = `${pid}||${subArea}`;
 
       if (!areaMap[areaKey]) {
