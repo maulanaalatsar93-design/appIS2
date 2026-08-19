@@ -31,7 +31,10 @@ export const getAllTasks = async (req, res) => {
         pic: { select: { name: true, npk: true } },
         members: { include: { man_power: { select: { name: true } } } },
         logs: { 
-          include: { man_power: { select: { name: true } } },
+          include: { 
+            man_power: { select: { name: true } },
+            participants: { include: { man_power: { select: { name: true, id: true } } } }
+          },
           orderBy: { createdAt: 'desc' } 
         }
       },
@@ -65,7 +68,10 @@ export const getMyTasks = async (req, res) => {
         pic: { select: { name: true, npk: true } },
         members: { include: { man_power: { select: { name: true } } } },
         logs: { 
-          include: { man_power: { select: { name: true } } },
+          include: { 
+            man_power: { select: { name: true } },
+            participants: { include: { man_power: { select: { name: true, id: true } } } }
+          },
           orderBy: { createdAt: 'desc' } 
         }
       },
@@ -91,7 +97,10 @@ export const getTaskById = async (req, res) => {
         pic: { select: { name: true, npk: true, position: true } },
         members: { include: { man_power: { select: { name: true, npk: true, position: true } } } },
         logs: { 
-          include: { man_power: { select: { name: true } } },
+          include: { 
+            man_power: { select: { name: true } },
+            participants: { include: { man_power: { select: { name: true, id: true } } } }
+          },
           orderBy: { createdAt: 'desc' } 
         }
       }
@@ -327,6 +336,72 @@ export const addLogAdvice = async (req, res) => {
       data: { advice }
     });
     res.json(log);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+/**
+ * POST /api/field-tasks/logs/:logId/participants
+ */
+export const addParticipantToLog = async (req, res) => {
+  try {
+    const { logId } = req.params;
+    const userManPowerId = req.user?.man_power_id;
+    if (!userManPowerId) return res.status(403).json({ error: 'Tidak ada ManPower ID' });
+
+    const log = await prisma.fieldTaskLog.findUnique({
+      where: { id: parseInt(logId) },
+      include: { field_task: true }
+    });
+    if (!log) return res.status(404).json({ error: 'Log tidak ditemukan' });
+
+    const participant = await prisma.fieldTaskLogParticipant.create({
+      data: {
+        field_task_log_id: parseInt(logId),
+        man_power_id: userManPowerId,
+        status: 'APPROVED'
+      }
+    });
+
+    const picId = log.field_task.pic_id;
+    if (picId && picId !== userManPowerId) {
+      const self = await prisma.manPower.findUnique({ where: { id: userManPowerId } });
+      await prisma.appNotification.create({
+        data: {
+          man_power_id: picId,
+          title: 'Anggota Berpartisipasi',
+          message: `${self?.name} menyatakan ikut berpartisipasi pada update log Anda di tugas ${log.field_task.judul}`,
+        }
+      });
+    }
+
+    res.json(participant);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+/**
+ * DELETE /api/field-tasks/logs/:logId/participants/:mpId
+ */
+export const removeParticipantFromLog = async (req, res) => {
+  try {
+    const { logId, mpId } = req.params;
+    const participant = await prisma.fieldTaskLogParticipant.findUnique({
+      where: {
+        field_task_log_id_man_power_id: {
+          field_task_log_id: parseInt(logId),
+          man_power_id: parseInt(mpId)
+        }
+      }
+    });
+    if (!participant) return res.status(404).json({ error: 'Participant not found' });
+
+    await prisma.fieldTaskLogParticipant.delete({
+      where: { id: participant.id }
+    });
+    res.json({ message: 'Participant removed' });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

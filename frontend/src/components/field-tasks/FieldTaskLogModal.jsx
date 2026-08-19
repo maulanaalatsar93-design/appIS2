@@ -57,6 +57,8 @@ export default function FieldTaskLogModal({ task, manpowerList, onClose, onRefre
 
   const { user, api } = useContext(AuthContext);
   const canAdvice = user?.role && ['avp', 'vp'].includes(user.role.toLowerCase());
+  const isPIC = user?.man_power_id === task.pic_id;
+  const canRevoke = isPIC || canAdvice;
 
   const handleUpdatePic = async () => {
     if (!newPicId) return;
@@ -127,6 +129,38 @@ export default function FieldTaskLogModal({ task, manpowerList, onClose, onRefre
     if (!window.confirm('Yakin ingin menghapus anggota ini?')) return;
     try {
       const res = await fetch(`${api}/api/field-tasks/${task.id}/members/${mpId}`, {
+        method: 'DELETE',
+        headers
+      });
+      if (res.ok) {
+        onRefresh();
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleParticipate = async (logId) => {
+    try {
+      const res = await fetch(`${api}/api/field-tasks/logs/${logId}/participants`, {
+        method: 'POST',
+        headers
+      });
+      if (res.ok) {
+        onRefresh();
+      } else {
+        const data = await res.json();
+        alert(data.error || 'Gagal berpartisipasi');
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleRevokeParticipant = async (logId, mpId) => {
+    if (!window.confirm('Anulir partisipasi anggota ini?')) return;
+    try {
+      const res = await fetch(`${api}/api/field-tasks/logs/${logId}/participants/${mpId}`, {
         method: 'DELETE',
         headers
       });
@@ -335,6 +369,25 @@ export default function FieldTaskLogModal({ task, manpowerList, onClose, onRefre
                               <Clock className="w-3 h-3" /> +{log.man_hours} jam
                             </div>
                           )}
+
+                          {/* Participants */}
+                          <div className="mt-3 flex flex-wrap items-center gap-2">
+                            {log.participants?.map(p => (
+                              <div key={p.id} className="inline-flex items-center gap-1 bg-gray-100 border border-gray-200 text-gray-700 px-2 py-0.5 rounded text-xs font-medium">
+                                <span className="text-[10px]">🙋‍♂️</span> {p.man_power?.name}
+                                {canRevoke && (
+                                  <button onClick={() => handleRevokeParticipant(log.id, p.man_power?.id)} className="ml-1 text-gray-400 hover:text-red-500 transition">
+                                    <X className="w-3 h-3" />
+                                  </button>
+                                )}
+                              </div>
+                            ))}
+                            {user?.man_power_id && log.man_power?.name !== user?.name && !log.participants?.find(p => p.man_power?.id === user?.man_power_id) && (
+                              <button onClick={() => handleParticipate(log.id)} className="text-[10px] font-bold bg-blue-50 text-blue-600 border border-blue-200 px-2 py-1 rounded shadow-sm hover:bg-blue-100 hover:border-blue-300 transition">
+                                + Saya Ikut Berpartisipasi
+                              </button>
+                            )}
+                          </div>
                           
                           {/* Advice Section */}
                           {(log.advice || canAdvice) && (

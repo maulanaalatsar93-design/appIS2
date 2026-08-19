@@ -943,6 +943,24 @@ export const getNotifications = async (req, res) => {
           actionLabel: actionLabel
         });
       });
+      
+      // 3. App Notifications (Participation requests, etc.)
+      const appNotifs = await prisma.appNotification.findMany({
+        where: { man_power_id: fullUser.man_power_id },
+        orderBy: { createdAt: 'desc' },
+        take: 10
+      });
+      
+      appNotifs.forEach(an => {
+        notifications.push({
+          id: `appnotif-${an.id}`,
+          title: an.title,
+          desc: an.message,
+          time: new Date(an.createdAt).toLocaleDateString('id-ID'),
+          type: 'info',
+          link_url: an.link_url
+        });
+      });
     }
 
     // Add generic system connection notification

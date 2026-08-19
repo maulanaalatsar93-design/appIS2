@@ -6,11 +6,10 @@ import {
   createTask, 
   updateTask, 
   deleteTask, 
-  addTaskLog, 
-  addMember, 
-  removeMember, 
   updatePic,
-  addLogAdvice
+  addLogAdvice,
+  addParticipantToLog,
+  removeParticipantFromLog
 } from '../controllers/fieldTaskController.js';
 import { authenticate } from '../middleware/authMiddleware.js';
 
@@ -32,5 +31,7 @@ router.delete('/:id/members/:mpId', removeMember);
 router.put('/:id/pic', updatePic);
 
 router.put('/logs/:logId/advice', addLogAdvice);
+router.post('/logs/:logId/participants', addParticipantToLog);
+router.delete('/logs/:logId/participants/:mpId', removeParticipantFromLog);
 
 export default router;
