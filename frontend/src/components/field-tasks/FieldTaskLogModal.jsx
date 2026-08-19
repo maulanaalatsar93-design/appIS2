@@ -28,7 +28,7 @@ export default function FieldTaskLogModal({ task, manpowerList, onClose, onRefre
       const res = await fetch(`${api}/api/field-tasks/${task.id}/members`, {
         method: 'POST',
         headers,
-        body: JSON.stringify({ mp_id: parseInt(newMemberId) })
+        body: JSON.stringify({ man_power_id: parseInt(newMemberId) })
       });
       if (res.ok) {
         setNewMemberId('');
