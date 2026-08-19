@@ -15,6 +15,7 @@ import pdmScheduleRoutes from './routes/pdmScheduleRoutes.js';
 import manHoursRoutes from './routes/manHoursRoutes.js';
 import dailyTaskRoutes from './routes/dailyTaskRoutes.js';
 import performanceKillerRoutes from './routes/performanceKillerRoutes.js';
+import fieldTaskRoutes from './routes/fieldTaskRoutes.js';
 
 dotenv.config();
 
@@ -43,6 +44,7 @@ app.use('/api/pdm-schedule', pdmScheduleRoutes);
 app.use('/api/man-hours', manHoursRoutes);
 app.use('/api/daily-tasks', dailyTaskRoutes);
 app.use('/api/performance-killers', performanceKillerRoutes);
+app.use('/api/field-tasks', fieldTaskRoutes);
 
 // Health check endpoint
 app.get('/api/health', async (req, res) => {

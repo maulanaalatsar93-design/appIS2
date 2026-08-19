@@ -5,7 +5,7 @@ import {
   LayoutDashboard, Users, UploadCloud,
   ChevronLeft, ChevronRight, CalendarClock,
   ClipboardList, BarChart3, BarChart2, Briefcase, Shield, Settings, TableProperties, Clock, AlertOctagon,
-  Search, Plus, Folder, FileText
+  Search, Plus, Folder, FileText, Wrench
 } from 'lucide-react';
 import logoImg from '../../assets/logo.png';
 import brandIconImg from '../../assets/brand-icon.png';
@@ -48,6 +48,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed, isMobileMenuOpen,
             { path: '/pdm/roster',   label: 'Roster PIC',    icon: TableProperties },
             { path: '/pdm/tasks',    label: 'Task Board',    icon: ClipboardList },
             { path: '/pdm/man-hours', label: 'Aktivitas Harian', icon: Clock },
+            { path: '/pdm/field-tasks', label: 'Program Pekerjaan', icon: Wrench },
             isAdmin ? { path: '/pdm/rules', label: 'Master Schedule', icon: Settings } : null,
           ].filter(Boolean)
         }

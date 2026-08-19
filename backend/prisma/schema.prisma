@@ -17,6 +17,7 @@ model Pabrik {
   work_orders WorkOrder[]
   rekomendasi Rekomendasi[]
   DailyTask   DailyTask[]
+  FieldTask   FieldTask[]
   pdm_rules   PdmScheduleRule[]
 
   @@schema("public")
@@ -43,6 +44,7 @@ model User {
   item_activities WorkItemActivity[] @relation("ActivityActor")
   item_reviews    WorkItemReview[]   @relation("ItemReviewer")
   DailyTask       DailyTask[]
+  field_tasks_created FieldTask[]
 
   // Chat relations
   sent_messages     ChatMessage[] @relation("SentMessages")
@@ -85,6 +87,9 @@ model ManPower {
   wi_checklist_pic WorkItemChecklist[]   @relation("ChecklistPIC")
   DailyTask        DailyTask[]
   TaskLog          TaskLog[]
+  field_tasks_pic     FieldTask[] @relation("FieldTaskPIC")
+  field_task_members  FieldTaskMember[]
+  field_task_logs     FieldTaskLog[]
 
   // PdM Rotating relations
   pdm_default_pic       PdmScheduleRule[]       @relation("RuleDefaultPic")
@@ -463,6 +468,74 @@ model TaskLog {
   man_hours           Float
   deskripsi_aktivitas String?
   createdAt           DateTime  @default(now())
+
+  @@schema("public")
+}
+
+// ============================================================
+// Field Task (Program Pekerjaan Lapangan)
+// ============================================================
+
+model FieldTask {
+  id                  Int             @id @default(autoincrement())
+  judul               String
+  deskripsi           String?
+  pabrik_id           Int?
+  pabrik              Pabrik?         @relation(fields: [pabrik_id], references: [id])
+  area                String?
+  equipment           String?
+  wo_notif            String?
+  kategori            String          @default("Corrective")
+  prioritas           String          @default("Normal")
+  status              String          @default("Open")
+  
+  pic_id              Int?
+  pic                 ManPower?       @relation("FieldTaskPIC", fields: [pic_id], references: [id])
+  
+  created_by_id       Int?
+  created_by          User?           @relation(fields: [created_by_id], references: [id])
+  
+  deadline            DateTime?
+  createdAt           DateTime        @default(now())
+  updatedAt           DateTime        @updatedAt
+  
+  members             FieldTaskMember[]
+  logs                FieldTaskLog[]
+
+  @@schema("public")
+}
+
+model FieldTaskMember {
+  id              Int       @id @default(autoincrement())
+  field_task_id   Int
+  field_task      FieldTask @relation(fields: [field_task_id], references: [id], onDelete: Cascade)
+  man_power_id    Int
+  man_power       ManPower  @relation(fields: [man_power_id], references: [id])
+  role            String    @default("MEMBER")
+  added_at        DateTime  @default(now())
+
+  @@unique([field_task_id, man_power_id])
+  @@schema("public")
+}
+
+model FieldTaskLog {
+  id              Int       @id @default(autoincrement())
+  field_task_id   Int
+  field_task      FieldTask @relation(fields: [field_task_id], references: [id], onDelete: Cascade)
+  man_power_id    Int
+  man_power       ManPower  @relation(fields: [man_power_id], references: [id])
+  
+  catatan         String
+  status_update   String?
+  
+  tanggal         DateTime  @default(now())
+  waktu_mulai     DateTime?
+  waktu_selesai   DateTime?
+  man_hours       Float?
+  
+  daily_task_id   Int?      // Nullable, if this log generated a daily task entry
+  
+  createdAt       DateTime  @default(now())
 
   @@schema("public")
 }

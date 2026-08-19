@@ -20,6 +20,7 @@ import PdmRoster from './pages/pdm/PdmRoster';
 import PdmAreaDashboard from './pages/pdm/PdmAreaDashboard';
 import ManHoursPage from './pages/ManHoursPage';
 import PerformanceKillerPage from './pages/PerformanceKillerPage';
+import FieldTaskPage from './pages/FieldTaskPage';
 import { Loader2 } from 'lucide-react';
 
 // Route guard: redirect ke /login jika belum login
@@ -81,6 +82,7 @@ export default function App() {
               <Route path="pdm/roster"       element={<ProtectedRoute><PdmRoster /></ProtectedRoute>} />
               <Route path="pdm/tasks"        element={<ProtectedRoute><PdmTaskBoard /></ProtectedRoute>} />
               <Route path="pdm/man-hours"    element={<ProtectedRoute><ManHoursPage /></ProtectedRoute>} />
+              <Route path="pdm/field-tasks"  element={<ProtectedRoute><FieldTaskPage /></ProtectedRoute>} />
               <Route path="pdm/rules"        element={<ProtectedRoute><PdmScheduleRules /></ProtectedRoute>} />
 
               {/* ── Workforce Management ── */}
