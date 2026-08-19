@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { X, Send, UserPlus, Clock, MessageSquare, Check, UserMinus } from 'lucide-react';
 import { AuthContext } from '../../context/AuthContext';
 
-export default function FieldTaskLogModal({ task, onClose, onRefresh }) {
+export default function FieldTaskLogModal({ task, manpowerList, onClose, onRefresh }) {
   const { auth, isAdmin } = useContext(AuthContext);
   const token = localStorage.getItem('token');
   const api = import.meta.env.VITE_API_URL || 'http://localhost:5000';
@@ -18,7 +18,46 @@ export default function FieldTaskLogModal({ task, onClose, onRefresh }) {
   const [waktuSelesai, setWaktuSelesai] = useState('');
 
   // Team form state
-  const [newMemberNpk, setNewMemberNpk] = useState('');
+  const [newMemberId, setNewMemberId] = useState('');
+  const [addingMember, setAddingMember] = useState(false);
+
+  const handleAddMember = async () => {
+    if (!newMemberId) return;
+    setAddingMember(true);
+    try {
+      const res = await fetch(`${api}/api/field-tasks/${task.id}/members`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ mp_id: parseInt(newMemberId) })
+      });
+      if (res.ok) {
+        setNewMemberId('');
+        onRefresh();
+      } else {
+        const data = await res.json();
+        alert(`Gagal menambah anggota: ${data.message || 'Error'}`);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setAddingMember(false);
+    }
+  };
+
+  const handleRemoveMember = async (mpId) => {
+    if (!window.confirm('Yakin ingin menghapus anggota ini?')) return;
+    try {
+      const res = await fetch(`${api}/api/field-tasks/${task.id}/members/${mpId}`, {
+        method: 'DELETE',
+        headers
+      });
+      if (res.ok) {
+        onRefresh();
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const submitLog = async (e) => {
     e.preventDefault();
@@ -214,6 +253,25 @@ export default function FieldTaskLogModal({ task, onClose, onRefresh }) {
 
               <h4 className="text-sm font-bold text-gray-800 pt-4 border-t border-gray-100">Anggota Tim</h4>
               
+              <div className="flex gap-2 pb-2">
+                <select 
+                  value={newMemberId} onChange={e => setNewMemberId(e.target.value)}
+                  className="flex-1 text-sm border-gray-300 rounded-lg focus:ring-navy-500 focus:border-navy-500"
+                >
+                  <option value="">-- Pilih Man Power --</option>
+                  {manpowerList && manpowerList.map(mp => (
+                    <option key={mp.id} value={mp.id}>{mp.name} - {mp.position}</option>
+                  ))}
+                </select>
+                <button 
+                  onClick={handleAddMember}
+                  disabled={!newMemberId || addingMember}
+                  className="px-4 py-2 bg-navy-600 text-white rounded-lg text-sm font-bold shadow-sm hover:bg-navy-700 disabled:opacity-50"
+                >
+                  Tambah
+                </button>
+              </div>
+
               <div className="space-y-2">
                 {task.members && task.members.length > 0 ? (
                   task.members.map(m => (
@@ -225,7 +283,7 @@ export default function FieldTaskLogModal({ task, onClose, onRefresh }) {
                           <p className="text-xs text-gray-500">{m.man_power?.position}</p>
                         </div>
                       </div>
-                      <button className="text-red-500 hover:bg-red-50 p-1.5 rounded-lg transition" title="Hapus Anggota">
+                      <button onClick={() => handleRemoveMember(m.man_power_id)} className="text-red-500 hover:bg-red-50 p-1.5 rounded-lg transition" title="Hapus Anggota">
                         <UserMinus className="w-4 h-4" />
                       </button>
                     </div>

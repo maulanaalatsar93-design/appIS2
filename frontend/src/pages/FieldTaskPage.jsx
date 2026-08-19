@@ -20,6 +20,7 @@ export default function FieldTaskPage() {
   
   // Refs
   const [pabrikList, setPabrikList] = useState([]);
+  const [manpowerList, setManpowerList] = useState([]);
   
   // Modals state
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -48,10 +49,17 @@ export default function FieldTaskPage() {
 
   const fetchRefs = async () => {
     try {
-      const res = await fetch(`${api}/api/dashboard/pabrik`, { headers });
-      if (res.ok) {
-        const data = await res.json();
+      const [resPabrik, resMp] = await Promise.all([
+        fetch(`${api}/api/dashboard/pabrik`, { headers }),
+        fetch(`${api}/api/dashboard/manpower`, { headers })
+      ]);
+      if (resPabrik.ok) {
+        const data = await resPabrik.json();
         setPabrikList(Array.isArray(data) ? data : []);
+      }
+      if (resMp.ok) {
+        const data = await resMp.json();
+        setManpowerList(Array.isArray(data) ? data : (data.data || []));
       }
     } catch (e) {
       console.error('fetchRefs error:', e);
@@ -361,6 +369,7 @@ export default function FieldTaskPage() {
       {selectedTask && (
         <FieldTaskLogModal 
           task={selectedTask} 
+          manpowerList={manpowerList}
           onClose={() => setSelectedTask(null)} 
           onRefresh={() => { fetchTasks(); setSelectedTask(null); }} 
         />
