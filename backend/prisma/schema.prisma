@@ -90,6 +90,8 @@ model ManPower {
   field_tasks_pic     FieldTask[] @relation("FieldTaskPIC")
   field_task_members  FieldTaskMember[]
   field_task_logs     FieldTaskLog[]
+  field_task_log_participants FieldTaskLogParticipant[]
+  app_notifications           AppNotification[]
 
   // PdM Rotating relations
   pdm_default_pic       PdmScheduleRule[]       @relation("RuleDefaultPic")
@@ -538,7 +540,37 @@ model FieldTaskLog {
   foto            String?   // Uploaded photo URL/path
   advice          String?   // Advice dari AVP/VP
   
+  participants    FieldTaskLogParticipant[]
+  
   createdAt       DateTime  @default(now())
+
+  @@schema("public")
+}
+
+model FieldTaskLogParticipant {
+  id                Int       @id @default(autoincrement())
+  field_task_log_id Int
+  field_task_log    FieldTaskLog @relation(fields: [field_task_log_id], references: [id], onDelete: Cascade)
+  man_power_id      Int
+  man_power         ManPower  @relation(fields: [man_power_id], references: [id])
+  
+  status            String    @default("APPROVED") // APPROVED, REJECTED
+  createdAt         DateTime  @default(now())
+
+  @@unique([field_task_log_id, man_power_id])
+  @@schema("public")
+}
+
+model AppNotification {
+  id             Int      @id @default(autoincrement())
+  man_power_id   Int      // Siapa yang menerima notif
+  man_power      ManPower @relation(fields: [man_power_id], references: [id], onDelete: Cascade)
+  title          String
+  message        String
+  is_read        Boolean  @default(false)
+  link_url       String?  // URL to redirect when clicked
+  
+  createdAt      DateTime @default(now())
 
   @@schema("public")
 }
