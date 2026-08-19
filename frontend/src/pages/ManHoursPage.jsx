@@ -250,10 +250,10 @@ export default function ManHoursPage() {
 
   // Sync man_power_id ke form ketika anggota buka halaman
   useEffect(() => {
-    if (isAnggota && userManPowerId) {
+    if (userManPowerId) {
       setForm(f => ({ ...f, man_power_id: String(userManPowerId) }));
     }
-  }, [isAnggota, userManPowerId]);;
+  }, [userManPowerId]);
 
   // Helper hooks for dynamic form dropdowns
   const selectedPabrikName = useMemo(() => {
@@ -282,8 +282,8 @@ export default function ManHoursPage() {
     setFormError('');
     try {
       const body = { ...form };
-      // Untuk anggota, paksa man_power_id ke dirinya sendiri jika tidak isi personil lain
-      if (isAnggota && !form.isiPersonilLain) {
+      // Paksa man_power_id ke dirinya sendiri jika tidak isi personil lain
+      if (userManPowerId && !form.isiPersonilLain) {
         body.man_power_id = userManPowerId;
       }
       // Convert tanggal + waktu ke ISO
@@ -546,7 +546,7 @@ export default function ManHoursPage() {
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-gray-600 mb-1">Personel</label>
-                  {isAnggota && !form.isiPersonilLain ? (
+                  {userManPowerId && !form.isiPersonilLain ? (
                     <div className="flex flex-col gap-2">
                       <div className="w-full text-sm border border-gray-100 bg-gray-50 rounded-lg px-3 py-2 text-gray-700 font-medium">
                         {user?.name || 'Anda'} <span className="text-xs text-gray-400">(otomatis)</span>
@@ -565,7 +565,7 @@ export default function ManHoursPage() {
                           <option key={mp.id} value={mp.id}>{mp.name} ({mp.npk})</option>
                         ))}
                       </select>
-                      {isAnggota && (
+                      {userManPowerId && (
                         <label className="flex items-center gap-2 text-xs text-gray-600 cursor-pointer w-max">
                           <input type="checkbox" checked={form.isiPersonilLain} onChange={e => setForm(f => ({ ...f, isiPersonilLain: e.target.checked, man_power_id: String(userManPowerId) }))} />
                           Isi untuk personil lain
