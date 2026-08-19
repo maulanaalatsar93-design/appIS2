@@ -535,6 +535,8 @@ model FieldTaskLog {
   
   daily_task_id   Int?      // Nullable, if this log generated a daily task entry
   
+  foto            String?   // Uploaded photo URL/path
+  
   createdAt       DateTime  @default(now())
 
   @@schema("public")

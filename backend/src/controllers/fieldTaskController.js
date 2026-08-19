@@ -169,7 +169,7 @@ export const deleteTask = async (req, res) => {
 export const addTaskLog = async (req, res) => {
   try {
     const { id } = req.params;
-    const { catatan, status_update, waktu_mulai, waktu_selesai } = req.body;
+    const { catatan, status_update, waktu_mulai, waktu_selesai, foto } = req.body;
     const userManPowerId = req.user?.man_power_id;
 
     if (!userManPowerId) return res.status(403).json({ error: 'Anda tidak memiliki ManPower ID' });
@@ -219,7 +219,8 @@ export const addTaskLog = async (req, res) => {
         waktu_mulai: waktu_mulai ? new Date(waktu_mulai) : null,
         waktu_selesai: waktu_selesai ? new Date(waktu_selesai) : null,
         man_hours,
-        daily_task_id
+        daily_task_id,
+        foto
       },
       include: {
         man_power: { select: { name: true } }

@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { X, Send, UserPlus, Clock, MessageSquare, Check, UserMinus } from 'lucide-react';
+import { X, Send, UserPlus, Clock, MessageSquare, Check, UserMinus, Camera, Trash } from 'lucide-react';
 import { AuthContext } from '../../context/AuthContext';
 
 export default function FieldTaskLogModal({ task, manpowerList, onClose, onRefresh }) {
@@ -16,10 +16,60 @@ export default function FieldTaskLogModal({ task, manpowerList, onClose, onRefre
   const [statusUpdate, setStatusUpdate] = useState(task.status);
   const [waktuMulai, setWaktuMulai] = useState('');
   const [waktuSelesai, setWaktuSelesai] = useState('');
+  const [fotoBase64, setFotoBase64] = useState('');
 
-  // Team form state
+  const handleFotoChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const MAX_WIDTH = 600;
+        let width = img.width;
+        let height = img.height;
+        if (width > MAX_WIDTH) {
+          height = Math.round((height * MAX_WIDTH) / width);
+          width = MAX_WIDTH;
+        }
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        // compress directly to jpeg 0.7 quality
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+        setFotoBase64(dataUrl);
+      };
+      img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+  };
+
   const [newMemberId, setNewMemberId] = useState('');
   const [addingMember, setAddingMember] = useState(false);
+  const [isEditingPic, setIsEditingPic] = useState(false);
+  const [newPicId, setNewPicId] = useState(task.pic_id || '');
+
+  const handleUpdatePic = async () => {
+    if (!newPicId) return;
+    try {
+      const res = await fetch(`${api}/api/field-tasks/${task.id}/pic`, {
+        method: 'PUT',
+        headers,
+        body: JSON.stringify({ pic_id: parseInt(newPicId) })
+      });
+      if (res.ok) {
+        setIsEditingPic(false);
+        onRefresh();
+      } else {
+        const data = await res.json();
+        alert(`Gagal update PIC: ${data.message || 'Error'}`);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const handleAddMember = async () => {
     if (!newMemberId) return;
@@ -63,7 +113,7 @@ export default function FieldTaskLogModal({ task, manpowerList, onClose, onRefre
     e.preventDefault();
     setLoading(true);
     try {
-      const payload = { catatan, status_update: statusUpdate };
+      const payload = { catatan, status_update: statusUpdate, foto: fotoBase64 };
       if (waktuMulai && waktuSelesai) {
         payload.waktu_mulai = new Date(waktuMulai).toISOString();
         payload.waktu_selesai = new Date(waktuSelesai).toISOString();
@@ -179,6 +229,30 @@ export default function FieldTaskLogModal({ task, manpowerList, onClose, onRefre
                 </div>
                 <p className="text-[10px] text-gray-500 italic">* Jika jam diisi, otomatis tercatat ke <b>Man Hours</b> harian Anda.</p>
 
+                <div>
+                  <label className="block text-xs font-semibold text-gray-600 mb-1">Foto Bukti (Opsional)</label>
+                  {!fotoBase64 ? (
+                    <label className="flex items-center justify-center w-full p-4 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition">
+                      <div className="flex flex-col items-center">
+                        <Camera className="w-5 h-5 text-gray-400 mb-1" />
+                        <span className="text-xs text-gray-500 font-medium">Upload Foto</span>
+                      </div>
+                      <input type="file" accept="image/*" className="hidden" onChange={handleFotoChange} />
+                    </label>
+                  ) : (
+                    <div className="relative inline-block">
+                      <img src={fotoBase64} alt="Preview" className="h-32 rounded-lg border border-gray-200 shadow-sm object-cover" />
+                      <button 
+                        type="button" 
+                        onClick={() => setFotoBase64('')}
+                        className="absolute -top-2 -right-2 p-1.5 bg-red-500 text-white rounded-full hover:bg-red-600 shadow-sm"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  )}
+                </div>
+
                 <div className="flex justify-between items-center pt-2 border-t border-gray-100">
                   <div className="flex items-center gap-2">
                     <span className="text-sm font-semibold text-gray-600">Update Status:</span>
@@ -222,6 +296,11 @@ export default function FieldTaskLogModal({ task, manpowerList, onClose, onRefre
                             </span>
                           </div>
                           <p className="text-gray-600 text-sm">{log.catatan}</p>
+                          {log.foto && (
+                            <div className="mt-3">
+                              <img src={log.foto} alt="Bukti Update" className="w-full max-w-sm rounded-lg border border-gray-200" />
+                            </div>
+                          )}
                           {log.man_hours && (
                             <div className="mt-2 inline-flex items-center gap-1 bg-blue-50 text-blue-700 px-2 py-0.5 rounded text-xs font-semibold">
                               <Clock className="w-3 h-3" /> +{log.man_hours} jam
@@ -240,16 +319,50 @@ export default function FieldTaskLogModal({ task, manpowerList, onClose, onRefre
 
           {activeTab === 'team' && (
             <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm space-y-4">
-              <h4 className="text-sm font-bold text-gray-800">PIC Utama</h4>
-              <div className="flex items-center gap-3 p-3 bg-blue-50/50 border border-blue-100 rounded-lg">
-                <div className="w-10 h-10 bg-navy-100 text-navy-700 rounded-full flex items-center justify-center font-bold text-lg">
-                  {task.pic?.name?.charAt(0) || '?'}
-                </div>
-                <div>
-                  <p className="font-bold text-sm text-gray-800">{task.pic?.name || 'Belum diassign'}</p>
-                  <p className="text-xs text-gray-500">{task.pic?.position}</p>
-                </div>
+              <div className="flex justify-between items-center">
+                <h4 className="text-sm font-bold text-gray-800">PIC Utama</h4>
+                {!isEditingPic && (
+                  <button onClick={() => setIsEditingPic(true)} className="text-xs text-navy-600 font-semibold hover:underline">
+                    Ubah PIC
+                  </button>
+                )}
               </div>
+              
+              {isEditingPic ? (
+                <div className="flex gap-2">
+                  <select 
+                    value={newPicId} onChange={e => setNewPicId(e.target.value)}
+                    className="flex-1 text-sm border-gray-300 rounded-lg focus:ring-navy-500 focus:border-navy-500"
+                  >
+                    <option value="">-- Pilih Man Power --</option>
+                    {manpowerList && manpowerList.map(mp => (
+                      <option key={mp.id} value={mp.id}>{mp.name} - {mp.position}</option>
+                    ))}
+                  </select>
+                  <button 
+                    onClick={handleUpdatePic}
+                    className="px-4 py-2 bg-navy-600 text-white rounded-lg text-sm font-bold hover:bg-navy-700"
+                  >
+                    Simpan
+                  </button>
+                  <button 
+                    onClick={() => { setIsEditingPic(false); setNewPicId(task.pic_id || ''); }}
+                    className="px-4 py-2 text-gray-600 bg-gray-100 rounded-lg text-sm font-bold hover:bg-gray-200"
+                  >
+                    Batal
+                  </button>
+                </div>
+              ) : (
+                <div className="flex items-center gap-3 p-3 bg-blue-50/50 border border-blue-100 rounded-lg">
+                  <div className="w-10 h-10 bg-navy-100 text-navy-700 rounded-full flex items-center justify-center font-bold text-lg">
+                    {task.pic?.name?.charAt(0) || '?'}
+                  </div>
+                  <div>
+                    <p className="font-bold text-sm text-gray-800">{task.pic?.name || 'Belum diassign'}</p>
+                    <p className="text-xs text-gray-500">{task.pic?.position}</p>
+                  </div>
+                </div>
+              )}
 
               <h4 className="text-sm font-bold text-gray-800 pt-4 border-t border-gray-100">Anggota Tim</h4>
               
