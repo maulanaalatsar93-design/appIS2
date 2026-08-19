@@ -211,12 +211,16 @@ export const getDashboardSummary = async (req, res) => {
       if (type === 'M7' || type === 'M07') m07Count += cnt;
     });
 
-    const pabriks = (pabriksList && pabriksList.length > 0) ? pabriksList : [
+    let pabriks = (pabriksList && pabriksList.length > 0) ? pabriksList : [
       { id: 1, nama_pabrik: 'P1A' }, { id: 2, nama_pabrik: 'P2' },
       { id: 3, nama_pabrik: 'P3' }, { id: 4, nama_pabrik: 'P4' },
       { id: 5, nama_pabrik: 'P5' }, { id: 6, nama_pabrik: 'P6' },
       { id: 7, nama_pabrik: 'P7' }
     ];
+
+    const allowedPabriks = ['P1A', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7'];
+    pabriks = pabriks.filter(p => allowedPabriks.includes(p.nama_pabrik));
+
 
     const factoryCategories = pabriks.map(p => p.nama_pabrik);
     const woPabrikMap = {};
