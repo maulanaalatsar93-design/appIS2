@@ -163,27 +163,27 @@ export default function ManPowerDashboard() {
     return (
       <div className="bg-white border border-slate-200 rounded-xl shadow-sm p-5 flex flex-col h-full hover:shadow-md transition-shadow">
         <h3 className="text-[13px] font-bold text-slate-800 mb-4">{title}</h3>
-        <div className="flex flex-col sm:flex-row items-center flex-1 gap-6">
-          <div className="w-[220px] shrink-0">
+        <div className="flex flex-col sm:flex-row items-center justify-center flex-1 gap-4">
+          <div className="w-[180px] shrink-0 flex items-center justify-center">
             {total > 0 ? (
-              <Chart options={options} series={series} type="donut" width="100%" height="230" />
+              <Chart options={options} series={series} type="donut" width="100%" height="180" />
             ) : (
-              <div className="h-[220px] flex items-center justify-center text-xs text-slate-400">N/A</div>
+              <div className="h-[180px] flex items-center justify-center text-xs text-slate-400">N/A</div>
             )}
           </div>
-          <div className="grid grid-cols-1 gap-2 flex-1 w-full">
+          <div className="grid grid-cols-1 gap-2 flex-1 w-full max-w-[140px]">
             {labels.map((label, idx) => {
               const val = series[idx];
               const pct = total > 0 ? ((val / total) * 100).toFixed(1).replace('.', ',') : 0;
               return (
-                <div key={label} className="flex items-center justify-between py-2 px-3 rounded-lg border border-slate-100 bg-slate-50 hover:border-slate-300 hover:shadow-sm transition-all group">
-                  <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-md shrink-0 shadow-sm transition-transform group-hover:scale-110" style={{ backgroundColor: colors[idx] }}></div>
-                    <span className="text-[11px] font-bold text-slate-700">{label}</span>
+                <div key={label} className="flex items-center justify-between py-1.5 px-2.5 rounded-lg border border-slate-100 bg-slate-50 hover:border-slate-300 hover:shadow-sm transition-all group">
+                  <div className="flex items-center gap-1.5 min-w-0 pr-1">
+                    <div className="w-2.5 h-2.5 rounded shrink-0 shadow-sm transition-transform group-hover:scale-110" style={{ backgroundColor: colors[idx] }}></div>
+                    <span className="text-[10px] font-bold text-slate-700 truncate" title={label}>{label}</span>
                   </div>
-                  <div className="text-right">
+                  <div className="text-right shrink-0">
                     <div className="text-xs font-black text-slate-800 leading-none">{val}</div>
-                    <div className="text-[10px] font-bold text-slate-500 mt-0.5">{pct}%</div>
+                    <div className="text-[9px] font-bold text-slate-500 mt-0.5">{pct}%</div>
                   </div>
                 </div>
               );
