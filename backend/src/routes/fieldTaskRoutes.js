@@ -7,6 +7,9 @@ import {
   updateTask, 
   deleteTask, 
   updatePic,
+  addTaskLog,
+  addMember,
+  removeMember,
   addLogAdvice,
   addParticipantToLog,
   removeParticipantFromLog
