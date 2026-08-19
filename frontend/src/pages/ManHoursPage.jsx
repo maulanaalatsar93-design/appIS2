@@ -136,6 +136,7 @@ function EditTimeModal({ row, onSave, onCancel, isSaving }) {
           </button>
         </div>
       </div>
+    </div>
   );
 }
 
