@@ -18,13 +18,16 @@ export default function FieldTaskPage() {
   const [loading, setLoading] = useState(false);
   const [statusFilter, setStatusFilter] = useState('All');
   
+  // Refs
+  const [pabrikList, setPabrikList] = useState([]);
+  
   // Modals state
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null); // For detail/log modal
   
   // Create form state
   const [formData, setFormData] = useState({
-    judul: '', deskripsi: '', pabrik_id: '', area: '', 
+    judul: '', deskripsi: '', pabrik_id: '', area: '', equipment: '', 
     kategori: 'Corrective', prioritas: 'Normal', pic_id: ''
   });
 
@@ -43,9 +46,25 @@ export default function FieldTaskPage() {
     }
   };
 
+  const fetchRefs = async () => {
+    try {
+      const res = await fetch(`${api}/api/dashboard/pabrik`, { headers });
+      if (res.ok) {
+        const data = await res.json();
+        setPabrikList(Array.isArray(data) ? data : []);
+      }
+    } catch (e) {
+      console.error('fetchRefs error:', e);
+    }
+  };
+
   useEffect(() => {
     fetchTasks();
   }, [activeTab]);
+
+  useEffect(() => {
+    fetchRefs();
+  }, []);
 
   const handleCreateSubmit = async (e) => {
     e.preventDefault();
@@ -57,7 +76,7 @@ export default function FieldTaskPage() {
       });
       if (res.ok) {
         setShowCreateModal(false);
-        setFormData({ judul: '', deskripsi: '', pabrik_id: '', area: '', kategori: 'Corrective', prioritas: 'Normal', pic_id: '' });
+        setFormData({ judul: '', deskripsi: '', pabrik_id: '', area: '', equipment: '', kategori: 'Corrective', prioritas: 'Normal', pic_id: '' });
         fetchTasks();
       }
     } catch (e) {
@@ -175,10 +194,14 @@ export default function FieldTaskPage() {
                     </h3>
                     
                     <div className="space-y-1.5 mt-3">
-                      {(task.pabrik || task.area) && (
+                      {(task.pabrik || task.area || task.equipment) && (
                         <div className="flex items-center gap-2 text-xs text-gray-600">
                           <MapPin className="w-3.5 h-3.5 text-gray-400 shrink-0" /> 
-                          <span className="truncate">{task.pabrik?.nama_pabrik} {task.area ? ` - ${task.area}` : ''}</span>
+                          <span className="truncate">
+                            {task.pabrik?.nama_pabrik} 
+                            {task.area ? ` - ${task.area}` : ''}
+                            {task.equipment ? ` - ${task.equipment}` : ''}
+                          </span>
                         </div>
                       )}
                       <div className="flex items-center gap-2 text-xs text-gray-600">
@@ -259,28 +282,55 @@ export default function FieldTaskPage() {
                 <div>
                   <label className="block text-xs font-bold text-gray-700 mb-1">Pabrik</label>
                   <select 
-                    value={formData.pabrik_id} onChange={e => setFormData({...formData, pabrik_id: e.target.value})}
+                    value={formData.pabrik_id} 
+                    onChange={e => setFormData({...formData, pabrik_id: e.target.value, area: '', equipment: ''})}
                     className="w-full text-sm border-gray-300 rounded-lg focus:ring-navy-500 focus:border-navy-500"
                   >
                     <option value="">-- Pilih Pabrik --</option>
-                    {[...new Set(equipmentData.map(d => d.Tempat))].map(p => (
-                      <option key={p} value={p}>{p}</option> // Note: using name, should be ID in real app if lookup exists
+                    {pabrikList.map(p => (
+                      <option key={p.id} value={p.id}>{p.nama_pabrik}</option>
                     ))}
                   </select>
                 </div>
                 <div>
                   <label className="block text-xs font-bold text-gray-700 mb-1">Area</label>
                   <select 
-                    value={formData.area} onChange={e => setFormData({...formData, area: e.target.value})}
+                    value={formData.area} 
+                    onChange={e => setFormData({...formData, area: e.target.value, equipment: ''})}
                     className="w-full text-sm border-gray-300 rounded-lg focus:ring-navy-500 focus:border-navy-500"
                     disabled={!formData.pabrik_id}
                   >
                     <option value="">-- Pilih Area --</option>
-                    {equipmentData.filter(d => d.Tempat === formData.pabrik_id).map(a => a.Area).filter((v,i,a) => a.indexOf(v)===i).map(area => (
-                      <option key={area} value={area}>{area}</option>
-                    ))}
+                    {(() => {
+                      const selectedPabrik = pabrikList.find(p => String(p.id) === String(formData.pabrik_id));
+                      if (!selectedPabrik) return null;
+                      return equipmentData
+                        .filter(d => d.Tempat === selectedPabrik.nama_pabrik)
+                        .map(a => a.Area)
+                        .filter((v,i,a) => v && a.indexOf(v)===i)
+                        .map(area => <option key={area} value={area}>{area}</option>);
+                    })()}
                   </select>
                 </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-gray-700 mb-1">Equipment</label>
+                <select 
+                  value={formData.equipment} 
+                  onChange={e => setFormData({...formData, equipment: e.target.value})}
+                  className="w-full text-sm border-gray-300 rounded-lg focus:ring-navy-500 focus:border-navy-500"
+                  disabled={!formData.area}
+                >
+                  <option value="">-- Pilih Equipment (Opsional) --</option>
+                  {(() => {
+                    const selectedPabrik = pabrikList.find(p => String(p.id) === String(formData.pabrik_id));
+                    if (!selectedPabrik) return null;
+                    return equipmentData
+                      .filter(d => d.Tempat === selectedPabrik.nama_pabrik && d.Area === formData.area && d.Equipment)
+                      .map(e => <option key={e.Equipment} value={e.Equipment}>{e.Equipment} {e.Description ? `(${e.Description})` : ''}</option>);
+                  })()}
+                </select>
               </div>
 
               <div>
