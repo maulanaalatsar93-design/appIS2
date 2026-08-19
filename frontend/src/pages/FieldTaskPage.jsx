@@ -287,8 +287,10 @@ export default function FieldTaskPage() {
                     className="w-full text-sm border-gray-300 rounded-lg focus:ring-navy-500 focus:border-navy-500"
                   >
                     <option value="">-- Pilih Pabrik --</option>
-                    {pabrikList.map(p => (
-                      <option key={p.id} value={p.id}>{p.nama_pabrik}</option>
+                    {pabrikList
+                      .filter(p => equipmentData.some(d => d.Tempat === p.nama_pabrik))
+                      .map(p => (
+                        <option key={p.id} value={p.id}>{p.nama_pabrik}</option>
                     ))}
                   </select>
                 </div>
