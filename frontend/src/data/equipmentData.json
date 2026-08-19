@@ -1,0 +1,8222 @@
+[
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P11F-102-A",
+    "description": "Rotary Screen Driver"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P11F-102-B",
+    "description": "Rotary Screen Driver"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P11-P-101A",
+    "description": "Sea Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P11-P-101B",
+    "description": "Sea Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P2101-A",
+    "description": "Sea Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P2101-B",
+    "description": "Sea Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P12-P-202A",
+    "description": "Emergency Sweet Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P12-P-202B",
+    "description": "Emergency Sweet Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P12-P-211A",
+    "description": "Sweet Water Circulation Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P12-P-211B",
+    "description": "Sweet Water Circulation Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P14-P-004A",
+    "description": "Condensate Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P14-P-004B",
+    "description": "Condensate Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P14-P-003A",
+    "description": "Blow Down Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P14-P-003B",
+    "description": "Blow Down Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P14-P-002A",
+    "description": "Desalination Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P14-P-002B",
+    "description": "Desalination Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P14-P-001A",
+    "description": "Sea Water Booster Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P14-P-001B",
+    "description": "Sea Water Booster Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P14-P-006",
+    "description": "Ball Circulation Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P15-P-101A",
+    "description": "Raw Condensate Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P15-P-101B",
+    "description": "Raw Condensate Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P18-K-101A",
+    "description": "Air Compressor"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P18-K-101B",
+    "description": "Air Compressor"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "K-101-Baru",
+    "description": "Air Compressor(New)"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P19-P-102A",
+    "description": "Waste Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P19-P-102B",
+    "description": "Waste Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P19-P-103",
+    "description": "NaOH Injection Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P19-P-104",
+    "description": "Acid Injection Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P19-P-105",
+    "description": "Filling Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P19-K-101",
+    "description": "Air Blower"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P21-F2102A",
+    "description": "Rotary Screen Driver"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P21-F2102B",
+    "description": "Rotary Screen Driver"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P21P-2112A",
+    "description": "Shock Dosing Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P21P-2112B",
+    "description": "Shock Dosing Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P21P-2112C",
+    "description": "Shock Dosing Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P21-P-2113",
+    "description": "Acid Cleaning Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P60-K-101",
+    "description": "Recirculation Blower UFC"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P60-P101-A",
+    "description": "Pour Methanol"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P60-P101-B",
+    "description": "Pour Methanol"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P60-P106-A",
+    "description": "Absorber Circulation Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P60-P107-A",
+    "description": "Product Circulation Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P60-P103",
+    "description": "Start Up Oil Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P60-P106-B",
+    "description": "Absorber Circulation Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P60-P107-B",
+    "description": "Product Circulation Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P60-P108-A",
+    "description": "Chemical Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P60-P108-B",
+    "description": "Chemical Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "P60-P108-C",
+    "description": "Chemical Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Utility1A",
+    "equipment": "18-K-201",
+    "description": "Fan for 18-K-101"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "E-0401-P1A",
+    "description": "Condensate Pump for E-0401"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "E-0401-P1B",
+    "description": "Condensate Pump for E-0401"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "E-2302-P1A",
+    "description": "Tur Cond Pump For E-2302"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "E-2302-P1B",
+    "description": "Tur Cond Pump For E-2302"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "TS/K-0411",
+    "description": "NG Compressor"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "TS/K-0421",
+    "description": "Air Compressor"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "TS/K-0431",
+    "description": "Syngas Compressor"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "TS/K-0441",
+    "description": "NH3 Refrigerant Compressor"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "K-0421-P1A",
+    "description": "NG/PA Comp. L/O Turbine"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "K-0421-P1B",
+    "description": "NG/PA Comp. L/O Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "K-0431-P1A",
+    "description": "Syngas Comp. LO Turbine"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "K-0431-P1B",
+    "description": "Syngas Comp. LO Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "K-0201-A",
+    "description": "Fuel Gas Blower"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "K-0201-B",
+    "description": "Fuel Gas Blower"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "K-0203",
+    "description": "Start up N2 Blower"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "K-0301",
+    "description": "MDEA Recycle Compressor"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "K-0301-P1B",
+    "description": "LO Pump For K-0301"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "K-2401-A",
+    "description": "Air Blower for Con Treatment"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "K-2401-B",
+    "description": "Air Blower for Con Treatment"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "K-2901",
+    "description": "Neutralization Air Blower"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "P-0301-A",
+    "description": "Semi lean solution pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "P-0301-B",
+    "description": "Semi lean solution pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "P-0301-C",
+    "description": "Semi lean solution pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "P0301A-P1A",
+    "description": "LO Pump For P-0301-A"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "P0301A-P1B",
+    "description": "LO Pump For P-0301-A"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "P0301B-P1B",
+    "description": "LO Pump For P-0301-B"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "P0301C-P1B",
+    "description": "LO Pump For P-0301-C"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "P-0302-A",
+    "description": "Lean solution pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "P-0302-B",
+    "description": "Lean solution pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "P-0303-A",
+    "description": "Split Stream Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "P-0303-B",
+    "description": "Split Stream Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "P-0304-A",
+    "description": "OH Condensate Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "P-0304-B",
+    "description": "OH Condensate Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "P-0305",
+    "description": "Solution Transfer Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "P-0306",
+    "description": "MDEA Collect Sump Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "P-0308",
+    "description": "Condensate Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "P-0501-A",
+    "description": "Ammonia Product Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "P-0501-B",
+    "description": "Ammonia Product Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "P-0704-A",
+    "description": "Process Cond. Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "P-0704-B",
+    "description": "Process Cond. Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "P-0801-A",
+    "description": "HP Scrubber Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "P-0801-B",
+    "description": "HP Scrubber Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "P-0802-A",
+    "description": "LP Scrubber Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "P-0802-B",
+    "description": "LP Scrubber Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "P-2201-A",
+    "description": "Desalinated Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "P-2201-B",
+    "description": "Desalinated Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "P-2301A",
+    "description": "Cooling Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "P-2301B",
+    "description": "Cooling Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "P2301A-P1B",
+    "description": "LO Pump For P-2301-A"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "P-2302",
+    "description": "Cooling Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "P-2304-A",
+    "description": "CW Booster Pump for K-0201"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "P-2304-B",
+    "description": "CW Booster Pump for K-0201"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "P-2401-A",
+    "description": "DFW Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "P-2401-B",
+    "description": "DFW Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "P-2403-A",
+    "description": "Neutralized Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "P-2403-B",
+    "description": "Neutralized Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "P-2411",
+    "description": "Sulphuric Acid Unloading Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "P-2412",
+    "description": "Sulphuric Acid Unloading Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "P-2501-A",
+    "description": "BFW Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "P-2501-B",
+    "description": "BFW Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "P2501A-P1B",
+    "description": "LO Pump For P-2501-A"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "P2501B-P1B",
+    "description": "LO Pump For P-2501-A"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "P-2701",
+    "description": "Portable Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "P-2901-A",
+    "description": "Treated Waste Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "P-2901-B",
+    "description": "Treated Waste Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "Z-2201-AP1",
+    "description": "Brine Blowdown Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "Z-2201-AP2",
+    "description": "Distillate Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "Z-2201-BP1",
+    "description": "Brine Blowdown Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "Z-2201-BP2",
+    "description": "Distillate Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "Z-2201BP3A",
+    "description": "Scale inhibitor Inject Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "Z-2201BP3B",
+    "description": "Scale inhibitor Inject Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "Z-2201AP3A",
+    "description": "Scale Inhibitor Inject Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "Z-2201AP3B",
+    "description": "Scale Inhibitor Inject Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "Z-2201-AX1",
+    "description": "Scale Inhibit Tank Agitator"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "Z-2201-BX1",
+    "description": "Scale Inhibit Tank Agitator"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Ammonia1A",
+    "equipment": "Z-0301-XM1",
+    "description": "Mixer for Antifoam Injection"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2K/TS-102",
+    "description": "CO2 Compressor"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2K-102P1A",
+    "description": "Lube Oil Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2K-102P1B",
+    "description": "Lube Oil Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-K-601",
+    "description": "Granulator Fluid Air Fan"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-K-602",
+    "description": "Granulator Scrub. Exh. Fan"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-K-603",
+    "description": "First Cooler Fluid Air Fan"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-K-604",
+    "description": "Atomization Air Blower"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-K-604PM-A",
+    "description": "LUBE OIL FOR P2K604"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-K-604PM-B",
+    "description": "LUBE OIL FOR P2K604"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-K-605",
+    "description": "Dedusting Fan"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-K-606",
+    "description": "Cooler Scrubber Exh. Fan"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-K-607",
+    "description": "Final Cooler Fluid Air Fan"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-K-609",
+    "description": "Fume Extraction Fan"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2P-102P2A",
+    "description": "Seal Flushing Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2P-102P2B",
+    "description": "Seal Flushing Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-P-102A",
+    "description": "HP Ammonia Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-P-102B",
+    "description": "HP Ammonia Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-P-103A",
+    "description": "Steam Cond. Recovery Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-P-103B",
+    "description": "Steam Cond. Recovery Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-P-201A",
+    "description": "Circ. Wtr Pump for P2-E-203"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-P-201B",
+    "description": "Circ. Wtr Pump for P2-E-203"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-P-300",
+    "description": "HP Carbamate Pump To DKM"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-P-301A",
+    "description": "HP Carbamate Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-P-301B",
+    "description": "HP Carbamate Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-P-303A",
+    "description": "Urea Solution Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-P-303B",
+    "description": "Urea Solution Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-P-306A",
+    "description": "Circ. Wtr Pump for P2-E-303"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-P-306B",
+    "description": "Circ. Wtr Pump for P2-E-303"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-P-401A",
+    "description": "Urea Melt Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-P-401B",
+    "description": "Urea Melt Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-P-601A",
+    "description": "Granulator Scrub. Circ. Pum"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-P-601B",
+    "description": "Granulator Scrub. Circ. Pum"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-P-602",
+    "description": "Cooler Scrub. Circ. Fan"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-P-603A",
+    "description": "Urea Solution Recycle Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-P-603B",
+    "description": "Urea Solution Recycle Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-P-610A",
+    "description": "UF Metering Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-P-610B",
+    "description": "UF Metering Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-P-701A",
+    "description": "LP Flush Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-P-701B",
+    "description": "LP Flush Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-P-703A",
+    "description": "Desorber Feed Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-P-703B",
+    "description": "Desorber Feed Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-P-705A",
+    "description": "MP Absorb. Feed Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-P-705B",
+    "description": "MP Absorb. Feed Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-P-801A",
+    "description": "Hydrolizer Feed Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-P-801B",
+    "description": "Hydrolizer Feed Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-P-802A",
+    "description": "Reflux Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-P-802B",
+    "description": "Reflux Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-P-901A",
+    "description": "Steam Condensate Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-P-901B",
+    "description": "Steam Condesate Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-P-902A",
+    "description": "Flushing Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-P-902B",
+    "description": "Flushing Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-P-905A",
+    "description": "Boiler Feed Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-P-905B",
+    "description": "Boiler Feed Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-P-906A",
+    "description": "NH3 Injection Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-P-906B",
+    "description": "NH3 Injection Pump"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-CR-601",
+    "description": "Bucket Elevator"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-L-105",
+    "description": "Bucket Elevator"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2MX601A1",
+    "description": "Roller Crusher"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2MX601B1",
+    "description": "Roller Crusher"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2MX601A2",
+    "description": "Roller Crusher"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2MX601B2",
+    "description": "Roller Crusher"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2SE602-A",
+    "description": "Vibration Screen"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2SE602-B",
+    "description": "Vibration Screen"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P-21-L-102",
+    "description": "Motor Drive Belt Conv. POPK"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P-21-L-103",
+    "description": "Motor Drive Belt Conv. POPK"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P-21-L-104",
+    "description": "Motor Drive Belt Conv. POPK"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P-21-L-106",
+    "description": "Motor Drive Belt Conv. POPK"
+  },
+  {
+    "pabrik": "Pabrik 1A",
+    "area": "Urea1A",
+    "equipment": "P2-X-605K",
+    "description": "Ammonia Refrig. Package Com"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "2010-U",
+    "description": "GE GENERATOR"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "88-TK1",
+    "description": "EXH.FC AIR BLOWER"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "88-TK2",
+    "description": "EXH.FC AIR BLOWER"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "88-GA1",
+    "description": "FAN COOLER GENERATOR"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "88-GA2",
+    "description": "FAN COOLER GENERATOR"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "2001-JA",
+    "description": "DWT PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "2001-JB",
+    "description": "DWT PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "2001-JT",
+    "description": "DWT PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "2002-JA",
+    "description": "ODWT PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "2002-JT",
+    "description": "ODWT PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "2003-JT",
+    "description": "WHB.FEED PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "2003-JA",
+    "description": "WHB.FEED PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "2004-J",
+    "description": "PB.FEED PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "2004-JA",
+    "description": "PB.FEED PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "2005-LCJ3",
+    "description": "DESTILATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "2005-LCJ4",
+    "description": "CONDENSATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "2005-LBJ4",
+    "description": "CONDENSATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "2005-LAJ4",
+    "description": "CONDENSATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "2005-LBJ2",
+    "description": "BLOW DOWN PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "2005-LBJ3",
+    "description": "DESTILATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "2005-LCJ2",
+    "description": "BLOW DOWN PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "2005-LAJ2",
+    "description": "BLOW DOWN PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "2005-LAJ3",
+    "description": "DESTILATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "2007-JB",
+    "description": "WATER TREATMENT PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "2008-UJ",
+    "description": "FD FAN"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "2009-JA",
+    "description": "CPF PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "2009-JB",
+    "description": "CPF PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "2009-JC",
+    "description": "CPF PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "2009-JD",
+    "description": "CPF PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "2009-ULJ",
+    "description": "AIR BLOWER FOR WHB"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "2144-J",
+    "description": "PROC.COND.STP.PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "2144-JA",
+    "description": "PROC.COND.STP.PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "2201-JA",
+    "description": "SEA WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "2201-JB",
+    "description": "SEA WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "2201-JC",
+    "description": "SEA WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "2201-JD",
+    "description": "SEA WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "2218-JA",
+    "description": "FRESH COOLING WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "2218-JBT",
+    "description": "FRESH COOLING WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "2218-JC",
+    "description": "FRESH COOLING WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "2218-JD",
+    "description": "FRESH COOLING WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "2402-J",
+    "description": "NEUTRALIZER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "2402-JA",
+    "description": "NEUTRALIZER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "14-P-302A",
+    "description": "DESTILATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "14-P-302B",
+    "description": "DESTILATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "14-P-301A",
+    "description": "BLOW DOWN PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "14-P-301B",
+    "description": "BLOW DOWN PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "24-P-720A",
+    "description": "Demin Water Trans. Pump P2"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "24-P-720B",
+    "description": "Demin Water Trans. Pump-P2"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "K-101",
+    "description": "AIR COMP UFC"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "P-101-A",
+    "description": "METHANOL FEED PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "P-101-B",
+    "description": "METHANOL FEED PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "P-102-A",
+    "description": "Urea Solution Pump"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "P-102-B",
+    "description": "Urea Solution Pump"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "P-103",
+    "description": "Oil Process Pump"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "P-106-A",
+    "description": "UFC PRODUCT PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "P-106-B",
+    "description": "UFC PRODUCT PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "P-107-A",
+    "description": "AF.ABSORB CIRC PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "P-107-B",
+    "description": "AF. ABSORB CIRC PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "P-108-A",
+    "description": "AF. PRODUCT PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "P-108-B",
+    "description": "AF. PRODUCT PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "P-204-A",
+    "description": "COOL WATER CIRC PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "P-204-B",
+    "description": "COOL WATER CIRC PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "E-203-A",
+    "description": "COOL WATER CIRC COOLER"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "E-203-B",
+    "description": "COOL WATER CIRC.COOLER"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "G-2007-A",
+    "description": "PORTABLE WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "G-2007-B",
+    "description": "PORTABLE WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "2017-J",
+    "description": "JOY EMERGENCY AIR COMP."
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "2204-JA",
+    "description": "Fire Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "P-8403",
+    "description": "FIRE PUMP-1"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Utility2",
+    "equipment": "P-8404",
+    "description": "FIRE PUMP-2"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "101-J/JT",
+    "description": "AIR COMPRESSOR"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "103-J/JT",
+    "description": "SYNGAS COMPRESSOR"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "105-J/JT",
+    "description": "NH3 REFRIGERANT COMPRESSOR"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "101-JAM",
+    "description": "AIR COMPRSSOR"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "101-BJT",
+    "description": "ID FAN"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "101/105-J",
+    "description": "LUBE OIL PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "101/105-JM",
+    "description": "M  LUBE OIL PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "103JLJCT",
+    "description": "SEAL OIL PUMP TURB DRV"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "103JLJC",
+    "description": "SEAL OIL PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "103-JLJT",
+    "description": "LUBE OIL PUMP-Turb Drv"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "103-JLJ",
+    "description": "LUBE OIL PUMP-Motor Drv"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "104-J",
+    "description": "BFW PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "104-JA",
+    "description": "BFW PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "107-JA",
+    "description": "SEMI LEAN SOL. PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "107-JB",
+    "description": "SEMI LEAN SOL. PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "107-JC",
+    "description": "SEMI LEAN SOL. PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "108-JA",
+    "description": "LEAN SOLUT PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "108-JB",
+    "description": "LEAN SOLUT PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "108-JC",
+    "description": "LEAN SOLUT PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "109-J",
+    "description": "STRIPER REF PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "109-JA",
+    "description": "STRIPER REF PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "110-J",
+    "description": "COLD NH3 PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "110-JA",
+    "description": "COLD NH3 PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "110-C1",
+    "description": "CO2 STRIPPER AIR BLOWER"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "110-C2",
+    "description": "CO2 STRIPPER AIR BLOWER"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "110-C3",
+    "description": "CO2 STRIPPER AIR BLOWER"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "110-C4",
+    "description": "CO2 STRIPPER AIR BLOWER"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "110-C5",
+    "description": "CO2 STRIPPER AIR BLOWER"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "110-C6",
+    "description": "CO2 STRIPPER AIR BLOWER"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "110-C7",
+    "description": "CO2 STRIPPER AIR BLOWER"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "110-C8",
+    "description": "CO2 STRIPPER AIR BLOWER"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "110-C9",
+    "description": "CO2 STRIPPER AIR BLOWER"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "110-C10",
+    "description": "CO2 STRIPPERVAIR BLOWER"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "110-C11",
+    "description": "CO2 STRIPPER AIR BLOWER"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "110-C12",
+    "description": "CO2 STRIPPER AIR BLOWER"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "110-C13",
+    "description": "CO2 STRIPPER AIR BLOWER"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "110-C14",
+    "description": "CO2 STRIPPER AIR BLOWER"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "110-C15",
+    "description": "CO2 STRIPPER AIR BLOWER"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "110-C16",
+    "description": "CO2 STRIPPER AIR BLOWER"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "112-J",
+    "description": "CONDENSATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "112-JA",
+    "description": "CONDENSATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "113-J",
+    "description": "CONDENSATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "113-JA",
+    "description": "CONDENSATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "113-JB",
+    "description": "CONDENSATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "114-J",
+    "description": "CONDENSATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "114-JA",
+    "description": "CONDENSATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "116-J",
+    "description": "CO2 STRIPPER BFW PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "116-JA",
+    "description": "CO2 STRIPPER BFW PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "123-J",
+    "description": "WARM NH3 PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "123-JA",
+    "description": "WARM NH3 PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "123-JB",
+    "description": "WARM NH3 PUMP TO POPKA"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "124-J",
+    "description": "NH3 MIXING PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "124-JA",
+    "description": "NH3 MIXING PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "124-JB",
+    "description": "NH3 MIXING PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "140-J",
+    "description": "BENFIELD SOL PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "140-JA",
+    "description": "BENFIELD SOL PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "141-J",
+    "description": "BFW CIRC PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "141-JA",
+    "description": "BFW CIRC PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "142-J",
+    "description": "GEN BFW PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "142-JA",
+    "description": "GEN BFW PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "150-J",
+    "description": "WATER JACKET PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "150-JA",
+    "description": "WATER JACKET PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "3-K-101",
+    "description": "HRU FLASH GAS COMPRESSOR"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "3PM-101",
+    "description": "HYDROLIZER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "3PM-102",
+    "description": "HYDROLIZER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "3PM-102",
+    "description": "HYDROLIZER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "3PM-104",
+    "description": "MOTOR BLOWER"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "3PM-104",
+    "description": "MOTOR BLOWER"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "3EM-151",
+    "description": "MOTOR BLOWER"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "3PM-101",
+    "description": "HYDROLIZER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "104-L2-J2",
+    "description": "RECIPROCATING PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "104-L3-J3",
+    "description": "RECIPROCATING PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "104-L3-J3A",
+    "description": "A  RECIPROCATING PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "104-L2-J2A",
+    "description": "A  RECIPROCATING PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "SW-1 TO",
+    "description": "SWIRL BURNER AUX BOILER 101B"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "SW-2 MI",
+    "description": "SWIRL BURNER AUX BOILER 101B"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Ammonia2",
+    "equipment": "SW-3 BO",
+    "description": "SWIRL BURNER AUX BOILER 101B"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "302-J/JT",
+    "description": "CO2 COMPRESSOR"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "301-J",
+    "description": "AIR BLOWER"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "301-JA",
+    "description": "AIR BLOWER"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "302-JLJ",
+    "description": "LUBE OIL PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "302-JTC",
+    "description": "CONDENSATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "302-JTC",
+    "description": "CONDENSATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "304-J",
+    "description": "HP AMMONIA PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "304-JA",
+    "description": "HP AMMONIA PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "304-JL",
+    "description": "L/O FOR HP NH3 PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "304-JAL",
+    "description": "L/O FOR HP NH3 PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "305-J",
+    "description": "REFLUX PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "305-JA",
+    "description": "REFLUX PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "307-J",
+    "description": "HP CARBAMAT PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "307-JA",
+    "description": "HP CARBAMAT PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "307-JL",
+    "description": "L/O FOR CARBAMATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "307-JAL",
+    "description": "L/O FOR CARABAMETE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "308-J",
+    "description": "UREA SOLT.PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "308-JA",
+    "description": "UREA SOLT.PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "309-J",
+    "description": "UREA MELT PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "309-JA",
+    "description": "UREA MELT PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "311-J",
+    "description": "DSB.FEED PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "311-JA",
+    "description": "DSB.FEED PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "312-J",
+    "description": "LP.COND PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "312-JA",
+    "description": "LP.COND PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "313-J",
+    "description": "DSB.FEED PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "313-JA",
+    "description": "DSB.FEED PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "314-J",
+    "description": "HYD.FEED PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "314-JA",
+    "description": "HYD.FEED PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "315-J",
+    "description": "LP CONDENSATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "315-JA",
+    "description": "LP CONDENSATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "316-J",
+    "description": "HP CONDENSATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "316-JA",
+    "description": "HP CONDENSATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "317-J",
+    "description": "CONDENSATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "317-JA",
+    "description": "CONDENSATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "324-J",
+    "description": "HYDROLIZER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "324-JA",
+    "description": "HYDROLIZER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "325-J",
+    "description": "CONDENSATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "325-JA",
+    "description": "CONDENSATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "401-V1A",
+    "description": "PRILLING SCRAPPER SISI AMONIAK"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "401-V2L",
+    "description": "PRILLING SCRAPPER SISI LAUT"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "401-JA",
+    "description": "ID FAN"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "401-JB",
+    "description": "ID FAN"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "401-JC",
+    "description": "ID FAN"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "401-JD",
+    "description": "ID FAN"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "401-LA",
+    "description": "PRILLING MACHINE"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "401-LB",
+    "description": "PRILLING MACHINE"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "2817-V",
+    "description": "MOTOR BELT CONVEYOR"
+  },
+  {
+    "pabrik": "Pabrik 2",
+    "area": "Urea2",
+    "equipment": "P-300",
+    "description": "UREA MELT PUMP for DKM"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea2",
+    "equipment": "P-400",
+    "description": "UREA MELT PUMP for DKM"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "16Z-001",
+    "description": "GTG ALSTHOM"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "88-TK1",
+    "description": "EXH FRAME AIR COOL BLOWER"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "88-TK2",
+    "description": "EXH FRAME AIR COOL BLOWER"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "88-FC-1",
+    "description": "FAN COOLER ALSTHOM"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "88-FC-2",
+    "description": "FAN COOLER ALSTHOM"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "88-FC-3",
+    "description": "FAN COOLER ALSTHOM"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "88-FC-4",
+    "description": "FAN COOLER ALSTHOM"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "88-QV",
+    "description": "OIL MIST FAN FOR GTG"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "12P-101A",
+    "description": "SEA WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "12P-101B",
+    "description": "SEA WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "12P-101C",
+    "description": "SEA WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "12P-102A",
+    "description": "HIPC. NORMAL DOSING PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "12P-102B",
+    "description": "HIPC. NORMAL DOSING PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "12P-103A",
+    "description": "HIPC. SHOCK DOSING PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "12P-103B",
+    "description": "HIPC. SHOCK DOSING PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "12P-201A",
+    "description": "N0.1 SWEET WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "12P-201B",
+    "description": "NO.1 SWEET WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "12P-202A",
+    "description": "EMERGENCY SWEET WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "12P-202B",
+    "description": "EMERGENCY SWEET WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "12P-203A",
+    "description": "STEAM CONDENSATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "12P-203B",
+    "description": "STEAM CONDENSATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "12P-211A",
+    "description": "NO.2 SWEET WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "12P-211B",
+    "description": "NO.2 SWEET WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "14P-001A",
+    "description": "SEA WATER BOOSTER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "14P-001B",
+    "description": "SEA WATER BOOSTER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "14P-002A",
+    "description": "DESAL WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "14P-002B",
+    "description": "DESAL WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "14P-003A",
+    "description": "BLOWDOWN PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "14P-003B",
+    "description": "BLOWDOWN PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "14P-004A",
+    "description": "CONDENSATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "14P-004B",
+    "description": "CONDENSATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "14P-005A",
+    "description": "CHEMICAL PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "14P-005AR",
+    "description": "CHEMICAL PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "14P-005B",
+    "description": "CHEMICAL PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "14P-005BR",
+    "description": "CHEMICAL PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "14G-001-A",
+    "description": "B  SCALE MIXER / AGITATOR"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "14G-001-B",
+    "description": "A  SCALE MIXER / AGITATOR"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "15K-101-A",
+    "description": "DEGASSIFIED FAN"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "15K-101-B",
+    "description": "DEGASSIFIED FAN"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "15P-101A",
+    "description": "DEGASIFIED TRANS PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "15P-101B",
+    "description": "DEGASIFIED TRANS PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "15P-201C",
+    "description": "MBD FEED PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "15P-201A",
+    "description": "MBD FEED PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "15P-201B",
+    "description": "MBD FEED PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "15P-202A",
+    "description": "Waste Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "15P-202B",
+    "description": "Waste Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "15P-203 A",
+    "description": "POMPA ACID A"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "15P-203 B",
+    "description": "POMPA ACID B"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "17P-101A",
+    "description": "DEMIN WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "17P-101B",
+    "description": "DEMIN WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "17P-101C",
+    "description": "DEMIN WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "17P-201A",
+    "description": "BFW PUMP FOR WHB"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "17P-201B",
+    "description": "BFW PUMP FOR WHB"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "17P-201C",
+    "description": "BFW PUMP FOR WHB"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "18K-301",
+    "description": "AIR BLOWER"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "CHILLER-1",
+    "description": "Chiller-1 UTY"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "CHILLER-2",
+    "description": "Chiller-2 UTY"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Utility3",
+    "equipment": "CHILLER-3",
+    "description": "Chiller-3 UTY"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Ammonia3",
+    "equipment": "1K-101A",
+    "description": "FLUE GAS FAN"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Ammonia3",
+    "equipment": "1K-101B",
+    "description": "FLUE GAS FAN"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Ammonia3",
+    "equipment": "1K-402",
+    "description": "AIR COMPRESSOR"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Ammonia3",
+    "equipment": "1K-403",
+    "description": "SYNGAS COMPRESSOR"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Ammonia3",
+    "equipment": "1K-405",
+    "description": "NH3 REFRIGERANT COMPRESSOR"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Ammonia3",
+    "equipment": "1K-402P1A",
+    "description": "LUBE OIL PUMP FOR AIR COMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Ammonia3",
+    "equipment": "1K-402P1B",
+    "description": "LUBE OIL PUMP FOR AIR COMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Ammonia3",
+    "equipment": "1K-403P1A",
+    "description": "LUBE OIL FOR SYNGAS"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Ammonia3",
+    "equipment": "1K-403P1B",
+    "description": "LUBE OIL FOR SYNGAS"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Ammonia3",
+    "equipment": "1K-403P2A",
+    "description": "SEAL OIL PUMP FOR SYNGAS"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Ammonia3",
+    "equipment": "1K-403P2B",
+    "description": "SEAL OIL PUMP FOR SYNGAS"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Ammonia3",
+    "equipment": "1K-405P1A",
+    "description": "SEAL OIL FOR REFRIGERANT"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Ammonia3",
+    "equipment": "1K-405P1B",
+    "description": "SEAL OIL FOR REFRIGERANT"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Ammonia3",
+    "equipment": "1P-201A",
+    "description": "HP BFW PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Ammonia3",
+    "equipment": "1P-201B",
+    "description": "HP BFW PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Ammonia3",
+    "equipment": "1P-301A",
+    "description": "HPC SOL CIRC PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Ammonia3",
+    "equipment": "1P-301B",
+    "description": "HPC SOL CIRC PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Ammonia3",
+    "equipment": "1P-302A",
+    "description": "COLD CONDENSATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Ammonia3",
+    "equipment": "1P-302B",
+    "description": "COLD CONDENSATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Ammonia3",
+    "equipment": "1P-303",
+    "description": "SLOP SOLUTION PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Ammonia3",
+    "equipment": "1P-304A",
+    "description": "HOT CONDENSATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Ammonia3",
+    "equipment": "1P-304B",
+    "description": "HOT CONDENSATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Ammonia3",
+    "equipment": "1P-305",
+    "description": "SOLUTION SUMP PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Ammonia3",
+    "equipment": "1P-501A",
+    "description": "AMMONIA PUMP FOR STORAGE"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Ammonia3",
+    "equipment": "1P-501B",
+    "description": "AMMONIA PUMP FOR STORAGE"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Ammonia3",
+    "equipment": "1P-502A",
+    "description": "AMMONIA PUMP FOR UREA"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Ammonia3",
+    "equipment": "1P-502B",
+    "description": "AMMONIA PUMP FOR UREA"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Ammonia3",
+    "equipment": "1P-503A",
+    "description": "AMMN TRANFER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Ammonia3",
+    "equipment": "1P-503B",
+    "description": "AMMN TRANFER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Ammonia3",
+    "equipment": "1P-601A",
+    "description": "STEAM CONDENSATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Ammonia3",
+    "equipment": "1P-601B",
+    "description": "STEAM CONDENSATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Ammonia3",
+    "equipment": "1P-602A",
+    "description": "RECOVERY CONDENSATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Ammonia3",
+    "equipment": "1P-602B",
+    "description": "RECOVERY CONDENSATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Ammonia3",
+    "equipment": "CWP1",
+    "description": "AC CENTRAL PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Ammonia3",
+    "equipment": "CWP2",
+    "description": "AC CENTRAL PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Ammonia3",
+    "equipment": "CWP3",
+    "description": "AC CENTRAL PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2B-604A",
+    "description": "SCRAPPER PRILLING TOWER"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2B-604B",
+    "description": "SCRAPPER PRILLING TOWER"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2G-602B",
+    "description": "PRILLING BUCKET"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2G-602A",
+    "description": "PRILLING BUCKET"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2K-102",
+    "description": "CO2 COMPRESSOR"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2K-102P1A",
+    "description": "LUBE OIL FOR CO2 COMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2K-102P1B",
+    "description": "LUBE OIL FOR CO2 COMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2P-102AP1A",
+    "description": "LUBE OIL FOR CO2 COMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2P-102BP1A",
+    "description": "LUBE OIL FOR CO2 COMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2K-603A",
+    "description": "PRILLING TOWER FAN"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2K-603B",
+    "description": "PRILLING TOWER FAN"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2K-603C",
+    "description": "PRILLING TOWER FAN"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2K-603D",
+    "description": "PRILLING TOWER FAN"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2K-604",
+    "description": "FAN"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2K-611",
+    "description": "FLUIDIZATION FAN"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2K-612",
+    "description": "FBC EXHAUST FAN"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2P-102A",
+    "description": "HP AMMONIA PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2P-102B",
+    "description": "HP AMMONIA PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2P-103A",
+    "description": "STEAM CONDENSATE REC PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2P-103B",
+    "description": "STEAM CONDENSATE REC PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2P-201A",
+    "description": "CIRCULATION WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2P-201B",
+    "description": "CIRCULATION WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2P-301A",
+    "description": "HP CARBAMATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2P-301B",
+    "description": "HP CARBAMATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2P-301-PM1A",
+    "description": "LUBE OIL CARBAMATE"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2P-301-PM1B",
+    "description": "LUBE OIL CARBAMATE"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2P-303A",
+    "description": "UREA SOLUTION PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2P-303B",
+    "description": "UREA SOLUTION PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2P-306A",
+    "description": "CIRCULATION WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2P-306B",
+    "description": "CIRCULATION WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2P-401A",
+    "description": "UREA MELT PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2P-401B",
+    "description": "UREA MELT PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2P-603A",
+    "description": "SOL. RECOVERY PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2P-603B",
+    "description": "SOL. RECOVERY PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2P-703A",
+    "description": "DESORBER FEED PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2P-703B",
+    "description": "DESORBER FEED PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2P-704A",
+    "description": "LP ABSORBER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2P-704B",
+    "description": "LP ABSORBER FEED PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2P-707A",
+    "description": "PROCESS COND. PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2P-707B",
+    "description": "PROCESS COND PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2P-801A",
+    "description": "HYDROLIZER FEED PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2P-801B",
+    "description": "HYDROLIZER FEED PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2P-802A",
+    "description": "REFLUX PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2P-802B",
+    "description": "REFLUX PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2P-901A",
+    "description": "STEAM CONDENSATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2P-901B",
+    "description": "STEAM CONDENSATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2P-902-A",
+    "description": "HP FLUSH PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2P-902-B",
+    "description": "HP FLUSH PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2P-905A",
+    "description": "BFW PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2P-905B",
+    "description": "BFW PUMP"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2P-004A",
+    "description": "Segregasi Pump"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2P-004B",
+    "description": "Segregasi Pump"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "P-300",
+    "description": "HP CARBAMATE PUMP FOR DKM"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "P-400",
+    "description": "UREA MELT PUMP TO DKM"
+  },
+  {
+    "pabrik": "Pabrik 3",
+    "area": "Urea3",
+    "equipment": "2L-601",
+    "description": "MOTOR DRIVE CONVEYOR"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "16GE-201",
+    "description": "GTG Generator P-4"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "88-BA1-K-4",
+    "description": "EXH FRAME AIR COOL BLOWER"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "88-BA2-K-4",
+    "description": "EXH FRAME AIR COOL BLOWER"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "88-FC1-K-4",
+    "description": "OIL COOLER FAN GTG"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "88-FC2-K-4",
+    "description": "OIL COOLER FAN GTG"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "88-FC3-K-4",
+    "description": "OIL COOLER FAN GTG"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "88-QV",
+    "description": "TURBINE COMP. FAN COOLER"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "12-P-101-A",
+    "description": "Sea Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "12-P-101-B",
+    "description": "Sea Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "12-P-101-C",
+    "description": "Sea Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "12-P-102-A",
+    "description": "Hypochlr. Normal Dosing Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "12-P-102-B",
+    "description": "Hypochlr. Normal Dosing Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "12-P-103-A",
+    "description": "Hypochlr. Shock Dosing Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "12-P-103-B",
+    "description": "Hypochlr. Shock Dosing Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "12-P-105-A",
+    "description": "Sea Water Booster Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "12-P-105-B",
+    "description": "Sea Water Booster Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "12-P-201-A",
+    "description": "No.1 Sweat Water Circl. Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "12-P-201-B",
+    "description": "No.1 Sweat Water Circl. Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "12-P-202-A",
+    "description": "Emergency Sweat Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "12-P-202-B",
+    "description": "Emergency Sweat Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "12-P-211-A",
+    "description": "NO.2 Sweat Water Circl Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "12-P-211-B",
+    "description": "NO.2 Sweat Water Circl Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "14-P-101-A",
+    "description": "Sea Water Booster Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "14-P-101-B",
+    "description": "Sea Water Booster Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "14-P-102-A",
+    "description": "Desalinate Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "14-P-102-B",
+    "description": "Desalinate Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "14-P-201-A",
+    "description": "Blow Down Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "14-P-201-B",
+    "description": "Blow Down Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "14-P-202-A",
+    "description": "Distillate Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "14-P-202-B",
+    "description": "Distillate Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "14-P-301-A",
+    "description": "Blow Down Pump (Desal K-2)"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "14-P-302-A",
+    "description": "Destilate Pump (Desal K-2)"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "14-P-302-B",
+    "description": "Destilate Pump (Desal K-2)"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "15-P-101-A",
+    "description": "Degasified Water Transf Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "15-P-101-B",
+    "description": "Degasified Water Transf Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "15-P-102-A",
+    "description": "Process Condensate Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "15-P-102-B",
+    "description": "Process Condensate Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "15-P-201-A",
+    "description": "Raw Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "15-P-201-B",
+    "description": "Raw Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "15-P-202-A",
+    "description": "Waste Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "15-P-202-B",
+    "description": "Waste Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "15-P-203-A",
+    "description": "Acid Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "15-P-203-B",
+    "description": "Acid Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "15-P-204-A",
+    "description": "NaOH Transfer Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "15-P-204-B",
+    "description": "NaOH Transfer Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "15-K-201",
+    "description": "Mixed Bed Blower"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "15-X-101",
+    "description": "Caustic Mixer"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "18-K-201",
+    "description": "Fan for 18-K-101"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "17-P-101-A",
+    "description": "Demineralized Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "17-P-101-B",
+    "description": "Demineralized Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "17-P-201-A",
+    "description": "Boiler Feed Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "17-P-201-B",
+    "description": "Boiler Feed Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "17-P-201-C",
+    "description": "Boiler Feed Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "17-H-401K1",
+    "description": "Force Draft Fan"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "18-P-101-A",
+    "description": "Cooling Water Circl. Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "18-P-101-B",
+    "description": "Cooling Water Circl. Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "24-P-740-A",
+    "description": "Demin Water Trans. Pump P4"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "24-P-740-B",
+    "description": "Demin Water Trans. Pump P4"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "2-E-705",
+    "description": "OIL COOLER FAN-UFC"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "2-E-706",
+    "description": "OIL COOLER FAN-UFC"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "2-P-610-A",
+    "description": "UF Metering Pump-UFC"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "2-P-610-B",
+    "description": "UF Metering Pump-UFC"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "2-P-702",
+    "description": "Start Up Oil Pump-UFC"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "2-P-703-A",
+    "description": "Urea Solution Pump-UFC"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "2-P-703-B",
+    "description": "Urea Solution Pump-UFC"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "2-P-704-A",
+    "description": "Absorber Circl. Pump-UFC"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "2-P-704-B",
+    "description": "Absorber Circl. Pump-UFC"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "2-P-705",
+    "description": "Product Circl. Pump-UFC"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "2-P-707",
+    "description": "Crude Product Pump-UFC"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "2-P-709-A",
+    "description": "Methanol Feed Pump-UFC"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "2-P-709-B",
+    "description": "Methanol Feed Pump-UFC"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "2-P-710-A",
+    "description": "Absorber Top Circl Pump-UFC"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "2-P-710-B",
+    "description": "Absorber Top Circl Pump-UFC"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "2-K-701",
+    "description": "Recirculation Blower-UFC"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "CHWP-1D",
+    "description": "Chiller Pump AC-sisi Pelangi"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "CHWP-1C",
+    "description": "Chiller Pump AC"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "CHWP-1B",
+    "description": "Chiller Pump AC"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Utility4",
+    "equipment": "CHWP-1A",
+    "description": "Chiller Pump AC - sisi KPA"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Ammonia4",
+    "equipment": "1-425PM1A",
+    "description": "Condensate Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Ammonia4",
+    "equipment": "1E-425PM1B",
+    "description": "Condensate Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Ammonia4",
+    "equipment": "1E-435PM1A",
+    "description": "Condensate Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Ammonia4",
+    "equipment": "1E-435PM1B",
+    "description": "Condensate Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Ammonia4",
+    "equipment": "1K-201-A",
+    "description": "ID Fan Primary Reformer"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Ammonia4",
+    "equipment": "1K-201-B",
+    "description": "ID Fan Primary Reformer"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Ammonia4",
+    "equipment": "1-K-203",
+    "description": "N2 BLOWER"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Ammonia4",
+    "equipment": "1K-411",
+    "description": "NG Compressor"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Ammonia4",
+    "equipment": "1K-421",
+    "description": "Air Compressor"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Ammonia4",
+    "equipment": "1K-431",
+    "description": "Syngas Compressor"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Ammonia4",
+    "equipment": "1K-441",
+    "description": "NH3 Refrigerant Compressor"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Ammonia4",
+    "equipment": "1P-301-A",
+    "description": "Semi Lean Solution Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Ammonia4",
+    "equipment": "1P-301-B",
+    "description": "Semi Lean Solution Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Ammonia4",
+    "equipment": "1P-302-A",
+    "description": "Lean Solution Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Ammonia4",
+    "equipment": "1P-302-B",
+    "description": "Lean Solution Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Ammonia4",
+    "equipment": "1P-303-A",
+    "description": "Split Stream Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Ammonia4",
+    "equipment": "1P-303-B",
+    "description": "Split Stream Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Ammonia4",
+    "equipment": "1P-304-A",
+    "description": "OH Condensate Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Ammonia4",
+    "equipment": "1P-304-B",
+    "description": "OH Condensate Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Ammonia4",
+    "equipment": "1P-308-A",
+    "description": "No.1 Condensate Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Ammonia4",
+    "equipment": "1P-308-B",
+    "description": "No.1 Condensate Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Ammonia4",
+    "equipment": "1P-421PM1A",
+    "description": "Lube Oil Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Ammonia4",
+    "equipment": "1P-421PM1B",
+    "description": "Lube Oil Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Ammonia4",
+    "equipment": "1P-431PM1A",
+    "description": "Lube Oil Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Ammonia4",
+    "equipment": "1P-431PM1B",
+    "description": "Lube Oil Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Ammonia4",
+    "equipment": "1P-501-A",
+    "description": "NH3 Product Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Ammonia4",
+    "equipment": "1P-501-B",
+    "description": "NH3 Product Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Ammonia4",
+    "equipment": "1P-601-A",
+    "description": "HP BFW PUMP"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Ammonia4",
+    "equipment": "1P-601-B",
+    "description": "HP BFW PUMP"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Ammonia4",
+    "equipment": "1P-704-A",
+    "description": "No.2 Process Condensate Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Ammonia4",
+    "equipment": "1P-704-B",
+    "description": "No.2 Process Condensate Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2E-105-P1A",
+    "description": "Condensate Pump for CO2 Comp"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2E-105-P1B",
+    "description": "Condensate Pump for CO2 Comp"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2K-101",
+    "description": "CO2 Compressor"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2K-101-P1A",
+    "description": "CO2 Comp. Lube Oil Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2K-101-P1B",
+    "description": "CO2 Comp. Lube Oil Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2K-201-A",
+    "description": "Striper Passivation Air Comp"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2K-201-B",
+    "description": "Striper Passivation Air Comp"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2K-601",
+    "description": "Atomization Air Blower"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2K-602",
+    "description": "Granulator Fluidiztn Air Fan"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2K-603",
+    "description": "Granulator Scrubber Exh. Fan"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2K-604",
+    "description": "1st Cooler Fluidiztn Air Fan"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2K-605",
+    "description": "Dedusting Fan"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2K-606",
+    "description": "Cooler Scrubber Exh. Fan"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2K-607",
+    "description": "Final Cooler Fluid. Air Fan"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2K-608",
+    "description": "Furnace Extraction Fan"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-201-A",
+    "description": "HP Ammonia Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-201-B",
+    "description": "HP Ammonia Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-201-P1A",
+    "description": "HP Ammonia Oil Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-201-P1B",
+    "description": "HP Ammonia Oil Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-202-A",
+    "description": "HP Carbamate Solution Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-202-B",
+    "description": "HP Carbamate Solution Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-202-P1A",
+    "description": "HP Carbamate Oil Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-202-P1B",
+    "description": "HP Carbamate Oil Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-203-A",
+    "description": "MP Carbonate Solution Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-203-B",
+    "description": "MP Carbonate Solution Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-203-R",
+    "description": "MP Carbonate Solution Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-204-A",
+    "description": "Ammonia Booster Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-204-B",
+    "description": "Ammonia Booster Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-205-A",
+    "description": "85% Urea Solution Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-205-B",
+    "description": "85% Urea Solution Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-206-A",
+    "description": "Ammonia Solution Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-206-B",
+    "description": "Ammonia Solution Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-207-A",
+    "description": "Carbamate Booster Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-207-B",
+    "description": "Carbamate Booster Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-301-A",
+    "description": "Distillation Feed Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-301-B",
+    "description": "Distillation Feed Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-302-A",
+    "description": "Closed Drain Recovery Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-302-B",
+    "description": "Closed Drain Recovery Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-303-A",
+    "description": "Hydrolizer Feed Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-303-B",
+    "description": "Hydrolizer Feed Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-304-A",
+    "description": "Purified Process Cond. Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-304-B",
+    "description": "Purified Process Cond. Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-305-A",
+    "description": "Pollutabl Process Cond. Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-305-B",
+    "description": "Pollutabl Process Cond. Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-401-A",
+    "description": "Urea Melt Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-401-B",
+    "description": "Urea Melt Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-402-A",
+    "description": "Urea Solut. Recovery Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-402-B",
+    "description": "Urea Solut. Recovery Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-601-A",
+    "description": "Granltr Scrubber Circ. Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-601-B",
+    "description": "Granltr Scrubber Circ. Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-602-A",
+    "description": "Cooler Scrubber Circ. Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-602-B",
+    "description": "Cooler Scrubber Circ. Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-603-A",
+    "description": "Urea Solution Recycle Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-603-B",
+    "description": "Urea Solution Recycle Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-801-A",
+    "description": "Steam Cond. Flushing Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-801-B",
+    "description": "Steam Cond. Flushing Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-802-B",
+    "description": "Reflux Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-803-A",
+    "description": "Steam Condensate Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-803-B",
+    "description": "Steam Condensate Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-804-A",
+    "description": "Steam Condensate Rec. Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2P-804-B",
+    "description": "Steam Condensate Rec. Pump"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2X-607",
+    "description": "Bucket Elevator"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2X-607-Z1",
+    "description": "Bucket Elevator (Auxiliary)"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2X-608A-1",
+    "description": "Roller Crusher"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2X-608A-2",
+    "description": "Roller Crusher"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2X-608B-1",
+    "description": "Roller Crusher"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2X-608B-2",
+    "description": "Roller Crusher"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2X-611-A",
+    "description": "Vibrating Screen"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2X-611-B",
+    "description": "Vibrating Screen"
+  },
+  {
+    "pabrik": "Pabrik 4",
+    "area": "Urea4",
+    "equipment": "2X-614",
+    "description": "Product Conveyor No. 1"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "EF-1201A",
+    "description": "COOLING TOWER FAN"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "EF-1201B",
+    "description": "COOLING TOWER FAN"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "EF-1201C",
+    "description": "COOLING TOWER FAN"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "EF-1201D",
+    "description": "COOLING TOWER FAN"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "EF-1201E",
+    "description": "COOLING TOWER FAN"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "EF-1201F",
+    "description": "COOLING TOWER FAN"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "EF-1201G",
+    "description": "COOLING TOWER FAN"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "EF-1201H",
+    "description": "COOLING TOWER FAN"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "EF-1201I",
+    "description": "COOLING TOWER FAN"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "EF-1201J",
+    "description": "COOLING TOWER FAN"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "EF-1201K",
+    "description": "COOLING TOWER FAN"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "EF-1201L",
+    "description": "COOLING TOWER FAN"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "EF-1201M",
+    "description": "COOLING TOWER FAN"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "EF-1201N",
+    "description": "COOLING TOWER FAN"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "EF-1201O",
+    "description": "COOLING TOWER FAN"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "EF-1201P",
+    "description": "COOLING TOWER FAN"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "FD-1211 A",
+    "description": "ROTARY SCREEN"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "FD-1211 B",
+    "description": "ROTARY SCREEN"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1201A",
+    "description": "SEA WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1201B",
+    "description": "SEA WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1202A",
+    "description": "SWEET WATER CIRC. PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1202B",
+    "description": "SWEET WATER CIRC. PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1202C",
+    "description": "SWEET WATER CIRC. PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1202D",
+    "description": "SWEET WATER CIRC. PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1203A",
+    "description": "SEAWATER CIRCULATION PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1203B",
+    "description": "SEAWATER CIRCULATION PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1203C",
+    "description": "SEAWATER CIRCULATION PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1203D",
+    "description": "SEAWATER CIRCULATION PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1203E",
+    "description": "SEAWATER CIRCULATION PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1204A",
+    "description": "SWEET WATER EMERG. PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1204B",
+    "description": "SWEET WATER EMERG. PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1204C",
+    "description": "SWEET WATER EMERG. PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1205A",
+    "description": "STEAM COND. PUMP FOR EA1203"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1205B",
+    "description": "STEAM COND. PUMP FOR EA1203"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1205C",
+    "description": "STEAM COND. PUMP FOR EA1203"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1205D",
+    "description": "STEAM COND. PUMP FOR EA1203"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1205E",
+    "description": "STEAM COND. PUMP FOR EA1203"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1205F",
+    "description": "STEAM COND. PUMP FOR EA1203"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1208A",
+    "description": "STEAM COND. PUMP FOR EA1202"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1208B",
+    "description": "STEAM COND. PUMP FOR EA1202"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1208C",
+    "description": "STEAM COND. PUMP FOR EA1202"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1208D",
+    "description": "STEAM COND. PUMP FOR EA1202"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1208E",
+    "description": "STEAM COND. PUMP FOR EA1202"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1208F",
+    "description": "STEAM COND. PUMP FOR EA1202"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1211A",
+    "description": "Dispersant Pump"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1211B",
+    "description": "Dispersant Pump"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1211C",
+    "description": "Dispersant Pump"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1212A",
+    "description": "Bromine Injection Pump"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1212B",
+    "description": "Bromine Injection Pump"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1212C",
+    "description": "Bromine Injection Pump"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1222A",
+    "description": "Normal Dozing PumpA"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1222B",
+    "description": "Normal Dozing PumpB"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1223A",
+    "description": "Sea Water Booster Pump"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1223B",
+    "description": "Sea Water Booster Pump"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1401A",
+    "description": "MBP FEED PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1401B",
+    "description": "MBP FEED PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1411A",
+    "description": "SWRO High Pressure Pump"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1411B",
+    "description": "SWRO High Pressure Pump"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1411C",
+    "description": "SWRO High Pressure Pump"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1413A",
+    "description": "BWRO Booster Pump"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1413B",
+    "description": "BWRO Booster Pump"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1413C",
+    "description": "BWRO Booster Pump"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1414A",
+    "description": "UF Chemical Pump"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1414B",
+    "description": "UF Chemical Pump"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1417A",
+    "description": "Sodium Hipoclorite Pump"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1417B",
+    "description": "Sodium Hipoclorite Pump"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1417C",
+    "description": "Sodium Hipoclorite Pump"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1418A",
+    "description": "Sodium Hidroxide Pump"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1418B",
+    "description": "Sodium Hidroxide Pump"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1419A",
+    "description": "SWRO Feed Pump"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1419B",
+    "description": "SWRO Feed Pump"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1419C",
+    "description": "SWRO Feed Pump"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1421",
+    "description": "UF CIP Recirculation Pump"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1422",
+    "description": "RO CIP Recirculation Pump"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1428A",
+    "description": "Waste Transfer Pump"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1428B",
+    "description": "Waste Transfer Pump"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1501A",
+    "description": "DEMIN WATER PUMP FOR K-5"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1501B",
+    "description": "DEMIN WATER PUMP FOR K-5"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1502A",
+    "description": "DEMIN WATER PUMP FOR OEP'S"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1502B",
+    "description": "DEMIN WATER PUMP FOR OEP'S"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1503A",
+    "description": "ACID TRANSFER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1503B",
+    "description": "ACID TRANSFER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1504A",
+    "description": "CAUSTIC TRANSFER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1504B",
+    "description": "CAUSTIC TRANSFER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1513A",
+    "description": "Waste Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1513B",
+    "description": "Waste Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1514A",
+    "description": "Regeneration Pump"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1514B",
+    "description": "Regeneration Pump"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1601A",
+    "description": "STEAM COND. FOR EA1601"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1601B",
+    "description": "STEAM COND. FOR EA1601"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1611-A",
+    "description": "Lube oil pump for STG-1"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1611-B",
+    "description": "Lube oil pump for STG-1"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1612A",
+    "description": "Control oil pump for STG-1"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1612B",
+    "description": "Control oil pump for STG-1"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1901",
+    "description": "OILY WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1902",
+    "description": "CHEMICAL WASTE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-1904",
+    "description": "OILY WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GB-1221A",
+    "description": "Hydrogen Dilution Pump"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GB-1221B",
+    "description": "Hydrogen Dilution Pump"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GB-1512A",
+    "description": "Air Mixing Blower"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GB-1512B",
+    "description": "Air Mixing Blower"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GB-1801",
+    "description": "EMERGENCY AIR COMPRESSOR"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GB-1802",
+    "description": "HP N2 BOOSTER COMPRESSOR"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GB-1803",
+    "description": "LP N2 BOOSTER COMPRESSOR"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GB-1811",
+    "description": "ATLAS COPCO FEED N2 COMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GT-1601",
+    "description": "STG-1"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Utility6",
+    "equipment": "GT-1602",
+    "description": "STG-2"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-801A",
+    "description": "METHANOL FEED PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-801B",
+    "description": "METHANOL FEED PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-802A",
+    "description": "OIL CIRCULATION PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-802B",
+    "description": "OIL CIRCULATION PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-803A",
+    "description": "ABSORBER TO CIRC. PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-803B",
+    "description": "ABSORBER TO CIRC. PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-804A",
+    "description": "CIRCULATION PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-804B",
+    "description": "CIRCULATION PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-805A",
+    "description": "PRODUCT CIRCULATION PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-805B",
+    "description": "PRODUCT CIRCULATION PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-806A",
+    "description": "UREA SOLUTION FEED PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-806B",
+    "description": "UREA SOLUTION FEED PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-807A",
+    "description": "BFW PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-807B",
+    "description": "BFW PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-808",
+    "description": "OIL START UP PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-812A",
+    "description": "UFC EFFLUENT PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-812B",
+    "description": "UFC EFFLUENT PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-813A",
+    "description": "OFF SPEC PRODUCT PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GA-813B",
+    "description": "OFF SPEC PRODUCT PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GB-801",
+    "description": "RECIRCULATION BLOWER"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Utility5",
+    "equipment": "GB-801-GA2",
+    "description": "Lube oil pump for GB-801"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "101-BJ",
+    "description": "ID FAN REFORMER"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "101-BJT-J",
+    "description": "LUBE OIL PUMP ID FAN"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "101-BJA",
+    "description": "ID FAN REFORMER"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "101-BJA-J",
+    "description": "LUBE OIL PUMP ID FAN"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "101-BJ1",
+    "description": "FD FAN REFORMER"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "101-BJ1T-J",
+    "description": "J  LUBE OIL PUMP FD FAN"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "101-BJ1A",
+    "description": "FD FAN REFORMER"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "101-BJ1A-J",
+    "description": "J  LUBE OIL PUMP FD FAN"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "101-J",
+    "description": "AIR COMPRESSOR"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "102-J",
+    "description": "NG COMPRESSOR"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "103-J",
+    "description": "SYNGAS COMPRESSOR"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "105-J",
+    "description": "NH3 REFRIGERANT COMPRESSOR"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "101-JLJA",
+    "description": "LUBE OIL PUMP FOR 101-J"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "101-JLJT",
+    "description": "LUBE OIL PUMP FOR 101-J"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "103/105-JLJT",
+    "description": "LUBE OIL PUMP FOR 103/105-J"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "103/105-JLJA",
+    "description": "T  LUBE OIL PUMP FOR 103/105-J"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "104-J",
+    "description": "BFW PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "104-JA",
+    "description": "BFW PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "104-J-J",
+    "description": "L/O PUMP for 104-J"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "104-J-JA",
+    "description": "L/O PUMP for 104-JA"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "107-JA",
+    "description": "SEMI LEAN SOLUTION PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "107-JB",
+    "description": "SEMI LEAN SOLUTION PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "107-JA-J",
+    "description": "LUBE OIL PUMP FOR 107-JB"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "107-JC",
+    "description": "SEMI LEAN SOLUTION PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "108-J",
+    "description": "LEAN SOLUTION PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "108-JA",
+    "description": "LEAN SOLUTION PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "110-J",
+    "description": "COLD NH3 PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "110-JA",
+    "description": "COLD NH3 PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "111-J",
+    "description": "AMDEA TRANSFER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "112-J",
+    "description": "CONDENSATE PUMP FOR 103-JTC"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "112-JA",
+    "description": "CONDENSATE PUMP FOR 103-JTC"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "113-J",
+    "description": "HOT AMMONIA PRODUCT PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "113-JA",
+    "description": "HOT AMMONIA PRODUCT PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "114-J",
+    "description": "CONDENSATE PUMP FOR 102-JTC"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "114-JA",
+    "description": "CONDENSATE PUMP FOR 102-JTC"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "115-J",
+    "description": "AMDEA SUMP PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "117-J",
+    "description": "SEMILEAN SOL. CIRC. PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "117-JA",
+    "description": "SEMILEAN SOL. CIRC. PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "118-J",
+    "description": "CONDENSATE PUMP FOR 101-JTC"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "118-JA",
+    "description": "CONDENSATE PUMP FOR 101-JTC"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "120-J",
+    "description": "AMMONIA INJECTION PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "121-J",
+    "description": "PROCESS CONDENSATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "121-JA",
+    "description": "PROCESS CONDENSATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "122-J",
+    "description": "PROCESS COND. BOOSTER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "122-JA",
+    "description": "PROCESS COND. BOOSTER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "124-J",
+    "description": "COLD NH3 PRODUCT PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "124-JA",
+    "description": "COLD NH3 PRODUCT PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "125-J",
+    "description": "CONDENSATE PUMP FOR 104-JTC"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "125-JA",
+    "description": "CONDENSATE PUMP FOR 104-JTC"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "131-JX/JG",
+    "description": "PURIFIER EXPANDER&GENERATOR"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "131-JB",
+    "description": "L/O PUMP for 131-JX/JG"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "131-JA",
+    "description": "L/O PUMP for 131-JX/JG"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "161-J",
+    "description": "SCRUBBER FEED PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "161-JA",
+    "description": "SCRUBBER FEED PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "173-J",
+    "description": "LTS START UP BLOWER"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "191-J",
+    "description": "HP FLASH GAS COMPRESSOR"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "110-LM",
+    "description": "AMDEA SOLUTION MIXER"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "301-J",
+    "description": "WATER JACKET RETURN PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "301-JA",
+    "description": "WATER JACKET RETURN PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "302-J",
+    "description": "OILY WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Ammonia5",
+    "equipment": "303-J",
+    "description": "CHEMICAL WASTE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "FD-601-A",
+    "description": "VIBRATING SCREEN"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "FD-601-B",
+    "description": "VIBRATING SCREEN"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "FD-601-C",
+    "description": "VIBRATING SCREEN"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "FD-601-D",
+    "description": "VIBRATING SCREEN"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "FH-601A-1",
+    "description": "Crusher"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "FH-601A-2",
+    "description": "Crusher"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "FH-601B-3",
+    "description": "Crusher"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "FH-601B-1",
+    "description": "Crusher"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "FH-601B-2",
+    "description": "Crusher"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "FH-601A-3",
+    "description": "Crusher"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-101A",
+    "description": "HP AMMONIA PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-101B",
+    "description": "HP AMMONIA PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA101-GA1",
+    "description": "Lube oil for HP AMMONIA PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA101-GA2",
+    "description": "Lube oil for HP AMMONIA PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-102A",
+    "description": "HP CARBAMATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-102B",
+    "description": "HP CARBAMATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA102-GA1",
+    "description": "Lube oil for HP Carb PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA102-GA2",
+    "description": "Lube oil for HP Carb PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-103A",
+    "description": "AMMONIA BOOSTER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-103B",
+    "description": "AMMONIA BOOSTER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-104A",
+    "description": "LP FLOODING PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-104B",
+    "description": "LP FLOODING PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-105A",
+    "description": "HP FLOODING PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-105B",
+    "description": "HP FLOODING PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-106A",
+    "description": "STEAM CONDENSATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-106B",
+    "description": "STEAM CONDENSATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-107A",
+    "description": "RETURN CONDENSATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-107B",
+    "description": "RETURN CONDENSATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-109A",
+    "description": "STEAM COND. CIRC. PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-109B",
+    "description": "STEAM COND. CIRC. PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-110A",
+    "description": "STEAM COND. MAKE UP PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-110B",
+    "description": "STEAM COND. MAKE UP PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-121A",
+    "description": "SEALING WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-121B",
+    "description": "SEALING WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-201A",
+    "description": "UREA SOLUTION PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-201B",
+    "description": "UREA SOLUTION PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-301A",
+    "description": "UREA FEED PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-301B",
+    "description": "UREA FEED PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-304A",
+    "description": "TEMPERED WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-304B",
+    "description": "TEMPERED WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-351A",
+    "description": "Additive Feed Pump"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-351B",
+    "description": "Additive Feed Pump"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-401A",
+    "description": "CARBAMATE BOOST-UP PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-401B",
+    "description": "CARBAMATE BOOST-UP PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-402A",
+    "description": "HP ABSORBENT PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-402B",
+    "description": "HP ABSORBENT PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-403",
+    "description": "CARBONATE SOLUTION PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-404A",
+    "description": "NO. 2 HP ABSORBENT PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-404B",
+    "description": "NO. 2 HP ABSORBENT PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-501A",
+    "description": "PROCESS CONDENSATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-501B",
+    "description": "PROCESS CONDENSATE PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-502A",
+    "description": "UREA HIDROLIZER FEED PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-502B",
+    "description": "UREA HIDROLIZER FEED PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-503A",
+    "description": "LP ABSORBENT PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-503B",
+    "description": "LP ABSORBENT PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-504",
+    "description": "DRAIN RECOVERY PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-507A",
+    "description": "TREATED PROCESS COND. PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-507B",
+    "description": "TREATED PROCESS COND. PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-602-A",
+    "description": "Recirc pump for Dust Scruber"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-602-B",
+    "description": "Recirc pump for Dust Scruber"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-604-A",
+    "description": "Dissolving Pit Pump"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-604-B",
+    "description": "Dissolving Pit Pump"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-701",
+    "description": "OILY WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-703",
+    "description": "UREA SOL. RECOVERY PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-704",
+    "description": "EFFLUENT WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GA-705",
+    "description": "POTABLE WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GB101",
+    "description": "CO2 Compressor"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GB101A-A1A",
+    "description": "Lube oil for CO2 Comp"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GB101A-A1B",
+    "description": "Lube oil for CO2 Comp"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GB-601",
+    "description": "FD Fan for Spouting Air"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GB-602",
+    "description": "FD Fan for Fluidizing Air"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GB-603",
+    "description": "ID Fan for Dust Scrubber"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GB-604",
+    "description": "Dust Collection Blower"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GB-605",
+    "description": "FD Fan for Product Cooler"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GB-606",
+    "description": "Dust Collection Fan"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "GD-601",
+    "description": "Agitator for Dissolving Pit"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "JD-601-A",
+    "description": "Bucket Elevator"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "JD-601-B",
+    "description": "Bucket Elevator"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "JD-602",
+    "description": "Product Bucket Elevator"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "JD-7101",
+    "description": "Bucket Elevator"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "JD-7301",
+    "description": "Bucket Elevator"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "JF-601",
+    "description": "Product Weigher"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "JF-601-A1",
+    "description": "Weigher"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "JF-602-A",
+    "description": "Product Weigher"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "JF-602-B",
+    "description": "Product Weigher"
+  },
+  {
+    "pabrik": "Pabrik 5",
+    "area": "Urea5",
+    "equipment": "JF-602-A1",
+    "description": "Weigher"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Utility6",
+    "equipment": "10-P-101-A",
+    "description": "RO Feed Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Utility6",
+    "equipment": "10-P-101-B",
+    "description": "RO Feed Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Utility6",
+    "equipment": "1200P-001",
+    "description": "Sea Water Booster Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Utility6",
+    "equipment": "1200P-002",
+    "description": "Desalinated Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Utility6",
+    "equipment": "1200P-003",
+    "description": "Blow Down Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Utility6",
+    "equipment": "1200P-004",
+    "description": "Condensate Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Utility6",
+    "equipment": "G1302A",
+    "description": "Regent Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Utility6",
+    "equipment": "G1302R",
+    "description": "Regent Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Utility6",
+    "equipment": "G1306A",
+    "description": "Daerator Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Utility6",
+    "equipment": "G1306B",
+    "description": "Daerator Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Utility6",
+    "equipment": "G1308A",
+    "description": "Demin Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Utility6",
+    "equipment": "G1308B",
+    "description": "Demin Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Utility6",
+    "equipment": "G1308R",
+    "description": "Demin Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Utility6",
+    "equipment": "G1314A",
+    "description": "Caustic Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Utility6",
+    "equipment": "G1314B",
+    "description": "Caustic Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Utility6",
+    "equipment": "G1390 R",
+    "description": "Pump LH"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Utility6",
+    "equipment": "G1404A",
+    "description": "Sweet Cooling Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Utility6",
+    "equipment": "G1404B",
+    "description": "Sweet Cooling Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Utility6",
+    "equipment": "G1404R",
+    "description": "Sweet Cooling Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Utility6",
+    "equipment": "GA1221",
+    "description": "Sea Water Pump New"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Utility6",
+    "equipment": "GA1602A",
+    "description": "Condensate Pump STG-2"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Utility6",
+    "equipment": "GA1602B",
+    "description": "Condensate Pump STG-2"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Utility6",
+    "equipment": "GA1621A",
+    "description": "Lube Oil Pump STG-2"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Utility6",
+    "equipment": "GA1621B",
+    "description": "Lube Oil Pump STG-2"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Utility6",
+    "equipment": "GA1622A",
+    "description": "Control Oil Pump STG-2"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Utility6",
+    "equipment": "GA1622B",
+    "description": "Control Oil Pump STG-2"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Utility6",
+    "equipment": "GA4101A",
+    "description": "Sea Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Utility6",
+    "equipment": "GA4101B",
+    "description": "Sea Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Utility6",
+    "equipment": "GA4101C",
+    "description": "Sea Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Utility6",
+    "equipment": "GA4101D",
+    "description": "Sea Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Utility6",
+    "equipment": "GA4101F",
+    "description": "Sea Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Utility6",
+    "equipment": "GA4104A",
+    "description": "Chlorine Pump (Continuous)"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Utility6",
+    "equipment": "GA4104S",
+    "description": "Chlorine Pump (Continuous)"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Utility6",
+    "equipment": "GA4105A",
+    "description": "Chlorine Pump (Unconts)"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Utility6",
+    "equipment": "GA4105S",
+    "description": "Chlorine Pump (Unconts)"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Utility6",
+    "equipment": "GB4101A",
+    "description": "Blower for clorine tank"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Utility6",
+    "equipment": "GB4101B",
+    "description": "Blower for clorine tank"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Utility6",
+    "equipment": "P2013A",
+    "description": "B.F.W Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Utility6",
+    "equipment": "P2013B",
+    "description": "B.F.W Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Utility6",
+    "equipment": "P2013R",
+    "description": "B.F.W Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Utility6",
+    "equipment": "SA-P-005-A",
+    "description": "Raw Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Utility6",
+    "equipment": "SA-P-005-B",
+    "description": "Raw Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Utility6",
+    "equipment": "SA-P-005-R",
+    "description": "Raw Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Urea6",
+    "equipment": "B2604A",
+    "description": "Drivers Scrapper Prill Tower"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Urea6",
+    "equipment": "B2604B",
+    "description": "Drivers Scrapper Prill Tower"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Urea6",
+    "equipment": "B2605",
+    "description": "Transfer Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Urea6",
+    "equipment": "B2607",
+    "description": "Bucket Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Urea6",
+    "equipment": "B2609",
+    "description": "Belt Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Urea6",
+    "equipment": "G2602-1",
+    "description": "Prilling Machine"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Urea6",
+    "equipment": "G2602-2",
+    "description": "Prilling Machine"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Urea6",
+    "equipment": "K2603A",
+    "description": "Prilling Tower Fan"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Urea6",
+    "equipment": "K2603B",
+    "description": "Prilling Tower Fan"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Urea6",
+    "equipment": "K2603C",
+    "description": "Prilling Tower Fan"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Urea6",
+    "equipment": "K2603D",
+    "description": "Prilling Tower Fan"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Urea6",
+    "equipment": "K2604",
+    "description": "Fluidization Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Urea6",
+    "equipment": "K2606",
+    "description": "Fluidization Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Urea6",
+    "equipment": "K2607",
+    "description": "Fluidization Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Urea6",
+    "equipment": "P044A",
+    "description": "Condensate Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Urea6",
+    "equipment": "P044R",
+    "description": "Condensate Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Urea6",
+    "equipment": "P1401B",
+    "description": "Sweet Cooling Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Urea6",
+    "equipment": "P1401C",
+    "description": "Sweet Cooling Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Urea6",
+    "equipment": "P2303A",
+    "description": "Urea Sol. Transfer Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Urea6",
+    "equipment": "P2303R",
+    "description": "Urea Sol. Transfer Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Urea6",
+    "equipment": "P2502A",
+    "description": "Slurry Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Urea6",
+    "equipment": "P2502B",
+    "description": "Slurry Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Urea6",
+    "equipment": "P2611A",
+    "description": "Remelt Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Urea6",
+    "equipment": "P2611R",
+    "description": "Remelt Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Urea6",
+    "equipment": "P2612A",
+    "description": "Remelt Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Urea6",
+    "equipment": "P2612R",
+    "description": "Remelt Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Urea6",
+    "equipment": "P2703A",
+    "description": "Desorber Feed Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Urea6",
+    "equipment": "P2703R",
+    "description": "Desorber Feed Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Urea6",
+    "equipment": "P2901A",
+    "description": "Condensate Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Urea6",
+    "equipment": "P2901R",
+    "description": "Condensate Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Urea6",
+    "equipment": "P2903A",
+    "description": "Saturated Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Urea6",
+    "equipment": "P2903R",
+    "description": "Saturated Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Urea6",
+    "equipment": "P2904A",
+    "description": "Soft Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Urea6",
+    "equipment": "P2904B",
+    "description": "Soft Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Urea6",
+    "equipment": "P2904R",
+    "description": "Soft Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Urea6",
+    "equipment": "P2911A",
+    "description": "LP Flush Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Urea6",
+    "equipment": "P2911R",
+    "description": "LP Flush Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-CR-131A",
+    "description": "Coal Crusher"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-CR-131B",
+    "description": "Coal Crusher"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-K-201-A",
+    "description": "Primary Air Fan"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-K-201-B",
+    "description": "Primary Air Fan"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-K-202-A",
+    "description": "Secondary Air Blower"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-K-202-B",
+    "description": "Secondary Air Blower"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-K-203-A",
+    "description": "Recycle Fan"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-K-203-B",
+    "description": "Recycle Fan"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-K-203-C",
+    "description": "Recycle Fan"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-K-204-A",
+    "description": "ID Fan Boiler"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-K-204-B",
+    "description": "ID Fan Boiler"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-K-301-A",
+    "description": "Primary Air Fan"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-K-301-B",
+    "description": "Primary Air Fan"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-K-302-A",
+    "description": "Secondary Air Blower"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-K-302-B",
+    "description": "Secondary Air Blower"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-K-303-A",
+    "description": "Recycle Fan"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-K-303-B",
+    "description": "Recycle Fan"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-K-303-C",
+    "description": "Recycle Fan"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-K-304-A",
+    "description": "ID Fan Boiler"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-K-304-B",
+    "description": "ID Fan Boiler"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24K-614-A",
+    "description": "Cooling Tower Fan"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24K-614-B",
+    "description": "Cooling Tower Fan"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-K-662-A",
+    "description": "Air Compressor Package"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-K-662-B",
+    "description": "Air Compressor Package"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-K-665-A",
+    "description": "Air Comp. Atls Copco"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-K-665-B",
+    "description": "Air Comp. Atls Copco"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-K-665-C",
+    "description": "Air Comp. Atls Copco"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-L-126-A",
+    "description": "Line Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-L-126-B",
+    "description": "Line Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-L-135-A",
+    "description": "Line Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-L-135-B",
+    "description": "Line Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-L-141-A",
+    "description": "Line Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-L-141-B",
+    "description": "Line Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-P-225-A",
+    "description": "BFW Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-P-225-B",
+    "description": "BFW Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-P-325-A",
+    "description": "BFW Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-P-325-B",
+    "description": "BFW Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-P-611-A",
+    "description": "Demin Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-P-611-B",
+    "description": "Demin Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-P-611-C",
+    "description": "Demin Water Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-P-614-A",
+    "description": "Cooling Wtr Transf.Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-P-614-B",
+    "description": "Cooling Wtr Transf.Pump"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-ST245-A",
+    "description": "Coal Feeder A"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-ST245-B",
+    "description": "Coal Feeder B"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-ST245-C",
+    "description": "Coal Feeder C"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-ST245-D",
+    "description": "Coal Feeder D"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-ST345-A",
+    "description": "Coal Feeder A"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-ST345-B",
+    "description": "Coal Feeder B"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-ST345-C",
+    "description": "Coal Feeder C"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "Boiler BB",
+    "equipment": "24-ST345-D",
+    "description": "Coal Feeder D"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "ASU/P",
+    "equipment": "18E-301-KM",
+    "description": "AIR COOLING FAN"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "ASU/P",
+    "equipment": "18E305-KMA",
+    "description": "AIR COOLING FAN"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "ASU/P",
+    "equipment": "18E305-KMB",
+    "description": "AIR COOLING FAN"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "ASU/P",
+    "equipment": "18-K-301",
+    "description": "AIR COMPRESSOR"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "ASU/P",
+    "equipment": "18P-302-A",
+    "description": "NITROGEN PUMP"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "ASU/P",
+    "equipment": "18P-302-B",
+    "description": "NITROGEN PUMP"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "ASU/P",
+    "equipment": "18P-303-A",
+    "description": "COOLING WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "ASU/P",
+    "equipment": "18P-303-B",
+    "description": "COOLING WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "ASU/P",
+    "equipment": "18TX301-P1",
+    "description": "AUX OIL PUMP FOR 18TX301"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "ASU/P",
+    "equipment": "22E101AKMA",
+    "description": "AIR COOLING FAN"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "ASU/P",
+    "equipment": "22E101AKMB",
+    "description": "AIR COOLING FAN"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "ASU/P",
+    "equipment": "22E101BKMA",
+    "description": "AIR COOLING FAN"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "ASU/P",
+    "equipment": "22E101BKMB",
+    "description": "AIR COOLING FAN"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "ASU/P",
+    "equipment": "22K-101-A",
+    "description": "AMMONIA COMP. (B.O.G)"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "ASU/P",
+    "equipment": "22K-101-B",
+    "description": "AMMONIA COMP. (B.O.G)"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "ASU/P",
+    "equipment": "AS-E-101-A",
+    "description": "Amm Condensor(1A)"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "ASU/P",
+    "equipment": "AS-E-101-B",
+    "description": "Amm Condensor(1A)"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "ASU/P",
+    "equipment": "AS-K-101-A",
+    "description": "AMMONIA COMPRESSOR (1A)"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "ASU/P",
+    "equipment": "AS-K-101-B",
+    "description": "AMMONIA COMPRESSOR (1A)"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "ASU/P",
+    "equipment": "AS-K-102-A",
+    "description": "Inst Air Compressor (1A)"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "ASU/P",
+    "equipment": "AS-K-102-B",
+    "description": "Inst Air Compressor (1A)"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "ASU/P",
+    "equipment": "AS-P-102-A",
+    "description": "Lube Oil Pump (1A)"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "ASU/P",
+    "equipment": "AS-P-102-B",
+    "description": "Lube Oil Pump (1A)"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "ASU/P",
+    "equipment": "G-3001",
+    "description": "AMMONIA COMPRESSOR"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "ASU/P",
+    "equipment": "G-3002",
+    "description": "AMMONIA COMPRESSOR"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "ASU/P",
+    "equipment": "G-3201",
+    "description": "AMMONIA LOADING PUMP"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "ASU/P",
+    "equipment": "G-3202",
+    "description": "AMMONIA LOADING PUMP"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "ASU/P",
+    "equipment": "G-3203",
+    "description": "AMMONIA LOADING PUMP"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "ASU/P",
+    "equipment": "GA-3406-A",
+    "description": "COOLING WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "ASU/P",
+    "equipment": "GA-3406-B",
+    "description": "COOLING WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "ASU/P",
+    "equipment": "GA-3406-C",
+    "description": "COOLING WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "ASU/P",
+    "equipment": "GA-3406-R",
+    "description": "COOLING WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2821-V",
+    "description": "Motor Drive Belt Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2822-V",
+    "description": "Motor Drive Belt Conv. UBS 3"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2823-V",
+    "description": "Motor Drive Belt Conv. UBS 3"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2824-V",
+    "description": "Motor Drive Belt Conv. UBS 3"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2825-V",
+    "description": "Motor Drive Belt Conv. UBS 3"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2826-V",
+    "description": "Motor Drive Belt Conv. UBS 3"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2827-V",
+    "description": "Motor Drive Belt Conv. UBS 3"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2828-V",
+    "description": "Motor Drive Belt Conv. UBS 3"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2829-V",
+    "description": "Motor Drive Belt Conv. UBS 3"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2830-V",
+    "description": "Motor Drive Belt Conv. UBS 3"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2830-VA",
+    "description": "Motor Drive Conv. UBS3-BSL2"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2831-V",
+    "description": "Motor Drive Belt Conv. POPKA"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2832-V",
+    "description": "Motor Drive Belt Conv. UBS 5"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2833-V",
+    "description": "Motor Drive Belt Conv. UBS 4"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2834-V",
+    "description": "Motor Drive Belt Conv. UBS 4"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2835-V",
+    "description": "Motor Drive Belt Conv. UBS 4"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2836-V",
+    "description": "Motor Drive Belt Con.Bagging"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2837-V",
+    "description": "Motor Drive Belt Con.Bagging"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2838-V",
+    "description": "Motor Drive Belt Con.Bagging"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2851-V",
+    "description": "Motor Drive Belt Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2851-VL",
+    "description": "Motor Drive Belt Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2852-V",
+    "description": "Motor Drive Belt Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2872-V",
+    "description": "Motor Drive Belt Conv. POPKA"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2873-V",
+    "description": "Motor Drive Belt Conv. POPKA"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2874-V",
+    "description": "Motor Drive Belt Conv. POPKA"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2875-V",
+    "description": "Motor Drive Belt Conv. POPKA"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2876-V",
+    "description": "Motor Drive Belt Conv. POPKA"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2877-V",
+    "description": "Motor Drive Belt Conv. POPKA"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2878-V",
+    "description": "Motor Drive Belt Conv. POPKA"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2879-V",
+    "description": "Motor Drive Belt Conv. POPKA"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2880-V",
+    "description": "Motor Drive Belt Conv. UBS 3"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2881-V",
+    "description": "Motor Drive Belt Conv. UBS 3"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2882-V",
+    "description": "Motor Drive Belt Conv. UBS 5"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2883-V",
+    "description": "Motor Drive Belt Conv. UBS 5"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2884-V",
+    "description": "Motor Drive Belt Conv. UBS 5"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2885-V",
+    "description": "Motor Drive Belt Conv. UBS 5"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2886-V",
+    "description": "Motor Drive Belt Conv. UBS 5"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2887-V",
+    "description": "Motor Drive Belt Conv. UBS 5"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2888-V",
+    "description": "Motor Drive Belt Conv. UBS 5"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2889-V",
+    "description": "Motor Drive Belt Conv. UBS 5"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2891-V",
+    "description": "Motor Drive Belt Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2892-V",
+    "description": "Motor Drive Belt Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "C-307-B1",
+    "description": "Motor Drive Belt Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "C-307-B2",
+    "description": "Motor Drive Belt Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "C308 BSL",
+    "description": "Motor Drive Belt Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "C309A BSL1",
+    "description": "Motor Drive Belt Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "C309A BSL2",
+    "description": "Motor Drive Belt Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "C309B BSL1",
+    "description": "Motor Drive Belt Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "C309B BSL2",
+    "description": "Motor Drive Belt Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "JD-7302",
+    "description": "Motor Drive Belt Conv.K-5"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "JD-7303",
+    "description": "Motor Drive Belt Conv.K-5"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "JD-7304",
+    "description": "Motor Drive Belt Conv.K-5"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "JD-7305",
+    "description": "Motor Drive Belt Conv.K-5"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "21-L-101",
+    "description": "Motor Drive Belt Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "21-L-111",
+    "description": "Motor Drive Belt Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "21-L-112",
+    "description": "Motor Drive Belt Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "21-L-113",
+    "description": "Motor Drive Belt Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "21-L-114",
+    "description": "Motor Drive Belt Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "21-L-201",
+    "description": "Motor Drive Belt Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "21-X-118",
+    "description": "Motor Drive Belt Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2802-V",
+    "description": "Motor Drive Belt Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2807-V1",
+    "description": "Motor Drive Belt Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2817-V2",
+    "description": "Motor Drive Belt Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2818-V",
+    "description": "Motor Drive Belt Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2819-V",
+    "description": "Motor Drive Belt Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2820-V",
+    "description": "Motor Drive Belt Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2821-V",
+    "description": "Motor Drive Belt Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2822-V",
+    "description": "Motor Drive Belt Conv. UBS 3"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2823-V",
+    "description": "Motor Drive Belt Conv. UBS 3"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2824-V",
+    "description": "Motor Drive Belt Conv. UBS 3"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2825-V",
+    "description": "Motor Drive Belt Conv. UBS 3"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2826-V",
+    "description": "Motor Drive Belt Conv. UBS 3"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2827-V",
+    "description": "Motor Drive Belt Conv. UBS 3"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2828-V",
+    "description": "Motor Drive Belt Conv. UBS 3"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2829-V",
+    "description": "Motor Drive Belt Conv. UBS 3"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2830-V",
+    "description": "Motor Drive Belt Conv. UBS 3"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2830-VA",
+    "description": "Motor Drive Conv. UBS3-BSL2"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2831-V",
+    "description": "Motor Drive Belt Conv. POPKA"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2832-V",
+    "description": "Motor Drive Belt Conv. UBS 5"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2833-V",
+    "description": "Motor Drive Belt Conv. UBS 4"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2834-V",
+    "description": "Motor Drive Belt Conv. UBS 4"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2835-V",
+    "description": "Motor Drive Belt Conv. UBS 4"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2836-V",
+    "description": "Motor Drive Belt Con.Bagging"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2837-V",
+    "description": "Motor Drive Belt Con.Bagging"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2838-V",
+    "description": "Motor Drive Belt Con.Bagging"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2851-V",
+    "description": "Motor Drive Belt Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2851-VL",
+    "description": "Motor Drive Belt Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2852-V",
+    "description": "Motor Drive Belt Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2872-V",
+    "description": "Motor Drive Belt Conv. POPKA"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2873-V",
+    "description": "Motor Drive Belt Conv. POPKA"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2874-V",
+    "description": "Motor Drive Belt Conv. POPKA"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2875-V",
+    "description": "Motor Drive Belt Conv. POPKA"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2876-V",
+    "description": "Motor Drive Belt Conv. POPKA"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2877-V",
+    "description": "Motor Drive Belt Conv. POPKA"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2878-V",
+    "description": "Motor Drive Belt Conv. POPKA"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2879-V",
+    "description": "Motor Drive Belt Conv. POPKA"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2880-V",
+    "description": "Motor Drive Belt Conv. UBS 3"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2881-V",
+    "description": "Motor Drive Belt Conv. UBS 3"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2882-V",
+    "description": "Motor Drive Belt Conv. UBS 5"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2883-V",
+    "description": "Motor Drive Belt Conv. UBS 5"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2884-V",
+    "description": "Motor Drive Belt Conv. UBS 5"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2885-V",
+    "description": "Motor Drive Belt Conv. UBS 5"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2886-V",
+    "description": "Motor Drive Belt Conv. UBS 5"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2887-V",
+    "description": "Motor Drive Belt Conv. UBS 5"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2888-V",
+    "description": "Motor Drive Belt Conv. UBS 5"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2889-V",
+    "description": "Motor Drive Belt Conv. UBS 5"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2891-V",
+    "description": "Motor Drive Belt Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "2892-V",
+    "description": "Motor Drive Belt Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "C-307-B1",
+    "description": "Motor Drive Belt Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "C-307-B2",
+    "description": "Motor Drive Belt Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "C308 BSL",
+    "description": "Motor Drive Belt Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "C309A BSL1",
+    "description": "Motor Drive Belt Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "C309A BSL2",
+    "description": "Motor Drive Belt Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "C309B BSL1",
+    "description": "Motor Drive Belt Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "C309B BSL2",
+    "description": "Motor Drive Belt Conveyor"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "JD-7302",
+    "description": "Motor Drive Belt Conv.K-5"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "JD-7303",
+    "description": "Motor Drive Belt Conv.K-5"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "JD-7304",
+    "description": "Motor Drive Belt Conv.K-5"
+  },
+  {
+    "pabrik": "Pabrik 6",
+    "area": "PPU",
+    "equipment": "JD-7305",
+    "description": "Motor Drive Belt Conv.K-5"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 1",
+    "equipment": "C-1101",
+    "description": "JET BLOWER NO.1"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 1",
+    "equipment": "C-1102",
+    "description": "JET BLOWER NO.2"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 1",
+    "equipment": "C-1103",
+    "description": "GRANULATOR WASTE GAS FAN"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 1",
+    "equipment": "C-1104",
+    "description": "DRYER WASTE GAS FAN NO.1"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 1",
+    "equipment": "C-1105",
+    "description": "DEDUSTING WASTE GAS FAN"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 1",
+    "equipment": "C-1106",
+    "description": "DEDUSTING WASTE GAS FAN NO.2"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 1",
+    "equipment": "C-1107",
+    "description": "COOLER WASTE GAS FAN"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 1",
+    "equipment": "F-1101",
+    "description": "Furnace"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 1",
+    "equipment": "F-1102",
+    "description": "Furnace Fan"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 1",
+    "equipment": "L-1101",
+    "description": "RAW MAT'L BELT CONV. NO.2"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 1",
+    "equipment": "L-1102",
+    "description": "RAW MAT'L BELT CONV. NO.2"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 1",
+    "equipment": "L-1103",
+    "description": "RAW MAT'L GENERAL ELEV."
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 1",
+    "equipment": "L-1104",
+    "description": "CURING BELT CONV."
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 1",
+    "equipment": "L-1105",
+    "description": "SEMI PRODUCT BELT CONV. NO.1"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 1",
+    "equipment": "L-1106",
+    "description": "SEMI PRODUCT ELEVATOR NO.1"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 1",
+    "equipment": "L-1107",
+    "description": "SEMI PRODUCT BELT CONV. NO.3"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 1",
+    "equipment": "L-1108",
+    "description": "SEMI PRODUCT BELT CONV. NO.3"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 1",
+    "equipment": "L-1109",
+    "description": "SEMI PRODUCT ELEV. NO.2"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 1",
+    "equipment": "L-1110",
+    "description": "SEMI PRODUCT ELEVATOR NO.3"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 1",
+    "equipment": "L-1111",
+    "description": "PRODUCT ELEVATOR"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 1",
+    "equipment": "L-1112",
+    "description": "CYCLIC MAT'L BELT CONV"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 1",
+    "equipment": "M-0202-B",
+    "description": "DAP CRUSHER"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 1",
+    "equipment": "M-0203-A",
+    "description": "DAP CRUSHER"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 1",
+    "equipment": "M-1101",
+    "description": "GRANULATOR"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 1",
+    "equipment": "M-1102",
+    "description": "DRYER NO.1"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 1",
+    "equipment": "M-1103A-GD",
+    "description": "FINE SCREEN"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 1",
+    "equipment": "M-1103A-LT",
+    "description": "FINE SCREEN"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 1",
+    "equipment": "M-1103B-GD",
+    "description": "FINE SCREEN"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 1",
+    "equipment": "M-1103B-LT",
+    "description": "FINE SCREEN"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 1",
+    "equipment": "M-1104",
+    "description": "DRYER NO.2"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 1",
+    "equipment": "M-1105",
+    "description": "COOLER"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 1",
+    "equipment": "M-1106-GD",
+    "description": "LARGE GRANULE SCREEN GD"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 1",
+    "equipment": "M-1106-LT",
+    "description": "LARGE GRANULE SCREEN LT"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 1",
+    "equipment": "M-1107",
+    "description": "PRODUCT SCREEN"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 1",
+    "equipment": "M-1108",
+    "description": "LARGE GRANULE CRUSHER"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 1",
+    "equipment": "M-1108-P",
+    "description": "M-1108-P"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 1",
+    "equipment": "M-1109",
+    "description": "COATING DRUM"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 1",
+    "equipment": "P-1101-A",
+    "description": "CENTRIFUGAL WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 1",
+    "equipment": "P-1101-B",
+    "description": "CENTRIFUGAL WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 1",
+    "equipment": "P-1102",
+    "description": "METERING PUMP"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 1",
+    "equipment": "X-1101",
+    "description": "DRAFTING JET NO.1"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 1",
+    "equipment": "X-1102",
+    "description": "DRAFTING JET NO.2"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "C-2101",
+    "description": "JET BLOWER NO.1"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "C-2102",
+    "description": "JET BLOWER NO.2"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "C-2103",
+    "description": "GRANULATOR WASTE GAS FAN"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "C-2104",
+    "description": "DRYER WASTE GAS FAN NO.1"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "C-2105",
+    "description": "DEDUSTING WASTE GAS FAN"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "C-2106",
+    "description": "DEDUSTING WASTE GAS FAN NO.2"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "C-2107",
+    "description": "COOLER WASTE GAS FAN"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "F-2101",
+    "description": "Furnace"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "F-2102",
+    "description": "Furnace Fan"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "L-0101-A",
+    "description": "RAW MAT'L ELEV."
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "L-0101-B",
+    "description": "RAW MAT'L ELEV."
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "L-0101-C",
+    "description": "RAW MAT'L ELEV."
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "L-0101-D",
+    "description": "RAW MAT'L ELEV."
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "L-0101-E",
+    "description": "RAW MAT'L ELEV."
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "L-0101-F",
+    "description": "RAW MAT'L ELEV."
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "L-2101",
+    "description": "RAW MAT'L BELT CONV NO.2"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "L-2102",
+    "description": "RAW MAT'L BELT CONV. NO.2"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "L-2103",
+    "description": "RAW MAT'L GENERAL ELEV."
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "L-2104",
+    "description": "CURING BELT CONV."
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "L-2105",
+    "description": "SEMI PRODUCT BELT CONV. NO.1"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "L-2106",
+    "description": "SEMI PRODUCT BELT CONV. NO.1"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "L-2107",
+    "description": "SEMI PRODUCT BELT CONV. NO.2"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "L-2108",
+    "description": "SEMI PRODUCT BELT CONV. NO.3"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "L-2109",
+    "description": "SEMI PRODUCT ELEV. NO.2"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "L-2110",
+    "description": "SEMI PRODUCT ELEV. NO.3"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "L-2111",
+    "description": "PRODUCT ELEVATOR"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "L-2112",
+    "description": "CYCLIC MAT'L BELT CONV."
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "L-2113",
+    "description": "CYCLIC MAT'L BELT CONV."
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "L-8501",
+    "description": "BELT CONVEYOR"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "M-2101",
+    "description": "GRANULATOR"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "M-2102",
+    "description": "DRYER NO.1"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "M-2103A-GD",
+    "description": "FINE SCREEN"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "M-2103A-LT",
+    "description": "FINE SCREEN"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "M-2103B-GD",
+    "description": "FINE SCREEN"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "M-2103B-LT",
+    "description": "FINE SCREEN"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "M-2104",
+    "description": "DRYER NO.2"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "M-2105",
+    "description": "COOLER"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "M-2106-GD",
+    "description": "LARGE GRANULE SCREEN"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "M-2106-LT",
+    "description": "LARGE GRANULE SCREEN"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "M-2107",
+    "description": "PRODUCT SCREEN"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "M-2108-P",
+    "description": "M-2108-P"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "M-2108",
+    "description": "LARGE GRANULE CRUSHER"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "M-2109",
+    "description": "COATING DRUM"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "M-0201-A",
+    "description": "DAP CRUSHER"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "M-0202",
+    "description": "DAP E CRUSHER"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "M-0201-B",
+    "description": "DAP CRUSHER"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "M-0202-A",
+    "description": "DAP CRUSHER"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "M-0203-B",
+    "description": "DAP CRUSHER"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "M-0303",
+    "description": "GRINDING MILL"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "P-2101-A",
+    "description": "CENTRIFUGAL WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "P-2101-B",
+    "description": "CENTRIFUGAL WATER PUMP"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "P-2102",
+    "description": "METERING PUMP"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "X-2101",
+    "description": "DRAFTING JET NO.1"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "X-2102",
+    "description": "DRAFTING JET NO.2"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "NPK-BLEND3",
+    "description": "NPK BLENDING-3"
+  },
+  {
+    "pabrik": "Pabrik 7",
+    "area": "Plant 2",
+    "equipment": "PL-002",
+    "description": "Pompa LH"
+  }
+]

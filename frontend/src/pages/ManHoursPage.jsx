@@ -11,6 +11,7 @@ const MONTH_NAMES = ['Januari','Februari','Maret','April','Mei','Juni','Juli','A
 const SOURCE_LABELS = { DailyTask: 'Daily Task', PdmActivity: 'PdM Rotating', all: 'Semua Sumber' };
 
 import Sparkline from '../components/ui/Sparkline';
+import equipmentData from '../data/equipmentData.json';
 
 function KpiCard({ icon: Icon, label, value, sub, bgGradient, sparklineColor, unit = 'jam' }) {
   const sparkData = [20, 25, 22, 30, 28, 35, 40, 38, 45, 50, 48];
@@ -182,7 +183,9 @@ export default function ManHoursPage() {
     waktu_mulai: '',
     waktu_selesai: '',
     wo_notif: '',
-    equipment: ''
+    equipment: '',
+    isiPersonilLain: false,
+    equipment_custom: false
   });
 
   const api = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
@@ -214,7 +217,6 @@ export default function ManHoursPage() {
 
   // Fetch referensi data untuk form
   useEffect(() => {
-    if (!isAdmin) return; // Anggota tidak perlu dropdown personel
     const fetchRefs = async () => {
       try {
         const [mpRes, pbRes] = await Promise.all([
@@ -232,7 +234,7 @@ export default function ManHoursPage() {
       } catch (e) { console.error('fetchRefs error:', e); }
     };
     fetchRefs();
-  }, [isAdmin]);
+  }, []);
 
   // Sync man_power_id ke form ketika anggota buka halaman
   useEffect(() => {
@@ -241,14 +243,37 @@ export default function ManHoursPage() {
     }
   }, [isAnggota, userManPowerId]);;
 
+  // Helper hooks for dynamic form dropdowns
+  const selectedPabrikName = useMemo(() => {
+    if (!form.pabrik_id) return '';
+    const pb = pabrikList.find(p => String(p.id) === String(form.pabrik_id));
+    if (!pb) return '';
+    if (pb.nama_pabrik === 'P1A') return 'Pabrik 1A';
+    return pb.nama_pabrik.replace('P', 'Pabrik ');
+  }, [form.pabrik_id, pabrikList]);
+
+  const availableAreas = useMemo(() => {
+    if (!selectedPabrikName) return [];
+    const areas = equipmentData.filter(d => d.pabrik === selectedPabrikName).map(d => d.area);
+    return [...new Set(areas)].sort();
+  }, [selectedPabrikName]);
+
+  const availableEquipments = useMemo(() => {
+    if (!selectedPabrikName || !form.area) return [];
+    const eq = equipmentData.filter(d => d.pabrik === selectedPabrikName && d.area === form.area).map(d => d.equipment);
+    return [...new Set(eq)].sort();
+  }, [selectedPabrikName, form.area]);
+
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     setFormSaving(true);
     setFormError('');
     try {
       const body = { ...form };
-      // Untuk anggota, paksa man_power_id ke dirinya sendiri
-      if (isAnggota) body.man_power_id = userManPowerId;
+      // Untuk anggota, paksa man_power_id ke dirinya sendiri jika tidak isi personil lain
+      if (isAnggota && !form.isiPersonilLain) {
+        body.man_power_id = userManPowerId;
+      }
       // Convert tanggal + waktu ke ISO
       if (form.waktu_mulai) {
         body.waktu_mulai = new Date(`${form.tanggal}T${form.waktu_mulai}:00`).toISOString();
@@ -266,7 +291,7 @@ export default function ManHoursPage() {
         throw new Error(err.error || 'Gagal menyimpan');
       }
       setShowForm(false);
-      setForm(f => ({ ...f, deskripsi_pekerjaan: '', waktu_mulai: '', waktu_selesai: '', wo_notif: '', equipment: '' }));
+      setForm(f => ({ ...f, deskripsi_pekerjaan: '', waktu_mulai: '', waktu_selesai: '', wo_notif: '', equipment: '', area: '', isiPersonilLain: false, equipment_custom: false }));
       await fetchData();
     } catch (err) {
       setFormError(err.message);
@@ -466,25 +491,39 @@ export default function ManHoursPage() {
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-gray-600 mb-1">Personel</label>
-                  {isAnggota ? (
-                    <div className="w-full text-sm border border-gray-100 bg-gray-50 rounded-lg px-3 py-2 text-gray-700 font-medium">
-                      {user?.name || 'Anda'} <span className="text-xs text-gray-400">(otomatis)</span>
+                  {isAnggota && !form.isiPersonilLain ? (
+                    <div className="flex flex-col gap-2">
+                      <div className="w-full text-sm border border-gray-100 bg-gray-50 rounded-lg px-3 py-2 text-gray-700 font-medium">
+                        {user?.name || 'Anda'} <span className="text-xs text-gray-400">(otomatis)</span>
+                      </div>
+                      <label className="flex items-center gap-2 text-xs text-gray-600 cursor-pointer w-max">
+                        <input type="checkbox" checked={form.isiPersonilLain} onChange={e => setForm(f => ({ ...f, isiPersonilLain: e.target.checked, man_power_id: '' }))} />
+                        Isi untuk personil lain
+                      </label>
                     </div>
                   ) : (
-                    <select value={form.man_power_id} onChange={e => setForm(f => ({ ...f, man_power_id: e.target.value }))}
-                      className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-200">
-                      <option value="">-- Pilih Personel --</option>
-                      {manpowerList.map(mp => (
-                        <option key={mp.id} value={mp.id}>{mp.name} ({mp.npk})</option>
-                      ))}
-                    </select>
+                    <div className="flex flex-col gap-2">
+                      <select value={form.man_power_id} onChange={e => setForm(f => ({ ...f, man_power_id: e.target.value }))}
+                        className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-200">
+                        <option value="">-- Pilih Personel --</option>
+                        {manpowerList.map(mp => (
+                          <option key={mp.id} value={mp.id}>{mp.name} ({mp.npk})</option>
+                        ))}
+                      </select>
+                      {isAnggota && (
+                        <label className="flex items-center gap-2 text-xs text-gray-600 cursor-pointer w-max">
+                          <input type="checkbox" checked={form.isiPersonilLain} onChange={e => setForm(f => ({ ...f, isiPersonilLain: e.target.checked, man_power_id: String(userManPowerId) }))} />
+                          Isi untuk personil lain
+                        </label>
+                      )}
+                    </div>
                   )}
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-semibold text-gray-600 mb-1">Pabrik</label>
-                  <select value={form.pabrik_id} onChange={e => setForm(f => ({ ...f, pabrik_id: e.target.value }))}
+                  <select value={form.pabrik_id} onChange={e => setForm(f => ({ ...f, pabrik_id: e.target.value, area: '', equipment: '' }))}
                     className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-200">
                     <option value="">-- Pilih Pabrik --</option>
                     {pabrikList.map(p => (
@@ -494,9 +533,13 @@ export default function ManHoursPage() {
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-gray-600 mb-1">Area</label>
-                  <input type="text" placeholder="Contoh: P6 PPHS & OSBL" value={form.area}
-                    onChange={e => setForm(f => ({ ...f, area: e.target.value }))}
-                    className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-200" />
+                  <select value={form.area} onChange={e => setForm(f => ({ ...f, area: e.target.value, equipment: '' }))}
+                    className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-200" disabled={!selectedPabrikName}>
+                    <option value="">{selectedPabrikName ? '-- Pilih Area --' : '-- Pilih Pabrik Dulu --'}</option>
+                    {availableAreas.map(a => (
+                      <option key={a} value={a}>{a}</option>
+                    ))}
+                  </select>
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
@@ -521,10 +564,26 @@ export default function ManHoursPage() {
                 </div>
               </div>
               <div>
-                <label className="block text-xs font-semibold text-gray-600 mb-1">Equipment / Nama Alat</label>
-                <input type="text" placeholder="Contoh: Kompresor K-2401" value={form.equipment}
-                  onChange={e => setForm(f => ({ ...f, equipment: e.target.value }))}
-                  className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-200" />
+                <div className="flex items-center justify-between mb-1">
+                  <label className="block text-xs font-semibold text-gray-600">Equipment / Nama Alat</label>
+                  <label className="flex items-center gap-1.5 text-xs text-gray-500 cursor-pointer">
+                    <input type="checkbox" checked={form.equipment_custom} onChange={e => setForm(f => ({ ...f, equipment_custom: e.target.checked, equipment: '' }))} />
+                    Item tidak terlist
+                  </label>
+                </div>
+                {form.equipment_custom ? (
+                  <input type="text" placeholder="Masukkan nama alat / equipment manual..." value={form.equipment}
+                    onChange={e => setForm(f => ({ ...f, equipment: e.target.value }))}
+                    className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-200" />
+                ) : (
+                  <select value={form.equipment} onChange={e => setForm(f => ({ ...f, equipment: e.target.value }))}
+                    className="w-full text-sm border border-gray-200 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-200" disabled={!form.area}>
+                    <option value="">{form.area ? '-- Pilih Equipment --' : '-- Pilih Area Dulu --'}</option>
+                    {availableEquipments.map(eq => (
+                      <option key={eq} value={eq}>{eq}</option>
+                    ))}
+                  </select>
+                )}
               </div>
               <div>
                 <label className="block text-xs font-semibold text-gray-600 mb-1">Deskripsi Pekerjaan <span className="text-red-500">*</span></label>
