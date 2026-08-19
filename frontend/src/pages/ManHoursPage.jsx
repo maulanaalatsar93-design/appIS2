@@ -343,7 +343,8 @@ export default function ManHoursPage() {
     const pb = pabrikList.find(p => String(p.id) === String(form.pabrik_id));
     if (!pb) return '';
     if (pb.nama_pabrik === 'P1A') return 'Pabrik 1A';
-    return pb.nama_pabrik.replace('P', 'Pabrik ');
+    if (/^P[1-7]$/.test(pb.nama_pabrik)) return pb.nama_pabrik.replace('P', 'Pabrik ');
+    return pb.nama_pabrik;
   }, [form.pabrik_id, pabrikList]);
 
   const availableAreas = useMemo(() => {

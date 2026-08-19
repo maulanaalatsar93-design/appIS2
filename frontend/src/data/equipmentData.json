@@ -8218,5 +8218,125 @@
     "area": "Plant 2",
     "equipment": "PL-002",
     "description": "Pompa LH"
+  },
+  {
+    "pabrik": "KPI",
+    "area": "Lapangan",
+    "equipment": "-",
+    "description": "-"
+  },
+  {
+    "pabrik": "K3",
+    "area": "Kantor",
+    "equipment": "-",
+    "description": "-"
+  },
+  {
+    "pabrik": "Kan. Pusat",
+    "area": "Kantor",
+    "equipment": "-",
+    "description": "-"
+  },
+  {
+    "pabrik": "Kan. Management Vendor",
+    "area": "Kantor",
+    "equipment": "-",
+    "description": "-"
+  },
+  {
+    "pabrik": "ISTEK 2",
+    "area": "Kantor",
+    "equipment": "-",
+    "description": "-"
+  },
+  {
+    "pabrik": "Workshop Listrik",
+    "area": "Rewinding",
+    "equipment": "-",
+    "description": "-"
+  },
+  {
+    "pabrik": "Workshop Listrik",
+    "area": "Kantor",
+    "equipment": "-",
+    "description": "-"
+  },
+  {
+    "pabrik": "Workshop Permesinan",
+    "area": "Area Welding",
+    "equipment": "-",
+    "description": "-"
+  },
+  {
+    "pabrik": "Workshop Permesinan",
+    "area": "Area Machining",
+    "equipment": "-",
+    "description": "-"
+  },
+  {
+    "pabrik": "Workshop Permesinan",
+    "area": "Kantor",
+    "equipment": "-",
+    "description": "-"
+  },
+  {
+    "pabrik": "Workshop Permesinan",
+    "area": "Balancing",
+    "equipment": "-",
+    "description": "-"
+  },
+  {
+    "pabrik": "JPP",
+    "area": "Area Machining",
+    "equipment": "-",
+    "description": "-"
+  },
+  {
+    "pabrik": "JPP",
+    "area": "Kantor",
+    "equipment": "-",
+    "description": "-"
+  },
+  {
+    "pabrik": "JPP",
+    "area": "Sandblast",
+    "equipment": "-",
+    "description": "-"
+  },
+  {
+    "pabrik": "JPP",
+    "area": "Fabrikasi",
+    "equipment": "-",
+    "description": "-"
+  },
+  {
+    "pabrik": "Area Luar Pabrik",
+    "area": "Rumah Sakit",
+    "equipment": "-",
+    "description": "-"
+  },
+  {
+    "pabrik": "Area Luar Pabrik",
+    "area": "Samsat",
+    "equipment": "-",
+    "description": "-"
+  },
+  {
+    "pabrik": "Receiving",
+    "area": "Kan. receiving",
+    "equipment": "-",
+    "description": "-"
+  },
+  {
+    "pabrik": "Receiving",
+    "area": "Gd, receiving",
+    "equipment": "-",
+    "description": "-"
+  },
+  {
+    "pabrik": "Pemeliharaan",
+    "area": "Gedung Pemeliharaan",
+    "equipment": "-",
+    "description": "-"
   }
 ]
