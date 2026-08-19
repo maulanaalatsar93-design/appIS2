@@ -8,6 +8,7 @@ import Chart from 'react-apexcharts';
 import PublicDashboard from './PublicDashboard';
 import { getDashboardSummary, getManpowerList } from '../services/dashboardService';
 import ManPowerDashboard from '../components/dashboard/ManPowerDashboard';
+import ManHoursDashboard from '../components/dashboard/ManHoursDashboard';
 
 const WORK_CENTER_LABELS = {
   'D0179': 'D0179 - Inspeksi Rotating 1',
@@ -51,7 +52,7 @@ const generateWAMessage = (wc) => {
 
 export default function InternalDashboard() {
   const [view, setView] = useState('internal');
-  const [activeTab, setActiveTab] = useState('overview'); // 'overview' | 'jobload'
+  const [activeTab, setActiveTab] = useState('overview'); // 'overview' | 'jobload' | 'performance_killer' | 'man_power' | 'man_hours'
   const [summary, setSummary] = useState(null);
   const [selectedSegment, setSelectedSegment] = useState(null);
 
@@ -624,6 +625,15 @@ export default function InternalDashboard() {
             >
               Man Power
             </button>
+            <button
+              onClick={() => setActiveTab('man_hours')}
+              className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-300 ${activeTab === 'man_hours'
+                ? 'bg-gradient-to-br from-[#193B8F] to-[#0A1B3F] text-white shadow-md'
+                : 'text-gray-500 hover:text-[#193B8F] hover:bg-gray-50'
+                }`}
+            >
+              Man Hours
+            </button>
           </div>
 
           <button
@@ -638,6 +648,10 @@ export default function InternalDashboard() {
       {/* OVERVIEW TAB CONTENT */}
       {activeTab === 'man_power' && (
         <ManPowerDashboard />
+      )}
+
+      {activeTab === 'man_hours' && (
+        <ManHoursDashboard />
       )}
 
       {activeTab === 'overview' && (

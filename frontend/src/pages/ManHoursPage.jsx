@@ -1,54 +1,15 @@
 import React, { useState, useEffect, useMemo, useContext } from 'react';
 import {
-  Clock, Users, MapPin, BarChart3, Download, RefreshCw, Filter,
-  TrendingUp, Building2, UserCog, ChevronUp, ChevronDown, Search,
+  Clock, Users, MapPin, Download, RefreshCw, Filter,
+  Building2, UserCog, ChevronUp, ChevronDown, Search,
   Plus, X, Save, Trash2, Edit2, Check
 } from 'lucide-react';
-import Chart from 'react-apexcharts';
 import { AuthContext } from '../context/AuthContext';
 
 const MONTH_NAMES = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
 const SOURCE_LABELS = { DailyTask: 'Daily Task', PdmActivity: 'PdM Rotating', all: 'Semua Sumber' };
 
-import Sparkline from '../components/ui/Sparkline';
 import equipmentData from '../data/equipmentData.json';
-
-function KpiCard({ icon: Icon, label, value, sub, bgGradient, sparklineColor, unit = 'jam' }) {
-  const sparkData = [20, 25, 22, 30, 28, 35, 40, 38, 45, 50, 48];
-  return (
-    <div className={`p-5 rounded-2xl flex flex-col justify-between relative overflow-hidden transition-all duration-300 shadow-md ${bgGradient} hover:-translate-y-1 hover:shadow-xl text-white min-h-[140px]`}>
-      {/* Background Accents */}
-      <div className="absolute -right-6 -top-6 w-24 h-24 rounded-full bg-white/10 blur-xl transition-transform duration-500 hover:scale-150" />
-      <div className="absolute right-0 -bottom-4 w-32 h-16 bg-white/5 blur-2xl transition-transform duration-500 hover:scale-125" />
-
-      <div className="relative z-10 flex flex-col h-full">
-        <div className="flex items-center gap-3 mb-2">
-          <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center shadow-inner backdrop-blur-md border border-white/20">
-            <Icon className="w-5 h-5 text-white drop-shadow-sm" />
-          </div>
-          <div className="flex flex-col">
-            <span className="text-sm font-medium text-white/90 drop-shadow-sm leading-tight">{label}</span>
-          </div>
-        </div>
-        
-        <div className="mt-auto mb-6 flex flex-col">
-          <div className="flex items-baseline gap-1.5">
-            <span className="text-3xl md:text-4xl font-display font-bold text-white tracking-tight drop-shadow-md leading-none">
-              {value}
-            </span>
-            <span className="text-xs font-semibold text-white/80">{unit}</span>
-          </div>
-          {sub && <span className="text-[10px] font-medium text-white/60 mt-1">{sub}</span>}
-        </div>
-      </div>
-
-      {/* Sparkline implementation at bottom */}
-      <div className="absolute bottom-0 left-0 right-0 h-12 opacity-80 z-0 pointer-events-none">
-        <Sparkline data={sparkData} color={sparklineColor} strokeWidth={2.5} fillOpacity={0.15} />
-      </div>
-    </div>
-  );
-}
 
 function SortIcon({ field, sortBy, sortDir }) {
   if (sortBy !== field) return <span className="text-gray-200 ml-1">↕</span>;
@@ -232,7 +193,6 @@ export default function ManHoursPage() {
   const isAnggota = !isAdmin && !!userManPowerId;
   const [rows, setRows] = useState([]);
   const [activeTasks, setActiveTasks] = useState([]);
-  const [summary, setSummary] = useState(null);
   const [loading, setLoading] = useState(false);
   const [month, setMonth] = useState(new Date().getMonth() + 1);
   const [year, setYear] = useState(new Date().getFullYear());
@@ -290,12 +250,8 @@ export default function ManHoursPage() {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const [listRes, sumRes] = await Promise.all([
-        fetch(`${api}/api/man-hours?${buildParams()}`, { headers }),
-        fetch(`${api}/api/man-hours/summary?${buildParams()}`, { headers })
-      ]);
+      const listRes = await fetch(`${api}/api/man-hours?${buildParams()}`, { headers });
       if (listRes.ok) setRows(await listRes.json());
-      if (sumRes.ok) setSummary(await sumRes.json());
     } catch (e) { console.error(e); }
     finally { setLoading(false); }
   };
@@ -509,37 +465,6 @@ export default function ManHoursPage() {
   };
 
   // Chart data
-  const chartPersonel = useMemo(() => {
-    if (!summary?.by_personel?.length) return null;
-    const top10 = summary.by_personel.slice(0, 10);
-    return {
-      series: [{ name: 'Man Hours', data: top10.map(p => p.total) }],
-      options: {
-        chart: { type: 'bar', toolbar: { show: false }, background: 'transparent' },
-        plotOptions: { bar: { horizontal: true, borderRadius: 4, barHeight: '60%' } },
-        colors: ['#3b82f6'],
-        xaxis: { categories: top10.map(p => p.nama), labels: { style: { fontSize: '11px' } } },
-        dataLabels: { enabled: true, formatter: v => `${v} jam`, style: { fontSize: '10px' } },
-        grid: { borderColor: '#f1f5f9' },
-        tooltip: { y: { formatter: v => `${v} jam` } }
-      }
-    };
-  }, [summary]);
-
-  const chartArea = useMemo(() => {
-    if (!summary?.by_area?.length) return null;
-    return {
-      series: summary.by_area.map(a => a.total),
-      options: {
-        chart: { type: 'donut', background: 'transparent' },
-        labels: summary.by_area.map(a => a.area),
-        colors: ['#3b82f6','#f59e0b','#8b5cf6','#f97316','#10b981','#ef4444','#06b6d4'],
-        legend: { position: 'bottom', fontSize: '11px' },
-        dataLabels: { formatter: (val, opts) => `${val.toFixed(1)}%` },
-        tooltip: { y: { formatter: v => `${v} jam` } }
-      }
-    };
-  }, [summary]);
 
   // Export CSV
   const exportCsv = () => {
@@ -568,12 +493,12 @@ export default function ManHoursPage() {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h1 className="text-2xl font-display font-bold text-gray-800 flex items-center gap-2">
-            <Clock className="w-6 h-6 text-navy-600" /> Man Hours (Daily Task)
+            <Clock className="w-6 h-6 text-navy-600" /> Aktivitas & Log Harian
           </h1>
           <p className="text-sm text-gray-500 mt-0.5">
             {isAnggota
-              ? `Rekap jam kerja Anda \u2014 ${MONTH_NAMES[month-1]} ${year}`
-              : `Rekap jam kerja personel berdasarkan task \u2014 ${MONTH_NAMES[month-1]} ${year}`}
+              ? `Log aktivitas Anda \u2014 ${MONTH_NAMES[month-1]} ${year}`
+              : `Log aktivitas personel \u2014 ${MONTH_NAMES[month-1]} ${year}`}
           </p>
           {isAnggota && (
             <span className="inline-flex items-center gap-1 text-xs bg-blue-50 text-blue-700 border border-blue-200 rounded-full px-2.5 py-0.5 mt-1">
@@ -817,42 +742,7 @@ export default function ManHoursPage() {
         </div>
       )}
 
-      {/* ── KPI Cards ── */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <KpiCard icon={Clock} label="Total MH Hari Ini" value={summary?.totals?.today ?? '—'} sub="Dari semua task aktif" bgGradient="bg-gradient-to-br from-blue-700 to-blue-900" sparklineColor="#60a5fa" />
-        <KpiCard icon={TrendingUp} label={`Total MH ${MONTH_NAMES[month-1]}`} value={summary?.totals?.month ?? '—'} sub={`${filtered.length} aktivitas tercatat`} bgGradient="bg-gradient-to-br from-orange-500 to-orange-600" sparklineColor="#fdba74" />
-        <KpiCard icon={Users} label="Personel Aktif" value={summary?.by_personel?.length ?? '—'} unit="orang" sub="Memiliki aktivitas bulan ini" bgGradient="bg-gradient-to-br from-slate-800 to-slate-900" sparklineColor="#94a3b8" />
-        <KpiCard icon={MapPin} label="Total MH Filtered" value={totalMhFiltered} sub={`${filtered.length} baris data`} bgGradient="bg-gradient-to-br from-emerald-600 to-emerald-800" sparklineColor="#6ee7b7" />
-      </div>
 
-      {/* ── Charts (hanya admin) ── */}
-      {isAdmin && (
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Bar: MH per Personel */}
-        <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-4">
-          <h3 className="text-sm font-bold text-gray-700 mb-3 flex items-center gap-1.5">
-            <BarChart3 className="w-4 h-4 text-navy-600" /> Man Hours per Personel (Top 10)
-          </h3>
-          {chartPersonel ? (
-            <Chart options={chartPersonel.options} series={chartPersonel.series} type="bar" height={280} />
-          ) : (
-            <div className="flex items-center justify-center h-48 text-gray-400 text-sm">Tidak ada data</div>
-          )}
-        </div>
-
-        {/* Donut: MH per Area */}
-        <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-4">
-          <h3 className="text-sm font-bold text-gray-700 mb-3 flex items-center gap-1.5">
-            <MapPin className="w-4 h-4 text-amber-500" /> Man Hours per Area
-          </h3>
-          {chartArea ? (
-            <Chart options={chartArea.options} series={chartArea.series} type="donut" height={280} />
-          ) : (
-            <div className="flex items-center justify-center h-48 text-gray-400 text-sm">Tidak ada data</div>
-          )}
-        </div>
-      </div>
-      )}
 
       {/* ── Filter Bar ── */}
       <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-4 space-y-3">
@@ -1012,64 +902,7 @@ export default function ManHoursPage() {
         </div>
       </div>
 
-      {/* ── Summary Tables (hanya admin) ── */}
-      {isAdmin && summary && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {/* Per Personel */}
-          <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-            <div className="px-4 py-3 border-b border-gray-100 flex items-center gap-2">
-              <Users className="w-4 h-4 text-navy-600" />
-              <h3 className="text-sm font-bold text-gray-700">MH per Personel</h3>
-            </div>
-            <div className="divide-y divide-gray-50 max-h-64 overflow-y-auto">
-              {summary.by_personel.map((p, i) => (
-                <div key={i} className="px-4 py-2.5 flex items-center justify-between hover:bg-gray-50">
-                  <div>
-                    <p className="text-xs font-semibold text-gray-700">{p.nama}</p>
-                    <p className="text-[10px] text-gray-400">{p.npk}</p>
-                  </div>
-                  <span className="text-sm font-bold text-navy-600">{p.total} <span className="text-[10px] font-normal text-gray-400">jam</span></span>
-                </div>
-              ))}
-              {!summary.by_personel.length && <p className="px-4 py-3 text-xs text-gray-400 italic">Tidak ada data</p>}
-            </div>
-          </div>
 
-          {/* Per Area */}
-          <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-            <div className="px-4 py-3 border-b border-gray-100 flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-amber-500" />
-              <h3 className="text-sm font-bold text-gray-700">MH per Area</h3>
-            </div>
-            <div className="divide-y divide-gray-50 max-h-64 overflow-y-auto">
-              {summary.by_area.map((a, i) => (
-                <div key={i} className="px-4 py-2.5 flex items-center justify-between hover:bg-gray-50">
-                  <p className="text-xs font-semibold text-gray-700 truncate">{a.area}</p>
-                  <span className="text-sm font-bold text-amber-600 ml-2 shrink-0">{a.total} <span className="text-[10px] font-normal text-gray-400">jam</span></span>
-                </div>
-              ))}
-              {!summary.by_area.length && <p className="px-4 py-3 text-xs text-gray-400 italic">Tidak ada data</p>}
-            </div>
-          </div>
-
-          {/* Per Pabrik */}
-          <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-            <div className="px-4 py-3 border-b border-gray-100 flex items-center gap-2">
-              <Building2 className="w-4 h-4 text-green-500" />
-              <h3 className="text-sm font-bold text-gray-700">MH per Pabrik</h3>
-            </div>
-            <div className="divide-y divide-gray-50 max-h-64 overflow-y-auto">
-              {summary.by_pabrik.map((p, i) => (
-                <div key={i} className="px-4 py-2.5 flex items-center justify-between hover:bg-gray-50">
-                  <p className="text-xs font-semibold text-gray-700 truncate">{p.pabrik}</p>
-                  <span className="text-sm font-bold text-green-600 ml-2 shrink-0">{p.total} <span className="text-[10px] font-normal text-gray-400">jam</span></span>
-                </div>
-              ))}
-              {!summary.by_pabrik.length && <p className="px-4 py-3 text-xs text-gray-400 italic">Tidak ada data</p>}
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* ── Edit Time Modal ── */}
       {editingRowId && (

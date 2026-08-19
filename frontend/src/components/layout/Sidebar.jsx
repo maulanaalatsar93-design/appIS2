@@ -47,7 +47,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed, isMobileMenuOpen,
             { path: '/pdm/calendar', label: 'Kalender PdM', icon: CalendarClock },
             { path: '/pdm/roster',   label: 'Roster PIC',    icon: TableProperties },
             { path: '/pdm/tasks',    label: 'Task Board',    icon: ClipboardList },
-            { path: '/pdm/man-hours', label: 'Man Hours (Daily Task)', icon: Clock },
+            { path: '/pdm/man-hours', label: 'Aktivitas Harian', icon: Clock },
             isAdmin ? { path: '/pdm/rules', label: 'Master Schedule', icon: Settings } : null,
           ].filter(Boolean)
         }
