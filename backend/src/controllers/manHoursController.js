@@ -50,18 +50,27 @@ export const getManHours = async (req, res) => {
         include: {
           man_power: { select: { id: true, npk: true, name: true, position: true, sub_area: true, divisi: true } },
           pabrik: { select: { id: true, nama_pabrik: true } },
-          created_by: { select: { id: true, name: true } }
+          created_by: { select: { id: true, name: true } },
+          task_logs: true
         },
         orderBy: { tanggal: 'desc' }
       });
 
       for (const dt of dailyTasks) {
         // Hitung man_hours dari waktu_mulai & waktu_selesai jika man_hours belum ada
-        let manHours = dt.man_hours;
-        if (!manHours && dt.waktu_mulai && dt.waktu_selesai) {
+        let manHours = dt.man_hours || 0;
+        if (!dt.man_hours && dt.waktu_mulai && dt.waktu_selesai) {
           const diffMs = new Date(dt.waktu_selesai) - new Date(dt.waktu_mulai);
           manHours = parseFloat((diffMs / 3600000).toFixed(2));
         }
+
+        // Tambahkan durasi dari log pekerjaan (jika ada)
+        if (dt.task_logs && dt.task_logs.length > 0) {
+          const logHours = dt.task_logs.reduce((sum, log) => sum + (log.man_hours || 0), 0);
+          manHours += logHours;
+        }
+
+        manHours = parseFloat(manHours.toFixed(2));
 
         results.push({
           source: 'DailyTask',
@@ -187,7 +196,8 @@ export const getManHoursSummary = async (req, res) => {
       where: dtFilter,
       include: {
         man_power: { select: { id: true, name: true, npk: true, position: true, sub_area: true, divisi: { select: { nama_divisi: true } } } },
-        pabrik: { select: { id: true, nama_pabrik: true } }
+        pabrik: { select: { id: true, nama_pabrik: true } },
+        task_logs: true
       }
     });
 
@@ -240,10 +250,16 @@ export const getManHoursSummary = async (req, res) => {
     }
 
     for (const dt of dailyTasks) {
-      let mh = dt.man_hours;
-      if (!mh && dt.waktu_mulai && dt.waktu_selesai) {
+      let mh = dt.man_hours || 0;
+      if (!dt.man_hours && dt.waktu_mulai && dt.waktu_selesai) {
         mh = parseFloat(((new Date(dt.waktu_selesai) - new Date(dt.waktu_mulai)) / 3600000).toFixed(2));
       }
+      
+      if (dt.task_logs && dt.task_logs.length > 0) {
+        const logHours = dt.task_logs.reduce((sum, log) => sum + (log.man_hours || 0), 0);
+        mh += logHours;
+      }
+      mh = parseFloat(mh.toFixed(2));
       accumulateEntry(mh, dt.man_power?.name, dt.man_power?.npk,
         dt.area || dt.man_power?.sub_area,
         dt.pabrik?.nama_pabrik,

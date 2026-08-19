@@ -84,6 +84,7 @@ model ManPower {
   wi_plt           WorkItem[]            @relation("WorkItemPLT")
   wi_checklist_pic WorkItemChecklist[]   @relation("ChecklistPIC")
   DailyTask        DailyTask[]
+  TaskLog          TaskLog[]
 
   // PdM Rotating relations
   pdm_default_pic       PdmScheduleRule[]       @relation("RuleDefaultPic")
@@ -444,6 +445,24 @@ model DailyTask {
   is_self_input       Boolean   @default(false)
   createdAt           DateTime  @default(now())
   updatedAt           DateTime  @updatedAt
+
+  task_logs           TaskLog[]
+
+  @@schema("public")
+}
+
+model TaskLog {
+  id                  Int       @id @default(autoincrement())
+  daily_task_id       Int
+  daily_task          DailyTask @relation(fields: [daily_task_id], references: [id], onDelete: Cascade)
+  man_power_id        Int
+  man_power           ManPower  @relation(fields: [man_power_id], references: [id])
+  tanggal             DateTime
+  waktu_mulai         DateTime
+  waktu_selesai       DateTime?
+  man_hours           Float
+  deskripsi_aktivitas String?
+  createdAt           DateTime  @default(now())
 
   @@schema("public")
 }

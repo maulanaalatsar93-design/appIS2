@@ -149,6 +149,7 @@ export default function ManHoursPage() {
   const isAdmin = ['admin', 'superadmin', 'supervisor', 'manager', 'avp', 'vp'].includes(userRole);
   const isAnggota = !isAdmin && !!userManPowerId;
   const [rows, setRows] = useState([]);
+  const [activeTasks, setActiveTasks] = useState([]);
   const [summary, setSummary] = useState(null);
   const [loading, setLoading] = useState(false);
   const [month, setMonth] = useState(new Date().getMonth() + 1);
@@ -166,6 +167,10 @@ export default function ManHoursPage() {
 
   const [editingRowId, setEditingRowId] = useState(null);
   const [editSaving, setEditSaving] = useState(false);
+
+  // Active task logging modal
+  const [logTaskItem, setLogTaskItem] = useState(null);
+  const [logSaving, setLogSaving] = useState(false);
 
   // Form tambah DailyTask
   const [showForm, setShowForm] = useState(false);
@@ -213,7 +218,14 @@ export default function ManHoursPage() {
     finally { setLoading(false); }
   };
 
-  useEffect(() => { fetchData(); }, [month, year, filterSource, filterSubArea, filterPabrik]);
+  const fetchActiveTasks = async () => {
+    try {
+      const res = await fetch(`${api}/api/daily-tasks/active`, { headers });
+      if (res.ok) setActiveTasks(await res.json());
+    } catch (e) { console.error('fetchActiveTasks error:', e); }
+  };
+
+  useEffect(() => { fetchData(); fetchActiveTasks(); }, [month, year, filterSource, filterSubArea, filterPabrik]);
 
   // Fetch referensi data untuk form
   useEffect(() => {
@@ -293,11 +305,54 @@ export default function ManHoursPage() {
       setShowForm(false);
       setForm(f => ({ ...f, deskripsi_pekerjaan: '', waktu_mulai: '', waktu_selesai: '', wo_notif: '', equipment: '', area: '', isiPersonilLain: false, equipment_custom: false }));
       await fetchData();
+      await fetchActiveTasks();
     } catch (err) {
       setFormError(err.message);
     } finally {
       setFormSaving(false);
     }
+  };
+
+  const handleLogSubmit = async (taskId, tanggal, mulai, selesai, deskripsi) => {
+    setLogSaving(true);
+    try {
+      const body = {
+        tanggal,
+        waktu_mulai: `${tanggal}T${mulai}:00`,
+        waktu_selesai: `${tanggal}T${selesai}:00`,
+        deskripsi_aktivitas: deskripsi
+      };
+      const res = await fetch(`${api}/api/daily-tasks/${taskId}/log`, {
+        method: 'POST',
+        headers: { ...headers, 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error || 'Gagal menyimpan log');
+      }
+      setLogTaskItem(null);
+      await fetchData();
+      await fetchActiveTasks();
+    } catch (err) {
+      alert('Gagal menyimpan log: ' + err.message);
+    } finally {
+      setLogSaving(false);
+    }
+  };
+
+  const handleTaskDone = async (taskId) => {
+    if (!window.confirm('Tandai pekerjaan ini sebagai selesai?')) return;
+    try {
+      const res = await fetch(`${api}/api/daily-tasks/${taskId}/status`, {
+        method: 'PUT',
+        headers: { ...headers, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'Done' })
+      });
+      if (!res.ok) throw new Error('Gagal update status');
+      await fetchData();
+      await fetchActiveTasks();
+    } catch (e) { alert(e.message); }
   };
 
   const handleDeleteRow = async (rowId) => {
@@ -626,6 +681,59 @@ export default function ManHoursPage() {
         </div>
       )}
 
+      {/* ── PEKERJAAN AKTIF (ACTIVE TASKS) ── */}
+      {activeTasks.length > 0 && (
+        <div className="mb-6">
+          <h2 className="text-sm font-bold text-gray-700 mb-3 flex items-center gap-1.5">
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
+            </span>
+            Pekerjaan Aktif Saya
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {activeTasks.map(task => {
+              const totalLogHours = task.task_logs?.reduce((acc, log) => acc + (log.man_hours || 0), 0) || 0;
+              const parentHours = task.man_hours || 0;
+              const totalHours = parseFloat((parentHours + totalLogHours).toFixed(2));
+
+              return (
+                <div key={task.id} className="bg-white rounded-xl border border-blue-100 shadow-sm overflow-hidden flex flex-col hover:shadow-md transition">
+                  <div className="px-4 py-3 border-b border-blue-50 bg-blue-50/30 flex items-start justify-between">
+                    <div>
+                      <div className="text-[10px] font-bold text-blue-600 mb-0.5 tracking-wider uppercase">{task.kategori_program}</div>
+                      <div className="font-mono text-sm font-semibold text-gray-800">{task.wo_notif || task.code_referensi || 'Task Tanpa Ref'}</div>
+                    </div>
+                    <span className="text-[10px] bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-semibold border border-green-200">
+                      {task.status}
+                    </span>
+                  </div>
+                  <div className="p-4 flex-1 flex flex-col gap-2.5">
+                    <p className="text-sm text-gray-600 line-clamp-3">{task.deskripsi_pekerjaan}</p>
+                    <div className="mt-auto pt-3 flex flex-col gap-1.5 text-xs text-gray-500">
+                      {(task.pabrik || task.area) && (
+                        <div className="flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5 text-gray-400" /> {task.pabrik?.nama_pabrik} {task.area ? ` - ${task.area}` : ''}</div>
+                      )}
+                      <div className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5 text-gray-400" /> Total Logged: <strong className="text-blue-700">{totalHours} jam</strong></div>
+                    </div>
+                  </div>
+                  <div className="px-4 py-3 border-t border-gray-50 bg-gray-50 flex gap-2">
+                    <button onClick={() => setLogTaskItem(task)}
+                      className="flex-1 py-1.5 bg-blue-600 text-white rounded-lg text-xs font-semibold hover:bg-blue-700 transition shadow-sm">
+                      + Log Waktu
+                    </button>
+                    <button onClick={() => handleTaskDone(task.id)}
+                      className="flex-1 py-1.5 bg-white border border-gray-200 text-gray-700 rounded-lg text-xs font-semibold hover:bg-gray-50 transition shadow-sm">
+                      Selesai
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
       {/* ── KPI Cards ── */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <KpiCard icon={Clock} label="Total MH Hari Ini" value={summary?.totals?.today ?? '—'} sub="Dari semua task aktif" bgGradient="bg-gradient-to-br from-blue-700 to-blue-900" sparklineColor="#60a5fa" />
@@ -887,6 +995,16 @@ export default function ManHoursPage() {
           onSave={handleInlineSave}
           onCancel={() => setEditingRowId(null)}
           isSaving={editSaving}
+        />
+      )}
+
+      {/* ── Log Time Modal ── */}
+      {logTaskItem && (
+        <LogTimeModal
+          task={logTaskItem}
+          onSave={handleLogSubmit}
+          onCancel={() => setLogTaskItem(null)}
+          isSaving={logSaving}
         />
       )}
     </div>

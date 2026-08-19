@@ -39,23 +39,129 @@ export const getDailyTasks = async (req, res) => {
       include: {
         man_power: { select: { id: true, name: true, npk: true, position: true, sub_area: true, divisi: { select: { nama_divisi: true } } } },
         pabrik: { select: { id: true, nama_pabrik: true } },
-        created_by: { select: { id: true, name: true } }
+        created_by: { select: { id: true, name: true } },
+        task_logs: true
       },
       orderBy: [{ tanggal: 'desc' }, { createdAt: 'desc' }]
     });
 
-    // Hitung man_hours otomatis jika belum tersimpan
+    // Hitung man_hours otomatis jika belum tersimpan dan tambah dari task logs
     const result = tasks.map(t => {
-      let mh = t.man_hours;
-      if (!mh && t.waktu_mulai && t.waktu_selesai) {
+      let mh = t.man_hours || 0;
+      if (!t.man_hours && t.waktu_mulai && t.waktu_selesai) {
         mh = parseFloat(((new Date(t.waktu_selesai) - new Date(t.waktu_mulai)) / 3600000).toFixed(2));
       }
-      return { ...t, man_hours: mh };
+      if (t.task_logs && t.task_logs.length > 0) {
+        const logHours = t.task_logs.reduce((acc, log) => acc + (log.man_hours || 0), 0);
+        mh += logHours;
+      }
+      return { ...t, man_hours: mh === 0 ? null : parseFloat(mh.toFixed(2)) };
     });
 
     res.json(result);
   } catch (err) {
     console.error('getDailyTasks error:', err);
+    res.status(500).json({ error: err.message });
+  }
+};
+
+/**
+ * GET /api/daily-tasks/active
+ * Mendapatkan task yang berstatus 'In Progress' atau 'Open' untuk user yang login
+ */
+export const getActiveTasks = async (req, res) => {
+  try {
+    const userManPowerId = req.user?.man_power_id;
+    const userId = req.user?.id;
+    if (!userManPowerId && !userId) return res.json([]);
+
+    const activeTasks = await prisma.dailyTask.findMany({
+      where: {
+        status: { in: ['In Progress', 'Unassigned'] },
+        OR: [
+          { man_power_id: userManPowerId },
+          { created_by_id: userId }
+        ]
+      },
+      include: {
+        pabrik: { select: { id: true, nama_pabrik: true } },
+        task_logs: true
+      },
+      orderBy: { createdAt: 'desc' }
+    });
+
+    res.json(activeTasks);
+  } catch (err) {
+    console.error('getActiveTasks error:', err);
+    res.status(500).json({ error: err.message });
+  }
+};
+
+/**
+ * POST /api/daily-tasks/:id/log
+ * Tambah task log (logbook harian) ke parent task
+ */
+export const addTaskLog = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { tanggal, waktu_mulai, waktu_selesai, deskripsi_aktivitas } = req.body;
+    const userManPowerId = req.user?.man_power_id;
+
+    if (!userManPowerId) return res.status(403).json({ error: 'Anda tidak memiliki ManPower ID' });
+    if (!tanggal || !waktu_mulai || !waktu_selesai) return res.status(400).json({ error: 'Tanggal dan waktu harus diisi' });
+
+    const diff = new Date(waktu_selesai) - new Date(waktu_mulai);
+    if (diff <= 0) return res.status(400).json({ error: 'Waktu selesai harus lebih besar dari waktu mulai' });
+    
+    const man_hours = parseFloat((diff / 3600000).toFixed(2));
+
+    const existingTask = await prisma.dailyTask.findUnique({ where: { id: parseInt(id) } });
+    if (!existingTask) return res.status(404).json({ error: 'Parent task tidak ditemukan' });
+
+    const newLog = await prisma.taskLog.create({
+      data: {
+        daily_task_id: existingTask.id,
+        man_power_id: userManPowerId,
+        tanggal: new Date(tanggal),
+        waktu_mulai: new Date(waktu_mulai),
+        waktu_selesai: new Date(waktu_selesai),
+        man_hours,
+        deskripsi_aktivitas
+      }
+    });
+
+    // Otomatis ubah status parent ke In Progress jika masih Unassigned
+    if (existingTask.status === 'Unassigned') {
+      await prisma.dailyTask.update({
+        where: { id: existingTask.id },
+        data: { status: 'In Progress' }
+      });
+    }
+
+    res.status(201).json(newLog);
+  } catch (err) {
+    console.error('addTaskLog error:', err);
+    res.status(500).json({ error: err.message });
+  }
+};
+
+/**
+ * PUT /api/daily-tasks/:id/status
+ * Ubah status parent task (contoh: jadi 'Done')
+ */
+export const updateTaskStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+    if (!status) return res.status(400).json({ error: 'Status harus diisi' });
+
+    const updated = await prisma.dailyTask.update({
+      where: { id: parseInt(id) },
+      data: { status }
+    });
+    res.json(updated);
+  } catch (err) {
+    console.error('updateTaskStatus error:', err);
     res.status(500).json({ error: err.message });
   }
 };
