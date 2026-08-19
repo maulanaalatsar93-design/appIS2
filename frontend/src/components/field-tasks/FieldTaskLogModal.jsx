@@ -55,9 +55,9 @@ export default function FieldTaskLogModal({ task, manpowerList, onClose, onRefre
   const [editingAdviceId, setEditingAdviceId] = useState(null);
   const [adviceInputs, setAdviceInputs] = useState({});
 
-  const { user, api } = useContext(AuthContext);
-  const canAdvice = user?.role && ['avp', 'vp'].includes(user.role.toLowerCase());
-  const isPIC = user?.man_power_id === task.pic_id;
+   const { user } = useContext(AuthContext);
+   const canAdvice = user?.role && ['avp', 'vp'].includes(user.role.toLowerCase());
+   const isPIC = user?.man_power_id === task.pic_id;
   const canRevoke = isPIC || canAdvice;
 
   const handleUpdatePic = async () => {
