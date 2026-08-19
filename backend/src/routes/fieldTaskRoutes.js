@@ -11,7 +11,7 @@ import {
   removeMember, 
   updatePic 
 } from '../controllers/fieldTaskController.js';
-import { authenticate } from '../middleware/auth.js';
+import { authenticate } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
