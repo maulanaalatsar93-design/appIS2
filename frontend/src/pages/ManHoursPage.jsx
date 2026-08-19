@@ -136,6 +136,87 @@ function EditTimeModal({ row, onSave, onCancel, isSaving }) {
           </button>
         </div>
       </div>
+  );
+}
+
+// Tambah log waktu modal
+function LogTimeModal({ task, onSave, onCancel, isSaving }) {
+  const [tanggal, setTanggal] = useState(new Date().toISOString().split('T')[0]);
+  const [mulai, setMulai] = useState('');
+  const [selesai, setSelesai] = useState('');
+  const [deskripsi, setDeskripsi] = useState('');
+
+  const hitungMH = () => {
+    if (!mulai || !selesai) return null;
+    const diff = new Date(`2000-01-01T${selesai}`) - new Date(`2000-01-01T${mulai}`);
+    return diff > 0 ? (diff / 3600000).toFixed(2) : null;
+  };
+
+  if (!task) return null;
+
+  return (
+    <div className="fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+      <div className="bg-white rounded-xl shadow-2xl w-full max-w-md overflow-hidden">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+          <h2 className="text-lg font-bold text-gray-800 flex items-center gap-2">
+            <Clock className="w-5 h-5 text-green-600" /> Log Jam Kerja
+          </h2>
+          <button onClick={onCancel} className="text-gray-400 hover:text-gray-600 transition">
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+        <div className="p-5 space-y-4 bg-gray-50/50">
+          <div>
+            <p className="text-sm font-semibold text-gray-700">{task.wo_notif || task.code_referensi || 'Task Tanpa Ref'}</p>
+            <p className="text-xs text-gray-500 mt-1 line-clamp-2">{task.deskripsi_pekerjaan}</p>
+          </div>
+          
+          <div>
+            <label className="block text-xs font-semibold text-gray-600 mb-1">Tanggal Pekerjaan</label>
+            <input type="date" value={tanggal} onChange={e => setTanggal(e.target.value)}
+              className="w-full text-sm border border-gray-300 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-500" />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4 mt-2">
+            <div>
+              <label className="block text-xs font-semibold text-gray-600 mb-1">Jam Mulai</label>
+              <input type="time" value={mulai} onChange={e => setMulai(e.target.value)}
+                className="w-full text-sm border border-gray-300 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-500" />
+            </div>
+            <div>
+              <label className="block text-xs font-semibold text-gray-600 mb-1">Jam Selesai</label>
+              <input type="time" value={selesai} onChange={e => setSelesai(e.target.value)}
+                className="w-full text-sm border border-gray-300 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-500" />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-xs font-semibold text-gray-600 mb-1">Aktivitas Spesifik / Keterangan Tambahan</label>
+            <input type="text" placeholder="Cth: Mengukur dimensi poros..." value={deskripsi} onChange={e => setDeskripsi(e.target.value)}
+              className="w-full text-sm border border-gray-300 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-green-500" />
+          </div>
+          
+          {mulai && selesai && hitungMH() && (
+            <div className="bg-green-50 border border-green-100 text-green-800 px-4 py-3 rounded-lg text-sm flex items-center justify-between mt-2 shadow-sm">
+              <span className="font-medium">Total Man Hours:</span>
+              <span className="font-bold text-lg">{hitungMH()} <span className="text-sm font-normal">jam</span></span>
+            </div>
+          )}
+        </div>
+        <div className="px-5 py-4 border-t border-gray-100 flex gap-3 bg-white">
+          <button onClick={onCancel}
+            className="flex-1 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-semibold hover:bg-gray-200 transition">
+            Batal
+          </button>
+          <button
+            onClick={() => onSave(task.id, tanggal, mulai, selesai, deskripsi)}
+            disabled={isSaving || !tanggal || !mulai || !selesai}
+            className="flex-1 py-2 bg-green-600 text-white rounded-lg text-sm font-semibold hover:bg-green-700 disabled:opacity-50 transition flex items-center justify-center gap-2"
+          >
+            {isSaving ? 'Menyimpan...' : <><Save className="w-4 h-4" /> Simpan Log</>}
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
