@@ -9,6 +9,7 @@ import PublicDashboard from './PublicDashboard';
 import { getDashboardSummary, getManpowerList } from '../services/dashboardService';
 import ManPowerDashboard from '../components/dashboard/ManPowerDashboard';
 import ManHoursDashboard from '../components/dashboard/ManHoursDashboard';
+import FieldTaskDashboard from '../components/dashboard/FieldTaskDashboard';
 
 const WORK_CENTER_LABELS = {
   'D0179': 'D0179 - Inspeksi Rotating 1',
@@ -634,6 +635,15 @@ export default function InternalDashboard() {
             >
               Man Hours
             </button>
+            <button
+              onClick={() => setActiveTab('field_tasks')}
+              className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all duration-300 ${activeTab === 'field_tasks'
+                ? 'bg-gradient-to-br from-[#193B8F] to-[#0A1B3F] text-white shadow-md'
+                : 'text-gray-500 hover:text-[#193B8F] hover:bg-gray-50'
+                }`}
+            >
+              Field Tasks
+            </button>
           </div>
 
           <button
@@ -652,6 +662,10 @@ export default function InternalDashboard() {
 
       {activeTab === 'man_hours' && (
         <ManHoursDashboard />
+      )}
+
+      {activeTab === 'field_tasks' && (
+        <FieldTaskDashboard workCenter={workCenter} month={month} year={year} />
       )}
 
       {activeTab === 'overview' && (
