@@ -30,7 +30,10 @@ export const getAllTasks = async (req, res) => {
         pabrik: { select: { nama_pabrik: true } },
         pic: { select: { name: true, npk: true } },
         members: { include: { man_power: { select: { name: true } } } },
-        logs: { select: { man_hours: true } }
+        logs: { 
+          include: { man_power: { select: { name: true } } },
+          orderBy: { createdAt: 'desc' } 
+        }
       },
       orderBy: { createdAt: 'desc' }
     });
@@ -61,7 +64,10 @@ export const getMyTasks = async (req, res) => {
         pabrik: { select: { nama_pabrik: true } },
         pic: { select: { name: true, npk: true } },
         members: { include: { man_power: { select: { name: true } } } },
-        logs: { select: { man_hours: true } }
+        logs: { 
+          include: { man_power: { select: { name: true } } },
+          orderBy: { createdAt: 'desc' } 
+        }
       },
       orderBy: { createdAt: 'desc' }
     });
@@ -303,6 +309,24 @@ export const updatePic = async (req, res) => {
       data: { pic_id: parseInt(pic_id) }
     });
     res.json(task);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+/**
+ * PUT /api/field-tasks/logs/:logId/advice
+ */
+export const addLogAdvice = async (req, res) => {
+  try {
+    const { logId } = req.params;
+    const { advice } = req.body;
+    
+    const log = await prisma.fieldTaskLog.update({
+      where: { id: parseInt(logId) },
+      data: { advice }
+    });
+    res.json(log);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

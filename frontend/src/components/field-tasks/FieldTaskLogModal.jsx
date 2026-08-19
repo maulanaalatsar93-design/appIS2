@@ -51,6 +51,13 @@ export default function FieldTaskLogModal({ task, manpowerList, onClose, onRefre
   const [isEditingPic, setIsEditingPic] = useState(false);
   const [newPicId, setNewPicId] = useState(task.pic_id || '');
 
+  // Advice form state
+  const [editingAdviceId, setEditingAdviceId] = useState(null);
+  const [adviceInputs, setAdviceInputs] = useState({});
+
+  const { user, api } = useContext(AuthContext);
+  const canAdvice = user?.role && ['avp', 'vp'].includes(user.role.toLowerCase());
+
   const handleUpdatePic = async () => {
     if (!newPicId) return;
     try {
@@ -65,6 +72,28 @@ export default function FieldTaskLogModal({ task, manpowerList, onClose, onRefre
       } else {
         const data = await res.json();
         alert(`Gagal update PIC: ${data.message || 'Error'}`);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleSaveAdvice = async (logId) => {
+    const advice = adviceInputs[logId] || '';
+    try {
+      const res = await fetch(`${api}/api/field-tasks/logs/${logId}/advice`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify({ advice })
+      });
+      if (res.ok) {
+        setEditingAdviceId(null);
+        onRefresh();
+      } else {
+        alert('Gagal menyimpan advice');
       }
     } catch (err) {
       console.error(err);
@@ -304,6 +333,44 @@ export default function FieldTaskLogModal({ task, manpowerList, onClose, onRefre
                           {log.man_hours && (
                             <div className="mt-2 inline-flex items-center gap-1 bg-blue-50 text-blue-700 px-2 py-0.5 rounded text-xs font-semibold">
                               <Clock className="w-3 h-3" /> +{log.man_hours} jam
+                            </div>
+                          )}
+                          
+                          {/* Advice Section */}
+                          {(log.advice || canAdvice) && (
+                            <div className="mt-3 bg-orange-50 border border-orange-100 p-3 rounded-lg">
+                              <div className="flex justify-between items-start mb-1">
+                                <span className="text-xs font-bold text-orange-800">Advice Pimpinan</span>
+                                {canAdvice && editingAdviceId !== log.id && (
+                                  <button 
+                                    onClick={() => { setEditingAdviceId(log.id); setAdviceInputs({ ...adviceInputs, [log.id]: log.advice || '' }); }}
+                                    className="text-[10px] text-orange-600 font-bold hover:underline"
+                                  >
+                                    {log.advice ? 'Edit' : '+ Tambah'}
+                                  </button>
+                                )}
+                              </div>
+                              {editingAdviceId === log.id ? (
+                                <div className="mt-2 space-y-2">
+                                  <textarea
+                                    className="w-full text-xs border-orange-200 rounded focus:ring-orange-500 focus:border-orange-500 bg-white"
+                                    rows="2"
+                                    value={adviceInputs[log.id] || ''}
+                                    onChange={(e) => setAdviceInputs({ ...adviceInputs, [log.id]: e.target.value })}
+                                    placeholder="Tulis advice / arahan..."
+                                  />
+                                  <div className="flex justify-end gap-2">
+                                    <button onClick={() => setEditingAdviceId(null)} className="px-2 py-1 text-[10px] font-bold text-gray-500 hover:bg-gray-100 rounded">Batal</button>
+                                    <button onClick={() => handleSaveAdvice(log.id)} className="px-2 py-1 text-[10px] font-bold bg-orange-500 text-white hover:bg-orange-600 rounded">Simpan</button>
+                                  </div>
+                                </div>
+                              ) : (
+                                log.advice ? (
+                                  <p className="text-xs text-orange-700">{log.advice}</p>
+                                ) : (
+                                  <p className="text-[10px] text-orange-400 italic">Belum ada advice</p>
+                                )
+                              )}
                             </div>
                           )}
                         </div>
