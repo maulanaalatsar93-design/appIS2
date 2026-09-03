@@ -634,9 +634,18 @@ export const getDashboardSummary = async (req, res) => {
       }
     });
 
-    const availableYears = Array.from(yearSet).sort((a, b) => b - a);
-    const availableMonths = Array.from(monthSet).sort((a, b) => a - b);
-    const availableWorkCenters = Array.from(wcSet).sort();
+    const availableYears = [2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030];
+    const availableMonths = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+    
+    // Fetch global work centers to avoid empty dropdowns when no data in current month
+    const allWCs = await prisma.workOrder.findMany({ 
+      select: { work_center: true }, 
+      distinct: ['work_center'] 
+    });
+    const availableWorkCenters = allWCs
+      .map(w => w.work_center)
+      .filter(Boolean)
+      .sort();
 
     return res.status(200).json({
       kpi: {
