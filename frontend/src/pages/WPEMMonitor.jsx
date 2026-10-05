@@ -7,12 +7,14 @@ import {
 } from 'lucide-react';
 import ReactApexChart from 'react-apexcharts';
 import MemberParticipationTable from '../components/wpem/MemberParticipationTable';
+import ManpowerAvailabilityBoard from './ManpowerAvailabilityBoard';
 
 export default function WPEMMonitor() {
   const { token } = useContext(AuthContext);
   const [kpi, setKpi] = useState(null);
   const [loading, setLoading] = useState(true);
   const [lastUpdated, setLastUpdated] = useState(null);
+  const [activeTab, setActiveTab] = useState('kpi');
 
   const fetchKPI = async () => {
     setLoading(true);
@@ -110,35 +112,55 @@ export default function WPEMMonitor() {
 
   return (
     <div className="p-6 w-full max-w-none space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
+      {/* Header & Tabs */}
+      <div className="flex flex-col space-y-4 md:flex-row md:items-center md:justify-between md:space-y-0">
         <div>
-          <h1 className="text-2xl font-display font-bold text-ink">KPI Monitor — WPEM</h1>
-          <p className="text-gray-500 text-sm mt-1">Dashboard monitoring real-time untuk Supervisor, AVP, dan VP. Auto-refresh setiap 60 detik.</p>
+          <h1 className="text-2xl font-display font-bold text-ink">Monitoring Work Programs & Personel</h1>
+          <p className="text-gray-500 text-sm mt-1">Dashboard KPI, partisipasi anggota, dan kalender ketersediaan manpower.</p>
         </div>
-        <div className="flex items-center space-x-3">
-          {lastUpdated && <p className="text-xs text-gray-500">Update: {lastUpdated.toLocaleTimeString('id-ID')}</p>}
-          <button onClick={fetchKPI} disabled={loading}
-            className="flex items-center space-x-2 bg-white border border-gray-200 hover:bg-slate-50 text-ink px-4 py-2 rounded-lg text-sm font-medium shadow-sm-subtle">
-            <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
-            <span>Refresh</span>
+        <div className="flex items-center bg-slate-100 p-1 rounded-lg border border-slate-200">
+          <button
+            onClick={() => setActiveTab('kpi')}
+            className={`px-4 py-2 text-sm font-semibold rounded-md transition-colors ${activeTab === 'kpi' ? 'bg-white text-industrial-blue shadow-sm' : 'text-slate-600 hover:text-ink hover:bg-slate-200'}`}
+          >
+            Dashboard KPI & Partisipasi
+          </button>
+          <button
+            onClick={() => setActiveTab('calendar')}
+            className={`px-4 py-2 text-sm font-semibold rounded-md transition-colors ${activeTab === 'calendar' ? 'bg-white text-industrial-blue shadow-sm' : 'text-slate-600 hover:text-ink hover:bg-slate-200'}`}
+          >
+            Kalender Manpower
           </button>
         </div>
       </div>
 
-      {/* KPI Widget Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-        {widgetCards.map(w => (
-          <div key={w.label} className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm-subtle hover:shadow-md transition-shadow">
-            <div className={`w-9 h-9 ${w.bg} rounded-xl flex items-center justify-center mb-3`}>
-              <w.icon className={`w-5 h-5 ${w.iconColor}`} />
+      {activeTab === 'kpi' && (
+        <div className="space-y-6">
+          <div className="flex items-center justify-between">
+            <h2 className="text-lg font-bold text-ink">KPI Monitor — WPEM</h2>
+            <div className="flex items-center space-x-3">
+              {lastUpdated && <p className="text-xs text-gray-500">Update: {lastUpdated.toLocaleTimeString('id-ID')}</p>}
+              <button onClick={fetchKPI} disabled={loading}
+                className="flex items-center space-x-2 bg-white border border-gray-200 hover:bg-slate-50 text-ink px-4 py-2 rounded-lg text-sm font-medium shadow-sm-subtle">
+                <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+                <span>Refresh</span>
+              </button>
             </div>
-            <p className="text-2xl font-display font-bold text-ink">{w.value}</p>
-            <p className="text-[10px] font-semibold text-gray-500 mt-0.5">{w.label}</p>
-            <p className="text-[9px] text-gray-500 mt-0.5">{w.sub}</p>
           </div>
-        ))}
-      </div>
+
+          {/* KPI Widget Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            {widgetCards.map(w => (
+              <div key={w.label} className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm-subtle hover:shadow-md transition-shadow">
+                <div className={`w-9 h-9 ${w.bg} rounded-xl flex items-center justify-center mb-3`}>
+                  <w.icon className={`w-5 h-5 ${w.iconColor}`} />
+                </div>
+                <p className="text-2xl font-display font-bold text-ink">{w.value}</p>
+                <p className="text-[10px] font-semibold text-gray-500 mt-0.5">{w.label}</p>
+                <p className="text-[9px] text-gray-500 mt-0.5">{w.sub}</p>
+              </div>
+            ))}
+          </div>
 
       {/* Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -211,6 +233,14 @@ export default function WPEMMonitor() {
       
       {/* Member Participation Table */}
       <MemberParticipationTable />
+    </div>
+  )}
+
+      {activeTab === 'calendar' && (
+        <div className="-mx-6 -mb-6">
+          <ManpowerAvailabilityBoard />
+        </div>
+      )}
     </div>
   );
 }
