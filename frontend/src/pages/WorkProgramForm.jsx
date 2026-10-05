@@ -10,7 +10,7 @@ export default function WorkProgramForm({ onBack, onSaved }) {
 
   const [form, setForm] = useState({
     title: '', plant: '', area: '', work_package: '',
-    department: 'Inspeksi Teknik 2', start_date: '', end_date: '',
+    department: 'Inspeksi Teknik 2', category: '', start_date: '', end_date: '',
     estimated_duration: '', notes: '',
     is_urgent_bypass: false, bypass_reason: ''
   });
@@ -187,6 +187,17 @@ export default function WorkProgramForm({ onBack, onSaved }) {
                   className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-industrial-blue" />
               </div>
             ))}
+            <div>
+              <label className="block text-xs font-semibold text-ink mb-1.5">Kategori Program</label>
+              <select name="category" value={form.category} onChange={handleChange}
+                className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-industrial-blue">
+                <option value="">Pilih Kategori...</option>
+                <option value="TA Internal">TA Internal</option>
+                <option value="TA JVC">TA JVC</option>
+                <option value="SDI">SDI</option>
+                <option value="CP">CP</option>
+              </select>
+            </div>
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <label className="block text-xs font-semibold text-ink mb-1.5">Tgl Mulai</label>

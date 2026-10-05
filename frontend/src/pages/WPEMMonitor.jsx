@@ -6,6 +6,7 @@ import {
   RefreshCw
 } from 'lucide-react';
 import ReactApexChart from 'react-apexcharts';
+import MemberParticipationTable from '../components/wpem/MemberParticipationTable';
 
 export default function WPEMMonitor() {
   const { token } = useContext(AuthContext);
@@ -207,6 +208,9 @@ export default function WPEMMonitor() {
           ))}
         </div>
       </div>
+      
+      {/* Member Participation Table */}
+      <MemberParticipationTable />
     </div>
   );
 }

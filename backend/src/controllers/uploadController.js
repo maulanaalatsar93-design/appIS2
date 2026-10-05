@@ -136,14 +136,26 @@ const parseFile = (filePath, originalName) => {
 };
 
 export const uploadWorkOrders = async (req, res) => {
-  if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
+  let results = [];
+  
+  if (req.body && Array.isArray(req.body.data)) {
+    results = req.body.data;
+  } else if (req.file) {
+    try {
+      results = await parseFile(req.file.path, req.file.originalname);
+    } catch (err) {
+      if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
+      return res.status(500).json({ error: 'Gagal memproses file' });
+    }
+  } else {
+    return res.status(400).json({ error: 'No file or data provided' });
+  }
 
   let insertedCount = 0;
   let updatedCount = 0;
   let failCount = 0;
 
   try {
-    const results = await parseFile(req.file.path, req.file.originalname);
     const BATCH_SIZE = 500; // Bulk: satu query untuk 500 baris
 
     for (let i = 0; i < results.length; i += BATCH_SIZE) {
@@ -268,7 +280,20 @@ export const uploadWorkOrders = async (req, res) => {
 
 
 export const uploadRecommendations = async (req, res) => {
-  if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
+  let results = [];
+  
+  if (req.body && Array.isArray(req.body.data)) {
+    results = req.body.data;
+  } else if (req.file) {
+    try {
+      results = await parseFile(req.file.path, req.file.originalname);
+    } catch (err) {
+      if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
+      return res.status(500).json({ error: 'Gagal memproses file' });
+    }
+  } else {
+    return res.status(400).json({ error: 'No file or data provided' });
+  }
 
   let insertedCount = 0;
   let updatedCount = 0;
@@ -276,8 +301,7 @@ export const uploadRecommendations = async (req, res) => {
   let skippedCount = 0; // baris kosong total dari SAP export (header/footer/subtotal)
 
   try {
-    const results = await parseFile(req.file.path, req.file.originalname);
-    console.log(`[Rekomendasi Upload] Total rows parsed from file: ${results.length}`);
+    console.log(`[Rekomendasi Upload] Total rows parsed: ${results.length}`);
     const BATCH_SIZE = 500; // Bulk batch — satu query untuk 500 baris
 
     // === PRE-FILTER: Buang baris kosong/invalid sebelum batch loop ===

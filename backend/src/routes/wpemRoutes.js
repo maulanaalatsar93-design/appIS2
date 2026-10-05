@@ -23,7 +23,8 @@ import {
   reviewItem,
   getMyWorkCube,
   getKPI,
-  assignPlt
+  assignPlt,
+  getMemberParticipation
 } from '../controllers/wpemController.js';
 
 const router = express.Router();
@@ -33,8 +34,9 @@ router.use(protect);
 router.get('/availability', getAvailability);
 router.get('/approvers', getWPEMApprovers);
 
-// KPI Dashboard
+// KPI Dashboard & Member Participation
 router.get('/kpi', getKPI);
+router.get('/member-participation', getMemberParticipation);
 
 // My Work Cube (personal items)
 router.get('/my-cube', getMyWorkCube);

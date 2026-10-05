@@ -306,7 +306,7 @@ export const getProgramById = async (req, res) => {
 export const createProgram = async (req, res) => {
   try {
     const {
-      title, plant, area, work_package, department,
+      title, plant, area, work_package, department, category,
       start_date, end_date, estimated_duration,
       coordinator_id, members, approvers, notes,
       is_urgent_bypass, bypass_reason
@@ -325,7 +325,7 @@ export const createProgram = async (req, res) => {
       // 1. Create Program
       const newProgram = await tx.workProgram.create({
         data: {
-          title, plant, area, work_package, department, notes,
+          title, plant, area, work_package, department, category, notes,
           start_date: new Date(start_date),
           end_date: new Date(end_date),
           estimated_duration: estimated_duration ? parseInt(estimated_duration) : null,
@@ -1176,5 +1176,55 @@ export const getKPI = async (req, res) => {
   } catch (error) {
     console.error('Error in getKPI:', error);
     res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+export const getMemberParticipation = async (req, res) => {
+  try {
+    const manpower = await prisma.manPower.findMany({
+      where: { is_active: true },
+      select: {
+        id: true,
+        name: true,
+        npk: true,
+        position: true,
+        divisi: { select: { nama_divisi: true } },
+        wp_memberships: {
+          select: {
+            program: {
+              select: {
+                category: true
+              }
+            }
+          }
+        }
+      }
+    });
+
+    const result = manpower.map(mp => {
+      const stats = { 'TA Internal': 0, 'TA JVC': 0, 'SDI': 0, 'CP': 0 };
+      mp.wp_memberships.forEach(membership => {
+        const cat = membership.program?.category;
+        if (cat) {
+          if (stats[cat] !== undefined) {
+            stats[cat]++;
+          } else {
+            stats[cat] = 1;
+          }
+        }
+      });
+      return {
+        id: mp.id,
+        name: mp.name,
+        npk: mp.npk,
+        position: mp.position,
+        divisi: mp.divisi?.nama_divisi || '-',
+        stats
+      };
+    });
+    res.json(result);
+  } catch (error) {
+    console.error('Error fetching member participation:', error);
+    res.status(500).json({ error: 'Terjadi kesalahan pada server' });
   }
 };

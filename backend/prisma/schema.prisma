@@ -257,6 +257,7 @@ model WorkProgram {
   area               String?
   work_package       String?
   department         String?
+  category           String?   // TA Internal, TA JVC, SDI, CP, etc.
   start_date         DateTime
   end_date           DateTime
   estimated_duration Int? // in days
