@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { format, addMonths, subMonths, startOfMonth, endOfMonth, eachDayOfInterval, isSameDay, parseISO, startOfWeek, endOfWeek, isSameMonth } from 'date-fns';
 import { id as idLocale } from 'date-fns/locale';
 import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, AlertTriangle, Zap, RefreshCw, Play, CheckCircle2, Users } from 'lucide-react';
+import { AuthContext } from '../../context/AuthContext';
 
 
 const STATUS_STYLE = {
@@ -15,6 +16,7 @@ const STATUS_STYLE = {
 };
 
 export default function PdmCalendar() {
+  const { user, isAdmin } = useContext(AuthContext);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [occurrences, setOccurrences] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -27,7 +29,7 @@ export default function PdmCalendar() {
 
   const api = import.meta.env.VITE_API_URL || 'http://localhost:5000';
   const token = localStorage.getItem('token');
-  const headers = { Authorization: `Bearer ${token}` };
+  const headers = { ...(token ? { Authorization: `Bearer ${token}` } : {}) };
 
   useEffect(() => { fetchOccurrences(); }, [currentDate, filterPabrik, filterStatus, filterCriticality, filterSubArea]);
   useEffect(() => { fetchPabriks(); }, []);
@@ -129,9 +131,11 @@ export default function PdmCalendar() {
             <option value="NON_CRITICAL">Non Critical</option>
           </select>
 
-          <button onClick={handleGenerate} className="flex items-center gap-1.5 px-3 py-2 bg-blue-50 text-blue-700 border border-blue-200 rounded-lg text-sm hover:bg-blue-100 transition">
-            <Zap className="w-4 h-4" /> Generate
-          </button>
+          {isAdmin && (
+            <button onClick={handleGenerate} className="flex items-center gap-1.5 px-3 py-2 bg-blue-50 text-blue-700 border border-blue-200 rounded-lg text-sm hover:bg-blue-100 transition cursor-pointer">
+              <Zap className="w-4 h-4" /> Generate
+            </button>
+          )}
 
           {/* Month nav */}
           <div className="flex items-center bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm">
@@ -233,19 +237,19 @@ export default function PdmCalendar() {
                       <span className="px-1.5 py-0.5 rounded bg-blue-50 text-navy-600">{occ.rule?.equipmentCat}</span>
                     </div>
                     {/* Action Buttons */}
-                    {occ.status === 'ASSIGNED' && (
+                    {user && occ.status === 'ASSIGNED' && (
                       <button onClick={() => handleAction('start', occ.id)}
                         className="w-full flex items-center justify-center gap-1.5 py-1.5 bg-amber-500 text-ink rounded-lg text-xs font-medium hover:bg-amber-600 transition">
                         <Play className="w-3 h-3" /> Mulai Kerjakan
                       </button>
                     )}
-                    {occ.status === 'ON_HOLD' && (
+                    {user && occ.status === 'ON_HOLD' && (
                       <button onClick={() => handleAction('start', occ.id)}
                         className="w-full flex items-center justify-center gap-1.5 py-1.5 bg-navy-600 text-white rounded-lg text-xs font-medium hover:bg-navy-950 transition">
                         <Play className="w-3 h-3" /> Lanjutkan
                       </button>
                     )}
-                    {['IN_PROGRESS','ASSIGNED','ON_HOLD'].includes(occ.status) && (
+                    {user && ['IN_PROGRESS','ASSIGNED','ON_HOLD'].includes(occ.status) && (
                       <button onClick={() => handleAction('complete', occ.id)}
                         className="w-full flex items-center justify-center gap-1.5 py-1.5 bg-green-500 text-ink rounded-lg text-xs font-medium hover:bg-green-600 transition">
                         <CheckCircle2 className="w-3 h-3" /> Selesaikan

@@ -1027,6 +1027,9 @@ export const reviewItem = async (req, res) => {
 export const getMyWorkCube = async (req, res) => {
   try {
     const userId = req.user?.id;
+    if (!userId) {
+      return res.json([]);
+    }
 
     // Find the ManPower linked to this User
     const userWithMp = await prisma.user.findUnique({

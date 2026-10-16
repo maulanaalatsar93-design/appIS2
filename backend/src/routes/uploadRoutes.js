@@ -2,7 +2,7 @@ import express from 'express';
 import multer from 'multer';
 import os from 'os';
 import { uploadWorkOrders, uploadRecommendations, clearWorkOrders, clearRecommendations, getUploadHistory } from '../controllers/uploadController.js';
-import { authenticateToken } from '../middleware/authMiddleware.js';
+import { authenticateToken, optionalAuth } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 const upload = multer({ dest: os.tmpdir() });
@@ -14,6 +14,6 @@ router.post('/recommendations', authenticateToken, upload.single('file'), upload
 router.delete('/workorders', authenticateToken, clearWorkOrders);
 router.delete('/recommendations', authenticateToken, clearRecommendations);
 
-router.get('/history', authenticateToken, getUploadHistory);
+router.get('/history', optionalAuth, getUploadHistory);
 
 export default router;

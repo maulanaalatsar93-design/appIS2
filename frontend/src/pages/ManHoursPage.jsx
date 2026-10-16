@@ -237,7 +237,7 @@ export default function ManHoursPage() {
 
   const api = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
   const token = localStorage.getItem('token');
-  const headers = { Authorization: `Bearer ${token}` };
+  const headers = { ...(token ? { Authorization: `Bearer ${token}` } : {}) };
 
   const buildParams = () => {
     const p = new URLSearchParams({ month, year });
@@ -428,6 +428,7 @@ export default function ManHoursPage() {
 
   // Cek apakah baris bisa diedit user ini
   const canEditRow = (row) => {
+    if (!user) return false;
     if (!row.source || (row.source !== 'DailyTask' && row.source !== 'PdmActivity')) return false;
     if (isAdmin) return true;
     if (isAnggota && String(row.man_power_id) === String(userManPowerId)) return true;
@@ -519,10 +520,12 @@ export default function ManHoursPage() {
             className="flex items-center gap-1.5 px-3 py-2 bg-gray-100 text-gray-700 border border-gray-200 rounded-lg text-sm hover:bg-gray-200 transition">
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} /> Refresh
           </button>
-          <button onClick={() => setShowForm(true)}
-            className="flex items-center gap-1.5 px-3 py-2 bg-green-600 text-ink rounded-lg text-sm hover:bg-green-700 transition">
-            <Plus className="w-3.5 h-3.5" /> Tambah Aktivitas
-          </button>
+          {user && (
+            <button onClick={() => setShowForm(true)}
+              className="flex items-center gap-1.5 px-3 py-2 bg-green-600 text-ink rounded-lg text-sm hover:bg-green-700 transition">
+              <Plus className="w-3.5 h-3.5" /> Tambah Aktivitas
+            </button>
+          )}
           <button onClick={exportCsv}
             className="flex items-center gap-1.5 px-3 py-2 bg-navy-600 text-white rounded-lg text-sm hover:bg-navy-950 transition">
             <Download className="w-3.5 h-3.5" /> Export CSV
@@ -690,7 +693,7 @@ export default function ManHoursPage() {
       )}
 
       {/* ── PEKERJAAN AKTIF (ACTIVE TASKS) ── */}
-      {activeTasks.length > 0 && (
+      {user && activeTasks.length > 0 && (
         <div className="mb-6">
           <h2 className="text-sm font-bold text-gray-700 mb-3 flex items-center gap-1.5">
             <span className="relative flex h-2.5 w-2.5">

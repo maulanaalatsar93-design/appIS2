@@ -16,7 +16,7 @@ export default function ManpowerPlanningDetail({ planId, onBack, onUpdated }) {
     setLoading(true);
     try {
       const res = await fetch(`${(import.meta.env.VITE_API_URL || '').replace(/\/$/, '')}/api/manpower-plans/${planId}`, {
-        headers: { 'Authorization': `Bearer ${token}` }
+        headers: { ...(token ? { 'Authorization': `Bearer ${token}` } : {}) }
       });
       if (res.ok) {
         setPlan(await res.json());
@@ -77,8 +77,8 @@ export default function ManpowerPlanningDetail({ planId, onBack, onUpdated }) {
   if (!plan) return <div className="p-6 text-center text-red-500 font-medium">Rencana tidak ditemukan.</div>;
 
   // Check if current user is an approver and it's their turn
-  const pendingApproval = plan.approvals.find(a => a.approverId === user?.id && a.status === 'Pending');
-  const canApprove = pendingApproval && (
+  const pendingApproval = user ? plan.approvals?.find(a => a.approverId === user.id && a.status === 'Pending') : null;
+  const canApprove = Boolean(pendingApproval) && (
     (pendingApproval.role === 'AVP' && plan.status === 'Waiting AVP Approval') || 
     (pendingApproval.role === 'VP' && plan.status === 'Waiting VP Approval')
   );

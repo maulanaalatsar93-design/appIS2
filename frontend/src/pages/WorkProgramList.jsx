@@ -17,7 +17,7 @@ const STATUS_BADGE = {
 };
 
 export default function WorkProgramList() {
-  const { token } = useContext(AuthContext);
+  const { token, user } = useContext(AuthContext);
   const [view, setView] = useState('list'); // list | form | detail
   const [selectedId, setSelectedId] = useState(null);
   const [programs, setPrograms] = useState([]);
@@ -28,7 +28,7 @@ export default function WorkProgramList() {
     setLoading(true);
     try {
       const res = await fetch((import.meta.env.VITE_API_URL || '').replace(/\/$/, '') + '/api/wpem/programs', {
-        headers: { 'Authorization': `Bearer ${token}` }
+        headers: { ...(token ? { 'Authorization': `Bearer ${token}` } : {}) }
       });
       if (res.ok) setPrograms(await res.json());
     } catch (e) { console.error(e); }
@@ -59,11 +59,13 @@ export default function WorkProgramList() {
           <h1 className="text-2xl font-display font-bold text-ink">Work Programs</h1>
           <p className="text-gray-500 text-sm mt-1">Kelola perencanaan manpower, alur approval, dan eksekusi program pabrik.</p>
         </div>
-        <button onClick={() => setView('form')}
-          className="flex items-center space-x-2 bg-navy-600 hover:bg-navy-950 text-white px-4 py-2.5 rounded-lg text-sm font-semibold transition-all shadow-sm">
-          <Plus className="w-4 h-4" />
-          <span>Buat Program</span>
-        </button>
+        {user && (
+          <button onClick={() => setView('form')}
+            className="flex items-center space-x-2 bg-navy-600 hover:bg-navy-950 text-white px-4 py-2.5 rounded-lg text-sm font-semibold transition-all shadow-sm">
+            <Plus className="w-4 h-4" />
+            <span>Buat Program</span>
+          </button>
+        )}
       </div>
 
       {/* Stats */}

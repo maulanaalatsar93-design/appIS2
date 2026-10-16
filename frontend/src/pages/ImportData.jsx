@@ -6,6 +6,7 @@ import {
   Plus, RotateCcw, ChevronRight
 } from 'lucide-react';
 import { UploadContext } from '../context/UploadContext';
+import { AuthContext } from '../context/AuthContext';
 import WorkOrderList from './WorkOrderList';
 import RekomendasiList from './RekomendasiList';
 
@@ -322,6 +323,7 @@ function ErrorReview({ result, resetUpload }) {
 
 // ─── MAIN COMPONENT ───────────────────────────────────────────────────────────
 export default function ImportData() {
+  const { user } = useContext(AuthContext);
   const {
     activeTab, setActiveTab,
     file, setFile,
@@ -359,6 +361,7 @@ export default function ImportData() {
   }, [activeTab, viewMode]);
 
   const handleClearData = async () => {
+    if (!user) { alert('Anda harus login untuk menghapus data'); return; }
     if (!clearDate) { alert('Pilih tanggal upload terlebih dahulu'); return; }
     if (!confirm(`Apakah Anda yakin ingin menghapus data ${activeTab === 'workorders' ? 'Work Order' : 'Rekomendasi'} yang diupload pada tanggal ${clearDate}?`)) return;
     setIsClearing(true);
@@ -414,6 +417,28 @@ export default function ImportData() {
       {/* Content */}
       {viewMode === 'upload' ? (
         <div className="space-y-6">
+          {!user && (
+            <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-lg bg-amber-100 flex items-center justify-center flex-shrink-0 text-amber-600">
+                  <Shield className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="text-sm font-bold text-amber-900">Mode Tamu (Read-Only)</h4>
+                  <p className="text-xs text-amber-700 mt-0.5">
+                    Unggah dan penghapusan data SAP dinonaktifkan untuk tamu. Silakan beralih ke tab <b>Display Data Work Order</b> atau <b>Display Data Rekomendasi</b> untuk melihat data, atau login dengan akun Anda.
+                  </p>
+                </div>
+              </div>
+              <a
+                href="/login"
+                className="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold rounded-lg transition-colors flex-shrink-0 shadow-sm whitespace-nowrap"
+              >
+                Login Akun
+              </a>
+            </div>
+          )}
+
           <div className="bg-white border border-gray-200 rounded-b-card shadow-sm-subtle overflow-hidden">
             {/* Pilihan Jenis Data - Form Option */}
             {!isReviewing && (
@@ -452,9 +477,15 @@ export default function ImportData() {
                       <p className="text-xs text-gray-500 mb-6">
                         Pilih file ekstrak SAP berformat .csv atau .xlsx untuk memperbarui database ({activeTab === 'workorders' ? 'Work Order' : 'Rekomendasi'}).
                       </p>
-                      <button onClick={() => fileInputRef.current?.click()} className="px-5 py-2.5 bg-navy-600 text-white text-xs font-bold rounded-lg hover:bg-industrial-navy transition-colors cursor-pointer">
-                        Browse File
-                      </button>
+                      {user ? (
+                        <button onClick={() => fileInputRef.current?.click()} className="px-5 py-2.5 bg-navy-600 text-white text-xs font-bold rounded-lg hover:bg-industrial-navy transition-colors cursor-pointer">
+                          Browse File
+                        </button>
+                      ) : (
+                        <button disabled className="px-5 py-2.5 bg-slate-200 text-slate-500 text-xs font-bold rounded-lg cursor-not-allowed">
+                          Login untuk Unggah File
+                        </button>
+                      )}
                     </>
                   ) : (
                     <>
@@ -522,8 +553,9 @@ export default function ImportData() {
                     </select>
                   )}
                 </div>
-                <button onClick={handleClearData} disabled={isClearing || !clearDate}
-                  className="px-4 py-2 bg-white border border-industrial-red text-industrial-red text-sm font-bold rounded-lg hover:bg-industrial-red hover:text-ink transition-colors disabled:opacity-50 flex items-center gap-2 cursor-pointer mt-5 md:mt-0">
+                <button onClick={handleClearData} disabled={!user || isClearing || !clearDate}
+                  title={!user ? 'Login untuk menghapus data' : ''}
+                  className="px-4 py-2 bg-white border border-industrial-red text-industrial-red text-sm font-bold rounded-lg hover:bg-industrial-red hover:text-ink transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 cursor-pointer mt-5 md:mt-0">
                   {isClearing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
                   Hapus Data
                 </button>

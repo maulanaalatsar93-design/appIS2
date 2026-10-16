@@ -66,7 +66,7 @@ export default function ManpowerAvailabilityBoard() {
       if (filters.status !== 'All') params.append('status', filters.status);
 
       const res = await fetch(`${(import.meta.env.VITE_API_URL || '').replace(/\/$/, '')}/api/wpem/availability?${params}`, {
-        headers: { 'Authorization': `Bearer ${token}` }
+        headers: { ...(token ? { 'Authorization': `Bearer ${token}` } : {}) }
       });
       if (res.ok) {
         setData(await res.json());
@@ -524,12 +524,14 @@ export default function ManpowerAvailabilityBoard() {
                                     <li key={cert.id} className="text-[10px] flex flex-col gap-1 bg-red-50 p-1.5 rounded border border-red-100">
                                       <div className="flex items-center justify-between">
                                         <span className="font-semibold truncate max-w-[150px]" title={cert.nama_sertifikat}>{cert.nama_sertifikat}</span>
-                                        <button 
-                                          onClick={() => handleIgnoreCert(cert.id)}
-                                          className="text-[9px] font-bold bg-white text-gray-500 px-1.5 py-0.5 rounded shadow-sm hover:bg-slate-100 transition-colors"
-                                        >
-                                          Abaikan
-                                        </button>
+                                        {user && (
+                                          <button 
+                                            onClick={() => handleIgnoreCert(cert.id)}
+                                            className="text-[9px] font-bold bg-white text-gray-500 px-1.5 py-0.5 rounded shadow-sm hover:bg-slate-100 transition-colors"
+                                          >
+                                            Abaikan
+                                          </button>
+                                        )}
                                       </div>
                                       <span className="text-red-500 text-[9px]">Exp: {new Date(cert.tanggal_berakhir).toLocaleDateString('id-ID')}</span>
                                     </li>

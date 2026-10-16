@@ -34,7 +34,7 @@ export default function SertifikasiPersonel() {
     try {
       setLoading(true);
       const token = localStorage.getItem('token');
-      const headers = { 'Authorization': `Bearer ${token}` };
+      const headers = { ...(token ? { 'Authorization': `Bearer ${token}` } : {}) };
 
       const [sertRes, mpRes] = await Promise.all([
         fetch(import.meta.env.VITE_API_URL + '/api/sertifikasi', { headers }),
@@ -280,13 +280,15 @@ export default function SertifikasiPersonel() {
             Kelola dan pantau masa berlaku sertifikasi kompetensi personel
           </p>
         </div>
-        <button
-          onClick={() => openModal()}
-          className="flex items-center gap-2 px-4 py-2 bg-navy-600 hover:bg-navy-950 text-white rounded-lg font-medium transition-colors shadow-sm"
-        >
-          <Plus size={18} />
-          <span>Tambah Data</span>
-        </button>
+        {user && (
+          <button
+            onClick={() => openModal()}
+            className="flex items-center gap-2 px-4 py-2 bg-navy-600 hover:bg-navy-950 text-white rounded-lg font-medium transition-colors shadow-sm"
+          >
+            <Plus size={18} />
+            <span>Tambah Data</span>
+          </button>
+        )}
       </div>
 
       <div className="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
@@ -444,7 +446,7 @@ export default function SertifikasiPersonel() {
                                 <XCircle size={16} />
                               </button>
                             </>
-                          ) : (
+                          ) : user ? (
                             <>
                               <button
                                 onClick={() => openModal(item)}
@@ -461,6 +463,8 @@ export default function SertifikasiPersonel() {
                                 <Trash2 size={16} />
                               </button>
                             </>
+                          ) : (
+                            <span className="text-[11px] text-gray-400 italic">Lihat</span>
                           )}
                         </div>
                       </td>

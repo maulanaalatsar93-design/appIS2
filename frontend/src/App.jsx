@@ -23,9 +23,9 @@ import PerformanceKillerPage from './pages/PerformanceKillerPage';
 import FieldTaskPage from './pages/FieldTaskPage';
 import { Loader2 } from 'lucide-react';
 
-// Route guard: redirect ke /login jika belum login
+// Route guard: hanya menunggu auth loading, izinkan tamu (read-only) melihat fitur tanpa login
 const ProtectedRoute = ({ children }) => {
-  const { user, loading } = useContext(AuthContext);
+  const { loading } = useContext(AuthContext);
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-industrial-background">
@@ -33,11 +33,10 @@ const ProtectedRoute = ({ children }) => {
       </div>
     );
   }
-  if (!user) return <Navigate to="/login" replace />;
   return children;
 };
 
-// Route hanya untuk tamu — redirect ke / jika sudah login
+// Route hanya untuk tamu login — redirect ke / jika sudah login
 const GuestRoute = ({ children }) => {
   const { user, loading } = useContext(AuthContext);
   if (loading) {
@@ -51,10 +50,9 @@ const GuestRoute = ({ children }) => {
   return children;
 };
 
-// Dashboard root: public kalau belum login, internal kalau sudah
+// Dashboard root: tampilkan InternalDashboard (dapat dilihat oleh semua, aksi dibatasi)
 const DashboardRoot = () => {
-  const { user } = useContext(AuthContext);
-  return user ? <InternalDashboard /> : <PublicDashboard />;
+  return <InternalDashboard />;
 };
 
 export default function App() {

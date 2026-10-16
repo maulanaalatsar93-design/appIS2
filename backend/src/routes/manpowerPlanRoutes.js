@@ -1,5 +1,5 @@
 import express from 'express';
-import { protect } from '../middleware/authMiddleware.js';
+import { protect, optionalAuth } from '../middleware/authMiddleware.js';
 import {
   getPlans,
   getPlanById,
@@ -11,14 +11,11 @@ import {
 
 const router = express.Router();
 
-// Apply auth middleware to all routes
-router.use(protect);
-
-router.get('/availability', checkAvailability);
-router.get('/approvers', getApprovers);
-router.get('/', getPlans);
-router.get('/:id', getPlanById);
-router.post('/', createPlan);
-router.post('/:id/approval', processApproval);
+router.get('/availability', optionalAuth, checkAvailability);
+router.get('/approvers', optionalAuth, getApprovers);
+router.get('/', optionalAuth, getPlans);
+router.get('/:id', optionalAuth, getPlanById);
+router.post('/', protect, createPlan);
+router.post('/:id/approval', protect, processApproval);
 
 export default router;

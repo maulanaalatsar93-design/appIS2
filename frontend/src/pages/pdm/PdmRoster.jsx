@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useContext } from 'react';
 import { Users, Edit3, X, Save, ChevronRight, AlertCircle, CheckCircle2, Calendar, RefreshCw, Copy } from 'lucide-react';
+import { AuthContext } from '../../context/AuthContext';
 
 const MONTH_NAMES = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des'];
 const MONTH_FULL  = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
@@ -428,9 +429,11 @@ function PicCell({ pics, onEdit }) {
     return (
       <div className="flex items-center justify-between gap-2 group">
         <span className="text-gray-300 italic text-xs">Belum diset</span>
-        <button onClick={onEdit} className="opacity-0 group-hover:opacity-100 p-1 rounded text-navy-600 hover:bg-blue-50 transition">
-          <Edit3 className="w-3 h-3" />
-        </button>
+        {onEdit && (
+          <button onClick={onEdit} className="opacity-0 group-hover:opacity-100 p-1 rounded text-navy-600 hover:bg-blue-50 transition cursor-pointer">
+            <Edit3 className="w-3 h-3" />
+          </button>
+        )}
       </div>
     );
   }
@@ -443,15 +446,18 @@ function PicCell({ pics, onEdit }) {
           </span>
         ))}
       </div>
-      <button onClick={onEdit} className="opacity-0 group-hover:opacity-100 p-1 rounded text-navy-600 hover:bg-blue-50 transition shrink-0">
-        <Edit3 className="w-3 h-3" />
-      </button>
+      {onEdit && (
+        <button onClick={onEdit} className="opacity-0 group-hover:opacity-100 p-1 rounded text-navy-600 hover:bg-blue-50 transition shrink-0 cursor-pointer">
+          <Edit3 className="w-3 h-3" />
+        </button>
+      )}
     </div>
   );
 }
 
 // ── Halaman Utama ──────────────────────────────────────────────────────────
 export default function PdmRoster() {
+  const { user, isAdmin } = useContext(AuthContext);
   const now = new Date();
   const [year, setYear] = useState(now.getFullYear());
   const [month, setMonth] = useState(now.getMonth() + 1);
@@ -465,7 +471,7 @@ export default function PdmRoster() {
 
   const api     = import.meta.env.VITE_API_URL || 'http://localhost:5000';
   const token   = localStorage.getItem('token');
-  const headers = { Authorization: `Bearer ${token}` };
+  const headers = { ...(token ? { Authorization: `Bearer ${token}` } : {}) };
 
   useEffect(() => { fetchRoster(); }, [year, month]);
   useEffect(() => { fetchManpowers(); }, []);
@@ -581,7 +587,7 @@ export default function PdmRoster() {
                       <td className="px-4 py-3.5">
                         <PicCell
                           pics={p.criticalPicsSummary}
-                          onEdit={() => setEditTarget({ pabrikEntry: p, criticality: 'CRITICAL' })}
+                          onEdit={isAdmin ? () => setEditTarget({ pabrikEntry: p, criticality: 'CRITICAL' }) : undefined}
                         />
                       </td>
                     </tr>
@@ -615,7 +621,7 @@ export default function PdmRoster() {
                       <td className="px-4 py-3.5">
                         <PicCell
                           pics={p.nonCriticalPicsSummary}
-                          onEdit={() => setEditTarget({ pabrikEntry: p, criticality: 'NON_CRITICAL' })}
+                          onEdit={isAdmin ? () => setEditTarget({ pabrikEntry: p, criticality: 'NON_CRITICAL' }) : undefined}
                         />
                       </td>
                     </tr>

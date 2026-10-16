@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useContext } from 'react';
 import { PlusCircle, Edit, Trash2, Calendar, Settings, Zap, UserCog, X, RefreshCw, ChevronRight, Cpu } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { AuthContext } from '../../context/AuthContext';
 
 const monthNames = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des'];
 
@@ -231,6 +232,7 @@ function GenerateModal({ rule, api, headers, onClose, onGenerated }) {
 }
 
 export default function PdmScheduleRules() {
+  const { user, isAdmin } = useContext(AuthContext);
   const [rules, setRules] = useState([]);
   const [pabriks, setPabriks] = useState([]);
   const [manpowers, setManpowers] = useState([]);
@@ -246,7 +248,7 @@ export default function PdmScheduleRules() {
 
   const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
   const token = localStorage.getItem('token');
-  const headers = { Authorization: `Bearer ${token}` };
+  const headers = { ...(token ? { Authorization: `Bearer ${token}` } : {}) };
 
   useEffect(() => { fetchData(); fetchPabriks(); fetchManpowers(); }, []);
 
@@ -368,16 +370,18 @@ export default function PdmScheduleRules() {
             Aturan Master Schedule
           </h2>
         </div>
-        <div className="flex flex-wrap gap-3">
-          <button onClick={() => setShowGenerateAll(true)}
-            className="flex items-center justify-center gap-2 px-4 py-2 bg-white border border-gray-200 text-gray-700 rounded-[12px] hover:bg-gray-50 transition-colors text-[14px] font-medium shadow-sm">
-            <Zap className="w-4 h-4 text-emerald-600" /> Generate Semua
-          </button>
-          <button onClick={() => { resetForm(); setEditingId(null); setIsFormOpen(true); }}
-            className="flex items-center justify-center gap-2 px-4 py-2 bg-navy-600 text-white rounded-[12px] shadow-sm hover:bg-navy-950 transition-colors text-[14px] font-medium">
-            <PlusCircle className="w-4 h-4" /> Tambah Aturan
-          </button>
-        </div>
+        {isAdmin && (
+          <div className="flex flex-wrap gap-3">
+            <button onClick={() => setShowGenerateAll(true)}
+              className="flex items-center justify-center gap-2 px-4 py-2 bg-white border border-gray-200 text-gray-700 rounded-[12px] hover:bg-gray-50 transition-colors text-[14px] font-medium shadow-sm">
+              <Zap className="w-4 h-4 text-emerald-600" /> Generate Semua
+            </button>
+            <button onClick={() => { resetForm(); setEditingId(null); setIsFormOpen(true); }}
+              className="flex items-center justify-center gap-2 px-4 py-2 bg-navy-600 text-white rounded-[12px] shadow-sm hover:bg-navy-950 transition-colors text-[14px] font-medium">
+              <PlusCircle className="w-4 h-4" /> Tambah Aturan
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Rules List */}
@@ -392,7 +396,7 @@ export default function PdmScheduleRules() {
                   <th className="px-6 py-3 font-medium">Jadwal</th>
                   <th className="px-6 py-3 font-medium">Default PIC</th>
                   <th className="px-6 py-3 font-medium text-center">Status</th>
-                  <th className="px-6 py-3 font-medium text-right">Aksi</th>
+                  {isAdmin && <th className="px-6 py-3 font-medium text-right">Aksi</th>}
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50 text-[14px]">
@@ -401,7 +405,7 @@ export default function PdmScheduleRules() {
                     <React.Fragment key={group.groupName}>
                       {/* Separator Row */}
                       <tr className={group.groupName === 'PPHS & OSBL' ? 'bg-indigo-50 border-y border-indigo-100' : 'bg-gray-100/70 border-y border-gray-200'}>
-                        <td colSpan="6" className="px-6 py-2.5">
+                        <td colSpan={isAdmin ? 6 : 5} className="px-6 py-2.5">
                           <span className={`text-[13px] font-bold ${group.groupName === 'PPHS & OSBL' ? 'text-indigo-700' : 'text-gray-700'}`}>
                             {group.groupName}
                           </span>
@@ -458,26 +462,28 @@ export default function PdmScheduleRules() {
                               {r.isActive ? 'Aktif' : 'Inaktif'}
                             </span>
                           </td>
-                          <td className="px-6 py-4 text-right">
-                            <div className="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                              <button onClick={() => setPicOverrideRule(r)} title="Override PIC Bulan Ini"
-                                className="p-1.5 text-gray-400 hover:text-navy-600 hover:bg-gray-100 rounded-[8px] transition-colors">
-                                <UserCog className="w-4 h-4" />
-                              </button>
-                              <button onClick={() => setGenerateRule(r)} title="Generate Jadwal"
-                                className="p-1.5 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-[8px] transition-colors">
-                                <Zap className="w-4 h-4" />
-                              </button>
-                              <button onClick={() => handleEdit(r)} title="Edit Rule"
-                                className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-[8px] transition-colors">
-                                <Edit className="w-4 h-4" />
-                              </button>
-                              <button onClick={() => handleDelete(r.id)} title="Hapus Rule"
-                                className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-[8px] transition-colors">
-                                <Trash2 className="w-4 h-4" />
-                              </button>
-                            </div>
-                          </td>
+                          {isAdmin && (
+                            <td className="px-6 py-4 text-right">
+                              <div className="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <button onClick={() => setPicOverrideRule(r)} title="Override PIC Bulan Ini"
+                                  className="p-1.5 text-gray-400 hover:text-navy-600 hover:bg-gray-100 rounded-[8px] transition-colors">
+                                  <UserCog className="w-4 h-4" />
+                                </button>
+                                <button onClick={() => setGenerateRule(r)} title="Generate Jadwal"
+                                  className="p-1.5 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-[8px] transition-colors">
+                                  <Zap className="w-4 h-4" />
+                                </button>
+                                <button onClick={() => handleEdit(r)} title="Edit Rule"
+                                  className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-[8px] transition-colors">
+                                  <Edit className="w-4 h-4" />
+                                </button>
+                                <button onClick={() => handleDelete(r.id)} title="Hapus Rule"
+                                  className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-[8px] transition-colors">
+                                  <Trash2 className="w-4 h-4" />
+                                </button>
+                              </div>
+                            </td>
+                          )}
                         </tr>
                       ))}
                     </React.Fragment>

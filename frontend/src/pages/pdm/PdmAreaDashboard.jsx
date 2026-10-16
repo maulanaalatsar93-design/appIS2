@@ -230,7 +230,7 @@ export default function PdmAreaDashboard() {
 
   const api = import.meta.env.VITE_API_URL || 'http://localhost:5000';
   const token = localStorage.getItem('token');
-  const headers = { Authorization: `Bearer ${token}` };
+  const headers = { ...(token ? { Authorization: `Bearer ${token}` } : {}) };
 
   useEffect(() => { fetchData(); }, [month, year]);
 

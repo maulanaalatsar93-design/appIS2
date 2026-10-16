@@ -3,10 +3,10 @@ import { X, Send, UserPlus, Clock, MessageSquare, Check, UserMinus, Camera, Tras
 import { AuthContext } from '../../context/AuthContext';
 
 export default function FieldTaskLogModal({ task, manpowerList, onClose, onRefresh }) {
-  const { auth, isAdmin } = useContext(AuthContext);
+  const { auth, isAdmin, user } = useContext(AuthContext);
   const token = localStorage.getItem('token');
   const api = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-  const headers = { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' };
+  const headers = { ...(token ? { 'Authorization': `Bearer ${token}` } : {}), 'Content-Type': 'application/json' };
 
   const [activeTab, setActiveTab] = useState('update'); // 'update' | 'team'
   const [loading, setLoading] = useState(false);
@@ -55,9 +55,8 @@ export default function FieldTaskLogModal({ task, manpowerList, onClose, onRefre
   const [editingAdviceId, setEditingAdviceId] = useState(null);
   const [adviceInputs, setAdviceInputs] = useState({});
 
-   const { user } = useContext(AuthContext);
-   const canAdvice = user?.role && ['avp', 'vp'].includes(user.role.toLowerCase());
-   const isPIC = user?.man_power_id === task.pic_id;
+  const canAdvice = user?.role && ['avp', 'vp'].includes(user.role.toLowerCase());
+  const isPIC = user?.man_power_id === task.pic_id;
   const canRevoke = isPIC || canAdvice;
 
   const handleUpdatePic = async () => {
@@ -261,79 +260,96 @@ export default function FieldTaskLogModal({ task, manpowerList, onClose, onRefre
           {activeTab === 'update' && (
             <div className="space-y-6">
               {/* Form Input Log */}
-              <form onSubmit={submitLog} className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm space-y-4">
-                <h4 className="text-sm font-bold text-gray-800 flex items-center gap-2">
-                  <MessageSquare className="w-4 h-4 text-navy-600" /> Tulis Update / Catatan
-                </h4>
-                
-                <div>
-                  <textarea 
-                    required rows="3" value={catatan} onChange={e => setCatatan(e.target.value)}
-                    placeholder="Contoh: Sudah mengganti seal dan pengetesan aman. Lanjut besok untuk finishing..."
-                    className="w-full text-sm border-gray-300 rounded-lg focus:ring-navy-500 focus:border-navy-500 bg-gray-50"
-                  ></textarea>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
+              {user ? (
+                <form onSubmit={submitLog} className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm space-y-4">
+                  <h4 className="text-sm font-bold text-gray-800 flex items-center gap-2">
+                    <MessageSquare className="w-4 h-4 text-navy-600" /> Tulis Update / Catatan
+                  </h4>
+                  
                   <div>
-                    <label className="block text-xs font-semibold text-gray-600 mb-1">Mulai Kerja (Opsional)</label>
-                    <input 
-                      type="datetime-local" value={waktuMulai} onChange={e => setWaktuMulai(e.target.value)}
-                      className="w-full text-sm border-gray-300 rounded-lg focus:ring-navy-500 focus:border-navy-500" 
-                    />
+                    <textarea 
+                      required rows="3" value={catatan} onChange={e => setCatatan(e.target.value)}
+                      placeholder="Contoh: Sudah mengganti seal dan pengetesan aman. Lanjut besok untuk finishing..."
+                      className="w-full text-sm border-gray-300 rounded-lg focus:ring-navy-500 focus:border-navy-500 bg-gray-50"
+                    ></textarea>
                   </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-gray-600 mb-1">Selesai Kerja (Opsional)</label>
-                    <input 
-                      type="datetime-local" value={waktuSelesai} onChange={e => setWaktuSelesai(e.target.value)}
-                      className="w-full text-sm border-gray-300 rounded-lg focus:ring-navy-500 focus:border-navy-500" 
-                    />
-                  </div>
-                </div>
-                <p className="text-[10px] text-gray-500 italic">* Jika jam diisi, otomatis tercatat ke <b>Man Hours</b> harian Anda.</p>
 
-                <div>
-                  <label className="block text-xs font-semibold text-gray-600 mb-1">Foto Bukti (Opsional)</label>
-                  {!fotoBase64 ? (
-                    <label className="flex items-center justify-center w-full p-4 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition">
-                      <div className="flex flex-col items-center">
-                        <Camera className="w-5 h-5 text-gray-400 mb-1" />
-                        <span className="text-xs text-gray-500 font-medium">Upload Foto</span>
-                      </div>
-                      <input type="file" accept="image/*" className="hidden" onChange={handleFotoChange} />
-                    </label>
-                  ) : (
-                    <div className="relative inline-block">
-                      <img src={fotoBase64} alt="Preview" className="h-32 rounded-lg border border-gray-200 shadow-sm object-cover" />
-                      <button 
-                        type="button" 
-                        onClick={() => setFotoBase64('')}
-                        className="absolute -top-2 -right-2 p-1.5 bg-red-500 text-white rounded-full hover:bg-red-600 shadow-sm"
-                      >
-                        <X className="w-3.5 h-3.5" />
-                      </button>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-semibold text-gray-600 mb-1">Mulai Kerja (Opsional)</label>
+                      <input 
+                        type="datetime-local" value={waktuMulai} onChange={e => setWaktuMulai(e.target.value)}
+                        className="w-full text-sm border-gray-300 rounded-lg focus:ring-navy-500 focus:border-navy-500" 
+                      />
                     </div>
-                  )}
-                </div>
-
-                <div className="flex justify-between items-center pt-2 border-t border-gray-100">
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm font-semibold text-gray-600">Update Status:</span>
-                    <select 
-                      value={statusUpdate} onChange={e => setStatusUpdate(e.target.value)}
-                      className="text-sm border-gray-300 rounded-lg focus:ring-navy-500 py-1.5"
-                    >
-                      <option value="Open">Open</option>
-                      <option value="In Progress">In Progress</option>
-                      <option value="Hold">Hold</option>
-                      <option value="Done">Done</option>
-                    </select>
+                    <div>
+                      <label className="block text-xs font-semibold text-gray-600 mb-1">Selesai Kerja (Opsional)</label>
+                      <input 
+                        type="datetime-local" value={waktuSelesai} onChange={e => setWaktuSelesai(e.target.value)}
+                        className="w-full text-sm border-gray-300 rounded-lg focus:ring-navy-500 focus:border-navy-500" 
+                      />
+                    </div>
                   </div>
-                  <button type="submit" disabled={loading} className="px-5 py-2 bg-navy-600 text-white rounded-lg text-sm font-bold shadow-sm hover:bg-navy-700 disabled:opacity-50">
-                    {loading ? 'Menyimpan...' : 'Kirim Update'}
-                  </button>
+                  <p className="text-[10px] text-gray-500 italic">* Jika jam diisi, otomatis tercatat ke <b>Man Hours</b> harian Anda.</p>
+
+                  <div>
+                    <label className="block text-xs font-semibold text-gray-600 mb-1">Foto Bukti (Opsional)</label>
+                    {!fotoBase64 ? (
+                      <label className="flex items-center justify-center w-full p-4 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition">
+                        <div className="flex flex-col items-center">
+                          <Camera className="w-5 h-5 text-gray-400 mb-1" />
+                          <span className="text-xs text-gray-500 font-medium">Upload Foto</span>
+                        </div>
+                        <input type="file" accept="image/*" className="hidden" onChange={handleFotoChange} />
+                      </label>
+                    ) : (
+                      <div className="relative inline-block">
+                        <img src={fotoBase64} alt="Preview" className="h-32 rounded-lg border border-gray-200 shadow-sm object-cover" />
+                        <button 
+                          type="button" 
+                          onClick={() => setFotoBase64('')}
+                          className="absolute -top-2 -right-2 p-1.5 bg-red-500 text-white rounded-full hover:bg-red-600 shadow-sm"
+                        >
+                          <X className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="flex justify-between items-center pt-2 border-t border-gray-100">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-semibold text-gray-600">Update Status:</span>
+                      <select 
+                        value={statusUpdate} onChange={e => setStatusUpdate(e.target.value)}
+                        className="text-sm border-gray-300 rounded-lg focus:ring-navy-500 py-1.5"
+                      >
+                        <option value="Open">Open</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Hold">Hold</option>
+                        <option value="Done">Done</option>
+                      </select>
+                    </div>
+                    <button type="submit" disabled={loading} className="px-5 py-2 bg-navy-600 text-white rounded-lg text-sm font-bold shadow-sm hover:bg-navy-700 disabled:opacity-50">
+                      {loading ? 'Menyimpan...' : 'Kirim Update'}
+                    </button>
+                  </div>
+                </form>
+              ) : (
+                <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm">
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-lg bg-amber-100 flex items-center justify-center flex-shrink-0 text-amber-600 font-bold">
+                      🔒
+                    </div>
+                    <div>
+                      <h5 className="text-xs font-bold text-amber-900">Mode Tamu (Read-Only)</h5>
+                      <p className="text-[11px] text-amber-700">Login untuk menulis update progress pekerjaan atau mengunggah bukti foto.</p>
+                    </div>
+                  </div>
+                  <a href="/login" className="px-3.5 py-1.5 bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold rounded-lg transition-colors shadow-sm whitespace-nowrap">
+                    Login
+                  </a>
                 </div>
-              </form>
+              )}
 
               {/* Timeline Update */}
               <div className="space-y-4">
@@ -441,7 +457,7 @@ export default function FieldTaskLogModal({ task, manpowerList, onClose, onRefre
             <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm space-y-4">
               <div className="flex justify-between items-center">
                 <h4 className="text-sm font-bold text-gray-800">PIC Utama</h4>
-                {!isEditingPic && (
+                {user && !isEditingPic && (
                   <button onClick={() => setIsEditingPic(true)} className="text-xs text-navy-600 font-semibold hover:underline">
                     Ubah PIC
                   </button>
@@ -486,24 +502,26 @@ export default function FieldTaskLogModal({ task, manpowerList, onClose, onRefre
 
               <h4 className="text-sm font-bold text-gray-800 pt-4 border-t border-gray-100">Anggota Tim</h4>
               
-              <div className="flex gap-2 pb-2">
-                <select 
-                  value={newMemberId} onChange={e => setNewMemberId(e.target.value)}
-                  className="flex-1 text-sm border-gray-300 rounded-lg focus:ring-navy-500 focus:border-navy-500"
-                >
-                  <option value="">-- Pilih Man Power --</option>
-                  {manpowerList && manpowerList.map(mp => (
-                    <option key={mp.id} value={mp.id}>{mp.name} - {mp.position}</option>
-                  ))}
-                </select>
-                <button 
-                  onClick={handleAddMember}
-                  disabled={!newMemberId || addingMember}
-                  className="px-4 py-2 bg-navy-600 text-white rounded-lg text-sm font-bold shadow-sm hover:bg-navy-700 disabled:opacity-50"
-                >
-                  Tambah
-                </button>
-              </div>
+              {user && (
+                <div className="flex gap-2 pb-2">
+                  <select 
+                    value={newMemberId} onChange={e => setNewMemberId(e.target.value)}
+                    className="flex-1 text-sm border-gray-300 rounded-lg focus:ring-navy-500 focus:border-navy-500"
+                  >
+                    <option value="">-- Pilih Man Power --</option>
+                    {manpowerList && manpowerList.map(mp => (
+                      <option key={mp.id} value={mp.id}>{mp.name} - {mp.position}</option>
+                    ))}
+                  </select>
+                  <button 
+                    onClick={handleAddMember}
+                    disabled={!newMemberId || addingMember}
+                    className="px-4 py-2 bg-navy-600 text-white rounded-lg text-sm font-bold shadow-sm hover:bg-navy-700 disabled:opacity-50"
+                  >
+                    Tambah
+                  </button>
+                </div>
+              )}
 
               <div className="space-y-2">
                 {task.members && task.members.length > 0 ? (
@@ -516,9 +534,11 @@ export default function FieldTaskLogModal({ task, manpowerList, onClose, onRefre
                           <p className="text-xs text-gray-500">{m.man_power?.position}</p>
                         </div>
                       </div>
-                      <button onClick={() => handleRemoveMember(m.man_power_id)} className="text-red-500 hover:bg-red-50 p-1.5 rounded-lg transition" title="Hapus Anggota">
-                        <UserMinus className="w-4 h-4" />
-                      </button>
+                      {user && canRevoke && (
+                        <button onClick={() => handleRemoveMember(m.man_power_id)} className="text-red-500 hover:bg-red-50 p-1.5 rounded-lg transition" title="Hapus Anggota">
+                          <UserMinus className="w-4 h-4" />
+                        </button>
+                      )}
                     </div>
                   ))
                 ) : (

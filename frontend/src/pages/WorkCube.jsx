@@ -15,15 +15,22 @@ const STATUS_CONFIG = {
 };
 
 export default function WorkCube() {
-  const { token } = useContext(AuthContext);
+  const { token, user } = useContext(AuthContext);
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedItemId, setSelectedItemId] = useState(null);
 
   const fetchMyCube = async () => {
+    if (!token) {
+      setItems([]);
+      setLoading(false);
+      return;
+    }
     setLoading(true);
     try {
-      const res = await fetch((import.meta.env.VITE_API_URL || '').replace(/\/$/, '') + '/api/wpem/my-cube', { headers: { 'Authorization': `Bearer ${token}` } });
+      const res = await fetch((import.meta.env.VITE_API_URL || '').replace(/\/$/, '') + '/api/wpem/my-cube', {
+        headers: { ...(token ? { 'Authorization': `Bearer ${token}` } : {}) }
+      });
       if (res.ok) setItems(await res.json());
     } catch (e) { console.error(e); }
     setLoading(false);
@@ -66,6 +73,22 @@ export default function WorkCube() {
       {loading ? (
         <div className="flex items-center justify-center h-48">
           <Loader2 className="w-8 h-8 animate-spin text-industrial-blue" />
+        </div>
+      ) : !user ? (
+        <div className="flex flex-col items-center justify-center p-12 text-gray-500 bg-white border border-gray-200 rounded-2xl shadow-sm text-center">
+          <div className="w-16 h-16 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center mb-4">
+            <ClipboardList className="w-8 h-8" />
+          </div>
+          <h3 className="font-bold text-gray-800 text-lg font-display">Mode Tamu (Read-Only)</h3>
+          <p className="text-sm mt-1 text-gray-500 max-w-md">
+            Work Cube menampilkan daftar tugas personal yang ditugaskan kepada Anda. Silakan login dengan akun Anda untuk melihat dan memperbarui tugas harian.
+          </p>
+          <a
+            href="/login"
+            className="mt-5 px-5 py-2.5 bg-navy-600 text-white text-xs font-bold rounded-xl hover:bg-navy-950 transition-colors shadow-sm"
+          >
+            Login Akun
+          </a>
         </div>
       ) : items.length === 0 ? (
         <div className="flex flex-col items-center justify-center h-64 text-gray-500 bg-white border border-gray-200 rounded-lg">

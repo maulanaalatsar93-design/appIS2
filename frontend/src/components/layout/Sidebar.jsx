@@ -5,7 +5,7 @@ import {
   LayoutDashboard, Users, UploadCloud,
   ChevronLeft, ChevronRight, CalendarClock,
   ClipboardList, BarChart3, BarChart2, Briefcase, Shield, Settings, TableProperties, Clock, AlertOctagon,
-  Search, Plus, Folder, FileText, Wrench
+  Search, Plus, Folder, FileText, Wrench, Eye, LogIn
 } from 'lucide-react';
 import logoImg from '../../assets/logo.png';
 import brandIconImg from '../../assets/brand-icon.png';
@@ -49,7 +49,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed, isMobileMenuOpen,
             { path: '/pdm/tasks',    label: 'Task Board',    icon: ClipboardList },
             { path: '/pdm/man-hours', label: 'Aktivitas Harian', icon: Clock },
             { path: '/pdm/field-tasks', label: 'Program Pekerjaan', icon: Wrench },
-            isAdmin ? { path: '/pdm/rules', label: 'Master Schedule', icon: Settings } : null,
+            { path: '/pdm/rules', label: 'Master Schedule', icon: Settings },
           ].filter(Boolean)
         }
       ]
@@ -217,6 +217,28 @@ export default function Sidebar({ isCollapsed, setIsCollapsed, isMobileMenuOpen,
               </div>
             ))}
           </div>
+
+          {!user && (
+            <div className="p-3 mx-3 mb-4 bg-amber-50/90 border border-amber-200 rounded-xl text-xs shrink-0">
+              <div className="flex items-center gap-1.5 font-bold text-amber-800">
+                <Eye className="w-3.5 h-3.5 text-amber-600" />
+                <span>Mode Tamu (Read-Only)</span>
+              </div>
+              <p className="text-[11px] text-amber-700 mt-1 leading-snug">
+                Anda dapat melihat seluruh fitur. Silakan login jika ingin merubah data.
+              </p>
+              <button
+                onClick={() => {
+                  navigate('/login');
+                  if (window.innerWidth < 768) setIsMobileMenuOpen(false);
+                }}
+                className="mt-2 w-full py-1.5 bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-bold text-[11px] transition shadow-xs flex items-center justify-center gap-1.5"
+              >
+                <LogIn className="w-3 h-3" />
+                <span>Login Akun</span>
+              </button>
+            </div>
+          )}
 
         </div>
         </aside>

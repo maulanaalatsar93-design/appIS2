@@ -8,12 +8,12 @@ import equipmentData from '../data/equipmentData.json';
 import FieldTaskLogModal from '../components/field-tasks/FieldTaskLogModal';
 
 export default function FieldTaskPage() {
-  const { auth, isAdmin } = useContext(AuthContext);
+  const { auth, isAdmin, user } = useContext(AuthContext);
   const token = localStorage.getItem('token');
   const api = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-  const headers = { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' };
+  const headers = { ...(token ? { 'Authorization': `Bearer ${token}` } : {}), 'Content-Type': 'application/json' };
 
-  const [activeTab, setActiveTab] = useState(isAdmin ? 'all' : 'my'); // 'all' or 'my'
+  const [activeTab, setActiveTab] = useState(isAdmin || !user ? 'all' : 'my'); // 'all' or 'my'
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [statusFilter, setStatusFilter] = useState('All');
@@ -125,18 +125,20 @@ export default function FieldTaskPage() {
             Kelola dan pantau pekerjaan lapangan secara terstruktur. Update progres akan otomatis masuk ke Man Hours.
           </p>
         </div>
-        <button 
-          onClick={() => setShowCreateModal(true)}
-          className="px-4 py-2 bg-navy-600 text-white rounded-xl text-sm font-semibold hover:bg-navy-700 transition flex items-center gap-2 shadow-sm"
-        >
-          <Plus className="w-4 h-4" /> Buat Pekerjaan
-        </button>
+        {user && (
+          <button 
+            onClick={() => setShowCreateModal(true)}
+            className="px-4 py-2 bg-navy-600 text-white rounded-xl text-sm font-semibold hover:bg-navy-700 transition flex items-center gap-2 shadow-sm"
+          >
+            <Plus className="w-4 h-4" /> Buat Pekerjaan
+          </button>
+        )}
       </div>
 
       {/* Tabs & Filters */}
       <div className="flex flex-col sm:flex-row justify-between items-center gap-4 bg-white p-3 rounded-xl shadow-sm border border-gray-100">
         <div className="flex bg-gray-100 p-1 rounded-lg w-full sm:w-auto">
-          {isAdmin && (
+          {(isAdmin || !user) && (
             <button 
               onClick={() => setActiveTab('all')}
               className={`flex-1 sm:flex-none px-4 py-1.5 rounded-md text-sm font-semibold transition ${activeTab === 'all' ? 'bg-white text-navy-700 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
@@ -144,12 +146,14 @@ export default function FieldTaskPage() {
               Semua Tugas
             </button>
           )}
-          <button 
-            onClick={() => setActiveTab('my')}
-            className={`flex-1 sm:flex-none px-4 py-1.5 rounded-md text-sm font-semibold transition ${activeTab === 'my' ? 'bg-white text-navy-700 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
-          >
-            Tugas Saya
-          </button>
+          {user && (
+            <button 
+              onClick={() => setActiveTab('my')}
+              className={`flex-1 sm:flex-none px-4 py-1.5 rounded-md text-sm font-semibold transition ${activeTab === 'my' ? 'bg-white text-navy-700 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+            >
+              Tugas Saya
+            </button>
+          )}
         </div>
 
         <div className="flex items-center gap-2 w-full sm:w-auto">

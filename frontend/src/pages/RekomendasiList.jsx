@@ -23,7 +23,7 @@ export default function RekomendasiList({ isEmbedded = false }) {
 
       const response = await fetch(`${import.meta.env.VITE_API_URL}/api/recommendations?${queryParams}`, {
         headers: {
-          'Authorization': `Bearer ${token}`
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {})
         }
       });
       const data = await response.json();
@@ -53,7 +53,7 @@ export default function RekomendasiList({ isEmbedded = false }) {
       const token = localStorage.getItem('token');
       const response = await fetch(`${import.meta.env.VITE_API_URL}/api/recommendations/${id}`, {
         headers: {
-          'Authorization': `Bearer ${token}`
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {})
         }
       });
       const data = await response.json();

@@ -900,9 +900,9 @@ export const getNotifications = async (req, res) => {
     return res.json(shofwan);
   }
   try {
-    const user = req.user; // from authenticateToken middleware
+    const user = req.user;
     if (!user || !user.id) {
-      return res.status(401).json({ message: 'Unauthorized' });
+      return res.json([]);
     }
 
     const notifications = [];

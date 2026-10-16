@@ -5,6 +5,7 @@ import {
   Activity, MapPin, Maximize2, Minimize2
 } from 'lucide-react';
 import Chart from 'react-apexcharts';
+import { useAuth } from '../../context/AuthContext';
 
 const STATUS_COLOR = {
   SCHEDULED:   { bg: 'bg-gray-50',   text: 'text-gray-500',   dot: '#6B7280', label: 'Scheduled' },
@@ -16,7 +17,7 @@ const STATUS_COLOR = {
   CANCELLED:   { bg: 'bg-gray-200',  text: 'text-gray-500',  dot: '#9AA3B2', label: 'Cancelled' },
 };
 
-function OccurrenceModal({ occ, onClose, onAction, api, headers }) {
+function OccurrenceModal({ occ, onClose, onAction, api, headers, user }) {
   const [history, setHistory] = useState([]);
   const [loadingHistory, setLoadingHistory] = useState(false);
   const [tab, setTab] = useState('info');
@@ -93,29 +94,35 @@ function OccurrenceModal({ occ, onClose, onAction, api, headers }) {
                 </div>
               )}
               <div className="flex flex-wrap gap-2 pt-2 border-t border-gray-100">
-                {occ.status === 'ASSIGNED' && (
-                  <button onClick={() => { onAction('start', occ.id); onClose(); }}
-                    className="flex items-center gap-1.5 px-4 py-2 bg-amber-500 text-ink rounded-lg text-sm font-medium hover:bg-amber-600 transition">
-                    <Activity className="w-3.5 h-3.5" /> Mulai Kerjakan
-                  </button>
-                )}
-                {occ.status === 'IN_PROGRESS' && (
+                {user ? (
                   <>
-                    <button onClick={() => { onAction('hold', occ.id); onClose(); }}
-                      className="flex items-center gap-1.5 px-4 py-2 bg-orange-100 text-orange-700 border border-orange-200 rounded-lg text-sm font-medium hover:bg-orange-200 transition">
-                      Hold
-                    </button>
-                    <button onClick={() => { onAction('complete', occ.id); onClose(); }}
-                      className="flex items-center gap-1.5 px-4 py-2 bg-green-500 text-ink rounded-lg text-sm font-medium hover:bg-green-600 transition">
-                      <CheckCircle2 className="w-3.5 h-3.5" /> Selesaikan
-                    </button>
+                    {occ.status === 'ASSIGNED' && (
+                      <button onClick={() => { onAction('start', occ.id); onClose(); }}
+                        className="flex items-center gap-1.5 px-4 py-2 bg-amber-500 text-ink rounded-lg text-sm font-medium hover:bg-amber-600 transition">
+                        <Activity className="w-3.5 h-3.5" /> Mulai Kerjakan
+                      </button>
+                    )}
+                    {occ.status === 'IN_PROGRESS' && (
+                      <>
+                        <button onClick={() => { onAction('hold', occ.id); onClose(); }}
+                          className="flex items-center gap-1.5 px-4 py-2 bg-orange-100 text-orange-700 border border-orange-200 rounded-lg text-sm font-medium hover:bg-orange-200 transition">
+                          Hold
+                        </button>
+                        <button onClick={() => { onAction('complete', occ.id); onClose(); }}
+                          className="flex items-center gap-1.5 px-4 py-2 bg-green-500 text-ink rounded-lg text-sm font-medium hover:bg-green-600 transition">
+                          <CheckCircle2 className="w-3.5 h-3.5" /> Selesaikan
+                        </button>
+                      </>
+                    )}
+                    {['ASSIGNED','IN_PROGRESS','ON_HOLD'].includes(occ.status) && (
+                      <button onClick={() => { onAction('complete', occ.id); onClose(); }}
+                        className="flex items-center gap-1.5 px-4 py-2 bg-green-50 text-green-700 border border-green-200 rounded-lg text-sm font-medium hover:bg-green-100 transition ml-auto">
+                        <CheckCircle2 className="w-3.5 h-3.5" /> Tandai Selesai
+                      </button>
+                    )}
                   </>
-                )}
-                {['ASSIGNED','IN_PROGRESS','ON_HOLD'].includes(occ.status) && (
-                  <button onClick={() => { onAction('complete', occ.id); onClose(); }}
-                    className="flex items-center gap-1.5 px-4 py-2 bg-green-50 text-green-700 border border-green-200 rounded-lg text-sm font-medium hover:bg-green-100 transition ml-auto">
-                    <CheckCircle2 className="w-3.5 h-3.5" /> Tandai Selesai
-                  </button>
+                ) : (
+                  <p className="text-xs text-gray-500 italic">Login untuk melakukan tindakan pada task ini.</p>
                 )}
               </div>
             </div>
@@ -145,6 +152,7 @@ function OccurrenceModal({ occ, onClose, onAction, api, headers }) {
 }
 
 export default function PdmDashboard() {
+  const { user } = useAuth();
   const [stats, setStats] = useState(null);
   const [occurrences, setOccurrences] = useState([]);
   const [completionByPabrik, setCompletionByPabrik] = useState([]);
@@ -174,7 +182,7 @@ export default function PdmDashboard() {
 
   const api = import.meta.env.VITE_API_URL || 'http://localhost:5000';
   const token = localStorage.getItem('token');
-  const headers = { Authorization: `Bearer ${token}` };
+  const headers = { ...(token ? { Authorization: `Bearer ${token}` } : {}) };
 
   useEffect(() => { fetchAll(); }, [filterMonth, filterYear, filterPabrik]);
 
@@ -467,7 +475,7 @@ export default function PdmDashboard() {
       </div>
 
       {selectedOcc && (
-        <OccurrenceModal occ={selectedOcc} onClose={() => setSelectedOcc(null)} onAction={handleAction} api={api} headers={headers} />
+        <OccurrenceModal occ={selectedOcc} onClose={() => setSelectedOcc(null)} onAction={handleAction} api={api} headers={headers} user={user} />
       )}
     </div>
   );

@@ -32,7 +32,9 @@ export default function WorkProgramDetail({ programId, onBack, onUpdated }) {
 
   const fetchProgram = async () => {
     setLoading(true);
-    const res = await fetch(`${(import.meta.env.VITE_API_URL || '').replace(/\/$/, '')}/api/wpem/programs/${programId}`, { headers: { 'Authorization': `Bearer ${token}` } });
+    const res = await fetch(`${(import.meta.env.VITE_API_URL || '').replace(/\/$/, '')}/api/wpem/programs/${programId}`, {
+      headers: { ...(token ? { 'Authorization': `Bearer ${token}` } : {}) }
+    });
     if (res.ok) setProgram(await res.json());
     setLoading(false);
   };
@@ -109,12 +111,12 @@ export default function WorkProgramDetail({ programId, onBack, onUpdated }) {
 
   if (subView === 'assignment') return <AssignmentDesk program={program} onBack={() => setSubView('detail')} />;
 
-  const pendingApprovals = program.approvals.filter(a => a.status === 'Pending');
-  const canAssign = program.status === 'Team Ready' || program.status === 'Active';
-  const canSubmit = program.status === 'Draft' || program.status === 'Revision Requested';
+  const pendingApprovals = program.approvals?.filter(a => a.status === 'Pending') || [];
+  const canAssign = Boolean(user) && (program.status === 'Team Ready' || program.status === 'Active');
+  const canSubmit = Boolean(user) && (program.status === 'Draft' || program.status === 'Revision Requested');
 
   const userRoleStr = user?.role?.toLowerCase() || '';
-  const isVpOrAdmin = ['vp', 'superadmin', 'super_admin'].includes(userRoleStr);
+  const isVpOrAdmin = Boolean(user) && ['vp', 'superadmin', 'super_admin'].includes(userRoleStr);
   const canOverrideApprove = isVpOrAdmin && (program.status === 'Waiting VP Approval' || program.status === 'Waiting AVP Approval');
 
   return (
@@ -367,7 +369,7 @@ export default function WorkProgramDetail({ programId, onBack, onUpdated }) {
           )}
 
           {/* Approval Panel */}
-          {pendingApprovals.length > 0 && (
+          {user && pendingApprovals.length > 0 && (
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 shadow-sm-subtle">
               <h3 className="font-semibold text-blue-800 mb-3 text-sm">Proses Approval</h3>
               <div className="space-y-2 mb-3">

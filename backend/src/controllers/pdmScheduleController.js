@@ -261,7 +261,7 @@ export const getOccurrences = async (req, res) => {
 export const getMyTasks = async (req, res) => {
   try {
     const manpowerId = req.user?.man_power_id;
-    if (!manpowerId) return res.status(403).json({ error: 'User tidak terhubung ke manpower' });
+    if (!manpowerId) return res.json([]);
 
     const { year, month } = req.query;
     const now = new Date();
@@ -335,7 +335,7 @@ export const getJobBoardTasksForUser = async (user, year, month) => {
   const isAnalyst = role === 'analyst';
 
   let filterByRoster = {};
-  if (!isAdmin) {
+  if (!isAdmin && manpowerId) {
     const myRules = await prisma.pdmScheduleRule.findMany({
       where: { isActive: true },
       include: { monthlyPicOverrides: { where: { year: y, month: m } } }
@@ -390,14 +390,14 @@ export const getJobBoardTasksForUser = async (user, year, month) => {
     status: 'SCHEDULED',
     workflowStage: 'DC_COLLECTION',
     year: y, month: m,
-    ...(!isAdmin ? filterByRoster : {})
+    ...(!isAdmin && manpowerId ? filterByRoster : {})
   };
 
   const analystWhere = {
     workflowStage: 'ANALYSIS',
     analystId: null,
     year: y, month: m,
-    ...(!isAdmin ? filterByRoster : {})
+    ...(!isAdmin && manpowerId ? filterByRoster : {})
   };
 
   const [dcTasks, analysisTasks] = await Promise.all([
@@ -411,7 +411,7 @@ export const getJobBoardTasksForUser = async (user, year, month) => {
       },
       orderBy: { scheduledDate: 'asc' }
     }),
-    (isAnalyst || isAdmin) ? prisma.pdmScheduleOccurrence.findMany({
+    (isAnalyst || isAdmin || !manpowerId) ? prisma.pdmScheduleOccurrence.findMany({
       where: analystWhere,
       include: {
         rule: { include: { pabrik: true } },

@@ -14,27 +14,25 @@ import {
   addParticipantToLog,
   removeParticipantFromLog
 } from '../controllers/fieldTaskController.js';
-import { authenticate } from '../middleware/authMiddleware.js';
+import { authenticate, optionalAuth } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-// Semua rute wajib login
-router.use(authenticate);
+router.get('/', optionalAuth, getAllTasks);
+router.get('/my', optionalAuth, getMyTasks);
+router.get('/:id', optionalAuth, getTaskById);
 
-router.get('/', getAllTasks);
-router.get('/my', getMyTasks);
-router.get('/:id', getTaskById);
-router.post('/', createTask);
-router.put('/:id', updateTask);
-router.delete('/:id', deleteTask);
+router.post('/', authenticate, createTask);
+router.put('/:id', authenticate, updateTask);
+router.delete('/:id', authenticate, deleteTask);
 
-router.post('/:id/log', addTaskLog);
-router.post('/:id/members', addMember);
-router.delete('/:id/members/:mpId', removeMember);
-router.put('/:id/pic', updatePic);
+router.post('/:id/log', authenticate, addTaskLog);
+router.post('/:id/members', authenticate, addMember);
+router.delete('/:id/members/:mpId', authenticate, removeMember);
+router.put('/:id/pic', authenticate, updatePic);
 
-router.put('/logs/:logId/advice', addLogAdvice);
-router.post('/logs/:logId/participants', addParticipantToLog);
-router.delete('/logs/:logId/participants/:mpId', removeParticipantFromLog);
+router.put('/logs/:logId/advice', authenticate, addLogAdvice);
+router.post('/logs/:logId/participants', authenticate, addParticipantToLog);
+router.delete('/logs/:logId/participants/:mpId', authenticate, removeParticipantFromLog);
 
 export default router;

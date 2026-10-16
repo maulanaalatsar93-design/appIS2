@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Bell, Database, Server, LogOut, User, Menu, Lock } from 'lucide-react';
+import { Bell, Database, Server, LogOut, User, Menu, Lock, Eye, LogIn } from 'lucide-react';
 import { AuthContext } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { playSubmitSound, playSuccessSound, playErrorSound } from '../../utils/soundUtils';
@@ -228,13 +228,19 @@ export default function Header({ isCollapsed, setIsCollapsed, isMobileMenuOpen, 
               </div>
             </div>
           ) : (
-            <button
-              onClick={() => navigate('/login')}
-              className="group relative flex items-center gap-2 px-5 py-2 text-xs font-bold text-white rounded-xl overflow-hidden shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg bg-orange-500 hover:bg-orange-600"
-            >
-              <User className="w-3.5 h-3.5 relative z-10" />
-              <span className="relative z-10">Login</span>
-            </button>
+            <div className="flex items-center gap-3">
+              <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-amber-50 text-amber-700 border border-amber-200/80 rounded-full text-xs font-semibold shadow-xs">
+                <Eye className="w-3.5 h-3.5 text-amber-600" />
+                <span>Mode Tamu (Read-Only)</span>
+              </div>
+              <button
+                onClick={() => navigate('/login')}
+                className="group relative flex items-center gap-2 px-4 py-2 text-xs font-bold text-white rounded-xl shadow-md transition-all duration-300 hover:shadow-lg bg-orange-500 hover:bg-orange-600 cursor-pointer"
+              >
+                <LogIn className="w-3.5 h-3.5" />
+                <span>Login</span>
+              </button>
+            </div>
           )}
         </div>
       </div>

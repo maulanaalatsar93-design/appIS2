@@ -1,6 +1,8 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 
 export const AuthContext = createContext();
+
+export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
@@ -91,8 +93,12 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
+  const isGuest = !user;
+  const canModify = !!user;
+  const isAdmin = Boolean(user && ['admin', 'superadmin', 'supervisor', 'manager', 'avp', 'vp'].includes((user.role || '').toLowerCase()));
+
   return (
-    <AuthContext.Provider value={{ user, token, login, logout, loading }}>
+    <AuthContext.Provider value={{ user, token, login, logout, loading, isGuest, canModify, isAdmin }}>
       {children}
     </AuthContext.Provider>
   );

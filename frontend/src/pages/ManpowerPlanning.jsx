@@ -16,7 +16,7 @@ export default function ManpowerPlanning() {
     setLoading(true);
     try {
       const response = await fetch((import.meta.env.VITE_API_URL || '').replace(/\/$/, '') + '/api/manpower-plans', {
-        headers: { 'Authorization': `Bearer ${token}` }
+        headers: { ...(token ? { 'Authorization': `Bearer ${token}` } : {}) }
       });
       if (response.ok) {
         const data = await response.json();
@@ -79,13 +79,15 @@ export default function ManpowerPlanning() {
           <h1 className="text-2xl font-display font-bold text-ink mb-2">Perencanaan Manpower</h1>
           <p className="text-gray-500 text-sm">Kelola rencana penempatan personel untuk program pabrik dan pantau proses persetujuan.</p>
         </div>
-        <button
-          onClick={handleCreateNew}
-          className="flex items-center space-x-2 bg-navy-600 hover:bg-navy-950 text-white px-4 py-2.5 rounded-lg text-sm font-semibold transition-all shadow-sm"
-        >
-          <Plus className="w-4 h-4" />
-          <span>Buat Rencana</span>
-        </button>
+        {user && (
+          <button
+            onClick={handleCreateNew}
+            className="flex items-center space-x-2 bg-navy-600 hover:bg-navy-950 text-white px-4 py-2.5 rounded-lg text-sm font-semibold transition-all shadow-sm"
+          >
+            <Plus className="w-4 h-4" />
+            <span>Buat Rencana</span>
+          </button>
+        )}
       </div>
 
       {/* Stats Cards */}

@@ -350,18 +350,22 @@ export default function ManPowerPage({ initialView = 'availability' }) {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <button
-              onClick={() => setIsAddEmpOpen(true)}
-              className="flex items-center gap-1.5 bg-emerald-600 text-ink px-3.5 py-2 rounded-lg text-xs font-semibold hover:bg-emerald-700 transition-colors shadow-sm"
-            >
-              <UserPlus size={16} /> Tambah Karyawan
-            </button>
-            <button
-              onClick={() => setIsFormOpen(true)}
-              className="flex items-center gap-1.5 bg-navy-950 text-white px-3.5 py-2 rounded-lg text-xs font-semibold hover:bg-industrial-text transition-colors shadow-sm"
-            >
-              <PlusCircle size={16} /> Catat Status Presensi
-            </button>
+            {user && (
+              <>
+                <button
+                  onClick={() => setIsAddEmpOpen(true)}
+                  className="flex items-center gap-1.5 bg-emerald-600 text-ink px-3.5 py-2 rounded-lg text-xs font-semibold hover:bg-emerald-700 transition-colors shadow-sm"
+                >
+                  <UserPlus size={16} /> Tambah Karyawan
+                </button>
+                <button
+                  onClick={() => setIsFormOpen(true)}
+                  className="flex items-center gap-1.5 bg-navy-950 text-white px-3.5 py-2 rounded-lg text-xs font-semibold hover:bg-industrial-text transition-colors shadow-sm"
+                >
+                  <PlusCircle size={16} /> Catat Status Presensi
+                </button>
+              </>
+            )}
           </div>
         </div>
 

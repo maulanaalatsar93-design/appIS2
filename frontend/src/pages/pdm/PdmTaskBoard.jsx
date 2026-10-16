@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import {
   ClipboardList, Play, Square, CheckCircle, UserCheck, Clock, AlertTriangle,
   AlertOctagon, ChevronDown, ChevronUp, History, RefreshCw, Database,
   BarChart2, ChevronRight, Filter, Users, X
 } from 'lucide-react';
+import { AuthContext } from '../../context/AuthContext';
 
 // ── Stage Configuration ──────────────────────────────────────────────────────
 const STAGES = [
@@ -240,6 +241,7 @@ function AddHelperModal({ onConfirm, onCancel, manpowers, occ }) {
 
 // ── Task Box ─────────────────────────────────────────────────────────────────
 function TaskBox({ occ, onAction, onPromptHelper, manpowers, userRole, userMpId, isAdmin: globalIsAdmin }) {
+  const { user } = useContext(AuthContext);
   const [reassignOpen, setReassignOpen] = useState(false);
   const [newPicId, setNewPicId] = useState('');
   const [reasonInput, setReasonInput] = useState('');
@@ -247,7 +249,7 @@ function TaskBox({ occ, onAction, onPromptHelper, manpowers, userRole, userMpId,
   const [showHoldModal, setShowHoldModal] = useState(false);
   const [showRejectModal, setShowRejectModal] = useState(false);
 
-  const isAdmin = globalIsAdmin || ['admin', 'manager', 'supervisor'].includes(userRole);
+  const isAdmin = Boolean(user) && (globalIsAdmin || ['admin', 'manager', 'supervisor'].includes(userRole));
 
   const filteredManpowers = (Array.isArray(manpowers) ? manpowers : []).filter(m => {
     if (!m) return false;
@@ -278,11 +280,11 @@ function TaskBox({ occ, onAction, onPromptHelper, manpowers, userRole, userMpId,
 
   const fmt = d => d ? new Date(d).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' }) : '-';
 
-  const isDC = ['staff', 'data_collector', 'technician'].includes(userRole);
-  const isAnalyst = userRole === 'analyst';
-  const isAVP = userRole?.startsWith('avp');
+  const isDC = Boolean(user) && ['staff', 'data_collector', 'technician'].includes(userRole);
+  const isAnalyst = Boolean(user) && userRole === 'analyst';
+  const isAVP = Boolean(user) && userRole?.startsWith('avp');
   
-  const isAssigned = occ.assignedToId === userMpId;
+  const isAssigned = Boolean(userMpId) && occ.assignedToId === userMpId;
 
   const showDcActions = (isDC || isAdmin || isAssigned) && stage === 'DC_COLLECTION';
   const showAnalysisActions = (isAnalyst || isAdmin || isAssigned) && stage === 'ANALYSIS';
@@ -508,6 +510,7 @@ function TaskBox({ occ, onAction, onPromptHelper, manpowers, userRole, userMpId,
 
 // ── Job Board Box ────────────────────────────────────────────────────────────
 function JobBoardBox({ occ, onAction, onPromptHelper, manpowers, userRole, isAdmin, claimLabel = 'Ambil Task', claimAction = 'claim', badgeColor = 'bg-blue-100 text-blue-700 border-blue-200', badgeLabel = 'DC Collection' }) {
+  const { user } = useContext(AuthContext);
   const [reassignOpen, setReassignOpen] = useState(false);
   const [newPicId, setNewPicId] = useState('');
   const [reasonInput, setReasonInput] = useState('');
@@ -526,7 +529,7 @@ function JobBoardBox({ occ, onAction, onPromptHelper, manpowers, userRole, isAdm
     return true;
   });
   
-  const isSpecialRole = isAdmin || ['analyst', 'avp'].includes((userRole || '').toLowerCase());
+  const isSpecialRole = Boolean(user) && (isAdmin || ['analyst', 'avp'].includes((userRole || '').toLowerCase()));
   const fmt = d => d ? new Date(d).toLocaleDateString('id-ID', { day: '2-digit', month: 'short' }) : '-';
 
   return (
@@ -588,15 +591,21 @@ function JobBoardBox({ occ, onAction, onPromptHelper, manpowers, userRole, isAdm
       </div>
       
       <div className="mt-4 space-y-2 pl-2">
-        <button onClick={() => onPromptHelper(claimAction, occ)}
-          className={`w-full py-2 text-white rounded-lg text-xs font-bold transition shadow-sm ${
-            badgeColor.includes('amber') ? 'bg-[#FF7410] hover:bg-orange-600' : 'bg-[#193B8F] hover:bg-navy-800'
-          }`}>
-          {claimLabel}
-        </button>
+        {!user ? (
+          <div className="w-full py-2 bg-gray-50 border border-gray-200 text-gray-400 rounded-lg text-[11px] font-medium text-center italic">
+            Login untuk mengambil task
+          </div>
+        ) : (
+          <button onClick={() => onPromptHelper(claimAction, occ)}
+            className={`w-full py-2 text-white rounded-lg text-xs font-bold transition shadow-sm cursor-pointer ${
+              badgeColor.includes('amber') ? 'bg-[#FF7410] hover:bg-orange-600' : 'bg-[#193B8F] hover:bg-navy-800'
+            }`}>
+            {claimLabel}
+          </button>
+        )}
 
         {isSpecialRole && (
-          <button onClick={() => setReassignOpen(!reassignOpen)} className="w-full py-2 bg-white text-gray-700 rounded-lg text-xs font-semibold hover:bg-gray-50 transition border border-gray-300 shadow-sm flex justify-center items-center gap-1">
+          <button onClick={() => setReassignOpen(!reassignOpen)} className="w-full py-2 bg-white text-gray-700 rounded-lg text-xs font-semibold hover:bg-gray-50 transition border border-gray-300 shadow-sm flex justify-center items-center gap-1 cursor-pointer">
             <UserCheck className="w-3.5 h-3.5" /> Assign Langsung
           </button>
         )}
@@ -642,16 +651,14 @@ export default function PdmTaskBoard() {
   const [helperPrompt, setHelperPrompt] = useState(null);
   const [activeHelperOccId, setActiveHelperOccId] = useState(null);
 
+  const { user } = useContext(AuthContext);
   const api = import.meta.env.VITE_API_URL || 'http://localhost:5000';
   const token = localStorage.getItem('token');
-  const headers = { Authorization: `Bearer ${token}` };
+  const headers = { ...(token ? { Authorization: `Bearer ${token}` } : {}) };
 
-  const userPayload = (() => {
-    try { return JSON.parse(atob(token.split('.')[1])); } catch { return {}; }
-  })();
-  const userRole = userPayload.role || 'staff';
-  const userMpId = userPayload.man_power_id;
-  const isAdminUser = ['admin', 'manager', 'supervisor'].includes(userRole);
+  const userRole = user?.role || '';
+  const userMpId = user?.man_power_id || null;
+  const isAdminUser = Boolean(user) && ['admin', 'manager', 'supervisor', 'superadmin'].includes(userRole.toLowerCase());
 
   useEffect(() => { fetchAll(); }, [filterMonth, filterYear, tab]);
   useEffect(() => { fetchManpowers(); }, []);

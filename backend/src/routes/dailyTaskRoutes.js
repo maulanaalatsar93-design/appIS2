@@ -1,13 +1,13 @@
 import express from 'express';
 const router = express.Router();
 import { getDailyTasks, getActiveTasks, createDailyTask, updateDailyTask, deleteDailyTask, addTaskLog, updateTaskStatus } from '../controllers/dailyTaskController.js';
-import { authenticateToken as verifyToken } from '../middleware/authMiddleware.js';
+import { authenticateToken as verifyToken, optionalAuth } from '../middleware/authMiddleware.js';
 
 // GET  /api/daily-tasks/active  — list "In Progress" tasks for active user
-router.get('/active', verifyToken, getActiveTasks);
+router.get('/active', optionalAuth, getActiveTasks);
 
 // GET  /api/daily-tasks         — list dengan filter bulan/tahun/area
-router.get('/',     verifyToken, getDailyTasks);
+router.get('/',     optionalAuth, getDailyTasks);
 
 // POST /api/daily-tasks         — tambah entry baru
 router.post('/',    verifyToken, createDailyTask);

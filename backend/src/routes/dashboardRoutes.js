@@ -1,6 +1,6 @@
 import express from 'express';
 import { getDashboardSummary, getManpowerList, getNotifications, getPabrikList, updateManpowerSubArea } from '../controllers/dashboardController.js';
-import { authenticateToken } from '../middleware/authMiddleware.js';
+import { authenticateToken, optionalAuth } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
@@ -14,9 +14,9 @@ router.get('/manpower', getManpowerList);
 router.put('/manpower/:id/subarea', authenticateToken, updateManpowerSubArea);
 
 // GET /api/dashboard/notifications
-router.get('/notifications', authenticateToken, getNotifications);
+router.get('/notifications', optionalAuth, getNotifications);
 
 // GET /api/dashboard/pabrik
-router.get('/pabrik', authenticateToken, getPabrikList);
+router.get('/pabrik', optionalAuth, getPabrikList);
 
 export default router;
